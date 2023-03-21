@@ -1,164 +1,311 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE921C08
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 20 Mar 2023 15:01:05 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32KDiIR8003776
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 20 Mar 2023 15:01:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : subject :
- date : message-id : content-type : content-id : content-transfer-encoding
- : mime-version; s=corp-2022-7-12;
- bh=KDN8EEsAHnqBNEUM81ZLDCtXIGh8pfGFVQLSmPEzfmo=;
- b=RHBiuhxRbFuEioLu+J/c/y060hCq1p9eQkNFPCRtMIZ39+E5HgNCeJS+s+trDXNGc/sU
- /6wfDOCD/w01D6SBs1XqwDcazI29LFevSFJE+/Gm6mUQGwUsKXEyurl3cwsW/z69oE18
- h4NFzHv/06iCnDmfMzlWTCJSbcg86k+e1dyFSnjYpPPkMJNnB6hgDRGKIlMmW1pgGBle
- 45jWbOlZW2lMS9Gta4ZzHNGG99csplQCmh7nsl60x8MR5NvFcIN/eXr+s1H0qRAQyM3u
- Fl0r8jHbSNos1jk+P1wv/TaSzyO2KB3bCxwpA1NHtq7MDoUr0dYhq14vHUaF07TTlAqd 6Q== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3pd433kq81-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 20 Mar 2023 15:01:00 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 32KDreDF026556
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 20 Mar 2023 15:00:59 GMT
-Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1nam02lp2041.outbound.protection.outlook.com [104.47.57.41])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3pd3r4dgc2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 20 Mar 2023 15:00:58 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kL+gHoOLBUW2IBinPjAqtf5HUVzDKVBFFWIyj27qF87EW5K6mpiHfOeP9kDMdY5aHmMUGty6rMugATtA9wpKBKng8fAiGtQIclx57C8+B+3kzujVrPi64GTmLPNQoeLLfos8yeI1CIQ9Gmts7vFZFB/p0IW1CRcg+MD69c1A9PXgXDv7g84CqHGiIgZFvPL2hm77K3wCZvwKupahsXLpELaF2h1SMVSgmlpNpkBTNEbVwoGh6XNSYAW1Cz7CiGAOGal4tG6Sewmr+EJ8LzNksP4LXnFil1RFluJwVb9PCzyRwwsG46MsvWqe91BlKuzChQcdD4TT0g7dUeguSZ9i6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KDN8EEsAHnqBNEUM81ZLDCtXIGh8pfGFVQLSmPEzfmo=;
- b=UYVAkmlbQ4GFw9rQ0LF2Q6y4ciMeF4qwQZvvC/O30LBmhOoCVw2GA08Q7la96TcPLGymMdm1l7b3jUVqaPW0IMOH04kNa3NczdxE3YdLSPv8U77MR1Irvp5AL0e6WSdQVtKoYF/K2u6BSXD6XL98ulKMQuxjXVsSpUh95XFG4YD1jVG8bI2oFB13+YVhL1vqxJv7sV0QpofYfNAsGLQYCjS9qmHumjclzW+6RjvPU7PaKN53yP27TRKon1uEJfVV+5ZTJceQKUB9s/4dWdzS3AlaEPLiWXb5cbNICWS1FtXkksCe0wRp5EQDk4UlFdinzmHyLgWaMnLIvTugzK0mQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KDN8EEsAHnqBNEUM81ZLDCtXIGh8pfGFVQLSmPEzfmo=;
- b=PtNuU4RNrkk9PlHnOYZjvhSLGlgT7nWVO+uPGZEPlQk/erDI4c1b57j/onxJKJFdEis5k8/OhCeW1y+5wI7AxT9p7hB77C9NiTwJRNiZR8DoQZ30kX9rgH/qyGjfHCEwVDS4OZL5o9m8MrcQsCEPi/JUrT7HNH7moFeo11OIYnI=
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
- by MW4PR10MB5882.namprd10.prod.outlook.com (2603:10b6:303:18f::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Mon, 20 Mar
- 2023 15:00:52 +0000
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::5c2f:5e81:b6c4:a127]) by BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::5c2f:5e81:b6c4:a127%8]) with mapi id 15.20.6178.037; Mon, 20 Mar 2023
- 15:00:52 +0000
-From: Chuck Lever III <chuck.lever@oracle.com>
-To: "kernel-tls-handshake@lists.linux.dev"
-	<kernel-tls-handshake@lists.linux.dev>
-Subject: Reminder: In-kernel TLS task force meeting
-Thread-Topic: Reminder: In-kernel TLS task force meeting
-Thread-Index: AQHZWzzDAFQLezKIqUCU9FmWVv/RVw==
-Date: Mon, 20 Mar 2023 15:00:52 +0000
-Message-ID: <F790B259-F288-4449-82E0-4E0813701F65@oracle.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3696.120.41.1.2)
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN0PR10MB5128:EE_|MW4PR10MB5882:EE_
-x-ms-office365-filtering-correlation-id: f25f0f97-0be3-4430-c653-08db2953e633
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- Av5TNztefKyYJzPBJBFGh4CNxIiYsIfdnjmmQrveVqUNPtaVZ7+MRO4daYA8nawiDktUAZeelfSzh8wwSaiPUoVWWyGPQe3xCEoH+jn6UFgWmxDEZMVxJg2lvo0Uz1ndmfmnCMo8QFitobBrSDS7qM+X1Gjyvz/zJk4Ao/dvKpC44+cnlf3ynLp2cEVpd/CwJBCs01oQcgRTgI6EdSOJTSBLBkgOxMqZr3AggOsR9DXOJDFMR4k321oMN39GfzU2Q+ztPw7LPvgghl5Ho9HOhUAdhOaFHUWocDMMWqSkcGJBGaH617bLHZfW3oyXqzg5vbXnxlDBSWyPsj/6u8pV3hwjJEEmD8XbNEewRDkTTewCp75nN11NhVVk1MNIdCeUExo2iH4NFVCjJCy90I3S0TuIlP/otHR6dT0YpMeSfNEYkY1ugt+DCTdpY3gzL9ZfU8uT0YE9NOrbLorf1MXnW5aZxImnENm2KLGakRbF4bi/z9oUdPK6JYEiLWcWmz41GRbeT/uHpDZ87oYhzie6PrylbHFsb43RT8kaxGJQtlIDXsrvVlYCoah4bRkF8vHY0kF1uNmP6Vk6Gqmv47Abv1ZBwz7UXkzsqijRwutdxd84XueuT0P7FOg9OHbEPEem5mPsZ3dY2Dj56b2BGLMfpjG9MLuTC11TOjmcOy1zRjXAzyI5d8fNQoO/LDbbM+7WFmfpQkjXHSKQumRDve0wtzu7dPyOF0mGFX8tZGvEdbU=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(396003)(346002)(376002)(366004)(136003)(39860400002)(451199018)(8676002)(36756003)(6916009)(64756008)(66556008)(8936002)(2906002)(66476007)(66946007)(4744005)(76116006)(66446008)(5660300002)(38070700005)(86362001)(33656002)(38100700002)(122000001)(6506007)(91956017)(6512007)(6486002)(966005)(26005)(478600001)(316002)(71200400001)(41300700001)(83380400001)(2616005)(186003)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?y4GjnStFKtuCgndPZkSRX6JvBKBrW6H834zCdF46DzIycIMVSC+rk+hzYrNa?=
- =?us-ascii?Q?s0XHZQgHJQIiMfRylkXSjg2v4JK30jRW1prYdkogvD/9FeSpC/6eBj5KY355?=
- =?us-ascii?Q?POkz4CqyhXC3dv4JAaZsommmdAgXhKb/eNgXRePHyI5Q/oFkxRRKZjPQX87U?=
- =?us-ascii?Q?7TF9ysGplkye/Qbp+ESzSG1aJfhlGwstzg2iouZ5fiYdX433Z1KV0GCzZ6Uj?=
- =?us-ascii?Q?ojOpgz/3TzkmDdVM//qrD8ur92eS8K0DTHo8w3KUFQ23R8UtkyX2DYTvboCF?=
- =?us-ascii?Q?TX6LDyQpZWwgZcpbDJOXWv6rhrc2ZFJDtXS4Q14CHWgFd2AqEok162LzNKCL?=
- =?us-ascii?Q?WDETrKIDyZKV5bU5JfEdr3A18C6DOm/6KQPtRbRf+wb+Br1SdzkkfzEMvkjv?=
- =?us-ascii?Q?gJZikf895TgHdVFk3xOW0cgEl4XAMwZzI5qIz2f0gPwqAYUWOWTgKh02bzxC?=
- =?us-ascii?Q?qmmYnutpMi3kcVY/50N+ymv8Cxox9E1kFj6IXfe3OgI32JrpEZNvxlRGTbz1?=
- =?us-ascii?Q?Bq5cpaccSzHinARkSHwAI3Xds+9gC0p/IR1NsDAJ7lpmdfZ6PKUdkjdCZ1ot?=
- =?us-ascii?Q?GfUZTFVGNBFBYW/GmzyN82KSl7LRlWJ9HYItzQ+j51e6X61mIgAf4ZdqELGA?=
- =?us-ascii?Q?dtWyWSdxdTb/zqKAuV78yXwumqv+bqiW6tjIbzWQCGMa6/pH3sLknDGmbQxq?=
- =?us-ascii?Q?bpr+L7nTzJgjJBm/9nbYj3OLOg/fl5Clj8rPwCpoxEiEeSJ1J8Sh1T/LgejE?=
- =?us-ascii?Q?/fjwXfB9G2+66zrW6raUoFVpIe0oWLLPVOOjyCWRsU3pDx1JRZo4QyTIS0ok?=
- =?us-ascii?Q?u8QseFa3/L/BZkk08aU2UkeoSJg7dC4qbZ8v/kCpFbmvQvZipPMrTDjOv8Wf?=
- =?us-ascii?Q?okU9DhwfKfQoYISPLW0eztsfvukK1abYuxNJ6Dbjn0oVVq4kJMQgFdxMGPrN?=
- =?us-ascii?Q?Uv4Pux8WYruUkb4cdsX8cnXw6s8ag7bn+1BuM7H7ZZizhI3dTTmc48I/MJ+g?=
- =?us-ascii?Q?FvbhU49TttNjBGjlBwM5TUJNbvJHYojuO7Zf8p8MLFzRVP3e4JcB8VX2IInD?=
- =?us-ascii?Q?JUhdcrJiapznKmS/vL+hYLnoq+hQGW/ZMgK932Uz3/OcFjXiNYy9jI+1jDPO?=
- =?us-ascii?Q?yVHgR7P9me7xacA15vyXgf3VGV6O6UCxy4ffzTM7HY6+OIOqeoQmXllJHQHc?=
- =?us-ascii?Q?wtITa9fd/WUBF0zdjBQUOHPr/YSkD5M9PITddCq0N543dIxUiB66XjkqPwK7?=
- =?us-ascii?Q?TBeNjtCPjDbtpHz31fMfT8qDN5yeYLMXBaDw4fJibRcqPBDO9UnUcQbhsM1/?=
- =?us-ascii?Q?ZlntZgFUWC3UgxBvt/BLmzyJQShHuSgf9luPiJGHy8qOSzpj9TJ9K/lgJn+N?=
- =?us-ascii?Q?ZmuwpgI+TilW/+q4kIGX9yvIuGZ0EWJX6L821pXT3nHnKop536hQt8jJVQ4z?=
- =?us-ascii?Q?+tdxyY4Om0vQjcaJ3pUCX39S5tH/rf89fvj+JUBoCxxaXgFydnFh4bpcxIki?=
- =?us-ascii?Q?Y1lHzRc1O7MRwFRLoeDMGS8u5Y8ATMWyCx5RCFUlDd6KQ+GkC6hu/DsgIqwC?=
- =?us-ascii?Q?Gng1Yy/G2zPLC7SeRbUeAIduU2pIjOLQfN5v5K3QDhIhQWkCeavyEbS1tLiY?=
- =?us-ascii?Q?0A=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <CB7B0E2837E8FF4F91102CEA5913BA68@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD818C04
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 21 Mar 2023 11:28:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1679398081;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qUe3QY7sz1eCkEPrAWkh9A/T04jxGjwU9CrCjHrs4Vc=;
+	b=OLft9uY42Q33q1zOezpevuFjL73Sf5nDEcJK1NYry/U+CZ1TopsuH8B8VlomQkcRjBADLj
+	MwOca1TuRWA4DLZ6bR08NrIn5uY+AniUPpARXiOupLSxbKADGJrszvjD2OVyY4J1Zpfd6v
+	iYM0K1JgVjuHOPMh33zofrNfK4e5Qzk=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-519-3_nXQJLNPEaefPZM1ag8uw-1; Tue, 21 Mar 2023 07:27:59 -0400
+X-MC-Unique: 3_nXQJLNPEaefPZM1ag8uw-1
+Received: by mail-qk1-f198.google.com with SMTP id oo24-20020a05620a531800b00745d671f9afso6765661qkn.12
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 21 Mar 2023 04:27:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679398079; x=1681990079;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+B4rMqiSRrSDakxwNYnZA7cpTxZeGPnc7W9SoaJsONg=;
+        b=aTR6hO6renIx72r9abUFqnxMDJ5XlRxKKl7/OHPTI6yN5YOxNJKJe/MpLXyqcH3i5T
+         rEuizAQATVR/PutbZwLoio2jgiC38SYpPiw3XH3hI6RCVTjGIjsoYPUwrZ0mRRCzdkEc
+         rSybS7dmUF4Gs8VOTZBXbUSlnCKvmDvOw8Sx9jCnGve6Tq9TH9DR5l6cP5cC+FvjiJwR
+         5TdchhtzoYcqWkgs4DG7uAMXeNJJ6OmdIh05ZVOr9NBEm2UBCWIPsnppMeMCwbulZbpC
+         LIpPLwQLkHxb948fn7+SxeePXwzERfTU72T75Q6eds77B6QPBReRIbRNT6txMZ3YjQ7k
+         CDVw==
+X-Gm-Message-State: AO0yUKW3gK0RMCsKkiyqXWb/+EC+oAM/nBHTj6bDhNdHUR4vW9wyqvRl
+	uFag+vFFHZ8o5du1vBEE1w/T96PWJ7BmS2gA8TccaZoFykp7xxoG7vU70frGVbTSMiMiWTI7get
+	oJTuFaBWj40/6KjYU4L1RLi1yzLYVAxVZaf0=
+X-Received: by 2002:ac8:5a8a:0:b0:3d9:56ce:a8cd with SMTP id c10-20020ac85a8a000000b003d956cea8cdmr3872069qtc.6.1679398078724;
+        Tue, 21 Mar 2023 04:27:58 -0700 (PDT)
+X-Google-Smtp-Source: AK7set/qs44tf9EmPAUX6k4hyFZGMAHX3228WcE9qb8ip9x81q0WUSqW89xNIieWZL36v22I69+lvQ==
+X-Received: by 2002:ac8:5a8a:0:b0:3d9:56ce:a8cd with SMTP id c10-20020ac85a8a000000b003d956cea8cdmr3872042qtc.6.1679398078330;
+        Tue, 21 Mar 2023 04:27:58 -0700 (PDT)
+Received: from gerbillo.redhat.com (146-241-244-19.dyn.eolo.it. [146.241.244.19])
+        by smtp.gmail.com with ESMTPSA id b17-20020ac86791000000b003b9bb59543fsm7868795qtp.61.2023.03.21.04.27.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Mar 2023 04:27:57 -0700 (PDT)
+Message-ID: <3dc6b9290984bc07ae5ac9c5a9fba01742b64f84.camel@redhat.com>
+Subject: Re: [PATCH v7 1/2] net/handshake: Create a NETLINK service for
+ handling handshake requests
+From: Paolo Abeni <pabeni@redhat.com>
+To: Chuck Lever <cel@kernel.org>, kuba@kernel.org, edumazet@google.com
+Cc: netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, 
+	john.haxby@oracle.com
+Date: Tue, 21 Mar 2023 12:27:54 +0100
+In-Reply-To: <167915629953.91792.17220269709156129944.stgit@manet.1015granger.net>
+References: <167915594811.91792.15722842400657376706.stgit@manet.1015granger.net>
+	 <167915629953.91792.17220269709156129944.stgit@manet.1015granger.net>
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	uIAu/AW5ptfQKmvK59s7LAph2HBZOXV3cGDxVxS4d6iUqVCUqCWfcDoWghpIYZNEnBKGrp3ujQgEUOQknmw2RZtUIyTZhZ6MLS/YyChZTBG4o+QPG92WeU4VhJqPAK3w1YEWTpVkKqjaeVr1X8/wJN188jyQVjTnQTsatMlHAzzAm93NAHfc+siUQ+vUascYBZyJrlzAUEfOlV8K+tEc8z8UWcXHWoIL7c3+UEFmvGzLoUI9L9xeyJFnJ8cxcRxjAK6qrZOA7yY35RC84ZjW8KyJJmVMQkeDzKoYBu659ghhUMOHI1GuXmEJu/VJzOX6tLmpPJTtWaU6rzLF3NLW3N4+6MWGb+UiEsLbZ7unnfZBTmeGUMiVxNKsoBP8ZDfpfMdHQ9CoZJWh3iEsDCuxWFPMtEFkdRqVmCEKT3I47x1Axvrd4n/F8DDtNuYA5lFM4Svz0tay3gZt+ARGe/VkmsNwdgLBGLcdbGVFiKiqBvXCh/Y9R/Xz2pi1tMu+k+kigX/TpT6OkFTg8fnS2TbUBryEmLETOUZazPD2/39v6N8k/YOn8JOqJuvnQy1p8Gv1/fBxhfNbtO4vP2RKcwMLQz39fuvaYDjola45kkq4c6FoYPOwpOHKVRDQw/JaWi+1Cl7s1a41+z8aXrHgPdU2Fs1TpTYbiL8dB7FSrl3bWF3hPMUHdxTPeLcp/sn0MjJI4wP5SqHDRtBIJCAKE89DbAaWImEpfmFJRD642tp8ScGITQ9x9hrnw5aBQhvd4BeDXbRg6OHHmuKqOGBh0NSkFg==
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f25f0f97-0be3-4430-c653-08db2953e633
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Mar 2023 15:00:52.3765
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3c2JKaV0/eTBQMJImIXUQC75VCskjDA/gQVGTkGVyRsCx/XAh43T8xtve4fb+8HvB+JLd80Zji750IvTxx/JLQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB5882
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-20_10,2023-03-20_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0 spamscore=0
- suspectscore=0 mlxlogscore=635 mlxscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303150002
- definitions=main-2303200127
-X-Proofpoint-ORIG-GUID: AuGxKN44e-JQBVauVTonyCi8MhpD8A_G
-X-Proofpoint-GUID: AuGxKN44e-JQBVauVTonyCi8MhpD8A_G
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi folks-
+On Sat, 2023-03-18 at 12:18 -0400, Chuck Lever wrote:
+> +/**
+> + * handshake_req_alloc - consumer API to allocate a request
+> + * @sock: open socket on which to perform a handshake
+> + * @proto: security protocol
+> + * @flags: memory allocation flags
+> + *
+> + * Returns an initialized handshake_req or NULL.
+> + */
+> +struct handshake_req *handshake_req_alloc(struct socket *sock,
+> +=09=09=09=09=09  const struct handshake_proto *proto,
+> +=09=09=09=09=09  gfp_t flags)
+> +{
+> +=09struct sock *sk =3D sock->sk;
+> +=09struct net *net =3D sock_net(sk);
+> +=09struct handshake_net *hn =3D handshake_pernet(net);
+> +=09struct handshake_req *req;
+> +
+> +=09if (!hn)
+> +=09=09return NULL;
+> +
+> +=09req =3D kzalloc(struct_size(req, hr_priv, proto->hp_privsize), flags)=
+;
+> +=09if (!req)
+> +=09=09return NULL;
+> +
+> +=09sock_hold(sk);
 
-Here's your friendly reminder that the in-kernel TLS task force
-meeting will be held tomorrow, Tuesday, March 21 at 10:30
-US/Eastern. Note that the US switched to DST last week, so the
-meeting time may be different than last time, depending on your
-locale.
+The hr_sk reference counting is unclear to me. It looks like
+handshake_req retain a reference to such socket, but
+handshake_req_destroy()/handshake_sk_destruct() do not release it.
 
-The Zoom co-ordinates are:
+Perhaps is better moving such sock_hold() into handshake_req_submit(),
+once that the request is successful?
 
-Single click URL to join Zoom: https://oracle.zoom.us/j/97455381263?pwd=3DR=
-0RvY0RRRnJGZUVJb1dMK2NBdURXZz09
+> +
+> +=09INIT_LIST_HEAD(&req->hr_list);
+> +=09req->hr_sk =3D sk;
+> +=09req->hr_proto =3D proto;
+> +=09return req;
+> +}
+> +EXPORT_SYMBOL(handshake_req_alloc);
+> +
+> +/**
+> + * handshake_req_private - consumer API to return per-handshake private =
+data
+> + * @req: handshake arguments
+> + *
+> + */
+> +void *handshake_req_private(struct handshake_req *req)
+> +{
+> +=09return (void *)&req->hr_priv;
+> +}
+> +EXPORT_SYMBOL(handshake_req_private);
+> +
+> +static bool __add_pending_locked(struct handshake_net *hn,
+> +=09=09=09=09 struct handshake_req *req)
+> +{
+> +=09if (!list_empty(&req->hr_list))
+> +=09=09return false;
+> +=09hn->hn_pending++;
+> +=09list_add_tail(&req->hr_list, &hn->hn_requests);
+> +=09return true;
+> +}
+> +
+> +void __remove_pending_locked(struct handshake_net *hn,
+> +=09=09=09     struct handshake_req *req)
+> +{
+> +=09hn->hn_pending--;
+> +=09list_del_init(&req->hr_list);
+> +}
+> +
+> +/*
+> + * Returns %true if the request was found on @net's pending list,
+> + * otherwise %false.
+> + *
+> + * If @req was on a pending list, it has not yet been accepted.
+> + */
+> +static bool remove_pending(struct handshake_net *hn, struct handshake_re=
+q *req)
+> +{
+> +=09bool ret;
+> +
+> +=09ret =3D false;
 
-Meeting ID: 974 5538 1263
-Password: 86875724
+Nit: merge the initialization and the declaration
 
-Possible agenda items include:
-- Conversion of upcall mechanism to netlink
+> +
+> +=09spin_lock(&hn->hn_lock);
+> +=09if (!list_empty(&req->hr_list)) {
+> +=09=09__remove_pending_locked(hn, req);
+> +=09=09ret =3D true;
+> +=09}
+> +=09spin_unlock(&hn->hn_lock);
+> +
+> +=09return ret;
+> +}
+> +
+> +/**
+> + * handshake_req_submit - consumer API to submit a handshake request
+> + * @req: handshake arguments
+> + * @flags: memory allocation flags
+> + *
+> + * Return values:
+> + *   %0: Request queued
+> + *   %-EBUSY: A handshake is already under way for this socket
+> + *   %-ESRCH: No handshake agent is available
+> + *   %-EAGAIN: Too many pending handshake requests
+> + *   %-ENOMEM: Failed to allocate memory
+> + *   %-EMSGSIZE: Failed to construct notification message
+> + *   %-EOPNOTSUPP: Handshake module not initialized
+> + *
+> + * A zero return value from handshake_request() means that
+> + * exactly one subsequent completion callback is guaranteed.
+> + *
+> + * A negative return value from handshake_request() means that
+> + * no completion callback will be done and that @req has been
+> + * destroyed.
+> + */
+> +int handshake_req_submit(struct handshake_req *req, gfp_t flags)
+> +{
+> +=09struct sock *sk =3D req->hr_sk;
+> +=09struct net *net =3D sock_net(sk);
+> +=09struct handshake_net *hn =3D handshake_pernet(net);
+> +=09int ret;
 
-Bring your favorite hot (or adult) beverage.
+Nit: reverse xmas tree. In this case you have to split declaration and
+initialization ;)
 
+> +
+> +=09if (!hn)
+> +=09=09return -EOPNOTSUPP;
+> +
+> +=09ret =3D -EAGAIN;
+> +=09if (READ_ONCE(hn->hn_pending) >=3D hn->hn_pending_max)
+> +=09=09goto out_err;
+> +
+> +=09req->hr_odestruct =3D sk->sk_destruct;
+> +=09sk->sk_destruct =3D handshake_sk_destruct;
+> +=09spin_lock(&hn->hn_lock);
+> +=09ret =3D -EOPNOTSUPP;
+> +=09if (test_bit(HANDSHAKE_F_NET_DRAINING, &hn->hn_flags))
+> +=09=09goto out_unlock;
+> +=09ret =3D -EBUSY;
+> +=09if (!handshake_req_hash_add(req))
+> +=09=09goto out_unlock;
+> +=09if (!__add_pending_locked(hn, req))
+> +=09=09goto out_unlock;
+> +=09spin_unlock(&hn->hn_lock);
+> +
+> +=09ret =3D handshake_genl_notify(net, req->hr_proto->hp_handler_class,
+> +=09=09=09=09    flags);
+> +=09if (ret) {
+> +=09=09trace_handshake_notify_err(net, req, sk, ret);
+> +=09=09if (remove_pending(hn, req))
+> +=09=09=09goto out_err;
+> +=09}
+> +
+> +=09trace_handshake_submit(net, req, sk);
+> +=09return 0;
+> +
+> +out_unlock:
+> +=09spin_unlock(&hn->hn_lock);
+> +out_err:
+> +=09trace_handshake_submit_err(net, req, sk, ret);
+> +=09handshake_req_destroy(req);
+> +=09return ret;
+> +}
+> +EXPORT_SYMBOL(handshake_req_submit);
+> +
+> +void handshake_complete(struct handshake_req *req, unsigned int status,
+> +=09=09=09struct genl_info *info)
+> +{
+> +=09struct sock *sk =3D req->hr_sk;
+> +=09struct net *net =3D sock_net(sk);
+> +
+> +=09if (!test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags)) {
+> +=09=09trace_handshake_complete(net, req, sk, status);
+> +=09=09req->hr_proto->hp_done(req, status, info);
+> +=09=09__sock_put(sk);
 
---
-Chuck Lever
+Is unclear to me who acquired the reference released above?!? If that
+is the reference acquire by handshake_req_alloc(), I think it's cleaner
+moving the sock_put() in handshake_req_destroy() or
+handshake_req_destroy()
 
+> +=09}
+> +}
+> +
+> +/**
+> + * handshake_req_cancel - consumer API to cancel an in-progress handshak=
+e
+> + * @sock: socket on which there is an ongoing handshake
+> + *
+> + * XXX: Perhaps killing the user space agent might also be necessary?
+> + *
+> + * Request cancellation races with request completion. To determine
+> + * who won, callers examine the return value from this function.
+> + *
+> + * Return values:
+> + *   %true - Uncompleted handshake request was canceled or not found
+> + *   %false - Handshake request already completed
+> + */
+> +bool handshake_req_cancel(struct socket *sock)
+> +{
+> +=09struct handshake_req *req;
+> +=09struct handshake_net *hn;
+> +=09struct sock *sk;
+> +=09struct net *net;
+> +
+> +=09sk =3D sock->sk;
+> +=09net =3D sock_net(sk);
+> +=09req =3D handshake_req_hash_lookup(sk);
+> +=09if (!req) {
+> +=09=09trace_handshake_cancel_none(net, req, sk);
+> +=09=09return true;
+> +=09}
+> +
+> +=09hn =3D handshake_pernet(net);
+> +=09if (hn && remove_pending(hn, req)) {
+> +=09=09/* Request hadn't been accepted */
+> +=09=09trace_handshake_cancel(net, req, sk);
+> +=09=09return true;
+> +=09}
+> +=09if (test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags)) {
+> +=09=09/* Request already completed */
+> +=09=09trace_handshake_cancel_busy(net, req, sk);
+> +=09=09return false;
+> +=09}
+> +
+> +=09__sock_put(sk);
+
+Same here.
+
+Side note, I think at this point some tests could surface here? If
+user-space-based self-tests are too cumbersome and/or do not offer
+adequate coverage perhaps you could consider using kunit?
+
+Cheers,
+
+Paolo
 

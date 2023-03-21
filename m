@@ -1,206 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F279440
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 21 Mar 2023 11:50:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CADB0C4339B;
-	Tue, 21 Mar 2023 11:50:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679399432;
-	bh=cJevmNICYQ/6oBkKFKxDgWp9/h4rZ2QaVJEdbr7S4xM=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=TOxeDmgDjVRfiLR5sv/1FE5DTZ0jWqprjX8CKBcZb2HNFK+P3IEM4c+hUqb3feY8f
-	 NxeGHktnL7EXSTPUGoaN2p9+Uzcgj6ksl/bd6gdUbIuA2GS92CY1aCt/emKSR9UVuh
-	 Fn0P75yyW41WqW5EFgg9S+o1nIuGjQUipODaCcHr8+4hiQ0kC8SCsorcldzsX7CejQ
-	 +rB1/dvP2XP3aC1Cc48shIF0XNsUgdzQUS5aTMtXmlxZoWL0Gz3uF5RUcFZGP8bH4s
-	 RwydMTSBtOaZl1Nw/2nsmriguhp5e0MGKeoB19d/DG8xlGZP81neKkI2aDjtzlu1rQ
-	 vJssceqz8j3aw==
-Message-ID: <3dec5ea0dd4efbf96767333d3de90457b9fd3ecd.camel@kernel.org>
-Subject: Re: [PATCH RFC 5/5] NFSD: Handle new xprtsec= export option
-From: Jeff Layton <jlayton@kernel.org>
-To: Chuck Lever <cel@kernel.org>, linux-nfs@vger.kernel.org
-Cc: kernel-tls-handshake@lists.linux.dev
-Date: Tue, 21 Mar 2023 07:50:30 -0400
-In-Reply-To: <167932229302.3131.3108041458819604050.stgit@manet.1015granger.net>
-References: 
-	<167932094748.3131.11264549266195745851.stgit@manet.1015granger.net>
-	 <167932229302.3131.3108041458819604050.stgit@manet.1015granger.net>
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904569452
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 21 Mar 2023 12:44:05 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out2.suse.de (Postfix) with ESMTP id DB5821FFFE;
+	Tue, 21 Mar 2023 12:43:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1679402637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F0gvA1XT1CPRBdEgKJjw1CjaNFZSyDusMAYUepeHHBo=;
+	b=PJEK4Fm7uT8QtEUzaNHEqEocc/nxp18Kh9m/VRFWFuuPO6oaoU4ef1pAMeFRPUnNUVUsi3
+	1FdGrbmZtBv6b0KUX6w/WG6eb7KoG9m0KZpZ/b8jDg7J0jHLQqGw5WUbRj4U6ryWJpXpM3
+	jGaW9L9OjehxwXuJp0GAYlWTe60fQRI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1679402637;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F0gvA1XT1CPRBdEgKJjw1CjaNFZSyDusMAYUepeHHBo=;
+	b=zgaXgHJOEBYv4loVTIb13KO2cK+kH/L/++VvxNpMXV2Tk/v3akqAhODnOSgPIMD8myY5vm
+	LsueYx/Cc9jKueAQ==
+Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
+	by relay2.suse.de (Postfix) with ESMTP id C437A2C146;
+	Tue, 21 Mar 2023 12:43:57 +0000 (UTC)
+Received: by adalid.arch.suse.de (Postfix, from userid 16045)
+	id B67DA51BEE9C; Tue, 21 Mar 2023 13:43:57 +0100 (CET)
+From: Hannes Reinecke <hare@suse.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Chuck Lever <cel@kernel.org>,
+	kernel-tls-handshake@lists.linux.dev,
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 04/18] nvme-tcp: add definitions for TLS cipher suites
+Date: Tue, 21 Mar 2023 13:43:11 +0100
+Message-Id: <20230321124325.77385-5-hare@suse.de>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20230321124325.77385-1-hare@suse.de>
+References: <20230321124325.77385-1-hare@suse.de>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2023-03-20 at 10:24 -0400, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
->=20
-> Enable administrators to require clients to use transport layer
-> security when accessing particular exports.
+Signed-off-by: Hannes Reinecke <hare@suse.de>
+---
+ include/linux/nvme-tcp.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-> ---
->  fs/nfsd/export.c |   53 ++++++++++++++++++++++++++++++++++++++++++++++++=
-++---
->  fs/nfsd/export.h |   11 +++++++++++
->  2 files changed, 61 insertions(+), 3 deletions(-)
->=20
-> diff --git a/fs/nfsd/export.c b/fs/nfsd/export.c
-> index 668c7527b17e..171ebc21bf07 100644
-> --- a/fs/nfsd/export.c
-> +++ b/fs/nfsd/export.c
-> @@ -439,7 +439,6 @@ static int check_export(struct path *path, int *flags=
-, unsigned char *uuid)
->  		return -EINVAL;
->  	}
->  	return 0;
-> -
->  }
-> =20
->  #ifdef CONFIG_NFSD_V4
-> @@ -546,6 +545,31 @@ static inline int
->  secinfo_parse(char **mesg, char *buf, struct svc_export *exp) { return 0=
-; }
->  #endif
-> =20
-> +static int xprtsec_parse(char **mesg, char *buf, struct svc_export *exp)
-> +{
-> +	unsigned int i, mode, listsize;
-> +	int err;
-> +
-> +	err =3D get_uint(mesg, &listsize);
-> +	if (err)
-> +		return err;
-> +	if (listsize > 3)
-> +		return -EINVAL;
+diff --git a/include/linux/nvme-tcp.h b/include/linux/nvme-tcp.h
+index 75470159a194..19ca863813f1 100644
+--- a/include/linux/nvme-tcp.h
++++ b/include/linux/nvme-tcp.h
+@@ -18,6 +18,12 @@ enum nvme_tcp_pfv {
+ 	NVME_TCP_PFV_1_0 = 0x0,
+ };
+ 
++enum nvme_tcp_tls_cipher {
++	NVME_TCP_TLS_CIPHER_INVALID     = 0,
++	NVME_TCP_TLS_CIPHER_SHA256      = 1,
++	NVME_TCP_TLS_CIPHER_SHA384      = 2,
++};
++
+ enum nvme_tcp_fatal_error_status {
+ 	NVME_TCP_FES_INVALID_PDU_HDR		= 0x01,
+ 	NVME_TCP_FES_PDU_SEQ_ERR		= 0x02,
+-- 
+2.35.3
 
-Might want to make a note that the limit of 3 here is arbitrary, and
-that it might need to be lifted in the future (if/when we grow other
-xprtsec options).
-
-> +
-> +	exp->ex_xprtsec_modes =3D 0;
-> +	for (i =3D 0; i < listsize; i++) {
-> +		err =3D get_uint(mesg, &mode);
-> +		if (err)
-> +			return err;
-> +		mode--;
-> +		if (mode > 2)
-> +			return -EINVAL;
-> +		/* Ad hoc */
-> +		exp->ex_xprtsec_modes |=3D 1 << mode;
-> +	}
-> +	return 0;
-> +}
-> +
->  static inline int
->  nfsd_uuid_parse(char **mesg, char *buf, unsigned char **puuid)
->  {
-> @@ -608,6 +632,7 @@ static int svc_export_parse(struct cache_detail *cd, =
-char *mesg, int mlen)
->  	exp.ex_client =3D dom;
->  	exp.cd =3D cd;
->  	exp.ex_devid_map =3D NULL;
-> +	exp.ex_xprtsec_modes =3D NFSEXP_XPRTSEC_ALL;
-> =20
->  	/* expiry */
->  	err =3D -EINVAL;
-> @@ -650,6 +675,8 @@ static int svc_export_parse(struct cache_detail *cd, =
-char *mesg, int mlen)
->  				err =3D nfsd_uuid_parse(&mesg, buf, &exp.ex_uuid);
->  			else if (strcmp(buf, "secinfo") =3D=3D 0)
->  				err =3D secinfo_parse(&mesg, buf, &exp);
-> +			else if (strcmp(buf, "xprtsec") =3D=3D 0)
-> +				err =3D xprtsec_parse(&mesg, buf, &exp);
->  			else
->  				/* quietly ignore unknown words and anything
->  				 * following. Newer user-space can try to set
-> @@ -663,6 +690,7 @@ static int svc_export_parse(struct cache_detail *cd, =
-char *mesg, int mlen)
->  		err =3D check_export(&exp.ex_path, &exp.ex_flags, exp.ex_uuid);
->  		if (err)
->  			goto out4;
-> +
->  		/*
->  		 * No point caching this if it would immediately expire.
->  		 * Also, this protects exportfs's dummy export from the
-> @@ -824,6 +852,7 @@ static void export_update(struct cache_head *cnew, st=
-ruct cache_head *citem)
->  	for (i =3D 0; i < MAX_SECINFO_LIST; i++) {
->  		new->ex_flavors[i] =3D item->ex_flavors[i];
->  	}
-> +	new->ex_xprtsec_modes =3D item->ex_xprtsec_modes;
->  }
-> =20
->  static struct cache_head *svc_export_alloc(void)
-> @@ -1035,9 +1064,26 @@ static struct svc_export *exp_find(struct cache_de=
-tail *cd,
-> =20
->  __be32 check_nfsd_access(struct svc_export *exp, struct svc_rqst *rqstp)
->  {
-> -	struct exp_flavor_info *f;
-> -	struct exp_flavor_info *end =3D exp->ex_flavors + exp->ex_nflavors;
-> +	struct exp_flavor_info *f, *end =3D exp->ex_flavors + exp->ex_nflavors;
-> +	struct svc_xprt *xprt =3D rqstp->rq_xprt;
-> +
-> +	if (exp->ex_xprtsec_modes & NFSEXP_XPRTSEC_NONE) {
-> +		if (!test_bit(XPT_TLS_SESSION, &xprt->xpt_flags))
-> +			goto ok;
-> +	}
-> +	if (exp->ex_xprtsec_modes & NFSEXP_XPRTSEC_TLS) {
-> +		if (test_bit(XPT_TLS_SESSION, &xprt->xpt_flags) &&
-> +		    !test_bit(XPT_PEER_AUTH, &xprt->xpt_flags))
-> +			goto ok;
-> +	}
-> +	if (exp->ex_xprtsec_modes & NFSEXP_XPRTSEC_MTLS) {
-> +		if (test_bit(XPT_TLS_SESSION, &xprt->xpt_flags) &&
-> +		    test_bit(XPT_PEER_AUTH, &xprt->xpt_flags))
-> +			goto ok;
-> +	}
-> +	goto denied;
-> =20
-> +ok:
->  	/* legacy gss-only clients are always OK: */
->  	if (exp->ex_client =3D=3D rqstp->rq_gssclient)
->  		return 0;
-> @@ -1062,6 +1108,7 @@ __be32 check_nfsd_access(struct svc_export *exp, st=
-ruct svc_rqst *rqstp)
->  	if (nfsd4_spo_must_allow(rqstp))
->  		return 0;
-> =20
-> +denied:
->  	return rqstp->rq_vers < 4 ? nfserr_acces : nfserr_wrongsec;
->  }
-> =20
-> diff --git a/fs/nfsd/export.h b/fs/nfsd/export.h
-> index d03f7f6a8642..61e1e8383c3d 100644
-> --- a/fs/nfsd/export.h
-> +++ b/fs/nfsd/export.h
-> @@ -77,8 +77,19 @@ struct svc_export {
->  	struct cache_detail	*cd;
->  	struct rcu_head		ex_rcu;
->  	struct export_stats	ex_stats;
-> +	unsigned long		ex_xprtsec_modes;
->  };
-> =20
-> +enum {
-> +	NFSEXP_XPRTSEC_NONE	=3D 0x01,
-> +	NFSEXP_XPRTSEC_TLS	=3D 0x02,
-> +	NFSEXP_XPRTSEC_MTLS	=3D 0x04,
-> +};
-> +
-> +#define NFSEXP_XPRTSEC_ALL	(NFSEXP_XPRTSEC_NONE | \
-> +				 NFSEXP_XPRTSEC_TLS | \
-> +				 NFSEXP_XPRTSEC_MTLS)
-> +
->  /* an "export key" (expkey) maps a filehandlefragement to an
->   * svc_export for a given client.  There can be several per export,
->   * for the different fsid types.
->=20
->=20
-
---=20
-Jeff Layton <jlayton@kernel.org>

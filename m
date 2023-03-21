@@ -1,124 +1,121 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340EC9464
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 21 Mar 2023 13:59:09 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32LBiFsr012418;
-	Tue, 21 Mar 2023 13:58:57 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210FE9460
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 21 Mar 2023 14:03:19 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32LBiWtS010902;
+	Tue, 21 Mar 2023 14:03:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : references : in-reply-to : content-type :
  content-id : content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=tbfqF8gbjpT5v4/a7QHkpmyDXFJpk1WCcyC4PJhYSJo=;
- b=iqWv+TxhxBLvK18NBsILXUVTQob+zlRi7iHBUzO/L4q0JHQbrCeYCTtazUoLPCIPPaUD
- A5/8y/MekhBWBoQc7PbHDuRgbY05hOeI7KZ/w4shNIS9mmApkrKgf/LE97dwS7rGQczW
- Dph4H+9ju4ZDoVFtjsEBCK+HtCh4Hg7D9bigKQOyXZTWk3/LAXNGanJ64PWhaGN4qAgG
- AHS5QkODbFrp/s/m4Si5eM2wVtZ7Xnf6JCHdrz1N0TqLabCXwX+3V31g21UaRepbjPlE
- ZLq1omOGStM6o/QRXavTR0+NalNScn3RuZaHSyU6+lQnKmoBv8eqwqw9yVbfzHKWXyJJ Bw== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3pd4wt6a6x-1
+ bh=6MYhJjRHu1Sr3tzKN8OTd7t0Cn4P7gmYE1B9WNacRQc=;
+ b=G9sZJPJWZHjCuiFj2bCrtnZwFSH5mMj4TMUZHdhnia75RKa3zbl4b1EpvRDHg94VTjdH
+ HuzpVXAYRjZVsFGvpAlGxYpK9pGrj93LxjLdRROhubTKMMRYEHn84E5EEt9Bj0NLp3aZ
+ Mx0PiGT6QpeGco05uDQSeLi8RoiaGqDPZRmrVGbEcj79tc2beKPRLLA3tU7bAOYWUPfL
+ 9BKalb3HvSXYUSqVvNPtcTNJ7Vw/iuTQWrB6OehRV0DFsZqAqW4gOdO51owl8hDHOclc
+ 97g2hvldcCuwwXSy8zeg4dIuTdY8w0zCLtav+ckZqO/EeHKntasxBo4U7e42ki84veYc iQ== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3pd56ax7q3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 21 Mar 2023 13:58:57 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 32LDWQoD038653;
-	Tue, 21 Mar 2023 13:58:56 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2174.outbound.protection.outlook.com [104.47.59.174])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3pd3rd8sa6-1
+	Tue, 21 Mar 2023 14:03:09 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 32LDOGj6006553;
+	Tue, 21 Mar 2023 14:03:08 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2175.outbound.protection.outlook.com [104.47.59.175])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3pd3r5rv3n-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 21 Mar 2023 13:58:56 +0000
+	Tue, 21 Mar 2023 14:03:07 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WBfRUbNDT4oJcXozCM53JQwz73ifmEZZMrvlo6/cdbNU61CQ1DkMChyNBbdAHAwnj5IbQJvaxnfPHqcm5KuwCAWsul1OqlSyzpxcvwwxP7iR97Es0v7vmz2EVDti9UWKuOzeTiXftatIczWXbvmhI2N2y2OBd1ScY9pbXlCoroEw1bPq5Q/LVQSvez/dCV9LzGCZ1QyS8Y+RA/waRGVjvM8+4Ks7XuFPcXqTEN/wNFdkLGh75QiO8dOrKOpbjgsfOzwroEHAbibDkltv5STr+PgtvnjWAQI8B60c4qhLAF392+7zzNU9+uv24aMJ+0SvA4L1gnXjyH0Oy7cO9I2N+g==
+ b=DXOllzGkNSGYbp0vm549g8B75U2pyyePKsjvOU+uJ7u7csbOQfoQtKkKPT6/lEMKaWXtK7+mAvTITSdj92Seb1UsqHHODAW4OT/yd6Y07gXGQ694nL6R9NYDYdTgvZIZHWT5DYxhH+MaXhPPVIoFFfG2CUxikBcvc1hAlColEoks1AhB5yJePRnEaHZw5IKNvgOx0MKCC3mVFLGOJ8fp+9PZWvy7a8clgBTSuH2Y20Fc5NdrNytogvHL2IX8cgSj0d8VRwZPlRag3/p2y0JxxWuh5zTlmlQWNaUW9aZRC5Otm2+uuhIsRgvmQw4NqIEiWww0Q1nmspImngT3a+X0Vg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tbfqF8gbjpT5v4/a7QHkpmyDXFJpk1WCcyC4PJhYSJo=;
- b=H0zVlHUuAFkEgtHPgp9JMCFpQlrwjRykw6Iie6Ysou18zduemVJ8FuO7aL4H4lDDU0bW98E6uW8DhitqULcYfgKCcpTgeqj+x9plh0uSdYmlaVli9Sn/4ArKCOazJEoH82MnnwuCS+bVgByA0158AoQBANTG9dsttGgdubzyUsmbVEcDaqYUU06xeIM/1wlYSAa9PeiSrob01MBArwJfhTax4nbtoeC6yA+X1eM0Jm8t/rfddv8XVyEorIFnfOQKTBH0thtg5GskE7rPKd4STjJU9NugSHK+iiePfuHtTYQxhIAhuCdaOUQdkwLlLHvj9+L1NHVlcdnEBVKkFVaHTg==
+ bh=6MYhJjRHu1Sr3tzKN8OTd7t0Cn4P7gmYE1B9WNacRQc=;
+ b=B4VanCEgqNgH99xwNgReMxlwAfPoNCIwoJhn14tL+MawoyGGShm7CdbIlNddhaOiOTUXMTybhl5SnDZklr+sRREJvuMNya1ADPpv6k7FdAMkyqGrJVE8M5cL75u8NQi7VURNZPCAbAWAmziwenkAMQugLDus66dHtFtVklCWIhI73VrAxhUMYtA4ORrz/K/6Q5PUAwZWve0iq56FHBKqIplMNo+uHxv/yczP5hzVuxY5NRgLU0+fMX1cpYcjq9Cpty6G6RMCYRYBcRhLElNutMltZXKpYO2t8/gBBKKaS/VZpSc0e1163RtXfDwS3UgixJN6L/rjeTXYUkpC8vBFhA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tbfqF8gbjpT5v4/a7QHkpmyDXFJpk1WCcyC4PJhYSJo=;
- b=ysFS+5nkiKq9UbL37bQvQr/m4yjwq1/mR9OPxhS1r1sP6UII8KZrk6avnxqF8M+y9apjV+hZleQIXa10YWIoiK8G4LtVwNaqQoyVEf9ZTQvO7DRgb3F8je5pVVgNR2/Yzw0BtF3ujddtmOEauw3IFi0wG6FFIk9c0KkhohvjIj4=
+ bh=6MYhJjRHu1Sr3tzKN8OTd7t0Cn4P7gmYE1B9WNacRQc=;
+ b=dpgRaiLDoel7RlOLyviTt7BkQJMEJ9agEVs3+i6vkKQE3K5alKiywm9xMq/SUZa5EavyTvzQyyCvib1pw414M356VSFmAQ9im/qasJKzXL4Hc2p+oTGnm/AavSosGL+zeTuvTtwotfP0X9BrMVnn8GHrJnmvzNuJrp0Gh+t/cw4=
 Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
- by BN0PR10MB5270.namprd10.prod.outlook.com (2603:10b6:408:120::14) with
+ by SA1PR10MB6390.namprd10.prod.outlook.com (2603:10b6:806:256::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Tue, 21 Mar
- 2023 13:58:54 +0000
+ 2023 14:03:05 +0000
 Received: from BN0PR10MB5128.namprd10.prod.outlook.com
  ([fe80::5c2f:5e81:b6c4:a127]) by BN0PR10MB5128.namprd10.prod.outlook.com
  ([fe80::5c2f:5e81:b6c4:a127%8]) with mapi id 15.20.6178.037; Tue, 21 Mar 2023
- 13:58:54 +0000
+ 14:03:03 +0000
 From: Chuck Lever III <chuck.lever@oracle.com>
-To: Paolo Abeni <pabeni@redhat.com>
-CC: Chuck Lever <cel@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-        Eric
- Dumazet <edumazet@google.com>,
-        "open list:NETWORKING [GENERAL]"
-	<netdev@vger.kernel.org>,
+To: Jeff Layton <jlayton@kernel.org>
+CC: Chuck Lever <cel@kernel.org>,
+        Linux NFS Mailing List
+	<linux-nfs@vger.kernel.org>,
         "kernel-tls-handshake@lists.linux.dev"
-	<kernel-tls-handshake@lists.linux.dev>,
-        John Haxby <john.haxby@oracle.com>
-Subject: Re: [PATCH v7 1/2] net/handshake: Create a NETLINK service for
- handling handshake requests
-Thread-Topic: [PATCH v7 1/2] net/handshake: Create a NETLINK service for
- handling handshake requests
-Thread-Index: AQHZWbVGJzLbQ29BsEW987typvYRiq8FHPAAgAAqL4A=
-Date: Tue, 21 Mar 2023 13:58:54 +0000
-Message-ID: <674AEE9C-BDB7-440E-902E-73918D6E2370@oracle.com>
+	<kernel-tls-handshake@lists.linux.dev>
+Subject: Re: [PATCH RFC 4/5] SUNRPC: Support TLS handshake in the server-side
+ TCP socket code
+Thread-Topic: [PATCH RFC 4/5] SUNRPC: Support TLS handshake in the server-side
+ TCP socket code
+Thread-Index: AQHZWze6raUwPVIJ30ib5xd+ODRKva8FHigAgAAnHIA=
+Date: Tue, 21 Mar 2023 14:03:03 +0000
+Message-ID: <81A90B73-3367-4D4E-9F60-A20CF6EE6BF9@oracle.com>
 References: 
- <167915594811.91792.15722842400657376706.stgit@manet.1015granger.net>
- <167915629953.91792.17220269709156129944.stgit@manet.1015granger.net>
- <3dc6b9290984bc07ae5ac9c5a9fba01742b64f84.camel@redhat.com>
-In-Reply-To: <3dc6b9290984bc07ae5ac9c5a9fba01742b64f84.camel@redhat.com>
+ <167932094748.3131.11264549266195745851.stgit@manet.1015granger.net>
+ <167932228666.3131.1680559749292527734.stgit@manet.1015granger.net>
+ <55c3480354ae273fceb67976bbce33b9e04e6cf3.camel@kernel.org>
+In-Reply-To: <55c3480354ae273fceb67976bbce33b9e04e6cf3.camel@kernel.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-mailer: Apple Mail (2.3696.120.41.1.2)
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN0PR10MB5128:EE_|BN0PR10MB5270:EE_
-x-ms-office365-filtering-correlation-id: f77ee0a4-a712-4af8-9e8c-08db2a14688d
+x-ms-traffictypediagnostic: BN0PR10MB5128:EE_|SA1PR10MB6390:EE_
+x-ms-office365-filtering-correlation-id: fac09dcf-6d3b-4ded-3b0a-08db2a14fd1b
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info: 
- jZLoQZwwANOeloFCrMnJPfUyRfg0Sqlmu+AWESpEnhf/YAtxHwNhMCqbDFWFnqlUNF110+2fvmlsRDO4Tzu2ZedzZGoutsvPPFjspVnPBUA5ZWa717ZPVlAEAq/iW9VYTq+wZVzhaTDYEzrnq0jr64TDCjm3rmHCwdUbPFlNKRvhWMQ6d6kbYFkKM3BqOEX99HCowHs8StnpBR8iA+EE/QnjVnWMsmpU/X6pSizMhqtp/l92+8vrC1zfewBBSqcPU09SeJ4t1ZGaYWctHCiQIv3EWKg7gvXCQ+0z44gqOi4XNVy7BBEy0v6Izn933eOhOAVb5TI074uEwcJWDE6M/KoVQXtwk+fI9uvNT62lmCclrg6rLxKwX68vtUFAsflOMDvi18TuckY7ZEkMYTPmqFSC6/DmOn9izvd27SpPLhtN2N4R9OUahBxgkQT4pW7T8PtwaVv5ucJKvVfGPDDBgnuzJV5WTJcpyalvetTGD+vm9vhCv5ehk5cpZ8WclgBD35McpOJd/fji01tOjKOC6Vp6DoqWTQ2En0vEHByMJrfoo8Ch4TtsZdujBLvmcvO2aFrkamRIhSs295aNBq5PmaUFr6aaoV6csxl40xcV1Zf0S/mujb68cq5WMLNy/Z/BWY7B058f5S7NByrc41MtWTsHav8KIFjiCXtrRXr6DZTlu6QCCCMdZL1bLae/je8wOlJ5lItGaFIKqN7zzDAHOzDd68DZ5Pcgzd2uRn0n0vZAKtTpNQIIp9SQdunU57Gg
+ XNVWl9+YRP/y0ArxSyFHZwKkW6ZT0nhgs1KzrPOG1Xofq5bn2N1X+WZW74CljH9P2QrTX/9KdIakjM7ypzEFQCpWa2tf+lCQ3HtLRB1AGPjdEyFG8wkHUzlNrAr/4HhNZeAt4zYEXasnO75pvN/odHATOEjeHdvIhq37tHH54bDJ/0JFAXTNfWdODxeb9j+DN8zCO+se254FDi+V5bZ3s7MbGwzMVrH+oNXwt3UUHgrWrEZyeuOrzutyziYFvUu53v9FZ7COPbWoGu9x875jiQdn+2CT6sRyjPG61DajBD7c7IPlAN5689AtWsmerhtPRU+xp1QLs8dBAcV4ixRvb6+WY5M2dkiykCF4592UlyGG0mw1zOwWprcOb8LvrdMELR7x6JUtQmoYiQ96wQpdznPDiJkIebBOMW19XPh+pBJIohVBqwzr63lvGBltKWZpq7Vx9OVT0juBegKBgNHxrK4O7124Bd4aw1puANMEswkgAmHeY9hduSXqQMioj+aBHAHrycxCj0kREoDFp38pJNzs7F/CZv+OacYFY+rHYIIU6YfTmPI8ioRtQlB/De95L31ZiQTSj6NHE1fAilELlhmbMWtg2A1ZBBdxeOu+WOeh0Quoo9Z4+FMu6wP7xDm1htbO7nHnC8Y9RW2+rgpNijMLz2LrQk4ZNkm1TndpxBQp+c2g/wW2032kMl0XxzcbBHEiYWi7ijN1/JNVXUEjv3ttXeGyB2m+jiGoZ5vmIds=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(396003)(366004)(346002)(39860400002)(136003)(376002)(451199018)(2616005)(83380400001)(86362001)(38070700005)(38100700002)(91956017)(36756003)(66446008)(8936002)(64756008)(66476007)(6916009)(4326008)(66556008)(8676002)(66946007)(2906002)(41300700001)(76116006)(122000001)(33656002)(478600001)(26005)(5660300002)(6506007)(6486002)(186003)(53546011)(6512007)(54906003)(71200400001)(107886003)(316002)(66899018)(21314003)(45980500001);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(366004)(376002)(136003)(39860400002)(396003)(346002)(451199018)(41300700001)(71200400001)(38070700005)(30864003)(8936002)(6486002)(5660300002)(122000001)(2906002)(186003)(91956017)(2616005)(478600001)(38100700002)(66556008)(33656002)(316002)(6506007)(6512007)(83380400001)(26005)(54906003)(86362001)(53546011)(4326008)(36756003)(66476007)(66446008)(64756008)(66946007)(76116006)(6916009)(8676002)(45980500001);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?0KYQ+SbcCtjEnVyE+yP1O7CreQDPMpLvk5bvHb5cYQY9G7c/tNW6bF3fVBCE?=
- =?us-ascii?Q?HTB3b7CIXzY1UpCs3F7O01wkkQIwIw1OqzIPHXUi2tawq81/7KSXw7dlENyD?=
- =?us-ascii?Q?IYv34inPWHxFru6RLQRASDNo9Fqsbmw9LBLc0x9ig+lgeTsnYZVInWtgHvPV?=
- =?us-ascii?Q?yq6DXVKNJBRZ+3kqvA2JbT0GFyhcQJbfHmxSwclE4KL58PAF966cLWITGf4e?=
- =?us-ascii?Q?q9Q7dPJDRDwMf+UOLg1vlnOZ/x9g4FuLHAKdcFsYpnybgPWJK7Tw1ZG6ffJy?=
- =?us-ascii?Q?rqSBIb5OTa8/0+kh3FmGvM/m+//8VqlM7GcAyEaaeROaWvMWOb7Zk87mtPeX?=
- =?us-ascii?Q?7ntXyU8sSG2X1F+hmdm5//GzwCBNHdwfxhojwlfJvVvVv34xvLqngf2PgjiL?=
- =?us-ascii?Q?4upx+MoltHOfy3hZ4dOQZJbcXs6szXWCL4b7vi+Kgn17Gv6brkpc9asgyc6V?=
- =?us-ascii?Q?xLG7mHo77ZATLiW/S14FpnVA4bYLfjypOJHRyY0Zd+DO5GPwq3w2dsyWCTaa?=
- =?us-ascii?Q?e4I0Dkrsn8tu3wXFQBNTrV19kDH5rle9RvIZGfK/lraMUgq4pF8u3DhO/b7o?=
- =?us-ascii?Q?HlJisSkRYRz8LK1LGRsjbHYXirGUd/oJ8Y+kxBCm91fx7eocA16RTiuiwS0M?=
- =?us-ascii?Q?6pVzeSVh5c9wvtVnG7LLs2OMYhnOJRX7PzBymr7490J3DMgBkcus+SOGi6ra?=
- =?us-ascii?Q?ONrCaeecUM2uP7JatSq85FrgZOQGoWoYYIwUj9Hb46lxuQzT0LzmtaO0vxkg?=
- =?us-ascii?Q?AreTWRvronzQCl9/tuxfhattyssUK5zoW6DC+NDzTHXgOqviD+aWgEBMC7AA?=
- =?us-ascii?Q?trjNiqki/GKcfMjFGR/tRRAMwwqJjLN4jkPfA58KEXeNohJp8+TIgbIqYMGc?=
- =?us-ascii?Q?WB1kXBTV6aRAgHEohf+FBk3uir+OLakOHhsgyA5j66OoxI/5++T4oLVCYilC?=
- =?us-ascii?Q?hi0KfBtORGTP1//QQcHAGhAS9nKjh2Tw6vTk132a7/aQ//hi6mxoqQRzZj0y?=
- =?us-ascii?Q?JS5STrNqMFD73hjz2K69EwuycK9ZyniBbeqJIfOK5vRjYWIqd74bZiuAiLkD?=
- =?us-ascii?Q?Xqs12W36PMtslo2TzeaBN2dMW8P292hb2QB2VcqLhHeEY4l4NlcTPeAlXh/K?=
- =?us-ascii?Q?AvBQ9Ta5vVb0KMvDz3MSn5Jtyaoaw3+5DR79ud89JFlW5FyYMVpwInLtpwMr?=
- =?us-ascii?Q?DvMV5X+h2fpHwkmgQatIMXNihj/fPKg006ciSXUnyU0em4hFY1pe4nsEYFbS?=
- =?us-ascii?Q?10q0y8iqRkKxUNVG/lq4ue7rSb+Bw4lWbmw5YBgLR++Kdn4nJ5GKRDaSiWy9?=
- =?us-ascii?Q?wUpship9cDLQsDJWo1RE+wdHq+1zaR6IA/m1oFNVac8Hzd2gr9q/GHl06wHp?=
- =?us-ascii?Q?e+E4i18aX3FCZ3IuVw/8MFI6I9vQyW/9m+ZiDD/5c/o6cIjqCkrsb+A2E18b?=
- =?us-ascii?Q?WhBRmU67+Dhwys6TytifGTPtk1lxhZpR+1JqLi2YMe5uoDAFX8DaDkAM22SV?=
- =?us-ascii?Q?/GiRr15kaOnInOP7kW2WcLSSWuqcm8TGZN2hHb8P/cVHin+PKjm7ynO92/2y?=
- =?us-ascii?Q?uuVMwqknqEwRqSuDhilrWQl1sguTfJHA1rIz95SJ+MbYG627X6I7nqtCn3X0?=
- =?us-ascii?Q?pA=3D=3D?=
+ =?us-ascii?Q?wSeRDH+GJNiE72ux1Bpc2vbY5XquLjPDZyb/yxtoR2PBChR2lnhzatWw2/uf?=
+ =?us-ascii?Q?iPGcOpZLFFVc/ya2gSrh7BRFPpS5tnwk7T2CxWeYI0gedJ9nNElUC0qmDU66?=
+ =?us-ascii?Q?k8mbht8mADI2ehzc6D5JypfH3043uLp6aXW7NoStmQ6F3rsbbEV/D3q2ugdV?=
+ =?us-ascii?Q?5/+F+rIwHGNFynQ8zC/jPvDbzqDAR9SfwOCNllD35P6yuaMxPt6zj3aZtQR6?=
+ =?us-ascii?Q?5s53+iXZcgLsuJpFTJa0tvjiVLrQNhncSz59ztPKYILnj57syScfnXjs/ix2?=
+ =?us-ascii?Q?iMrVgLA8UOdDQ0yzjD/S7Vfl8BMDAffkMiB7zZ+IBDo13ydc1v/wq364bSdc?=
+ =?us-ascii?Q?cJZYXguiL0dIbbU3Q0z/KEGMe3aoJ6dTJ6BdXbtFVoLb5J86A/WwGnJwsRjO?=
+ =?us-ascii?Q?e49pDUzSVDRYnEANg45ijV0iBYGb8/TOhy9cdwZZAja3jFitIj2PHAi4GEsL?=
+ =?us-ascii?Q?abuE6ClfoGIkZPvMx8Cb0T8VGrgnO0IFEM1vrR+cPpXMP6lPJkkUEYL0oswx?=
+ =?us-ascii?Q?ECQzituIvJnRWDnw2lGHAgsGOYqkyHXAMeQX6eFEJ+wDllOdhKi0WG24IJ8n?=
+ =?us-ascii?Q?QL8dwvXRQIpEsrNSnjZFmpB+w07w6Ej8zH2WNo2F8LeXCMRkPlKxeZg4dwvt?=
+ =?us-ascii?Q?9YoJ1cK5fKdG5kY65eyCvTc8Tj+2V2zL0TNtuBOkmsk+3XBXkUAasIhefaQC?=
+ =?us-ascii?Q?OLidxCBHf3PU/GQtNharDMLEWe7O8hPN5Vkgz7wP/ofoA1U2InNwqsZEW9Vo?=
+ =?us-ascii?Q?m7YPnS6cXUzxq+nvp6J8pA5fq9tWvLQ5jru3b3PlnjEZ71V5ydJut4jLOZ7J?=
+ =?us-ascii?Q?d6Tu+Jcyda3Yyv64hrkP2MQmRM/PngnhBQzlZipLLDdqIbDVg/u/88rX8JO7?=
+ =?us-ascii?Q?JbnqjcqzG0UIVqaTG+pVM3NB+UbKbxHMpgLcNCgK/Bp757PFWgt3ypAGpSD8?=
+ =?us-ascii?Q?PjWw6XwFYeya3OYG8wG4ep3mEqXGS1RpIljAS0Q1X7rVROc7AIIPGju3jbTd?=
+ =?us-ascii?Q?5MiHUJPsN2OXSCxpU4q0PjSMO/6lHU5h/1aTy+hbk7gAT1m1jGCWTMztvFgv?=
+ =?us-ascii?Q?a93K7yxsvJe4imsZDgRV4TJ5knCucuojZBv89eJDVm7V6BjhTDQzuHbXYTO5?=
+ =?us-ascii?Q?tSijeXrjXJnbcbCIe3gI2Mj0LtFbJpCzepLGXhpCx990q7aSLzO5RVny0yjZ?=
+ =?us-ascii?Q?LsxTRB/3b8258xihTd78suCUG/uCXAlc3C3bYG2I+dTOTo8OtqtjZNBOdZxT?=
+ =?us-ascii?Q?SdAxuvhA2JfNYVLvc4dh/avmRzoMk4BpBYSpolzF7O4yhLN5s45+/DvEmZGo?=
+ =?us-ascii?Q?UMSRQ3ZrBqOFCEcKrivmjcTuxVHCXsETjyiLGYlR+4b3BVqigKJNe9MNis0+?=
+ =?us-ascii?Q?wpw474FneMu59UFCze/Qxxy3Zx3INUFSYe/gBysBO5XhrSqks0Oo369C7riB?=
+ =?us-ascii?Q?A4xWHPq05nYrKXWVywxJe7nLPYMQTbojDsW89PH0V+iaWzmpNWyfdZyRRB2O?=
+ =?us-ascii?Q?y72xi50eehVfzhxmnTGsZobzIAvLbYHapkzjx+ubzAWlznAO2ggvk+F6io4A?=
+ =?us-ascii?Q?zIYLv6T59calgM/IH8zSJsEe2glCY32M0tLMeYsZj34dm7P+h8a53iKANjuG?=
+ =?us-ascii?Q?ag=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <A2336C22631AC246921119B663453AD6@namprd10.prod.outlook.com>
+Content-ID: <942520AA7A9A854193E557D8AE6B2B25@namprd10.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
@@ -128,296 +125,368 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	Bi08BL0TfNvijCsu0eczpeqOxyLhDB6FeAffCdbXYZfHB2+EJVaIOmTBcUsxQup4f5o6/tBYEP92IoTAjlBOmiqpELAZiMh6eAz1/kS645AfvQ7uVCFUoiZxa1LysBwzzwN+ySgaZbogQEvQbXMIzsHXK+QpPdNiJ1nN6jPBhj+56H6Kkw1QVixxrsJM94pq/z2WSNKQeSeTMQPSdeKpvg8DKKrQTw7cAla8OCqmXjdXAenS7dbbniSni0OgfJPssNw+Y6Kw83n/1va8QdSKY9KezTlIzzQuegyzywVC8b60RvFF1xSbu/x+BofmuvHoukDPdagwvKLN19i2scChtwIrRUGMfmpZ1WyICNJN5ACz6q+OyRzuxat6nVJ/cGShEnCuDlZnRR4bbGibyB9UzBj1l0sRtW/rqXYmdgZpX2NVQ7Y6IA3fG7ur1OCVj+39Hx3ysk4NOYpw0t1s9dCWbnxiIdNdUHWMPBCJXRe7jPMWyqJLZONilBoT+3k1iyhmuT/LB6OjJhPoisMo/8hqk5UVKgYPFMyh5ZuLA1wZsV4qxJ4J9p3j6CDQhVNOD1GJmiAqWWACW0Ng913XNdeUoikYYLTo/0FL77I+qfS+PWDZIemT8BfFdviAOkVfy50n114G5YG8a0eA6TlwbOAc460YHmI2/31+RzfnL/0F3/lA/P6pHck/i5j2uMWkL4016d0PlVWWa0B+LNVVeDu/BzsbzJSh6bEOrPA810dd3rwWbjcTy0XQwE3+XOohsnH1CT7kbetwAxqJOqEZDrp9s9Ei/w24ueDUpvH7eOb6zsVGCW68hP00FDbX1h6ngvDCyvKaEG2VnzfK7zuHne/rJpw3DWeVSviRoS+3uUgkMxGoGvY2mZNIBvB7FHLLuqwlxlv5q1kOzJleuyy0QBIwwQ==
+	0cQcKVx47ykhsaI31Tgl2w4TP+o62OczjOSfZh48ED7I+lwoxqDeCis4XtXIqXbAGve1J2GMZPq51dmTtPfStSg+lINAX6o7FiY13k4arf1jWg9uPDhD41QbPk+Xv5hAFAXP03d8UAuKskVuROjCsMy/w0l23t9N6RFleA12lbhx1EdjbNBjcXnuvVyzB0GA9mEsDBTMOwj18pucWi8h4lsIAalCaoWblCfGgk+m1Ka+I3VeVRnQTxd6CHAjyS8uJZ2xhHPmiEO9cFBpI+Pyf+tal2mH2Of46HlwVwk0BJUdmAnCUQCj0x4bW6yHeWgxfiXUIo4PFdo81gE9Xhu6dY9yNDqocXy/H5/rugN9OgVmkyCuvQq1uymTHX/eRnZztFrD1xZ9P96oWZmObLy7NnmGavXDr6rHyTS9912jvmiCLP4pGxc/+D9RPI+RvUvJO5aquwtHcekG+kP8EK5/2w4/tG9c2jAPIw+DWw//Mn41Tbwyee7c1OSKZwzMRRCR76ceKTuE25IhNG87dHGGbwHIPNp0J8HKNk52i4hiDmLFT4QwCgBMF4Bz5yObxwNBFQxcmwm9/9HjAbkXfblf90g60F5a9uv2P9+CO9zhPiYpU3i59f5gc+3hrkuFNwDCjLJUFwo7HMutJSDdcHBmEIx/nwqVYn0wcNdhzeqXknRyH/NUW9PM5YtT5cqQU/iQGFbhajMKrqje/MiaFyFUNed9edComL54a+Cxz5AQjU0RDK/lxR8TYg7kifAvoTp+QoNGlNCfRHh4lQi2XNDFWEQkl/RdKZKACK5g/lov2mPubu3VfEd+KoKuYYF8YgdpDVrlVUmJ48L052zkjzVGfA==
 X-OriginatorOrg: oracle.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f77ee0a4-a712-4af8-9e8c-08db2a14688d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2023 13:58:54.4568
+X-MS-Exchange-CrossTenant-Network-Message-Id: fac09dcf-6d3b-4ded-3b0a-08db2a14fd1b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2023 14:03:03.6721
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dNIgAdsBf04aRYl+uA3H9uiLlF8529cAj+vLeu720N5q7c9k/wvWO+iRBMSmWo2tryFJkG4hPj6HUhMqe+ZgJQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5270
+X-MS-Exchange-CrossTenant-userprincipalname: 4DJd6N7doCrs8V1Od0fcXJlQ2swrolL0nvpq6jae6hDMQ1X3f6aNBks66qIBWjdayJlAqnhp8mSewCCl7uEJvQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB6390
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-21_10,2023-03-21_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 adultscore=0
- mlxlogscore=999 mlxscore=0 bulkscore=0 phishscore=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 phishscore=0 mlxscore=0
+ mlxlogscore=999 malwarescore=0 suspectscore=0 adultscore=0 spamscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303150002
  definitions=main-2303210109
-X-Proofpoint-GUID: yxOV2s3ts9FW3P-NgOPnSI17PJ4VNrG2
-X-Proofpoint-ORIG-GUID: yxOV2s3ts9FW3P-NgOPnSI17PJ4VNrG2
+X-Proofpoint-ORIG-GUID: LzQEzWk5JEwPnonEq6W2jHVDJb56BLr5
+X-Proofpoint-GUID: LzQEzWk5JEwPnonEq6W2jHVDJb56BLr5
 
 
 
-> On Mar 21, 2023, at 7:27 AM, Paolo Abeni <pabeni@redhat.com> wrote:
+> On Mar 21, 2023, at 7:43 AM, Jeff Layton <jlayton@kernel.org> wrote:
 >=20
-> On Sat, 2023-03-18 at 12:18 -0400, Chuck Lever wrote:
+> On Mon, 2023-03-20 at 10:24 -0400, Chuck Lever wrote:
+>> From: Chuck Lever <chuck.lever@oracle.com>
+>>=20
+>> This patch adds opportunitistic RPC-with-TLS to the Linux in-kernel
+>> NFS server. If the client requests RPC-with-TLS and the user space
+>> handshake agent is running, the server will set up a TLS session.
+>>=20
+>> There are no policy settings yet. For example, the server cannot
+>> yet require the use of RPC-with-TLS to access its data.
+>>=20
+>> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+>> ---
+>> include/linux/sunrpc/svc_xprt.h |    5 ++
+>> include/linux/sunrpc/svcsock.h  |    2 +
+>> include/trace/events/sunrpc.h   |   16 ++++++-
+>> net/sunrpc/svc_xprt.c           |    5 ++
+>> net/sunrpc/svcauth_unix.c       |   11 ++++-
+>> net/sunrpc/svcsock.c            |   91 +++++++++++++++++++++++++++++++++=
+++++++
+>> 6 files changed, 125 insertions(+), 5 deletions(-)
+>>=20
+>> diff --git a/include/linux/sunrpc/svc_xprt.h b/include/linux/sunrpc/svc_=
+xprt.h
+>> index 775368802762..867479204840 100644
+>> --- a/include/linux/sunrpc/svc_xprt.h
+>> +++ b/include/linux/sunrpc/svc_xprt.h
+>> @@ -27,7 +27,7 @@ struct svc_xprt_ops {
+>> 	void		(*xpo_detach)(struct svc_xprt *);
+>> 	void		(*xpo_free)(struct svc_xprt *);
+>> 	void		(*xpo_kill_temp_xprt)(struct svc_xprt *);
+>> -	void		(*xpo_start_tls)(struct svc_xprt *);
+>> +	void		(*xpo_handshake)(struct svc_xprt *xprt);
+>> };
+>>=20
+>> struct svc_xprt_class {
+>> @@ -70,6 +70,9 @@ struct svc_xprt {
+>> #define XPT_LOCAL	12		/* connection from loopback interface */
+>> #define XPT_KILL_TEMP   13		/* call xpo_kill_temp_xprt before closing */
+>> #define XPT_CONG_CTRL	14		/* has congestion control */
+>> +#define XPT_HANDSHAKE	15		/* xprt requests a handshake */
+>> +#define XPT_TLS_SESSION	16		/* transport-layer security established */
+>> +#define XPT_PEER_AUTH	17		/* peer has been authenticated */
+>>=20
+>> 	struct svc_serv		*xpt_server;	/* service for transport */
+>> 	atomic_t    	    	xpt_reserved;	/* space on outq that is rsvd */
+>> diff --git a/include/linux/sunrpc/svcsock.h b/include/linux/sunrpc/svcso=
+ck.h
+>> index bcc555c7ae9c..1175e1c38bac 100644
+>> --- a/include/linux/sunrpc/svcsock.h
+>> +++ b/include/linux/sunrpc/svcsock.h
+>> @@ -38,6 +38,8 @@ struct svc_sock {
+>> 	/* Number of queued send requests */
+>> 	atomic_t		sk_sendqlen;
+>>=20
+>> +	struct completion	sk_handshake_done;
+>> +
+>> 	struct page *		sk_pages[RPCSVC_MAXPAGES];	/* received data */
+>> };
+>>=20
+>> diff --git a/include/trace/events/sunrpc.h b/include/trace/events/sunrpc=
+.h
+>> index cf286a0a17d0..2667a8db4811 100644
+>> --- a/include/trace/events/sunrpc.h
+>> +++ b/include/trace/events/sunrpc.h
+>> @@ -1948,7 +1948,10 @@ TRACE_EVENT(svc_stats_latency,
+>> 		{ BIT(XPT_CACHE_AUTH),		"CACHE_AUTH" },		\
+>> 		{ BIT(XPT_LOCAL),		"LOCAL" },		\
+>> 		{ BIT(XPT_KILL_TEMP),		"KILL_TEMP" },		\
+>> -		{ BIT(XPT_CONG_CTRL),		"CONG_CTRL" })
+>> +		{ BIT(XPT_CONG_CTRL),		"CONG_CTRL" },		\
+>> +		{ BIT(XPT_HANDSHAKE),		"HANDSHAKE" },		\
+>> +		{ BIT(XPT_TLS_SESSION),		"TLS_SESSION" },	\
+>> +		{ BIT(XPT_PEER_AUTH),		"PEER_AUTH" })
+>>=20
+>> TRACE_EVENT(svc_xprt_create_err,
+>> 	TP_PROTO(
+>> @@ -2081,6 +2084,17 @@ DEFINE_SVC_XPRT_EVENT(close);
+>> DEFINE_SVC_XPRT_EVENT(detach);
+>> DEFINE_SVC_XPRT_EVENT(free);
+>>=20
+>> +#define DEFINE_SVC_TLS_EVENT(name) \
+>> +	DEFINE_EVENT(svc_xprt_event, svc_tls_##name, \
+>> +		TP_PROTO(const struct svc_xprt *xprt), \
+>> +		TP_ARGS(xprt))
+>> +
+>> +DEFINE_SVC_TLS_EVENT(start);
+>> +DEFINE_SVC_TLS_EVENT(upcall);
+>> +DEFINE_SVC_TLS_EVENT(unavailable);
+>> +DEFINE_SVC_TLS_EVENT(not_started);
+>> +DEFINE_SVC_TLS_EVENT(timed_out);
+>> +
+>> TRACE_EVENT(svc_xprt_accept,
+>> 	TP_PROTO(
+>> 		const struct svc_xprt *xprt,
+>> diff --git a/net/sunrpc/svc_xprt.c b/net/sunrpc/svc_xprt.c
+>> index ba629297da4e..b68c04dbf876 100644
+>> --- a/net/sunrpc/svc_xprt.c
+>> +++ b/net/sunrpc/svc_xprt.c
+>> @@ -427,7 +427,7 @@ static bool svc_xprt_ready(struct svc_xprt *xprt)
+>>=20
+>> 	if (xpt_flags & BIT(XPT_BUSY))
+>> 		return false;
+>> -	if (xpt_flags & (BIT(XPT_CONN) | BIT(XPT_CLOSE)))
+>> +	if (xpt_flags & (BIT(XPT_CONN) | BIT(XPT_CLOSE) | BIT(XPT_HANDSHAKE)))
+>> 		return true;
+>> 	if (xpt_flags & (BIT(XPT_DATA) | BIT(XPT_DEFERRED))) {
+>> 		if (xprt->xpt_ops->xpo_has_wspace(xprt) &&
+>> @@ -829,6 +829,9 @@ static int svc_handle_xprt(struct svc_rqst *rqstp, s=
+truct svc_xprt *xprt)
+>> 			module_put(xprt->xpt_class->xcl_owner);
+>> 		}
+>> 		svc_xprt_received(xprt);
+>> +	} else if (test_bit(XPT_HANDSHAKE, &xprt->xpt_flags)) {
+>> +		xprt->xpt_ops->xpo_handshake(xprt);
+>> +		svc_xprt_received(xprt);
+>> 	} else if (svc_xprt_reserve_slot(rqstp, xprt)) {
+>> 		/* XPT_DATA|XPT_DEFERRED case: */
+>> 		dprintk("svc: server %p, pool %u, transport %p, inuse=3D%d\n",
+>> diff --git a/net/sunrpc/svcauth_unix.c b/net/sunrpc/svcauth_unix.c
+>> index 983c5891cb56..374995201df4 100644
+>> --- a/net/sunrpc/svcauth_unix.c
+>> +++ b/net/sunrpc/svcauth_unix.c
+>> @@ -17,8 +17,9 @@
+>> #include <net/ipv6.h>
+>> #include <linux/kernel.h>
+>> #include <linux/user_namespace.h>
+>> -#define RPCDBG_FACILITY	RPCDBG_AUTH
+>> +#include <trace/events/sunrpc.h>
+>>=20
+>> +#define RPCDBG_FACILITY	RPCDBG_AUTH
+>>=20
+>> #include "netns.h"
+>>=20
+>> @@ -823,6 +824,7 @@ svcauth_tls_accept(struct svc_rqst *rqstp)
+>> {
+>> 	struct xdr_stream *xdr =3D &rqstp->rq_arg_stream;
+>> 	struct svc_cred	*cred =3D &rqstp->rq_cred;
+>> +	struct svc_xprt *xprt =3D rqstp->rq_xprt;
+>> 	u32 flavor, len;
+>> 	void *body;
+>> 	__be32 *p;
+>> @@ -856,14 +858,19 @@ svcauth_tls_accept(struct svc_rqst *rqstp)
+>> 	if (cred->cr_group_info =3D=3D NULL)
+>> 		return SVC_CLOSE;
+>>=20
+>> -	if (rqstp->rq_xprt->xpt_ops->xpo_start_tls) {
+>> +	if (xprt->xpt_ops->xpo_handshake) {
+>> 		p =3D xdr_reserve_space(&rqstp->rq_res_stream, XDR_UNIT * 2 + 8);
+>> 		if (!p)
+>> 			return SVC_CLOSE;
+>> +		trace_svc_tls_start(xprt);
+>> 		*p++ =3D rpc_auth_null;
+>> 		*p++ =3D cpu_to_be32(8);
+>> 		memcpy(p, "STARTTLS", 8);
+>> +
+>> +		set_bit(XPT_HANDSHAKE, &xprt->xpt_flags);
+>> +		svc_xprt_enqueue(xprt);
+>> 	} else {
+>> +		trace_svc_tls_unavailable(xprt);
+>> 		if (xdr_stream_encode_opaque_auth(&rqstp->rq_res_stream,
+>> 						  RPC_AUTH_NULL, NULL, 0) < 0)
+>> 			return SVC_CLOSE;
+>> diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
+>> index b6df73cb706a..16ba8d6ab20e 100644
+>> --- a/net/sunrpc/svcsock.c
+>> +++ b/net/sunrpc/svcsock.c
+>> @@ -44,9 +44,11 @@
+>> #include <net/tcp.h>
+>> #include <net/tcp_states.h>
+>> #include <net/tls.h>
+>> +#include <net/handshake.h>
+>> #include <linux/uaccess.h>
+>> #include <linux/highmem.h>
+>> #include <asm/ioctls.h>
+>> +#include <linux/key.h>
+>>=20
+>> #include <linux/sunrpc/types.h>
+>> #include <linux/sunrpc/clnt.h>
+>> @@ -64,6 +66,7 @@
+>>=20
+>> #define RPCDBG_FACILITY	RPCDBG_SVCXPRT
+>>=20
+>> +#define SVC_HANDSHAKE_TO	(20U * HZ)
+>>=20
+>> static struct svc_sock *svc_setup_socket(struct svc_serv *, struct socke=
+t *,
+>> 					 int flags);
+>> @@ -360,6 +363,8 @@ static void svc_data_ready(struct sock *sk)
+>> 		rmb();
+>> 		svsk->sk_odata(sk);
+>> 		trace_svcsock_data_ready(&svsk->sk_xprt, 0);
+>> +		if (test_bit(XPT_HANDSHAKE, &svsk->sk_xprt.xpt_flags))
+>> +			return;
+>> 		if (!test_and_set_bit(XPT_DATA, &svsk->sk_xprt.xpt_flags))
+>> 			svc_xprt_enqueue(&svsk->sk_xprt);
+>> 	}
+>> @@ -397,6 +402,89 @@ static void svc_tcp_kill_temp_xprt(struct svc_xprt =
+*xprt)
+>> 	sock_no_linger(svsk->sk_sock->sk);
+>> }
+>>=20
 >> +/**
->> + * handshake_req_alloc - consumer API to allocate a request
->> + * @sock: open socket on which to perform a handshake
->> + * @proto: security protocol
->> + * @flags: memory allocation flags
+>> + * svc_tcp_handshake_done - Handshake completion handler
+>> + * @data: address of xprt to wake
+>> + * @status: status of handshake
+>> + * @peerid: serial number of key containing the remote peer's identity
 >> + *
->> + * Returns an initialized handshake_req or NULL.
+>> + * If a security policy is specified as an export option, we don't
+>> + * have a specific export here to check. So we set a "TLS session
+>> + * is present" flag on the xprt and let an upper layer enforce local
+>> + * security policy.
 >> + */
->> +struct handshake_req *handshake_req_alloc(struct socket *sock,
->> +					  const struct handshake_proto *proto,
->> +					  gfp_t flags)
+>> +static void svc_tcp_handshake_done(void *data, int status, key_serial_t=
+ peerid)
 >> +{
->> +	struct sock *sk =3D sock->sk;
->> +	struct net *net =3D sock_net(sk);
->> +	struct handshake_net *hn =3D handshake_pernet(net);
->> +	struct handshake_req *req;
+>> +	struct svc_xprt *xprt =3D data;
+>> +	struct svc_sock *svsk =3D container_of(xprt, struct svc_sock, sk_xprt)=
+;
 >> +
->> +	if (!hn)
->> +		return NULL;
->> +
->> +	req =3D kzalloc(struct_size(req, hr_priv, proto->hp_privsize), flags);
->> +	if (!req)
->> +		return NULL;
->> +
->> +	sock_hold(sk);
->=20
-> The hr_sk reference counting is unclear to me. It looks like
-> handshake_req retain a reference to such socket, but
-> handshake_req_destroy()/handshake_sk_destruct() do not release it.
-
-If we rely on sk_destruct to release the final reference count,
-it will never get invoked.
-
-
-> Perhaps is better moving such sock_hold() into handshake_req_submit(),
-> once that the request is successful?
-
-I will do that.
-
-Personally, I find it more clear to bump a reference count when
-saving a copy of the object's pointer, as is done in _alloc. But if
-others find it easier the other way, I have no problem changing
-it to suit community preferences.
-
-
->> +
->> +	INIT_LIST_HEAD(&req->hr_list);
->> +	req->hr_sk =3D sk;
->> +	req->hr_proto =3D proto;
->> +	return req;
->> +}
->> +EXPORT_SYMBOL(handshake_req_alloc);
->> +
->> +/**
->> + * handshake_req_private - consumer API to return per-handshake private=
- data
->> + * @req: handshake arguments
->> + *
->> + */
->> +void *handshake_req_private(struct handshake_req *req)
->> +{
->> +	return (void *)&req->hr_priv;
->> +}
->> +EXPORT_SYMBOL(handshake_req_private);
->> +
->> +static bool __add_pending_locked(struct handshake_net *hn,
->> +				 struct handshake_req *req)
->> +{
->> +	if (!list_empty(&req->hr_list))
->> +		return false;
->> +	hn->hn_pending++;
->> +	list_add_tail(&req->hr_list, &hn->hn_requests);
->> +	return true;
->> +}
->> +
->> +void __remove_pending_locked(struct handshake_net *hn,
->> +			     struct handshake_req *req)
->> +{
->> +	hn->hn_pending--;
->> +	list_del_init(&req->hr_list);
->> +}
->> +
->> +/*
->> + * Returns %true if the request was found on @net's pending list,
->> + * otherwise %false.
->> + *
->> + * If @req was on a pending list, it has not yet been accepted.
->> + */
->> +static bool remove_pending(struct handshake_net *hn, struct handshake_r=
-eq *req)
->> +{
->> +	bool ret;
->> +
->> +	ret =3D false;
->=20
-> Nit: merge the initialization and the declaration
->=20
->> +
->> +	spin_lock(&hn->hn_lock);
->> +	if (!list_empty(&req->hr_list)) {
->> +		__remove_pending_locked(hn, req);
->> +		ret =3D true;
+>> +	if (!status) {
+>> +		if (peerid !=3D TLS_NO_PEERID)
+>> +			set_bit(XPT_PEER_AUTH, &xprt->xpt_flags);
+>> +		set_bit(XPT_TLS_SESSION, &xprt->xpt_flags);
 >> +	}
->> +	spin_unlock(&hn->hn_lock);
->> +
->> +	return ret;
+>> +	clear_bit(XPT_HANDSHAKE, &xprt->xpt_flags);
+>> +	complete_all(&svsk->sk_handshake_done);
 >> +}
 >> +
 >> +/**
->> + * handshake_req_submit - consumer API to submit a handshake request
->> + * @req: handshake arguments
->> + * @flags: memory allocation flags
+>> + * svc_tcp_handshake - Perform a transport-layer security handshake
+>> + * @xprt: connected transport endpoint
 >> + *
->> + * Return values:
->> + *   %0: Request queued
->> + *   %-EBUSY: A handshake is already under way for this socket
->> + *   %-ESRCH: No handshake agent is available
->> + *   %-EAGAIN: Too many pending handshake requests
->> + *   %-ENOMEM: Failed to allocate memory
->> + *   %-EMSGSIZE: Failed to construct notification message
->> + *   %-EOPNOTSUPP: Handshake module not initialized
->> + *
->> + * A zero return value from handshake_request() means that
->> + * exactly one subsequent completion callback is guaranteed.
->> + *
->> + * A negative return value from handshake_request() means that
->> + * no completion callback will be done and that @req has been
->> + * destroyed.
 >> + */
->> +int handshake_req_submit(struct handshake_req *req, gfp_t flags)
+>> +static void svc_tcp_handshake(struct svc_xprt *xprt)
 >> +{
->> +	struct sock *sk =3D req->hr_sk;
->> +	struct net *net =3D sock_net(sk);
->> +	struct handshake_net *hn =3D handshake_pernet(net);
+>> +	struct svc_sock *svsk =3D container_of(xprt, struct svc_sock, sk_xprt)=
+;
+>> +	struct tls_handshake_args args =3D {
+>> +		.ta_sock	=3D svsk->sk_sock,
+>> +		.ta_done	=3D svc_tcp_handshake_done,
+>> +		.ta_data	=3D xprt,
+>> +	};
 >> +	int ret;
->=20
-> Nit: reverse xmas tree. In this case you have to split declaration and
-> initialization ;)
-
-Interesting. I like reverse-xmas, but I thought that the initialization
-of these variables would take precedent. I'll clean this up.
-
-
 >> +
->> +	if (!hn)
->> +		return -EOPNOTSUPP;
+>> +	trace_svc_tls_upcall(xprt);
 >> +
->> +	ret =3D -EAGAIN;
->> +	if (READ_ONCE(hn->hn_pending) >=3D hn->hn_pending_max)
->> +		goto out_err;
+>> +	clear_bit(XPT_TLS_SESSION, &xprt->xpt_flags);
+>> +	init_completion(&svsk->sk_handshake_done);
+>> +	smp_wmb();
 >> +
->> +	req->hr_odestruct =3D sk->sk_destruct;
->> +	sk->sk_destruct =3D handshake_sk_destruct;
->> +	spin_lock(&hn->hn_lock);
->> +	ret =3D -EOPNOTSUPP;
->> +	if (test_bit(HANDSHAKE_F_NET_DRAINING, &hn->hn_flags))
->> +		goto out_unlock;
->> +	ret =3D -EBUSY;
->> +	if (!handshake_req_hash_add(req))
->> +		goto out_unlock;
->> +	if (!__add_pending_locked(hn, req))
->> +		goto out_unlock;
->> +	spin_unlock(&hn->hn_lock);
->> +
->> +	ret =3D handshake_genl_notify(net, req->hr_proto->hp_handler_class,
->> +				    flags);
+>> +	ret =3D tls_server_hello_x509(&args, GFP_KERNEL);
 >> +	if (ret) {
->> +		trace_handshake_notify_err(net, req, sk, ret);
->> +		if (remove_pending(hn, req))
->> +			goto out_err;
+>> +		trace_svc_tls_not_started(xprt);
+>> +		goto out_failed;
 >> +	}
 >> +
->> +	trace_handshake_submit(net, req, sk);
->> +	return 0;
+>> +	ret =3D wait_for_completion_interruptible_timeout(&svsk->sk_handshake_=
+done,
+>> +							SVC_HANDSHAKE_TO);
+>=20
+> Just curious: is this 20s timeout mandated by the spec?
+
+The spec doesn't mandate a timeout. I simply wanted
+to guarantee forward progress.
+
+
+> It seems like a long time to block a kernel thread if so.
+
+It's about the same as the client side timeout, fwiw.
+
+
+> Do we need to be concerned
+> with DoS attacks here? Could a client initiate handshakes and then stop
+> communicating, forcing the server to tie up threads with these 20s
+> waits?
+
+I think a malicious client can do all kinds of similar things
+already. Do you have a particular timeout value in mind, or
+is there some other mechanism we can use to better bullet-
+proof this aspect of the handshake? I'm open to suggestion.
+
+
+>> +	if (ret <=3D 0) {
+>> +		if (tls_handshake_cancel(svsk->sk_sock)) {
+>> +			trace_svc_tls_timed_out(xprt);
+>> +			goto out_close;
+>> +		}
+>> +	}
 >> +
->> +out_unlock:
->> +	spin_unlock(&hn->hn_lock);
->> +out_err:
->> +	trace_handshake_submit_err(net, req, sk, ret);
->> +	handshake_req_destroy(req);
->> +	return ret;
+>> +	if (!test_bit(XPT_TLS_SESSION, &xprt->xpt_flags)) {
+>> +		trace_svc_tls_unavailable(xprt);
+>> +		goto out_close;
+>> +	}
+>> +
+>> +	/*
+>> +	 * Mark the transport ready in case the remote sent RPC
+>> +	 * traffic before the kernel received the handshake
+>> +	 * completion downcall.
+>> +	 */
+>> +	set_bit(XPT_DATA, &xprt->xpt_flags);
+>> +	svc_xprt_enqueue(xprt);
+>> +	return;
+>> +
+>> +out_close:
+>> +	set_bit(XPT_CLOSE, &xprt->xpt_flags);
+>> +out_failed:
+>> +	clear_bit(XPT_HANDSHAKE, &xprt->xpt_flags);
+>> +	set_bit(XPT_DATA, &xprt->xpt_flags);
+>> +	svc_xprt_enqueue(xprt);
 >> +}
->> +EXPORT_SYMBOL(handshake_req_submit);
 >> +
->> +void handshake_complete(struct handshake_req *req, unsigned int status,
->> +			struct genl_info *info)
->> +{
->> +	struct sock *sk =3D req->hr_sk;
->> +	struct net *net =3D sock_net(sk);
+>> /*
+>>  * See net/ipv6/ip_sockglue.c : ip_cmsg_recv_pktinfo
+>>  */
+>> @@ -1260,6 +1348,7 @@ static const struct svc_xprt_ops svc_tcp_ops =3D {
+>> 	.xpo_has_wspace =3D svc_tcp_has_wspace,
+>> 	.xpo_accept =3D svc_tcp_accept,
+>> 	.xpo_kill_temp_xprt =3D svc_tcp_kill_temp_xprt,
+>> +	.xpo_handshake =3D svc_tcp_handshake,
+>> };
+>>=20
+>> static struct svc_xprt_class svc_tcp_class =3D {
+>> @@ -1584,6 +1673,8 @@ static void svc_sock_free(struct svc_xprt *xprt)
+>> {
+>> 	struct svc_sock *svsk =3D container_of(xprt, struct svc_sock, sk_xprt);
+>>=20
+>> +	tls_handshake_cancel(svsk->sk_sock);
 >> +
->> +	if (!test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags)) {
->> +		trace_handshake_complete(net, req, sk, status);
->> +		req->hr_proto->hp_done(req, status, info);
->> +		__sock_put(sk);
+>> 	if (svsk->sk_sock->file)
+>> 		sockfd_put(svsk->sk_sock);
+>> 	else
+>>=20
+>>=20
 >=20
-> Is unclear to me who acquired the reference released above?!? If that
-> is the reference acquire by handshake_req_alloc(), I think it's cleaner
-> moving the sock_put() in handshake_req_destroy() or
-> handshake_req_destroy()
->=20
->> +	}
->> +}
->> +
->> +/**
->> + * handshake_req_cancel - consumer API to cancel an in-progress handsha=
-ke
->> + * @sock: socket on which there is an ongoing handshake
->> + *
->> + * XXX: Perhaps killing the user space agent might also be necessary?
->> + *
->> + * Request cancellation races with request completion. To determine
->> + * who won, callers examine the return value from this function.
->> + *
->> + * Return values:
->> + *   %true - Uncompleted handshake request was canceled or not found
->> + *   %false - Handshake request already completed
->> + */
->> +bool handshake_req_cancel(struct socket *sock)
->> +{
->> +	struct handshake_req *req;
->> +	struct handshake_net *hn;
->> +	struct sock *sk;
->> +	struct net *net;
->> +
->> +	sk =3D sock->sk;
->> +	net =3D sock_net(sk);
->> +	req =3D handshake_req_hash_lookup(sk);
->> +	if (!req) {
->> +		trace_handshake_cancel_none(net, req, sk);
->> +		return true;
->> +	}
->> +
->> +	hn =3D handshake_pernet(net);
->> +	if (hn && remove_pending(hn, req)) {
->> +		/* Request hadn't been accepted */
->> +		trace_handshake_cancel(net, req, sk);
->> +		return true;
->> +	}
->> +	if (test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags)) {
->> +		/* Request already completed */
->> +		trace_handshake_cancel_busy(net, req, sk);
->> +		return false;
->> +	}
->> +
->> +	__sock_put(sk);
->=20
-> Same here.
-
-I'll move the sock_hold() to _submit, and cook up a comment or two.
-
-
-> Side note, I think at this point some tests could surface here? If
-> user-space-based self-tests are too cumbersome and/or do not offer
-> adequate coverage perhaps you could consider using kunit?
-
-I'm comfortable with Kunit, having just added a bunch of tests
-for the kernel's SunRPC GSS Kerberos implementation.
-
-There, however, I had clearly defined test cases to add, thanks
-to the RFCs. I guess I'm a little unclear on what specific tests
-would be necessary or valuable here. Suggestions and existing
-examples are very welcome.
-
+> --=20
+> Jeff Layton <jlayton@kernel.org>
 
 --
 Chuck Lever

@@ -1,33 +1,33 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E07810E9
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 21 Mar 2023 13:44:14 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id cn12so14215596edb.4
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 21 Mar 2023 06:44:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5471A10E9
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 21 Mar 2023 13:46:33 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id o12so59877837edb.9
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 21 Mar 2023 06:46:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679406252;
+        d=1e100.net; s=20210112; t=1679406391;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qeXImOJXwQZtfKxYWP9d4cBjYPKhnaEc8iXXM/vt6yk=;
-        b=ux9YL7NsQ4XfZAtO1VbSgp7tu7X4IfQzJfKpis8Fb3K6iBp9esnDi7py3OcrUS0Utq
-         Ld69WfcPHfpQ3+7yQ0BX6mJQvvLpBjojPGgWb4uuuD/Cl3UObuJUQSJ2bw//luz6HdPZ
-         HVcjwIG8+XtiBbE6kuUelbxwBfpIVF8ridm00zz2AXZjh1SP+JOWM0SlZbRP5vkZJfKO
-         8zaZ5q5zU8Duw6OE8v9g814ApizhBd4BWmT2GKUSVs9bJZwG5RQmjp7yyo1w179tRFbS
-         af4+FtqlPt4+Wffg1x++zjuOot/5h7vGpvbaSlJL76BACsJ0VxExUAODKYzaIqZpTrUR
-         q7pw==
-X-Gm-Message-State: AO0yUKWmkXb8/YAGG3sGg2lSjcNlM0oxdVftPd/Zh6+XGcwloeJysGCU
-	EQMrMEYxYrVNhNU73eNlwc4+vBgHweE=
-X-Google-Smtp-Source: AK7set+QtgsTOztEKP7Zluhztb0JkFvWLMf3ZhOlj5nPnXp2CzgR+/VuMM+pgBXNRWKMkBK0P2BnaA==
-X-Received: by 2002:a17:906:289:b0:92b:dd20:16f5 with SMTP id 9-20020a170906028900b0092bdd2016f5mr2795267ejf.7.1679406252407;
-        Tue, 21 Mar 2023 06:44:12 -0700 (PDT)
+        bh=m4eUoDWNw1Z+l6YYHfOywwPEfIF8+TCWzoLU7qfq1dA=;
+        b=UMT7k2gkrcQaP/wq7jbNfLc/EBzyt6L6cMR+Yi7teik1gdHe+Bw1+cnxJB5mrT6yb4
+         qlfDTd5I3NP7ydnQaQgzUhc+l+IKjaNG25evOgxpja1CdCgANs2043PBBTf+WDcgwbd2
+         mj3gXPXUVQL5/1MkOsUY+NJMcA3wmJHQ973V8hETvTeJgMszyNN6Br7JYWQbyTSD/IkI
+         3fzmhPc5gGHpl7GX2iYSuhjYjCik6KutR4XagG1HapjotBwyF62vevgVT7tJLTqSVpLt
+         w7vbr5/IFX1EeIWUaN5jPa6aJYOX/sS4pcNeX8gaYDtHL3+DklDiBsWK6+u25Xlz7im8
+         C+9g==
+X-Gm-Message-State: AO0yUKUxMgbfq9k3Nwz15JwwGgM87y6QhBCoEUgH+kGCSjGKDG4Pt/RG
+	677zmYJ/tbpazsHwGSgx688=
+X-Google-Smtp-Source: AK7set/wFcrBQ14K5RnVnsMUhn9ELzmqIBnZ9rv9Hbd2LMbTpTgTTuSchlRAx8M6y1/uJN9uTU7IZg==
+X-Received: by 2002:a17:906:749d:b0:92c:fc0:b229 with SMTP id e29-20020a170906749d00b0092c0fc0b229mr2864965ejl.0.1679406391347;
+        Tue, 21 Mar 2023 06:46:31 -0700 (PDT)
 Received: from [10.100.102.14] (85.65.253.165.dynamic.barak-online.net. [85.65.253.165])
-        by smtp.gmail.com with ESMTPSA id o11-20020a17090608cb00b008d0dbf15b8bsm5888283eje.212.2023.03.21.06.44.11
+        by smtp.gmail.com with ESMTPSA id k9-20020a17090666c900b0092b606cb803sm5932709ejp.140.2023.03.21.06.46.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Mar 2023 06:44:12 -0700 (PDT)
-Message-ID: <d868b752-1d8b-1236-3543-c9ef82e42f23@grimberg.me>
-Date: Tue, 21 Mar 2023 15:44:10 +0200
+        Tue, 21 Mar 2023 06:46:31 -0700 (PDT)
+Message-ID: <ed711471-e914-93d6-2b20-a0d2cb14d1b4@grimberg.me>
+Date: Tue, 21 Mar 2023 15:46:29 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -36,63 +36,58 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 06/18] nvme-tcp: call 'queue->data_ready()' in
- nvme_tcp_data_ready()
+Subject: Re: [PATCH 03/18] nvme: add TCP TSAS definitions
 Content-Language: en-US
 To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  Chuck Lever <cel@kernel.org>, kernel-tls-handshake@lists.linux.dev
 References: <20230321124325.77385-1-hare@suse.de>
- <20230321124325.77385-7-hare@suse.de>
+ <20230321124325.77385-4-hare@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230321124325.77385-7-hare@suse.de>
+In-Reply-To: <20230321124325.77385-4-hare@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-> Call the original data_ready() callback in nvme_tcp_data_ready()
-> to avoid a receive stall.
 
-Can you please improve the description to include what is the stall?
-For example, does the stall exist today? If it is, I would like to
-separate such patches from this set and include them asap.
-
-> 
+On 3/21/23 14:43, Hannes Reinecke wrote:
 > Signed-off-by: Hannes Reinecke <hare@suse.de>
 > ---
->   drivers/nvme/host/tcp.c | 8 +++++---
->   1 file changed, 5 insertions(+), 3 deletions(-)
+>   include/linux/nvme.h | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
 > 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 0e14b1b90855..0512eb289dcf 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -936,12 +936,14 @@ static void nvme_tcp_data_ready(struct sock *sk)
+> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+> index 779507ac750b..ea961ca2022d 100644
+> --- a/include/linux/nvme.h
+> +++ b/include/linux/nvme.h
+> @@ -108,6 +108,13 @@ enum {
+>   	NVMF_RDMA_CMS_RDMA_CM	= 1, /* Sockets based endpoint addressing */
+>   };
 >   
->   	trace_sk_data_ready(sk);
+> +/* TSAS SECTYPE for TCP transport */
+> +enum {
+> +	NVMF_TCP_SECTYPE_NONE = 0, /* No Security */
+> +	NVMF_TCP_SECTYPE_TLS12 = 1, /* TLSv1.2, NVMe-oF 1.1 and NVMe-TCP 3.6.1.1 */
+> +	NVMF_TCP_SECTYPE_TLS13 = 2, /* TLSv1.3, NVMe-oF 1.1 and NVMe-TCP 3.6.1.1 */
+> +};
+
+I think these should be located in nvme-tcp.h
+Otherwise looks good,
+
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+
+
+> +
+>   #define NVME_AQ_DEPTH		32
+>   #define NVME_NR_AEN_COMMANDS	1
+>   #define NVME_AQ_BLK_MQ_DEPTH	(NVME_AQ_DEPTH - NVME_NR_AEN_COMMANDS)
+> @@ -1458,6 +1465,9 @@ struct nvmf_disc_rsp_page_entry {
+>   			__u16	pkey;
+>   			__u8	resv10[246];
+>   		} rdma;
+> +		struct tcp {
+> +			__u8	sectype;
+> +		} tcp;
+>   	} tsas;
+>   };
 >   
-> -	read_lock_bh(&sk->sk_callback_lock);
-> -	queue = sk->sk_user_data;
-> +	rcu_read_lock_bh();
-
-Now I understand your comment from a previous patch.
-Can you explain why is this convention needed?
-
-I would prefer to have it as a separate patch with an
-explanation to why it is needed.
-
-> +	queue = rcu_dereference_sk_user_data(sk);
-> +	if (queue->data_ready)
-> +		queue->data_ready(sk);
-
-Is the tls data_ready call sync or async? just for general knowledge?
-
-
->   	if (likely(queue && queue->rd_enabled) &&
->   	    !test_bit(NVME_TCP_Q_POLLING, &queue->flags))
->   		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
-> -	read_unlock_bh(&sk->sk_callback_lock);
-> +	rcu_read_unlock_bh();
->   }
->   
->   static void nvme_tcp_write_space(struct sock *sk)

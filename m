@@ -1,311 +1,357 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD818C04
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 21 Mar 2023 11:28:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1679398081;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qUe3QY7sz1eCkEPrAWkh9A/T04jxGjwU9CrCjHrs4Vc=;
-	b=OLft9uY42Q33q1zOezpevuFjL73Sf5nDEcJK1NYry/U+CZ1TopsuH8B8VlomQkcRjBADLj
-	MwOca1TuRWA4DLZ6bR08NrIn5uY+AniUPpARXiOupLSxbKADGJrszvjD2OVyY4J1Zpfd6v
-	iYM0K1JgVjuHOPMh33zofrNfK4e5Qzk=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-519-3_nXQJLNPEaefPZM1ag8uw-1; Tue, 21 Mar 2023 07:27:59 -0400
-X-MC-Unique: 3_nXQJLNPEaefPZM1ag8uw-1
-Received: by mail-qk1-f198.google.com with SMTP id oo24-20020a05620a531800b00745d671f9afso6765661qkn.12
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 21 Mar 2023 04:27:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679398079; x=1681990079;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+B4rMqiSRrSDakxwNYnZA7cpTxZeGPnc7W9SoaJsONg=;
-        b=aTR6hO6renIx72r9abUFqnxMDJ5XlRxKKl7/OHPTI6yN5YOxNJKJe/MpLXyqcH3i5T
-         rEuizAQATVR/PutbZwLoio2jgiC38SYpPiw3XH3hI6RCVTjGIjsoYPUwrZ0mRRCzdkEc
-         rSybS7dmUF4Gs8VOTZBXbUSlnCKvmDvOw8Sx9jCnGve6Tq9TH9DR5l6cP5cC+FvjiJwR
-         5TdchhtzoYcqWkgs4DG7uAMXeNJJ6OmdIh05ZVOr9NBEm2UBCWIPsnppMeMCwbulZbpC
-         LIpPLwQLkHxb948fn7+SxeePXwzERfTU72T75Q6eds77B6QPBReRIbRNT6txMZ3YjQ7k
-         CDVw==
-X-Gm-Message-State: AO0yUKW3gK0RMCsKkiyqXWb/+EC+oAM/nBHTj6bDhNdHUR4vW9wyqvRl
-	uFag+vFFHZ8o5du1vBEE1w/T96PWJ7BmS2gA8TccaZoFykp7xxoG7vU70frGVbTSMiMiWTI7get
-	oJTuFaBWj40/6KjYU4L1RLi1yzLYVAxVZaf0=
-X-Received: by 2002:ac8:5a8a:0:b0:3d9:56ce:a8cd with SMTP id c10-20020ac85a8a000000b003d956cea8cdmr3872069qtc.6.1679398078724;
-        Tue, 21 Mar 2023 04:27:58 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/qs44tf9EmPAUX6k4hyFZGMAHX3228WcE9qb8ip9x81q0WUSqW89xNIieWZL36v22I69+lvQ==
-X-Received: by 2002:ac8:5a8a:0:b0:3d9:56ce:a8cd with SMTP id c10-20020ac85a8a000000b003d956cea8cdmr3872042qtc.6.1679398078330;
-        Tue, 21 Mar 2023 04:27:58 -0700 (PDT)
-Received: from gerbillo.redhat.com (146-241-244-19.dyn.eolo.it. [146.241.244.19])
-        by smtp.gmail.com with ESMTPSA id b17-20020ac86791000000b003b9bb59543fsm7868795qtp.61.2023.03.21.04.27.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 04:27:57 -0700 (PDT)
-Message-ID: <3dc6b9290984bc07ae5ac9c5a9fba01742b64f84.camel@redhat.com>
-Subject: Re: [PATCH v7 1/2] net/handshake: Create a NETLINK service for
- handling handshake requests
-From: Paolo Abeni <pabeni@redhat.com>
-To: Chuck Lever <cel@kernel.org>, kuba@kernel.org, edumazet@google.com
-Cc: netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, 
-	john.haxby@oracle.com
-Date: Tue, 21 Mar 2023 12:27:54 +0100
-In-Reply-To: <167915629953.91792.17220269709156129944.stgit@manet.1015granger.net>
-References: <167915594811.91792.15722842400657376706.stgit@manet.1015granger.net>
-	 <167915629953.91792.17220269709156129944.stgit@manet.1015granger.net>
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5AC8C04
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 21 Mar 2023 11:43:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 207ACC433EF;
+	Tue, 21 Mar 2023 11:43:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1679398986;
+	bh=J0UFikAKndTzo9tz7/+2iv21l8oec0KO7/iykV/Fk4Y=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=nlpl7Zf342NSUfA4XRvmNXmDfX7Q5nbdMHjCIGyT8vPMx3W66378f4URWHzPZj8pL
+	 gqhb6MTrVLPBbD55uM8iEqEGf80GLq+luRTJSN11HKAVe7dP1qCjA8CtEz10YGWAXv
+	 H6j+PJe0X7OsgAp6f4E2qDoA6PctflHKRNEXQ/V37r79VR+H5K7sa1SwXT1rukCs42
+	 BilAG/y5j/2a3PBLGMc5XKiKwPxWuLnWADSLOXA2uCCR0IkVG6QGNw1Wwh4eTGNnPO
+	 pZQIG5fP9/SDvA6vLK+2l2yuCatU/eP9CJ1XkrAEv2+w43nMZf5uAYtXDLC6MQERP9
+	 GUBSptEjC/J2w==
+Message-ID: <55c3480354ae273fceb67976bbce33b9e04e6cf3.camel@kernel.org>
+Subject: Re: [PATCH RFC 4/5] SUNRPC: Support TLS handshake in the
+ server-side TCP socket code
+From: Jeff Layton <jlayton@kernel.org>
+To: Chuck Lever <cel@kernel.org>, linux-nfs@vger.kernel.org
+Cc: kernel-tls-handshake@lists.linux.dev
+Date: Tue, 21 Mar 2023 07:43:04 -0400
+In-Reply-To: <167932228666.3131.1680559749292527734.stgit@manet.1015granger.net>
+References: 
+	<167932094748.3131.11264549266195745851.stgit@manet.1015granger.net>
+	 <167932228666.3131.1680559749292527734.stgit@manet.1015granger.net>
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, 2023-03-18 at 12:18 -0400, Chuck Lever wrote:
+On Mon, 2023-03-20 at 10:24 -0400, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
+>=20
+> This patch adds opportunitistic RPC-with-TLS to the Linux in-kernel
+> NFS server. If the client requests RPC-with-TLS and the user space
+> handshake agent is running, the server will set up a TLS session.
+>=20
+> There are no policy settings yet. For example, the server cannot
+> yet require the use of RPC-with-TLS to access its data.
+>=20
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> ---
+>  include/linux/sunrpc/svc_xprt.h |    5 ++
+>  include/linux/sunrpc/svcsock.h  |    2 +
+>  include/trace/events/sunrpc.h   |   16 ++++++-
+>  net/sunrpc/svc_xprt.c           |    5 ++
+>  net/sunrpc/svcauth_unix.c       |   11 ++++-
+>  net/sunrpc/svcsock.c            |   91 +++++++++++++++++++++++++++++++++=
+++++++
+>  6 files changed, 125 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/include/linux/sunrpc/svc_xprt.h b/include/linux/sunrpc/svc_x=
+prt.h
+> index 775368802762..867479204840 100644
+> --- a/include/linux/sunrpc/svc_xprt.h
+> +++ b/include/linux/sunrpc/svc_xprt.h
+> @@ -27,7 +27,7 @@ struct svc_xprt_ops {
+>  	void		(*xpo_detach)(struct svc_xprt *);
+>  	void		(*xpo_free)(struct svc_xprt *);
+>  	void		(*xpo_kill_temp_xprt)(struct svc_xprt *);
+> -	void		(*xpo_start_tls)(struct svc_xprt *);
+> +	void		(*xpo_handshake)(struct svc_xprt *xprt);
+>  };
+> =20
+>  struct svc_xprt_class {
+> @@ -70,6 +70,9 @@ struct svc_xprt {
+>  #define XPT_LOCAL	12		/* connection from loopback interface */
+>  #define XPT_KILL_TEMP   13		/* call xpo_kill_temp_xprt before closing */
+>  #define XPT_CONG_CTRL	14		/* has congestion control */
+> +#define XPT_HANDSHAKE	15		/* xprt requests a handshake */
+> +#define XPT_TLS_SESSION	16		/* transport-layer security established */
+> +#define XPT_PEER_AUTH	17		/* peer has been authenticated */
+> =20
+>  	struct svc_serv		*xpt_server;	/* service for transport */
+>  	atomic_t    	    	xpt_reserved;	/* space on outq that is rsvd */
+> diff --git a/include/linux/sunrpc/svcsock.h b/include/linux/sunrpc/svcsoc=
+k.h
+> index bcc555c7ae9c..1175e1c38bac 100644
+> --- a/include/linux/sunrpc/svcsock.h
+> +++ b/include/linux/sunrpc/svcsock.h
+> @@ -38,6 +38,8 @@ struct svc_sock {
+>  	/* Number of queued send requests */
+>  	atomic_t		sk_sendqlen;
+> =20
+> +	struct completion	sk_handshake_done;
+> +
+>  	struct page *		sk_pages[RPCSVC_MAXPAGES];	/* received data */
+>  };
+> =20
+> diff --git a/include/trace/events/sunrpc.h b/include/trace/events/sunrpc.=
+h
+> index cf286a0a17d0..2667a8db4811 100644
+> --- a/include/trace/events/sunrpc.h
+> +++ b/include/trace/events/sunrpc.h
+> @@ -1948,7 +1948,10 @@ TRACE_EVENT(svc_stats_latency,
+>  		{ BIT(XPT_CACHE_AUTH),		"CACHE_AUTH" },		\
+>  		{ BIT(XPT_LOCAL),		"LOCAL" },		\
+>  		{ BIT(XPT_KILL_TEMP),		"KILL_TEMP" },		\
+> -		{ BIT(XPT_CONG_CTRL),		"CONG_CTRL" })
+> +		{ BIT(XPT_CONG_CTRL),		"CONG_CTRL" },		\
+> +		{ BIT(XPT_HANDSHAKE),		"HANDSHAKE" },		\
+> +		{ BIT(XPT_TLS_SESSION),		"TLS_SESSION" },	\
+> +		{ BIT(XPT_PEER_AUTH),		"PEER_AUTH" })
+> =20
+>  TRACE_EVENT(svc_xprt_create_err,
+>  	TP_PROTO(
+> @@ -2081,6 +2084,17 @@ DEFINE_SVC_XPRT_EVENT(close);
+>  DEFINE_SVC_XPRT_EVENT(detach);
+>  DEFINE_SVC_XPRT_EVENT(free);
+> =20
+> +#define DEFINE_SVC_TLS_EVENT(name) \
+> +	DEFINE_EVENT(svc_xprt_event, svc_tls_##name, \
+> +		TP_PROTO(const struct svc_xprt *xprt), \
+> +		TP_ARGS(xprt))
+> +
+> +DEFINE_SVC_TLS_EVENT(start);
+> +DEFINE_SVC_TLS_EVENT(upcall);
+> +DEFINE_SVC_TLS_EVENT(unavailable);
+> +DEFINE_SVC_TLS_EVENT(not_started);
+> +DEFINE_SVC_TLS_EVENT(timed_out);
+> +
+>  TRACE_EVENT(svc_xprt_accept,
+>  	TP_PROTO(
+>  		const struct svc_xprt *xprt,
+> diff --git a/net/sunrpc/svc_xprt.c b/net/sunrpc/svc_xprt.c
+> index ba629297da4e..b68c04dbf876 100644
+> --- a/net/sunrpc/svc_xprt.c
+> +++ b/net/sunrpc/svc_xprt.c
+> @@ -427,7 +427,7 @@ static bool svc_xprt_ready(struct svc_xprt *xprt)
+> =20
+>  	if (xpt_flags & BIT(XPT_BUSY))
+>  		return false;
+> -	if (xpt_flags & (BIT(XPT_CONN) | BIT(XPT_CLOSE)))
+> +	if (xpt_flags & (BIT(XPT_CONN) | BIT(XPT_CLOSE) | BIT(XPT_HANDSHAKE)))
+>  		return true;
+>  	if (xpt_flags & (BIT(XPT_DATA) | BIT(XPT_DEFERRED))) {
+>  		if (xprt->xpt_ops->xpo_has_wspace(xprt) &&
+> @@ -829,6 +829,9 @@ static int svc_handle_xprt(struct svc_rqst *rqstp, st=
+ruct svc_xprt *xprt)
+>  			module_put(xprt->xpt_class->xcl_owner);
+>  		}
+>  		svc_xprt_received(xprt);
+> +	} else if (test_bit(XPT_HANDSHAKE, &xprt->xpt_flags)) {
+> +		xprt->xpt_ops->xpo_handshake(xprt);
+> +		svc_xprt_received(xprt);
+>  	} else if (svc_xprt_reserve_slot(rqstp, xprt)) {
+>  		/* XPT_DATA|XPT_DEFERRED case: */
+>  		dprintk("svc: server %p, pool %u, transport %p, inuse=3D%d\n",
+> diff --git a/net/sunrpc/svcauth_unix.c b/net/sunrpc/svcauth_unix.c
+> index 983c5891cb56..374995201df4 100644
+> --- a/net/sunrpc/svcauth_unix.c
+> +++ b/net/sunrpc/svcauth_unix.c
+> @@ -17,8 +17,9 @@
+>  #include <net/ipv6.h>
+>  #include <linux/kernel.h>
+>  #include <linux/user_namespace.h>
+> -#define RPCDBG_FACILITY	RPCDBG_AUTH
+> +#include <trace/events/sunrpc.h>
+> =20
+> +#define RPCDBG_FACILITY	RPCDBG_AUTH
+> =20
+>  #include "netns.h"
+> =20
+> @@ -823,6 +824,7 @@ svcauth_tls_accept(struct svc_rqst *rqstp)
+>  {
+>  	struct xdr_stream *xdr =3D &rqstp->rq_arg_stream;
+>  	struct svc_cred	*cred =3D &rqstp->rq_cred;
+> +	struct svc_xprt *xprt =3D rqstp->rq_xprt;
+>  	u32 flavor, len;
+>  	void *body;
+>  	__be32 *p;
+> @@ -856,14 +858,19 @@ svcauth_tls_accept(struct svc_rqst *rqstp)
+>  	if (cred->cr_group_info =3D=3D NULL)
+>  		return SVC_CLOSE;
+> =20
+> -	if (rqstp->rq_xprt->xpt_ops->xpo_start_tls) {
+> +	if (xprt->xpt_ops->xpo_handshake) {
+>  		p =3D xdr_reserve_space(&rqstp->rq_res_stream, XDR_UNIT * 2 + 8);
+>  		if (!p)
+>  			return SVC_CLOSE;
+> +		trace_svc_tls_start(xprt);
+>  		*p++ =3D rpc_auth_null;
+>  		*p++ =3D cpu_to_be32(8);
+>  		memcpy(p, "STARTTLS", 8);
+> +
+> +		set_bit(XPT_HANDSHAKE, &xprt->xpt_flags);
+> +		svc_xprt_enqueue(xprt);
+>  	} else {
+> +		trace_svc_tls_unavailable(xprt);
+>  		if (xdr_stream_encode_opaque_auth(&rqstp->rq_res_stream,
+>  						  RPC_AUTH_NULL, NULL, 0) < 0)
+>  			return SVC_CLOSE;
+> diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
+> index b6df73cb706a..16ba8d6ab20e 100644
+> --- a/net/sunrpc/svcsock.c
+> +++ b/net/sunrpc/svcsock.c
+> @@ -44,9 +44,11 @@
+>  #include <net/tcp.h>
+>  #include <net/tcp_states.h>
+>  #include <net/tls.h>
+> +#include <net/handshake.h>
+>  #include <linux/uaccess.h>
+>  #include <linux/highmem.h>
+>  #include <asm/ioctls.h>
+> +#include <linux/key.h>
+> =20
+>  #include <linux/sunrpc/types.h>
+>  #include <linux/sunrpc/clnt.h>
+> @@ -64,6 +66,7 @@
+> =20
+>  #define RPCDBG_FACILITY	RPCDBG_SVCXPRT
+> =20
+> +#define SVC_HANDSHAKE_TO	(20U * HZ)
+> =20
+>  static struct svc_sock *svc_setup_socket(struct svc_serv *, struct socke=
+t *,
+>  					 int flags);
+> @@ -360,6 +363,8 @@ static void svc_data_ready(struct sock *sk)
+>  		rmb();
+>  		svsk->sk_odata(sk);
+>  		trace_svcsock_data_ready(&svsk->sk_xprt, 0);
+> +		if (test_bit(XPT_HANDSHAKE, &svsk->sk_xprt.xpt_flags))
+> +			return;
+>  		if (!test_and_set_bit(XPT_DATA, &svsk->sk_xprt.xpt_flags))
+>  			svc_xprt_enqueue(&svsk->sk_xprt);
+>  	}
+> @@ -397,6 +402,89 @@ static void svc_tcp_kill_temp_xprt(struct svc_xprt *=
+xprt)
+>  	sock_no_linger(svsk->sk_sock->sk);
+>  }
+> =20
 > +/**
-> + * handshake_req_alloc - consumer API to allocate a request
-> + * @sock: open socket on which to perform a handshake
-> + * @proto: security protocol
-> + * @flags: memory allocation flags
+> + * svc_tcp_handshake_done - Handshake completion handler
+> + * @data: address of xprt to wake
+> + * @status: status of handshake
+> + * @peerid: serial number of key containing the remote peer's identity
 > + *
-> + * Returns an initialized handshake_req or NULL.
+> + * If a security policy is specified as an export option, we don't
+> + * have a specific export here to check. So we set a "TLS session
+> + * is present" flag on the xprt and let an upper layer enforce local
+> + * security policy.
 > + */
-> +struct handshake_req *handshake_req_alloc(struct socket *sock,
-> +=09=09=09=09=09  const struct handshake_proto *proto,
-> +=09=09=09=09=09  gfp_t flags)
+> +static void svc_tcp_handshake_done(void *data, int status, key_serial_t =
+peerid)
 > +{
-> +=09struct sock *sk =3D sock->sk;
-> +=09struct net *net =3D sock_net(sk);
-> +=09struct handshake_net *hn =3D handshake_pernet(net);
-> +=09struct handshake_req *req;
+> +	struct svc_xprt *xprt =3D data;
+> +	struct svc_sock *svsk =3D container_of(xprt, struct svc_sock, sk_xprt);
 > +
-> +=09if (!hn)
-> +=09=09return NULL;
-> +
-> +=09req =3D kzalloc(struct_size(req, hr_priv, proto->hp_privsize), flags)=
-;
-> +=09if (!req)
-> +=09=09return NULL;
-> +
-> +=09sock_hold(sk);
-
-The hr_sk reference counting is unclear to me. It looks like
-handshake_req retain a reference to such socket, but
-handshake_req_destroy()/handshake_sk_destruct() do not release it.
-
-Perhaps is better moving such sock_hold() into handshake_req_submit(),
-once that the request is successful?
-
-> +
-> +=09INIT_LIST_HEAD(&req->hr_list);
-> +=09req->hr_sk =3D sk;
-> +=09req->hr_proto =3D proto;
-> +=09return req;
-> +}
-> +EXPORT_SYMBOL(handshake_req_alloc);
-> +
-> +/**
-> + * handshake_req_private - consumer API to return per-handshake private =
-data
-> + * @req: handshake arguments
-> + *
-> + */
-> +void *handshake_req_private(struct handshake_req *req)
-> +{
-> +=09return (void *)&req->hr_priv;
-> +}
-> +EXPORT_SYMBOL(handshake_req_private);
-> +
-> +static bool __add_pending_locked(struct handshake_net *hn,
-> +=09=09=09=09 struct handshake_req *req)
-> +{
-> +=09if (!list_empty(&req->hr_list))
-> +=09=09return false;
-> +=09hn->hn_pending++;
-> +=09list_add_tail(&req->hr_list, &hn->hn_requests);
-> +=09return true;
-> +}
-> +
-> +void __remove_pending_locked(struct handshake_net *hn,
-> +=09=09=09     struct handshake_req *req)
-> +{
-> +=09hn->hn_pending--;
-> +=09list_del_init(&req->hr_list);
-> +}
-> +
-> +/*
-> + * Returns %true if the request was found on @net's pending list,
-> + * otherwise %false.
-> + *
-> + * If @req was on a pending list, it has not yet been accepted.
-> + */
-> +static bool remove_pending(struct handshake_net *hn, struct handshake_re=
-q *req)
-> +{
-> +=09bool ret;
-> +
-> +=09ret =3D false;
-
-Nit: merge the initialization and the declaration
-
-> +
-> +=09spin_lock(&hn->hn_lock);
-> +=09if (!list_empty(&req->hr_list)) {
-> +=09=09__remove_pending_locked(hn, req);
-> +=09=09ret =3D true;
-> +=09}
-> +=09spin_unlock(&hn->hn_lock);
-> +
-> +=09return ret;
+> +	if (!status) {
+> +		if (peerid !=3D TLS_NO_PEERID)
+> +			set_bit(XPT_PEER_AUTH, &xprt->xpt_flags);
+> +		set_bit(XPT_TLS_SESSION, &xprt->xpt_flags);
+> +	}
+> +	clear_bit(XPT_HANDSHAKE, &xprt->xpt_flags);
+> +	complete_all(&svsk->sk_handshake_done);
 > +}
 > +
 > +/**
-> + * handshake_req_submit - consumer API to submit a handshake request
-> + * @req: handshake arguments
-> + * @flags: memory allocation flags
+> + * svc_tcp_handshake - Perform a transport-layer security handshake
+> + * @xprt: connected transport endpoint
 > + *
-> + * Return values:
-> + *   %0: Request queued
-> + *   %-EBUSY: A handshake is already under way for this socket
-> + *   %-ESRCH: No handshake agent is available
-> + *   %-EAGAIN: Too many pending handshake requests
-> + *   %-ENOMEM: Failed to allocate memory
-> + *   %-EMSGSIZE: Failed to construct notification message
-> + *   %-EOPNOTSUPP: Handshake module not initialized
-> + *
-> + * A zero return value from handshake_request() means that
-> + * exactly one subsequent completion callback is guaranteed.
-> + *
-> + * A negative return value from handshake_request() means that
-> + * no completion callback will be done and that @req has been
-> + * destroyed.
 > + */
-> +int handshake_req_submit(struct handshake_req *req, gfp_t flags)
+> +static void svc_tcp_handshake(struct svc_xprt *xprt)
 > +{
-> +=09struct sock *sk =3D req->hr_sk;
-> +=09struct net *net =3D sock_net(sk);
-> +=09struct handshake_net *hn =3D handshake_pernet(net);
-> +=09int ret;
+> +	struct svc_sock *svsk =3D container_of(xprt, struct svc_sock, sk_xprt);
+> +	struct tls_handshake_args args =3D {
+> +		.ta_sock	=3D svsk->sk_sock,
+> +		.ta_done	=3D svc_tcp_handshake_done,
+> +		.ta_data	=3D xprt,
+> +	};
+> +	int ret;
+> +
+> +	trace_svc_tls_upcall(xprt);
+> +
+> +	clear_bit(XPT_TLS_SESSION, &xprt->xpt_flags);
+> +	init_completion(&svsk->sk_handshake_done);
+> +	smp_wmb();
+> +
+> +	ret =3D tls_server_hello_x509(&args, GFP_KERNEL);
+> +	if (ret) {
+> +		trace_svc_tls_not_started(xprt);
+> +		goto out_failed;
+> +	}
+> +
+> +	ret =3D wait_for_completion_interruptible_timeout(&svsk->sk_handshake_d=
+one,
+> +							SVC_HANDSHAKE_TO);
 
-Nit: reverse xmas tree. In this case you have to split declaration and
-initialization ;)
+Just curious: is this 20s timeout mandated by the spec? It seems like a
+long time to block a kernel thread if so. Do we need to be concerned
+with DoS attacks here? Could a client initiate handshakes and then stop
+communicating, forcing the server to tie up threads with these 20s
+waits?
 
-> +
-> +=09if (!hn)
-> +=09=09return -EOPNOTSUPP;
-> +
-> +=09ret =3D -EAGAIN;
-> +=09if (READ_ONCE(hn->hn_pending) >=3D hn->hn_pending_max)
-> +=09=09goto out_err;
-> +
-> +=09req->hr_odestruct =3D sk->sk_destruct;
-> +=09sk->sk_destruct =3D handshake_sk_destruct;
-> +=09spin_lock(&hn->hn_lock);
-> +=09ret =3D -EOPNOTSUPP;
-> +=09if (test_bit(HANDSHAKE_F_NET_DRAINING, &hn->hn_flags))
-> +=09=09goto out_unlock;
-> +=09ret =3D -EBUSY;
-> +=09if (!handshake_req_hash_add(req))
-> +=09=09goto out_unlock;
-> +=09if (!__add_pending_locked(hn, req))
-> +=09=09goto out_unlock;
-> +=09spin_unlock(&hn->hn_lock);
-> +
-> +=09ret =3D handshake_genl_notify(net, req->hr_proto->hp_handler_class,
-> +=09=09=09=09    flags);
-> +=09if (ret) {
-> +=09=09trace_handshake_notify_err(net, req, sk, ret);
-> +=09=09if (remove_pending(hn, req))
-> +=09=09=09goto out_err;
-> +=09}
-> +
-> +=09trace_handshake_submit(net, req, sk);
-> +=09return 0;
-> +
-> +out_unlock:
-> +=09spin_unlock(&hn->hn_lock);
-> +out_err:
-> +=09trace_handshake_submit_err(net, req, sk, ret);
-> +=09handshake_req_destroy(req);
-> +=09return ret;
-> +}
-> +EXPORT_SYMBOL(handshake_req_submit);
-> +
-> +void handshake_complete(struct handshake_req *req, unsigned int status,
-> +=09=09=09struct genl_info *info)
-> +{
-> +=09struct sock *sk =3D req->hr_sk;
-> +=09struct net *net =3D sock_net(sk);
-> +
-> +=09if (!test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags)) {
-> +=09=09trace_handshake_complete(net, req, sk, status);
-> +=09=09req->hr_proto->hp_done(req, status, info);
-> +=09=09__sock_put(sk);
 
-Is unclear to me who acquired the reference released above?!? If that
-is the reference acquire by handshake_req_alloc(), I think it's cleaner
-moving the sock_put() in handshake_req_destroy() or
-handshake_req_destroy()
-
-> +=09}
+> +	if (ret <=3D 0) {
+> +		if (tls_handshake_cancel(svsk->sk_sock)) {
+> +			trace_svc_tls_timed_out(xprt);
+> +			goto out_close;
+> +		}
+> +	}
+> +
+> +	if (!test_bit(XPT_TLS_SESSION, &xprt->xpt_flags)) {
+> +		trace_svc_tls_unavailable(xprt);
+> +		goto out_close;
+> +	}
+> +
+> +	/*
+> +	 * Mark the transport ready in case the remote sent RPC
+> +	 * traffic before the kernel received the handshake
+> +	 * completion downcall.
+> +	 */
+> +	set_bit(XPT_DATA, &xprt->xpt_flags);
+> +	svc_xprt_enqueue(xprt);
+> +	return;
+> +
+> +out_close:
+> +	set_bit(XPT_CLOSE, &xprt->xpt_flags);
+> +out_failed:
+> +	clear_bit(XPT_HANDSHAKE, &xprt->xpt_flags);
+> +	set_bit(XPT_DATA, &xprt->xpt_flags);
+> +	svc_xprt_enqueue(xprt);
 > +}
 > +
-> +/**
-> + * handshake_req_cancel - consumer API to cancel an in-progress handshak=
-e
-> + * @sock: socket on which there is an ongoing handshake
-> + *
-> + * XXX: Perhaps killing the user space agent might also be necessary?
-> + *
-> + * Request cancellation races with request completion. To determine
-> + * who won, callers examine the return value from this function.
-> + *
-> + * Return values:
-> + *   %true - Uncompleted handshake request was canceled or not found
-> + *   %false - Handshake request already completed
-> + */
-> +bool handshake_req_cancel(struct socket *sock)
-> +{
-> +=09struct handshake_req *req;
-> +=09struct handshake_net *hn;
-> +=09struct sock *sk;
-> +=09struct net *net;
+>  /*
+>   * See net/ipv6/ip_sockglue.c : ip_cmsg_recv_pktinfo
+>   */
+> @@ -1260,6 +1348,7 @@ static const struct svc_xprt_ops svc_tcp_ops =3D {
+>  	.xpo_has_wspace =3D svc_tcp_has_wspace,
+>  	.xpo_accept =3D svc_tcp_accept,
+>  	.xpo_kill_temp_xprt =3D svc_tcp_kill_temp_xprt,
+> +	.xpo_handshake =3D svc_tcp_handshake,
+>  };
+> =20
+>  static struct svc_xprt_class svc_tcp_class =3D {
+> @@ -1584,6 +1673,8 @@ static void svc_sock_free(struct svc_xprt *xprt)
+>  {
+>  	struct svc_sock *svsk =3D container_of(xprt, struct svc_sock, sk_xprt);
+> =20
+> +	tls_handshake_cancel(svsk->sk_sock);
 > +
-> +=09sk =3D sock->sk;
-> +=09net =3D sock_net(sk);
-> +=09req =3D handshake_req_hash_lookup(sk);
-> +=09if (!req) {
-> +=09=09trace_handshake_cancel_none(net, req, sk);
-> +=09=09return true;
-> +=09}
-> +
-> +=09hn =3D handshake_pernet(net);
-> +=09if (hn && remove_pending(hn, req)) {
-> +=09=09/* Request hadn't been accepted */
-> +=09=09trace_handshake_cancel(net, req, sk);
-> +=09=09return true;
-> +=09}
-> +=09if (test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags)) {
-> +=09=09/* Request already completed */
-> +=09=09trace_handshake_cancel_busy(net, req, sk);
-> +=09=09return false;
-> +=09}
-> +
-> +=09__sock_put(sk);
+>  	if (svsk->sk_sock->file)
+>  		sockfd_put(svsk->sk_sock);
+>  	else
+>=20
+>=20
 
-Same here.
-
-Side note, I think at this point some tests could surface here? If
-user-space-based self-tests are too cumbersome and/or do not offer
-adequate coverage perhaps you could consider using kunit?
-
-Cheers,
-
-Paolo
-
+--=20
+Jeff Layton <jlayton@kernel.org>

@@ -1,34 +1,34 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13DB9453
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 21 Mar 2023 12:44:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443AC945B
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 21 Mar 2023 12:44:06 +0000 (UTC)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id ED3F320001;
+	by smtp-out1.suse.de (Postfix) with ESMTP id D47D421DB7;
 	Tue, 21 Mar 2023 12:43:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1679402637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AjxTY1/7bWq4kuNa5+9CQoImPq/ldZSbo3qe8RmT5Es=;
-	b=UKAuWqvPz8UKShPMQhAbcA4fJbMvHZhw3qulQ6YySwFqDj7VgKOsWxdnyMoSCOehoFqBqf
-	LBlB+VlCX2mSBwBEOQ9bpKW9Rr97KpK4j/mZgOesyn9xvThwi0OJKDNfibc9TfBb8CRUmv
-	1t1EUV9m9nqAddin/K4Ibv+MLka/usA=
+	bh=hlN1jLoxtX6o47jXrUOBXWD+qJPRlUnShbsW1te+xyI=;
+	b=n2O+acqv0VZptsGkUuqa8PZ/jkmdTMd9sHtRF6vLpzRkVvP7YC8xnrWzqv4Qcy20cFgkaa
+	0J+efCtKeOZemIjZcC6ahbV+xQwBJWQaVwrSyP3mR8YzjWdlYX2DeeuIKpaeCtVVKVT5KD
+	/SaXIppN0P6NTnqe6icDB7/a5SM2Mcg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1679402637;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AjxTY1/7bWq4kuNa5+9CQoImPq/ldZSbo3qe8RmT5Es=;
-	b=fL1UFZIoDSlhvLTEmD5YvTtEfSG9COR1Se46R6XDrGVEFvWXm5arjTlEQrbmyNB2zUZdgZ
-	mS2XblxpMXhLlKDw==
+	bh=hlN1jLoxtX6o47jXrUOBXWD+qJPRlUnShbsW1te+xyI=;
+	b=M2ZWltiq00wwa5Xa8/vfOZWuJqAtQcSP6t0szIfTG+9wEboYXx/hYVmkETMB5hxG7wFiZl
+	AbWX993G4LhjgZCQ==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id D92E22C152;
+	by relay2.suse.de (Postfix) with ESMTP id BA6002C141;
 	Tue, 21 Mar 2023 12:43:57 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id D276451BEEA4; Tue, 21 Mar 2023 13:43:57 +0100 (CET)
+	id AB7F251BEE98; Tue, 21 Mar 2023 13:43:57 +0100 (CET)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -37,9 +37,9 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Chuck Lever <cel@kernel.org>,
 	kernel-tls-handshake@lists.linux.dev,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 08/18] nvme-tcp: enable TLS handshake upcall
-Date: Tue, 21 Mar 2023 13:43:15 +0100
-Message-Id: <20230321124325.77385-9-hare@suse.de>
+Subject: [PATCH 02/18] nvme-keyring: define a 'psk' keytype
+Date: Tue, 21 Mar 2023 13:43:09 +0100
+Message-Id: <20230321124325.77385-3-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230321124325.77385-1-hare@suse.de>
 References: <20230321124325.77385-1-hare@suse.de>
@@ -51,242 +51,153 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Select possible PSK identities and call the TLS handshake upcall
-for each identity.
-The TLS 1.3 RFC allows to send multiple identities with each ClientHello
-request, but none of the SSL libraries implement it. As the connection
-is established when the association is created we send only a single
-identity for each upcall, and close the connection to restart with
-the next identity if the handshake fails.
+Define a 'psk' keytype to hold the NVMe TLS PSKs.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/tcp.c | 157 +++++++++++++++++++++++++++++++++++++---
- 1 file changed, 148 insertions(+), 9 deletions(-)
+ drivers/nvme/common/keyring.c | 96 +++++++++++++++++++++++++++++++++++
+ include/linux/nvme-keyring.h  |  8 +++
+ 2 files changed, 104 insertions(+)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 0438d42f4179..bcf24e9a08e1 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -8,9 +8,12 @@
- #include <linux/init.h>
- #include <linux/slab.h>
- #include <linux/err.h>
-+#include <linux/key.h>
- #include <linux/nvme-tcp.h>
-+#include <linux/nvme-keyring.h>
- #include <net/sock.h>
- #include <net/tcp.h>
-+#include <net/handshake.h>
- #include <linux/blk-mq.h>
- #include <crypto/hash.h>
- #include <net/busy_poll.h>
-@@ -31,6 +34,14 @@ static int so_priority;
- module_param(so_priority, int, 0644);
- MODULE_PARM_DESC(so_priority, "nvme tcp socket optimize priority");
+diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
+index 3a6e8a0b38e2..6cbb9d66e0f6 100644
+--- a/drivers/nvme/common/keyring.c
++++ b/drivers/nvme/common/keyring.c
+@@ -11,6 +11,96 @@
  
-+/*
-+ * TLS handshake timeout
-+ */
-+static int tls_handshake_timeout = 10;
-+module_param(tls_handshake_timeout, int, 0644);
-+MODULE_PARM_DESC(tls_handshake_timeout,
-+		 "nvme TLS handshake timeout in seconds (default 10)");
-+
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- /* lockdep can detect a circular dependency of the form
-  *   sk_lock -> mmap_lock (page fault) -> fs locks -> sk_lock
-@@ -104,6 +115,7 @@ enum nvme_tcp_queue_flags {
- 	NVME_TCP_Q_ALLOCATED	= 0,
- 	NVME_TCP_Q_LIVE		= 1,
- 	NVME_TCP_Q_POLLING	= 2,
-+	NVME_TCP_Q_TLS		= 3,
- };
+ static struct key *nvme_keyring;
  
- enum nvme_tcp_recv_state {
-@@ -148,6 +160,9 @@ struct nvme_tcp_queue {
- 	__le32			exp_ddgst;
- 	__le32			recv_ddgst;
- 
-+	struct completion       *tls_complete;
-+	int                     tls_err;
-+
- 	struct page_frag_cache	pf_cache;
- 
- 	void (*state_change)(struct sock *);
-@@ -1505,7 +1520,102 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
- 	queue->io_cpu = cpumask_next_wrap(n - 1, cpu_online_mask, -1, false);
- }
- 
--static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
-+/*
-+ * nvme_tcp_lookup_psk - Look up PSKs to use for TLS
-+ *
-+ */
-+static int nvme_tcp_lookup_psks(struct nvme_ctrl *nctrl,
-+			       key_serial_t *keylist, int num_keys)
++key_serial_t nvme_keyring_id(void)
 +{
-+	enum nvme_tcp_tls_cipher cipher = NVME_TCP_TLS_CIPHER_SHA384;
-+	struct key *tls_key;
-+	int num = 0;
-+	bool generated = false;
++	return nvme_keyring->serial;
++}
++EXPORT_SYMBOL_GPL(nvme_keyring_id);
 +
-+	/* Check for pre-provisioned keys; retained keys first */
-+	do {
-+		tls_key = nvme_tls_psk_lookup(NULL, nctrl->opts->host->nqn,
-+					      nctrl->opts->subsysnqn,
-+					      cipher, generated);
-+		if (!IS_ERR(tls_key)) {
-+			keylist[num] = tls_key->serial;
-+			num++;
-+			key_put(tls_key);
-+		}
-+		if (cipher == NVME_TCP_TLS_CIPHER_SHA384)
-+			cipher = NVME_TCP_TLS_CIPHER_SHA256;
-+		else {
-+			if (generated)
-+				cipher = NVME_TCP_TLS_CIPHER_INVALID;
-+			else {
-+				cipher = NVME_TCP_TLS_CIPHER_SHA384;
-+				generated = true;
-+			}
-+		}
-+	} while(cipher != NVME_TCP_TLS_CIPHER_INVALID);
-+	return num;
++static void nvme_tls_psk_describe(const struct key *key, struct seq_file *m)
++{
++	seq_puts(m, key->description);
++	seq_printf(m, ": %u", key->datalen);
 +}
 +
-+static void nvme_tcp_tls_done(void *data, int status, key_serial_t peerid)
++static bool nvme_tls_psk_match(const struct key *key,
++			       const struct key_match_data *match_data)
 +{
-+	struct nvme_tcp_queue *queue = data;
-+	struct nvme_tcp_ctrl *ctrl = queue->ctrl;
-+	int qid = nvme_tcp_queue_id(queue);
++	const char *match_id;
++	size_t match_len;
 +
-+	dev_dbg(ctrl->ctrl.device, "queue %d: TLS handshake done, key %x, status %d\n",
-+		qid, peerid, status);
++	if (!key->description) {
++		pr_debug("%s: no key description\n", __func__);
++		return false;
++	}
++	match_len = strlen(key->description);
++	pr_debug("%s: id %s len %zd\n", __func__, key->description, match_len);
 +
-+	queue->tls_err = -status;
-+	if (queue->tls_complete)
-+		complete(queue->tls_complete);
++	if (!match_data->raw_data) {
++		pr_debug("%s: no match data\n", __func__);
++		return false;
++	}
++	match_id = match_data->raw_data;
++	pr_debug("%s: match '%s' '%s' len %lu\n",
++		 __func__, match_id, key->description, match_len);
++	return !memcmp(key->description, match_id, match_len);
 +}
 +
-+static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
-+			      struct nvme_tcp_queue *queue,
-+			      key_serial_t peerid)
++static int nvme_tls_psk_match_preparse(struct key_match_data *match_data)
 +{
-+	int qid = nvme_tcp_queue_id(queue);
-+	int ret;
-+	struct tls_handshake_args args;
-+	unsigned long tmo = tls_handshake_timeout * HZ;
-+	DECLARE_COMPLETION_ONSTACK(tls_complete);
-+
-+	dev_dbg(nctrl->device, "queue %d: start TLS with key %x\n",
-+		qid, peerid);
-+	args.ta_sock = queue->sock;
-+	args.ta_done = nvme_tcp_tls_done;
-+	args.ta_data = queue;
-+	args.ta_my_peerids[0] = peerid;
-+	args.ta_num_peerids = 1;
-+	args.ta_keyring = nvme_keyring_id();
-+	args.ta_timeout_ms = tls_handshake_timeout * 2 * 1000;
-+	queue->tls_err = -EOPNOTSUPP;
-+	queue->tls_complete = &tls_complete;
-+	ret = tls_client_hello_psk(&args, GFP_KERNEL);
-+	if (ret) {
-+		dev_dbg(nctrl->device, "queue %d: failed to start TLS: %d\n",
-+			qid, ret);
-+		return ret;
-+	}
-+	if (wait_for_completion_timeout(queue->tls_complete, tmo) == 0) {
-+		dev_dbg(nctrl->device,
-+			"queue %d: TLS handshake timeout\n", qid);
-+		queue->tls_complete = NULL;
-+		ret = -ETIMEDOUT;
-+	} else {
-+		dev_dbg(nctrl->device,
-+			"queue %d: TLS handshake complete, error %d\n",
-+			qid, queue->tls_err);
-+		ret = queue->tls_err;
-+	}
-+	queue->tls_complete = NULL;
-+	if (!ret)
-+		set_bit(NVME_TCP_Q_TLS, &queue->flags);
-+	return ret;
++	match_data->lookup_type = KEYRING_SEARCH_LOOKUP_ITERATE;
++	match_data->cmp = nvme_tls_psk_match;
++	return 0;
 +}
 +
-+static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
-+				key_serial_t peerid)
- {
- 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
- 	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
-@@ -1628,6 +1738,13 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
- 		goto err_rcv_pdu;
- 	}
- 
-+	/* If PSKs are configured try to start TLS */
-+	if (peerid) {
-+		ret = nvme_tcp_start_tls(nctrl, queue, peerid);
-+		if (ret)
-+			goto err_init_connect;
-+	}
++static struct key_type nvme_tls_psk_key_type = {
++	.name           = "psk",
++	.flags          = KEY_TYPE_NET_DOMAIN,
++	.preparse       = user_preparse,
++	.free_preparse  = user_free_preparse,
++	.match_preparse = nvme_tls_psk_match_preparse,
++	.instantiate    = generic_key_instantiate,
++	.revoke         = user_revoke,
++	.destroy        = user_destroy,
++	.describe       = nvme_tls_psk_describe,
++	.read           = user_read,
++};
 +
- 	ret = nvme_tcp_init_connection(queue);
- 	if (ret)
- 		goto err_init_connect;
-@@ -1774,11 +1891,22 @@ static int nvme_tcp_start_io_queues(struct nvme_ctrl *ctrl,
- 
- static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
- {
--	int ret;
-+	int ret = -EINVAL, num_keys, k;
-+	key_serial_t keylist[4];
- 
--	ret = nvme_tcp_alloc_queue(ctrl, 0);
--	if (ret)
--		return ret;
-+	memset(keylist, 0, sizeof(key_serial_t));
-+	num_keys = nvme_tcp_lookup_psks(ctrl, keylist, 4);
-+	for (k = 0; k < num_keys; k++) {
-+		ret = nvme_tcp_alloc_queue(ctrl, 0, keylist[k]);
-+		if (!ret)
-+			break;
++struct key *nvme_tls_psk_lookup(key_ref_t keyring,
++		const char *hostnqn, const char *subnqn,
++		int hmac, bool generated)
++{
++	char *identity;
++	size_t identity_len = (NVMF_NQN_SIZE) * 2 + 11;
++	key_ref_t keyref;
++	key_serial_t keyring_id;
++
++	identity = kzalloc(identity_len, GFP_KERNEL);
++	if (!identity)
++		return ERR_PTR(-ENOMEM);
++
++	snprintf(identity, identity_len, "NVMe0%c%02d %s %s",
++		 generated ? 'G' : 'R', hmac, hostnqn, subnqn);
++
++	if (!keyring)
++		keyring = make_key_ref(nvme_keyring, true);
++	keyring_id = key_serial(key_ref_to_ptr(keyring));
++	pr_debug("keyring %x lookup tls psk '%s'\n",
++		 keyring_id, identity);
++	keyref = keyring_search(keyring, &nvme_tls_psk_key_type,
++				identity, false);
++	if (IS_ERR(keyref)) {
++		pr_debug("lookup tls psk '%s' failed, error %ld\n",
++			 identity, PTR_ERR(keyref));
++		kfree(identity);
++		return ERR_PTR(-ENOKEY);
 +	}
-+	if (ret) {
-+		/* Try without TLS */
-+		ret = nvme_tcp_alloc_queue(ctrl, 0, 0);
-+		if (ret)
-+			goto out_free_queue;
-+	}
- 
- 	ret = nvme_tcp_alloc_async_req(to_tcp_ctrl(ctrl));
- 	if (ret)
-@@ -1793,12 +1921,23 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
- 
- static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
++	kfree(identity);
++
++	return key_ref_to_ptr(keyref);
++}
++EXPORT_SYMBOL_GPL(nvme_tls_psk_lookup);
++
+ int nvme_keyring_init(void)
  {
--	int i, ret;
-+	int i, ret, num_keys = 0, k;
-+	key_serial_t keylist[4];
+ 	int err;
+@@ -24,12 +114,18 @@ int nvme_keyring_init(void)
+ 	if (IS_ERR(nvme_keyring))
+ 		return PTR_ERR(nvme_keyring);
  
-+	memset(keylist, 0, sizeof(key_serial_t));
-+	num_keys = nvme_tcp_lookup_psks(ctrl, keylist, 4);
- 	for (i = 1; i < ctrl->queue_count; i++) {
--		ret = nvme_tcp_alloc_queue(ctrl, i);
--		if (ret)
--			goto out_free_queues;
-+		ret = -EINVAL;
-+		for (k = 0; k < num_keys; k++) {
-+			ret = nvme_tcp_alloc_queue(ctrl, i, keylist[k]);
-+			if (!ret)
-+				break;
-+		}
-+		if (ret) {
-+			ret = nvme_tcp_alloc_queue(ctrl, i, 0);
-+			if (ret)
-+				goto out_free_queues;
-+		}
- 	}
- 
++	err = register_key_type(&nvme_tls_psk_key_type);
++	if (err) {
++		key_put(nvme_keyring);
++		return err;
++	}
  	return 0;
+ }
+ EXPORT_SYMBOL_GPL(nvme_keyring_init);
+ 
+ void nvme_keyring_exit(void)
+ {
++	unregister_key_type(&nvme_tls_psk_key_type);
+ 	key_revoke(nvme_keyring);
+ 	key_put(nvme_keyring);
+ }
+diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
+index a875c06cc922..c0c3d934f474 100644
+--- a/include/linux/nvme-keyring.h
++++ b/include/linux/nvme-keyring.h
+@@ -6,6 +6,14 @@
+ #ifndef _NVME_KEYRING_H
+ #define _NVME_KEYRING_H
+ 
++#include <linux/key.h>
++
++struct key *nvme_tls_psk_lookup(key_ref_t keyring,
++				const char *hostnqn, const char *subnqn,
++				int hmac, bool generated);
++
++key_serial_t nvme_keyring_id(void);
++
+ int nvme_keyring_init(void);
+ void nvme_keyring_exit(void);
+ 
 -- 
 2.35.3
 

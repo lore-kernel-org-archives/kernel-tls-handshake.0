@@ -1,33 +1,33 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B1F23D4
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 10:56:28 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id h17so16527040wrt.8
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 03:56:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F1F23D4
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 11:18:44 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id v4-20020a05600c470400b003ee4f06428fso1665526wmo.4
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 04:18:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679482587;
+        d=1e100.net; s=20210112; t=1679483923; x=1682075923;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=de/vXwLr8UViwRqh2S8ZrE+1amNrG0qrchkmYZQk3lc=;
-        b=lDZ2BxgAZR0o1PY9NpYzEbpxfeB6YxILuGn3VtA9Z4UrzCScgsiObMOcXc8J2dqU79
-         05fFDTazVqdbg12J4QVszsvQKR5RsyQWGcz1x/4Te96JMALHYDvVJWPs5HqtmY4TCDfI
-         8L9jqVQAviboRJBvC0+fLqGHwbeIPkan1EEzgRbddcjZgEKJiNEDeq4IjwxgdbDxUYg0
-         7mYncmlhB+JXUohhPflfLz1qTctRuZyojU+5KOLsF+4q6eHcSousOr8RhBxr76LSrMAB
-         JpmiHlXBmWzF/1xpcRO1k7ThCzM9Lvv0ZhXEX8ovBVlXVmkhHMk/2lwNqdlZZia7t8Kn
-         0TyQ==
-X-Gm-Message-State: AO0yUKXSnW95LJ3hKlkIPjZJthg+5vSm5YR5kvz0JEPlpa7gBwuTAu+C
-	or1nayK7nAOs8tzgioKaIAA=
-X-Google-Smtp-Source: AK7set/AJ10tWQcsp7iO19k2jmM6CBqJZzjJhswx9go1qvFmjrlEg3OriVqHBUwzAEXcZYGnHxXM+Q==
-X-Received: by 2002:adf:edc8:0:b0:2c7:1c72:699f with SMTP id v8-20020adfedc8000000b002c71c72699fmr4069466wro.4.1679482586591;
-        Wed, 22 Mar 2023 03:56:26 -0700 (PDT)
+        bh=htnKwTBpaZzkYcIip0l+gvKsTEcHUHQEkX4OJ+WhFAo=;
+        b=PXDzxdWStlsq+klP+m2IXYYuwGSrxPdrig7yERFKsBXzCWGkCeeyV0N8kC8ZmoKW05
+         0QQh8RhRH4ojUPFFICBJJOiLyTwzMR+pSCgBmfqXt75v7jXDG1aCMMHO4CLclr4jzJzr
+         t246HybNx9lKb3UGzIKdtjuGHU/xMaHS8yc2su1lu3fv9sFWSUz7OyJwALdWjuzw/HGd
+         qFn3QNzI4zwt3pDFdV8RCWZ+664yrU14E4ca0/2rws1V80PaLdr3YjPIxYNQrQYWmdjT
+         cDEVnVRdEzGfQbek7XZVG+LMBjKAfre2W10akicWg8bnVUlSKKo8x8zba8iuqWgDZhQg
+         BLmQ==
+X-Gm-Message-State: AO0yUKU4LPFQ6GL0lVa/mlimpOR/ZAS8frSlPlGmQ0vpkeEN5pM/gKry
+	UpcBgEoDjxMq7s5hwrXPmjc=
+X-Google-Smtp-Source: AK7set++o1ca6aGHTmOmaOaTrb/TYh7GTWDWnn7d4bMIDsJXPKtPwB6ZafUz/ySUzYG/t9nnRHlhsA==
+X-Received: by 2002:a05:600c:4504:b0:3ed:d119:df27 with SMTP id t4-20020a05600c450400b003edd119df27mr5815404wmo.3.1679483922938;
+        Wed, 22 Mar 2023 04:18:42 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id m9-20020adffa09000000b002c70d97af78sm13627415wrr.85.2023.03.22.03.56.25
+        by smtp.gmail.com with ESMTPSA id k22-20020a05600c0b5600b003ed2987690dsm16407381wmr.26.2023.03.22.04.18.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Mar 2023 03:56:26 -0700 (PDT)
-Message-ID: <6d582f3e-24b9-0e27-40ad-fe2691ef26d0@grimberg.me>
-Date: Wed, 22 Mar 2023 12:56:24 +0200
+        Wed, 22 Mar 2023 04:18:42 -0700 (PDT)
+Message-ID: <c97a8ac1-255a-4a54-1bb5-0bedf22a6774@grimberg.me>
+Date: Wed, 22 Mar 2023 13:18:38 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -36,392 +36,154 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 08/18] nvme-tcp: enable TLS handshake upcall
+Subject: Re: [PATCH 10/18] nvme-tcp: fixup send workflow for kTLS
 Content-Language: en-US
 To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  Chuck Lever <cel@kernel.org>, kernel-tls-handshake@lists.linux.dev
 References: <20230321124325.77385-1-hare@suse.de>
- <20230321124325.77385-9-hare@suse.de>
- <92bd0f9f-8df1-b1ef-dc8b-99ae3b1e0300@grimberg.me>
- <cc5a73b9-7457-9f72-1b2f-750443b33925@suse.de>
+ <20230321124325.77385-11-hare@suse.de>
+ <e189b779-8621-bfa6-4c7a-1eb38bd1c29d@grimberg.me>
+ <3b0f2af5-5dfa-ed76-a6a6-2715d9e05e70@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <cc5a73b9-7457-9f72-1b2f-750443b33925@suse.de>
+In-Reply-To: <3b0f2af5-5dfa-ed76-a6a6-2715d9e05e70@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
->>> Select possible PSK identities and call the TLS handshake upcall
->>> for each identity.
->>> The TLS 1.3 RFC allows to send multiple identities with each ClientHello
->>> request, but none of the SSL libraries implement it. As the connection
->>> is established when the association is created we send only a single
->>> identity for each upcall, and close the connection to restart with
->>> the next identity if the handshake fails.
+
+On 3/22/23 12:08, Hannes Reinecke wrote:
+> On 3/22/23 10:31, Sagi Grimberg wrote:
 >>
->> Can't this loop be done in userspace? In other words, how can
->> we get rid of this when SSL libs would decide to support it?
 >>
-> Well. That is something which I've been thinking about, but really 
-> haven't come to a good solution.
-
-I have a more general question.
-What is the scenario that we will have for a givin hostnqn and
-subsysnqn more than one valid identity? Do we need to support it?
-
-> Crux of the matter is that we have to close the connection after a 
-> failed TLS handshake:
-
-Yes.
-
-> 
->  > A TLS 1.3 client implementation that only supports sending a single
->  > PSK identity during connection setup may be required to connect
->  > multiple times in order to negotiate cipher suites with different hash
->  > functions.
-> 
-> and as it's quite unclear in which state the connection is after the 
-> userspace library failed the handshake.
-> So the only good way to recover is to close the connection and restart 
-> with a different identity.
-
-I see.
-
-> While we can move the identity selection to userspace (eg by providing 
-> an 'tls_psk' fabrics option holding the key serial of the PSK to user), 
-> that will allow us only to pass a _single_ PSK for each attempt.
-
-That makes sense to me. But I'm unclear how it will choose, if we have
-multiple (which again, I'm not clear in which scenario this would be the
-case).
-
-> 
-> And the other problem is that in its current form the spec allows for 
-> _different_ identites for each connection; by passing a key from 
-> userspace we would not be able to support that.
-> (Not saying that it's useful, mind.)
-
-I'll happily forfit this support. This is completely crazy to do this
-per connection.
-
-> 
-> We could allow for several 'tls_psk' options, though; maybe that would 
-> be a way out.
-
-What do you mean by that?
-
-> 
+>> On 3/21/23 14:43, Hannes Reinecke wrote:
+>>> kTLS does not support MSG_EOR flag for sendmsg(), and the ->sendpage()
+>>> call really doesn't bring any benefit as data has to be copied
+>>> anyway.
+>>> So use sock_no_sendpage() or sendmsg() instead, and ensure that the
+>>> MSG_EOR flag is blanked out for kTLS.
 >>>
 >>> Signed-off-by: Hannes Reinecke <hare@suse.de>
 >>> ---
->>>   drivers/nvme/host/tcp.c | 157 +++++++++++++++++++++++++++++++++++++---
->>>   1 file changed, 148 insertions(+), 9 deletions(-)
+>>>   drivers/nvme/host/tcp.c | 33 +++++++++++++++++++++------------
+>>>   1 file changed, 21 insertions(+), 12 deletions(-)
 >>>
 >>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->>> index 0438d42f4179..bcf24e9a08e1 100644
+>>> index bbff1f52a167..007d457cacf9 100644
 >>> --- a/drivers/nvme/host/tcp.c
 >>> +++ b/drivers/nvme/host/tcp.c
->>> @@ -8,9 +8,12 @@
->>>   #include <linux/init.h>
->>>   #include <linux/slab.h>
->>>   #include <linux/err.h>
->>> +#include <linux/key.h>
->>>   #include <linux/nvme-tcp.h>
->>> +#include <linux/nvme-keyring.h>
->>>   #include <net/sock.h>
->>>   #include <net/tcp.h>
->>> +#include <net/handshake.h>
->>>   #include <linux/blk-mq.h>
->>>   #include <crypto/hash.h>
->>>   #include <net/busy_poll.h>
->>> @@ -31,6 +34,14 @@ static int so_priority;
->>>   module_param(so_priority, int, 0644);
->>>   MODULE_PARM_DESC(so_priority, "nvme tcp socket optimize priority");
->>> +/*
->>> + * TLS handshake timeout
->>> + */
->>> +static int tls_handshake_timeout = 10;
->>> +module_param(tls_handshake_timeout, int, 0644);
->>> +MODULE_PARM_DESC(tls_handshake_timeout,
->>> +         "nvme TLS handshake timeout in seconds (default 10)");
+>>> @@ -1034,13 +1034,19 @@ static int nvme_tcp_try_send_data(struct 
+>>> nvme_tcp_request *req)
+>>>           bool last = nvme_tcp_pdu_last_send(req, len);
+>>>           int req_data_sent = req->data_sent;
+>>>           int ret, flags = MSG_DONTWAIT;
+>>> +        bool do_sendpage = sendpage_ok(page);
+>>> -        if (last && !queue->data_digest && !nvme_tcp_queue_more(queue))
+>>> +        if (!last || queue->data_digest || nvme_tcp_queue_more(queue))
+>>> +            flags |= MSG_MORE;
+>>> +        else if (!test_bit(NVME_TCP_Q_TLS, &queue->flags))
+>>>               flags |= MSG_EOR;
+>>> -        else
+>>> -            flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
 >>
->> Can you share what is the normal time of an upcall?
+>> I think its time to move the flags setting to a helper.
 >>
-> That really depends on the network latency and/or reachability of the 
-> server. It might just have been started up, switches MAC tables not 
-> updated, STP still ongoing, what do I know.
-> So 10 seconds seemed to be a good compromise.
-> But that's also why I made this configurable.
-
-Does it really take 10 seconds per connection :() ?
-I'm planning to give this a go soon so will find out.
-
+>>> -        if (sendpage_ok(page)) {
+>>> +        if (test_bit(NVME_TCP_Q_TLS, &queue->flags))
+>>> +            do_sendpage = false;
 >>> +
->>>   #ifdef CONFIG_DEBUG_LOCK_ALLOC
->>>   /* lockdep can detect a circular dependency of the form
->>>    *   sk_lock -> mmap_lock (page fault) -> fs locks -> sk_lock
->>> @@ -104,6 +115,7 @@ enum nvme_tcp_queue_flags {
->>>       NVME_TCP_Q_ALLOCATED    = 0,
->>>       NVME_TCP_Q_LIVE        = 1,
->>>       NVME_TCP_Q_POLLING    = 2,
->>> +    NVME_TCP_Q_TLS        = 3,
->>>   };
->>>   enum nvme_tcp_recv_state {
->>> @@ -148,6 +160,9 @@ struct nvme_tcp_queue {
->>>       __le32            exp_ddgst;
->>>       __le32            recv_ddgst;
->>> +    struct completion       *tls_complete;
->>> +    int                     tls_err;
->>> +
->>>       struct page_frag_cache    pf_cache;
->>>       void (*state_change)(struct sock *);
->>> @@ -1505,7 +1520,102 @@ static void nvme_tcp_set_queue_io_cpu(struct 
->>> nvme_tcp_queue *queue)
->>>       queue->io_cpu = cpumask_next_wrap(n - 1, cpu_online_mask, -1, 
->>> false);
->>>   }
->>> -static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
->>> +/*
->>> + * nvme_tcp_lookup_psk - Look up PSKs to use for TLS
->>> + *
->>> + */
->>> +static int nvme_tcp_lookup_psks(struct nvme_ctrl *nctrl,
->>> +                   key_serial_t *keylist, int num_keys)
+>>> +        if (do_sendpage) {
 >>
->> Where is num_keys used?
+>> The do_sendpage looks redundant to me.
 >>
-> Ah, indeed, need to check this in the loop.
+>>> +            if (flags & MSG_MORE)
+>>> +                flags |= MSG_SENDPAGE_NOTLAST;
+>>>               ret = kernel_sendpage(queue->sock, page, offset, len,
+>>>                       flags);
+>>
+>> I think that the SENDPAGE_NOLAST should be set together with MSG_MORE
+>> regardless.
+>>
+>>>           } else {
+>>> @@ -1088,19 +1094,22 @@ static int nvme_tcp_try_send_cmd_pdu(struct 
+>>> nvme_tcp_request *req)
+>>>       bool inline_data = nvme_tcp_has_inline_data(req);
+>>>       u8 hdgst = nvme_tcp_hdgst_len(queue);
+>>>       int len = sizeof(*pdu) + hdgst - req->offset;
+>>> -    int flags = MSG_DONTWAIT;
+>>> +    struct msghdr msg = { .msg_flags = MSG_DONTWAIT };
+>>> +    struct kvec iov = {
+>>> +        .iov_base = (u8 *)req->pdu + req->offset,
+>>> +        .iov_len = len,
+>>> +    };
+>>>       int ret;
+>>>       if (inline_data || nvme_tcp_queue_more(queue))
+>>> -        flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
+>>> -    else
+>>> -        flags |= MSG_EOR;
+>>> +        msg.msg_flags |= MSG_MORE;
+>>> +    else if (!test_bit(NVME_TCP_Q_TLS, &queue->flags))
+>>> +        msg.msg_flags |= MSG_EOR;
+>>>       if (queue->hdr_digest && !req->offset)
+>>>           nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
+>>> -    ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
+>>> -            offset_in_page(pdu) + req->offset, len,  flags);
+>>> +    ret = kernel_sendmsg(queue->sock, &msg, &iov, 1, iov.iov_len);
+>>
+>> I'd prefer to do kernel_sednpage/sock_no_sendpage similar to how we do
+>> it for data and data pdu.
+>>
+>>>       if (unlikely(ret <= 0))
+>>>           return ret;
+>>> @@ -1131,7 +1140,7 @@ static int nvme_tcp_try_send_data_pdu(struct 
+>>> nvme_tcp_request *req)
+>>>       if (queue->hdr_digest && !req->offset)
+>>>           nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
+>>> -    if (!req->h2cdata_left)
+>>> +    if (!test_bit(NVME_TCP_Q_TLS, &queue->flags) && !req->h2cdata_left)
+>>>           ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
+>>>                   offset_in_page(pdu) + req->offset, len,
+>>>                   MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
+>>
+>> Something is unclear to me. Is kernel_sendpage unsupported with tls? (I
+>> think it is). I understand the motivation to add more checks in the code
+>> for kernel_sendpage vs. sock_no_sendpage given that it should be
+>> perfectly fine to use either.
+>>
+>> Did you see any regressions with using kernel_sendpage? If so, isn't
+>> that a bug in the tls code?
 > 
->>> +{
->>> +    enum nvme_tcp_tls_cipher cipher = NVME_TCP_TLS_CIPHER_SHA384;
->>> +    struct key *tls_key;
->>> +    int num = 0;
->>> +    bool generated = false;
->>> +
->>> +    /* Check for pre-provisioned keys; retained keys first */
->>> +    do {
->>> +        tls_key = nvme_tls_psk_lookup(NULL, nctrl->opts->host->nqn,
->>> +                          nctrl->opts->subsysnqn,
->>> +                          cipher, generated);
->>> +        if (!IS_ERR(tls_key)) {
->>> +            keylist[num] = tls_key->serial;
->>> +            num++;
->>> +            key_put(tls_key);
->>> +        }
->>> +        if (cipher == NVME_TCP_TLS_CIPHER_SHA384)
->>> +            cipher = NVME_TCP_TLS_CIPHER_SHA256;
->>> +        else {
->>> +            if (generated)
->>> +                cipher = NVME_TCP_TLS_CIPHER_INVALID;
->>> +            else {
->>> +                cipher = NVME_TCP_TLS_CIPHER_SHA384;
->>> +                generated = true;
->>> +            }
->>> +        }
->>> +    } while(cipher != NVME_TCP_TLS_CIPHER_INVALID);
->>
->> I'm unclear about a few things here:
->> 1. what is the meaning of pre-provisioned vs. retained vs. generated?
->> 2. Can this loop be reorganized in a nested for loop with a break?
->>     I'm wandering if it will make it simpler to read.
->>
-> 'pre-provisioned' means that the admin has stored the keys in the 
-> keyring prior to calling 'nvme connect'.
-> 'generated' means a key which is derived from the key material generated 
-> from a previous DH-HMAC-CHAP transaction.
+> The actual issue with the tls code is the 'MSG_EOR' handling.
+> Problem is that tls is using MSG_EOR internally, and bails out on 
+> unknown MSG_ settings:
 
-Can we ignore the generated until a generation sequence code is actually
-introduced. This would help to digest this in a way that is simpler.
-
-> As for the loop: I am going back and forth between having a loop
-> (which is executed exactly four times) and unrolling the loop into four 
-> distinct calls to nvme_tls_psk_lookup().
-> It probably doesn't matter for the actual assembler code (as the 
-> compiler will be doing a loop unroll anyway), but the unrolled code 
-> would allow for better documentation, Code might be slightly longer, 
-> though, with lots of repetitions.
-> So really, I don't know which is best.
-
-I think that the best one would be to either:
-1. Have one valid identity at all times (not sure if that is
-too restrictive, see my questions above)
-2. Have userspace do the iterations.
-
-If both are not possible, or too difficult, then we should optimized
-for simplicity/readability not code size.
+That is fine, lets separate MSG_EOR for TLS, and any change from
+kernel_sendpage to kernel_sendmsg to a different patch (or eliminate
+it altogether if it is unneeded).
 
 > 
->>> +    return num;
->>> +}
->>> +
->>> +static void nvme_tcp_tls_done(void *data, int status, key_serial_t 
->>> peerid)
->>> +{
->>> +    struct nvme_tcp_queue *queue = data;
->>> +    struct nvme_tcp_ctrl *ctrl = queue->ctrl;
->>> +    int qid = nvme_tcp_queue_id(queue);
->>> +
->>> +    dev_dbg(ctrl->ctrl.device, "queue %d: TLS handshake done, key 
->>> %x, status %d\n",
->>> +        qid, peerid, status);
->>> +
->>> +    queue->tls_err = -status;
->>> +    if (queue->tls_complete)
->>> +        complete(queue->tls_complete);
->>> +}
->>> +
->>> +static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
->>> +                  struct nvme_tcp_queue *queue,
->>> +                  key_serial_t peerid)
->>> +{
->>> +    int qid = nvme_tcp_queue_id(queue);
->>> +    int ret;
->>> +    struct tls_handshake_args args;
->>> +    unsigned long tmo = tls_handshake_timeout * HZ;
->>> +    DECLARE_COMPLETION_ONSTACK(tls_complete);
->>> +
->>> +    dev_dbg(nctrl->device, "queue %d: start TLS with key %x\n",
->>> +        qid, peerid);
->>> +    args.ta_sock = queue->sock;
->>> +    args.ta_done = nvme_tcp_tls_done;
->>> +    args.ta_data = queue;
->>> +    args.ta_my_peerids[0] = peerid;
->>> +    args.ta_num_peerids = 1;
->>> +    args.ta_keyring = nvme_keyring_id();
->>> +    args.ta_timeout_ms = tls_handshake_timeout * 2 * 1000;
->>> +    queue->tls_err = -EOPNOTSUPP;
->>> +    queue->tls_complete = &tls_complete;
->>> +    ret = tls_client_hello_psk(&args, GFP_KERNEL);
->>> +    if (ret) {
->>> +        dev_dbg(nctrl->device, "queue %d: failed to start TLS: %d\n",
->>> +            qid, ret);
->>> +        return ret;
->>> +    }
->>> +    if (wait_for_completion_timeout(queue->tls_complete, tmo) == 0) {
->>> +        dev_dbg(nctrl->device,
->>> +            "queue %d: TLS handshake timeout\n", qid);
->>> +        queue->tls_complete = NULL;
->>> +        ret = -ETIMEDOUT;
->>> +    } else {
->>> +        dev_dbg(nctrl->device,
->>> +            "queue %d: TLS handshake complete, error %d\n",
->>> +            qid, queue->tls_err);
->>> +        ret = queue->tls_err;
->>> +    }
->>> +    queue->tls_complete = NULL;
->>> +    if (!ret)
->>> +        set_bit(NVME_TCP_Q_TLS, &queue->flags);
->>> +    return ret;
->>> +}
->>> +
->>> +static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
->>> +                key_serial_t peerid)
->>>   {
->>>       struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
->>>       struct nvme_tcp_queue *queue = &ctrl->queues[qid];
->>> @@ -1628,6 +1738,13 @@ static int nvme_tcp_alloc_queue(struct 
->>> nvme_ctrl *nctrl, int qid)
->>>           goto err_rcv_pdu;
->>>       }
->>> +    /* If PSKs are configured try to start TLS */
->>> +    if (peerid) {
->>
->> Where is peerid being initialized? Not to mention that peerid is
->> a rather cryptic name (at least to me). Is this the ClientHello
->> identity?
->>
-> 'peerid' is the term used in the netlink handshake protocol.
-> It actually is the key serial number of the PSK to use.
-> Maybe 'psk_id' would be more appropriate here.
-
-Probably psk_id is better.
-
->>> +        ret = nvme_tcp_start_tls(nctrl, queue, peerid);
->>> +        if (ret)
->>> +            goto err_init_connect;
->>> +    }
->>> +
->>>       ret = nvme_tcp_init_connection(queue);
->>>       if (ret)
->>>           goto err_init_connect;
->>> @@ -1774,11 +1891,22 @@ static int nvme_tcp_start_io_queues(struct 
->>> nvme_ctrl *ctrl,
->>>   static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
->>>   {
->>> -    int ret;
->>> +    int ret = -EINVAL, num_keys, k;
->>> +    key_serial_t keylist[4];
->>> -    ret = nvme_tcp_alloc_queue(ctrl, 0);
->>> -    if (ret)
->>> -        return ret;
->>> +    memset(keylist, 0, sizeof(key_serial_t));
->>> +    num_keys = nvme_tcp_lookup_psks(ctrl, keylist, 4);
->>> +    for (k = 0; k < num_keys; k++) {
->>> +        ret = nvme_tcp_alloc_queue(ctrl, 0, keylist[k]);
->>> +        if (!ret)
->>> +            break;
->>> +    }
->>> +    if (ret) {
->>> +        /* Try without TLS */
->>
->> Why? this is trying to always connect with tls and fallback to no-tls?
->> Why not simply do what userspace is asking us to do?
->>
->> Seems backwards to me. Unless there is a statement in the spec
->> that I'm not aware of which tells us to do so.
->>
-> This is an implication of the chosen method to select the PSK from the 
-> kernel code.
-> If we move PSK selection to userspace we clearly wouldn't need this.
-> But if we move PSK selection to userspace we need an updated nvme-cli 
-> for a) selecting the PSK from the keystore and b) passing in the new 
-> option.
-
-This at least for me, sounds better no?
-
-> So for development it was easier to run with the in-kernel selection as 
-> I don't need to modify nvme-cli.
-
-I understand. Thanks for explaining.
-
+> int tls_sw_sendmsg(struct sock *sk, struct msghdr *msg, size_t size)
+> {
+> [ .. ]
+>          if (msg->msg_flags & ~(MSG_MORE | MSG_DONTWAIT | MSG_NOSIGNAL |
+>                                 MSG_CMSG_COMPAT))
+>                  return -EOPNOTSUPP;
 > 
->>> +        ret = nvme_tcp_alloc_queue(ctrl, 0, 0);
->>> +        if (ret)
->>> +            goto out_free_queue;
->>> +    }
->>>       ret = nvme_tcp_alloc_async_req(to_tcp_ctrl(ctrl));
->>>       if (ret)
->>> @@ -1793,12 +1921,23 @@ static int nvme_tcp_alloc_admin_queue(struct 
->>> nvme_ctrl *ctrl)
->>>   static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
->>>   {
->>> -    int i, ret;
->>> +    int i, ret, num_keys = 0, k;
->>> +    key_serial_t keylist[4];
->>> +    memset(keylist, 0, sizeof(key_serial_t));
->>> +    num_keys = nvme_tcp_lookup_psks(ctrl, keylist, 4);
->>>       for (i = 1; i < ctrl->queue_count; i++) {
->>> -        ret = nvme_tcp_alloc_queue(ctrl, i);
->>> -        if (ret)
->>> -            goto out_free_queues;
->>> +        ret = -EINVAL;
->>> +        for (k = 0; k < num_keys; k++) {
->>> +            ret = nvme_tcp_alloc_queue(ctrl, i, keylist[k]);
->>> +            if (!ret)
->>> +                break;
->>
->> What is going on here. are you establishing queue_count x num_keys 
->> nvme queues?
->>
-> No, I am _trying_ to establish a connection, breaking out if the attempt
-> _succeeded_.
+> I would _vastly_ prefer to blank out unsupported flags (like MSG_EOR) 
+> from the TLS code, because to all intents and purposes MSG_EOR is just 
+> the opposite of MSG_MORE.
 
-Yes, it's just now confusing to read the code this way. The loop makes
-it difficult.
+Not exactly. But ok.
 
-Another approach would be to just do this dance for the admin queue, but
-for IO queues, use the same psk_id that resolved. If this loop must live
-in the driver, at least minimize it to the admin queue alone.
+> Or drop MSG_EOR usage from the nvme tcp code.
 
-As I said, I am absolutely not interested in supporting per connection
-psk_id.
+Possible to do. But MSG_EOR hints the network stack that no other
+payload is expected, so it can send it down the wire asap and avoid
+any batching heuristics.
+
+> But then I'm not _that_ into the networking code to make a judgement here.
+> And as we're using sendmsg() already I had been switching to use it for 
+> ktls, too (as I know that the sendmsg() flow worked).
+> But in the end I guess we could use sendpage going forward.
+
+I'd prefer not to change that at this point if it is supported properly.

@@ -1,33 +1,33 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C05A1FB1
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 08:12:17 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id fm20-20020a05600c0c1400b003ead37e6588so12444110wmb.5
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 01:12:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30DFF1FB1
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 08:16:16 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id i5-20020a05600c354500b003edd24054e0so5698733wmq.4
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 01:16:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679472735; x=1682064735;
+        d=1e100.net; s=20210112; t=1679472974;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qCUJxGjV7L1rJvHzwsGUV3/+MN9H6ACuEOI0mbTY1Sg=;
-        b=orB5n2LtA6s92vpHozIfSaCO5qMBz2EgXe89G9Im97vBJ/yACO33QIRiZkSzOY2IEd
-         d7KcgVy+NhsxJ3bBwTTRNd2BKjvfj5xNIT3HkHvOPJfEq8ggsE+7dBbe87xLJUbtVGUf
-         bqc7oxcQLCOSvtAx6e5CyhJVNK4GOPoYkBqSgi8/XjpGFQX8BH+0ivlcaWd2p3/x/6oT
-         FEEH79WqQ5q4di9C1uBtTh6fBA/vVt85KfUQlmkpJbJvzR5m011XJ+y1UCDne09zd6Az
-         2kyXav8SkKjd08BVe1tA51/z0JkXI34MklaqQFC4iFx+15a7UNrdmcvnABFJMVIZavn7
-         kw2w==
-X-Gm-Message-State: AO0yUKXOLd/w2gn98JY2VBsl0dZMMB2NNInaWbdpOCJ/haMvkrphv0Kt
-	r0Z15/+dh62gKpXdWaZwEoU=
-X-Google-Smtp-Source: AK7set+56Fe+VnCC1zoexfEfKHQN1RoOMZBvv3e7HYxbiXSklW6Ef2RbOdlbOEIPkxKjeXyqkMVbpg==
-X-Received: by 2002:a05:600c:4743:b0:3ed:c956:4854 with SMTP id w3-20020a05600c474300b003edc9564854mr5090652wmo.3.1679472735572;
-        Wed, 22 Mar 2023 01:12:15 -0700 (PDT)
+        bh=3m7i+zffP8jLV18BUeNJ3reiF252gBIRgmXKF/VSW4o=;
+        b=HhNKQ1rISN6rr7dg0k7NfexX6ZJ/c8DeBDrogdSRT5cr2RSEcj+XKpvkFxhxprKrPH
+         +AwqYWAzcZYa4XzIOKT84qVFIsg/pAOxaHTukUzT1WI9U527op4jOY4kFF9zlolu0Nuj
+         EYncFXaaI+g/eLoUkV2+Is6PIBUoJRvgGiwb/qryfnJURfUgkq4P4wPC4RuQxUtHhP0N
+         HUPET+htwMikFxBoMcLLN+7LedBTAfuLm1kU9CC7DYZ87e4luI8lllAtTWk5mcwMwswy
+         nhuOF7aY7j6MZUvRDhWtKjTDd5cwm+oYE28zTOvY5V5fAk3zImEiPiM95jQRvBL54MDb
+         XiIg==
+X-Gm-Message-State: AO0yUKWtmHNB2egxZJO3SllsVDB+lN0CQnbtYpbTNRndzy/kr/WHfh42
+	dKr11I7g4gZVITv4Pw/zx7s=
+X-Google-Smtp-Source: AK7set9P/8gSsiKFaEBTn2/l/DUTE7TSQucB+9QWRUZuQxGMuISE4lSBh0kqQZFklRRTB85ooBeJAg==
+X-Received: by 2002:a05:600c:4755:b0:3ee:1c42:6582 with SMTP id w21-20020a05600c475500b003ee1c426582mr5570499wmo.3.1679472974480;
+        Wed, 22 Mar 2023 01:16:14 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id bg5-20020a05600c3c8500b003e7f1086660sm22391000wmb.15.2023.03.22.01.12.14
+        by smtp.gmail.com with ESMTPSA id k14-20020a7bc40e000000b003ee0d191539sm7016764wmi.10.2023.03.22.01.16.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Mar 2023 01:12:15 -0700 (PDT)
-Message-ID: <e55cf3ce-6446-7663-aaac-45d497714db7@grimberg.me>
-Date: Wed, 22 Mar 2023 10:12:13 +0200
+        Wed, 22 Mar 2023 01:16:14 -0700 (PDT)
+Message-ID: <d57b8847-b57e-487d-cf90-c63f86716d6a@grimberg.me>
+Date: Wed, 22 Mar 2023 10:16:12 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -36,81 +36,42 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 06/18] nvme-tcp: call 'queue->data_ready()' in
- nvme_tcp_data_ready()
+Subject: Re: [RFC PATCH 00/18] nvme: In-kernel TLS support for TCP
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Chris Leech <cleech@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, Chuck Lever <cel@kernel.org>,
- kernel-tls-handshake@lists.linux.dev
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Chuck Lever <cel@kernel.org>, kernel-tls-handshake@lists.linux.dev
 References: <20230321124325.77385-1-hare@suse.de>
- <20230321124325.77385-7-hare@suse.de>
- <d868b752-1d8b-1236-3543-c9ef82e42f23@grimberg.me>
- <3bd2c6b4-b276-b882-6f28-998118f96650@suse.de> <ZBpJQENvFoyGortp@localhost>
- <2dbd26ec-c384-866c-8d76-38364fa3330e@suse.de>
+ <98884644-99f3-7b3c-387a-66fbdd98d4ed@grimberg.me>
+ <f9630511-d843-89fe-64db-1a4c41dbbd08@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <2dbd26ec-c384-866c-8d76-38364fa3330e@suse.de>
+In-Reply-To: <f9630511-d843-89fe-64db-1a4c41dbbd08@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-
-On 3/22/23 08:59, Hannes Reinecke wrote:
-> On 3/22/23 01:18, Chris Leech wrote:
->> On Tue, Mar 21, 2023 at 03:09:06PM +0100, Hannes Reinecke wrote:
->>> On 3/21/23 14:44, Sagi Grimberg wrote:
->>>>
->>>>> Call the original data_ready() callback in nvme_tcp_data_ready()
->>>>> to avoid a receive stall.
->>>>
->>>> Can you please improve the description to include what is the stall?
->>>> For example, does the stall exist today? If it is, I would like to
->>>> separate such patches from this set and include them asap.
->>>>
->>> That is actually particular to the TLS implementation, as it uses the
->>> 'data_ready' callback to produce the data which can be read by eg 
->>> recvmsg().
+>>> Hi all,
 >>>
->>> Without this call there's no data to peruse for recvmsg().
->>>
->>> But I'm not _that_ deep into networking details to know whether this 
->>> is TLS
->>> specific or an issue with any data_ready callback.
->>> I assume the latter, but then again, who knows.
->>>
->>> Hence the slightly vague description.
+>>> finally I've managed to put all things together and enable in-kernel
+>>> TLS support for NVMe-over-TCP.
 >>
->> This looks like the socket callbacks end up hooked in the wrong order.
->> Ideally it would be tcp -> tls -> nvme_tcp, while this currently looks
->> like tcp -> nvme_tcp and then this call back to tls for decryption.
+>> Hannes (and Chuck) this is great, I'm very happy to see this!
 >>
-> Well, problem is that I need not one but two sets the callbacks.
-> One callback is for waking up userspace (took me weeks to figure that 
-> out), and needs to added before calling the userspace helper.
-> The other is the 'normal' nvme-tcp callback:
-> 
-> tcp->nvme-upcall->tls->nvme-tcp
-> 
-> So really the problem is not so much an inversion, but rather the fact
-> that the nvme-upcall callback is really only needed for the duration
-> of the handshake. And hence I thought that we should remove the callback
-> once we're done with the upcall.
-
-What do you mean remove the callback? data_ready? I'm not sure I'm
-following.
-
-> Turns out that we can't, and the best we can do is to disable the 
-> functionality, leaving the callback itself in place.
-> 
->> I'm not quite sure how to untangle this; nvme_tcp can't just set it's
->> own callbacks before initializing kTLS, becuse that's being done by
->> tlshd which is going to need the userspace socket API callbacks working.
+>> I'll start a detailed review soon enough.
 >>
-> Correct.
-> So for now I'll leave the callbacks in place, even though they are 
-> pointless after the upcall.
+>> Thank you for doing this.
+>>
+>>> The patchset is based on the TLS upcall mechanism from Chuck Lever
+>>> (cf '[PATCH v7 0/2] Another crack at a handshake upcall mechanism'
+>>> posted to the linux netdev list), and requires the 'tlshd' userspace
+>>> daemon (https://github.com/oracle/ktls-utils) for the actual TLS 
+>>> handshake.
+>>
+>> Do you have an actual link to follow for this patch set?
+> 
+> Sure.
+> 
+> git.kernel.org:/pub/scm/linux/kernel/git/hare/scsi-devel.git
+> branch tls-netlink.v7
 
-Does it make any difference now that callbacks setting moved to
-nvme_tcp_start_queue?
-
-Again, I'm not sure I understand what callback is pointless?
+I meant Chuck's posting on linux-netdev.

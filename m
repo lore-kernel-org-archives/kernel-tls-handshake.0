@@ -1,33 +1,33 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F1F23D4
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 11:18:44 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id v4-20020a05600c470400b003ee4f06428fso1665526wmo.4
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 04:18:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3802566
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 11:33:09 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id bg16-20020a05600c3c9000b003eb34e21bdfso12812692wmb.0
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 04:33:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679483923; x=1682075923;
+        d=1e100.net; s=20210112; t=1679484788; x=1682076788;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=htnKwTBpaZzkYcIip0l+gvKsTEcHUHQEkX4OJ+WhFAo=;
-        b=PXDzxdWStlsq+klP+m2IXYYuwGSrxPdrig7yERFKsBXzCWGkCeeyV0N8kC8ZmoKW05
-         0QQh8RhRH4ojUPFFICBJJOiLyTwzMR+pSCgBmfqXt75v7jXDG1aCMMHO4CLclr4jzJzr
-         t246HybNx9lKb3UGzIKdtjuGHU/xMaHS8yc2su1lu3fv9sFWSUz7OyJwALdWjuzw/HGd
-         qFn3QNzI4zwt3pDFdV8RCWZ+664yrU14E4ca0/2rws1V80PaLdr3YjPIxYNQrQYWmdjT
-         cDEVnVRdEzGfQbek7XZVG+LMBjKAfre2W10akicWg8bnVUlSKKo8x8zba8iuqWgDZhQg
-         BLmQ==
-X-Gm-Message-State: AO0yUKU4LPFQ6GL0lVa/mlimpOR/ZAS8frSlPlGmQ0vpkeEN5pM/gKry
-	UpcBgEoDjxMq7s5hwrXPmjc=
-X-Google-Smtp-Source: AK7set++o1ca6aGHTmOmaOaTrb/TYh7GTWDWnn7d4bMIDsJXPKtPwB6ZafUz/ySUzYG/t9nnRHlhsA==
-X-Received: by 2002:a05:600c:4504:b0:3ed:d119:df27 with SMTP id t4-20020a05600c450400b003edd119df27mr5815404wmo.3.1679483922938;
-        Wed, 22 Mar 2023 04:18:42 -0700 (PDT)
+        bh=bhADh05tE8V09pdMJVFbERuYWGTOhtvfa2xFcWhkvk8=;
+        b=5kPtPgSRvfdipWk4p2vWj+2K3kNHVDovQ0NaaO8uFywojn50bZPSy9Zs7DRo2PdOeU
+         M5li8TZFN83/pt7iLOX14Fs4EpvL889JUvdlLykjN01us3MkU3Gl1mn9iMZN/37j1oQ/
+         E0vnid6JLr8Zd3kuIkjQyjuhvUJ6WTggLYdYGFRdIwTlOsf6JzSsUurcc6V9X89TIkUj
+         P6dk4bf8l+wk5hT2hXUWdd0ldzicqlh+uOJtTuRKcJbMXiBAXlIayN/d1W8Mvfw39wo3
+         IY9RExVEf/M83zWVV24m7jsJHgqPSK0vli2CapA+ulzKhDuJAnXBtZr1pEi3p7Q+XLxZ
+         Z6zA==
+X-Gm-Message-State: AO0yUKUHRCDSXCN6RWv2LVoc+bcRx/I+0GI+BGbxMwKVZzClvHTn+IUB
+	fWG36g24MIeZ6ZgJ/kKxxM0=
+X-Google-Smtp-Source: AK7set9khoviidrqaAgFWWljv4M7OtRDy9zpYyOOYZEnFeeGGfkThwXJMF8Nk8MyYsdEBZWsvxwEEw==
+X-Received: by 2002:a05:600c:4f47:b0:3e2:17c2:fc8 with SMTP id m7-20020a05600c4f4700b003e217c20fc8mr5622393wmq.2.1679484787713;
+        Wed, 22 Mar 2023 04:33:07 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id k22-20020a05600c0b5600b003ed2987690dsm16407381wmr.26.2023.03.22.04.18.40
+        by smtp.gmail.com with ESMTPSA id l2-20020a05600c4f0200b003ee610d1ce9sm1568384wmq.34.2023.03.22.04.33.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Mar 2023 04:18:42 -0700 (PDT)
-Message-ID: <c97a8ac1-255a-4a54-1bb5-0bedf22a6774@grimberg.me>
-Date: Wed, 22 Mar 2023 13:18:38 +0200
+        Wed, 22 Mar 2023 04:33:07 -0700 (PDT)
+Message-ID: <0be88516-8e29-a1a5-f0ff-204830c0fba5@grimberg.me>
+Date: Wed, 22 Mar 2023 13:33:06 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -36,154 +36,181 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 10/18] nvme-tcp: fixup send workflow for kTLS
+Subject: Re: [PATCH 11/18] nvme-tcp: control message handling for recvmsg()
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
+ "boris.pismenny@gmail.com" <boris.pismenny@gmail.com>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  Chuck Lever <cel@kernel.org>, kernel-tls-handshake@lists.linux.dev
 References: <20230321124325.77385-1-hare@suse.de>
- <20230321124325.77385-11-hare@suse.de>
- <e189b779-8621-bfa6-4c7a-1eb38bd1c29d@grimberg.me>
- <3b0f2af5-5dfa-ed76-a6a6-2715d9e05e70@suse.de>
+ <20230321124325.77385-12-hare@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <3b0f2af5-5dfa-ed76-a6a6-2715d9e05e70@suse.de>
+In-Reply-To: <20230321124325.77385-12-hare@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
+> kTLS is sending TLS ALERT messages as control messages for recvmsg().
+> As we can't do anything sensible with it just abort the connection
+> and let the userspace agent to a re-negotiation.
 
-On 3/22/23 12:08, Hannes Reinecke wrote:
-> On 3/22/23 10:31, Sagi Grimberg wrote:
->>
->>
->> On 3/21/23 14:43, Hannes Reinecke wrote:
->>> kTLS does not support MSG_EOR flag for sendmsg(), and the ->sendpage()
->>> call really doesn't bring any benefit as data has to be copied
->>> anyway.
->>> So use sock_no_sendpage() or sendmsg() instead, and ensure that the
->>> MSG_EOR flag is blanked out for kTLS.
->>>
->>> Signed-off-by: Hannes Reinecke <hare@suse.de>
->>> ---
->>>   drivers/nvme/host/tcp.c | 33 +++++++++++++++++++++------------
->>>   1 file changed, 21 insertions(+), 12 deletions(-)
->>>
->>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->>> index bbff1f52a167..007d457cacf9 100644
->>> --- a/drivers/nvme/host/tcp.c
->>> +++ b/drivers/nvme/host/tcp.c
->>> @@ -1034,13 +1034,19 @@ static int nvme_tcp_try_send_data(struct 
->>> nvme_tcp_request *req)
->>>           bool last = nvme_tcp_pdu_last_send(req, len);
->>>           int req_data_sent = req->data_sent;
->>>           int ret, flags = MSG_DONTWAIT;
->>> +        bool do_sendpage = sendpage_ok(page);
->>> -        if (last && !queue->data_digest && !nvme_tcp_queue_more(queue))
->>> +        if (!last || queue->data_digest || nvme_tcp_queue_more(queue))
->>> +            flags |= MSG_MORE;
->>> +        else if (!test_bit(NVME_TCP_Q_TLS, &queue->flags))
->>>               flags |= MSG_EOR;
->>> -        else
->>> -            flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
->>
->> I think its time to move the flags setting to a helper.
->>
->>> -        if (sendpage_ok(page)) {
->>> +        if (test_bit(NVME_TCP_Q_TLS, &queue->flags))
->>> +            do_sendpage = false;
->>> +
->>> +        if (do_sendpage) {
->>
->> The do_sendpage looks redundant to me.
->>
->>> +            if (flags & MSG_MORE)
->>> +                flags |= MSG_SENDPAGE_NOTLAST;
->>>               ret = kernel_sendpage(queue->sock, page, offset, len,
->>>                       flags);
->>
->> I think that the SENDPAGE_NOLAST should be set together with MSG_MORE
->> regardless.
->>
->>>           } else {
->>> @@ -1088,19 +1094,22 @@ static int nvme_tcp_try_send_cmd_pdu(struct 
->>> nvme_tcp_request *req)
->>>       bool inline_data = nvme_tcp_has_inline_data(req);
->>>       u8 hdgst = nvme_tcp_hdgst_len(queue);
->>>       int len = sizeof(*pdu) + hdgst - req->offset;
->>> -    int flags = MSG_DONTWAIT;
->>> +    struct msghdr msg = { .msg_flags = MSG_DONTWAIT };
->>> +    struct kvec iov = {
->>> +        .iov_base = (u8 *)req->pdu + req->offset,
->>> +        .iov_len = len,
->>> +    };
->>>       int ret;
->>>       if (inline_data || nvme_tcp_queue_more(queue))
->>> -        flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
->>> -    else
->>> -        flags |= MSG_EOR;
->>> +        msg.msg_flags |= MSG_MORE;
->>> +    else if (!test_bit(NVME_TCP_Q_TLS, &queue->flags))
->>> +        msg.msg_flags |= MSG_EOR;
->>>       if (queue->hdr_digest && !req->offset)
->>>           nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
->>> -    ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
->>> -            offset_in_page(pdu) + req->offset, len,  flags);
->>> +    ret = kernel_sendmsg(queue->sock, &msg, &iov, 1, iov.iov_len);
->>
->> I'd prefer to do kernel_sednpage/sock_no_sendpage similar to how we do
->> it for data and data pdu.
->>
->>>       if (unlikely(ret <= 0))
->>>           return ret;
->>> @@ -1131,7 +1140,7 @@ static int nvme_tcp_try_send_data_pdu(struct 
->>> nvme_tcp_request *req)
->>>       if (queue->hdr_digest && !req->offset)
->>>           nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
->>> -    if (!req->h2cdata_left)
->>> +    if (!test_bit(NVME_TCP_Q_TLS, &queue->flags) && !req->h2cdata_left)
->>>           ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
->>>                   offset_in_page(pdu) + req->offset, len,
->>>                   MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
->>
->> Something is unclear to me. Is kernel_sendpage unsupported with tls? (I
->> think it is). I understand the motivation to add more checks in the code
->> for kernel_sendpage vs. sock_no_sendpage given that it should be
->> perfectly fine to use either.
->>
->> Did you see any regressions with using kernel_sendpage? If so, isn't
->> that a bug in the tls code?
-> 
-> The actual issue with the tls code is the 'MSG_EOR' handling.
-> Problem is that tls is using MSG_EOR internally, and bails out on 
-> unknown MSG_ settings:
+Is this a problem if we do end up adding read_sock to tls?
+Although I do see that the tls code does manage this in the
+sk_buff control buffer, so I assume there is access to this info.
 
-That is fine, lets separate MSG_EOR for TLS, and any change from
-kernel_sendpage to kernel_sendmsg to a different patch (or eliminate
-it altogether if it is unneeded).
+CC'ing Boris here as well.
 
 > 
-> int tls_sw_sendmsg(struct sock *sk, struct msghdr *msg, size_t size)
-> {
-> [ .. ]
->          if (msg->msg_flags & ~(MSG_MORE | MSG_DONTWAIT | MSG_NOSIGNAL |
->                                 MSG_CMSG_COMPAT))
->                  return -EOPNOTSUPP;
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> ---
+>   drivers/nvme/host/tcp.c | 68 +++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 68 insertions(+)
 > 
-> I would _vastly_ prefer to blank out unsupported flags (like MSG_EOR) 
-> from the TLS code, because to all intents and purposes MSG_EOR is just 
-> the opposite of MSG_MORE.
-
-Not exactly. But ok.
-
-> Or drop MSG_EOR usage from the nvme tcp code.
-
-Possible to do. But MSG_EOR hints the network stack that no other
-payload is expected, so it can send it down the wire asap and avoid
-any batching heuristics.
-
-> But then I'm not _that_ into the networking code to make a judgement here.
-> And as we're using sendmsg() already I had been switching to use it for 
-> ktls, too (as I know that the sendmsg() flow worked).
-> But in the end I guess we could use sendpage going forward.
-
-I'd prefer not to change that at this point if it is supported properly.
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 007d457cacf9..e0fc98ac9e05 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -13,6 +13,7 @@
+>   #include <linux/nvme-keyring.h>
+>   #include <net/sock.h>
+>   #include <net/tcp.h>
+> +#include <net/tls.h>
+>   #include <net/handshake.h>
+>   #include <linux/blk-mq.h>
+>   #include <crypto/hash.h>
+> @@ -727,7 +728,12 @@ static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, bool pending)
+>   {
+>   	struct nvme_tcp_hdr *hdr;
+>   	size_t rcv_len = queue->pdu_remaining;
+> +	char cbuf[CMSG_LEN(sizeof(char))] = {};
+> +	struct cmsghdr *cmsg;
+> +	unsigned char ctype;
+>   	struct msghdr msg = {
+> +		.msg_control = cbuf,
+> +		.msg_controllen = sizeof(cbuf),
+>   		.msg_flags = pending ? 0 : MSG_DONTWAIT,
+>   	};
+>   	struct kvec iov = {
+> @@ -743,6 +749,18 @@ static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, bool pending)
+>   			     iov.iov_len, msg.msg_flags);
+>   	if (ret <= 0)
+>   		return ret;
+> +	cmsg = (struct cmsghdr *)cbuf;
+> +	if (CMSG_OK(&msg, cmsg) &&
+> +	    cmsg->cmsg_level == SOL_TLS &&
+> +	    cmsg->cmsg_type == TLS_GET_RECORD_TYPE) {
+> +		ctype = *((unsigned char *)CMSG_DATA(cmsg));
+> +		if (ctype != TLS_RECORD_TYPE_DATA) {
+> +			dev_err(queue->ctrl->ctrl.device,
+> +				"queue %d unhandled TLS record %d\n",
+> +				nvme_tcp_queue_id(queue), ctype);
+> +			return -ENOTCONN;
+> +		}
+> +	}
+>   
+>   	rcv_len = ret;
+>   	queue->pdu_remaining -= rcv_len;
+> @@ -793,6 +811,9 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue)
+>   	struct request *rq =
+>   		nvme_cid_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
+>   	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+> +	char cbuf[CMSG_LEN(sizeof(char))];
+> +	struct cmsghdr *cmsg;
+> +	unsigned char ctype;
+>   
+>   	if (nvme_tcp_recv_state(queue) != NVME_TCP_RECV_DATA)
+>   		return 0;
+> @@ -824,6 +845,8 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue)
+>   		/* we can read only from what is left in this bio */
+>   		memset(&msg, 0, sizeof(msg));
+>   		msg.msg_iter = req->iter;
+> +		msg.msg_control = cbuf;
+> +		msg.msg_controllen = sizeof(cbuf);
+>   
+>   		ret = sock_recvmsg(queue->sock, &msg, 0);
+>   		if (ret <= 0) {
+> @@ -832,6 +855,18 @@ static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue)
+>   				nvme_tcp_queue_id(queue), rq->tag);
+>   			return ret;
+>   		}
+> +		cmsg = (struct cmsghdr *)cbuf;
+> +		if (CMSG_OK(&msg, cmsg) &&
+> +		    cmsg->cmsg_level == SOL_TLS &&
+> +		    cmsg->cmsg_type == TLS_GET_RECORD_TYPE) {
+> +			ctype = *((unsigned char *)CMSG_DATA(cmsg));
+> +			if (ctype != TLS_RECORD_TYPE_DATA) {
+> +				dev_err(queue->ctrl->ctrl.device,
+> +					"queue %d unhandled TLS record %d\n",
+> +					nvme_tcp_queue_id(queue), ctype);
+> +				return -ENOTCONN;
+> +			}
+> +		}
+>   
+>   		queue->data_remaining -= ret;
+>   		if (queue->data_remaining)
+> @@ -861,7 +896,12 @@ static int nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue)
+>   	char *ddgst = (char *)&queue->recv_ddgst;
+>   	size_t recv_len = queue->ddgst_remaining;
+>   	off_t off = NVME_TCP_DIGEST_LENGTH - queue->ddgst_remaining;
+> +	char cbuf[CMSG_LEN(sizeof(char))] = {};
+> +	struct cmsghdr *cmsg;
+> +	unsigned char ctype;
+>   	struct msghdr msg = {
+> +		.msg_control = cbuf,
+> +		.msg_controllen = sizeof(cbuf),
+>   		.msg_flags = 0,
+>   	};
+>   	struct kvec iov = {
+> @@ -877,6 +917,18 @@ static int nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue)
+>   			     msg.msg_flags);
+>   	if (ret <= 0)
+>   		return ret;
+> +	cmsg = (struct cmsghdr *)cbuf;
+> +	if (CMSG_OK(&msg, cmsg) &&
+> +	    cmsg->cmsg_level == SOL_TLS &&
+> +	    cmsg->cmsg_type == TLS_GET_RECORD_TYPE) {
+> +		ctype = *((unsigned char *)CMSG_DATA(cmsg));
+> +		if (ctype != TLS_RECORD_TYPE_DATA) {
+> +			dev_err(queue->ctrl->ctrl.device,
+> +				"queue %d unhandled TLS record %d\n",
+> +				nvme_tcp_queue_id(queue), ctype);
+> +			return -ENOTCONN;
+> +		}
+> +	}
+>   
+>   	recv_len = ret;
+>   	queue->ddgst_remaining -= recv_len;
+> @@ -1372,6 +1424,9 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+>   {
+>   	struct nvme_tcp_icreq_pdu *icreq;
+>   	struct nvme_tcp_icresp_pdu *icresp;
+> +	char cbuf[CMSG_LEN(sizeof(char))] = {};
+> +	struct cmsghdr *cmsg;
+> +	unsigned char ctype;
+>   	struct msghdr msg = {};
+>   	struct kvec iov;
+>   	bool ctrl_hdgst, ctrl_ddgst;
+> @@ -1409,10 +1464,23 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+>   	memset(&msg, 0, sizeof(msg));
+>   	iov.iov_base = icresp;
+>   	iov.iov_len = sizeof(*icresp);
+> +	msg.msg_control = cbuf;
+> +	msg.msg_controllen = sizeof(cbuf);
+>   	ret = kernel_recvmsg(queue->sock, &msg, &iov, 1,
+>   			iov.iov_len, msg.msg_flags);
+>   	if (ret < 0)
+>   		goto free_icresp;
+> +	cmsg = (struct cmsghdr *)cbuf;
+> +	if (CMSG_OK(&msg, cmsg) &&
+> +	    cmsg->cmsg_level == SOL_TLS &&
+> +	    cmsg->cmsg_type == TLS_GET_RECORD_TYPE) {
+> +		ctype = *((unsigned char *)CMSG_DATA(cmsg));
+> +		if (ctype != TLS_RECORD_TYPE_DATA) {
+> +			pr_err("queue %d: unhandled TLS record %d\n",
+> +			       nvme_tcp_queue_id(queue), ctype);
+> +			return -ENOTCONN;
+> +		}
+> +	}
+>   
+>   	ret = -EINVAL;
+>   	if (icresp->hdr.type != nvme_tcp_icresp) {

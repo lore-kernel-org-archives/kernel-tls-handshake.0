@@ -1,177 +1,216 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B8D1FDE
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 08:49:04 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id l12so16147845wrm.10
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 01:49:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D4A23AD
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 09:03:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1679475805;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WdEWwL51ZkiGuS5kFF5PkjZVQVANqxT2a0QBXyVpkrk=;
+	b=RSWNpjmpV76LxtlR0UputGFt5mxNpmOeEr/QCAIxXKlj2qWDFAYN9FkWqYO6AEcZXm0Mst
+	/SDOmVTheHgZkvd4qDE9vPftXcDliljO532eo1T7oUmrFtFmQE1Tk6iI9+pQquh9TDY/Sv
+	q8Qj6BC21rxY6IWj4ufQewcLLKGW/pk=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-587-prdXSfcZMAWtbTHSvabuww-1; Wed, 22 Mar 2023 05:03:24 -0400
+X-MC-Unique: prdXSfcZMAWtbTHSvabuww-1
+Received: by mail-qv1-f70.google.com with SMTP id e11-20020ad4536b000000b005a9292e8c2bso8992963qvv.1
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 02:03:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679474943;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jyzJCjEb3uLVZsp7cxfG/DqIFon8OUNxLH/9tEstvh8=;
-        b=oJR5RTfRgIA6IfIuqTMkZ6i3Ir29xCE1N8CXg5fxAUVtj/F5FIeNTUES5nqlu6fBHG
-         TXsnipBFeUujSKoETgOjsA3tQTXvmTSh7RyE3G8y82XH1WxWDf3lPKsW47dlfPC5823v
-         plHYdO6RgE7W439vv2idGW/zPImhnLPhb6rijF04qd3l2rG2LABGesP5s6bVvc31HtlR
-         /L4zVj/APZWk8//0Oe6mGp/x5UVDNkDUWg08NXb7uDSs31s5A2/H42ciLz9rCM9MuIPh
-         Ip31n5JPUfZ9z7noPo7uvwqnL1yXGsuP2ho/FpaA23pvlr6oaOihW5CvS4LcfEOIyupm
-         XNQA==
-X-Gm-Message-State: AO0yUKUHgkMBAnhHA9js8qkQc49QpDTpN66u4WQQe7rGBuxvjiHUam/d
-	PXbNWaHB7sECLkonutbxnHI=
-X-Google-Smtp-Source: AK7set9W7ZqKSwztAWJSyPyxEf8ZvRdhlJzLFh1FsEOSXyYcenAg3oOct09itrpgkHMrNArwOmtRSQ==
-X-Received: by 2002:a5d:6e54:0:b0:2d2:9c19:f75 with SMTP id j20-20020a5d6e54000000b002d29c190f75mr3719388wrz.1.1679474943263;
-        Wed, 22 Mar 2023 01:49:03 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id d12-20020adffbcc000000b002c54e26bca5sm13357345wrs.49.2023.03.22.01.49.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Mar 2023 01:49:03 -0700 (PDT)
-Message-ID: <7480845a-1a95-2801-a929-b6b3dc0ad88d@grimberg.me>
-Date: Wed, 22 Mar 2023 10:49:01 +0200
+        d=1e100.net; s=20210112; t=1679475804;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/zm6fHynkBFWZGfQdf0VUoXVF9x4NZeMNqBI588ZQLQ=;
+        b=SdfWJAsVx38HpTbg/EzkJuzEHvMzJx2Dwz9iJaRHne53gBFcpH3w5Jms2bXuKCuNdt
+         1pPXkSiTvd5/cklonpP9bByM3Hw4XXecFUHxN5I6iAf5NNnqhHZ4sSE/hQFYxtOjWO8/
+         6chBa3xAoGWzpL/6KkOBFz4GL7TQbwcBItqcVNfnvcZ7PxrlyeQvMCniNiqtdAJCWf8g
+         R6z6HwdDXkmViv508yY+iM3j7gm/gpbHpQ3gC2OnWgIoR3X8OqullLXBWhZvkbvKPCgu
+         hI7d6ZC1y/oZeLoCTEY+PZMZO17XO0SyPXXwmogE7oCzESu8IVTB4/WSIOglx1ynpKVP
+         ixBA==
+X-Gm-Message-State: AO0yUKW9/DaqJtyHec3J354Od0bObTRMOpNFkYSvCiZM5CrnOHZqVgcy
+	e5+onhTx/lEi/ESzFU3gWESW7ev0bRjNe0q6v/TWtDapU+nnVTyCFcU88yoq3ib+Sn9fuMGvKMu
+	DadrawBgLUp4HeHVnnae1EjsLhjwA/+YZ+Ps=
+X-Received: by 2002:a05:6214:300f:b0:5a8:a090:59c8 with SMTP id ke15-20020a056214300f00b005a8a09059c8mr8584051qvb.4.1679475803784;
+        Wed, 22 Mar 2023 02:03:23 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+/51KpdCOsu3NLy3CjzKOj3PT56zaQDyi5tZEdyg3IM69is8V7UTLNw1gT/lxHLhoA2L/TmA==
+X-Received: by 2002:a05:6214:300f:b0:5a8:a090:59c8 with SMTP id ke15-20020a056214300f00b005a8a09059c8mr8584024qvb.4.1679475803460;
+        Wed, 22 Mar 2023 02:03:23 -0700 (PDT)
+Received: from gerbillo.redhat.com (146-241-244-168.dyn.eolo.it. [146.241.244.168])
+        by smtp.gmail.com with ESMTPSA id a4-20020ae9e804000000b007467f8b76f0sm6409594qkg.41.2023.03.22.02.03.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Mar 2023 02:03:22 -0700 (PDT)
+Message-ID: <dc32e3654de0bee5d8c6cf64375fa491b89d655f.camel@redhat.com>
+Subject: Re: [PATCH v7 1/2] net/handshake: Create a NETLINK service for
+ handling handshake requests
+From: Paolo Abeni <pabeni@redhat.com>
+To: Chuck Lever III <chuck.lever@oracle.com>
+Cc: Chuck Lever <cel@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Eric
+ Dumazet <edumazet@google.com>, "open list:NETWORKING [GENERAL]"
+ <netdev@vger.kernel.org>,  "kernel-tls-handshake@lists.linux.dev"
+ <kernel-tls-handshake@lists.linux.dev>, John Haxby <john.haxby@oracle.com>
+Date: Wed, 22 Mar 2023 10:03:19 +0100
+In-Reply-To: <674AEE9C-BDB7-440E-902E-73918D6E2370@oracle.com>
+References: <167915594811.91792.15722842400657376706.stgit@manet.1015granger.net>
+	 <167915629953.91792.17220269709156129944.stgit@manet.1015granger.net>
+	 <3dc6b9290984bc07ae5ac9c5a9fba01742b64f84.camel@redhat.com>
+	 <674AEE9C-BDB7-440E-902E-73918D6E2370@oracle.com>
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 02/18] nvme-keyring: define a 'psk' keytype
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Chuck Lever <cel@kernel.org>, kernel-tls-handshake@lists.linux.dev
-References: <20230321124325.77385-1-hare@suse.de>
- <20230321124325.77385-3-hare@suse.de>
- <d5ca39af-ff50-db27-ab1b-a8c57d2152b9@grimberg.me>
- <fa1f8cd0-4bb7-c3cc-f4ca-64e2f877b528@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <fa1f8cd0-4bb7-c3cc-f4ca-64e2f877b528@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, 2023-03-21 at 13:58 +0000, Chuck Lever III wrote:
+>=20
+> > On Mar 21, 2023, at 7:27 AM, Paolo Abeni <pabeni@redhat.com> wrote:
+> >=20
+> > On Sat, 2023-03-18 at 12:18 -0400, Chuck Lever wrote:
+> > > +/**
+> > > + * handshake_req_alloc - consumer API to allocate a request
+> > > + * @sock: open socket on which to perform a handshake
+> > > + * @proto: security protocol
+> > > + * @flags: memory allocation flags
+> > > + *
+> > > + * Returns an initialized handshake_req or NULL.
+> > > + */
+> > > +struct handshake_req *handshake_req_alloc(struct socket *sock,
+> > > +=09=09=09=09=09  const struct handshake_proto *proto,
+> > > +=09=09=09=09=09  gfp_t flags)
+> > > +{
+> > > +=09struct sock *sk =3D sock->sk;
+> > > +=09struct net *net =3D sock_net(sk);
+> > > +=09struct handshake_net *hn =3D handshake_pernet(net);
+> > > +=09struct handshake_req *req;
+> > > +
+> > > +=09if (!hn)
+> > > +=09=09return NULL;
+> > > +
+> > > +=09req =3D kzalloc(struct_size(req, hr_priv, proto->hp_privsize), fl=
+ags);
+> > > +=09if (!req)
+> > > +=09=09return NULL;
+> > > +
+> > > +=09sock_hold(sk);
+> >=20
+> > The hr_sk reference counting is unclear to me. It looks like
+> > handshake_req retain a reference to such socket, but
+> > handshake_req_destroy()/handshake_sk_destruct() do not release it.
+>=20
+> If we rely on sk_destruct to release the final reference count,
+> it will never get invoked.
+>=20
+>=20
+> > Perhaps is better moving such sock_hold() into handshake_req_submit(),
+> > once that the request is successful?
+>=20
+> I will do that.
+>=20
+> Personally, I find it more clear to bump a reference count when
+> saving a copy of the object's pointer, as is done in _alloc. But if
+> others find it easier the other way, I have no problem changing
+> it to suit community preferences.
 
->> On 3/21/23 14:43, Hannes Reinecke wrote:
->>> Define a 'psk' keytype to hold the NVMe TLS PSKs.
->>>
->>> Signed-off-by: Hannes Reinecke <hare@suse.de>
->>> ---
->>>   drivers/nvme/common/keyring.c | 96 +++++++++++++++++++++++++++++++++++
->>>   include/linux/nvme-keyring.h  |  8 +++
->>>   2 files changed, 104 insertions(+)
->>>
->>> diff --git a/drivers/nvme/common/keyring.c 
->>> b/drivers/nvme/common/keyring.c
->>> index 3a6e8a0b38e2..6cbb9d66e0f6 100644
->>> --- a/drivers/nvme/common/keyring.c
->>> +++ b/drivers/nvme/common/keyring.c
->>> @@ -11,6 +11,96 @@
->>>   static struct key *nvme_keyring;
->>> +key_serial_t nvme_keyring_id(void)
->>> +{
->>> +    return nvme_keyring->serial;
->>> +}
->>> +EXPORT_SYMBOL_GPL(nvme_keyring_id);
->>> +
->>> +static void nvme_tls_psk_describe(const struct key *key, struct 
->>> seq_file *m)
->>> +{
->>> +    seq_puts(m, key->description);
->>> +    seq_printf(m, ": %u", key->datalen);
->>> +}
->>> +
->>> +static bool nvme_tls_psk_match(const struct key *key,
->>> +                   const struct key_match_data *match_data)
->>> +{
->>> +    const char *match_id;
->>> +    size_t match_len;
->>> +
->>> +    if (!key->description) {
->>> +        pr_debug("%s: no key description\n", __func__);
->>> +        return false;
->>> +    }
->>> +    match_len = strlen(key->description);
->>> +    pr_debug("%s: id %s len %zd\n", __func__, key->description, 
->>> match_len);
->>> +
->>> +    if (!match_data->raw_data) {
->>> +        pr_debug("%s: no match data\n", __func__);
->>> +        return false;
->>> +    }
->>> +    match_id = match_data->raw_data;
->>> +    pr_debug("%s: match '%s' '%s' len %lu\n",
->>> +         __func__, match_id, key->description, match_len);
->>> +    return !memcmp(key->description, match_id, match_len);
->>> +}
->>> +
->>> +static int nvme_tls_psk_match_preparse(struct key_match_data 
->>> *match_data)
->>> +{
->>> +    match_data->lookup_type = KEYRING_SEARCH_LOOKUP_ITERATE;
->>> +    match_data->cmp = nvme_tls_psk_match;
->>> +    return 0;
->>> +}
->>> +
->>> +static struct key_type nvme_tls_psk_key_type = {
->>> +    .name           = "psk",
->>> +    .flags          = KEY_TYPE_NET_DOMAIN,
->>> +    .preparse       = user_preparse,
->>> +    .free_preparse  = user_free_preparse,
->>> +    .match_preparse = nvme_tls_psk_match_preparse,
->>> +    .instantiate    = generic_key_instantiate,
->>> +    .revoke         = user_revoke,
->>> +    .destroy        = user_destroy,
->>> +    .describe       = nvme_tls_psk_describe,
->>> +    .read           = user_read,
->>> +};
->>> +
->>
->> Hannes, can you please provide a documentation section
->> to this function? most importantly 'generated' argument.
->>
-> Sure. There are two types of PSK types specified in the NVMe TCP spec;
-> a 'retained' one which has to be provided by the admin, and a 
-> 'generated' one which is derived from the shared key material from 
-> DH-HMAC-CHAP when doing a secure channel concatenation.
-> And each type has two possible hash algorithms (SHA-256 and SHA-384),
-> resulting in 4 possible PSKs.
-> 
-> And indeed, the secure channel concatenation bits are missing as we're 
-> still hashing out details at the fmds group.
-> I do have a patchset for that, though, but decided not to include it in 
-> this submission as it'll increase the patchset even more.
-> Can do if you like ...
+I made the above suggestion because it looks like the sk reference is
+not released in the handshake_req_submit() error path, but anything
+addressing that would be good enough for me.
 
-I'd prefer to split the secure channel concatenation out of this.
-But it would be good to give some context in the code.
+[...]
 
-Also the bool is confusing, can you make this an enumeration that
-translates to 'G' or 'R' and pass that in?
+> >=20
+> > > +/**
+> > > + * handshake_req_cancel - consumer API to cancel an in-progress hand=
+shake
+> > > + * @sock: socket on which there is an ongoing handshake
+> > > + *
+> > > + * XXX: Perhaps killing the user space agent might also be necessary=
+?
+> > > + *
+> > > + * Request cancellation races with request completion. To determine
+> > > + * who won, callers examine the return value from this function.
+> > > + *
+> > > + * Return values:
+> > > + *   %true - Uncompleted handshake request was canceled or not found
+> > > + *   %false - Handshake request already completed
+> > > + */
+> > > +bool handshake_req_cancel(struct socket *sock)
+> > > +{
+> > > +=09struct handshake_req *req;
+> > > +=09struct handshake_net *hn;
+> > > +=09struct sock *sk;
+> > > +=09struct net *net;
+> > > +
+> > > +=09sk =3D sock->sk;
+> > > +=09net =3D sock_net(sk);
+> > > +=09req =3D handshake_req_hash_lookup(sk);
+> > > +=09if (!req) {
+> > > +=09=09trace_handshake_cancel_none(net, req, sk);
+> > > +=09=09return true;
+> > > +=09}
+> > > +
+> > > +=09hn =3D handshake_pernet(net);
+> > > +=09if (hn && remove_pending(hn, req)) {
+> > > +=09=09/* Request hadn't been accepted */
+> > > +=09=09trace_handshake_cancel(net, req, sk);
+> > > +=09=09return true;
+> > > +=09}
+> > > +=09if (test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags)) =
+{
+> > > +=09=09/* Request already completed */
+> > > +=09=09trace_handshake_cancel_busy(net, req, sk);
+> > > +=09=09return false;
+> > > +=09}
+> > > +
+> > > +=09__sock_put(sk);
+> >=20
+> > Same here.
+>=20
+> I'll move the sock_hold() to _submit, and cook up a comment or two.
 
-> 
-> But will be updating the documentation.
-> 
->>> +struct key *nvme_tls_psk_lookup(key_ref_t keyring,
->>> +        const char *hostnqn, const char *subnqn,
->>> +        int hmac, bool generated)
->>> +{
->>> +    char *identity;
->>> +    size_t identity_len = (NVMF_NQN_SIZE) * 2 + 11;
->>> +    key_ref_t keyref;
->>> +    key_serial_t keyring_id;
->>> +
->>> +    identity = kzalloc(identity_len, GFP_KERNEL);
->>> +    if (!identity)
->>> +        return ERR_PTR(-ENOMEM);
->>> +
->>> +    snprintf(identity, identity_len, "NVMe0%c%02d %s %s",
->>> +         generated ? 'G' : 'R', hmac, hostnqn, subnqn);
->>
->> Is that a format that is expected from userspace to produce?
->>
-> Yes. See
-> NVMe-TCP 1.0a section 3.6.1.3 "TLS PSK and PSK Identity Derivation"
-> for details.
-> 
+In such comments please also explain why sock_put() is not needed here
+(and above). e.g. who is retaining the extra sk ref.
 
-Yes, I see it now. Thanks.
+>=20
+>=20
+> > Side note, I think at this point some tests could surface here? If
+> > user-space-based self-tests are too cumbersome and/or do not offer
+> > adequate coverage perhaps you could consider using kunit?
+>=20
+> I'm comfortable with Kunit, having just added a bunch of tests
+> for the kernel's SunRPC GSS Kerberos implementation.
+>=20
+> There, however, I had clearly defined test cases to add, thanks
+> to the RFCs. I guess I'm a little unclear on what specific tests
+> would be necessary or valuable here. Suggestions and existing
+> examples are very welcome.
+
+I *think* that a good start would be exercising the expected code
+paths:
+
+handshake_req_alloc, handshake_req_submit, handshake_complete
+handshake_req_alloc, handshake_req_submit, handshake_cancel
+or even
+tls_*_hello_*, tls_handshake_accept, tls_handshake_done
+tls_*_hello_*, tls_handshake_accept, tls_handshake_cancel
+
+plus explicitly triggering some errors path e.g.=C2=A0
+
+hn_pending_max+1 consecutive submit with no accept
+handshake_cancel after handshake_complete
+multiple handshake_complete on the same req
+multiple handshake_cancel on the same req
+
+Cheers,
+
+Paolo
+

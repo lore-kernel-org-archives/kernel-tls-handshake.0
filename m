@@ -1,44 +1,33 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2FC1FB1
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 06:59:15 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CEBFA20A7B;
-	Wed, 22 Mar 2023 06:59:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1679468353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1OTkEPS5AMRm9VEeOYPgTpV7I20sNwaudAazdwpCpPM=;
-	b=azBTR29QzBaDBi7vZ+av9Knli1c0xMn/yiH/sC/VKHtPyztV2vZbllql9UhR8fXDOiru6C
-	eWjHD8+/gych7trr4BwIIeC1s4kH5K7jy0KNLktrDeTHGfVLqHUOiNdIwFG2gMttONPwzL
-	/+8qJz0qq/fvYghliOGTj2lvefd6/rc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1679468353;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1OTkEPS5AMRm9VEeOYPgTpV7I20sNwaudAazdwpCpPM=;
-	b=i8PHLrs5uwNffO3jm/VRckKahZK7CDKFa9+A1heo4lWHDOjimnzCmdRLvD7pTi6L6NwF1Y
-	/YeiEL1cG5Tir0DA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9D9C213416;
-	Wed, 22 Mar 2023 06:59:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id xRXhJUGnGmRHXgAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 22 Mar 2023 06:59:13 +0000
-Message-ID: <2dbd26ec-c384-866c-8d76-38364fa3330e@suse.de>
-Date: Wed, 22 Mar 2023 07:59:12 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF721FB1
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 08:01:22 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id i5-20020a05600c354500b003edd24054e0so5678541wmq.4
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Mar 2023 01:01:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679472080; x=1682064080;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=i/nBjXX/yRYNzHoDM1j62nSsZauUINZA2GEbIkM80n0=;
+        b=yQ2imSH+Iowzk8mJLL3rR3FertEI9wHw3Avpi3F/qXeMDgFnx7GrWabWzTUcWJRD7r
+         ZSOBgZZ+9WRwxyO98IhJSyV/oxrRDOz9vLt6okxNG/SLHQO8q3JCOVQGlU2umk1DmISG
+         pEkB6z4gBoLxabESlETNeeP/sC9U7goJz1w1QPNcOEktsgOaS6luwWONzQs8VFXr/Tp1
+         2qkNfibHk9mqLS0HxfWXYhuuUC3kif7LGjaVIsCNBOnYz3V75pYd1cFQu1DnqTKwQjuj
+         9HJmWYGsZZYeDc9n8H7r1slg5egfdaqhfRDmhvC92N1gNfPinUQPVI9BwgpYsaI3sIIQ
+         rIbA==
+X-Gm-Message-State: AO0yUKXAPtHHq8v7YEenb0c76yAwKgRyt17FSe1yz5gNBVmEGu6sLQgb
+	+xE4hPvOwUQ5zF1CbAjJ/Fo=
+X-Google-Smtp-Source: AK7set92I3IkD8MiN1c8hVwDE8hCJmhxLeyHm8bZrONvlafaYxA0KQOFoFlk0/7ffH6+Li9ua73oHA==
+X-Received: by 2002:a05:600c:3103:b0:3ed:d2ae:9adb with SMTP id g3-20020a05600c310300b003edd2ae9adbmr5270484wmo.0.1679472080476;
+        Wed, 22 Mar 2023 01:01:20 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id j6-20020a5d5646000000b002d2f0e23acbsm13201105wrw.12.2023.03.22.01.01.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Mar 2023 01:01:20 -0700 (PDT)
+Message-ID: <5d06d072-5147-59a4-9f24-62b490da02cf@grimberg.me>
+Date: Wed, 22 Mar 2023 10:01:18 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -46,78 +35,309 @@ List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 06/18] nvme-tcp: call 'queue->data_ready()' in
- nvme_tcp_data_ready()
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 05/18] nvme-tcp: implement recvmsg rx flow for TLS
 Content-Language: en-US
-To: Chris Leech <cleech@redhat.com>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>,
- Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
+ "boris.pismenny@gmail.com" <boris.pismenny@gmail.com>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  Chuck Lever <cel@kernel.org>, kernel-tls-handshake@lists.linux.dev
 References: <20230321124325.77385-1-hare@suse.de>
- <20230321124325.77385-7-hare@suse.de>
- <d868b752-1d8b-1236-3543-c9ef82e42f23@grimberg.me>
- <3bd2c6b4-b276-b882-6f28-998118f96650@suse.de> <ZBpJQENvFoyGortp@localhost>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <ZBpJQENvFoyGortp@localhost>
+ <20230321124325.77385-6-hare@suse.de>
+ <1fd17fd4-c52a-c29a-d15c-143a316eab9a@grimberg.me>
+ <68939be5-4a64-8d02-2aad-4d7b7daf2152@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <68939be5-4a64-8d02-2aad-4d7b7daf2152@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 3/22/23 01:18, Chris Leech wrote:
-> On Tue, Mar 21, 2023 at 03:09:06PM +0100, Hannes Reinecke wrote:
->> On 3/21/23 14:44, Sagi Grimberg wrote:
->>>
->>>> Call the original data_ready() callback in nvme_tcp_data_ready()
->>>> to avoid a receive stall.
->>>
->>> Can you please improve the description to include what is the stall?
->>> For example, does the stall exist today? If it is, I would like to
->>> separate such patches from this set and include them asap.
->>>
->> That is actually particular to the TLS implementation, as it uses the
->> 'data_ready' callback to produce the data which can be read by eg recvmsg().
+
+>> On 3/21/23 14:43, Hannes Reinecke wrote:
+>>> TLS offload only implements recvmsg(), so implement the receive
+>>> side with using recvmsg().
 >>
->> Without this call there's no data to peruse for recvmsg().
+>> I don't really mind changing this, however this change makes us
+>> lock the socket for every consumption, instead of taking the lock
+>> once and consume as much as possible. Which in theory is suboptimal.
 >>
->> But I'm not _that_ deep into networking details to know whether this is TLS
->> specific or an issue with any data_ready callback.
->> I assume the latter, but then again, who knows.
+>> Is there any material reason why tls cannot implement read_sock() ?
 >>
->> Hence the slightly vague description.
+> Because the 'read_sock()' interface operates on skbs, but for TLS we 
+> just have a 'stream' (there is this 'stream parser' thingie handling the 
+> data), and skbs are meaningless as the decrypted payload can extend 
+> across several skbs.
+> At least, that's how I understood that.
+
+I don't see why it can't produce an skb though...
+Seems like there is a need here, because I don't know how we'd pass
+a digest inline calculation to recvmsg. I'd hate to move the digest
+calculation all the way up to the completion and rescan all the
+data...
+
+> But really, the prime reason is that I'm _far_ more familiar with the 
+> NVMe code than the tls networking code, so implementing the recvmsg() 
+> flow was relatively simple.
 > 
-> This looks like the socket callbacks end up hooked in the wrong order.
-> Ideally it would be tcp -> tls -> nvme_tcp, while this currently looks
-> like tcp -> nvme_tcp and then this call back to tls for decryption.
+> Maybe we can ask Boris Pismenny to implement read_sock() for tls ...
+
+Maybe... CCing Boris.
+
 > 
-Well, problem is that I need not one but two sets the callbacks.
-One callback is for waking up userspace (took me weeks to figure that 
-out), and needs to added before calling the userspace helper.
-The other is the 'normal' nvme-tcp callback:
+>>>
+>>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>>> ---
+>>>   drivers/nvme/host/tcp.c | 156 ++++++++++++++++++++--------------------
+>>>   1 file changed, 77 insertions(+), 79 deletions(-)
+>>>
+>>> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+>>> index 42c0598c31f2..0e14b1b90855 100644
+>>> --- a/drivers/nvme/host/tcp.c
+>>> +++ b/drivers/nvme/host/tcp.c
+>>> @@ -529,7 +529,7 @@ static void nvme_tcp_init_recv_ctx(struct 
+>>> nvme_tcp_queue *queue)
+>>>       queue->pdu_remaining = sizeof(struct nvme_tcp_rsp_pdu) +
+>>>                   nvme_tcp_hdgst_len(queue);
+>>>       queue->pdu_offset = 0;
+>>> -    queue->data_remaining = -1;
+>>> +    queue->data_remaining = 0;
+>>>       queue->ddgst_remaining = 0;
+>>>   }
+>>> @@ -707,25 +707,32 @@ static int nvme_tcp_handle_r2t(struct 
+>>> nvme_tcp_queue *queue,
+>>>       return 0;
+>>>   }
+>>> -static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, struct 
+>>> sk_buff *skb,
+>>> -        unsigned int *offset, size_t *len)
+>>> +static int nvme_tcp_recv_pdu(struct nvme_tcp_queue *queue, bool 
+>>> pending)
+>>>   {
+>>>       struct nvme_tcp_hdr *hdr;
+>>> -    char *pdu = queue->pdu;
+>>> -    size_t rcv_len = min_t(size_t, *len, queue->pdu_remaining);
+>>> +    size_t rcv_len = queue->pdu_remaining;
+>>> +    struct msghdr msg = {
+>>> +        .msg_flags = pending ? 0 : MSG_DONTWAIT,
+>>
+>> Umm, why?
+>> What is the reason to block in this recv?
+>>
+> To avoid frequent -EAGAIN returns; that looked really ugly in the
+> debug logs :-)
+> Can try to do away with that; if we do also the 'pending' argument
+> can be removed, so might be an idea.
 
-tcp->nvme-upcall->tls->nvme-tcp
+I'd prefer not to block on any socket opreation, unless someone
+shows that there is a gain to be made somehow.
 
-So really the problem is not so much an inversion, but rather the fact
-that the nvme-upcall callback is really only needed for the duration
-of the handshake. And hence I thought that we should remove the callback
-once we're done with the upcall.
-Turns out that we can't, and the best we can do is to disable the 
-functionality, leaving the callback itself in place.
-
-> I'm not quite sure how to untangle this; nvme_tcp can't just set it's
-> own callbacks before initializing kTLS, becuse that's being done by
-> tlshd which is going to need the userspace socket API callbacks working.
 > 
-Correct.
-So for now I'll leave the callbacks in place, even though they are 
-pointless after the upcall.
+>>> +    };
+>>> +    struct kvec iov = {
+>>> +        .iov_base = (u8 *)queue->pdu + queue->pdu_offset,
+>>> +        .iov_len = rcv_len,
+>>> +    };
+>>>       int ret;
+>>> -    ret = skb_copy_bits(skb, *offset,
+>>> -        &pdu[queue->pdu_offset], rcv_len);
+>>> -    if (unlikely(ret))
+>>> +    if (nvme_tcp_recv_state(queue) != NVME_TCP_RECV_PDU)
+>>> +        return 0;
+>>
+>> Why is this check needed? looks like a left-over.
+>>
+> Yeah.
+> 
+>>> +
+>>> +    ret = kernel_recvmsg(queue->sock, &msg, &iov, 1,
+>>> +                 iov.iov_len, msg.msg_flags);
+>>> +    if (ret <= 0)
+>>>           return ret;
+>>> +    rcv_len = ret;
+>>>       queue->pdu_remaining -= rcv_len;
+>>>       queue->pdu_offset += rcv_len;
+>>> -    *offset += rcv_len;
+>>> -    *len -= rcv_len;
+>>>       if (queue->pdu_remaining)
+>>> -        return 0;
+>>> +        return queue->pdu_remaining;
+>>>       hdr = queue->pdu;
+>>>       if (queue->hdr_digest) {
+>>> @@ -734,7 +741,6 @@ static int nvme_tcp_recv_pdu(struct 
+>>> nvme_tcp_queue *queue, struct sk_buff *skb,
+>>>               return ret;
+>>>       }
+>>> -
+>>>       if (queue->data_digest) {
+>>>           ret = nvme_tcp_check_ddgst(queue, queue->pdu);
+>>>           if (unlikely(ret))
+>>> @@ -765,19 +771,21 @@ static inline void nvme_tcp_end_request(struct 
+>>> request *rq, u16 status)
+>>>           nvme_complete_rq(rq);
+>>>   }
+>>> -static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue, struct 
+>>> sk_buff *skb,
+>>> -                  unsigned int *offset, size_t *len)
+>>> +static int nvme_tcp_recv_data(struct nvme_tcp_queue *queue)
+>>>   {
+>>>       struct nvme_tcp_data_pdu *pdu = (void *)queue->pdu;
+>>>       struct request *rq =
+>>>           nvme_cid_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
+>>>       struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
+>>> +    if (nvme_tcp_recv_state(queue) != NVME_TCP_RECV_DATA)
+>>> +        return 0;
+>>> +
+>>>       while (true) {
+>>> -        int recv_len, ret;
+>>> +        struct msghdr msg;
+>>> +        int ret;
+>>> -        recv_len = min_t(size_t, *len, queue->data_remaining);
+>>> -        if (!recv_len)
+>>> +        if (!queue->data_remaining)
+>>>               break;
+>>>           if (!iov_iter_count(&req->iter)) {
+>>> @@ -798,25 +806,20 @@ static int nvme_tcp_recv_data(struct 
+>>> nvme_tcp_queue *queue, struct sk_buff *skb,
+>>>           }
+>>>           /* we can read only from what is left in this bio */
+>>> -        recv_len = min_t(size_t, recv_len,
+>>> -                iov_iter_count(&req->iter));
+>>> +        memset(&msg, 0, sizeof(msg));
+>>> +        msg.msg_iter = req->iter;
+>>> -        if (queue->data_digest)
+>>> -            ret = skb_copy_and_hash_datagram_iter(skb, *offset,
+>>> -                &req->iter, recv_len, queue->rcv_hash);
+>>> -        else
+>>> -            ret = skb_copy_datagram_iter(skb, *offset,
+>>> -                    &req->iter, recv_len);
+>>> -        if (ret) {
+>>> +        ret = sock_recvmsg(queue->sock, &msg, 0);
+>>
+>> Who updates the rcv_hash for data digest validation?
+>>
+> Weelll ... currently, no-one.
+> One of the things which I haven't tested.
 
-Cheers,
+I see, that obviously needs to work. This is primarily why
+I want to have .read_sock for tls.
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
+> 
+>>> +        if (ret <= 0) {
+>>>               dev_err(queue->ctrl->ctrl.device,
+>>> -                "queue %d failed to copy request %#x data",
+>>> +                "queue %d failed to receive request %#x data",
+>>>                   nvme_tcp_queue_id(queue), rq->tag);
+>>>               return ret;
+>>>           }
+>>> -        *len -= recv_len;
+>>> -        *offset += recv_len;
+>>> -        queue->data_remaining -= recv_len;
+>>> +        queue->data_remaining -= ret;
+>>> +        if (queue->data_remaining)
+>>> +            nvme_tcp_advance_req(req, ret);
+>>>       }
+>>>       if (!queue->data_remaining) {
+>>> @@ -833,27 +836,36 @@ static int nvme_tcp_recv_data(struct 
+>>> nvme_tcp_queue *queue, struct sk_buff *skb,
+>>>           }
+>>>       }
+>>> -    return 0;
+>>> +    return queue->data_remaining;
+>>>   }
+>>> -static int nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue,
+>>> -        struct sk_buff *skb, unsigned int *offset, size_t *len)
+>>> +static int nvme_tcp_recv_ddgst(struct nvme_tcp_queue *queue)
+>>>   {
+>>>       struct nvme_tcp_data_pdu *pdu = (void *)queue->pdu;
+>>>       char *ddgst = (char *)&queue->recv_ddgst;
+>>> -    size_t recv_len = min_t(size_t, *len, queue->ddgst_remaining);
+>>> +    size_t recv_len = queue->ddgst_remaining;
+>>>       off_t off = NVME_TCP_DIGEST_LENGTH - queue->ddgst_remaining;
+>>> +    struct msghdr msg = {
+>>> +        .msg_flags = 0,
+>>> +    };
+>>> +    struct kvec iov = {
+>>> +        .iov_base = (u8 *)ddgst + off,
+>>> +        .iov_len = recv_len,
+>>> +    };
+>>>       int ret;
+>>> -    ret = skb_copy_bits(skb, *offset, &ddgst[off], recv_len);
+>>> -    if (unlikely(ret))
+>>> +    if (nvme_tcp_recv_state(queue) != NVME_TCP_RECV_DDGST)
+>>> +        return 0;
+>>> +
+>>> +    ret = kernel_recvmsg(queue->sock, &msg, &iov, 1, iov.iov_len,
+>>> +                 msg.msg_flags);
+>>> +    if (ret <= 0)
+>>>           return ret;
+>>> +    recv_len = ret;
+>>>       queue->ddgst_remaining -= recv_len;
+>>> -    *offset += recv_len;
+>>> -    *len -= recv_len;
+>>>       if (queue->ddgst_remaining)
+>>> -        return 0;
+>>> +        return queue->ddgst_remaining;
+>>>       if (queue->recv_ddgst != queue->exp_ddgst) {
+>>>           struct request *rq = nvme_cid_to_rq(nvme_tcp_tagset(queue),
+>>> @@ -881,37 +893,41 @@ static int nvme_tcp_recv_ddgst(struct 
+>>> nvme_tcp_queue *queue,
+>>>       return 0;
+>>>   }
+>>> -static int nvme_tcp_recv_skb(read_descriptor_t *desc, struct sk_buff 
+>>> *skb,
+>>> -                 unsigned int offset, size_t len)
+>>> +static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue, bool 
+>>> pending)
+>>>   {
+>>> -    struct nvme_tcp_queue *queue = desc->arg.data;
+>>> -    size_t consumed = len;
+>>>       int result;
+>>> +    int nr_cqe = queue->nr_cqe;
+>>> -    while (len) {
+>>> +    do {
+>>>           switch (nvme_tcp_recv_state(queue)) {
+>>>           case NVME_TCP_RECV_PDU:
+>>> -            result = nvme_tcp_recv_pdu(queue, skb, &offset, &len);
+>>> -            break;
+>>> +            result = nvme_tcp_recv_pdu(queue, pending);
+>>> +            if (result)
+>>> +                break;
+>>> +            fallthrough;
+>>>           case NVME_TCP_RECV_DATA:
+>>> -            result = nvme_tcp_recv_data(queue, skb, &offset, &len);
+>>> -            break;
+>>> +            result = nvme_tcp_recv_data(queue);
+>>> +            if (result)
+>>> +                break;
+>>> +            fallthrough;
+>>>           case NVME_TCP_RECV_DDGST:
+>>> -            result = nvme_tcp_recv_ddgst(queue, skb, &offset, &len);
+>>> +            result = nvme_tcp_recv_ddgst(queue);
+>>>               break;
+>>>           default:
+>>>               result = -EFAULT;
+>>>           }
+>>> -        if (result) {
+>>> -            dev_err(queue->ctrl->ctrl.device,
+>>> -                "receive failed:  %d\n", result);
+>>> -            queue->rd_enabled = false;
+>>> -            nvme_tcp_error_recovery(&queue->ctrl->ctrl);
+>>> -            return result;
+>>> -        }
+>>> +        if (nr_cqe != queue->nr_cqe)
+>>> +            break;
+>>> +    } while (result >= 0);
+>>> +    if (result < 0 && result != -EAGAIN) {
+>>> +        dev_err(queue->ctrl->ctrl.device,
+>>> +            "receive failed: %d state %d %s\n",
+>>> +            result, nvme_tcp_recv_state(queue),
+>>> +            pending ? "pending" : "");
+>>
+>> I'm unclear why pending would be an input to try_recv. Semantically
+>> it is an output, signalling the io_work that data is pending to be
+>> reaped from the socket.
+>>
+> See above. 'pending' is really there to clear the 'NOWAIT' flag for 
+> recvmsg(), and to avoid frequent -EAGAIN returns.
+> If we're fine handling them it can be removed.
 
+I think we can remove it for now, it will also simplify the code.

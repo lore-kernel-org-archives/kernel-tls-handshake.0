@@ -1,33 +1,44 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7263D2565
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 23 Mar 2023 07:44:04 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id o7so19436032wrg.5
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 23 Mar 2023 00:44:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679557442; x=1682149442;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sy6+BKtTrpb9aSrmkIBJqRQbr06WOMWdW7hAg/Efcyo=;
-        b=PqFa16m+tQTurbYxF4qHbcn/tjrYw6PJxd32ossm5tdzOk/MBJJ9XolW27TrLUwnSN
-         kweCTTQPcdlPa7xOIChOR9QMnRB1YstIT+TyJ4K3pzRFCDpEknm9OMDhKOrzE1LXIyrA
-         Lee9jCaxsOSuutc2OM69yo9cUIgc1d6aqCCikwuGDk68cRi6o59F+0d+Ox8/4M/ztffx
-         p9++0bYxQkt38W0Kq0Ybj4bivxtO/EGrtflSeTggjoR23Uu1HqEKWaUDTMK2cfR7BREP
-         6M08QEqNssAj74kSq8Us7G9FGW8DJI1s9ii4hDKz+evDlKo189TFbaj2+bykzojlBUAc
-         tATw==
-X-Gm-Message-State: AO0yUKU/HJwgMsK6zZk+AzeD+71Z8P/nvZxO2xb/sc2j80iYa3u8lGyL
-	RCWicWyTj2lB/7cUIf1aSOYHf4mlZ6c=
-X-Google-Smtp-Source: AK7set/znm807dTtc9Lhqya2EwS34NjO7Iuo/J151gJIFfF2UKnXXQ1QdWt4lFkwWp90L1Qb1ibBgg==
-X-Received: by 2002:adf:ef06:0:b0:2c7:175e:e201 with SMTP id e6-20020adfef06000000b002c7175ee201mr5459039wro.1.1679557442544;
-        Thu, 23 Mar 2023 00:44:02 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id v15-20020a5d590f000000b002cfec8b7f89sm15660865wrd.77.2023.03.23.00.44.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Mar 2023 00:44:02 -0700 (PDT)
-Message-ID: <e86eae9f-f6f5-0e3d-e657-6758f582895a@grimberg.me>
-Date: Thu, 23 Mar 2023 09:44:00 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1843525F
+	for <kernel-tls-handshake@lists.linux.dev>; Fri, 24 Mar 2023 11:29:25 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CEF6D1FE1E;
+	Fri, 24 Mar 2023 11:29:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1679657363; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=upl3usAPEmW0mAD8vfTgvaAXyk4EM0DMz6fBW/jRlq4=;
+	b=KVKeDHt2epaKC9Pje9YC965XYuIfIY8ZSJU5t//S5epwPp1me3NojxgiGHLuDhF287LPZK
+	AwlMReWhUsiUDvrKuXOvbCnQHny9396SwIlp6hrV1zHMdai0MAhnhN1z1XReoMY22NtrTj
+	u2YXQRx6px16DWx2JmxWESDYsUrsGLk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1679657363;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=upl3usAPEmW0mAD8vfTgvaAXyk4EM0DMz6fBW/jRlq4=;
+	b=m9IzOz6UWUpWtKgn+rSjUqCxIEN/nk96KykJhHtdEushlERqZ1bLvyF5agbmPCR1otkQKc
+	/46ATYiYldtZ6+Bw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BAD8F133E5;
+	Fri, 24 Mar 2023 11:29:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id tPwJLZOJHWTPZAAAMHmgww
+	(envelope-from <hare@suse.de>); Fri, 24 Mar 2023 11:29:23 +0000
+Message-ID: <3ad50302-6b3c-6d6a-669e-0b11c2df6a6b@suse.de>
+Date: Fri, 24 Mar 2023 12:29:23 +0100
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -37,10 +48,11 @@ MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
 Subject: Re: [PATCH 15/18] nvmet-tcp: enable TLS handshake upcall
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Chuck Lever <cel@kernel.org>, kernel-tls-handshake@lists.linux.dev
+To: Sagi Grimberg <sagi@grimberg.me>, Chuck Lever III <chuck.lever@oracle.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Chuck Lever <cel@kernel.org>,
+ "kernel-tls-handshake@lists.linux.dev" <kernel-tls-handshake@lists.linux.dev>
 References: <20230321124325.77385-1-hare@suse.de>
  <20230321124325.77385-16-hare@suse.de>
  <6f69983c-17bd-dd72-b941-95f55db10180@grimberg.me>
@@ -49,145 +61,121 @@ References: <20230321124325.77385-1-hare@suse.de>
  <c426d104-b7f2-e736-c23a-b94fda54ed37@suse.de>
  <e0620d94-9729-014c-2cb8-8ff826ebbefa@grimberg.me>
  <e016af81-f77e-2eba-a805-838f62ba50f7@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <e016af81-f77e-2eba-a805-838f62ba50f7@suse.de>
+ <68AA3629-6B88-4098-AA03-BEDF614F8D0B@oracle.com>
+ <ea181844-69f5-66eb-e64e-e9871916532b@grimberg.me>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <ea181844-69f5-66eb-e64e-e9871916532b@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hey Hannes,
-
->>> To be precise: that's the reasoning I've come up with.
->>> Might be completely wrong, or beside the point.
->>> But what I _do_ know is that without this call userspace would
->>> _not_ see any data, and would happily sit there until we close the 
->>> socket due to a timeout (which also why I put in the timeout
->>> module options ...), and only _then_ see the data.
->>> But with this call everything works. So there.
->>
->> I may be missing something, and maybe its because I haven't looked at
->> the userspace side yet. But if it calls recvmsg, it should either
->> consume data, or it should block until it arrives.
->>
->> I'm finding it difficult to understand why emulating almost 100% the
->> default socket .data_ready is what is needed. But I'll try to understand
->> better.
->>
-> Oh, I don't claim to have a full understanding, either.
-> I had initially assumed that it would work 'out of the box', without us 
-> having to specify a callback.
-> Turns out that it doesn't.
-> Maybe it's enough to call sk->sk_data_ready() after the upcall has been 
-> started. But we sure have to do _something_.
+On 3/23/23 08:21, Sagi Grimberg wrote:
 > 
-> If you have other solutions I'm all ears...
-
-See my response to Chuck.
-
+>>>>>>> The 'data_ready' call might happen at any time after the 'accept' 
+>>>>>>> call and us calling into userspace.
+>>>>>>> In particular we have this flow of control:
+>>>>>>>
+>>>>>>> 1. Kernel: accept()
+>>>>>>> 2. Kernel: handshake request
+>>>>>>> 3. Userspace: read data from socket
+>>>>>>> 4. Userspace: tls handshake
+>>>>>>> 5. Kernel: handshake complete
+>>>>>>>
+>>>>>>> If the 'data_ready' event occurs between 1. and 3. userspace 
+>>>>>>> wouldn't know that something has happened, and will be sitting 
+>>>>>>> there waiting for data which is already present.
+>>>>>>
+>>>>>> Umm, doesn't userspace read from the socket once we trigger the 
+>>>>>> upcall?
+>>>>>> it should. But I still don't understand what is the difference 
+>>>>>> between
+>>>>>> us waiking up userspace, from the default sock doing the same?
+>>>>>>
+>>>>> No, it doesn't (or, rather, can't).
+>>>>> After processing 'accept()' (from the kernel code) data might 
+>>>>> already be present (after all, why would we get an 'accept' call 
+>>>>> otherwise?).
+>>>>> But the daemon has not been started up (yet); that's only done in
+>>>>> step 3). But 'data_ready' has already been called, so by the time 
+>>>>> userland is able to do a 'read()' on the socket it won't be seeing 
+>>>>> anything.
+>>>> Not sure I understand. if data exists, userspace will read from the
+>>>> socket and get data, whenever that is. >
+>>> That's what I thought, too.
+>>> But then the userspace daemon just sat there doing nothing.
 >>
->>>>> As outlined in the response to the nvme-tcp upcall, on the server 
->>>>> side we _have_ to allow for non-TLS connections (eg. for discovery).
->>>>
->>>> But in essence what you are doing is that you allow normal connections
->>>> for a secured port...
->>>>
->>> Correct.
->>
->> That is not what the feature is supposed to do.
->>
-> Well ... it's a difference in interpretation.
-> The NVMe TCP spec just says '... describes whether TLS is supported.'.
-> It does not say 'required'.
-> But there currently is no way how the server could describe 'TLS 
-> supported' vs 'TLS required'.
-
-But it doesn't make sense. If a subsystem wants to expose itself via
-tls and non-tls, it needs to use 2 different ports, Which is a perfectly
-reasonable requirement. Making TLS advisory misses the point, regardless
-of the spec language.
-
-Having support for advisory TLS is essentially implementing a permissive
-mode, and that needs to be explicitly enabled (assuming we want to
-support that), not the other way around.
-
->>>> btw, why not enforce a psk for the discovery controller (on this port)
->>>> as well? for secured ports? No one said that we must accept a
->>>> non-secured discovery connecting host on a secured port.
->>>>
->>> Because we can't have a PSK for standard discovery.
->>> Every discovery controller has the canonical discovery NQN, so every
->>> PSK will have the same subsystem NQN, and you will have to provide 
->>> the _same_ PSK to every attached storage system.
->>
->> Right, because they have the same NQN. Sounds good, what is the problem?
->> It is much better than to have sectype be nothing more than a
->> recommendation.
->>
->> If sectype tls1.x is defined on a port then every connection to that
->> port is a tls connection.
->>
-> See above. Only if we decide to give TSAS a 'TLS required' meaning.
-> With the this patchset it's a 'TLS supported' syntax.
-
-Yes, tls should be a hard enforcement, regardless of the spec language.
-The only way that tls would be a soft enforcement, is via an explicit
-permissive-mode setting.
-
->>> If we had unique discovery controller NQNs everything would be good,
->>> but as we don't I guess we have to support normal connections in 
->>> addition to secured ones.
->>
->> Its orthogonal. the well-known disc-nqn may be "weaker", but tls
->> is still enforced. when we add unique disc-nqn, we can use different
->> psks.
->>
-> Not only weaker, but _identical_ for each server.
-
-I don't see any issue with that. I do see an issue with making tls
-advisory universally in nvmet.
-
->>> As I said; maybe it's time to revisit the unique discovery NQN patches;
->>> with those we should be able to separate the various use-case like
->>> having a dedicated secured discovery port.
->>
->> I don't see why this would be needed.
->>
-> We don't if we treat TSAS as 'TLS required', true.
-> But that's not what the spec says.
-> And there is also the dodgy statement in section 3.6.1.6:
->  > If a host that supports TLS for NVMe/TCP receives a discovery
->  > log entry indicating that the NVM subsystem uses NVMe/TCP and
->  > does not support TLS, then the host should nonetheless
->  > attempt to establish an NVMe/TCP connection that uses TLS.
-
-First of all, "should" != "shall", so we are not obligated to do
-this if it doesn't make sense for Linux, but regardless that is fine,
-the host can fallback to non-tls in such a case if we choose to
-implement this.
-
-> which really indicates that the TSAS field is a recommendation only.
+>> I haven't been following this discussion in detail, but
+>> if the kernel disables the normal TCP data_ready callback,
+>> then user space won't get any data. That's why SunRPC's
+>> data_ready calls the previous sk_data_ready and then shunts
+>> its own data_ready callback during handshakes. Without that
+>> call to the old sk_data_ready, the user space endpoint won't
+>> see any received data.
 > 
-> But really, we shouldn't read too much into what the TSAS field says.
-> With the upcoming TPAR for TLS clarification all these different 
-> interpretations should be clarified.
+> Yes that is understood. But the solution that Hannes proposed
+> was to introduce nvmet_tcp_tls_data_ready which is overriding
+> the default sock data_ready and does pretty much the same thing.
 > 
-> The key question, however, will remain: Do we _want_ to support a 'TLS 
-> supported' mode for nvmet?
-> I'd say we should, to have compability with older (client) installations.
+> The reason is that today nvmet_tcp_listen_data_ready schedules accept
+> and then pretty much immediately replaces the socket data_ready to
+> nvmet_tcp_data_ready.
+> 
+> I think that a simpler solution was to make nvmet_tcp_listen_data_ready
+> call port->data_ready (default socket stored data_ready), schedule
+> the accept_work and only after the handshake bounce to userspace is
+> completed, override the socket callbacks.
+> 
+> Something like:
+> -- 
+> static void nvmet_tcp_listen_data_ready(struct sock *sk)
+> {
+>          struct nvmet_tcp_port *port;
+> 
+>          trace_sk_data_ready(sk);
+> 
+>          read_lock_bh(&sk->sk_callback_lock);
+>          port = sk->sk_user_data;
+>          if (!port)
+>                  goto out;
+> 
+>          port->data_ready(sk); // trigger socket old data_ready
+> 
+>          if (sk->sk_state == TCP_LISTEN)
+>                  queue_work(nvmet_wq, &port->accept_work);
+> out:
+>          read_unlock_bh(&sk->sk_callback_lock);
+> }
+> 
 
-That is great, but only with an explicit permissive port setting that
-needs to be enabled, and later on disabled (i.e. when all the hosts get
-upgraded over time).
+Nearly there.
 
-> And I guess we have to anyway for secure concatenation
-> (as this _requires_ that we start off unencrypted).
+The actual patch would be:
 
-That I can understand. But it definitely should not mean that we
-do a universally permissive tls.
+@@ -2031,10 +1988,16 @@ static void nvmet_tcp_listen_data_ready(struct 
+sock *sk)
+         trace_sk_data_ready(sk);
 
-> So I'd suggest to leave it for now, have the code to support both, and 
-> wait for the TPAR to be ratified and then revisit this issue.
+         read_lock_bh(&sk->sk_callback_lock);
++       /* Ignore if the callback has been changed */
++       if (sk->sk_data_ready != nvmet_tcp_listen_data_ready)
++               goto out;
+         port = sk->sk_user_data;
+         if (!port)
+                 goto out;
 
-This is not a matter of a TPAR. It is about Linux. It doesn't make sense
-to make tls universally permissive for _Linux_. I think we should
-introduce code needed to support for secure concatenation only when
-it is actually introduced.
++       if (port->data_ready)
++               port->data_ready(sk);
++
+         if (sk->sk_state == TCP_LISTEN)
+                 queue_work(nvmet_wq, &port->accept_work);
+  out:
+
+As the callbacks will be changed once TLS is activated, and we really 
+should not attempt to run if sk_data_ready() points to another function,
+as then the sk_user_data pointer will most likely be changed, too,
+causing all sorts of issues.
+
+Cheers,
+
+Hannes
+

@@ -1,191 +1,499 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7555FAD3C
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 28 Mar 2023 18:13:06 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32SI4eMx011503;
-	Tue, 28 Mar 2023 18:12:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=P7WD9g8u1xjL/albUeyREvBtPMXwL789jheYViBXfcQ=;
- b=hSzbvFz+ZAiXctfv0YGLV93fdA98IaXhODlHqno7nngX8StIMIf66GiJ8y+NR94mzsY2
- u6/AFGufFSRAhrAoHa+Ut7R0ASgBmmCuKJIzSlPdp2MhA1iGofTwqAv+Ed9W5e30I0jO
- lwhXqowp0rRAaim5T3GsH/tfNcciU13FgNEN2lMK817lCvXOyCbyY91hojaFkat3kygG
- L1pKf0+/uNHhaAfGfFJ793TjVpdchHTLkHrn3p/gb6U75dZdEQEbgAdpiziHt3rgmorR
- rsdaSt3uzBjCRw0a3wdUkdn1sdpsTw4jufQU77aLhQKWRhW7EdkrAfU9Hq0x2bohnZf1 Gg== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3pm56m021d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 28 Mar 2023 18:12:57 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 32SI4gVW020439;
-	Tue, 28 Mar 2023 18:12:57 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2100.outbound.protection.outlook.com [104.47.70.100])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3phqd715xe-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 28 Mar 2023 18:12:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N96JSQAh5ULi4Lo31XNHJyhAD07SD/y/DdqEOnFityOhdPtbiEHael1k75Xvtzsgp/T3xx227H+OOU5pHn+ZI4MN/j1UIDFZ5WUmxH7srollo9t7X8QwhzvtpU0ahMq2pYfTc0uxenU1X1JmIiYhsoF01wGQupvGn6fzhBVxTqEG06b8xFwYXa10BStzV4ZFhmSTGVlmau0lketv58yXJuyL18yjKu/5Jj8rYtaqVhcWo4ttSiigIlCU7GA/yLkSOOxg1O761//kFOngDhV/Mz9bHkcr0QfPV5NVlS2ybR/WkJdKYTXX+rAYdFdQe8ZOQvboBEYjG/Lft1MURmhmMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P7WD9g8u1xjL/albUeyREvBtPMXwL789jheYViBXfcQ=;
- b=FEHsbAgmHSr95pffiPivHx37WIyY3pr4ewUjiUJChG2xDUDNbjCCDTzXrJG+GNeg/9YTIrSUKcDSdhgqytDjxargU1mMLAFZmE6/2OI41H7inH9vG+ysrCSFeuuinKmLOrAElJ8Qr7n8GdpNF+u+aJKdxzeUYhdBjtXkfvx69NjQMnLs+LSJpCRTIyZyi37xo846jRbOa5ANtZu60yGpU2iTHbageKdkzO5GY+dogqALwh0Dqo4cATDqkU2532gDv3rhS9f8TP5tLto5gpiTrCqeRol/bzG/d0q6xBLXO6N09VGghwVvR6h7zoIebgwJnUYYzNQl2Fuw6A5srNaCZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P7WD9g8u1xjL/albUeyREvBtPMXwL789jheYViBXfcQ=;
- b=jAqUSSIRTUSMv6l8Yo5N4zeSh9w/KDHuHiRPQ0oDAqq2noEnBHKzW2c3xAA00ZPMGbUtDqn+I1t8s6ruwi+vTfoMlvl5cddZv5aT20OLxG0ayH9IVAcC8/bJE3qB3XuGUS12aj2SOPs5PKL22s67ItOkZ7BGpTg/wRkPSJjUc+w=
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
- by BN0PR10MB5045.namprd10.prod.outlook.com (2603:10b6:408:116::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.33; Tue, 28 Mar
- 2023 18:12:55 +0000
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::ecbd:fc46:2528:36db]) by BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::ecbd:fc46:2528:36db%6]) with mapi id 15.20.6222.033; Tue, 28 Mar 2023
- 18:12:55 +0000
-From: Chuck Lever III <chuck.lever@oracle.com>
-To: Jeff Layton <jlayton@kernel.org>
-CC: "kernel-tls-handshake@lists.linux.dev"
-	<kernel-tls-handshake@lists.linux.dev>
-Subject: Re: [PATCH] handshake: set hr_sk field earlier in
- handshake_req_submit
-Thread-Topic: [PATCH] handshake: set hr_sk field earlier in
- handshake_req_submit
-Thread-Index: AQHZYaCenEGtEBksLEmHM307ffyXCa8QfpMA
-Date: Tue, 28 Mar 2023 18:12:55 +0000
-Message-ID: <CE691A38-999E-4128-880D-F6A5AEB20D79@oracle.com>
-References: <20230328181040.292486-1-jlayton@kernel.org>
-In-Reply-To: <20230328181040.292486-1-jlayton@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3696.120.41.1.2)
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN0PR10MB5128:EE_|BN0PR10MB5045:EE_
-x-ms-office365-filtering-correlation-id: 21802486-26c1-4356-3643-08db2fb80dbe
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- l/VGnd5ah1/53qN/RIxBLKe4xV/WhtIhdl6nrWOgYYcmR6aJDDgxuinM/608SsuPDiuD8v5zj/Jbn+Wddkh/wb0O/aVobJga9yDdgyFCwj9etoYaOzDDMONhi3/k8S40bxsJdyaqEkoHa7SOPDi9e7NumSqbb0YYmdFc7I0HPFAUmZr36fV9FP741Wxf+RGayoblkSzC5LkqcZdAKgRy01bCYRIUn2UJxGAAemR7ae+EQQWip7h0HUcgPEpOzIGvfLassf68A6mJmWqdL9LMTEkk/9wqIulV8PgkRZTSstFGg4Gf5ktEZ0JXXAcolaZYEwOW7Oh3gNM1o5tiDnDBoNG/n59baobAbp3CFoBQMk2QJRoldyupNI3WuSwgbqfm/g18YAD+F6m3vSm2BfT5cISh1kXbZRkcgrZye7hGA9LHBlaMCczrKoFjLlCFUp/+YQjwWtGbxCzfQy0JHEJ/aR4S+noLie7z3AGTV42PuNvyJgW2VhjjrOKd/+6l3s0iIU7YR6WWIc/RJw0RC9AFAqO8DmftMiHv7vpWchqbzA2323YtM2LbQQPKKa/zU2Z7KHzTTwY7r3wLsUavPA+0f+OCd8yNP5uu3+8CYpWQlJGcH26dZ2i//JmLvYfS9XmFpR3enIttuFMOxqyoJFbz6w==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(39860400002)(346002)(366004)(136003)(396003)(451199021)(38070700005)(33656002)(122000001)(38100700002)(86362001)(76116006)(66476007)(36756003)(8676002)(64756008)(66556008)(66446008)(66946007)(6916009)(4326008)(91956017)(186003)(5660300002)(8936002)(2616005)(41300700001)(478600001)(71200400001)(6486002)(6506007)(6512007)(53546011)(83380400001)(316002)(26005)(2906002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?jrQlC3K9pCr+s7ngo3Wr8+0e8qtBBLHmQ/g//K7LTz2HSAAdtETld9+O4ZmN?=
- =?us-ascii?Q?j/fqHLpouLZKn65I57RNIAqtw+M85cI79bJIyft7Y33fujsnPsGIq57PTtBY?=
- =?us-ascii?Q?aeoCzyRj6Tr6qbFg7A5t/MgE5JlmOjaszeD3iHPrcGtzYONOG0RXD3dX74D/?=
- =?us-ascii?Q?tBFBHtjkYb5i/yEDOPXGJ4NpmNDCXPYs0iGZyook+PxUkPU9wVARFA5iFzCI?=
- =?us-ascii?Q?/bLzZK1Ml1i6uj1YaReNuMECzeieYQcbpeXnP8wUz1uEj7Y5/Yj8PBqvqqca?=
- =?us-ascii?Q?QvwZRPnVZFo6wuYXpkahR2EEaUJnsOC4yfGQiKf8BdFmt0eoYvdoufc5Ha1l?=
- =?us-ascii?Q?q/8Y5FpocQzXEYFXMaWlZim6jbMMr97yMa7AJjTEScPAPR4xEEh2AP+EZOLR?=
- =?us-ascii?Q?hy0FHzIj1pqHGT4h/mOW+fDVtkFbODhS4em+WsCrTz2kifRtTVy3Dj190Q+f?=
- =?us-ascii?Q?6U7BuUhMpZ5V6ZisfWVs7531/DS6DNugZo1XSky97Mf/apQ1H/SdT5XijdmI?=
- =?us-ascii?Q?11ST/YKOEf37rqc+SETg4qFQ6FgOw62KYHBTU6D228jPrXNvCXmMkXhdoDF3?=
- =?us-ascii?Q?LpjILobXFPkUUljK+jIJNf/gZl2glIjeA8zXhGh/RWV3SqyDp+CSDtaCn+O3?=
- =?us-ascii?Q?VyU98Nulh+gyV8a2dBORuxjsvvMsAr898IacVgiKwFCGVuwThtW5zDSirthj?=
- =?us-ascii?Q?kt/aIlTL3eGemG0n1lHbBq3tMNb//iRF0hfACK8A4yR2C9f5ClSoa/rZnjWS?=
- =?us-ascii?Q?5mj36FG6PUqSgs6yBRQ7w8ss53ih+UfI5qUDuuA+dNu454BSQqLvzU+aq2wJ?=
- =?us-ascii?Q?CCME4XMbPCgMjeImyJDNa1DWFjAv4rGlzLY+Z2vhKFcBwYg48x2zdaYnbFGc?=
- =?us-ascii?Q?4r2v7sxzKEkoN1pPT3+1WaRaJhX0SgtrSze8AxmT5SVRAWT1mmebkmbk+xZy?=
- =?us-ascii?Q?ZFyCROpAqvL8JQFD+ikFzIvdowME09+FwEjfO7D5doCjBxXR7eqeby5SFp0+?=
- =?us-ascii?Q?o5ZBJZWYHk9xnsxvbSzjKQmM9WuvHTc0XDYU7G5HSCUO7wOYuIF0XQA1O3Lk?=
- =?us-ascii?Q?QSLySKcUaiZp6mJtvl+EuNVYt+i0nsOyjB3sVgagkj2P7IpLQOWzSPZKmsUz?=
- =?us-ascii?Q?gB60wgzOP3wtgJ0P6x/cLgLnypg780jlGtAwfLuoWT8PGekgx6pWnW9nXOFW?=
- =?us-ascii?Q?T4DhxFSMa2iMRcEXKaPev/BXxrPdI25fugPi3lFSOG0yVGu+iQBvrD8m+Vx8?=
- =?us-ascii?Q?TyyELz55LgXC9hulSUDEXy/4oJDkYcOo43+AAP2Dg6pA4n+2AsZBV6VQs6v9?=
- =?us-ascii?Q?/HyTDBkV05eT6P0seECQBbopCPM7WOA+hhasK/Cw57q3P0TVlR/Ts1soMMbm?=
- =?us-ascii?Q?8uCSvLPh1Wh3OlY+e23ZGqZwCOIepjwpSrYMfFu/p82IlzlNB2aWZB4epNkR?=
- =?us-ascii?Q?5yRAi6XWCODhrXb7wJBbyQbLIB9OvckZ1+WWdR0HsJa70DZXO1H5VeySecdt?=
- =?us-ascii?Q?cgIRAWgS82VKOZ8XnCra/dq0ArEDARm23iPyzzw5erqDRJJ7jXF5wnbZiU0S?=
- =?us-ascii?Q?b12ui2HjlqWmIo9BdDRr/OSh1yGMqjTwDmcpShcsqqGfP1jnN1+E8gdjMaVz?=
- =?us-ascii?Q?Eg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <AD452D201B04654E80FE84F990CA4571@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1273AD30
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 28 Mar 2023 18:15:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1680027305;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0Krl4qQ0eWNe3qf7O6tLgKKkRaINe43O++y9YmtPOtg=;
+	b=GsxL/cjDOceNlThIs9oHRrySEk19w9EbnWgzWYtMW+CJoj8vgBaqVR9fWFQNE5fmlv/D03
+	UIlLCtqososEX2I+gVcA8LnlPaiJ9s6mPHD8S5IbiCOxr0xlr+bxDY402DFjcmw2pcTqj+
+	OSg03YPRHflIU42tlMBh37sFOGTxvOw=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-217-tnXJI9xrPDWijpPkSGG1-w-1; Tue, 28 Mar 2023 14:15:02 -0400
+X-MC-Unique: tnXJI9xrPDWijpPkSGG1-w-1
+Received: by mail-qt1-f197.google.com with SMTP id l2-20020ac87242000000b003bfecc6d046so8728499qtp.17
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 28 Mar 2023 11:15:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680027301;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=B1a4zDEm255hUUkHx34kF1cE8zmhdi4LYKOYzj4waOc=;
+        b=C8XLqYrPqfHbAD0GaBo//1ELp0FjZr+3bnCcalLizpC5wKsV3VdIT8hK8jAdW2TPqF
+         ng2aIoYtFSMhhGEcPWNFVWO4hPtVOiRh24TAAo9g3aclm2i73nZf4FE73yfPhyo3XfUp
+         ssI+ZKNfMq5U7ceaCJ7D9XG0iiegXVwW1AkvLcuuPfnLKmB2nE9wvnHwHfVQ1qjfy2MM
+         rpiW7UtBT9n3mOqwaufrisf6uyk1nVcW5Bkmb2VqT1cn3Yt6/tHHdBJxIsvN/66R3Wir
+         J9Ao8j22WJNluGbZeUnP1v7NMx3siiOMYmZDkmJyw9wTRdUmu3Mr3/AWOVyBU2elx70c
+         8JRA==
+X-Gm-Message-State: AAQBX9fNxXErISbU65JHVK27CdN39BwJ2oC4AODYznQ9D9iI2env+iti
+	BMN2JeokeBbGzqt0I+YPOncFAEIuKw4ndYdbF5YnHJWbzSxAFg8c+Aw4ab9dmbqRZc67OfoUHdI
+	bhk6UQ3Qy0JUET7hkcNP3FS+o43m/kaKHX/A=
+X-Received: by 2002:a05:622a:311:b0:3e4:eb8f:8a7b with SMTP id q17-20020a05622a031100b003e4eb8f8a7bmr9528406qtw.29.1680027301650;
+        Tue, 28 Mar 2023 11:15:01 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aTfW+UvczbaVczSvCGmR8Iw2qUyTJJ8632ZqTYt+ngsALZZGyfxxo94Ck9ik+1flz68u7T5A==
+X-Received: by 2002:a05:622a:311:b0:3e4:eb8f:8a7b with SMTP id q17-20020a05622a031100b003e4eb8f8a7bmr9528368qtw.29.1680027301277;
+        Tue, 28 Mar 2023 11:15:01 -0700 (PDT)
+Received: from [192.168.1.3] (68-20-15-154.lightspeed.rlghnc.sbcglobal.net. [68.20.15.154])
+        by smtp.gmail.com with ESMTPSA id bn5-20020a05620a2ac500b00748448d9a7dsm3990150qkb.106.2023.03.28.11.15.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Mar 2023 11:15:00 -0700 (PDT)
+Message-ID: <3e4e33c19a9c608be863d2d7207f5a9cb7db795f.camel@redhat.com>
+Subject: Re: [PATCH v7 1/2] net/handshake: Create a NETLINK service for
+ handling handshake requests
+From: Jeff Layton <jlayton@redhat.com>
+To: Chuck Lever <cel@kernel.org>, kuba@kernel.org, pabeni@redhat.com, 
+	edumazet@google.com
+Cc: netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, 
+	john.haxby@oracle.com
+Date: Tue, 28 Mar 2023 14:14:59 -0400
+In-Reply-To: <167915629953.91792.17220269709156129944.stgit@manet.1015granger.net>
+References: <167915594811.91792.15722842400657376706.stgit@manet.1015granger.net>
+	 <167915629953.91792.17220269709156129944.stgit@manet.1015granger.net>
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	Smc4ouFuU/MT/CMNmrwy6zBNC4coRpEOGzY7RifKYxVKWmzGSboJFVY+u7EN4VLw4Ity7p+L13gQGUI6qid6w3lNKvqKrZOudgmB9BXn1b/cLgSVsCWnRbfCc8gLAFmFXZo561XoSw9Ppp4KnFAVLtl57w8DoLfXztpaptJ30a8SnW2UN7QacaBKhHm6AKKNijautaeI9C3yh5+M9C2eKy/XLjQqdRlzJPsrQdjIna/aycoAUhXvCs5gL4E5bM6XjcDeQGKo6duf+18BHjGJ6//IMWo3IlSfdvMjfZTZtyJWQO1MX9p60KN4inU/s4tt1WgSN/EK7rdMqCI/7/GeSYELSbYX6LLo83yRuoroFObxAHtK9VFfmzb7pebiwCbb0XcFCe9GZCBRRSWCL3ZB8u0JpPsvvc6glN3kCpNu2OONLEJLLjIRVznveRpe/2VV/TwtKMZI31YhVqHnJ4K8D9qlRdYEIuaUnUezIKUq+q+xNEQvx9jZi42sGRx1QtlYAxqHCL0maSsJTNNJPHqUAZGzpLviNQdVB8/UYchGWMNqQTLUGWhmcc1ekZ8yeCuZaMp3lY4gGaF8PaOqJjiCH48bJpcNsK2SaKGrOpmypZEz2czH91RBJUINk+zmYKKHAX7KFTbzpXmLMkOvjnGDxh7mYwsuc7j/b3NmRkbyENFZwHxJE6JQjZNEgzQkjEP6FPMT9KttcldiD3B8hrwnZlk0E1KfZ1kquTj0yNAA4cGlfLfkUXxbeegqlDaXqFy9Nh7bsCd1z3gP87gptpH+ihE2hHtt45srrO0ZotncXd8=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21802486-26c1-4356-3643-08db2fb80dbe
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Mar 2023 18:12:55.3556
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DbXf+YTrjKvVsyYnc3kGuqUH8kXbBKbaaNjSpPbWU4Fti1FAOEfaZmeCNhKvDWiI6kTiq2np0fVDW/69njsIMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5045
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-24_11,2023-03-28_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 phishscore=0
- malwarescore=0 adultscore=0 spamscore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2303280143
-X-Proofpoint-GUID: AWddy1HV1vUekaE7TnWe5_WVwLGOL0E_
-X-Proofpoint-ORIG-GUID: AWddy1HV1vUekaE7TnWe5_WVwLGOL0E_
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-> On Mar 28, 2023, at 2:10 PM, Jeff Layton <jlayton@kernel.org> wrote:
+On Sat, 2023-03-18 at 12:18 -0400, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
 >=20
-> Otherwise, the request is always hashed with the socket set to a NULL
-> pointer.
-
-Sounds plausible. I will need to check the clean-up paths too.
-
-
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> When a kernel consumer needs a transport layer security session, it
+> first needs a handshake to negotiate and establish a session. This
+> negotiation can be done in user space via one of the several
+> existing library implementations, or it can be done in the kernel.
+>=20
+> No in-kernel handshake implementations yet exist. In their absence,
+> we add a netlink service that can:
+>=20
+> a. Notify a user space daemon that a handshake is needed.
+>=20
+> b. Once notified, the daemon calls the kernel back via this
+>    netlink service to get the handshake parameters, including an
+>    open socket on which to establish the session.
+>=20
+> c. Once the handshake is complete, the daemon reports the
+>    session status and other information via a second netlink
+>    operation. This operation marks that it is safe for the
+>    kernel to use the open socket and the security session
+>    established there.
+>=20
+> The notification service uses a multicast group. Each handshake
+> mechanism (eg, tlshd) adopts its own group number so that the
+> handshake services are completely independent of one another. The
+> kernel can then tell via netlink_has_listeners() whether a handshake
+> service is active and prepared to handle a handshake request.
+>=20
+> A new netlink operation, ACCEPT, acts like accept(2) in that it
+> instantiates a file descriptor in the user space daemon's fd table.
+> If this operation is successful, the reply carries the fd number,
+> which can be treated as an open and ready file descriptor.
+>=20
+> While user space is performing the handshake, the kernel keeps its
+> muddy paws off the open socket. A second new netlink operation,
+> DONE, indicates that the user space daemon is finished with the
+> socket and it is safe for the kernel to use again. The operation
+> also indicates whether a session was established successfully.
+>=20
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 > ---
-> net/handshake/request.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/netlink/specs/handshake.yaml |  122 +++++++++++
+>  MAINTAINERS                                |    8 +
+>  include/trace/events/handshake.h           |  159 ++++++++++++++
+>  include/uapi/linux/handshake.h             |   70 ++++++
+>  net/Kconfig                                |    5=20
+>  net/Makefile                               |    1=20
+>  net/handshake/Makefile                     |   11 +
+>  net/handshake/genl.c                       |   57 +++++
+>  net/handshake/genl.h                       |   23 ++
+>  net/handshake/handshake.h                  |   82 +++++++
+>  net/handshake/netlink.c                    |  316 ++++++++++++++++++++++=
+++++++
+>  net/handshake/request.c                    |  307 ++++++++++++++++++++++=
++++++
+>  net/handshake/trace.c                      |   20 ++
+>  13 files changed, 1181 insertions(+)
+>  create mode 100644 Documentation/netlink/specs/handshake.yaml
+>  create mode 100644 include/trace/events/handshake.h
+>  create mode 100644 include/uapi/linux/handshake.h
+>  create mode 100644 net/handshake/Makefile
+>  create mode 100644 net/handshake/genl.c
+>  create mode 100644 net/handshake/genl.h
+>  create mode 100644 net/handshake/handshake.h
+>  create mode 100644 net/handshake/netlink.c
+>  create mode 100644 net/handshake/request.c
+>  create mode 100644 net/handshake/trace.c
 >=20
-> I think this is the problem I was hitting earlier. Chuck, feel free to
-> fold this into the original patch that adds this code.
 >=20
+
+[...]
+
 > diff --git a/net/handshake/request.c b/net/handshake/request.c
-> index 54ba304b5bef..44a097210e59 100644
-> --- a/net/handshake/request.c
+> new file mode 100644
+> index 000000000000..3f8ae9e990d2
+> --- /dev/null
 > +++ b/net/handshake/request.c
-> @@ -207,6 +207,7 @@ int handshake_req_submit(struct socket *sock, struct =
-handshake_req *req,
-> 	if (READ_ONCE(hn->hn_pending) >=3D hn->hn_pending_max)
-> 		goto out_err;
+> @@ -0,0 +1,307 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Handshake request lifetime events
+> + *
+> + * Author: Chuck Lever <chuck.lever@oracle.com>
+> + *
+> + * Copyright (c) 2023, Oracle and/or its affiliates.
+> + */
+> +
+> +#include <linux/types.h>
+> +#include <linux/socket.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/skbuff.h>
+> +#include <linux/inet.h>
+> +#include <linux/fdtable.h>
+> +#include <linux/rhashtable.h>
+> +
+> +#include <net/sock.h>
+> +#include <net/genetlink.h>
+> +#include <net/netns/generic.h>
+> +
+> +#include <uapi/linux/handshake.h>
+> +#include "handshake.h"
+> +
+> +#include <trace/events/handshake.h>
+> +
+> +/*
+> + * We need both a handshake_req -> sock mapping, and a sock ->
+> + * handshake_req mapping. Both are one-to-one.
+> + *
+> + * To avoid adding another pointer field to struct sock, net/handshake
+> + * maintains a hash table, indexed by the memory address of @sock, to
+> + * find the struct handshake_req outstanding for that socket. The
+> + * reverse direction uses a simple pointer field in the handshake_req
+> + * struct.
+> + */
+> +
+> +static struct rhashtable handshake_rhashtbl ____cacheline_aligned_in_smp=
+;
+> +
+> +static const struct rhashtable_params handshake_rhash_params =3D {
+> +=09.key_len=09=09=3D sizeof_field(struct handshake_req, hr_sk),
+> +=09.key_offset=09=09=3D offsetof(struct handshake_req, hr_sk),
+> +=09.head_offset=09=09=3D offsetof(struct handshake_req, hr_rhash),
+> +=09.automatic_shrinking=09=3D true,
+> +};
+> +
+> +int handshake_req_hash_init(void)
+> +{
+> +=09return rhashtable_init(&handshake_rhashtbl, &handshake_rhash_params);
+> +}
+> +
+> +void handshake_req_hash_destroy(void)
+> +{
+> +=09rhashtable_destroy(&handshake_rhashtbl);
+> +}
+> +
+> +struct handshake_req *handshake_req_hash_lookup(struct sock *sk)
+> +{
+> +=09return rhashtable_lookup_fast(&handshake_rhashtbl, &sk,
+
+Is this correct? It seems like we should be searching for the struct
+sock pointer value, not on the pointer to the pointer (which will be a
+stack var), right?
+
+> +=09=09=09=09      handshake_rhash_params);
+> +}
+> +
+> +static noinline bool handshake_req_hash_add(struct handshake_req *req)
+> +{
+> +=09int ret;
+> +
+> +=09ret =3D rhashtable_lookup_insert_fast(&handshake_rhashtbl,
+> +=09=09=09=09=09    &req->hr_rhash,
+> +=09=09=09=09=09    handshake_rhash_params);
+> +=09return ret =3D=3D 0;
+> +}
+> +
+> +static noinline void handshake_req_destroy(struct handshake_req *req)
+> +{
+> +=09if (req->hr_proto->hp_destroy)
+> +=09=09req->hr_proto->hp_destroy(req);
+> +=09rhashtable_remove_fast(&handshake_rhashtbl, &req->hr_rhash,
+> +=09=09=09       handshake_rhash_params);
+> +=09kfree(req);
+> +}
+> +
+> +static void handshake_sk_destruct(struct sock *sk)
+> +{
+> +=09void (*sk_destruct)(struct sock *sk);
+> +=09struct handshake_req *req;
+> +
+> +=09req =3D handshake_req_hash_lookup(sk);
+> +=09if (!req)
+> +=09=09return;
+> +
+> +=09trace_handshake_destruct(sock_net(sk), req, sk);
+> +=09sk_destruct =3D req->hr_odestruct;
+> +=09handshake_req_destroy(req);
+> +=09if (sk_destruct)
+> +=09=09sk_destruct(sk);
+> +}
+> +
+> +/**
+> + * handshake_req_alloc - consumer API to allocate a request
+> + * @sock: open socket on which to perform a handshake
+> + * @proto: security protocol
+> + * @flags: memory allocation flags
+> + *
+> + * Returns an initialized handshake_req or NULL.
+> + */
+> +struct handshake_req *handshake_req_alloc(struct socket *sock,
+> +=09=09=09=09=09  const struct handshake_proto *proto,
+> +=09=09=09=09=09  gfp_t flags)
+> +{
+> +=09struct sock *sk =3D sock->sk;
+> +=09struct net *net =3D sock_net(sk);
+> +=09struct handshake_net *hn =3D handshake_pernet(net);
+> +=09struct handshake_req *req;
+> +
+> +=09if (!hn)
+> +=09=09return NULL;
+> +
+> +=09req =3D kzalloc(struct_size(req, hr_priv, proto->hp_privsize), flags)=
+;
+> +=09if (!req)
+> +=09=09return NULL;
+> +
+> +=09sock_hold(sk);
+> +
+> +=09INIT_LIST_HEAD(&req->hr_list);
+> +=09req->hr_sk =3D sk;
+> +=09req->hr_proto =3D proto;
+> +=09return req;
+> +}
+> +EXPORT_SYMBOL(handshake_req_alloc);
+> +
+> +/**
+> + * handshake_req_private - consumer API to return per-handshake private =
+data
+> + * @req: handshake arguments
+> + *
+> + */
+> +void *handshake_req_private(struct handshake_req *req)
+> +{
+> +=09return (void *)&req->hr_priv;
+> +}
+> +EXPORT_SYMBOL(handshake_req_private);
+> +
+> +static bool __add_pending_locked(struct handshake_net *hn,
+> +=09=09=09=09 struct handshake_req *req)
+> +{
+> +=09if (!list_empty(&req->hr_list))
+> +=09=09return false;
+> +=09hn->hn_pending++;
+> +=09list_add_tail(&req->hr_list, &hn->hn_requests);
+> +=09return true;
+> +}
+> +
+> +void __remove_pending_locked(struct handshake_net *hn,
+> +=09=09=09     struct handshake_req *req)
+> +{
+> +=09hn->hn_pending--;
+> +=09list_del_init(&req->hr_list);
+> +}
+> +
+> +/*
+> + * Returns %true if the request was found on @net's pending list,
+> + * otherwise %false.
+> + *
+> + * If @req was on a pending list, it has not yet been accepted.
+> + */
+> +static bool remove_pending(struct handshake_net *hn, struct handshake_re=
+q *req)
+> +{
+> +=09bool ret;
+> +
+> +=09ret =3D false;
+> +
+> +=09spin_lock(&hn->hn_lock);
+> +=09if (!list_empty(&req->hr_list)) {
+> +=09=09__remove_pending_locked(hn, req);
+> +=09=09ret =3D true;
+> +=09}
+> +=09spin_unlock(&hn->hn_lock);
+> +
+> +=09return ret;
+> +}
+> +
+> +/**
+> + * handshake_req_submit - consumer API to submit a handshake request
+> + * @req: handshake arguments
+> + * @flags: memory allocation flags
+> + *
+> + * Return values:
+> + *   %0: Request queued
+> + *   %-EBUSY: A handshake is already under way for this socket
+> + *   %-ESRCH: No handshake agent is available
+> + *   %-EAGAIN: Too many pending handshake requests
+> + *   %-ENOMEM: Failed to allocate memory
+> + *   %-EMSGSIZE: Failed to construct notification message
+> + *   %-EOPNOTSUPP: Handshake module not initialized
+> + *
+> + * A zero return value from handshake_request() means that
+> + * exactly one subsequent completion callback is guaranteed.
+> + *
+> + * A negative return value from handshake_request() means that
+> + * no completion callback will be done and that @req has been
+> + * destroyed.
+> + */
+> +int handshake_req_submit(struct handshake_req *req, gfp_t flags)
+> +{
+> +=09struct sock *sk =3D req->hr_sk;
+> +=09struct net *net =3D sock_net(sk);
+> +=09struct handshake_net *hn =3D handshake_pernet(net);
+> +=09int ret;
+> +
+> +=09if (!hn)
+> +=09=09return -EOPNOTSUPP;
+> +
+> +=09ret =3D -EAGAIN;
+> +=09if (READ_ONCE(hn->hn_pending) >=3D hn->hn_pending_max)
+> +=09=09goto out_err;
+> +
+> +=09req->hr_odestruct =3D sk->sk_destruct;
+> +=09sk->sk_destruct =3D handshake_sk_destruct;
+> +=09spin_lock(&hn->hn_lock);
+> +=09ret =3D -EOPNOTSUPP;
+> +=09if (test_bit(HANDSHAKE_F_NET_DRAINING, &hn->hn_flags))
+> +=09=09goto out_unlock;
+> +=09ret =3D -EBUSY;
+> +=09if (!handshake_req_hash_add(req))
+> +=09=09goto out_unlock;
+> +=09if (!__add_pending_locked(hn, req))
+> +=09=09goto out_unlock;
+> +=09spin_unlock(&hn->hn_lock);
+> +
+> +=09ret =3D handshake_genl_notify(net, req->hr_proto->hp_handler_class,
+> +=09=09=09=09    flags);
+> +=09if (ret) {
+> +=09=09trace_handshake_notify_err(net, req, sk, ret);
+> +=09=09if (remove_pending(hn, req))
+> +=09=09=09goto out_err;
+> +=09}
+> +
+> +=09trace_handshake_submit(net, req, sk);
+> +=09return 0;
+> +
+> +out_unlock:
+> +=09spin_unlock(&hn->hn_lock);
+> +out_err:
+> +=09trace_handshake_submit_err(net, req, sk, ret);
+> +=09handshake_req_destroy(req);
+> +=09return ret;
+> +}
+> +EXPORT_SYMBOL(handshake_req_submit);
+> +
+> +void handshake_complete(struct handshake_req *req, unsigned int status,
+> +=09=09=09struct genl_info *info)
+> +{
+> +=09struct sock *sk =3D req->hr_sk;
+> +=09struct net *net =3D sock_net(sk);
+> +
+> +=09if (!test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags)) {
+> +=09=09trace_handshake_complete(net, req, sk, status);
+> +=09=09req->hr_proto->hp_done(req, status, info);
+> +=09=09__sock_put(sk);
+> +=09}
+> +}
+> +
+> +/**
+> + * handshake_req_cancel - consumer API to cancel an in-progress handshak=
+e
+> + * @sock: socket on which there is an ongoing handshake
+> + *
+> + * XXX: Perhaps killing the user space agent might also be necessary?
+> + *
+> + * Request cancellation races with request completion. To determine
+> + * who won, callers examine the return value from this function.
+> + *
+> + * Return values:
+> + *   %true - Uncompleted handshake request was canceled or not found
+> + *   %false - Handshake request already completed
+> + */
+> +bool handshake_req_cancel(struct socket *sock)
+> +{
+> +=09struct handshake_req *req;
+> +=09struct handshake_net *hn;
+> +=09struct sock *sk;
+> +=09struct net *net;
+> +
+> +=09sk =3D sock->sk;
+> +=09net =3D sock_net(sk);
+> +=09req =3D handshake_req_hash_lookup(sk);
+> +=09if (!req) {
+> +=09=09trace_handshake_cancel_none(net, req, sk);
+> +=09=09return true;
+> +=09}
+> +
+> +=09hn =3D handshake_pernet(net);
+> +=09if (hn && remove_pending(hn, req)) {
+> +=09=09/* Request hadn't been accepted */
+> +=09=09trace_handshake_cancel(net, req, sk);
+> +=09=09return true;
+> +=09}
+> +=09if (test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags)) {
+> +=09=09/* Request already completed */
+> +=09=09trace_handshake_cancel_busy(net, req, sk);
+> +=09=09return false;
+> +=09}
+> +
+> +=09__sock_put(sk);
+> +=09trace_handshake_cancel(net, req, sk);
+> +=09return true;
+> +}
+> +EXPORT_SYMBOL(handshake_req_cancel);
+> diff --git a/net/handshake/trace.c b/net/handshake/trace.c
+> new file mode 100644
+> index 000000000000..1c4d8e27e17a
+> --- /dev/null
+> +++ b/net/handshake/trace.c
+> @@ -0,0 +1,20 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Trace points for transport security layer handshakes.
+> + *
+> + * Author: Chuck Lever <chuck.lever@oracle.com>
+> + *
+> + * Copyright (c) 2023, Oracle and/or its affiliates.
+> + */
+> +
+> +#include <linux/types.h>
+> +
+> +#include <net/sock.h>
+> +#include <net/netlink.h>
+> +#include <net/genetlink.h>
+> +
+> +#include "handshake.h"
+> +
+> +#define CREATE_TRACE_POINTS
+> +
+> +#include <trace/events/handshake.h>
 >=20
-> +	req->hr_sk =3D sk;
-> 	req->hr_odestruct =3D sk->sk_destruct;
-> 	sk->sk_destruct =3D handshake_sk_destruct;
-> 	spin_lock(&hn->hn_lock);
-> @@ -230,7 +231,6 @@ int handshake_req_submit(struct socket *sock, struct =
-handshake_req *req,
 >=20
-> 	/* Prevent socket release while a handshake request is pending */
-> 	sock_hold(sk);
-> -	req->hr_sk =3D sk;
->=20
-> 	trace_handshake_submit(net, req, sk);
-> 	return 0;
-> --=20
-> 2.39.2
 >=20
 
---
-Chuck Lever
-
+--=20
+Jeff Layton <jlayton@redhat.com>
 

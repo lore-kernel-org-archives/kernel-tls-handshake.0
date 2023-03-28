@@ -1,120 +1,89 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E2E8465
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 28 Mar 2023 14:25:21 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id q102so10974069pjq.3
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 28 Mar 2023 07:25:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=umich.edu; s=google-2016-06-03; t=1680013520;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vR0eeZvBfCQ1TCe5mFml44m2ao7OZ7GmgkcGTKamzMU=;
-        b=IVaH32PseI9S6R5Uxnsl2VmoTZaloKAN8NOLlwsEC1PhPr2WMk6vdSYXn3PCFWZaQF
-         P/uu7HZTH2cMNoZrwnHP+AGjQ7gK/nZpxDz57jm9eAJcHEcBevoznQBzGlsb0OQhGVh2
-         E6TUboERu4vcUIMYTZc+l3welgS9rKs5NqocTj/YiOSL7fkwU1h93ZRLLuOXEz97zkGG
-         66Y/Z/qTLGavtx1WRqVK3oIhJ5B2Fz1etdT8vdnb7x7BT8iBT6goZuRyLmFIqc2l/fKR
-         D3Yb2X8jVG3yjCIaWSfGF1J3cpMD0vFmexYkXRLEEohsi7BpwVA9PYnyWB9KIZdTrpd9
-         7wjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680013520;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vR0eeZvBfCQ1TCe5mFml44m2ao7OZ7GmgkcGTKamzMU=;
-        b=ZiZhMxR08U0aJw9G1aDuRxwsrhSrRD/3iliEU77QdcT/rfdborpTc99xaLsOf94c5h
-         DTo4DrNK8ukDkURiaoqDooZPHlfZgaS0wkdnWrqmnjbDjC5q5deaJgteahtVJ3TxVznj
-         oDvOoWSZNzNPEylFKOCvP2aZjfGYNZ4EYad8tOqM+0UjoAI3sj9FwsZEcRjXNOexkWuf
-         lP80eQvjg0/V057E8xcNqLg2rnFON3gMw6/UhI9IdJ9bLnjViUjM8N8UQDjc3sJL7L6R
-         g3YoSpvuHEuy5pNt0LU2wbN1wn+TyTmIuKvT8Wsm2MlHdqwVMMrjDEKSPxeSQQObXccn
-         z49g==
-X-Gm-Message-State: AAQBX9ewMdxhj2FKQfTTjVhLa52lnJKuRLdySlbSU1nMN4nctDA8FP0a
-	SxDEpPUP7OVNEFuG6mYOxScrUBaW9yUnPUE98PM=
-X-Google-Smtp-Source: AKy350YkebM1WUfKAwF6yfR23x95UWSkHZfagfOzOs962DQDT8fh6w/VnhsoSpNU73vCEEj+CNQD0DafJJmZKYbR4gA=
-X-Received: by 2002:a17:90a:ac16:b0:234:e49:ba9f with SMTP id
- o22-20020a17090aac1600b002340e49ba9fmr4770556pjq.4.1680013520357; Tue, 28 Mar
- 2023 07:25:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45998465
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 28 Mar 2023 14:29:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16E6EC433EF;
+	Tue, 28 Mar 2023 14:29:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680013761;
+	bh=dCpXvXmH4FcUKxqpXlQ30rfkXcMbNcHxyEVwjKhonuo=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=TVETZLauIDPbZNTs84xUZxASlBtELrFAjZXObauvGvkbDg8rSWUM0M9RkiLln3NsZ
+	 3aqGk6qShUd7ZBGWn4NrS/3H5owaJi63Wm7bwcbPF4dNmPU8/G0K4xGLGJOeo9ckXA
+	 E5UlgnZ/aVQHlTQ0zxpqb42ON42keZ7RZYV46yyp9Nsh2xoyep70LxeqhmKhMivNye
+	 c3wktA+VorF2/uhD1vh9pQrVPIqBNk9DDrrGyVzs8fDO+5I2Mh6Hl8aGrYA/ZKSCYi
+	 3BukXFgtysykbt0PjMwe9IsZDQGEAmSqggbizaF6xTvANA8wBruaQjBVEIyfaH4oUD
+	 Br2APf3VapKzg==
+Message-ID: <5f624bc3a8e900dc967cea5dfada5f9a94fa14b1.camel@kernel.org>
+Subject: Re: problems getting rpc over tls to work
+From: Jeff Layton <jlayton@kernel.org>
+To: Chuck Lever III <chuck.lever@oracle.com>
+Cc: "kernel-tls-handshake@lists.linux.dev"
+	 <kernel-tls-handshake@lists.linux.dev>
+Date: Tue, 28 Mar 2023 10:29:19 -0400
+In-Reply-To: <430FEF8D-0953-4A24-9DC6-D53CFE211C05@oracle.com>
+References: <7b48d02ed76350484ca53bd30cd2ba243559b41b.camel@kernel.org>
+	 <87fea8b7313b08e9c5cb6af0ad0ce3774848cce3.camel@kernel.org>
+	 <430FEF8D-0953-4A24-9DC6-D53CFE211C05@oracle.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <7b48d02ed76350484ca53bd30cd2ba243559b41b.camel@kernel.org>
- <D0679730-E679-4C96-BA7D-E17D307A4B8E@oracle.com> <FA6F7A64-0879-4FB2-9AC2-9EF541164706@oracle.com>
- <528666f219df6bf88dbf0bfbf48dd0902f67b9d9.camel@kernel.org>
-In-Reply-To: <528666f219df6bf88dbf0bfbf48dd0902f67b9d9.camel@kernel.org>
-From: Olga Kornievskaia <aglo@umich.edu>
-Date: Tue, 28 Mar 2023 10:25:09 -0400
-Message-ID: <CAN-5tyGay1x_rPhk7uXtUCZjRt_tWh8+Zc-h0+rYXJGCbxw3hg@mail.gmail.com>
-Subject: Re: problems getting rpc over tls to work
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Chuck Lever III <chuck.lever@oracle.com>, 
-	"kernel-tls-handshake@lists.linux.dev" <kernel-tls-handshake@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 28, 2023 at 10:14=E2=80=AFAM Jeff Layton <jlayton@kernel.org> w=
-rote:
->
-> On Tue, 2023-03-28 at 13:55 +0000, Chuck Lever III wrote:
-> >
-> > > On Mar 28, 2023, at 9:29 AM, Chuck Lever III <chuck.lever@oracle.com>=
- wrote:
-> > >
-> > >
-> > >
-> > > > On Mar 28, 2023, at 8:27 AM, Jeff Layton <jlayton@kernel.org> wrote=
-:
-> > > >
-> > > > Hi Chuck!
-> > > >
-> > > > I have started the packaging work for Fedora for ktls-utils:
-> > > >
-> > > >   https://bugzilla.redhat.com/show_bug.cgi?id=3D2182151
-> > > >
-> > > > I also built packages for this in copr:
-> > > >
-> > > >   https://copr.fedorainfracloud.org/coprs/jlayton/ktls-utils/
-> > > >
-> > > > ...and built some interim nfs-utils packages with the requisite exp=
-ortfs
-> > > > patches:
-> > > >
-> > > >   https://copr.fedorainfracloud.org/coprs/jlayton/nfs-utils/
-> > >
-> > > Note that the nfs-utils changes aren't necessary to support
-> > > the kernel server in "opportunistic" mode -- the server will
-> > > use RPC-with-TLS if a client requests it, but otherwise does
-> > > not restrict access.
-> > >
-> > > Client side also has no nfs-utils requirements at this time,
-> > > since the new mount options are handled by the kernel.
-> >
-> > In case I wasn't clear:
-> >
-> > This was meant as a suggestion. If you want to simplify your
-> > test set-up a bit, the nfs-utils piece isn't needed at this
-> > point. But feel free to include it if you like!
-> >
->
-> Understood. I needed to build it for the server side anyway, so I
-> figured I might as well. Eventually I'd like to set up a Fedora COPR
-> repo that has all of the packages we need to test this, but I need to
-> sort through the certificate handling here first.
->
-> Are there docs on how to administer gnutls? For instance, I guess I'll
-> want to set up my own CA and issue client and server certs. How do I
-> make gnutls trust a new CA?
+On Tue, 2023-03-28 at 14:04 +0000, Chuck Lever III wrote:
+>=20
+> > On Mar 28, 2023, at 8:55 AM, Jeff Layton <jlayton@kernel.org> wrote:
+> >=20
+> > I wonder...should we have the ktls-utils package install a self-signed =
+cert by default?
+>=20
+> So this idea is intriguing, I had some similar thoughts.
+>=20
+> I'm not sure what the security implications of all this are.
+> We'd first need to look at other certificate-based packages
+> in Fedora to see if they offer a similar quick-setup. The
+> cert would have to be created at install time.
+>=20
+>=20
 
-Hi Jeff,
+I think when apache is installed, a self-signed cert is created. You
+don't have to use it, but it's what gets initially installed.
 
-To get self-signed certificates to work you need to (on the client's
-machine) copy your server's cert.pem file into
-/etc/pki/ca-trust/source/anchors and then run the =E2=80=9Cupdate-ca-trust
-extract=E2=80=9D.
+> > I created a self-signed
+> > cert and tried to use it, but the client rejects it with this:
+> >=20
+> >    Mar 28 09:01:20 nfsclnt tlshd[1092]: Certificate signer not found.
+> >=20
+> > Is there a way to make it not try to validate the cert chain?
+>=20
+> Olga also found that self-signed server certs are not
+> working as we'd like. tlshd had a mechanism to force the
+> clients not to check the signer, but it was removed
+> because it was deemed insecure.
+>=20
+> I'd like to find a way to make self-signed work seamlessly.
+>=20
 
-> --
-> Jeff Layton <jlayton@kernel.org>
->
+Ditto. A lot of people are going to want to use TLS opportunistically
+without deploying their own CA and issuing "real" certificates.
+
+It's true that it is less secure than having full chain-of-trust, but
+this seems like a case of "perfect being the enemy of good". If we don't
+allow for self-signed certificates, then we've created a rather large
+hurdle for anyone who wants to deploy this.
+
+One thing we could do is reinstate the tlshd option, but still allow it
+to check the signature. Then it could log something if that check fails
+but still allow the connection.
+
+We should of course document why using that option is not ideal, but
+ripping it out entirely seems rather draconian. That's just going to
+drive people to not use TLS at all because of the hassle factor.
+--=20
+Jeff Layton <jlayton@kernel.org>

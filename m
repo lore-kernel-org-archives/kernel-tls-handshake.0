@@ -1,140 +1,125 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49B68BE0
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 28 Mar 2023 15:19:46 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id a16so11154561pjs.4
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 28 Mar 2023 08:19:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=umich.edu; s=google-2016-06-03; t=1680016786;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dKPvaGyAPl0rQ1EJezdTC93aKyDCsT5XyCx/AQonRgE=;
-        b=LtwEgtwwqIKLp7pNh74kAyELBrpP4Z23/cBjv6Jc7MRofr9CYn1gKO2eIH3NaxnN4t
-         rVr8/r1fikdOkB+AXth9QgmEsoKjU5Z31EDx/wGW8FutTxcVNzXi5D+Bxs9KDQ2mY6au
-         Ala5N2UihtbHkQBSbaWedO4DDPCQeJnKVqxCrIeuddNHPB5s0LazKYoMy79TYfWGgwlb
-         nVBIzziU+/JJuFoatuQQTvMM+7kZjuKGJzs+I+tWwoJWtalOvGzICowotqZYsP+KwwNL
-         IaXJweUh2ng7HPC5C7oylhkTMKvom6iPKmD62KVHCyuU69pmxsHEPNy2mQARDrKu5gm2
-         /vZA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015608BE0
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 28 Mar 2023 15:29:34 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id m2so12652692wrh.6
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 28 Mar 2023 08:29:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680016786;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dKPvaGyAPl0rQ1EJezdTC93aKyDCsT5XyCx/AQonRgE=;
-        b=ljSU3K5KF3BZhMxORGu7xNiTsS/BsOgT5Fd2s4tnmxhyzODP2fuClDiS9iHWtuvKni
-         6LEW+DHlEn95DORKBhtx0VecLgabiRc9xd0ioxWoUKcIPyQ0K/ST1tjU5KwaW91Cb/1f
-         89Odpph7LApQm75U+seA2Xkmurx7k1x7oacIixyS2s6FStFIRaSntqLUjbgvNFfr5f24
-         vI4Wx1xhM8E0+gXBAevN1vxGxWhLhnCo7q2bIOai7h2umRk3LBfLRObcA7mToleKh+ie
-         ByTN4x9Lm4rdObxH6hjdF144/sReHd0gynjECxoA8V4KiJVFg9js9n/BF6ER4u9LD6aZ
-         kVvQ==
-X-Gm-Message-State: AAQBX9fRkYgIcGspr6yGeP3l+IcBrYmBljF7HRcXTXj5hOV7xOUaOJ/j
-	mc07KfGnbP5u3zOqBzZUiqdvI+ARbiHoEcWBzLQ=
-X-Google-Smtp-Source: AKy350bhqBuwEwSIE26nbLt44KbIqlTj7I1hiCDvfiLqz/71w3Nb3BTpBSYU1c0uJnObXE++WTuzAFU6W35PxmmSxt8=
-X-Received: by 2002:a17:902:7d81:b0:1a0:52f1:8ea7 with SMTP id
- a1-20020a1709027d8100b001a052f18ea7mr5661907plm.12.1680016786095; Tue, 28 Mar
- 2023 08:19:46 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680017373; x=1682609373;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qexeKim1ZlEK1Dz+xS1G2ct6jCCGIXB+0tiAHlwj1VM=;
+        b=J9BjDt1sCUgfoQd2+EuEguRwCZMnYkZCEIL/E+KgaR9JjYmcJOGnOGvqmx+s+P3vAQ
+         vndTEtIQJscl1o65lwVwAEqIQkb48PTUoYnSe5xFR5+qJiLhIzW/k6rpK4Vrb+spY6ML
+         6wU6cE8XQEFJqZDVRwasPH9tPbhUXGOeytIS7WDDP0nSSRtbZdfPESPeOuB01HUyJtxU
+         tcc7otfsPqj+3Sw46B0B7MQ7m9gg60EYefN0S+qNfA0Xyuxhm40EbVQ+lf2hSpTe4JT2
+         tDND1ekqRtz7BZLCEhcABP3f6qStSp9r8gSAbtG1QZeKYwyK8G7R8bzMo3DufUcmWuE6
+         h3ew==
+X-Gm-Message-State: AAQBX9fpvN7lLsku6VuZ+oAbip23rJbJQ9k5xcuIgCHRu7+qPlnshv36
+	lrbkHpvgkF9QnTkGKBBpW3A=
+X-Google-Smtp-Source: AKy350b0CMmJ6FjSU5ZNkToc1NWn0FhMTu9hxkGdLkaDMndAUxm8kRaaKwW1PmfbC0q50pHt8f5/FQ==
+X-Received: by 2002:adf:e60a:0:b0:2c7:175e:e201 with SMTP id p10-20020adfe60a000000b002c7175ee201mr8716190wrm.1.1680017373082;
+        Tue, 28 Mar 2023 08:29:33 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id m23-20020a056000181700b002c5694aef92sm27798980wrh.21.2023.03.28.08.29.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Mar 2023 08:29:32 -0700 (PDT)
+Message-ID: <6350ad42-d6ab-b244-6bdd-9830c11fb1ea@grimberg.me>
+Date: Tue, 28 Mar 2023 18:29:31 +0300
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <7b48d02ed76350484ca53bd30cd2ba243559b41b.camel@kernel.org>
- <87fea8b7313b08e9c5cb6af0ad0ce3774848cce3.camel@kernel.org>
- <430FEF8D-0953-4A24-9DC6-D53CFE211C05@oracle.com> <5f624bc3a8e900dc967cea5dfada5f9a94fa14b1.camel@kernel.org>
- <CAN-5tyFo3zfqY93zNHRfEk_Uw91-TALk=nOX7WRe_jz-0Anx=g@mail.gmail.com>
- <9290DD53-B78F-4B95-A4A7-500BEAE35FDE@oracle.com> <666c279c758f2d7acf6f9b82c267e91af510446b.camel@kernel.org>
- <0B1C934F-5A3B-43F6-A6A1-F02E27BC2609@oracle.com>
-In-Reply-To: <0B1C934F-5A3B-43F6-A6A1-F02E27BC2609@oracle.com>
-From: Olga Kornievskaia <aglo@umich.edu>
-Date: Tue, 28 Mar 2023 11:19:35 -0400
-Message-ID: <CAN-5tyFS7zS-mfQqeaz7O1MvCpyeJ2uZBzHRNYgHzd_Qzy=7JQ@mail.gmail.com>
-Subject: Re: problems getting rpc over tls to work
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 15/18] nvmet-tcp: enable TLS handshake upcall
+Content-Language: en-US
 To: Chuck Lever III <chuck.lever@oracle.com>
-Cc: Jeff Layton <jlayton@kernel.org>, 
-	"kernel-tls-handshake@lists.linux.dev" <kernel-tls-handshake@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ Chuck Lever <cel@kernel.org>,
+ "kernel-tls-handshake@lists.linux.dev" <kernel-tls-handshake@lists.linux.dev>
+References: <20230321124325.77385-1-hare@suse.de>
+ <20230321124325.77385-16-hare@suse.de>
+ <6f69983c-17bd-dd72-b941-95f55db10180@grimberg.me>
+ <b8a2e1d4-3571-447b-25c6-c6dd25fbad02@suse.de>
+ <a1af3f6b-ec9e-4e91-ad70-57fcc9010a91@grimberg.me>
+ <c426d104-b7f2-e736-c23a-b94fda54ed37@suse.de>
+ <e0620d94-9729-014c-2cb8-8ff826ebbefa@grimberg.me>
+ <e016af81-f77e-2eba-a805-838f62ba50f7@suse.de>
+ <68AA3629-6B88-4098-AA03-BEDF614F8D0B@oracle.com>
+ <ea181844-69f5-66eb-e64e-e9871916532b@grimberg.me>
+ <3ad50302-6b3c-6d6a-669e-0b11c2df6a6b@suse.de>
+ <c9b5bb2d-89d7-8805-6d60-2c53e13f5d58@grimberg.me>
+ <7c3da604-251f-209e-db6d-d1bee5a838c5@suse.de>
+ <8d0ddb2d-0b4e-e782-6507-a1d61b5d53f4@grimberg.me>
+ <D2384BEF-CE08-4CC6-95C2-F5E6726E0970@oracle.com>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <D2384BEF-CE08-4CC6-95C2-F5E6726E0970@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 28, 2023 at 11:06=E2=80=AFAM Chuck Lever III <chuck.lever@oracl=
-e.com> wrote:
->
->
->
-> > On Mar 28, 2023, at 11:03 AM, Jeff Layton <jlayton@kernel.org> wrote:
-> >
-> > On Tue, 2023-03-28 at 14:45 +0000, Chuck Lever III wrote:
-> >>
-> >>> On Mar 28, 2023, at 10:39 AM, Olga Kornievskaia <aglo@umich.edu> wrot=
-e:
-> >>>
-> >>> On Tue, Mar 28, 2023 at 10:29=E2=80=AFAM Jeff Layton <jlayton@kernel.=
-org> wrote:
-> >>>>
-> >>>> It's true that it is less secure than having full chain-of-trust, bu=
-t
-> >>>> this seems like a case of "perfect being the enemy of good". If we d=
-on't
-> >>>> allow for self-signed certificates, then we've created a rather larg=
-e
-> >>>> hurdle for anyone who wants to deploy this.
-> >>>>
-> >>>> One thing we could do is reinstate the tlshd option, but still allow=
- it
-> >>>> to check the signature. Then it could log something if that check fa=
-ils
-> >>>> but still allow the connection.
-> >>>>
-> >>>> We should of course document why using that option is not ideal, but
-> >>>> ripping it out entirely seems rather draconian. That's just going to
-> >>>> drive people to not use TLS at all because of the hassle factor.
-> >>>
-> >>> I would argue that "no verification" option should only be allowed in
-> >>> some extreme cases. Like say having an option that explicitly says
-> >>> it's running in a debug mode and say on the foreground only (-d -f
-> >>> --noverify). Having such options might clearly state the intent is to
-> >>> debug only and not run for any user usage.
-> >>>
-> >>> I also don't see a real reason for "noverify" option except to remove
-> >>> frustrations during the setup.
-> >>
-> >> I might put it this way: we don't want to have customers installing
-> >> something on their clients whose out-of-the-shrinkwrap configuration
-> >> is less than secure. "no verification" is less than secure.
-> >>
-> >> My preference would be to have some kind of way to get self-signed
-> >> certs working with no client-side configuration needed. If the
-> >> client mounts with "xprtsec=3Dtls" it should work. Do we need to
-> >> plumb that into our handshake upcall and make "anonymous"
-> >> handshakes explicitly allow unrecognized signers?
-> >>
-> >
-> > Since the client is the side that's rejecting things, having a mount
-> > option that allows you to relax that check seems like the right
-> > approach.
-> >
-> > How about a new xprtsec=3D option? Maybe "xprtsec=3Dnvtls" (no verify T=
-LS)?
-> > That would allow things to work out of the box, but still leave
-> > xprtsec=3Dtls as the more secure method.
->
-> Nah. xprtsec=3Dtls is supposed to be less secure: no authentication,
-> just encryption. The secure method is xprtsec=3Dmtls.
 
-What's the point of "no authentication". I thought the server is
-always authenticated.
+>>>>> As the callbacks will be changed once TLS is activated, and we really should not attempt to run if sk_data_ready() points to another function,
+>>>>> as then the sk_user_data pointer will most likely be changed, too,
+>>>>> causing all sorts of issues.
+>>>>
+>>>> Umm, something is unclear to me. if nvmet_tcp_listen_data_ready is
+>>>> called doesn't it by definition mean that sk->sk_data_ready ==
+>>>> nvmet_tcp_listen_data_ready ?
+>>>>
+>>>> Are you talking about a situation where between
+>>>> nvmet_tcp_listen_data_ready is starting and until the
+>>>> sk->sk_callback_lock the data_ready cb (and the user data
+>>>> pointer) is changed?
+>>> No. Far simpler:
+>>> Starting kTLS will change the callbacks.
+>>> So sk->sk_data_ready will point to our callback before
+>>> the upcall, but to the kTLS version _after_ the upcall.
+>>> It typically doesn't matter, as we're setting it to
+>>> nvmet_tcp_data_ready() anyway.
+>>
+>> For ktls won't we set it to nvmet_tcp_data_ready only when
+>> the handshake is done?
+>>
+>>> But there might be the odd case where the data_ready
+>>> callback is invoked after kTLS has been started but before
+>>> we're setting it to nvmet_tcp_data_ready().
+>>
+>> What does nvmet_tcp_data_ready has to do with it?
+>> You are changing nvmet_tcp_listen_data_ready.
+>>
+>>> Then we cannot guarantee that sk_user_data really is set
+>>> to the 'queue' pointer, so we should skip the function.
+>>
+>> nvme_tcp_listen_data_ready was invoked, then sk->sk_data_ready
+>> is nvme_tcp_listen_data_ready. Are you referring to the case
+>> where the callback has changed before the read lock ?
+>>
+>> I would like to understand why svc_tcp_listen_data_ready doesn't
+>> have this race as well. Chuck?
+> 
+> svc doesn't alter the pointer address in the listener's
+> sk_data_ready field, and neither does kTLS.
 
-> IMO xprtsec=3Dtls needs to skip the signer check. I think I can make
-> tlshd do that.
+It is inherited from the parent socket sk. IIRC it is cloned in
+inet_reqsk_clone.
 
-I guess in that case, I (grudgingly) agree with something like
-xprtsec=3Danonymous/nvtls".
+> For a connected socket, when the handshake has completed,
+> svc examines the socket for more work one last time before
+> deciding it's idle (a kind of simulated data_ready). That
+> should pick up work that arrived undetected.
 
->
->
-> --
-> Chuck Lever
->
->
+The question is how does a ktls socket never calls its inherited
+sk_data_ready (svc_tcp_listen_data_ready), which according to Hannes'
+explanation, should be the case if this socket was created as its
+offspring.
+
+> Maybe I'm missing something?
+
+I don't know yet.

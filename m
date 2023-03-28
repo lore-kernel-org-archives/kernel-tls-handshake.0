@@ -1,236 +1,97 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303CF8473
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 28 Mar 2023 18:33:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1680028381;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zE0WW/WvBBjx8aWVnOzcDRw6kLkHXwUBNuSvIAyelTk=;
-	b=Y5JZ7vmV2nLnqmGOCaf4R8+xwGrzkA4iTns+RikLcYoMwWwWkWl7VS94WlzSRJ3E6ny0ea
-	XvjwngYWH8gBQ+3aSksg7eXxykAdA4SccvJuY1L+QUAKz6Ih9sBVEhZHck4bjexJ6xeOje
-	xp9pnOgTtUAZ9P62g7YA8kbyiyxGJ+M=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-549-xn7qTzewOgC0IHKQdlWxfg-1; Tue, 28 Mar 2023 14:32:59 -0400
-X-MC-Unique: xn7qTzewOgC0IHKQdlWxfg-1
-Received: by mail-qv1-f71.google.com with SMTP id w2-20020a0cc242000000b00583d8e55181so5484254qvh.23
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 28 Mar 2023 11:32:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680028379;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0FgVKBJToYK1yiFwX2s1PsIft578+IvEFZ8Q3E8Uj6U=;
-        b=bLgDzaMO+HkTUwKR8SpCsb0S8bvxx+0j/VRamgMZ48yss2xz4H/EqG52aSKcCCcQif
-         v19kXM1yvH3vom2J1nM+daiXUEIfyB6/jqR2qrzb9tDaAT1eg548EkZVosimtc4JIuHQ
-         QoEBXMZSxXNPEwVp+icQliWIiQBGCyE6iPB59DjTyKY9EC48fcIgA5ddRJ3VFDOokX32
-         UT5kruru5C5ArwdGAP5IyC0SoSATDB4N8+NuHn+np6qUGJLpZpJGtpi9Rl4P/z8q1aSi
-         1oKlk3bHtqPMEDVaaqRNLznNOZZYr35qI79Cqc3yOSXJgJqzFRLS1ibH38gk0VU/e7up
-         2q4g==
-X-Gm-Message-State: AAQBX9eHHL2upjbK6yA1L2kEbnpjRL430749xjmO4on7hDbIG2zrdtpw
-	AuJUwE9oEFZK/AUQu2Ljb+UObtkdXdTehvvGVZqxaz4Di46FtzgzOpQpFgsh5wK1IGi0WqzRmjP
-	puOvoiNZGc7/kwTaVDahpwJV9Si7cYcp1DXA=
-X-Received: by 2002:a05:6214:2a84:b0:56e:b1e0:3fef with SMTP id jr4-20020a0562142a8400b0056eb1e03fefmr24948838qvb.24.1680028378892;
-        Tue, 28 Mar 2023 11:32:58 -0700 (PDT)
-X-Google-Smtp-Source: AKy350agVIdSWAWKZ8MDYC+NHMiHVgkQs3dMufixptWREwInD7kg+MjyfAv/xNNRJGR25AxZl6O1YA==
-X-Received: by 2002:a05:6214:2a84:b0:56e:b1e0:3fef with SMTP id jr4-20020a0562142a8400b0056eb1e03fefmr24948801qvb.24.1680028378609;
-        Tue, 28 Mar 2023 11:32:58 -0700 (PDT)
-Received: from [192.168.1.3] (68-20-15-154.lightspeed.rlghnc.sbcglobal.net. [68.20.15.154])
-        by smtp.gmail.com with ESMTPSA id lf21-20020a0562142cd500b005dd8b93457esm3945623qvb.22.2023.03.28.11.32.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Mar 2023 11:32:58 -0700 (PDT)
-Message-ID: <739ab9b8b930092fc2c0b65feeb7469de98642ff.camel@redhat.com>
-Subject: Re: [PATCH v7 1/2] net/handshake: Create a NETLINK service for
- handling handshake requests
-From: Jeff Layton <jlayton@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21F8BA20
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 28 Mar 2023 20:29:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4066DC4339B;
+	Tue, 28 Mar 2023 20:29:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680035357;
+	bh=oY+3xDsKQvZoI9H4+l0PfLSucV8BAjjdEMt0o5V3snk=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=i7EYcPJiNPqV+UKcyzgzQfUolLLNZ7OUUUlK6UFPOiui956cCW8szbhqevPE1Ia6D
+	 omxAVvm0KicHBpSe1hkNCtt5plxp7Lv2hAZGTGTd7mLIWLKCwZ/4FXMr9AzCxFsR0q
+	 s8tqLm/6LlDJZcuBgDS7v4yTp1u1XDZs4fQt6R/gAQe7uhjEhgzSodZD9iJchy7Olv
+	 her3RQLhHgu7qzXsIn79KV8YfWkOyPW2YAPzsOucgumAoVlSw8pe/016e1OVIz5ZE5
+	 MwGIxZpiPcaGoYcRtSZETtyu5NRyNpIjiJmP8zlwB538/Ggy9d7LApyH3JmaIVa7Dq
+	 NRlDg7L5Js7hA==
+Message-ID: <44b718e213a57ea3018f4fac6c648c35ed1d1977.camel@kernel.org>
+Subject: Re: [PATCH] handshake: set hr_sk field earlier in
+ handshake_req_submit
+From: Jeff Layton <jlayton@kernel.org>
 To: Chuck Lever III <chuck.lever@oracle.com>
-Cc: Chuck Lever <cel@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>, "open
- list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
- "kernel-tls-handshake@lists.linux.dev"
- <kernel-tls-handshake@lists.linux.dev>, John Haxby <john.haxby@oracle.com>
-Date: Tue, 28 Mar 2023 14:32:57 -0400
-In-Reply-To: <8154E3F3-C8A2-4BCF-8DFC-E00EA7B9CF80@oracle.com>
-References: <167915594811.91792.15722842400657376706.stgit@manet.1015granger.net>
-	 <167915629953.91792.17220269709156129944.stgit@manet.1015granger.net>
-	 <3e4e33c19a9c608be863d2d7207f5a9cb7db795f.camel@redhat.com>
-	 <8154E3F3-C8A2-4BCF-8DFC-E00EA7B9CF80@oracle.com>
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37)
+Cc: "kernel-tls-handshake@lists.linux.dev"
+	 <kernel-tls-handshake@lists.linux.dev>
+Date: Tue, 28 Mar 2023 16:29:15 -0400
+In-Reply-To: <CE691A38-999E-4128-880D-F6A5AEB20D79@oracle.com>
+References: <20230328181040.292486-1-jlayton@kernel.org>
+	 <CE691A38-999E-4128-880D-F6A5AEB20D79@oracle.com>
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2023-03-28 at 18:19 +0000, Chuck Lever III wrote:
+On Tue, 2023-03-28 at 18:12 +0000, Chuck Lever III wrote:
 >=20
-> > On Mar 28, 2023, at 2:14 PM, Jeff Layton <jlayton@redhat.com> wrote:
+> > On Mar 28, 2023, at 2:10 PM, Jeff Layton <jlayton@kernel.org> wrote:
 > >=20
-> > On Sat, 2023-03-18 at 12:18 -0400, Chuck Lever wrote:
-> > > From: Chuck Lever <chuck.lever@oracle.com>
-> > >=20
-> > > When a kernel consumer needs a transport layer security session, it
-> > > first needs a handshake to negotiate and establish a session. This
-> > > negotiation can be done in user space via one of the several
-> > > existing library implementations, or it can be done in the kernel.
-> > >=20
-> > > No in-kernel handshake implementations yet exist. In their absence,
-> > > we add a netlink service that can:
-> > >=20
-> > > a. Notify a user space daemon that a handshake is needed.
-> > >=20
-> > > b. Once notified, the daemon calls the kernel back via this
-> > >   netlink service to get the handshake parameters, including an
-> > >   open socket on which to establish the session.
-> > >=20
-> > > c. Once the handshake is complete, the daemon reports the
-> > >   session status and other information via a second netlink
-> > >   operation. This operation marks that it is safe for the
-> > >   kernel to use the open socket and the security session
-> > >   established there.
-> > >=20
-> > > The notification service uses a multicast group. Each handshake
-> > > mechanism (eg, tlshd) adopts its own group number so that the
-> > > handshake services are completely independent of one another. The
-> > > kernel can then tell via netlink_has_listeners() whether a handshake
-> > > service is active and prepared to handle a handshake request.
-> > >=20
-> > > A new netlink operation, ACCEPT, acts like accept(2) in that it
-> > > instantiates a file descriptor in the user space daemon's fd table.
-> > > If this operation is successful, the reply carries the fd number,
-> > > which can be treated as an open and ready file descriptor.
-> > >=20
-> > > While user space is performing the handshake, the kernel keeps its
-> > > muddy paws off the open socket. A second new netlink operation,
-> > > DONE, indicates that the user space daemon is finished with the
-> > > socket and it is safe for the kernel to use again. The operation
-> > > also indicates whether a session was established successfully.
-> > >=20
-> > > Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-> > > ---
-> > > Documentation/netlink/specs/handshake.yaml |  122 +++++++++++
-> > > MAINTAINERS                                |    8 +
-> > > include/trace/events/handshake.h           |  159 ++++++++++++++
-> > > include/uapi/linux/handshake.h             |   70 ++++++
-> > > net/Kconfig                                |    5=20
-> > > net/Makefile                               |    1=20
-> > > net/handshake/Makefile                     |   11 +
-> > > net/handshake/genl.c                       |   57 +++++
-> > > net/handshake/genl.h                       |   23 ++
-> > > net/handshake/handshake.h                  |   82 +++++++
-> > > net/handshake/netlink.c                    |  316 +++++++++++++++++++=
-+++++++++
-> > > net/handshake/request.c                    |  307 +++++++++++++++++++=
-++++++++
-> > > net/handshake/trace.c                      |   20 ++
-> > > 13 files changed, 1181 insertions(+)
-> > > create mode 100644 Documentation/netlink/specs/handshake.yaml
-> > > create mode 100644 include/trace/events/handshake.h
-> > > create mode 100644 include/uapi/linux/handshake.h
-> > > create mode 100644 net/handshake/Makefile
-> > > create mode 100644 net/handshake/genl.c
-> > > create mode 100644 net/handshake/genl.h
-> > > create mode 100644 net/handshake/handshake.h
-> > > create mode 100644 net/handshake/netlink.c
-> > > create mode 100644 net/handshake/request.c
-> > > create mode 100644 net/handshake/trace.c
-> > >=20
-> > >=20
-> >=20
-> > [...]
-> >=20
-> > > diff --git a/net/handshake/request.c b/net/handshake/request.c
-> > > new file mode 100644
-> > > index 000000000000..3f8ae9e990d2
-> > > --- /dev/null
-> > > +++ b/net/handshake/request.c
-> > > @@ -0,0 +1,307 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > +/*
-> > > + * Handshake request lifetime events
-> > > + *
-> > > + * Author: Chuck Lever <chuck.lever@oracle.com>
-> > > + *
-> > > + * Copyright (c) 2023, Oracle and/or its affiliates.
-> > > + */
-> > > +
-> > > +#include <linux/types.h>
-> > > +#include <linux/socket.h>
-> > > +#include <linux/kernel.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/skbuff.h>
-> > > +#include <linux/inet.h>
-> > > +#include <linux/fdtable.h>
-> > > +#include <linux/rhashtable.h>
-> > > +
-> > > +#include <net/sock.h>
-> > > +#include <net/genetlink.h>
-> > > +#include <net/netns/generic.h>
-> > > +
-> > > +#include <uapi/linux/handshake.h>
-> > > +#include "handshake.h"
-> > > +
-> > > +#include <trace/events/handshake.h>
-> > > +
-> > > +/*
-> > > + * We need both a handshake_req -> sock mapping, and a sock ->
-> > > + * handshake_req mapping. Both are one-to-one.
-> > > + *
-> > > + * To avoid adding another pointer field to struct sock, net/handsha=
-ke
-> > > + * maintains a hash table, indexed by the memory address of @sock, t=
-o
-> > > + * find the struct handshake_req outstanding for that socket. The
-> > > + * reverse direction uses a simple pointer field in the handshake_re=
-q
-> > > + * struct.
-> > > + */
-> > > +
-> > > +static struct rhashtable handshake_rhashtbl ____cacheline_aligned_in=
-_smp;
-> > > +
-> > > +static const struct rhashtable_params handshake_rhash_params =3D {
-> > > +=09.key_len=09=09=3D sizeof_field(struct handshake_req, hr_sk),
-> > > +=09.key_offset=09=09=3D offsetof(struct handshake_req, hr_sk),
-> > > +=09.head_offset=09=09=3D offsetof(struct handshake_req, hr_rhash),
-> > > +=09.automatic_shrinking=09=3D true,
-> > > +};
-> > > +
-> > > +int handshake_req_hash_init(void)
-> > > +{
-> > > +=09return rhashtable_init(&handshake_rhashtbl, &handshake_rhash_para=
-ms);
-> > > +}
-> > > +
-> > > +void handshake_req_hash_destroy(void)
-> > > +{
-> > > +=09rhashtable_destroy(&handshake_rhashtbl);
-> > > +}
-> > > +
-> > > +struct handshake_req *handshake_req_hash_lookup(struct sock *sk)
-> > > +{
-> > > +=09return rhashtable_lookup_fast(&handshake_rhashtbl, &sk,
-> >=20
-> > Is this correct? It seems like we should be searching for the struct
-> > sock pointer value, not on the pointer to the pointer (which will be a
-> > stack var), right?
+> > Otherwise, the request is always hashed with the socket set to a NULL
+> > pointer.
 >=20
-> I copied this from the nfsd_file and nfs4_file code we added recently.
-> rhashtable_lookup_fast takes a pointer to the key, so a pointer to a
-> pointer should be correct in this case.
+> Sounds plausible. I will need to check the clean-up paths too.
 >=20
 
-Got it. Thanks for clarifying!
+You're right about the error paths. The sock refcounting will need to be
+fixed up for sure.
+
+With this but fixed on both ends though, it works for me pretty
+consistently now. I guess I was just unlucky with the hashing!
+
+
+>=20
+> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> > ---
+> > net/handshake/request.c | 2 +-
+> > 1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > I think this is the problem I was hitting earlier. Chuck, feel free to
+> > fold this into the original patch that adds this code.
+> >=20
+> > diff --git a/net/handshake/request.c b/net/handshake/request.c
+> > index 54ba304b5bef..44a097210e59 100644
+> > --- a/net/handshake/request.c
+> > +++ b/net/handshake/request.c
+> > @@ -207,6 +207,7 @@ int handshake_req_submit(struct socket *sock, struc=
+t handshake_req *req,
+> > 	if (READ_ONCE(hn->hn_pending) >=3D hn->hn_pending_max)
+> > 		goto out_err;
+> >=20
+> > +	req->hr_sk =3D sk;
+> > 	req->hr_odestruct =3D sk->sk_destruct;
+> > 	sk->sk_destruct =3D handshake_sk_destruct;
+> > 	spin_lock(&hn->hn_lock);
+> > @@ -230,7 +231,6 @@ int handshake_req_submit(struct socket *sock, struc=
+t handshake_req *req,
+> >=20
+> > 	/* Prevent socket release while a handshake request is pending */
+> > 	sock_hold(sk);
+> > -	req->hr_sk =3D sk;
+> >=20
+> > 	trace_handshake_submit(net, req, sk);
+> > 	return 0;
+> > --=20
+> > 2.39.2
+> >=20
+>=20
+> --
+> Chuck Lever
+>=20
+>=20
+
 --=20
-Jeff Layton <jlayton@redhat.com>
-
+Jeff Layton <jlayton@kernel.org>

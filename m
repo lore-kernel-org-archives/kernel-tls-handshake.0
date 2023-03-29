@@ -1,34 +1,34 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DDB4408
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 29 Mar 2023 14:00:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC794437
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 29 Mar 2023 14:00:03 +0000 (UTC)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id E7D111FDFC;
-	Wed, 29 Mar 2023 13:59:49 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTP id 0AD981FE00;
+	Wed, 29 Mar 2023 13:59:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1680098389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1680098390; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HC7r1sNCiXkD4WKCOuBK7ab1culAEPOhlYoeZi/GHDs=;
-	b=lbWgH7WHR9muoYGzlYW8GuqgKi7u9n1KqZZpAUoskZ4OavEMjqmXunw9SjdzobIpo1c4ug
-	9a3DO0KwLKvz3AAqvotJT3eaKxSJcL3sDP0raCmObvt97AfBWF8TRUYIrVCmvzwvtNpYEJ
-	WWk0XXmG8sECOnWRy8ceQ0DC3jWPPHg=
+	bh=co2BIO/ubiv9x8B5uM8C1F6vLB1+D1S/cSvKvVl0zAc=;
+	b=DAEkrBHlceLjE7/kDwozsQpojRDjH7WCG9wOzEObCqgJmGRQ0v8/Dase6XGAFr6/GmiBVm
+	OE8o0mBCozIU7+MD+zW3W3G3kEmPgDiAWmGZrNfNj5L8xfVyh9p1uIfHa8JbRAGW5KRzLr
+	QHyPhUnCK4KIjvDEz9DjKE6wbx0XXDU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1680098389;
+	s=susede2_ed25519; t=1680098390;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HC7r1sNCiXkD4WKCOuBK7ab1culAEPOhlYoeZi/GHDs=;
-	b=f/blth/un1mqb/w7fLcythAa1MqNRoZMmCMMXlcpFXimStyfnUGE6cZ8XyVUviC87T1B1E
-	e/wE1Jw4K4knkaAQ==
+	bh=co2BIO/ubiv9x8B5uM8C1F6vLB1+D1S/cSvKvVl0zAc=;
+	b=rcvB+BLx2aQDChAX/vsPBLeQjNx0WMDWNusN2Ldrl/V6eGfGW+Q0E0UJV79r8DKbX4ISDl
+	la5gb2/vVP6teZDQ==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id D64172C184;
+	by relay2.suse.de (Postfix) with ESMTP id EDB9C2C188;
 	Wed, 29 Mar 2023 13:59:49 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id D3DBF51BF38C; Wed, 29 Mar 2023 15:59:49 +0200 (CEST)
+	id EB96C51BF392; Wed, 29 Mar 2023 15:59:49 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -37,9 +37,9 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Chuck Lever <chuck.lever@oracle.com>,
 	kernel-tls-handshake@lists.linux.dev,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 13/18] nvmet: make TCP sectype settable via configfs
-Date: Wed, 29 Mar 2023 15:59:33 +0200
-Message-Id: <20230329135938.46905-14-hare@suse.de>
+Subject: [PATCH 16/18] nvmet-tcp: rework sendpage for kTLS
+Date: Wed, 29 Mar 2023 15:59:36 +0200
+Message-Id: <20230329135938.46905-17-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230329135938.46905-1-hare@suse.de>
 References: <20230329135938.46905-1-hare@suse.de>
@@ -51,111 +51,45 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a new configfs attribute 'addr_tsas' to make the TCP sectype
-settable via configfs.
+kTLS ->sendpage() doesn't support the MSG_EOR flag, so blank
+it out if kTLS is enabled.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/target/configfs.c | 67 ++++++++++++++++++++++++++++++++++
- 1 file changed, 67 insertions(+)
+ drivers/nvme/target/tcp.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 907143870da5..ca66ee6dc153 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -303,6 +303,11 @@ static void nvmet_port_init_tsas_rdma(struct nvmet_port *port)
- 	port->disc_addr.tsas.rdma.cms = NVMF_RDMA_CMS_RDMA_CM;
- }
+diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+index ebec882120fd..5daf16138471 100644
+--- a/drivers/nvme/target/tcp.c
++++ b/drivers/nvme/target/tcp.c
+@@ -650,7 +650,7 @@ static int nvmet_try_send_response(struct nvmet_tcp_cmd *cmd,
  
-+static void nvmet_port_init_tsas_tcp(struct nvmet_port *port, int sectype)
-+{
-+	port->disc_addr.tsas.tcp.sectype = sectype;
-+}
-+
- static ssize_t nvmet_addr_trtype_store(struct config_item *item,
- 		const char *page, size_t count)
- {
-@@ -325,11 +330,72 @@ static ssize_t nvmet_addr_trtype_store(struct config_item *item,
- 	port->disc_addr.trtype = nvmet_transport[i].type;
- 	if (port->disc_addr.trtype == NVMF_TRTYPE_RDMA)
- 		nvmet_port_init_tsas_rdma(port);
-+	else if (port->disc_addr.trtype == NVMF_TRTYPE_TCP)
-+		nvmet_port_init_tsas_tcp(port, NVMF_TCP_SECTYPE_NONE);
- 	return count;
- }
+ 	if (!last_in_batch && cmd->queue->send_list_len)
+ 		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
+-	else
++	else if (!cmd->queue->tls_psk)
+ 		flags |= MSG_EOR;
  
- CONFIGFS_ATTR(nvmet_, addr_trtype);
+ 	ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->rsp_pdu),
+@@ -678,7 +678,7 @@ static int nvmet_try_send_r2t(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
  
-+static const struct nvmet_type_name_map nvmet_addr_tsas_tcp[] = {
-+	{ NVMF_TCP_SECTYPE_NONE,	"none" },
-+	{ NVMF_TCP_SECTYPE_TLS13,	"tls1.3" },
-+};
-+
-+static const struct nvmet_type_name_map nvmet_addr_tsas_rdma[] = {
-+	{ NVMF_RDMA_QPTYPE_CONNECTED,	"connected" },
-+	{ NVMF_RDMA_QPTYPE_DATAGRAM,	"datagram"  },
-+};
-+
-+static ssize_t nvmet_addr_tsas_show(struct config_item *item,
-+		char *page)
-+{
-+	struct nvmet_port *port = to_nvmet_port(item);
-+	int i;
-+
-+	if (port->disc_addr.trtype == NVMF_TRTYPE_TCP) {
-+		for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_tcp); i++) {
-+			if (port->disc_addr.tsas.tcp.sectype == nvmet_addr_tsas_tcp[i].type)
-+				return sprintf(page, "%s\n", nvmet_addr_tsas_tcp[i].name);
-+		}
-+		return sprintf(page, "reserved\n");
-+	} else if (port->disc_addr.trtype == NVMF_TRTYPE_RDMA) {
-+		for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_rdma); i++) {
-+			if (port->disc_addr.tsas.rdma.qptype == nvmet_addr_tsas_rdma[i].type)
-+				return sprintf(page, "%s\n", nvmet_addr_tsas_rdma[i].name);
-+		}
-+		return sprintf(page, "reserved\n");
-+	}
-+	return sprintf(page, "not required\n");
-+}
-+
-+static ssize_t nvmet_addr_tsas_store(struct config_item *item,
-+		const char *page, size_t count)
-+{
-+	struct nvmet_port *port = to_nvmet_port(item);
-+	int i;
-+
-+	if (nvmet_is_port_enabled(port, __func__))
-+		return -EACCES;
-+
-+	if (port->disc_addr.trtype != NVMF_TRTYPE_TCP)
-+		return -EINVAL;
-+
-+	for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_tcp); i++) {
-+		if (sysfs_streq(page, nvmet_addr_tsas_tcp[i].name))
-+			goto found;
-+	}
-+
-+	pr_err("Invalid value '%s' for tsas\n", page);
-+	return -EINVAL;
-+
-+found:
-+	nvmet_port_init_tsas_tcp(port, nvmet_addr_tsas_tcp[i].type);
-+	return count;
-+}
-+
-+CONFIGFS_ATTR(nvmet_, addr_tsas);
-+
- /*
-  * Namespace structures & file operation functions below
-  */
-@@ -1741,6 +1807,7 @@ static struct configfs_attribute *nvmet_port_attrs[] = {
- 	&nvmet_attr_addr_traddr,
- 	&nvmet_attr_addr_trsvcid,
- 	&nvmet_attr_addr_trtype,
-+	&nvmet_attr_addr_tsas,
- 	&nvmet_attr_param_inline_data_size,
- #ifdef CONFIG_BLK_DEV_INTEGRITY
- 	&nvmet_attr_param_pi_enable,
+ 	if (!last_in_batch && cmd->queue->send_list_len)
+ 		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
+-	else
++	else if (!cmd->queue->tls_psk)
+ 		flags |= MSG_EOR;
+ 
+ 	ret = kernel_sendpage(cmd->queue->sock, virt_to_page(cmd->r2t_pdu),
+@@ -708,7 +708,7 @@ static int nvmet_try_send_ddgst(struct nvmet_tcp_cmd *cmd, bool last_in_batch)
+ 
+ 	if (!last_in_batch && cmd->queue->send_list_len)
+ 		msg.msg_flags |= MSG_MORE;
+-	else
++	else if (!cmd->queue->tls_psk)
+ 		msg.msg_flags |= MSG_EOR;
+ 
+ 	ret = kernel_sendmsg(queue->sock, &msg, &iov, 1, iov.iov_len);
 -- 
 2.35.3
 

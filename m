@@ -1,44 +1,44 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE6AAFFA
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 29 Mar 2023 15:24:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE215AFFB
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 29 Mar 2023 15:26:45 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CA2021FE01;
-	Wed, 29 Mar 2023 15:24:25 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CC35F21A1A;
+	Wed, 29 Mar 2023 15:26:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1680103465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1680103603; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PC83zyI2MkiTdocQjSJCPagzOohj9//XCpX2Mc2SR7s=;
-	b=zE9qbYxXiCR3yfYjvgdagddwRCw91K8ZNCTP64ttwLJuOeCUwqsFlJo/+S9kJiigOcyvp3
-	R66G1BH//XBgVjnvkHRTGKa39DvV8cwegbyT9IBxBvuS3Za/J5DOn0HTHy2ZA1rcIyrFRz
-	YsY7EUb/uiRE+ESLXRyahevnnAhRRno=
+	bh=xeSJa3vQAJ+XjA4YbjZhGvIMnv9rsLgj+q8TGfFdRNk=;
+	b=h3sOy7g+ijw6LbMqdM2scfC5IUagJu0Nub91YTic72hWagml+xB0H4XFMeo7BKV/2XlF/1
+	qmdUKrNF81CpS2KSiXPmPFxxqEGyYxZ39tiYIiaPTDGCk43XVaX6oN3Kl5b8pD8kZ26CVq
+	OUPMtjOyN3UXmebl+hdoAXXObMNXTwo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1680103465;
+	s=susede2_ed25519; t=1680103603;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PC83zyI2MkiTdocQjSJCPagzOohj9//XCpX2Mc2SR7s=;
-	b=b7zCcl3/2fpCw1prWjZNAfMXmBTswLDl8IDiEelBs6nk3MvK1JNzR67On2BZx/gmxC63r7
-	J2WSguhcIaN4a+CQ==
+	bh=xeSJa3vQAJ+XjA4YbjZhGvIMnv9rsLgj+q8TGfFdRNk=;
+	b=tbCBIGPO020Zrw/Eu/yw9SjgxlRDNFbsCgGcnIjIRTuSBKc48y8SWVhs3CC5qP2FYQmL6S
+	0ZLg8yKBivMfeUCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 430F6139D3;
-	Wed, 29 Mar 2023 15:24:25 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5990B139D3;
+	Wed, 29 Mar 2023 15:26:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id l/lyDilYJGQLVQAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 29 Mar 2023 15:24:25 +0000
-Message-ID: <8fab4f74-cd27-3838-a4f9-6e5b3705d527@suse.de>
-Date: Wed, 29 Mar 2023 17:24:24 +0200
+	id RJ38ErNYJGRNVgAAMHmgww
+	(envelope-from <hare@suse.de>); Wed, 29 Mar 2023 15:26:43 +0000
+Message-ID: <744cb450-101f-75dc-97e3-0933c26c02cf@suse.de>
+Date: Wed, 29 Mar 2023 17:26:42 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -55,13 +55,13 @@ Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
 References: <20230329135938.46905-1-hare@suse.de>
  <20230329135938.46905-2-hare@suse.de>
- <56ab2e76-1d5e-0002-cf23-6c7e9b82d233@grimberg.me>
+ <2cfb1620-a09e-87ed-9224-5e94afc0747f@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <56ab2e76-1d5e-0002-cf23-6c7e9b82d233@grimberg.me>
+In-Reply-To: <2cfb1620-a09e-87ed-9224-5e94afc0747f@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 3/29/23 16:49, Sagi Grimberg wrote:
+On 3/29/23 17:04, Sagi Grimberg wrote:
 > 
 >> Register a '.nvme' keyring to hold keys for TLS and DH-HMAC-CHAP and
 >> add a new config option NVME_TLS to enable support for NVMe-TCP/TLS.
@@ -89,26 +89,11 @@ On 3/29/23 16:49, Sagi Grimberg wrote:
 >>          tristate
 >> +
 >> +config NVME_TLS
->> +    bool "NVMe/TCP TLS encryption support"
->> +    depends on NVME_COMMON
 > 
-> depends on TLS as well? Or maybe select would be more appropriate?
+> Better to call it NVME_TCP_TLS... although not a biggie, should be
+> well understood this is tcp
 > 
-I would argue 'depends', as we cannot use the standard 
-session/process/thread keyrings, as they'll vanish after the initial 
-'connect', and then there's no keyring to lookup keys for subsection 
-reconnects.
-
->> +    select KEYS
->> +    help
->> +      Enables TLS encryption for NVMe/TCP using the netlink handshake 
->> API.
->> +
->> +      If unsure, say N.
-> 
-> Would it not make sense to default it to y?
-
-Yeah.
+Sure.
 
 Cheers,
 

@@ -1,34 +1,34 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263C22F4E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DDD322E
 	for <kernel-tls-handshake@lists.linux.dev>; Wed, 29 Mar 2023 14:00:01 +0000 (UTC)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id CFD581FDF5;
+	by smtp-out2.suse.de (Postfix) with ESMTP id D72A71FDF9;
 	Wed, 29 Mar 2023 13:59:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1680098389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+o+RM62iyNqNlVJHO+JsgD5ffbrDC0FW6pKNrYpcZ6A=;
-	b=SxuZ4oPSiXKBcppxzkgjchnla7lY9FzDb0l1GlMOE7GoJ7zibUywjIumJZqJO0Y5hI2kMA
-	BTAa/OSulLrR5RoIB33mrbBKJVxQiMzT9F/lL2Y7e+r0MdkW3bt8vBh0YSUwmdXjgHpG97
-	uX/SEmv/Ln1SBarvtMyECd8/GdBH+LA=
+	bh=bwtZAIqMizlxRHNHYlOozFR+iuDe8mlNfS85V5xMYoE=;
+	b=psmP7owC2L9KbyZhdyCjbAkgUQrh0MM3xx/AZCy8lP1j38ekYtEHgOoqVQX57QAN23J4vi
+	e4YnaRvSxEQBYg1NB6Y3W0VRytexyNgDVlL+akHfx0vWl6g5oULx6gWkhYjpmiopCH2TYW
+	Q9Wjnq7Wc98RlqdNTHk/yDmKBvcSFmU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1680098389;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+o+RM62iyNqNlVJHO+JsgD5ffbrDC0FW6pKNrYpcZ6A=;
-	b=HT4lUbmsXk3AACaYB4fxOXfqdLqhRiVimRKU4hoI4bOzodhs5UfWOPdMeDsw4JYf7ri68r
-	NkauYoVlia6/T9AA==
+	bh=bwtZAIqMizlxRHNHYlOozFR+iuDe8mlNfS85V5xMYoE=;
+	b=or5tdVFXMNw5FRVb1XSVX+Cuqvcq2L9+r4DKZJKyYRugl27jKOz6MYk6S/wFNzc8euskJl
+	PDn4PifeTOnhLYDA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id BE21E2C17D;
+	by relay2.suse.de (Postfix) with ESMTP id C5FE42C17E;
 	Wed, 29 Mar 2023 13:59:49 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id BBCF651BF386; Wed, 29 Mar 2023 15:59:49 +0200 (CEST)
+	id C3BAD51BF388; Wed, 29 Mar 2023 15:59:49 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Christoph Hellwig <hch@lst.de>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -37,9 +37,9 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Chuck Lever <chuck.lever@oracle.com>,
 	kernel-tls-handshake@lists.linux.dev,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 10/18] nvme-tcp: fixup send workflow for kTLS
-Date: Wed, 29 Mar 2023 15:59:30 +0200
-Message-Id: <20230329135938.46905-11-hare@suse.de>
+Subject: [PATCH 11/18] nvme-tcp: control message handling for recvmsg()
+Date: Wed, 29 Mar 2023 15:59:31 +0200
+Message-Id: <20230329135938.46905-12-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230329135938.46905-1-hare@suse.de>
 References: <20230329135938.46905-1-hare@suse.de>
@@ -51,80 +51,60 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-kTLS does not support MSG_EOR flag for sendmsg(), and in general
-is really picky about invalid MSG_XXX flags.
-So ensure that the MSG_EOR flags is blanked out for TLS, and that
-the MSG_SENDPAGE_LAST is only set if we actually do sendpage().
+kTLS is sending TLS ALERT messages as control messages for recvmsg().
+As we can't do anything sensible with it just abort the connection
+and let the userspace agent to a re-negotiation.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/tcp.c | 28 ++++++++++++++++++++--------
- 1 file changed, 20 insertions(+), 8 deletions(-)
+ drivers/nvme/host/tcp.c | 23 ++++++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index fdb564d0b9f4..54d27873227a 100644
+index 54d27873227a..2e15fa83b725 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -218,6 +218,15 @@ static inline struct blk_mq_tags *nvme_tcp_tagset(struct nvme_tcp_queue *queue)
- 	return queue->ctrl->tag_set.tags[queue_idx - 1];
- }
- 
-+static inline bool nvme_tcp_tls_enabled(struct nvme_tcp_queue *queue)
-+{
-+#ifdef CONFIG_NVME_TLS
-+	return (queue->ctrl->ctrl.tls_key != NULL);
-+#else
-+	return false;
-+#endif
-+}
-+
- static inline u8 nvme_tcp_hdgst_len(struct nvme_tcp_queue *queue)
+@@ -1377,6 +1377,11 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
  {
- 	return queue->hdr_digest ? NVME_TCP_DIGEST_LENGTH : 0;
-@@ -1021,12 +1030,14 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
- 		int req_data_sent = req->data_sent;
- 		int ret, flags = MSG_DONTWAIT;
- 
--		if (last && !queue->data_digest && !nvme_tcp_queue_more(queue))
-+		if (!last || queue->data_digest || nvme_tcp_queue_more(queue))
-+			flags |= MSG_MORE;
-+		else if (!nvme_tcp_tls_enabled(queue))
- 			flags |= MSG_EOR;
--		else
--			flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
- 
- 		if (sendpage_ok(page)) {
-+			if (flags & MSG_MORE)
-+				flags |= MSG_SENDPAGE_NOTLAST;
- 			ret = kernel_sendpage(queue->sock, page, offset, len,
- 					flags);
- 		} else {
-@@ -1077,9 +1088,11 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
- 	int flags = MSG_DONTWAIT;
- 	int ret;
- 
--	if (inline_data || nvme_tcp_queue_more(queue))
--		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
--	else
-+	if (inline_data || nvme_tcp_queue_more(queue)) {
-+		flags |= MSG_MORE;
-+		if (!nvme_tcp_tls_enabled(queue))
-+			flags |= MSG_SENDPAGE_NOTLAST;
-+	} else if (!nvme_tcp_tls_enabled(queue))
- 		flags |= MSG_EOR;
- 
- 	if (queue->hdr_digest && !req->offset)
-@@ -1154,9 +1167,8 @@ static int nvme_tcp_try_send_ddgst(struct nvme_tcp_request *req)
- 
- 	if (nvme_tcp_queue_more(queue))
- 		msg.msg_flags |= MSG_MORE;
--	else
-+	else if (!nvme_tcp_tls_enabled(queue))
- 		msg.msg_flags |= MSG_EOR;
+ 	struct nvme_tcp_icreq_pdu *icreq;
+ 	struct nvme_tcp_icresp_pdu *icresp;
++#ifdef CONFIG_NVME_TLS
++	char cbuf[CMSG_LEN(sizeof(char))] = {};
++	struct cmsghdr *cmsg;
++	unsigned char ctype;
++#endif
+ 	struct msghdr msg = {};
+ 	struct kvec iov;
+ 	bool ctrl_hdgst, ctrl_ddgst;
+@@ -1414,11 +1419,27 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+ 	memset(&msg, 0, sizeof(msg));
+ 	iov.iov_base = icresp;
+ 	iov.iov_len = sizeof(*icresp);
++#ifdef CONFIG_NVME_TLS
++	msg.msg_control = cbuf;
++	msg.msg_controllen = sizeof(cbuf);
++#endif
+ 	ret = kernel_recvmsg(queue->sock, &msg, &iov, 1,
+ 			iov.iov_len, msg.msg_flags);
+ 	if (ret < 0)
+ 		goto free_icresp;
 -
- 	ret = kernel_sendmsg(queue->sock, &msg, &iov, 1, iov.iov_len);
- 	if (unlikely(ret <= 0))
- 		return ret;
++#ifdef CONFIG_NVME_TLS
++	cmsg = (struct cmsghdr *)cbuf;
++	if (CMSG_OK(&msg, cmsg) &&
++	    cmsg->cmsg_level == SOL_TLS &&
++	    cmsg->cmsg_type == TLS_GET_RECORD_TYPE) {
++		ctype = *((unsigned char *)CMSG_DATA(cmsg));
++		if (ctype != TLS_RECORD_TYPE_DATA) {
++			pr_err("queue %d: unhandled TLS record %d\n",
++			       nvme_tcp_queue_id(queue), ctype);
++			return -ENOTCONN;
++		}
++	}
++#endif
+ 	ret = -EINVAL;
+ 	if (icresp->hdr.type != nvme_tcp_icresp) {
+ 		pr_err("queue %d: bad type returned %d\n",
 -- 
 2.35.3
 

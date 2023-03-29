@@ -1,33 +1,33 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0802582
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 29 Mar 2023 14:49:04 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id s13so9091150wmr.4
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 29 Mar 2023 07:49:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87842582
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 29 Mar 2023 15:04:43 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id y14so16087683wrq.4
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 29 Mar 2023 08:04:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680101342;
+        d=1e100.net; s=20210112; t=1680102282; x=1682694282;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RxkL036kcFDqMn3MovCPQPFhu8c5tldGj+zWJ18/JRY=;
-        b=W1621P8XQD8C9lhsU+a8lLykUvFOsZNKYalD2kxRWHoMAoxvreiNiYQVos4W9nHWZm
-         G82V/Z+4dSMqsKht+rPk0Y+5pbI5XUB9QTAPKLhXkbP14fgArx6kzHeE2NGxGCG7ie7E
-         huza6kEVsc7UPI6s0MWl24mMRYrsuKi/iFcNlRLEGvRZWhBpWrHAJHxgrRK2AO4vADRZ
-         rr1p9nTohKAUmCGQdfBULPpfVsaXesEcjAFUe3K8BnbtU6ym0tbrYm57+DQyHlywz1DX
-         GKi9gaTnV5t8MKQEhxQ1zFCTRarSZsuW3CbisVMRpG9rIuYKUKyed0aKOQoW3iEOUqqd
-         Sbxg==
-X-Gm-Message-State: AO0yUKUZTYmzlSXhq1CMAMsKKLR87Yh3WbWcl6/2GbxaOu9BqVsuteDO
-	RQPLujvzgcxgeUx9YF0wwCaaHolEQ/c=
-X-Google-Smtp-Source: AK7set/L7kry83fDQHx+LSN0MLhNEl+AoH9v13eokrgZpTWgLqgsUTKXYsLwtbW749lTVkM3ercUdQ==
-X-Received: by 2002:a05:600c:468b:b0:3eb:f5a2:2d49 with SMTP id p11-20020a05600c468b00b003ebf5a22d49mr16354897wmo.0.1680101342429;
-        Wed, 29 Mar 2023 07:49:02 -0700 (PDT)
+        bh=FaMmgvN463wn8/4vPI+oqIbv/Zy1HNYnDfVcekpYeZc=;
+        b=Z63T2sG+rr9CCkCM2gdlM9Mtsl7MtxvcoIIOvH6Mg4tavnoZTCgfnB9R7NEebXuYeo
+         YFCDvf12Rb5iycVEYkfoEmkUYFuyNc7/w90Yhkb/GHTmee/tIAhd2NLxr+uFPcO32afj
+         GilpAfuQGboyB0Tlj7V3EXBMHdP7jVMKiExEuX+IbHPbvLyK9o0P0pk3sTVC+AQusapy
+         MehF+WgWjlYDvJtqM1hhyvBSjnfdDx9yc8OtCtju67ChE66CqZR/nxmGyP1zaiVXwPSk
+         GME2fLoOFQAHazs9AALnMlYTNeUlCz5slkNP3s2RwPMdcNKC/OGF7fdQmkTKw1XvWQgF
+         NT1A==
+X-Gm-Message-State: AAQBX9ePO5wH+WLRQs1/aTi4h7NT1RDZb9hV7UJ4Imh4Y9raNjViISo1
+	YDbYCmOvCS13aYZpMpMb/vo=
+X-Google-Smtp-Source: AKy350a/ybQEwx5CIpXlxwAzQAbA4x7eork5uF7n3MsqZYaXUcTKFwn/qz9QQLbUVyeGkWiWuwRthg==
+X-Received: by 2002:a5d:4d88:0:b0:2c7:1c72:69ac with SMTP id b8-20020a5d4d88000000b002c71c7269acmr11567152wru.2.1680102281899;
+        Wed, 29 Mar 2023 08:04:41 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id z3-20020a05600c0a0300b003ee6aa4e6a9sm2871660wmp.5.2023.03.29.07.49.01
+        by smtp.gmail.com with ESMTPSA id j6-20020a5d5646000000b002d2f0e23acbsm30333482wrw.12.2023.03.29.08.04.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Mar 2023 07:49:02 -0700 (PDT)
-Message-ID: <56ab2e76-1d5e-0002-cf23-6c7e9b82d233@grimberg.me>
-Date: Wed, 29 Mar 2023 17:49:00 +0300
+        Wed, 29 Mar 2023 08:04:41 -0700 (PDT)
+Message-ID: <2cfb1620-a09e-87ed-9224-5e94afc0747f@grimberg.me>
+Date: Wed, 29 Mar 2023 18:04:39 +0300
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -77,15 +77,6 @@ Content-Transfer-Encoding: 7bit
 >          tristate
 > +
 > +config NVME_TLS
-> +	bool "NVMe/TCP TLS encryption support"
-> +	depends on NVME_COMMON
 
-depends on TLS as well? Or maybe select would be more appropriate?
-
-> +	select KEYS
-> +	help
-> +	  Enables TLS encryption for NVMe/TCP using the netlink handshake API.
-> +
-> +	  If unsure, say N.
-
-Would it not make sense to default it to y?
+Better to call it NVME_TCP_TLS... although not a biggie, should be
+well understood this is tcp

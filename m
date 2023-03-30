@@ -1,85 +1,93 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3D22F30
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 29 Mar 2023 15:57:18 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id r19-20020a05600c459300b003eb3e2a5e7bso10030491wmo.0
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 29 Mar 2023 08:57:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680105437; x=1682697437;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YpBMM16H4VxKR5S0BgjpnB4EOSPEUEXtpuHJU6u+kKM=;
-        b=Y+3JfOQykjwOfJhpPSTmVvAmdx0ltZk2NcGpCghHeYKkKr0ab8RMmkYP7d5toA+ZWM
-         OYUyXatKLxwE6WxV+Ib7CavpwRI39u3/OMLt4FU0HN3p6tCr418iCZ991yFyDnbSzS9R
-         XpIr0Q/9HacAaN36kuCq6Mv9+rcAKCrKvtKV7rvsYaSxnaqBfqa58Ymdweee8EXNOzQR
-         jGCCOdd75d4njGrMJiBBhAR6jf0ZguDTyJNCMMmVQoI4t2wUrfCIWooIdR8plYBa3SCh
-         T6bv0jzOz4k5ZjZ6I3lIOl3GSkx7sRiv/QEb8G6ZvP/oFjlXTZmWiDj35e6sXgevF914
-         BuDg==
-X-Gm-Message-State: AAQBX9dOfpM4sW8kzkpsGjH+JWhojsKKmJcKhpf4g2q4NUqV2pqZJfAQ
-	Mt1gaI67FC8p69wS+o3gmX8=
-X-Google-Smtp-Source: AKy350YnTkuRhy6rZpyGthXVArnJI+1sVROHYPaPXbSSN7o5crWNv2FU6iBYKx+Ie2REEoIG0y+eSQ==
-X-Received: by 2002:a05:600c:3c91:b0:3f0:330b:d3d4 with SMTP id bg17-20020a05600c3c9100b003f0330bd3d4mr346969wmb.4.1680105436796;
-        Wed, 29 Mar 2023 08:57:16 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id n19-20020a7bcbd3000000b003ef684c5e32sm2594516wmi.48.2023.03.29.08.57.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Mar 2023 08:57:16 -0700 (PDT)
-Message-ID: <54748ec5-2734-0000-1405-3d7e6d898a54@grimberg.me>
-Date: Wed, 29 Mar 2023 18:57:14 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9806E1C31
+	for <kernel-tls-handshake@lists.linux.dev>; Thu, 30 Mar 2023 08:53:40 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D8DFA21B2C;
+	Thu, 30 Mar 2023 08:53:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1680166418; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SRg2ie3c/1WdpsjFl3BkEJIYLcootwhbqojGUyjMMpI=;
+	b=pkgs2+VLqKP4z3VEMGoq6Ynu8X0JQpG/7Ss9MuDHeXRbB6XQvnc9ciHya6hsqEQKTnL5XJ
+	0xwGk4nXnLE5nG65GBZ/gwYSdrosogxMb0hj72+PQ9FhYdxf0+BWvnDXIkCM6SG3oKu75X
+	GgsjHNkQjrF3Em//ExladOMa6l4dkeg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1680166418;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SRg2ie3c/1WdpsjFl3BkEJIYLcootwhbqojGUyjMMpI=;
+	b=3aukwAWQDRqf3slKFjkoC4nB+q0KVFKaRJxF8h+FnSlnMX0Zh6an+CxHsZOJVak3flPq0j
+	YYvu2yU7pHKwX8BQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CA941138FF;
+	Thu, 30 Mar 2023 08:53:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id SCJcMRJOJWSfJAAAMHmgww
+	(envelope-from <dwagner@suse.de>); Thu, 30 Mar 2023 08:53:38 +0000
+Date: Thu, 30 Mar 2023 10:53:38 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+	Chuck Lever <chuck.lever@oracle.com>,
+	kernel-tls-handshake@lists.linux.dev
+Subject: Re: [PATCH 01/18] nvme-keyring: register '.nvme' keyring and add
+ CONFIG_NVME_TLS
+Message-ID: <20230330085338.cf5z7zvy3elxiusm@carbon.lan>
+References: <20230329135938.46905-1-hare@suse.de>
+ <20230329135938.46905-2-hare@suse.de>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 06/18] nvme/tcp: allocate socket file
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
-References: <20230329135938.46905-1-hare@suse.de>
- <20230329135938.46905-7-hare@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230329135938.46905-7-hare@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230329135938.46905-2-hare@suse.de>
 
-> When using the TLS upcall we need to allocate a socket file such
-> that the userspace daemon is able to use the socket.
-> 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->   drivers/nvme/host/tcp.c | 17 +++++++++++++++--
->   1 file changed, 15 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 42c0598c31f2..fddf785aba74 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -115,6 +115,7 @@ enum nvme_tcp_recv_state {
->   struct nvme_tcp_ctrl;
->   struct nvme_tcp_queue {
->   	struct socket		*sock;
-> +	struct file		*sock_file;
+On Wed, Mar 29, 2023 at 03:59:21PM +0200, Hannes Reinecke wrote:
+> +++ b/drivers/nvme/host/core.c
+> @@ -25,6 +25,9 @@
+>  #include "nvme.h"
+>  #include "fabrics.h"
+>  #include <linux/nvme-auth.h>
+> +#ifdef CONFIG_NVME_TLS
+> +#include <linux/nvme-keyring.h>
+> +#endif
+>  
+>  #define CREATE_TRACE_POINTS
+>  #include "trace.h"
+> @@ -3954,7 +3957,6 @@ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
+>  	if (a == &dev_attr_dhchap_ctrl_secret.attr && !ctrl->opts)
+>  		return 0;
+>  #endif
+> -
+>  	return a->mode;
+>  }
+>  
+> @@ -5414,13 +5416,21 @@ static int __init nvme_core_init(void)
+>  		result = PTR_ERR(nvme_ns_chr_class);
+>  		goto unregister_generic_ns;
+>  	}
+> -
+> -	result = nvme_init_auth();
+> +#ifdef CONFIG_NVME_TLS
+> +	result = nvme_keyring_init();
+>  	if (result)
+>  		goto destroy_ns_chr;
+> +#endif
 
-I think that sock->file is storing the file, no need to store it as
-well.
-
->   	struct work_struct	io_work;
->   	int			io_cpu;
->   
-> @@ -1330,7 +1331,10 @@ static void nvme_tcp_free_queue(struct nvme_ctrl *nctrl, int qid)
->   	}
->   
->   	noreclaim_flag = memalloc_noreclaim_save();
-> -	sock_release(queue->sock);
-> +	/* ->sock will be released by fput() */
-> +	fput(queue->sock_file);
-> +	queue->sock_file = NULL;
-> +	queue->sock = NULL;
-
-Is the queue->sock = NULL here required because we allocate a sock_file?
+Would it make sense to introduce empty nvme_keyring_init() function for
+!CONFIG_NVME_TLS and avoid this ifdefery here?

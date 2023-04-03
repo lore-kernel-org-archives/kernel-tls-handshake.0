@@ -1,44 +1,44 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB49733D1
-	for <kernel-tls-handshake@lists.linux.dev>; Mon,  3 Apr 2023 12:36:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80645683
+	for <kernel-tls-handshake@lists.linux.dev>; Mon,  3 Apr 2023 12:43:09 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6D3A121CB1;
-	Mon,  3 Apr 2023 12:36:14 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D6FDB1FF3C;
+	Mon,  3 Apr 2023 12:43:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1680525374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1680525787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+wwnzUm0RL+jBunj+beTZTOS5ukwZmcA9gkacTpgIIs=;
-	b=tncoBCiWZbaCC8vo5sK1xWbiIqjFvwKuo7U2h2PKZm6aiTiDTK7NMaMM9A1B/wcgf0+rAQ
-	F/L7CuyBxUP4WfQjdDhAXKc+EQf4r3fCJ0hvm3BAYzZLs03f/VD2LPNEfj2//H0uwaz0t3
-	+FuebSE6FTv6VHxEruzPEQE5tlr0L48=
+	bh=AUBwuZ+S4oapPXf+bptKK8G2dxg14Dvnu+AZ9g28Nfs=;
+	b=0RE7HA8rYZk8RJy+JWaR1uzAHljKraQPunqfOF12wX2iMy4QVBiTG+kl1d9G4bwp0b9+Sq
+	CyM3VqQivJ1/FW4v68Vgl2SCxVgEE2rFXtJUfGKMhde6YnFvio/y1WmnWdCDlIxbmxGt95
+	ZSDeS1cSkNY2LzFKDpCT1Dhz3wdTF7c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1680525374;
+	s=susede2_ed25519; t=1680525787;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+wwnzUm0RL+jBunj+beTZTOS5ukwZmcA9gkacTpgIIs=;
-	b=0OxcF6KaZwtztJSIHf4aHP+mjvzfznuQWLhbcXGggC8HLN/JSEOTO/cA0VzXa9k0wGiuoz
-	a+UxW6z4AjDjVqCQ==
+	bh=AUBwuZ+S4oapPXf+bptKK8G2dxg14Dvnu+AZ9g28Nfs=;
+	b=tBm+H358pUR7jML9ROjR1rfq4BXDFKtT5HM+jhC7fiWXDINltqJyhkPeWNGB3iupUrtyuL
+	PcCKZhgsRLVu9/Cg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5B4821331A;
-	Mon,  3 Apr 2023 12:36:14 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BB4181331A;
+	Mon,  3 Apr 2023 12:43:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id xmmdFT7IKmRBUQAAMHmgww
-	(envelope-from <hare@suse.de>); Mon, 03 Apr 2023 12:36:14 +0000
-Message-ID: <d67d9932-96eb-3548-cf40-b48a6db95739@suse.de>
-Date: Mon, 3 Apr 2023 14:36:14 +0200
+	id OJzAK9vJKmQoVQAAMHmgww
+	(envelope-from <hare@suse.de>); Mon, 03 Apr 2023 12:43:07 +0000
+Message-ID: <9db0016b-f56c-99fc-45e0-26a5f48fb4e3@suse.de>
+Date: Mon, 3 Apr 2023 14:43:07 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -47,65 +47,93 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
+Subject: Re: [PATCH 13/18] nvmet: make TCP sectype settable via configfs
+Content-Language: en-US
 To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
  Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
 References: <20230329135938.46905-1-hare@suse.de>
- <20230329135938.46905-13-hare@suse.de>
- <677f3f9a-872d-27fe-9a21-b41bbe1c44ff@grimberg.me>
- <daf1e19e-119b-3ceb-7808-b74d8b113e05@suse.de>
- <f1bfbb7c-d8df-0386-1048-f141cb6e22bc@grimberg.me>
-Content-Language: en-US
+ <20230329135938.46905-14-hare@suse.de>
+ <6fe0b3db-d60d-822f-b03a-acf697e50ff2@grimberg.me>
+ <0c2240f0-27cc-ba19-16d8-8aac0399dda5@suse.de>
+ <2e63aeab-6384-e10a-40d7-bbe305bba51a@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH 12/18] nvme-fabrics: parse options 'keyring' and 'tls_key'
-In-Reply-To: <f1bfbb7c-d8df-0386-1048-f141cb6e22bc@grimberg.me>
+In-Reply-To: <2e63aeab-6384-e10a-40d7-bbe305bba51a@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 4/3/23 14:24, Sagi Grimberg wrote:
->>>> Parse the fabrics options 'keyring' and 'tls_key' and store the
->>>> referenced keys in the options structure.
+On 4/3/23 14:31, Sagi Grimberg wrote:
+> 
+>>>> Add a new configfs attribute 'addr_tsas' to make the TCP sectype
+>>>> settable via configfs.
+>>>>
+>>>> Signed-off-by: Hannes Reinecke <hare@suse.de>
+>>>> ---
+>>>>   drivers/nvme/target/configfs.c | 67 
+>>>> ++++++++++++++++++++++++++++++++++
+>>>>   1 file changed, 67 insertions(+)
+>>>>
+>>>> diff --git a/drivers/nvme/target/configfs.c 
+>>>> b/drivers/nvme/target/configfs.c
+>>>> index 907143870da5..ca66ee6dc153 100644
+>>>> --- a/drivers/nvme/target/configfs.c
+>>>> +++ b/drivers/nvme/target/configfs.c
+>>>> @@ -303,6 +303,11 @@ static void nvmet_port_init_tsas_rdma(struct 
+>>>> nvmet_port *port)
+>>>>       port->disc_addr.tsas.rdma.cms = NVMF_RDMA_CMS_RDMA_CM;
+>>>>   }
+>>>> +static void nvmet_port_init_tsas_tcp(struct nvmet_port *port, int 
+>>>> sectype)
+>>>> +{
+>>>> +    port->disc_addr.tsas.tcp.sectype = sectype;
+>>>> +}
+>>>> +
+>>>>   static ssize_t nvmet_addr_trtype_store(struct config_item *item,
+>>>>           const char *page, size_t count)
+>>>>   {
+>>>> @@ -325,11 +330,72 @@ static ssize_t nvmet_addr_trtype_store(struct 
+>>>> config_item *item,
+>>>>       port->disc_addr.trtype = nvmet_transport[i].type;
+>>>>       if (port->disc_addr.trtype == NVMF_TRTYPE_RDMA)
+>>>>           nvmet_port_init_tsas_rdma(port);
+>>>> +    else if (port->disc_addr.trtype == NVMF_TRTYPE_TCP)
+>>>> +        nvmet_port_init_tsas_tcp(port, NVMF_TCP_SECTYPE_NONE);
+>>>>       return count;
+>>>>   }
+>>>>   CONFIGFS_ATTR(nvmet_, addr_trtype);
+>>>> +static const struct nvmet_type_name_map nvmet_addr_tsas_tcp[] = {
+>>>> +    { NVMF_TCP_SECTYPE_NONE,    "none" },
+>>>> +    { NVMF_TCP_SECTYPE_TLS13,    "tls1.3" },
+>>>> +};
+>>>> +
+>>>> +static const struct nvmet_type_name_map nvmet_addr_tsas_rdma[] = {
+>>>> +    { NVMF_RDMA_QPTYPE_CONNECTED,    "connected" },
+>>>> +    { NVMF_RDMA_QPTYPE_DATAGRAM,    "datagram"  },
+>>>> +};
+>>>> +
+>>>> +static ssize_t nvmet_addr_tsas_show(struct config_item *item,
+>>>> +        char *page)
+>>>> +{
+>>>> +    struct nvmet_port *port = to_nvmet_port(item);
+>>>> +    int i;
+>>>> +
+>>>> +    if (port->disc_addr.trtype == NVMF_TRTYPE_TCP) {
+>>>> +        for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_tcp); i++) {
+>>>> +            if (port->disc_addr.tsas.tcp.sectype == 
+>>>> nvmet_addr_tsas_tcp[i].type)
+>>>> +                return sprintf(page, "%s\n", 
+>>>> nvmet_addr_tsas_tcp[i].name);
+>>>> +        }
+>>>> +        return sprintf(page, "reserved\n");
 >>>
->>> Can you explain the reasoning to why a user need to pass a keyring
->>> given that we already set up one?
+>>> What is reserved?
 >>>
->> Choice.
->> With a single keyring we can only have a single identity.
->> But there might be configurations where we want to have different PSKs
->> for the same identity (eg for key rotation).
+>> All other values?
 > 
-> How do you expect that rotation would work with this?
+> Yes, you should just consolidate it outside the if-else instead of "not
+> required" (which is a treq value iirc).
 > 
-The user creates a new keyring, adds the necessary keys to it, and then
-either
-- updates the keyring for nvmet (via configfs)
-or
-- reconnects using the new keyring
-
-> How does nvmet handle a non-nvme keyring?
-> 
-There is a configfs attribute 'param_keyring', allowing you to use a 
-different keyring (the nvme one is just the default).
-
->> With this option we can prepare a new keyring, and use that instead of 
->> the old one.
-> 
-> On an existing controller?
-> 
-Sure; when we are updating the keyring and the key id the controller 
-will use that after the next reset.
-Much like we do for DH-CHAP nowadays.
-
->> (And it really doesn't add much complexity...)
-> 
-> I know, it just adds one more argument, and I want to understand if it
-> is really needed.
-
-I do agree that the keyring argument would not necessarily required if 
-we pass in the key id, but I'll be needing the keyring for secure 
-concatenation. And plan is to move DH-HMAC-CHAP over to keyrings, too.
-
-So I'd prefer to keep it.
+Okay, will do.
 
 Cheers,
 

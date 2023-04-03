@@ -1,33 +1,33 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44E233D2
-	for <kernel-tls-handshake@lists.linux.dev>; Mon,  3 Apr 2023 12:20:17 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id d11-20020a05600c3acb00b003ef6e6754c5so14267672wms.5
-        for <kernel-tls-handshake@lists.linux.dev>; Mon, 03 Apr 2023 05:20:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491A45678
+	for <kernel-tls-handshake@lists.linux.dev>; Mon,  3 Apr 2023 12:24:08 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id v1so29146499wrv.1
+        for <kernel-tls-handshake@lists.linux.dev>; Mon, 03 Apr 2023 05:24:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680524416; x=1683116416;
+        d=1e100.net; s=20210112; t=1680524646; x=1683116646;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FLTeks8eELiIGcTY5wF4oXdJ+bPSmjNFBcw73Z/uIUE=;
-        b=liwuSB6uBwDQhdMlcTbX8RWNpbdJBBWP5wc5w14R4zGCTWxBcCXAQhVidVIN4xAXx7
-         YxJ1PAq7cBZEbd62yEPfTEehLNYxE0ceMrq4qlFD0ABNfLzb12mX4yAsOhpg3l87axiv
-         EPddfJvj67i8eRqR0YO0xp1AK3/WrsMSMavbM6b+7aB+nybCdvgmdEBwX+Qa0Bsezj/K
-         jZyZMq2qpd/w2YxUK1cl8w7f3tIupi75yrvhH/1GPLdoweHCXDnCf27QNkKVr2AUGCCx
-         UqP1hL56Jbb2nRoyj93pdNNha7kpP4tdudeMfAg1n5qf5VJ4TORKPI8gmYMNXNH1K2n0
-         Elog==
-X-Gm-Message-State: AAQBX9cU814GWayRc/FjVMZE9ABIBj43UTVWRM5SDMl9rSTtQKly9/HG
-	CRPOawTbf5Um13YCJG0Yzvw=
-X-Google-Smtp-Source: AKy350YxmO96TAvXra/msTOS7cA1FwhAgYJY37TVSY7/z3X8F/c5jraEpEwEAHhi8th5HWQB1BJOjA==
-X-Received: by 2002:a05:600c:3b8a:b0:3f0:34cb:a542 with SMTP id n10-20020a05600c3b8a00b003f034cba542mr11934460wms.2.1680524415877;
-        Mon, 03 Apr 2023 05:20:15 -0700 (PDT)
+        bh=hQCt4YaHv+6303eq3oNsTscAtpuTTpPBNIA7vNtc7BM=;
+        b=wqep7Zm7tEI1YoyhM76LK7bl0LecSu6oJGfHSlhRVVO0/b8N7QVrUbMAlCfmrycAfE
+         RxmvCWNhnz8bCD7Sc1dwCpYha/HXUwb80tqL52BXm8+sSh4lCYE2p3Lg8xjuiRv4CZkT
+         Jf5BEyrQcxTHpWyck2n5wqilOC7xg9NlQ/ZkYuRlKddu8CrnAjGFUiDF1F+Ed4tl6++V
+         BnhV57vvTQqm5KfzImm1i1U/+nI41xzsaPJ0hMg/uVNqb6+mSPzEpa9RA6f4k/lcpGcE
+         oPKAJG30J44/+G/qSgk6i/MD43UXhjc2uea7nbP4PDYAZ7We8F0g3lUHu9OtbnlS70m4
+         HEhQ==
+X-Gm-Message-State: AAQBX9d63ainf0+kmvV70G5rBtRIGFUPkbcXoeN/rrL1EcGsqV1xz6IC
+	ILMmnea6Yyq+jqNo8LANWtQ=
+X-Google-Smtp-Source: AKy350YnT17EWqc4AVjiSBa/72RALGXXw0d8R+ex3gWi7PTbwRyKB/1X+7eHkM+2sdSrVB3oRW0lzw==
+X-Received: by 2002:a5d:49c4:0:b0:2ca:ab68:eff9 with SMTP id t4-20020a5d49c4000000b002caab68eff9mr19563040wrs.7.1680524646419;
+        Mon, 03 Apr 2023 05:24:06 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id y4-20020a056000108400b002cfec8b7f89sm9670709wrw.77.2023.04.03.05.20.14
+        by smtp.gmail.com with ESMTPSA id a12-20020a056000100c00b002cea8664304sm9514655wrx.91.2023.04.03.05.24.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 05:20:15 -0700 (PDT)
-Message-ID: <44fe87ba-e873-fa05-d294-d29d5e6dd4b5@grimberg.me>
-Date: Mon, 3 Apr 2023 15:20:13 +0300
+        Mon, 03 Apr 2023 05:24:06 -0700 (PDT)
+Message-ID: <f1bfbb7c-d8df-0386-1048-f141cb6e22bc@grimberg.me>
+Date: Mon, 3 Apr 2023 15:24:04 +0300
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -36,71 +36,41 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH 10/18] nvme-tcp: fixup send workflow for kTLS
+Subject: Re: [PATCH 12/18] nvme-fabrics: parse options 'keyring' and 'tls_key'
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Jakub Kicinski <kuba@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Boris Pismenny <borisp@nvidia.com>,
- john.fastabend@gmail.com, Paolo Abeni <pabeni@redhat.com>,
- Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
 References: <20230329135938.46905-1-hare@suse.de>
- <20230329135938.46905-11-hare@suse.de>
- <634385cc-35af-eca0-edcb-1196a95d1dfa@grimberg.me>
- <20230330224920.3a47fec9@kernel.org>
- <7f057726-8777-2fd3-a207-b3cd96076cb9@suse.de>
+ <20230329135938.46905-13-hare@suse.de>
+ <677f3f9a-872d-27fe-9a21-b41bbe1c44ff@grimberg.me>
+ <daf1e19e-119b-3ceb-7808-b74d8b113e05@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <7f057726-8777-2fd3-a207-b3cd96076cb9@suse.de>
+In-Reply-To: <daf1e19e-119b-3ceb-7808-b74d8b113e05@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hey Jakub, Hannes.
-
->>>> kTLS does not support MSG_EOR flag for sendmsg(), and in general
->>>> is really picky about invalid MSG_XXX flags.
->>>
->>> CC'ing TLS folks.
->>>
->>> Can't tls simply ignore MSG_EOR instead of consumers having to be
->>> careful over it?
+>>> Parse the fabrics options 'keyring' and 'tls_key' and store the
+>>> referenced keys in the options structure.
 >>
->> I think we can support EOR, I don't see any fundamental problem there.
-
-It would help at least one consumer (nvme-tcp) to not change its
-behavior between tls and non-tls. At the very minimum don't fail
-the send operation (just do the same as if it wasn't passed).
-
->>>> So ensure that the MSG_EOR flags is blanked out for TLS, and that
->>>> the MSG_SENDPAGE_LAST is only set if we actually do sendpage().
->>>
->>> You mean MSG_SENDPAGE_NOTLAST.
->>>
->>> It is also a bit annoying that a tls socket dictates different behavior
->>> than a normal socket.
->>>
->>> The current logic is rather simple:
->>> if more data comming:
->>>     flags = MSG_MORE | MSG_SENDPAGE_NOTLAST
->>> else:
->>>     flags = MSG_EOR
->>>
->>> Would like to keep it that way for tls as well. Can someone
->>> explain why this is a problem with tls?
+>> Can you explain the reasoning to why a user need to pass a keyring
+>> given that we already set up one?
 >>
->> Some of the flags are call specific, others may be internal to the
->> networking stack (e.g. the DECRYPTED flag). Old protocols didn't do
->> any validation because people coded more haphazardly in the 90s.
->> This lack of validation is a major source of technical debt :(
-> 
-> A-ha. So what is the plan?
-> Should the stack validate flags?
-> And should the rules for validating be the same for all protocols?
+> Choice.
+> With a single keyring we can only have a single identity.
+> But there might be configurations where we want to have different PSKs
+> for the same identity (eg for key rotation).
 
-MSG_SENDPAGE_NOTLAST is not an internal flag, I thought it was
-essentially similar semantics to MSG_MORE but for sendpage. It'd
-be great if this can be allowed in tls (again, at the very least
-don't fail but continue as if it wasn't passed).
+How do you expect that rotation would work with this?
 
-If this turns out to be a big project, I would prefer to change
-nvme-tcp for now in order not to block nvme tls support (although it is
-a hidden capability interface, which is always bad).
+How does nvmet handle a non-nvme keyring?
+
+> With this option we can prepare a new keyring, and use that instead of 
+> the old one.
+
+On an existing controller?
+
+> (And it really doesn't add much complexity...)
+
+I know, it just adds one more argument, and I want to understand if it
+is really needed.

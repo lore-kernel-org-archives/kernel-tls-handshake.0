@@ -1,135 +1,158 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D629B6FA1
-	for <kernel-tls-handshake@lists.linux.dev>; Mon,  3 Apr 2023 16:13:41 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id v6-20020a05600c470600b003f034269c96so8220650wmo.4
-        for <kernel-tls-handshake@lists.linux.dev>; Mon, 03 Apr 2023 09:13:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680538420; x=1683130420;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FeBep77DrjGUpmokRYQ7dhCDeDDySE9+TQjeaBuBkxw=;
-        b=ltGeH6K0oE2zW9Jk1aCy3eNKfHk6/19jzbmOkw/e0eRPuPE9XrL+y1urKD+oT6edzf
-         yMNq5/69hykitgolsvk4nQCjxI1byUfxzCejrlkHh4p5Up/CUkEJkEDvhr5qDTyB8C8S
-         mCsxgCR9btoSn1cQCN/BaAVVqb1cUVEApOaiuJXlfV5RaqRpFkbwhsrSDis/Dhb5aZyU
-         2yzuX0fl2Cm2/KqX6PE9AOHKZO20FnP2fZxbBE0jiW10jsCLqItilKghGN0y1uAVuzTz
-         FuhnQQZZQBMMKsyn1vzSXwrGN6aO08ev2AlQElUhjVTo0DzVAdEnujtt26FOIJR8cOrj
-         dC1g==
-X-Gm-Message-State: AAQBX9dPqAaxSqVFe85VXZslMBSnpCK1tKb5EZb5cxIMJHSyCWUa8Ocp
-	cihM7/fG7Dt4M6/2UalyzLA=
-X-Google-Smtp-Source: AKy350bQ6o8QlReTv05o8RCHu/tuH+y9+1PJGi+S4jdqiRhnA4MrEOz08syRp5I8Z5QCs7FLin6BFQ==
-X-Received: by 2002:a05:600c:5399:b0:3ee:da0:cb85 with SMTP id hg25-20020a05600c539900b003ee0da0cb85mr61777wmb.1.1680538420020;
-        Mon, 03 Apr 2023 09:13:40 -0700 (PDT)
-Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id bd6-20020a05600c1f0600b003ef36ef3833sm19541576wmb.8.2023.04.03.09.13.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Apr 2023 09:13:39 -0700 (PDT)
-Message-ID: <7e7c3787-1772-c719-9765-7d271100dffe@grimberg.me>
-Date: Mon, 3 Apr 2023 19:13:38 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E94D7487
+	for <kernel-tls-handshake@lists.linux.dev>; Mon,  3 Apr 2023 18:45:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64545C433D2;
+	Mon,  3 Apr 2023 18:45:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1680547556;
+	bh=mSBd0D7Efh2Xul3bW3lXknsW5Wle0LSn9/zEsNyyLe8=;
+	h=Subject:From:To:Cc:Date:From;
+	b=NmOlHwyaRL7WYn+ErGPvK5kGeiNlwbDD1N+I4Wpn7oXy6nUc0qy9UpDeY7qi48oX3
+	 Puan/T/lNuCTuUT6B5bUs+TY7jyKh0XpMo3Ijtiwz60GSibsve+1oKdDaa/tix8EWz
+	 NW5r8wowQJfKgXw4iJqnRbCJMAcR5RSrCiH+6TNSzqVDt3k2LbbEgdvqOxjs1X1Hx0
+	 2mdPM38fmz667mIf7rOI4pdXjp5vFF5Of2UaZtZ//UhOfi/9Mko00CU4yH5ju6vP/6
+	 trHm2K/f2gwFT8BIRARI+TTX+kCR9CLv9O8grtROAmklpNF7EMY24EfVV61HwtpMjd
+	 OFrnsdXo6jD2w==
+Subject: [PATCH v8 0/4] Another crack at a handshake upcall mechanism
+From: Chuck Lever <cel@kernel.org>
+To: kuba@kernel.org, pabeni@redhat.com, edumazet@google.com, borisp@nvidia.com
+Cc: netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
+ john.haxby@oracle.com
+Date: Mon, 03 Apr 2023 14:45:54 -0400
+Message-ID: 
+ <168054723583.2138.14337249041719295106.stgit@klimt.1015granger.net>
+User-Agent: StGit/1.5
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 12/18] nvme-fabrics: parse options 'keyring' and 'tls_key'
-Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
- Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
-References: <20230329135938.46905-1-hare@suse.de>
- <20230329135938.46905-13-hare@suse.de>
- <677f3f9a-872d-27fe-9a21-b41bbe1c44ff@grimberg.me>
- <daf1e19e-119b-3ceb-7808-b74d8b113e05@suse.de>
- <f1bfbb7c-d8df-0386-1048-f141cb6e22bc@grimberg.me>
- <d67d9932-96eb-3548-cf40-b48a6db95739@suse.de>
- <a22946d2-e22d-a361-8768-8b34cbec1b03@grimberg.me>
- <32a81d27-2c16-b71b-e9da-d704acda93f6@suse.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <32a81d27-2c16-b71b-e9da-d704acda93f6@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
+Hi-
+
+Here is v8 of a series to add generic support for transport layer
+security handshake on behalf of kernel socket consumers (user space
+consumers use a security library directly, of course). A summary of
+the purpose of these patches is archived here:
+
+https://lore.kernel.org/netdev/1DE06BB1-6BA9-4DB4-B2AA-07DE532963D6@oracle.com/
+
+The full patch set to support SunRPC with TLSv1.3 is available in
+the topic-rpc-with-tls-upcall branch here, based on net-next/main:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux.git
+
+This patch set includes support for in-transit confidentiality and
+peer authentication for both the Linux NFS client and server.
+
+A user space handshake agent for TLSv1.3 to go along with the kernel
+patches is available in the "main" branch here:
+
+https://github.com/oracle/ktls-utils
+
+---
+
+Major changes since v7:
+- Addressed Paolo's v7 review comments
+- Added initial set of Kunit tests for the handshake API
+- Included an NFS server patch to add new TLS_RECORD_TYPE values
+
+Major changes since v6:
+- YAML spec and generated artifacts are now under dual license
+- Addressed Jakub's v6 review comments
+- Implemented a memory-sensitive limit on the number of pending
+  handshake requests
+- Implemented upcall support for multiple peer identities
+
+Major changes since v5:
+- Added a "timeout" attribute to the handshake netlink protocol
+- Removed the GnuTLS-specific "priorities" attribute
+- Added support for keyrings to restrict access to keys
+- Simplified the kernel consumer TLS handshake API
+- The handshake netlink protocol can handle multiple peer IDs or
+  certificates in the ACCEPT and DONE operations, though the
+  implementation does not yet support it.
+
+Major changes since v4:
+- Rebased onto net-next/main
+- Replaced req reference counting with ->sk_destruct
+- CMD_ACCEPT now does the equivalent of a dup(2) rather than an
+  accept(2)
+- CMD_DONE no longer closes the user space socket endpoint
+- handshake_req_cancel is now tested and working
+- Added a YAML specification for the netlink upcall protocol, and
+  simplified the protocol to fit the YAML schema
+- Added an initial set of tracepoints
+
+Changes since v3:
+- Converted all netlink code to use Generic Netlink
+- Reworked handshake request lifetime logic throughout
+- Global pending list is now per-net
+- On completion, return the remote's identity to the consumer
+
+Changes since v2:
+- PF_HANDSHAKE replaced with NETLINK_HANDSHAKE
+- Replaced listen(2) / poll(2) with a multicast notification service
+- Replaced accept(2) with a netlink operation that can return an
+  open fd and handshake parameters
+- Replaced close(2) with a netlink operation that can take arguments
+
+Changes since RFC:
+- Generic upcall support split away from kTLS
+- Added support for TLS ServerHello
+- Documentation has been temporarily removed while API churns
+
+---
+
+Chuck Lever (4):
+      net/handshake: Create a NETLINK service for handling handshake requests
+      net/handshake: Add a kernel API for requesting a TLSv1.3 handshake
+      net/handshake: Add Kunit tests for the handshake consumer API
+      SUNRPC: Recognize control messages in server-side TCP socket code
 
 
-On 4/3/23 17:11, Hannes Reinecke wrote:
-> On 4/3/23 15:07, Sagi Grimberg wrote:
->>
->>>>>>> Parse the fabrics options 'keyring' and 'tls_key' and store the
->>>>>>> referenced keys in the options structure.
->>>>>>
->>>>>> Can you explain the reasoning to why a user need to pass a keyring
->>>>>> given that we already set up one?
->>>>>>
->>>>> Choice.
->>>>> With a single keyring we can only have a single identity.
->>>>> But there might be configurations where we want to have different PSKs
->>>>> for the same identity (eg for key rotation).
->>>>
->>>> How do you expect that rotation would work with this?
->>>>
->>> The user creates a new keyring, adds the necessary keys to it, and then
->>> either
->>> - updates the keyring for nvmet (via configfs)
->>> or
->>> - reconnects using the new keyring
->>
->> And the user cannot update the nvme keyring?
->>
-> Sure, he can. All I'm saying is that he might choose to create a 
-> different one (Different tenants, setups, what do I know).
-> 
->>>> How does nvmet handle a non-nvme keyring?
->>>>
->>> There is a configfs attribute 'param_keyring', allowing you to use a 
->>> different keyring (the nvme one is just the default).
->>
->> OK.
->>
->>>>> With this option we can prepare a new keyring, and use that instead 
->>>>> of the old one.
->>>>
->>>> On an existing controller?
->>>>
->>> Sure; when we are updating the keyring and the key id the controller 
->>> will use that after the next reset.
->>> Much like we do for DH-CHAP nowadays.
->>>
->>>>> (And it really doesn't add much complexity...)
->>>>
->>>> I know, it just adds one more argument, and I want to understand if it
->>>> is really needed.
->>>
->>> I do agree that the keyring argument would not necessarily required 
->>> if we pass in the key id, but I'll be needing the keyring for secure 
->>> concatenation. And plan is to move DH-HMAC-CHAP over to keyrings, too.
->>
->> I'm not sure I understand why authentication move to keyrings requires
->> that the user is able to bring its own keyring.
->>
->>> So I'd prefer to keep it.
->>
->> I'm not against it, but I failing to understand in what situation a user
->> _must_ send a different keyring to the driver (and not use the nvme
->> keyring).
-> 
-> Oh, there is no 'must'. He _can_. And under certain circumstances
-> (in a multi-tenant environment, say) there are reasons to keep the keys 
-> separate into several keyrings.
-> Bit like the '--key' parameter; the code will try to select the 
-> 'default' key, but if the user wants to use a different one by all 
-> means, do.
-> Same for the keyring; we do have the default keyring, but if the user 
-> for whatever reason doesn't want to use it we're giving him the 
-> possibility for that.
+ Documentation/netlink/specs/handshake.yaml | 124 +++++
+ Documentation/networking/index.rst         |   1 +
+ Documentation/networking/tls-handshake.rst | 217 +++++++++
+ MAINTAINERS                                |  11 +
+ include/net/handshake.h                    |  43 ++
+ include/net/tls.h                          |   2 +
+ include/trace/events/handshake.h           | 159 +++++++
+ include/trace/events/sunrpc.h              |  39 ++
+ include/uapi/linux/handshake.h             |  73 +++
+ net/Kconfig                                |  20 +
+ net/Makefile                               |   1 +
+ net/handshake/Makefile                     |  13 +
+ net/handshake/genl.c                       |  58 +++
+ net/handshake/genl.h                       |  24 +
+ net/handshake/handshake.h                  |  81 ++++
+ net/handshake/kunit-test.c                 | 523 +++++++++++++++++++++
+ net/handshake/netlink.c                    | 327 +++++++++++++
+ net/handshake/request.c                    | 344 ++++++++++++++
+ net/handshake/tlshd.c                      | 417 ++++++++++++++++
+ net/handshake/trace.c                      |  20 +
+ net/sunrpc/svcsock.c                       |  49 +-
+ 21 files changed, 2544 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/netlink/specs/handshake.yaml
+ create mode 100644 Documentation/networking/tls-handshake.rst
+ create mode 100644 include/net/handshake.h
+ create mode 100644 include/trace/events/handshake.h
+ create mode 100644 include/uapi/linux/handshake.h
+ create mode 100644 net/handshake/Makefile
+ create mode 100644 net/handshake/genl.c
+ create mode 100644 net/handshake/genl.h
+ create mode 100644 net/handshake/handshake.h
+ create mode 100644 net/handshake/kunit-test.c
+ create mode 100644 net/handshake/netlink.c
+ create mode 100644 net/handshake/request.c
+ create mode 100644 net/handshake/tlshd.c
+ create mode 100644 net/handshake/trace.c
 
-I'm not overly keen to overload the argument space without proper
-real-life justification. But maybe it does make sense to allow users
-to store their secrets in separate keyrings...
-
-So I'm not really opposed to this one.
+--
+Chuck Lever
 

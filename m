@@ -1,36 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386C8A53
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  5 Apr 2023 00:00:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D0BAC433EF;
-	Wed,  5 Apr 2023 00:00:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D1F367
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  5 Apr 2023 00:23:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB5D0C433EF;
+	Wed,  5 Apr 2023 00:23:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680652836;
-	bh=z7kA6bTqZPgSzVu/sj3hV5kZCpknDoOjDo2Ykt/fEao=;
+	s=k20201202; t=1680654200;
+	bh=ZaR/TrJIhvTI3AXjFyEfWFmb2sglI/FUamopBW/EXA8=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ntS/TWnB7x7Jw+DAfc6Vv2qntXssGtYBKVnQD3ksc6Y/TWxhFOjdtbKZMsJVTvL7S
-	 vam4X/jmGk7OuDHkYORDseY+RKJAZj8q+QvosSOK/xd/G9e32K0oLmx0EmGnxObZ6s
-	 BZ/hgVmmhksc2R/ne7RllTw+NmnteToG/W4WwwLz6EL1fE3jVQgDGzaMOcHLaXV9nR
-	 TThAYMdT07NNlpyGrPmhmdAtSGqCwLTbeWiJ/S9ydNUq858B76j26xN5RLFbc6Uywl
-	 Qke8/Z6qjn7aNGCF1CsxymiBQHNhhojZidI6C3KpMEzt4SMKaz0deYeB7vSmAoratS
-	 BHYJrH6CkaZag==
-Date: Tue, 4 Apr 2023 17:00:35 -0700
+	b=klFUMoZAzPmKuDhbY1DRH4MJJKwbMRTLOX/wLjkGRMVfEzi7BJMNH6/juz720C/4r
+	 YPoOX5005sgPGixJq6TGco1bKCvFYQ7FFhMxWMb0RZEvKAKwymyvZwdUz+c6tBqZsT
+	 L0WrZ4pt8DI3NG/ZLSLAB8mK3eIqDhjhSov1qDjWP21cljkPXfqIruS05iIPBwKJgg
+	 x6e1TTW/PE6mfK3GRP15EqOkqKYn2z/XgYwsp/5TyQMVIwFsMihR3ioYNHQw24+NII
+	 65w3ILLvPgHDN84YQp+BHHvsJFZaTeDaZKElntjvajxBp3cBuh+EYQrmULU648taGh
+	 ndLMA9/WT21bA==
+Date: Tue, 4 Apr 2023 17:23:18 -0700
 From: Jakub Kicinski <kuba@kernel.org>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Chuck Lever III <chuck.lever@oracle.com>, Paolo Abeni
- <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>, Boris Pismenny
- <borisp@nvidia.com>, "open list:NETWORKING [GENERAL]"
- <netdev@vger.kernel.org>, "kernel-tls-handshake@lists.linux.dev"
- <kernel-tls-handshake@lists.linux.dev>, John Haxby <john.haxby@oracle.com>
+To: Chuck Lever <cel@kernel.org>
+Cc: pabeni@redhat.com, edumazet@google.com, borisp@nvidia.com,
+ netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
+ john.haxby@oracle.com
 Subject: Re: [PATCH v8 1/4] net/handshake: Create a NETLINK service for
  handling handshake requests
-Message-ID: <20230404170035.6650027d@kernel.org>
-In-Reply-To: <4dde688e-21db-6cc6-080e-c451eac2a9ca@suse.de>
+Message-ID: <20230404172318.58e4d0dd@kernel.org>
+In-Reply-To: <168054756211.2138.1880630504843421368.stgit@klimt.1015granger.net>
 References: <168054723583.2138.14337249041719295106.stgit@klimt.1015granger.net>
 	<168054756211.2138.1880630504843421368.stgit@klimt.1015granger.net>
-	<63A1FBC9-8970-4A36-80B1-9C7713FF1132@oracle.com>
-	<4dde688e-21db-6cc6-080e-c451eac2a9ca@suse.de>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -40,30 +36,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 4 Apr 2023 17:44:19 +0200 Hannes Reinecke wrote:
-> > We're still seeing NULL pointer dereferences here.
-> > Typically this happens after the remote closes the
-> > connection early.
-> > 
-> > I guess I cannot rely on sock_hold(sk); from preventing
-> > someone from doing a "sock->sk = NULL;"
-> > 
-> > Would it make more sense for req_submit and req_cancel to
-> > operate on "struct sock *" rather than "struct socket *" ?
-> >   
-> Stumbled across that one, too; that's why my initial submission
-> was sprinkled with 'if (!sock->sk)' statements.
-> So I think it's a good idea.
-> 
-> But waiting for Jakub to enlighten us.
+On Mon, 03 Apr 2023 14:46:02 -0400 Chuck Lever wrote:
+> +int handshake_nl_done_doit(struct sk_buff *skb, struct genl_info *info)
+> +{
+> +	struct net *net = sock_net(skb->sk);
+> +	struct socket *sock = NULL;
+> +	struct handshake_req *req;
+> +	int fd, status, err;
+> +
+> +	if (GENL_REQ_ATTR_CHECK(info, HANDSHAKE_A_DONE_SOCKFD))
+> +		return -EINVAL;
+> +	fd = nla_get_u32(info->attrs[HANDSHAKE_A_DONE_SOCKFD]);
+> +
+> +	err = 0;
+> +	sock = sockfd_lookup(fd, &err);
+> +	if (err) {
+> +		err = -EBADF;
+> +		goto out_status;
+> +	}
+> +
+> +	req = handshake_req_hash_lookup(sock->sk);
+> +	if (!req) {
 
-Ah, I'm probably the weakest of the netdev maintainers when it comes 
-to the socket layer :)
+fput() missing on this path?
 
-I thought sock->sk is only cleared if the "user" of the socket closes
-it. But yes, both sock->sk == NULL and sk->sk_socket == NULL are
-entirely possible, and the networking stack usually operates on 
-struct sock. Why exactly those two are separate beings is one of 
-the mysteries of Linux networking which causes guaranteed confusion 
-to all the newcomers. I wish I knew the details so I could at least
-document it :S
+> +		err = -EBUSY;
+> +		goto out_status;
+> +	}
+> +
+> +	trace_handshake_cmd_done(net, req, sock->sk, fd);
+> +
+> +	status = -EIO;
+> +	if (info->attrs[HANDSHAKE_A_DONE_STATUS])
+> +		status = nla_get_u32(info->attrs[HANDSHAKE_A_DONE_STATUS]);
+> +
+> +	handshake_complete(req, status, info);
+> +	fput(sock->file);
+> +	return 0;
+> +
+> +out_status:
+> +	trace_handshake_cmd_done_err(net, req, sock->sk, err);
+> +	return err;
+> +}
+
+> +	/*
+> +	 * Arbitrary limit to prevent handshakes that do not make
+> +	 * progress from clogging up the system.
+> +	 */
+> +	si_meminfo(&si);
+> +	tmp = si.totalram / (25 * si.mem_unit);
+> +	hn->hn_pending_max = clamp(tmp, 3UL, 25UL);
+
+No idea what this does (what's mem_unit?), we'll have to trust you :)
+
+
+And there are some kdoc issues here:
+
+include/trace/events/handshake.h:112: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ ** Request lifetime events
+include/trace/events/handshake.h:149: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst

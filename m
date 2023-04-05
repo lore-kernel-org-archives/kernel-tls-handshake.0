@@ -1,165 +1,133 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E713863AE
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  5 Apr 2023 15:33:48 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 335Cx0gm005144
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 5 Apr 2023 15:33:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : subject :
- date : message-id : references : content-type : content-id :
- content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=ijIuYU0hdnImbPMoAY7vXSS1U+2DTVRVpRA9ajPJhs4=;
- b=i9JVYfA1qNVYIuyM6TvTcsj2qfn+8ThDsa9Pb1aOrXWvti+MTZOZYDXlK6AfoFAwXpG2
- ojK0BoJfCnCgn8WPDgIyz0QGFn6YN0BeFiKxrevSyW4wbC/5FEhAeRH4pxpZxrC+mFRn
- xCO8PMrbEP5EwUJ87tbuAkHBMfYTfIBA5sX47qB2M6X6lf20M/D0Zcx0O6X5GAWEmm0K
- /QTbalwbxdf3MymrKyL0soWFVGksbaPU1VsxAzzs+M9WyV+cR0ORUwLqS8C7Hk+pDzCf
- A7+tgT4UuB1SlLBesj966fNU/PwDrkhqYlym5Zsnm3aeChiJzlzOKEP/5iv+LbpHX98f yg== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ppb1drnm8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 05 Apr 2023 15:33:46 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 335F5hZU037964
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 5 Apr 2023 15:33:31 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2108.outbound.protection.outlook.com [104.47.70.108])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3pptjtsvqv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 05 Apr 2023 15:33:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CFGopkTWF+n8/P4fkEPkYP7TBGEMncwb7Aub3MkzBDpit+6Xvy8352mIcIS2sz7sBJXXGAdCXOOPOz4YgZvUWsH7uIzsscRgVfNTWkG4rX/jT1c1kKADHYzbLaccJcjrMvMFrCtKftx2WW/OwXxT8LG+NwyhexCGW1sc66JF+aJpoQXrFQaCathPQjDdZSbgAnDCZcWJ8ZQshEzypQ/Fen2/N/te/og43n+S4HoG1rDo+6dlc9X7FhW2bgWvrZdKwAeo+dkyUzPRtxd7gXtRlHULSCB9ePLDAwm91OOrOcmUrCoCF/Wz3eUuAG1pwxEK6hsYDvrkKJDB9TDO9y1kvw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ijIuYU0hdnImbPMoAY7vXSS1U+2DTVRVpRA9ajPJhs4=;
- b=NvUFaFnUrQqhD8DxQohO0B9EkO9f+it+V1GmJ28Bq3jrSnLNJU+MmNKgOYiV7vyA80iP83yajyo7DCB3sT8on8qU2wl1vIGb9xtV84CFWT98O3ATLmrqadm6nphfWQaz3M4g7CuKeZ64VEIpWDOUbsOtbwlwLsPJd6kzjGZCao2BZLoBURQycHe8bbKaFcOIxf3N6aXFueaLCdFPRVpUz5rHIr3UjejvYPNlcp1jRebPGK3AAC1XqFb1HLmMNg84kWlP5dGiOlhOZSoLe5kJJcYLnHtSp7J6Z2Tm333+ukwjenRaRcWS4EJJvs1RA/FGZOrfm81V2n986Ve5PfTpxg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ijIuYU0hdnImbPMoAY7vXSS1U+2DTVRVpRA9ajPJhs4=;
- b=uCVQcr7jeSTtkiqcV91OYrrcRC2bemddgkJPnvD0am4SJmyRACvxdZWeTodVX9rKzNsBWaBE0J4JMLb4V5DQxSo2PqThAwf4PrQn1M164zjJBRZf3dVZMXWNpEJ9DotNDjlttCKQSh1IuBQ7cv9N5YADsCPPOpahY1QcMowSnzM=
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
- by CH3PR10MB7356.namprd10.prod.outlook.com (2603:10b6:610:130::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.33; Wed, 5 Apr
- 2023 15:33:27 +0000
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::ecbd:fc46:2528:36db]) by BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::ecbd:fc46:2528:36db%7]) with mapi id 15.20.6254.035; Wed, 5 Apr 2023
- 15:33:27 +0000
-From: Chuck Lever III <chuck.lever@oracle.com>
-To: "kernel-tls-handshake@lists.linux.dev"
-	<kernel-tls-handshake@lists.linux.dev>
-Subject: Fwd: [oracle/ktls-utils] Release ktls-utils-0.8 - v0.8
-Thread-Topic: [oracle/ktls-utils] Release ktls-utils-0.8 - v0.8
-Thread-Index: AQHZZ9MHdrqA+lPSvEuiPmIErQ3kJQ==
-Date: Wed, 5 Apr 2023 15:33:27 +0000
-Message-ID: <2DB753E8-F31D-4743-835C-FF5A69C39787@oracle.com>
-References: <oracle/ktls-utils/releases/98209506@github.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.500.231)
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN0PR10MB5128:EE_|CH3PR10MB7356:EE_
-x-ms-office365-filtering-correlation-id: 41b1bec8-b757-4860-ea0f-08db35eb19ea
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- Il0Jux6+mIUeTaS8bgSuGgCcCPKRANkEz2klQtITHQ+Wb2aYkTK/2WRm+rRjO+ZHcmASGeK+Jsoz4xI3c0LkNRhylKOTvM1zZKF1SUK88Pg1E4QBUhgD1Pbfqj4w6Igi9EuKIkEK3Kq4kyLnjq7ailwCWGRHr/T/UCOzP7TwH9Hd9HfmXmcaXBdmxFZAyKJ3YsEjKdzDB5dX9uEL5/6NFfskJkQCMK/OVM1/T7zClUmVdGsQXmYLYHh3UuHugZW7IPeglTjxJ/bA3w2yvmFLdrwY8f5bXUxPBsU1fIiBDttBioqjP48ava7HeEfwtvzu+Pn0JCMf3g/GMs2N/wkUQCDX5a8uny1b7kBkhmHsQBfCnlrVREdlX2gBq28uXBWH8UKFIhbGxRcMRrrSk8WHuy5JA/eBxbLBTQbYwZzZVlnhOCbh5p7IJqEtezUwnp5SsMNROrVNqZP3msKPiaoIG5hbi30eT88/bP5u/M3JgrdCpxJo/+H3wjTL1uQ2P4iYSYhNDNe5VpXkOzd4/YEWS45W2Pvkz/Z26FsO3lOT63NXBLO3gWKjpekz7FqlHeGpI2FCSlz2odv4/VBBe4K/kgi7GwnGWQqlHeF/ioeGufoI62FBLAVQGWwAG49I6uglbBgwzPzDcLjXDx0k2Y1LRw==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(136003)(376002)(346002)(396003)(366004)(39860400002)(451199021)(76116006)(64756008)(66476007)(66446008)(66946007)(8676002)(66556008)(478600001)(6916009)(122000001)(8936002)(316002)(4744005)(5660300002)(38100700002)(41300700001)(91956017)(6486002)(83380400001)(186003)(71200400001)(26005)(6506007)(6512007)(86362001)(2906002)(36756003)(33656002)(38070700005)(2616005)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?TWdqZDhITkxSY1FycVcyaXdzZGd2alhaMjZPOEJnZENmYmNiY0haWUVaYUVE?=
- =?utf-8?B?S2xnLytUWXZDSFMrMndnSERmcVF5a29ycVI3cndWbnZzcW44VXF2SmRXMnVB?=
- =?utf-8?B?RDZBL1hpUG96dGNpNWhWQTRQUXN4bDhGakQ5MjVFMWdvZjRpRWV0eEJiV2hS?=
- =?utf-8?B?aERwcFhHZ3J2THJoWkZqN29QK3pCTFp6VGlJR1hsTjlQZVFueHNXSDh2Nk1W?=
- =?utf-8?B?cUlvUXg0bU1DMCtNaVJteDB1TXUxOFZKT3JQTmhPalREQytVSDZxcjdKTG9I?=
- =?utf-8?B?anBXMW91ZzhiRmxlcFhwWWNDWG5WTnJPSDVwWURBL00xQXNPZDdCM2RKV05z?=
- =?utf-8?B?dmhXOXhtWWNRNGt3RVMwNXQ3eTdBWXpnQmlUbTJTYnFacmVXeG9HS2pNM3ZN?=
- =?utf-8?B?aTJ5SWpxc2ZEM2pjWXlBQ3JKL2pmaWk1QW5CMlRKajhqNWlUZmxjUkxaUlh6?=
- =?utf-8?B?YW50NjVkSzNXR1ZLS2tmT0xvYUNnRGtGT2t6ZklUa21pbnFVRnMzbW04ZE9E?=
- =?utf-8?B?dzdnU1dMMkp4ckd2OWJKejk4a29ySDU4Y1JOdXd6RUs5dUNXM0F1S1g0Sm5L?=
- =?utf-8?B?R1VNM1poU01QRndQMzdZVG1OWFo0TC9sQ0xVamRGWmNMYzA3OXFvQXNURWRG?=
- =?utf-8?B?MjFwMjdlR1NKWDZLS053SElLd3ErTXdXM1ZwdGhveGRxU1VEc1l3MllXNHpv?=
- =?utf-8?B?YThObFlDRjl2cUpPUzZvK2dJcDVSVUIxWS9XK0pNNEhUYlMvSTAvME13aDJq?=
- =?utf-8?B?MjRvNHlpK2xIWklTM0MrdlZSWXZpZ2ppcmZpbXNvUGplRzZ0WkZUK3pZUVNz?=
- =?utf-8?B?cGIrd2tTME50MWRVZUJna0VlR3ZIQlgzVUlZYVMvRHh6cmxjQlIxZ3hpVmNx?=
- =?utf-8?B?Zmh5VzQ3SThXaWJBd1ErTGJ0OEx3ZEo5NTJKTDFjd0J1czN2OU1STWNXZGN1?=
- =?utf-8?B?bHptdWxnaS8zUFpWRzBCRXVxOXdxTTFSWFVPWkl4T3ZUVmxzN3JBSHFGOFVO?=
- =?utf-8?B?ZlN4SGxSTUJyZXRvS3RkMXlxdEZ2QXhtYjZIbGZuaGQ3dk5Oakh4NHNIczQ3?=
- =?utf-8?B?U3ZyNjlJTFppY09TZUE5bnhCbmYzbGY1MWFNQzBvS2xuY1k2ckpETHdOWm9N?=
- =?utf-8?B?NHJhUTdYYlB4N3dJYmlZNHpTNStMWHdob1NzSDFQdXE1bDhYVFc2QlJ6Y1Bj?=
- =?utf-8?B?dmtZZVUyY0MyUkdGK2h6UEpMS3dvbytjaW9OMVFlaXVQcmVCdW5abzNNWDhH?=
- =?utf-8?B?MzJIMzd1MVZXNCt3Rk85bkpaZ0xyTXlONFhXbjVQZUVCVnBqa1lHQkpSVG5a?=
- =?utf-8?B?ZEJFYkZHa2NqUjlSUldldEpicjlyNVJraTU1M3F2S0g0OWtGOHJYTkh0MW44?=
- =?utf-8?B?LzZ6WEdJc0VuOWpHSmZSMmlFazEvMlkvb2lyLzdCN2F1MFU4bFVzM1pXOWc4?=
- =?utf-8?B?NGxPYTZ0dUg0cTliRTJZNFpBU3grSGFCYUFLQnY4eUU2OUg3cElaQmkwQ1pl?=
- =?utf-8?B?eFR3Q282Qnd3WDBWTURHbUNPUW03MXgxUEFSUk9NUGxXeWpCV1NUKzhJOERL?=
- =?utf-8?B?b0NUVDRzenBHWXNTd0pkck9JWjFJUURkdUpVTC9udnJFVzFhTkFCMWZ0YVN4?=
- =?utf-8?B?MC9zRFFyaERRY21CVWxSR2VkMTV0VWoxL3VKc28vcmo3NEVSVkJvT29kVE40?=
- =?utf-8?B?TVQweGpheGl4S2lXLzQ0UmJlQXJ3eVJtYVgrODc0eWdlYnJ4NmpuZHI2TGNn?=
- =?utf-8?B?QTM0OGlSem8wSDMxK2hDRHBvZmNqem1XTkJhcmJRdm1NcW9YRk43dUQ3L25h?=
- =?utf-8?B?Zzh6YXVvc2lLRVI5WnBJTzlDWnkzR3J4dlNkK2RYZHhIQ1VybWNIcml3eHBm?=
- =?utf-8?B?VW5hbHNCejdUWlRWbVBJcUYzSnh5MVpJeUZLRVBxbHBSbDB5VWxmN2dROUQx?=
- =?utf-8?B?OG56Q2g4VDlySm5LZ1VJZ2twdTFOcXZNNSsxdlNVMmNzZDZtTldUSkt5NXVS?=
- =?utf-8?B?OVh5Z2xvbmgyYXB1UWxUYldrWGdhbTVkMC9KOGU5cTZWSW1CdW04ZStLUEtS?=
- =?utf-8?B?NkJNNWp1WUo1NVRHaHBUZ1l5bHlyNVludWZVendrOGlKZm1ySHNwUW9xSGY1?=
- =?utf-8?B?d00wdC8zNDEvZDJaMGFSYnpGRFJVc2d6cjJ5UXdyYmVUMlk1N0hWZDQyQVZK?=
- =?utf-8?B?bEE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <009D8F0071ABE642B0A8BE83411F88AD@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE4028F1
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  5 Apr 2023 16:40:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1680712817;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gze+/zmDvL9jua4b7kzXJmGlwe0Way1JzAm4SbIpDiw=;
+	b=aC81YXaVXMeZSRGyxhVDCnCk3iO4U/pd58iEFQX/eknv1+H7D+4GzHDb6tVNv8hFFC37z1
+	wbseO6mUIfzq5XwyPGaHFkjem32haeYoN4MET76XemLLnz8rK1dzMM1EjZWjmEUf60+ToF
+	eGJkfxnlHInLLHCSPjXTCsUWW9LoNEc=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-595-ocKmH2p9PPSnuS_hPuNuMw-1; Wed, 05 Apr 2023 12:40:16 -0400
+X-MC-Unique: ocKmH2p9PPSnuS_hPuNuMw-1
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-74610f3f19fso16979085a.0
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 05 Apr 2023 09:40:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680712816; x=1683304816;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gze+/zmDvL9jua4b7kzXJmGlwe0Way1JzAm4SbIpDiw=;
+        b=zA1vJtlHHstAlJfrAU1tZMO8ixEwbxo7uCWYJHudwNYIx3Gdc4pLg6sgWtxlax300f
+         MqdYBqcUgw7nhadRTDG4hG8jkFSSjzFs8IwGoJ7M0fBbNnWqm2oVcskraXEKDVFxYAgg
+         N85V2yLBx6nlryNu/h7W5bdGBUTWAlaG3+nnpY+dsYtJdqhpNZD3Az1Ks/V7o6yL9Y5R
+         u1IUGa0vSYpOS7W1FIAouH025XSnxLcNvB/EKo9BkLvk8HQolRwYI2Ffzl6+97bDM/Q8
+         76+dJ3mx4bQjZBMWMWYPkqnogTZ1qlNy4XgUWvat3SrpSz52zJLYuI+WqWzgn96MTrWG
+         l0/g==
+X-Gm-Message-State: AAQBX9fQRvDdP6MRBGqrP69wqfSz6sJBmSYqZK2+9qmNPYtHTsZXgP5f
+	lWgZYu7EK0TYdTfJg15wjDagmGAPpSmJFMh9IuglzsaUkiDuRWSDBu5HrbkCPI0lbmLhaTjtg8F
+	v2C7udIfd024+vOmr/uNP6i18v7ZA3nAfhio=
+X-Received: by 2002:a05:6214:301b:b0:56e:f7dd:47ad with SMTP id ke27-20020a056214301b00b0056ef7dd47admr4465469qvb.5.1680712815743;
+        Wed, 05 Apr 2023 09:40:15 -0700 (PDT)
+X-Google-Smtp-Source: AKy350adKIH0kcr8/KUDiCVePvJuTLVpxHg4L/jcNCGj3ryCKvBi7FXZQVxzJ0AzChSBprOvRPUfNg==
+X-Received: by 2002:a05:6214:301b:b0:56e:f7dd:47ad with SMTP id ke27-20020a056214301b00b0056ef7dd47admr4465434qvb.5.1680712815332;
+        Wed, 05 Apr 2023 09:40:15 -0700 (PDT)
+Received: from [172.31.1.6] ([70.109.174.217])
+        by smtp.gmail.com with ESMTPSA id 203-20020a3707d4000000b00742a23cada8sm4516818qkh.131.2023.04.05.09.40.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Apr 2023 09:40:14 -0700 (PDT)
+Message-ID: <1c59beaf-63b6-ee39-b339-339a0c7e72b9@redhat.com>
+Date: Wed, 5 Apr 2023 12:40:13 -0400
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	uKwxx/L6pyuHiM1wI6VmXbysIV+4T8+J3VVd5tlNk01WO7NyqYEZT2I41HQZopgVEQ/jz6eizpO2gFbAG4BKvbg5xnGxIt9aLvNq4VyKAUcHohRKS59QuLCE77RGVVrO+dV8VG677+N34cehnNfT5f/ByV4eZKxq+OAJbni9+xVXYDBmZ6oegiMHC7JOYnge+2nc+ePZNgUfszNyRxsrw7TdKFQvoG6qyGpbpPdsEkT3pqg61AVuVtWrYjTflRRahovDnW/cJdtyKeIspV/XgSl42iJ/hfuNIVmLhgsFlLYlivrda3+eH5JwlGZa81N0+N5XBL/z3VZ7CYqJQkp19Zx9A96nhrn57EKkowwMPeFSxYtQtNkUxL27jWoeLgnVbYqt3WarwFWuVjnmkJBL+rZY4XEi4/LTebC+KWGrv0fQ/BOYpC3zyg5scBK304NUECAbKuI2lx9WoJe2Nqt4BYyy64Lrc0ZSHJeFPjnVcaEgP/8PQ/Hw6pDX3TokmMhtq9TdYe6C8h9cBmlQ3m6mAIxeE6VuxX0yOdMBZVtx/TUEF+ZvFk/lPQuxMpjvTEGnOwc6I2EuTfCs2X8cN+9Is00VGnV4vbE51R1rh9Byq4OhhVEpWl3gZn5Iv50LKAvQtv/vGYVLH0XVDKEW2ZirEPdtnyZ3xOaBhInXPt6IyJoEWP/ftN8okoSD9hBorVPcACk++XZLwBwYG/R0WIACEfN3oE13jc5pWr9T3a1y/xIFAyXNQxzGxPxfxYdUuWq4
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41b1bec8-b757-4860-ea0f-08db35eb19ea
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Apr 2023 15:33:27.1274
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: guZKQvQ/OdXGC6iCa8ZdsYoO2F25R6V2gqfaoJyPuk0Z8xB6AK61b8OC5spZb7i3fDzVerG3+7FERWq6azua1Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7356
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-05_09,2023-04-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0
- phishscore=0 bulkscore=0 mlxscore=0 suspectscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304050141
-X-Proofpoint-GUID: yL7N4tBhcYZz7BiVHIz0PsWTJDEgJ7Ij
-X-Proofpoint-ORIG-GUID: yL7N4tBhcYZz7BiVHIz0PsWTJDEgJ7Ij
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 0/4] nfs-utils changes for RPC-with-TLS
+To: Chuck Lever <cel@kernel.org>
+Cc: linux-nfs@vger.kernel.org, rick.macklem@gmail.com,
+ kernel-tls-handshake@lists.linux.dev
+References: <168009806320.2522.10415374334827613451.stgit@manet.1015granger.net>
+From: Steve Dickson <steved@redhat.com>
+In-Reply-To: <168009806320.2522.10415374334827613451.stgit@manet.1015granger.net>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-DQoNCj4gQmVnaW4gZm9yd2FyZGVkIG1lc3NhZ2U6DQo+IA0KPiBGcm9tOiAiZ2l0aHViLWFjdGlv
-bnNbYm90XSIgPG5vdGlmaWNhdGlvbnNAZ2l0aHViLmNvbT4NCj4gU3ViamVjdDogW29yYWNsZS9r
-dGxzLXV0aWxzXSBSZWxlYXNlIGt0bHMtdXRpbHMtMC44IC0gdjAuOA0KPiBEYXRlOiBBcHJpbCA1
-LCAyMDIzIGF0IDExOjI1OjI1IEFNIEVEVA0KPiBUbzogb3JhY2xlL2t0bHMtdXRpbHMgPGt0bHMt
-dXRpbHNAbm9yZXBseS5naXRodWIuY29tPg0KPiBDYzogU3Vic2NyaWJlZCA8c3Vic2NyaWJlZEBu
-b3JlcGx5LmdpdGh1Yi5jb20+DQo+IFJlcGx5LVRvOiBvcmFjbGUva3Rscy11dGlscyA8bm9yZXBs
-eUBnaXRodWIuY29tPg0KPiANCj4gDQo+IHYwLjgNCj4gUmVwb3NpdG9yeTogb3JhY2xlL2t0bHMt
-dXRpbHMgwrcgVGFnOiBrdGxzLXV0aWxzLTAuOCDCtyBDb21taXQ6IGEwMDYxNTIgwrcgUmVsZWFz
-ZWQgYnk6IGdpdGh1Yi1hY3Rpb25zW2JvdF0NCj4ga3Rscy11dGlscyAwLjggLSAyMDIzLTA0LTA1
-DQo+ICAgICDigKIgUmVwbGFjZSB0aGUgbGlzdGVuLWJhc2VkIHVwY2FsbCBtZWNoYW5pc20gd2l0
-aCBuZXRsaW5rDQo+ICAgICDigKIgSW1wbGVtZW50IHNlcnZlci1zaWRlIGhhbmRzaGFrZSBzdXBw
-b3J0DQo+ICAgICDigKIgSW1wbGVtZW50IHguNTA5IGNlcnRpZmljYXRlIHZlcmlmaWNhdGlvbg0K
-PiAgICAg4oCiIEltcGxlbWVudCBrZXlyaW5nLWJhc2VkIGV4Y2hhbmdlIG9mIGF1dGhlbnRpY2F0
-aW9uIG1hdGVyaWFsDQo+IOKAlA0KPiBUaGlzIHJlbGVhc2UgaGFzIDMgYXNzZXRzOg0KPiAgICAg
-4oCiIGt0bHMtdXRpbHMtMC44LnRhci5neg0KPiAgICAg4oCiIFNvdXJjZSBjb2RlICh6aXApDQo+
-ICAgICDigKIgU291cmNlIGNvZGUgKHRhci5neikNCj4gVmlzaXQgdGhlIHJlbGVhc2UgcGFnZSB0
-byBkb3dubG9hZCB0aGVtLg0KDQotLQ0KQ2h1Y2sgTGV2ZXINCg0KDQo=
+Hey Chuck,
+
+On 3/29/23 10:08 AM, Chuck Lever wrote:
+> Hi Steve-
+> 
+> This is client- and server-side nfs-utils support for RPC-with-TLS.
+> The client side support at this point is only a man page update
+> since the kernel handles mount option processing itself.
+> 
+> The server implementation can support both the opportunistic use of
+> transport layer security (it will be used if the client cares to),
+> and the required use of transport layer security (the server
+> requires the client to use it to access a particular export).
+> 
+> Without any other user space componentry, this implementation is
+> able to handle clients that request the use of RPC-with-TLS. To
+> support security policies that restrict access to exports based on
+> the client's use of TLS, modifications to exportfs and mountd are
+> needed. These are contained in this post, and can also be found
+> here:
+> 
+> git://git.linux-nfs.org/projects/cel/nfs-utils.git
+> 
+> The kernel patches, along with the handshake upcall, are carried in
+> the topic-rpc-with-tls-upcall branch available from:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux.git
+
+Just wondering if these patch should wait until the kernel
+patches reach mainline (aka rawhide)?
+
+steved.
+
+> 
+> Soon I hope to compose a new man page in Section 7 that will provide
+> an overview and quick set-up guidance for NFS's use of RPC-with-TLS.
+> 
+> 
+> Changes since v1:
+> - Addressed Jeff's review comments
+> - Updated nfs.man as well
+> 
+> ---
+> 
+> Chuck Lever (4):
+>        libexports: Fix whitespace damage in support/nfs/exports.c
+>        exports: Add an xprtsec= export option
+>        exports(5): Describe the xprtsec= export option
+>        nfs(5): Document the new "xprtsec=" mount option
+> 
+> 
+>   support/export/cache.c       |  15 ++++++
+>   support/include/nfs/export.h |  14 +++++
+>   support/include/nfslib.h     |  14 +++++
+>   support/nfs/exports.c        | 100 ++++++++++++++++++++++++++++++++---
+>   utils/exportfs/exportfs.c    |   1 +
+>   utils/exportfs/exports.man   |  51 +++++++++++++++++-
+>   utils/mount/nfs.man          |  34 +++++++++++-
+>   7 files changed, 219 insertions(+), 10 deletions(-)
+> 
+> --
+> Chuck Lever
+> 
+

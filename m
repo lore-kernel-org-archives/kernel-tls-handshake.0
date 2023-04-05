@@ -1,257 +1,150 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E376E749A
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  5 Apr 2023 20:01:31 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 335J6BLM029014;
-	Wed, 5 Apr 2023 20:01:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=Gttxf+CqJQ/zFtRV4mVyTi/WKZH/dfqok5y0MNtc21A=;
- b=mpqvX1I9NNnBP4KcZNPY+GE1FyWeppMDPSbQfvqtDEbthiCGT1GcPo4ZktBiGYGnRXqf
- Hx7zXUDr1PGUTRm6gooXm9xIGXCh1aUGWmilzSkjKsvoPcLrjTQ17pW+V/T1dV1/5a+h
- Y0QXtCBtjMn+0eG6Y7+t/zkdFa5+xJJoDNmWtuk1RbZWu3qyebcFHAfWx8bwAn3udg64
- ybGGHjFHg9nd/M8f2B1cAysRC6jROtRcUOGctMtQuvfKcgFMbO7NdDlmzjKhmn4/jzBl
- 6lldV/GvWRGG5X7yoREM3UahkPo/mA7sfc0yniPwytodeFiDqLJzn+CRAAr6rW2+Ovla Tg== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ppcgasat8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 05 Apr 2023 20:01:30 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 335JajtS027965;
-	Wed, 5 Apr 2023 20:01:29 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2049.outbound.protection.outlook.com [104.47.73.49])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3ppturvfyp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 05 Apr 2023 20:01:29 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O78iNPdVgGmOKjP0gTyEAW+WzhoOiYMQZnc4r3hKx60gNwDN6sXMS0R3sAcCpHhuL73Lfyw9LsGAQmFy1E2ZE0oxDKaDrCNhcfua8rgh+cfPvNs1huproaplIwbnDRiPQRvXzP7dEn9o0wdOvvD1Ib/3ZErNMDG5wckQrr9CEuapHk2/oc/cHfHSk65Tk93EzS5PyI64s9TORIm7Omy574GsR/F2QQ+2RWI96aw9gcye4LfK3+kz3kD5uRNUV/isQS++8c32wbK7fG6mHB35fLnuteMHbXHrghoSii9MCtpAyUUY1xDIQLP9bBsKADB2sR4uaaI3tzMJ6m2BboxvNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Gttxf+CqJQ/zFtRV4mVyTi/WKZH/dfqok5y0MNtc21A=;
- b=ZS/IHhZ3JAgoQU5hxu2y6MFiXjN1EmxJ7gGKlAv74wDChNjsM4SUIPD+GQ4FEJQUAtZKphTuGV1mGGqLeYxmZ0maQ0+t6yGMv00tQqIlfsV0GH2ni7O+wvLk2Op1HZ7fSua9hauiGOjAbw8D/b9YLEU+Ufp6mivTH76YbpYc2Pz1CUXsmT6q0SxPur5tfjX3Mh41ZqJTbNtJxPd41XTrTeFy6s1AYZ8zhnVx8LGJebs2AW5vT6X3vhmq2c/x9X9Rh2+/RMCxSdsZP4jeOVznmsH0aUNhwq/+TLP9J2NSBcXilP6ib7IquBGgHcgR0O94f+VoA5pXlc8T6yly8+dSFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Gttxf+CqJQ/zFtRV4mVyTi/WKZH/dfqok5y0MNtc21A=;
- b=E5T9rv+Y/0kFTwEZB1QPUgsoGaT9LHHKacBKQZ/T8mcjgwTPvSYZg3Ykg3AavkXzCLs5IIsuvc8naeWmS/YKcj+ACiMv8c2pohn242Kt6EkU3IwspM9XGVjlHcHIHdAfOQbC6D2fFSggpnljWmm4emUoLJC/NgcMLw7aU5smhJ4=
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
- by DM4PR10MB6789.namprd10.prod.outlook.com (2603:10b6:8:10b::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.35; Wed, 5 Apr
- 2023 20:01:27 +0000
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::ecbd:fc46:2528:36db]) by BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::ecbd:fc46:2528:36db%7]) with mapi id 15.20.6254.035; Wed, 5 Apr 2023
- 20:01:27 +0000
-From: Chuck Lever III <chuck.lever@oracle.com>
-To: Olga Kornievskaia <aglo@umich.edu>
-CC: "kernel-tls-handshake@lists.linux.dev"
-	<kernel-tls-handshake@lists.linux.dev>
-Subject: Re: help debug
-Thread-Topic: help debug
-Thread-Index: AQHZZ/ZlL7DmTJVADE+ki2LSsW5lZq8dItUA
-Date: Wed, 5 Apr 2023 20:01:26 +0000
-Message-ID: <D54E2E36-ACA5-4596-9B9C-087F1567FEB2@oracle.com>
-References: 
- <CAN-5tyEhjsMW=GL5WJue3qPWx3+L2OLFxXSDzbH2y4e+aUJ23w@mail.gmail.com>
-In-Reply-To: 
- <CAN-5tyEhjsMW=GL5WJue3qPWx3+L2OLFxXSDzbH2y4e+aUJ23w@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3731.500.231)
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN0PR10MB5128:EE_|DM4PR10MB6789:EE_
-x-ms-office365-filtering-correlation-id: 83bb58b0-e8bc-47bd-cc93-08db36108a47
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- VNWqO2e6KYpNZ5oUp9UOtuXMTJxOIqwzgyAqUVWWEhiKgO+0W6r7TRmGmgQc4iuS+9LRCeeMJdm+WSenLBYGedMO2clAOqOFivhFD4kU9kGZLnGEO+bsBFjNVMRIjmzWlpG3c8JyusoFqdwcG91nrzFChxrm7eK0IwTqhWyftqGkrrp6hmXj5C5LeNmaWiKYcmpN/7vYX9Rnr16EDlw1P14vQWOlljNMJogJccGFGuQeIdBuzapEXQVAsanHQ6gXGb0FtS5NhgY05V8tZXhNiCvM/oefe5ne4+1A9L1KYcsduM1JB6tHUaJ9OGDTVFPfq7ECChWmtb6NfUKwe7Oe+nCR2U6U/TVvLq4hPSlAxS5hjQ+Ejgy+B1iS3TYZsfRWBnBW+RGN09DPnyP7/gDs6ZmfdtMsvdVnHkZhPisDZrYu7BTZI+3eWc2jroVGfVwCA0iIO7qdpKIeAJQdKuaKA3ilGOZt7oiGvgbROD4fdKZZmcrViR6rj2oPdR4M+fx18Irn+WmOdFkS9OLhqltFDrVFIrvup5DDI/FThyBQ4Ur3KPcWCNsXhAqbSbDoqOS6LjP8Xw4+gln8HcSrNgL1LBgQdmeRfZfQwQIjWbenkYCH7kBx+P3SK8KaCeU9SC32HVXw/sU/qo6ZMwKTfYJDcw==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(346002)(136003)(396003)(376002)(39860400002)(84040400005)(451199021)(33656002)(38070700005)(86362001)(3480700007)(38100700002)(122000001)(316002)(71200400001)(64756008)(66946007)(91956017)(4326008)(76116006)(66476007)(8676002)(66556008)(2906002)(478600001)(6916009)(186003)(7116003)(36756003)(66446008)(6512007)(53546011)(26005)(6486002)(6506007)(41300700001)(5660300002)(8936002)(2616005)(83380400001)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?yF6vZphDMQG8KcTpIFVQl5KNszZzlPOZddca52SOrVHoK4ech+TaiBmvfMjI?=
- =?us-ascii?Q?wZ6Sumzlv9fEtCKyi23qUEPpiW8xMN93m0wRATCTfSpB6Lw0q+VgH/DiM901?=
- =?us-ascii?Q?xcGd370VBP/VYNM10r0aXn+AOfEuMf7o5odqZ5U0SEPbmjdqzzlJCpwgZLxw?=
- =?us-ascii?Q?LJftEiql/78T7uMwpAdEJwQ7pcxqH1Jgi798NdQIFEhmDdqNoxItxvON1HNV?=
- =?us-ascii?Q?Gx6YZqhopI6ja3bB4fNCtYLn8BkOOFX/kOKb87STfs906cHBmESumWjpbGj6?=
- =?us-ascii?Q?4krN3W4IAUq8Bt8mpT6MTWjP05Al9idaMqEn/05en/XADp+YGzHDdIcbeeev?=
- =?us-ascii?Q?WF6hCLgFHsmD2kF7Scfl4CD6+qBMQrhyK9orS/zTBrD6ZKmRg15higVtvTOJ?=
- =?us-ascii?Q?BiR8OV0MW8ifOHqf5X02N/zvqrz/voj0G5fguptKhIkp5VTTivU/glmn6lK1?=
- =?us-ascii?Q?q1PCI2sHlwuZaI8kW7C1IK4oZF/6k9zCVyvHXikbZrDRie6tDtvToot3h99H?=
- =?us-ascii?Q?qrUHdsLowJfMaSKfU3iZOBCr1c683cOMDbrgsCdqPVfdlREr1oZV9HdSs4Zw?=
- =?us-ascii?Q?hJ0NNL43JQO2TqkPm6vJYqpW9mbgEvNcPlwCANvGlGJJ+vMnMGkfD1aBN/4b?=
- =?us-ascii?Q?lAqdxtumaWU62iXKL2rpGZteMsjkI4OGyZp6O2Gc1Q5z7eCJrzTS2G285bR9?=
- =?us-ascii?Q?sjO4LXwiAojO0SiBM/RtMev0Jr1LDVjC61+y2lV9MJp8KHC1K7mTA3C6vbUJ?=
- =?us-ascii?Q?XHnCfzk6IqDalI+1+xxL/7kHqCXLcsyeq161HiAixKWm66ed6Q+2akT8/RmC?=
- =?us-ascii?Q?d+Z2f/GLTckjUdrxY9BOIrVYhYDrIaR2yBBrsh9XePkllWyDRdESdb/ZJ0QX?=
- =?us-ascii?Q?Y4QLdocHFNt33RmM/+02GRXIGefafG/jJpOiM7kceGZaBVZY6kd2GExjy2YY?=
- =?us-ascii?Q?wW0x95R5zZPuztOkE7ZqEtVGnWXzkIaRN7b9eonv5hwYiqRFRhlMOJszE4ge?=
- =?us-ascii?Q?s8zCB8fp7Mm0i4QMh1jIvCrKIpus/QRnJ0lOSUa5n0I6Ga5BFTOLVAj2Oog2?=
- =?us-ascii?Q?iyrcQu/Cs02+TzNpDsRKU2iEJFQF7YSi3Acfr7Od9sdwuJB/PChLHFzdaK1Q?=
- =?us-ascii?Q?Rgsdg+rqEQGCfUuNveb2BeKHzCVArUOSpcdswAgWqcu4ussxR0WhhPE4impJ?=
- =?us-ascii?Q?0GxAb99B0/SZKBC21Q5/56UGQ1hdbTEoJdIsnY5Bp0WAdnuBJItXrJJ3EmnU?=
- =?us-ascii?Q?HJJIAQxS8UBjNE2Bw0K4DyfVfQJD0CodHQnbLXy9NhAz5rv2ntC+eSzr+8Py?=
- =?us-ascii?Q?MPKEWK4pgFml190q1I9gktDzFKvX6Tfhvpl2wnAOsoEvZz3LgzX4mCQJg322?=
- =?us-ascii?Q?eZohPQLUmJR46rNox9SyPA0jOeO5SCbLzdvFd1h/i/HTHufL6lPPdJqy+CEA?=
- =?us-ascii?Q?nRssqmJ3P0EQi/DdCoGV0iCMzGhpo/1+pgd3txv4L026est4lY4fLWewPqp0?=
- =?us-ascii?Q?yiA2YU4O49rmgf7feik9iNQUGpZTKyhKwoovoG+g+pk63GnYYENxJTK9l3lj?=
- =?us-ascii?Q?q++/OejW+UJheFSh6YiNdDKPR0XEPaV7yOzvUzIFOKy0TVuFgBhv2lcDFttF?=
- =?us-ascii?Q?aA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <F8B18F45B6B8AB4A98DAE9F3DF218745@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C6F749A
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  5 Apr 2023 20:10:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1680725402;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HzD0To6Db7sUiL5rG2eHkS7TPqNWenK7Bcv6boGqr+M=;
+	b=JGgtfIHqO5CML2/MA1cG6479k5so0tIh5Twlc3TA5Lbnhe7AIJAAjhfyI9e6Lhe5WEo5jx
+	qTLWV2cE4Dm9Cpdr2zUQQsmQZJxh0sKVBBvoQj9hOt8aSA38Mmf8sBN/nCmlgdvKcbtfN9
+	8qlKdosnHc2hPHvwN+UGV6qHZVUACKQ=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-21-TeJIVmPYOyakLkk4BOo_Ow-1; Wed, 05 Apr 2023 16:10:01 -0400
+X-MC-Unique: TeJIVmPYOyakLkk4BOo_Ow-1
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-5bb2d463855so1738106d6.1
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 05 Apr 2023 13:10:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680725400;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HzD0To6Db7sUiL5rG2eHkS7TPqNWenK7Bcv6boGqr+M=;
+        b=rfLqzyCO4Kqoas8tvuxqvSkkpPKXXRQ25ktATIM8V3VeNxCm190gx60aELsQQvCKXh
+         3BwMXbMSrlT3LSkepCMBNzJqOnqQbdHdqOJ8FaY+8viiBzDJ+9f3OaEDGMDbrB5gfD5o
+         5TpZVmDtNpxrFpJ1Sw5F3jT4DDbVvnYI8jySEm0Ji6UkzMLtThN4McJLDbJMQRaktWqj
+         Llln2df7UXomxdgFn9zj0P7u1DlcXMP3X7OLBOtTDX39C4DS5aXM+4SLDOgTpA7URBFa
+         vBV4Payr5G9iS6AlCdGZJXepwthxb5AN46nsAcQsenbNoGVSFe5CvV7AVxc+XeMsOWL8
+         ioiQ==
+X-Gm-Message-State: AAQBX9duajRC+7bKhtwgQzx8xnPVsKbNJtGBjUeaGCx8U8jklwf61jbk
+	NJfRKo5YQuOmgmCZMN3uNTYE2tBKAk1nz2CqqB9xO3vUEXOpPdTOPpAQzPM5iCzhH07Uczh2Y59
+	6PZm1kRRxxQwSWGomr8WuNcMYda+KThWP09SvZlTtX+Q=
+X-Received: by 2002:a05:6214:4001:b0:56c:d9e:c9a0 with SMTP id kd1-20020a056214400100b0056c0d9ec9a0mr5548427qvb.1.1680725399744;
+        Wed, 05 Apr 2023 13:09:59 -0700 (PDT)
+X-Google-Smtp-Source: AKy350YgvcDUnLyLth7HzQkm2vM4oB3iDETod491J6r0QuKQCtdlBIcPOfuyPrSftlSR34CNd/NObA==
+X-Received: by 2002:a05:6214:4001:b0:56c:d9e:c9a0 with SMTP id kd1-20020a056214400100b0056c0d9ec9a0mr5548394qvb.1.1680725399418;
+        Wed, 05 Apr 2023 13:09:59 -0700 (PDT)
+Received: from [172.31.1.6] ([70.109.174.217])
+        by smtp.gmail.com with ESMTPSA id k7-20020a0cc787000000b005e5afa32743sm1225608qvj.33.2023.04.05.13.09.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Apr 2023 13:09:59 -0700 (PDT)
+Message-ID: <7c3b9f3e-e40a-1389-d03a-eb9f9a505c17@redhat.com>
+Date: Wed, 5 Apr 2023 16:09:57 -0400
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	UdEdpCUD17cyYpqmgOxNJdYn6mUrG0aqzF34uWe1lqmgWLyJOFCgOTS2T1OnFZvh4htnELYtS3GmdWrZEmD7cGzcMTilMU8vRANPUUE1L8xpzSIhHMhMLakBLamDdFPTF+iUtXfRnkDiW3vtxhgc6P5EEvTEMol8FsfEhcIBTJtqmy1SJfhRjHLCPEX9p5mIqxi7ROX7EHol69lvz+JDTUXl57d+rDyqypnUzLLf9DukiwAkL+pf/8XZFsDgkg31mGpgssZWID1WCwr3KCtkJJioXq9VCbCcybhtKXe2/3GTmU/nc00oj2Cd12XrKuud6Dph05kDZajQ3coa8OvoeG+SWJ3+UPGQjiIHAy1xj6S+T3JSG5YEJx3epeY8nFFty56T6kgS74HdHIVD+2Kydu7rcIBJG9nKUGjpLWWh+3xgQR6Rd+ZgYkuXLbcSrz7thFdbrl80Nlhch7TGTXzVxUtY8uWLCOObQhNC4htwXsxSjQFUeDy5f0uA5ab/pbXxKpDRJ3w6VQDYjuD0k4ntkiD3EVCUVLUDviE9PnExkbs6di9b9e8FrDC8m4DB3+q1OBUuTeUuEao7SbIB6RghMO/aVficAZnmKeUW0V2/tBKOaM5yB9LIYrs38Vu9DMTS54zV6WUOcMCp2YpkvHcnYSJawkKRbtQVjOaGRh+0fczhzVAZi4fwPCtbfFeWOBWuIcJlv7KSfdohJERqUKEJt/PgFmfQaGHGeLbUSw8kO4RrnpUyvrDig840zD3vK8Ll8y46wv5wqFDyihW35YRSGxv/yXAfbGXWPod8+imtE7g=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83bb58b0-e8bc-47bd-cc93-08db36108a47
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Apr 2023 20:01:26.9782
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /lhJieMmHQUTBVzdd2XRrEULU8b8QpCFO7U459KRmKFMHfdzL9sRd6cRgq5nxzSrgz6t2seOPRaJWbRJZWKLYQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB6789
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-05_14,2023-04-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 malwarescore=0
- mlxlogscore=999 adultscore=0 phishscore=0 suspectscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304050179
-X-Proofpoint-GUID: AATToCkT39ACf8gYgbW5ICQbrJghNO6-
-X-Proofpoint-ORIG-GUID: AATToCkT39ACf8gYgbW5ICQbrJghNO6-
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 0/4] nfs-utils changes for RPC-with-TLS
+To: Chuck Lever III <chuck.lever@oracle.com>
+Cc: Chuck Lever <cel@kernel.org>,
+ Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
+ Rick Macklem <rick.macklem@gmail.com>,
+ "kernel-tls-handshake@lists.linux.dev" <kernel-tls-handshake@lists.linux.dev>
+References: <168009806320.2522.10415374334827613451.stgit@manet.1015granger.net>
+ <1c59beaf-63b6-ee39-b339-339a0c7e72b9@redhat.com>
+ <AC76C4AB-F5DE-40B2-8A0D-4BADC7EFD918@oracle.com>
+From: Steve Dickson <steved@redhat.com>
+In-Reply-To: <AC76C4AB-F5DE-40B2-8A0D-4BADC7EFD918@oracle.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
-> On Apr 5, 2023, at 3:39 PM, Olga Kornievskaia <aglo@umich.edu> wrote:
->=20
-> Hi Chuck,
->=20
-> Can you help debug why an upcall isn't happening?
->=20
-> Client sends a null call tls, gets starttls response. But doesn't do
-> any upcall to the tlshd.
->=20
-> On the tracepoints it logs handshake_submit and then handshake_cancel.
-> There is nothing in "tlshd -s" past the start messages. Network traces
-> don't show that server is doing anything bad after sending the null
-> call reply.
->=20
-> Including the snippet of the handshake tracepoints (and whatever was
-> in between
->=20
->   kworker/u16:1-6440    [006] ..... 10146.917766: handshake_submit:
-> req=3D000000008e5985ea sk=3D000000002dfa1873
->          <idle>-0       [006] ..s2. 10147.035627: xs_data_ready:
-> peer=3D[10.63.20.131]:2049
->   kworker/u16:1-6440    [006] ..... 10157.153020: handshake_cancel:
-> req=3D000000008e5985ea sk=3D000000002dfa1873
->   kworker/u16:1-6440    [006] ..... 10157.153047:
-> rpc_tls_not_started: server=3D10.63.20.131 nfsv4
-> requested_policy=3Dtls-anon
->=20
-> Any pointers to what might be going on or how to debug this further?
+On 4/5/23 12:45 PM, Chuck Lever III wrote:
+> 
+> 
+>> On Apr 5, 2023, at 12:40 PM, Steve Dickson <steved@redhat.com> wrote:
+>>
+>> Hey Chuck,
+>>
+>> On 3/29/23 10:08 AM, Chuck Lever wrote:
+>>> Hi Steve-
+>>> This is client- and server-side nfs-utils support for RPC-with-TLS.
+>>> The client side support at this point is only a man page update
+>>> since the kernel handles mount option processing itself.
+>>> The server implementation can support both the opportunistic use of
+>>> transport layer security (it will be used if the client cares to),
+>>> and the required use of transport layer security (the server
+>>> requires the client to use it to access a particular export).
+>>> Without any other user space componentry, this implementation is
+>>> able to handle clients that request the use of RPC-with-TLS. To
+>>> support security policies that restrict access to exports based on
+>>> the client's use of TLS, modifications to exportfs and mountd are
+>>> needed. These are contained in this post, and can also be found
+>>> here:
+>>> git://git.linux-nfs.org/projects/cel/nfs-utils.git
+>>> The kernel patches, along with the handshake upcall, are carried in
+>>> the topic-rpc-with-tls-upcall branch available from:
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux.git
+>>
+>> Just wondering if these patch should wait until the kernel
+>> patches reach mainline (aka rawhide)?
+> 
+> The kernel changes do not require these, they add more
+> features. Thus I don't think it's harmful to let them
+> wait for the kernel patches.
+> 
+> For testing, Jeff has set up a Fedora COPR with these,
+> the ktls-utils package, and an updated kernel.
+> 
+> What could be checked now is whether these nfs-utils
+> changes will break something on pre-TLS kernels.
+Fair enough... I'll have a release ready for the
+up coming Bakeathon...
 
-The kernel is submitting a handshake request, and ten seconds later
-it times out while waiting for tlshd. There's no ACCEPT downcall.
-
-The nldebug messages are noisy, you should turn nl_debug down. What's
-your debug=3D setting? Feel free to suggest more tlshd_log_debug call
-sites.
-
-
-> Here's startup stuff of tlshd.
-> [root@scs000128074 tlshd]# ./tlshd -s
-> tlshd[4564]: Built from ktls-utils 0.8 on Apr  5 2023 11:50:57
-> DBG<4>        lib/object.c:66   nl_object_alloc: Allocated new object 0xb=
-56ad0
-> DBG<2>           lib/msg.c:277  __nlmsg_alloc: msg 0xb56b50: Allocated
-> new message, maxlen=3D4096
-> DBG<2>           lib/msg.c:518  nlmsg_put: msg 0xb56b50: Added netlink
-> header type=3D16, flags=3D0, pid=3D0, seq=3D0
-> DBG<2>           lib/msg.c:425  nlmsg_reserve: msg 0xb56b50: Reserved
-> 4 (4) bytes, pad=3D4, nlmsg_len=3D20
-> DBG<2>     lib/genl/genl.c:358  genlmsg_put: msg 0xb56b50: Added
-> generic netlink header cmd=3D3 version=3D1
-> DBG<2>          lib/attr.c:474  nla_reserve: msg 0xb56b50: attr
-> <0xb578c4> 2: Reserved 16 (10) bytes at offset +4 nlmsg_len=3D36
-> DBG<2>          lib/attr.c:509  nla_put: msg 0xb56b50: attr <0xb578c4>
-> 2: Wrote 10 bytes at offset +4
-> DBG<4>            lib/nl.c:343  nl_sendmsg: sent 36 bytes
-> DBG<3>            lib/nl.c:836  recvmsgs: Attempting to read from 0xb56a8=
-0
-> DBG<3>            lib/nl.c:845  recvmsgs: recvmsgs(0xb56a80): Read 164 by=
-tes
-> DBG<3>            lib/nl.c:849  recvmsgs: recvmsgs(0xb56a80):
-> Processing valid message...
-> DBG<2>           lib/msg.c:277  __nlmsg_alloc: msg 0xb56c90: Allocated
-> new message, maxlen=3D164
-> DBG<4>           lib/msg.c:565  nlmsg_free: Returned message reference
-> 0xb56c90, 0 remaining
-> DBG<2>           lib/msg.c:572  nlmsg_free: msg 0xb56c90: Freed
-> DBG<3>            lib/nl.c:836  recvmsgs: Attempting to read from 0xb56a8=
-0
-> DBG<3>            lib/nl.c:845  recvmsgs: recvmsgs(0xb56a80): Read 36 byt=
-es
-> DBG<3>            lib/nl.c:849  recvmsgs: recvmsgs(0xb56a80):
-> Processing valid message...
-> DBG<2>           lib/msg.c:277  __nlmsg_alloc: msg 0xb56f00: Allocated
-> new message, maxlen=3D36
-> DBG<3>            lib/nl.c:897  recvmsgs: recvmsgs(0xb56a80):
-> Increased expected sequence number to 1680718792
-> DBG<4>           lib/msg.c:565  nlmsg_free: Returned message reference
-> 0xb56f00, 0 remaining
-> DBG<2>           lib/msg.c:572  nlmsg_free: msg 0xb56f00: Freed
-> DBG<4>           lib/msg.c:565  nlmsg_free: Returned message reference
-> 0xb56b50, 0 remaining
-> DBG<2>           lib/msg.c:572  nlmsg_free: msg 0xb56b50: Freed
-> DBG<4>        lib/object.c:221  nl_object_put: Returned object
-> reference 0xb56ad0, 0 remaining
-> DBG<4>        lib/object.c:187  nl_object_free: Freed object 0xb56ad0
-> DBG<3>            lib/nl.c:836  recvmsgs: Attempting to read from 0xb56a8=
-0
->=20
->=20
-> ktls-utils are at:
-> commit a00615232c0fc04caea066cd25c33f9ffc5d3fd2 (HEAD ->
-> 04052022-v0.8-main, tag: ktls-utils-0.8, origin/main, origin/HEAD)
-> Author: Chuck Lever <chuck.lever@oracle.com>
-> Date:   Wed Apr 5 10:56:35 2023 -0400
->=20
->    Release ktls-utils 0.8
->=20
->    Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
->=20
-> Kernel patches are at:
-> commit 46588cade103b446f74a7ee160a83cd2a80399e7 (HEAD ->
-> chuck-rpc-with-tls-04032023, chuck/topic-rpc-with-tls-upcall)
-> Author: Chuck Lever <chuck.lever@oracle.com>
-> Date:   Mon May 24 17:07:29 2021 -0400
->=20
->    NFS: Add an "xprtsec=3D" NFS mount option
->=20
-
---
-Chuck Lever
-
+steved.
+> 
+> 
+>> steved.
+>>
+>>> Soon I hope to compose a new man page in Section 7 that will provide
+>>> an overview and quick set-up guidance for NFS's use of RPC-with-TLS.
+>>> Changes since v1:
+>>> - Addressed Jeff's review comments
+>>> - Updated nfs.man as well
+>>> ---
+>>> Chuck Lever (4):
+>>>        libexports: Fix whitespace damage in support/nfs/exports.c
+>>>        exports: Add an xprtsec= export option
+>>>        exports(5): Describe the xprtsec= export option
+>>>        nfs(5): Document the new "xprtsec=" mount option
+>>>   support/export/cache.c       |  15 ++++++
+>>>   support/include/nfs/export.h |  14 +++++
+>>>   support/include/nfslib.h     |  14 +++++
+>>>   support/nfs/exports.c        | 100 ++++++++++++++++++++++++++++++++---
+>>>   utils/exportfs/exportfs.c    |   1 +
+>>>   utils/exportfs/exports.man   |  51 +++++++++++++++++-
+>>>   utils/mount/nfs.man          |  34 +++++++++++-
+>>>   7 files changed, 219 insertions(+), 10 deletions(-)
+>>> --
+>>> Chuck Lever
+> 
+> 
+> --
+> Chuck Lever
+> 
+> 
 

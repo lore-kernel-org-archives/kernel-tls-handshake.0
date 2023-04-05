@@ -1,150 +1,148 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C6F749A
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  5 Apr 2023 20:10:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1680725402;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HzD0To6Db7sUiL5rG2eHkS7TPqNWenK7Bcv6boGqr+M=;
-	b=JGgtfIHqO5CML2/MA1cG6479k5so0tIh5Twlc3TA5Lbnhe7AIJAAjhfyI9e6Lhe5WEo5jx
-	qTLWV2cE4Dm9Cpdr2zUQQsmQZJxh0sKVBBvoQj9hOt8aSA38Mmf8sBN/nCmlgdvKcbtfN9
-	8qlKdosnHc2hPHvwN+UGV6qHZVUACKQ=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-21-TeJIVmPYOyakLkk4BOo_Ow-1; Wed, 05 Apr 2023 16:10:01 -0400
-X-MC-Unique: TeJIVmPYOyakLkk4BOo_Ow-1
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-5bb2d463855so1738106d6.1
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 05 Apr 2023 13:10:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680725400;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HzD0To6Db7sUiL5rG2eHkS7TPqNWenK7Bcv6boGqr+M=;
-        b=rfLqzyCO4Kqoas8tvuxqvSkkpPKXXRQ25ktATIM8V3VeNxCm190gx60aELsQQvCKXh
-         3BwMXbMSrlT3LSkepCMBNzJqOnqQbdHdqOJ8FaY+8viiBzDJ+9f3OaEDGMDbrB5gfD5o
-         5TpZVmDtNpxrFpJ1Sw5F3jT4DDbVvnYI8jySEm0Ji6UkzMLtThN4McJLDbJMQRaktWqj
-         Llln2df7UXomxdgFn9zj0P7u1DlcXMP3X7OLBOtTDX39C4DS5aXM+4SLDOgTpA7URBFa
-         vBV4Payr5G9iS6AlCdGZJXepwthxb5AN46nsAcQsenbNoGVSFe5CvV7AVxc+XeMsOWL8
-         ioiQ==
-X-Gm-Message-State: AAQBX9duajRC+7bKhtwgQzx8xnPVsKbNJtGBjUeaGCx8U8jklwf61jbk
-	NJfRKo5YQuOmgmCZMN3uNTYE2tBKAk1nz2CqqB9xO3vUEXOpPdTOPpAQzPM5iCzhH07Uczh2Y59
-	6PZm1kRRxxQwSWGomr8WuNcMYda+KThWP09SvZlTtX+Q=
-X-Received: by 2002:a05:6214:4001:b0:56c:d9e:c9a0 with SMTP id kd1-20020a056214400100b0056c0d9ec9a0mr5548427qvb.1.1680725399744;
-        Wed, 05 Apr 2023 13:09:59 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YgvcDUnLyLth7HzQkm2vM4oB3iDETod491J6r0QuKQCtdlBIcPOfuyPrSftlSR34CNd/NObA==
-X-Received: by 2002:a05:6214:4001:b0:56c:d9e:c9a0 with SMTP id kd1-20020a056214400100b0056c0d9ec9a0mr5548394qvb.1.1680725399418;
-        Wed, 05 Apr 2023 13:09:59 -0700 (PDT)
-Received: from [172.31.1.6] ([70.109.174.217])
-        by smtp.gmail.com with ESMTPSA id k7-20020a0cc787000000b005e5afa32743sm1225608qvj.33.2023.04.05.13.09.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Apr 2023 13:09:59 -0700 (PDT)
-Message-ID: <7c3b9f3e-e40a-1389-d03a-eb9f9a505c17@redhat.com>
-Date: Wed, 5 Apr 2023 16:09:57 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C773A5B
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  5 Apr 2023 20:32:48 +0000 (UTC)
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 335IukGq013958
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 5 Apr 2023 20:32:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : subject :
+ date : message-id : content-type : content-id : content-transfer-encoding
+ : mime-version; s=corp-2022-7-12;
+ bh=CXPEZRQ4hC2InPIo19zmFWQrYlGmpEg2DEWbSmHzoqY=;
+ b=jMIqaW3SD3RmirGZfoLd3lt7yKvws1PvAAyxxf9fYeYAOFXClhOeWvybg7i/j1VKOvV/
+ yllz5h3RE3gnLN06aAzIOB4GEOCAUfpVrfguRwmqAo8K0CBrkCM7U+f2u57GrRnFstnG
+ vHTmCpZkTj0/sBLKy4c4KesONk1N5XpTYrZV5HnODP3ge7KOY0oOiF38uqAtR0IpAzVO
+ EqMkB2q6KmFaNnCAOvP84+4yqD+tQ2tjtRWOPqjIgsdh84Ez1eqXhH/kbGHCYvWz79Mv
+ bp7B8xWfU5py6VFB+utcwJQkrELv1s+dx1klJb2Tzpv4vzOUJTZOE3e9BUQS42o5tyG6 5w== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ppcnd1du3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 05 Apr 2023 20:32:47 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 335Jlab6017709
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 5 Apr 2023 20:32:46 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2172.outbound.protection.outlook.com [104.47.57.172])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3pptp961f0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 05 Apr 2023 20:32:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=N5lQmY0ajUA77mHRNiMFfEUK0Kdlv8Q0hkcrPmi87siVuuACpOD/Pg002vRBW3Eqw8eKY7uc8vvYle6m5yttj17Ko27Sw9Benx/dm0c5puYtkz1NkUy0gRf248FtnJ4kby0ET9oXWh26nTdl3D+XPv+PP/W9OSDJf6GiJrgye9rRD+IK7h7mSQdhBcYieh6qAu6JFx4cYrrcGCAj4diYclG5LtVSow4S93Rgg2dAOWPxcKUT1+w74lJ5T6zjdiYx5DmrwWz5q/GO/mUlCpA0LnaPosEZNNszEUTaFY3KkJ3b7VgVwe3JzaNdQ7LFbMFkD7OG8d8UINpSRP4usCRv1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CXPEZRQ4hC2InPIo19zmFWQrYlGmpEg2DEWbSmHzoqY=;
+ b=FtU7txj+73L8vgIFisM1VcdLTrZLU2uA+6+Sw2XGrah3+KDnIp8yo12ZfY5xxufYq6zD/KUy8bnpuPGNC06bInlxjXtK+kmes+8RXedWAq1xC4uTDy76wNGW+M8aQrhr+jsHudg6mRbccnVt/C8Yp+ERyY+b7eMuh61KSzvyx4F8JjTUCKUeLa8ci83CO5ObFX1xDnVffHeCBYU3IYMlKKqwc2EAplOoLe3yOJNw4nr27cn9GH412qd4yeYtGi5ODWsgWa8co+oAjQ4/cv+/TQrS8ta3Q/Bkh2F1nCq5E1hcdrkbN8xoVIkIlGjsyL2VYGn+foYIKHtXgtLqzeKlMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CXPEZRQ4hC2InPIo19zmFWQrYlGmpEg2DEWbSmHzoqY=;
+ b=qRSRo36iLFKzvaxTtkRTR0hmiEOyGCsG490bZnts+wsiaMYfpugavORvqNc7VdybfxoPTrulonAoh1SGxvIOyHdKh/gLueG8+11GtlCxL++bakE5Cwrwps940w/d8+bLZsQSBoYuRLjgH4cvQMZskpvoXKG2owwynazL+9jMHDA=
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
+ by CH3PR10MB7416.namprd10.prod.outlook.com (2603:10b6:610:156::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.24; Wed, 5 Apr
+ 2023 20:32:45 +0000
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::ecbd:fc46:2528:36db]) by BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::ecbd:fc46:2528:36db%7]) with mapi id 15.20.6254.035; Wed, 5 Apr 2023
+ 20:32:44 +0000
+From: Chuck Lever III <chuck.lever@oracle.com>
+To: "kernel-tls-handshake@lists.linux.dev"
+	<kernel-tls-handshake@lists.linux.dev>
+Subject: pre-release of netlink v9 kernel
+Thread-Topic: pre-release of netlink v9 kernel
+Thread-Index: AQHZZ/3G4R2V00jOPEm8//NyW5UHAQ==
+Date: Wed, 5 Apr 2023 20:32:44 +0000
+Message-ID: <F800AEFD-7E3B-4133-BADF-6FAF610A2827@oracle.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.500.231)
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN0PR10MB5128:EE_|CH3PR10MB7416:EE_
+x-ms-office365-filtering-correlation-id: 31a45204-7296-4f72-8b8b-08db3614e97b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ JnzA0Mjx3xqfYMGdCDd6DzXPaDosCSBJKkv/ZsfrwQAd9sLT4Ps4bmDExIWpTI3mfmGb/XkbV9a9XnJdxQsB6WypotkjOGFyEVXuY9LXeqFwky2OJcy7o+nNyZtG8YSvcnffE95RK6yk8a334lqKPvsxbI3ucfisZoox8tRo6ScSaTXuzThCakEHTNEyH8VGd7344Hu/mDImX3D0acuPvdC5rqCRTqgOCPIg3D9buI/8vZFwDyL2GXY/qIpXNCxyHuA3JIFhCZO6zSbVqwhZBgJuwaY//Nbb7B5EZbD26MUy5xjLzt4N9T2k/TlS1Q3ycp/H4xLPRc3DSgov1doqtYUUps5eISgvF/YLOia/DhccgDnA8riFlWr6JA1qd5NB0n8WkqKK6YIE+WJKTAkpDfFeWQZ5CNE4uIVfMJrQwd22qLk6jelMpY93aU36qVzR6ZB4Mt18HUadnwtUTOepbI87zwK0iYPrFz2xcRT9tOtUeYfze5hL/rRCMXGbMhAhGGTwKEjMYAAj0lum2ywsLnc0U+JCW6NjDXSdBF+D1mx3Zw0+sCZtHra6juP4NFmmcP6vUjPMkXXwVCyTkCDzicXMFXTsWU33u9nTeyg+FH+f2mc61eV5t+/boJ/wRtnIkrdjAAPtwOhf/c1XXW8XQw==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(396003)(366004)(136003)(39860400002)(346002)(451199021)(2616005)(41300700001)(122000001)(91956017)(86362001)(36756003)(186003)(966005)(66946007)(6916009)(66476007)(66556008)(64756008)(66446008)(26005)(6506007)(6512007)(76116006)(8936002)(558084003)(8676002)(2906002)(6486002)(38100700002)(71200400001)(5660300002)(33656002)(38070700005)(316002)(478600001)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?t3n01gVfe1a+dN4WplR92vatXZd9OcwAjNTh97CTdBuWRB4/x4htQixv9S+H?=
+ =?us-ascii?Q?PMlqG8GpFbGT3jOKtl1+XgGYJU5IyTMzAOHL00vuqt20GFjGb4OMa3NgMgml?=
+ =?us-ascii?Q?F/y4tKpj79sTOL6obK9+PvkjXaukS1qlXr3TeFUAVY+qDN/UNNfv0eAzvDWW?=
+ =?us-ascii?Q?0xdDsNQozsNYTPc+E2s+0GaqvSkfhmTQpGKOsjUoASbcXs8H4AXdZJsiOIIa?=
+ =?us-ascii?Q?yuMrEqbCU3KD2IPGX4+Ng6JWuuTyqptWvsl93/tVU45qc7LngAH5J6d+P1Lp?=
+ =?us-ascii?Q?xJm/7uTI+nJ1sfOn5OHhOJpNybfL+iyULt/lALi161oTV+1NnPILoPgUTorb?=
+ =?us-ascii?Q?gNAt8nhdPG12DGNtPa9MlHL25Z0wSaxK6ueSMO9j0yzM0L84PWB6fb2ILyf1?=
+ =?us-ascii?Q?BuzwVSNm/Pbu1lDD5+xhg9WLYIoTr84qjHNZehnErokJjHGGJN1tYBpJA643?=
+ =?us-ascii?Q?2aTkhYcSVo/gvp1r0XpWDpRGAA17MyS7m1BDFLeY+OPX2StmpGKP4fBphIUM?=
+ =?us-ascii?Q?/sc9YIsWnRnMNwcUBVBe0kxpoRgjnEqNyXM2b8iaNvj+95z5+SlCs1WeH4jW?=
+ =?us-ascii?Q?Vw2bK52fnuim//SuEpTod+suLvbm2De9EdJ0LN9Xmped0ItPPCdhcZlYRbiw?=
+ =?us-ascii?Q?y7+xp6oMAjzH4/BnqcgNuGt81jxKI+Xk/wyyCM09JSzgo3UxtnC2nEyKvbw7?=
+ =?us-ascii?Q?ww4yan550jq11vXO8rHiYKuZA9DOHEg0FCzYo77x+X6I9kqFf2p+fwJxqvyU?=
+ =?us-ascii?Q?3T8ItYBdyg/+2PjCFZLnXUssGbj3ejHohFcbTqdYYtRj/Cxtivv/iGbUOgz4?=
+ =?us-ascii?Q?d7aL+YCt9Yas8FAW0rzWiQl0UUaeKlilClG3NBB0JpV4CVzpLm01HSpUEP8e?=
+ =?us-ascii?Q?T+zhSTdwIvUtOfqsKbx+wiCzfAIz7hB/kgMe8uE+bs1H+0z/310mc2gEcY6+?=
+ =?us-ascii?Q?SsKA67S4u9kafSqYWMjo2yh6GGEzRm31jgG6Gde6BYWBEXluMWaYRwFrIij0?=
+ =?us-ascii?Q?Ouatb9mAerjgIbWIKG7chR9SMsScIXJhtE3NrI1TIkRvaquTSqIv3dvb0mWn?=
+ =?us-ascii?Q?OvUFCZl4vSgGq9IdbiM0pCHVt+MNucNjjv9pyLw1EBTF3vDtIIlW3cEEAgaa?=
+ =?us-ascii?Q?Zb/dvs7nDMOmKvdwZWAXJhothojDMrI2rfGwvZlL2QaGI2vrAPoRSlqgbWgT?=
+ =?us-ascii?Q?NdaZqDmSm3Kpbfmdq0tNbSL3PQIBguTkGEXZob7BqanvF4HrFRg3sA0L4bgM?=
+ =?us-ascii?Q?MXLqo8eBgRZjaqOJK6S7Kp7RjFerBL+F3W+2tFoYQFD4NG2VnMpAJXUMmzR5?=
+ =?us-ascii?Q?CFUykBvo1SgGFfbdyCrnB2v+0qrWSszbUBSo5hM2DogN74aaYi3cVR+brb4A?=
+ =?us-ascii?Q?MkVuYz++vBwPY2fdDwPSFMjJB4P1UeFcviT8QsKnrjRdkF5OswO/HP/L+N3A?=
+ =?us-ascii?Q?JXsF0TEIj14QbwUIhU6gQdCbCVo1n8hfu8EM5m66vKZiRvp5YOcEAGxn78Fm?=
+ =?us-ascii?Q?d45jdD1QQSAJeQqVPPKs6ft0c03x1NLQmO5lEJ748uFyUNuIml4l7LtC4kE7?=
+ =?us-ascii?Q?ldLl0kQVjJjjNahKlPXdKr6NqX5dyXBamzV6gPpOjXn8UMOSGf64vTuy9GOR?=
+ =?us-ascii?Q?rQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <F2CF4106F7F1224C855B88E15D9002E2@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 0/4] nfs-utils changes for RPC-with-TLS
-To: Chuck Lever III <chuck.lever@oracle.com>
-Cc: Chuck Lever <cel@kernel.org>,
- Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
- Rick Macklem <rick.macklem@gmail.com>,
- "kernel-tls-handshake@lists.linux.dev" <kernel-tls-handshake@lists.linux.dev>
-References: <168009806320.2522.10415374334827613451.stgit@manet.1015granger.net>
- <1c59beaf-63b6-ee39-b339-339a0c7e72b9@redhat.com>
- <AC76C4AB-F5DE-40B2-8A0D-4BADC7EFD918@oracle.com>
-From: Steve Dickson <steved@redhat.com>
-In-Reply-To: <AC76C4AB-F5DE-40B2-8A0D-4BADC7EFD918@oracle.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	drN7TEPibWfKJvlcQ3R+3cS5lUfru9Pfrk41qJrKytcbm4gYxwWSLT1jcA1+dKtiNar5NhC+yqtaRP71RsJup9lay1FCg5wV/yLfBNAaGz9i9TFnDRMUNaZ2/U6i3WBkZqDr+UFhi5esLLb7q6DmNmEJAcluJu0d8HzEXCmAlYCRTKIrm+EaHalNSHUcor/h2gG3EIYSY3bS6iMFmjlAWNEEm5m5jzA4pCJtJ0eRvKvcMgCMuUG9l6IT1iMrKh1LSrIJZV4aZS7r+iaUrd5npJIHpmb1GjHe2kOfHbHxIKAqEU0w3YtiAEg49fh8IhoDLx0hXHRvAaDNP0pw/H8FBsENqyjWf0FDgjP9X2ATTTlJZV5neDLn2iDJOf2G3NrILjWukBSMMasTQJKn6xszdyxznH4PNe1FtBSI81aOZGoUpCRJj9sa7lO9P86cY/ctXx7LR+8C7a2h7NPDhnD0FBvZqWvHHUrSorTkNm0VYbVulcL5W7lGPsK4GAZFV7YHyRd5wKEaqOEBzgY/UfA1auCDBkC9uUjGmkP4IyBTMWzJSZZt4oRKN4kVKd2N5F9golnYrVqTqZwpe9cGVY+uyzjtYox7DjxdLRe9ETsBGu6Et0pjl1a19wchD1sJf1hO0qxLZ3EAWMGq1pWjoSQs0el+ZWioJHF/XRLDyyMk+C0YCZ91EfEqS+RJcVHLYAKxFIjI2CtpznL9OE+DGlYFCIcvt7BhXtfL8ys8Stc+j/ZVMbxetNb7VqoN74HWPv/R
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31a45204-7296-4f72-8b8b-08db3614e97b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Apr 2023 20:32:44.7466
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hjKg9cLrOf4shEOj0toMSgzkJHLOWOiBoYU/AblkrOQlfYwhPFez5h5MPdboGmj8qPqSgJu5v90dOoPofvHdjA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7416
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-05_15,2023-04-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=0
+ mlxlogscore=580 bulkscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304050183
+X-Proofpoint-GUID: 26ZDvo3VBX2UsB_1wjM-pve6qMU4GJdI
+X-Proofpoint-ORIG-GUID: 26ZDvo3VBX2UsB_1wjM-pve6qMU4GJdI
+
+I've collected recent fixes here:
+
+Link: https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux.git
+Tag: netlink-test-20230405
 
 
+--
+Chuck Lever
 
-On 4/5/23 12:45 PM, Chuck Lever III wrote:
-> 
-> 
->> On Apr 5, 2023, at 12:40 PM, Steve Dickson <steved@redhat.com> wrote:
->>
->> Hey Chuck,
->>
->> On 3/29/23 10:08 AM, Chuck Lever wrote:
->>> Hi Steve-
->>> This is client- and server-side nfs-utils support for RPC-with-TLS.
->>> The client side support at this point is only a man page update
->>> since the kernel handles mount option processing itself.
->>> The server implementation can support both the opportunistic use of
->>> transport layer security (it will be used if the client cares to),
->>> and the required use of transport layer security (the server
->>> requires the client to use it to access a particular export).
->>> Without any other user space componentry, this implementation is
->>> able to handle clients that request the use of RPC-with-TLS. To
->>> support security policies that restrict access to exports based on
->>> the client's use of TLS, modifications to exportfs and mountd are
->>> needed. These are contained in this post, and can also be found
->>> here:
->>> git://git.linux-nfs.org/projects/cel/nfs-utils.git
->>> The kernel patches, along with the handshake upcall, are carried in
->>> the topic-rpc-with-tls-upcall branch available from:
->>> https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux.git
->>
->> Just wondering if these patch should wait until the kernel
->> patches reach mainline (aka rawhide)?
-> 
-> The kernel changes do not require these, they add more
-> features. Thus I don't think it's harmful to let them
-> wait for the kernel patches.
-> 
-> For testing, Jeff has set up a Fedora COPR with these,
-> the ktls-utils package, and an updated kernel.
-> 
-> What could be checked now is whether these nfs-utils
-> changes will break something on pre-TLS kernels.
-Fair enough... I'll have a release ready for the
-up coming Bakeathon...
-
-steved.
-> 
-> 
->> steved.
->>
->>> Soon I hope to compose a new man page in Section 7 that will provide
->>> an overview and quick set-up guidance for NFS's use of RPC-with-TLS.
->>> Changes since v1:
->>> - Addressed Jeff's review comments
->>> - Updated nfs.man as well
->>> ---
->>> Chuck Lever (4):
->>>        libexports: Fix whitespace damage in support/nfs/exports.c
->>>        exports: Add an xprtsec= export option
->>>        exports(5): Describe the xprtsec= export option
->>>        nfs(5): Document the new "xprtsec=" mount option
->>>   support/export/cache.c       |  15 ++++++
->>>   support/include/nfs/export.h |  14 +++++
->>>   support/include/nfslib.h     |  14 +++++
->>>   support/nfs/exports.c        | 100 ++++++++++++++++++++++++++++++++---
->>>   utils/exportfs/exportfs.c    |   1 +
->>>   utils/exportfs/exports.man   |  51 +++++++++++++++++-
->>>   utils/mount/nfs.man          |  34 +++++++++++-
->>>   7 files changed, 219 insertions(+), 10 deletions(-)
->>> --
->>> Chuck Lever
-> 
-> 
-> --
-> Chuck Lever
-> 
-> 
 

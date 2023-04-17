@@ -1,34 +1,34 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4EC846B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066CE846A
 	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 13:03:11 +0000 (UTC)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 5F27E21A75;
+	by smtp-out1.suse.de (Postfix) with ESMTP id 617FB21A79;
 	Mon, 17 Apr 2023 13:03:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1681736584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sgcbHjUM943PrxMYrNm3+n6vXvKWv1aWg1e0dDLWooY=;
-	b=1Kl5vKDy7zqKF1Ek08djyI8/btH8Y0nU2dzwBVZwOSEl4BubkVBbvAMCU4ys/SfdXtaUDY
-	utGl8Bnl8MoZj3RPQn7/mh2JY2J04+0/aAdlFT2zmwIvOMvKPNsILnya238+8HQGpCGJBZ
-	OH5eXG+ydhfDXxmlUEo9S5NWALZZeAs=
+	bh=KtSpNgKrPfslxHev0vwTjRy2goQY36AKDkfQfPR7cik=;
+	b=e3n9P6odrb3kktN7vW3tnRPjVQ88fd2PvVwHJxh+hS7jGRGVyRxFtPXQrMLZCy//N8hSPf
+	CZdTsoXxdzcU7r8hiN99jJ5Fppoc7KYT9H5UNekBItD0pqJ2tdGK/zqdPpVcKgKHuVqWgT
+	VCrRdY5L63Vj4wfnrv7v/qHHecwF89Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1681736584;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sgcbHjUM943PrxMYrNm3+n6vXvKWv1aWg1e0dDLWooY=;
-	b=rfs/hGg0NoujtP4hFfH9tBfc5Z03rbF3PgHoqFg5l2ncf8OXAKVoyI0gmZ1nff0m3Q7tP7
-	to7Qy7Iw1GjPpyAg==
+	bh=KtSpNgKrPfslxHev0vwTjRy2goQY36AKDkfQfPR7cik=;
+	b=+v21ZnZ5pdnQ1QLI+2eUA9Y4I5NcTXpHMVCCwD6Dcj3p8NM/uelTlkrCuPSVAMpsy/Hfs+
+	qnxseBUn6jWnFwBw==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 2DC442C153;
+	by relay2.suse.de (Postfix) with ESMTP id 514BC2C15F;
 	Mon, 17 Apr 2023 13:03:04 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 29AD151C25AC; Mon, 17 Apr 2023 15:03:04 +0200 (CEST)
+	id 4DAE551C25B6; Mon, 17 Apr 2023 15:03:04 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>,
@@ -36,11 +36,10 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	linux-nvme@lists.infradead.org,
 	Chuck Lever <chuck.lever@oracle.com>,
 	kernel-tls-handshake@lists.linux.dev,
-	Hannes Reinecke <hare@suse.de>,
-	David Howells <dhowells@redhat.com>
-Subject: [PATCH 09/18] security/keys: export key_lookup()
-Date: Mon, 17 Apr 2023 15:02:53 +0200
-Message-Id: <20230417130302.86274-10-hare@suse.de>
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 14/18] nvmet: make TCP sectype settable via configfs
+Date: Mon, 17 Apr 2023 15:02:58 +0200
+Message-Id: <20230417130302.86274-15-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230417130302.86274-1-hare@suse.de>
 References: <20230417130302.86274-1-hare@suse.de>
@@ -52,30 +51,109 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For in-kernel consumers one cannot readily assign a user (eg when
-running from a workqueue), so the normal key search permissions
-cannot be applied.
-This patch exports the 'key_lookup()' function for a simple lookup
-of keys without checking for permissions.
+Add a new configfs attribute 'addr_tsas' to make the TCP sectype
+settable via configfs.
 
-Cc: David Howells <dhowells@redhat.com>
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- security/keys/key.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/target/configfs.c | 65 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
 
-diff --git a/security/keys/key.c b/security/keys/key.c
-index 5c0c7df833f8..bd1b7d45df90 100644
---- a/security/keys/key.c
-+++ b/security/keys/key.c
-@@ -693,6 +693,7 @@ struct key *key_lookup(key_serial_t id)
- 	spin_unlock(&key_serial_lock);
- 	return key;
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 907143870da5..7f826ac8b75c 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -303,6 +303,11 @@ static void nvmet_port_init_tsas_rdma(struct nvmet_port *port)
+ 	port->disc_addr.tsas.rdma.cms = NVMF_RDMA_CMS_RDMA_CM;
  }
-+EXPORT_SYMBOL_GPL(key_lookup);
  
++static void nvmet_port_init_tsas_tcp(struct nvmet_port *port, int sectype)
++{
++	port->disc_addr.tsas.tcp.sectype = sectype;
++}
++
+ static ssize_t nvmet_addr_trtype_store(struct config_item *item,
+ 		const char *page, size_t count)
+ {
+@@ -325,11 +330,70 @@ static ssize_t nvmet_addr_trtype_store(struct config_item *item,
+ 	port->disc_addr.trtype = nvmet_transport[i].type;
+ 	if (port->disc_addr.trtype == NVMF_TRTYPE_RDMA)
+ 		nvmet_port_init_tsas_rdma(port);
++	else if (port->disc_addr.trtype == NVMF_TRTYPE_TCP)
++		nvmet_port_init_tsas_tcp(port, NVMF_TCP_SECTYPE_NONE);
+ 	return count;
+ }
+ 
+ CONFIGFS_ATTR(nvmet_, addr_trtype);
+ 
++static const struct nvmet_type_name_map nvmet_addr_tsas_tcp[] = {
++	{ NVMF_TCP_SECTYPE_NONE,	"none" },
++	{ NVMF_TCP_SECTYPE_TLS13,	"tls1.3" },
++};
++
++static const struct nvmet_type_name_map nvmet_addr_tsas_rdma[] = {
++	{ NVMF_RDMA_QPTYPE_CONNECTED,	"connected" },
++	{ NVMF_RDMA_QPTYPE_DATAGRAM,	"datagram"  },
++};
++
++static ssize_t nvmet_addr_tsas_show(struct config_item *item,
++		char *page)
++{
++	struct nvmet_port *port = to_nvmet_port(item);
++	int i;
++
++	if (port->disc_addr.trtype == NVMF_TRTYPE_TCP) {
++		for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_tcp); i++) {
++			if (port->disc_addr.tsas.tcp.sectype == nvmet_addr_tsas_tcp[i].type)
++				return sprintf(page, "%s\n", nvmet_addr_tsas_tcp[i].name);
++		}
++	} else if (port->disc_addr.trtype == NVMF_TRTYPE_RDMA) {
++		for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_rdma); i++) {
++			if (port->disc_addr.tsas.rdma.qptype == nvmet_addr_tsas_rdma[i].type)
++				return sprintf(page, "%s\n", nvmet_addr_tsas_rdma[i].name);
++		}
++	}
++	return sprintf(page, "reserved\n");
++}
++
++static ssize_t nvmet_addr_tsas_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	struct nvmet_port *port = to_nvmet_port(item);
++	int i;
++
++	if (nvmet_is_port_enabled(port, __func__))
++		return -EACCES;
++
++	if (port->disc_addr.trtype != NVMF_TRTYPE_TCP)
++		return -EINVAL;
++
++	for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_tcp); i++) {
++		if (sysfs_streq(page, nvmet_addr_tsas_tcp[i].name))
++			goto found;
++	}
++
++	pr_err("Invalid value '%s' for tsas\n", page);
++	return -EINVAL;
++
++found:
++	nvmet_port_init_tsas_tcp(port, nvmet_addr_tsas_tcp[i].type);
++	return count;
++}
++
++CONFIGFS_ATTR(nvmet_, addr_tsas);
++
  /*
-  * Find and lock the specified key type against removal.
+  * Namespace structures & file operation functions below
+  */
+@@ -1741,6 +1805,7 @@ static struct configfs_attribute *nvmet_port_attrs[] = {
+ 	&nvmet_attr_addr_traddr,
+ 	&nvmet_attr_addr_trsvcid,
+ 	&nvmet_attr_addr_trtype,
++	&nvmet_attr_addr_tsas,
+ 	&nvmet_attr_param_inline_data_size,
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+ 	&nvmet_attr_param_pi_enable,
 -- 
 2.35.3
 

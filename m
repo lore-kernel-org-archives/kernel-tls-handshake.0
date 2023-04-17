@@ -1,34 +1,34 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19FE479FB
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 13:03:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E564979E0
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 13:03:05 +0000 (UTC)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 4D15421A6C;
+	by smtp-out1.suse.de (Postfix) with ESMTP id 3A2DB21A46;
 	Mon, 17 Apr 2023 13:03:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1681736584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=29OnLCTw35Epjrtq66a5UwiuHspiSWN92ELo53l0Sms=;
-	b=qscJA4A9HAjaSZFLlfR+iaTeJhLS7iqZr7JqCrwlYLXjIULJisOg8R6C16l0GpHVk93r0a
-	Y64iIVALVsnWRumP0tsO5DyDgCU+vDYP1R3oJdyJ5tbcIXpzdL2LXboiUW1h2fiJ+sfcQF
-	LhUfDx4oF/7xCf8blmEyJFqzsRUNeEU=
+	bh=fbkzGP66w2eIP0ijsrJNPutbfmYDdmvVd4+ex576gDA=;
+	b=GYAYoAI1qaVrRByB1PdflvjYA8doBOMMPa74gzZ6cTz8Fe2LWToLpG+j5GU4Y8+8HiSmj4
+	viq+dFFlxqAtEo5kgnxb11yevtTXPWg0wwR89Q2lttBpvcNtoBS0ouvm4wqmPTH4PZaVa/
+	Kcq+2cBku+r5DJmnLJAETUjwvw4UYEU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1681736584;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=29OnLCTw35Epjrtq66a5UwiuHspiSWN92ELo53l0Sms=;
-	b=SzQAa5NxCbTDxGxgr14JCSS/vBXFoAlaOrGHpRb3Q/wxULD11BZTBMhV9BOwlIpYAWQh1z
-	v46UzhSmYQURemDw==
+	bh=fbkzGP66w2eIP0ijsrJNPutbfmYDdmvVd4+ex576gDA=;
+	b=YMA8fi60OVIcJbKShpL/EvypZFUEFSkrURqLQEDHAuYcjaAAguMrsj8HgGt9DoFUd2pJ0V
+	Z7noGuBeHXfyLcAg==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 3C5CE2C15B;
+	by relay2.suse.de (Postfix) with ESMTP id 295652C152;
 	Mon, 17 Apr 2023 13:03:04 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 38AC151C25B0; Mon, 17 Apr 2023 15:03:04 +0200 (CEST)
+	id 2224051C25AA; Mon, 17 Apr 2023 15:03:04 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>,
@@ -37,9 +37,9 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	Chuck Lever <chuck.lever@oracle.com>,
 	kernel-tls-handshake@lists.linux.dev,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 11/18] nvme-tcp: enable TLS handshake upcall
-Date: Mon, 17 Apr 2023 15:02:55 +0200
-Message-Id: <20230417130302.86274-12-hare@suse.de>
+Subject: [PATCH 08/18] nvme-tcp: do not set MSG_SENDPAGE_NOTLAST
+Date: Mon, 17 Apr 2023 15:02:52 +0200
+Message-Id: <20230417130302.86274-9-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230417130302.86274-1-hare@suse.de>
 References: <20230417130302.86274-1-hare@suse.de>
@@ -51,369 +51,49 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a fabrics option 'tls' and start the TLS handshake upcall
-with the default PSK. When TLS is started the PSK key serial
-number is displayed in the sysfs attribute 'tls_key'
+MSG_SENDPAGE_NOTLAST was introduced with commit 35f9c09fe9c7
+("tcp: tcp_sendpages() should call tcp_push() once") to fix issues
+with the ->sendfile() call, and the implication seems to be that
+the flag should be strictly internal to sendfile.
+Hence we shouldn't be setting it on nvme-tcp, and anyway doing
+so will cause TLS sending invalid data.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/Kconfig   |  14 ++++
- drivers/nvme/host/core.c    |  23 ++++++-
- drivers/nvme/host/fabrics.c |  10 +++
- drivers/nvme/host/fabrics.h |   3 +
- drivers/nvme/host/nvme.h    |   1 +
- drivers/nvme/host/tcp.c     | 127 ++++++++++++++++++++++++++++++++++--
- 6 files changed, 170 insertions(+), 8 deletions(-)
+ drivers/nvme/host/tcp.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-index 2f6a7f8c94e8..96a74041bb0a 100644
---- a/drivers/nvme/host/Kconfig
-+++ b/drivers/nvme/host/Kconfig
-@@ -92,6 +92,20 @@ config NVME_TCP
- 
- 	  If unsure, say N.
- 
-+config NVME_TCP_TLS
-+	bool "NVMe over Fabrics TCP TLS encryption support"
-+	depends on NVME_TCP
-+	select NVME_COMMON
-+	select NVME_KEYRING
-+	select NET_HANDSHAKE
-+	help
-+	  Enables TLS encryption for NVMe TCP using the netlink handshake API.
-+
-+	  The TLS handshake daemon is availble at
-+	  https://github.com/oracle/ktls-utils.
-+
-+	  If unsure, say N.
-+
- config NVME_AUTH
- 	bool "NVM Express over Fabrics In-Band Authentication"
- 	depends on NVME_CORE
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 79aa215aec76..937013127c91 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3889,6 +3889,19 @@ static DEVICE_ATTR(dhchap_ctrl_secret, S_IRUGO | S_IWUSR,
- 	nvme_ctrl_dhchap_ctrl_secret_show, nvme_ctrl_dhchap_ctrl_secret_store);
- #endif
- 
-+#ifdef CONFIG_NVME_TCP_TLS
-+static ssize_t tls_key_show(struct device *dev,
-+			    struct device_attribute *attr, char *buf)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+
-+	if (!ctrl->tls_key)
-+		return 0;
-+	return sysfs_emit(buf, "%08x", key_serial(ctrl->tls_key));
-+}
-+static DEVICE_ATTR_RO(tls_key);
-+#endif
-+
- static struct attribute *nvme_dev_attrs[] = {
- 	&dev_attr_reset_controller.attr,
- 	&dev_attr_rescan_controller.attr,
-@@ -3915,6 +3928,9 @@ static struct attribute *nvme_dev_attrs[] = {
- #ifdef CONFIG_NVME_AUTH
- 	&dev_attr_dhchap_secret.attr,
- 	&dev_attr_dhchap_ctrl_secret.attr,
-+#endif
-+#ifdef CONFIG_NVME_TCP_TLS
-+	&dev_attr_tls_key.attr,
- #endif
- 	NULL
- };
-@@ -3945,7 +3961,10 @@ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
- 	if (a == &dev_attr_dhchap_ctrl_secret.attr && !ctrl->opts)
- 		return 0;
- #endif
--
-+#ifdef CONFIG_NVME_TCP_TLS
-+	if (a == &dev_attr_tls_key.attr && !ctrl->opts)
-+		return 0;
-+#endif
- 	return a->mode;
- }
- 
-@@ -5080,7 +5099,7 @@ static void nvme_free_ctrl(struct device *dev)
- 
- 	if (!subsys || ctrl->instance != subsys->instance)
- 		ida_free(&nvme_instance_ida, ctrl->instance);
--
-+	key_put(ctrl->tls_key);
- 	nvme_free_cels(ctrl);
- 	nvme_mpath_uninit(ctrl);
- 	nvme_auth_stop(ctrl);
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index bbaa04a0c502..a8d6c22515ca 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -609,6 +609,7 @@ static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_DISCOVERY,		"discovery"		},
- 	{ NVMF_OPT_DHCHAP_SECRET,	"dhchap_secret=%s"	},
- 	{ NVMF_OPT_DHCHAP_CTRL_SECRET,	"dhchap_ctrl_secret=%s"	},
-+	{ NVMF_OPT_TLS,			"tls"			},
- 	{ NVMF_OPT_ERR,			NULL			}
- };
- 
-@@ -632,6 +633,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	opts->hdr_digest = false;
- 	opts->data_digest = false;
- 	opts->tos = -1; /* < 0 == use transport default */
-+	opts->tls = false;
- 
- 	options = o = kstrdup(buf, GFP_KERNEL);
- 	if (!options)
-@@ -918,6 +920,14 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 			kfree(opts->dhchap_ctrl_secret);
- 			opts->dhchap_ctrl_secret = p;
- 			break;
-+		case NVMF_OPT_TLS:
-+			if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
-+				pr_err("TLS is not supported\n");
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+			opts->tls = true;
-+			break;
- 		default:
- 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
- 				p);
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index dcac3df8a5f7..5db36e250e7a 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -70,6 +70,7 @@ enum {
- 	NVMF_OPT_DISCOVERY	= 1 << 22,
- 	NVMF_OPT_DHCHAP_SECRET	= 1 << 23,
- 	NVMF_OPT_DHCHAP_CTRL_SECRET = 1 << 24,
-+	NVMF_OPT_TLS		= 1 << 25,
- };
- 
- /**
-@@ -102,6 +103,7 @@ enum {
-  * @dhchap_secret: DH-HMAC-CHAP secret
-  * @dhchap_ctrl_secret: DH-HMAC-CHAP controller secret for bi-directional
-  *              authentication
-+ * @tls:        Start TLS encrypted connections (TCP)
-  * @disable_sqflow: disable controller sq flow control
-  * @hdr_digest: generate/verify header digest (TCP)
-  * @data_digest: generate/verify data digest (TCP)
-@@ -128,6 +130,7 @@ struct nvmf_ctrl_options {
- 	int			max_reconnects;
- 	char			*dhchap_secret;
- 	char			*dhchap_ctrl_secret;
-+	bool			tls;
- 	bool			disable_sqflow;
- 	bool			hdr_digest;
- 	bool			data_digest;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index bf46f122e9e1..fbcc0ccf2ef2 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -347,6 +347,7 @@ struct nvme_ctrl {
- 	struct nvme_dhchap_key *ctrl_key;
- 	u16 transaction;
- #endif
-+	struct key *tls_key;
- 
- 	/* Power saving configuration */
- 	u64 ps_max_latency_us;
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 0a39743da4e4..b80bcc5fe447 100644
+index 273c1f2760a4..732aa2296560 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -8,9 +8,13 @@
- #include <linux/init.h>
- #include <linux/slab.h>
- #include <linux/err.h>
-+#include <linux/key.h>
- #include <linux/nvme-tcp.h>
-+#include <linux/nvme-keyring.h>
- #include <net/sock.h>
- #include <net/tcp.h>
-+#include <net/tls.h>
-+#include <net/handshake.h>
- #include <linux/blk-mq.h>
- #include <crypto/hash.h>
- #include <net/busy_poll.h>
-@@ -31,6 +35,16 @@ static int so_priority;
- module_param(so_priority, int, 0644);
- MODULE_PARM_DESC(so_priority, "nvme tcp socket optimize priority");
+@@ -995,7 +995,7 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
+ 		if (last && !queue->data_digest && !nvme_tcp_queue_more(queue))
+ 			flags |= MSG_EOR;
+ 		else
+-			flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
++			flags |= MSG_MORE;
  
-+#ifdef CONFIG_NVME_TCP_TLS
-+/*
-+ * TLS handshake timeout
-+ */
-+static int tls_handshake_timeout = 10;
-+module_param(tls_handshake_timeout, int, 0644);
-+MODULE_PARM_DESC(tls_handshake_timeout,
-+		 "nvme TLS handshake timeout in seconds (default 10)");
-+#endif
-+
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- /* lockdep can detect a circular dependency of the form
-  *   sk_lock -> mmap_lock (page fault) -> fs locks -> sk_lock
-@@ -146,7 +160,10 @@ struct nvme_tcp_queue {
- 	struct ahash_request	*snd_hash;
- 	__le32			exp_ddgst;
- 	__le32			recv_ddgst;
--
-+#ifdef CONFIG_NVME_TCP_TLS
-+	struct completion       tls_complete;
-+	int                     tls_err;
-+#endif
- 	struct page_frag_cache	pf_cache;
- 
- 	void (*state_change)(struct sock *);
-@@ -1492,7 +1509,79 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
- 	queue->io_cpu = cpumask_next_wrap(n - 1, cpu_online_mask, -1, false);
- }
- 
--static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
-+#ifdef CONFIG_NVME_TCP_TLS
-+static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid)
-+{
-+	struct nvme_tcp_queue *queue = data;
-+	struct nvme_tcp_ctrl *ctrl = queue->ctrl;
-+	int qid = nvme_tcp_queue_id(queue);
-+	struct key *tls_key;
-+
-+	dev_dbg(ctrl->ctrl.device, "queue %d: TLS handshake done, key %x, status %d\n",
-+		qid, pskid, status);
-+
-+	if (status) {
-+		queue->tls_err = -status;
-+		goto out_complete;
-+	}
-+
-+	tls_key = key_lookup(pskid);
-+	if (IS_ERR(tls_key)) {
-+		dev_warn(ctrl->ctrl.device, "queue %d: Invalid key %x\n",
-+			 qid, pskid);
-+		queue->tls_err = -ENOKEY;
-+	} else {
-+		ctrl->ctrl.tls_key = tls_key;
-+		queue->tls_err = 0;
-+	}
-+
-+out_complete:
-+	complete(&queue->tls_complete);
-+}
-+
-+static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
-+			      struct nvme_tcp_queue *queue,
-+			      key_serial_t pskid)
-+{
-+	int qid = nvme_tcp_queue_id(queue);
-+	int ret;
-+	struct tls_handshake_args args;
-+	unsigned long tmo = tls_handshake_timeout * HZ;
-+	key_serial_t keyring = nvme_keyring_id();
-+
-+	dev_dbg(nctrl->device, "queue %d: start TLS with key %x\n",
-+		qid, pskid);
-+	args.ta_sock = queue->sock;
-+	args.ta_done = nvme_tcp_tls_done;
-+	args.ta_data = queue;
-+	args.ta_my_peerids[0] = pskid;
-+	args.ta_num_peerids = 1;
-+	args.ta_keyring = keyring;
-+	args.ta_timeout_ms = tls_handshake_timeout * 1000;
-+	queue->tls_err = -EOPNOTSUPP;
-+	init_completion(&queue->tls_complete);
-+	ret = tls_client_hello_psk(&args, GFP_KERNEL);
-+	if (ret) {
-+		dev_err(nctrl->device, "queue %d: failed to start TLS: %d\n",
-+			qid, ret);
-+		return ret;
-+	}
-+	if (wait_for_completion_timeout(&queue->tls_complete, tmo) == 0) {
-+		dev_err(nctrl->device,
-+			"queue %d: TLS handshake timeout\n", qid);
-+		ret = -ETIMEDOUT;
-+	} else {
-+		dev_dbg(nctrl->device,
-+			"queue %d: TLS handshake complete, error %d\n",
-+			qid, queue->tls_err);
-+		ret = queue->tls_err;
-+	}
-+	return ret;
-+}
-+#endif
-+
-+static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
-+				key_serial_t pskid)
- {
- 	struct nvme_tcp_ctrl *ctrl = to_tcp_ctrl(nctrl);
- 	struct nvme_tcp_queue *queue = &ctrl->queues[qid];
-@@ -1616,6 +1705,14 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid)
- 		goto err_rcv_pdu;
- 	}
- 
-+#ifdef CONFIG_NVME_TCP_TLS
-+	/* If PSKs are configured try to start TLS */
-+	if (pskid) {
-+		ret = nvme_tcp_start_tls(nctrl, queue, pskid);
-+		if (ret)
-+			goto err_init_connect;
-+	}
-+#endif
- 	ret = nvme_tcp_init_connection(queue);
- 	if (ret)
- 		goto err_init_connect;
-@@ -1759,10 +1856,22 @@ static int nvme_tcp_start_io_queues(struct nvme_ctrl *ctrl,
- static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
- {
+ 		if (sendpage_ok(page)) {
+ 			ret = kernel_sendpage(queue->sock, page, offset, len,
+@@ -1049,7 +1049,7 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
  	int ret;
-+	key_serial_t psk_id = 0;
-+
-+	if (ctrl->opts->tls) {
-+		psk_id = nvme_tls_psk_default(NULL,
-+					      ctrl->opts->host->nqn,
-+					      ctrl->opts->subsysnqn);
-+		if (!psk_id) {
-+			dev_err(ctrl->device, "no valid PSK found\n");
-+			ret = -ENOKEY;
-+			goto out_free_queue;
-+		}
-+	}
  
--	ret = nvme_tcp_alloc_queue(ctrl, 0);
-+	ret = nvme_tcp_alloc_queue(ctrl, 0, psk_id);
- 	if (ret)
--		return ret;
-+		goto out_free_queue;
+ 	if (inline_data || nvme_tcp_queue_more(queue))
+-		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
++		flags |= MSG_MORE;
+ 	else
+ 		flags |= MSG_EOR;
  
- 	ret = nvme_tcp_alloc_async_req(to_tcp_ctrl(ctrl));
- 	if (ret)
-@@ -1778,9 +1887,15 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
- static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
- {
- 	int i, ret;
-+	key_serial_t psk_id;
- 
-+	if (!ctrl->tls_key) {
-+		dev_err(ctrl->device, "no PSK negotiated\n");
-+		return -ENOKEY;
-+	}
-+	psk_id = key_serial(ctrl->tls_key);
- 	for (i = 1; i < ctrl->queue_count; i++) {
--		ret = nvme_tcp_alloc_queue(ctrl, i);
-+		ret = nvme_tcp_alloc_queue(ctrl, i, psk_id);
- 		if (ret)
- 			goto out_free_queues;
- 	}
-@@ -2689,7 +2804,7 @@ static struct nvmf_transport_ops nvme_tcp_transport = {
- 			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO |
- 			  NVMF_OPT_HDR_DIGEST | NVMF_OPT_DATA_DIGEST |
- 			  NVMF_OPT_NR_WRITE_QUEUES | NVMF_OPT_NR_POLL_QUEUES |
--			  NVMF_OPT_TOS | NVMF_OPT_HOST_IFACE,
-+			  NVMF_OPT_TOS | NVMF_OPT_HOST_IFACE | NVMF_OPT_TLS,
- 	.create_ctrl	= nvme_tcp_create_ctrl,
- };
- 
+@@ -1091,7 +1091,7 @@ static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
+ 	if (!req->h2cdata_left)
+ 		ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
+ 				offset_in_page(pdu) + req->offset, len,
+-				MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
++				MSG_DONTWAIT | MSG_MORE);
+ 	else
+ 		ret = sock_no_sendpage(queue->sock, virt_to_page(pdu),
+ 				offset_in_page(pdu) + req->offset, len,
 -- 
 2.35.3
 

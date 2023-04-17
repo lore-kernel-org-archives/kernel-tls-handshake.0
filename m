@@ -1,34 +1,34 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E564979E0
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 13:03:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10A9E79C1
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 13:03:09 +0000 (UTC)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 3A2DB21A46;
+	by smtp-out2.suse.de (Postfix) with ESMTP id 2F5261FE0D;
 	Mon, 17 Apr 2023 13:03:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1681736584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fbkzGP66w2eIP0ijsrJNPutbfmYDdmvVd4+ex576gDA=;
-	b=GYAYoAI1qaVrRByB1PdflvjYA8doBOMMPa74gzZ6cTz8Fe2LWToLpG+j5GU4Y8+8HiSmj4
-	viq+dFFlxqAtEo5kgnxb11yevtTXPWg0wwR89Q2lttBpvcNtoBS0ouvm4wqmPTH4PZaVa/
-	Kcq+2cBku+r5DJmnLJAETUjwvw4UYEU=
+	bh=LDukVeTcAcyShCFS4ee6afRX8c+3sxfriXRpHY74zEU=;
+	b=mX7+YKsxVz/20yxg7jCG26B/Qmh0zHJzF+iP3EXK+cOKPJZuphjYskBmItzhp9EoX1glKA
+	xT4PoynjiNTr34shxqc/ohK9KafRKQfU5Eplb29RfjM7R4zfNYrElB1+r6v1Jp6/0c0G7L
+	YAnIOGxKqlb57Ud63mDLZIUbgXWljOA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1681736584;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fbkzGP66w2eIP0ijsrJNPutbfmYDdmvVd4+ex576gDA=;
-	b=YMA8fi60OVIcJbKShpL/EvypZFUEFSkrURqLQEDHAuYcjaAAguMrsj8HgGt9DoFUd2pJ0V
-	Z7noGuBeHXfyLcAg==
+	bh=LDukVeTcAcyShCFS4ee6afRX8c+3sxfriXRpHY74zEU=;
+	b=f83ee9do47L1ZQqgs60Jj3W8U4a1SftvqEBKjTRqHMFEKWyQ+Aei4pNyoft9L4SbQvG2Yg
+	rysbhFBwseZ+wFAg==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 295652C152;
+	by relay2.suse.de (Postfix) with ESMTP id 1B2592C14E;
 	Mon, 17 Apr 2023 13:03:04 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 2224051C25AA; Mon, 17 Apr 2023 15:03:04 +0200 (CEST)
+	id 0A07E51C25A4; Mon, 17 Apr 2023 15:03:04 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>,
@@ -37,9 +37,9 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	Chuck Lever <chuck.lever@oracle.com>,
 	kernel-tls-handshake@lists.linux.dev,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 08/18] nvme-tcp: do not set MSG_SENDPAGE_NOTLAST
-Date: Mon, 17 Apr 2023 15:02:52 +0200
-Message-Id: <20230417130302.86274-9-hare@suse.de>
+Subject: [PATCH 05/18] nvme-keyring: implement nvme_tls_psk_default()
+Date: Mon, 17 Apr 2023 15:02:49 +0200
+Message-Id: <20230417130302.86274-6-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230417130302.86274-1-hare@suse.de>
 References: <20230417130302.86274-1-hare@suse.de>
@@ -51,49 +51,105 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-MSG_SENDPAGE_NOTLAST was introduced with commit 35f9c09fe9c7
-("tcp: tcp_sendpages() should call tcp_push() once") to fix issues
-with the ->sendfile() call, and the implication seems to be that
-the flag should be strictly internal to sendfile.
-Hence we shouldn't be setting it on nvme-tcp, and anyway doing
-so will cause TLS sending invalid data.
+Implement a function to select the preferred PSK for TLS.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/host/tcp.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/nvme/common/keyring.c | 48 +++++++++++++++++++++++++++++++++++
+ include/linux/nvme-keyring.h  |  8 ++++++
+ 2 files changed, 56 insertions(+)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 273c1f2760a4..732aa2296560 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -995,7 +995,7 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
- 		if (last && !queue->data_digest && !nvme_tcp_queue_more(queue))
- 			flags |= MSG_EOR;
- 		else
--			flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
-+			flags |= MSG_MORE;
+diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
+index 494dd365052e..f8d9a208397b 100644
+--- a/drivers/nvme/common/keyring.c
++++ b/drivers/nvme/common/keyring.c
+@@ -5,6 +5,7 @@
  
- 		if (sendpage_ok(page)) {
- 			ret = kernel_sendpage(queue->sock, page, offset, len,
-@@ -1049,7 +1049,7 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
- 	int ret;
+ #include <linux/module.h>
+ #include <linux/seq_file.h>
++#include <linux/key.h>
+ #include <linux/key-type.h>
+ #include <keys/user-type.h>
+ #include <linux/nvme.h>
+@@ -103,6 +104,53 @@ static struct key *nvme_tls_psk_lookup(struct key *keyring,
+ 	return key_ref_to_ptr(keyref);
+ }
  
- 	if (inline_data || nvme_tcp_queue_more(queue))
--		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
-+		flags |= MSG_MORE;
- 	else
- 		flags |= MSG_EOR;
++/*
++ * NVMe PSK priority list
++ *
++ * 'Retained' PSKs (ie 'generated == false')
++ * should be preferred to 'generated' PSKs,
++ * and SHA-384 should be preferred to SHA-256.
++ */
++struct nvme_tls_psk_priority_list {
++	bool generated;
++	enum nvme_tcp_tls_cipher cipher;
++} nvme_tls_psk_prio[] = {
++	{ .generated = false,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
++	{ .generated = false,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
++	{ .generated = true,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
++	{ .generated = true,
++	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
++};
++
++/*
++ * nvme_tls_psk_default - Return the preferred PSK to use for TLS ClientHello
++ */
++key_serial_t nvme_tls_psk_default(struct key *keyring,
++		      const char *hostnqn, const char *subnqn)
++{
++	struct key *tls_key;
++	key_serial_t tls_key_id;
++	int prio;
++
++	for (prio = 0; prio < ARRAY_SIZE(nvme_tls_psk_prio); prio++) {
++		bool generated = nvme_tls_psk_prio[prio].generated;
++		enum nvme_tcp_tls_cipher cipher = nvme_tls_psk_prio[prio].cipher;
++
++		tls_key = nvme_tls_psk_lookup(keyring, hostnqn, subnqn,
++					      cipher, generated);
++		if (!IS_ERR(tls_key)) {
++			tls_key_id = tls_key->serial;
++			key_put(tls_key);
++			return tls_key_id;
++		}
++	}
++	return 0;
++}
++EXPORT_SYMBOL_GPL(nvme_tls_psk_default);
++
+ int nvme_keyring_init(void)
+ {
+ 	int err;
+diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
+index 32bd264a71e6..4efea9dd967c 100644
+--- a/include/linux/nvme-keyring.h
++++ b/include/linux/nvme-keyring.h
+@@ -8,12 +8,20 @@
  
-@@ -1091,7 +1091,7 @@ static int nvme_tcp_try_send_data_pdu(struct nvme_tcp_request *req)
- 	if (!req->h2cdata_left)
- 		ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
- 				offset_in_page(pdu) + req->offset, len,
--				MSG_DONTWAIT | MSG_MORE | MSG_SENDPAGE_NOTLAST);
-+				MSG_DONTWAIT | MSG_MORE);
- 	else
- 		ret = sock_no_sendpage(queue->sock, virt_to_page(pdu),
- 				offset_in_page(pdu) + req->offset, len,
+ #ifdef CONFIG_NVME_KEYRING
+ 
++key_serial_t nvme_tls_psk_default(struct key *keyring,
++		const char *hostnqn, const char *subnqn);
++
+ key_serial_t nvme_keyring_id(void);
+ int nvme_keyring_init(void);
+ void nvme_keyring_exit(void);
+ 
+ #else
+ 
++static inline key_serial_t nvme_tls_psk_default(struct key *keyring,
++		const char *hostnqn, const char *subnqn)
++{
++	return 0;
++}
+ static inline key_serial_t nvme_keyring_id(void)
+ {
+ 	return 0;
 -- 
 2.35.3
 

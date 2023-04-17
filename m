@@ -1,180 +1,80 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC04846F
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 13:03:11 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 7880921A8B;
-	Mon, 17 Apr 2023 13:03:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681736584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aD2VNuD2E1tDKjg0hrOisWghT7bUVIMdKRz/uLa3+d4=;
-	b=osO1sAppy9HpOE8IAnT8BPgb7cFZXJ/IdUV6Cg0nhW/vg+ygHgDHjHT3NAjle59eGQXS3J
-	jMPtM9AEgs8w8mTn1xBV+qO9YP8PpRv1gg1tCMyjsV9TxGj1gqIHK3NCyYHX/QW+Brb726
-	BLjJoaz5CDyI1E5eo+ss3zO8Mp9iYCQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681736584;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aD2VNuD2E1tDKjg0hrOisWghT7bUVIMdKRz/uLa3+d4=;
-	b=mSPyrBYx9X7pWndervlxexwCJ+qZhpxUVthbHGh2Dh7AIKo+Uwg0Ax/gg0FJuvIFExJHDV
-	Mjherdhu7n5EkxDA==
-Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 6835C2C165;
-	Mon, 17 Apr 2023 13:03:04 +0000 (UTC)
-Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 6493851C25BC; Mon, 17 Apr 2023 15:03:04 +0200 (CEST)
-From: Hannes Reinecke <hare@suse.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>,
-	linux-nvme@lists.infradead.org,
-	Chuck Lever <chuck.lever@oracle.com>,
-	kernel-tls-handshake@lists.linux.dev,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 17/18] nvmet-tcp: control messages for recvmsg()
-Date: Mon, 17 Apr 2023 15:03:01 +0200
-Message-Id: <20230417130302.86274-18-hare@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20230417130302.86274-1-hare@suse.de>
-References: <20230417130302.86274-1-hare@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF856FCB
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 13:50:54 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3f167e8a880so3800475e9.1
+        for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 06:50:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681739453; x=1684331453;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rW08AcXe5h1yzwO/16VfGa8RMtIWOvyOCi3lznESrus=;
+        b=izOAWRQV2xg+WILFTTIuGgoRLPTtJU7mfM7F3GtuFnYBljl2WFCgWw3aOEJS17MBRB
+         daB8kgRkq584+hh9nlTf2o1JMqfo56d1TCEVl2KgXBuh8b3P/XSduhMtFeat6CnAztGM
+         JSUkMtTHBbUspsbbcvkFry4uP4KZd8M9fN5baBPfoI/FylqF+FW4WKAzrTqV96IeNfaK
+         PgpQdh8/XkoXelc+M+osxH9Sh5Woxxup3AsnTGfqpKGUn7DGiHGRtFr47te+TTMLR6y4
+         Ivvax9xhzWPOoyE6gSFqDXrgRapKZSAfsdyCG8P2CxUpNw33zx3xYX1JEOHTRz8HqhZV
+         8oIg==
+X-Gm-Message-State: AAQBX9cwl7CAsq6GTJi4lgJWX7XTL/0GzYvcmGJgUghT5GtKMT2pQROv
+	SlI4B1EH+BkQswUw/wQ2utM=
+X-Google-Smtp-Source: AKy350b1X6uGiq3uux1vDEuWjGbMRSgJevFg6hjeWvM+TsOvfsrYDWSWYdhSqBqqRF+8GiUVOXaing==
+X-Received: by 2002:a05:600c:6025:b0:3f1:75a5:a369 with SMTP id az37-20020a05600c602500b003f175a5a369mr1310893wmb.3.1681739452680;
+        Mon, 17 Apr 2023 06:50:52 -0700 (PDT)
+Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id g12-20020adffc8c000000b002f79ea6746asm7582944wrr.94.2023.04.17.06.50.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Apr 2023 06:50:52 -0700 (PDT)
+Message-ID: <ffb33351-e26b-470e-9849-e195d9b05b52@grimberg.me>
+Date: Mon, 17 Apr 2023 16:50:50 +0300
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 18/18] nvmet-tcp: add configfs attribute 'param_keyring'
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
+References: <20230329135938.46905-1-hare@suse.de>
+ <20230329135938.46905-19-hare@suse.de>
+ <60ff89b4-5d63-a6db-18b1-e0f28055c5d9@grimberg.me>
+ <c7e895f1-1c95-f658-f7a1-c4cee5cf8c91@suse.de>
+ <1b018791-9aa3-b988-7045-40b46bc50989@grimberg.me>
+ <02e4f6eb-32c2-8f3c-872f-831e70da6166@suse.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <02e4f6eb-32c2-8f3c-872f-831e70da6166@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-kTLS requires control messages for recvmsg() to relay any out-of-band
-TLS messages (eg TLS alerts) to the caller.
 
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- drivers/nvme/target/tcp.c | 51 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 49 insertions(+), 2 deletions(-)
+>>>>> Add a configfs attribute to list and change the default keyring.
+>>>>
+>>>> is the keyring an attribute of a port? or a subsystem? Why the choice
+>>>> of making it per port?
+>>>>
+>>> As per discussion at fmds each port might want to use different 
+>>> credentials.
+>>> We can move it to subsystems if we decide we don't want to support 
+>>> that use-case.
+>>
+>> I think we should move it to the subsystem in Linux.
+>>
+> Easier said than done.
+> 
+> We can only fetch the subsystem once we have the NQN, which we will
+> know after the connect command.
+> But out of necessity the connect command will only be transferred
+> after TLS handshake completed, so there is not subsystem NQN allowing
+> us to figure out the correct subsystem.
+> 
+> So we'll have to keep it at the port level, I'm afraid.
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index ea853658430f..2974abd30b45 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -13,6 +13,7 @@
- #include <linux/nvme-keyring.h>
- #include <net/sock.h>
- #include <net/tcp.h>
-+#include <net/tls.h>
- #include <net/handshake.h>
- #include <linux/inet.h>
- #include <linux/llist.h>
-@@ -117,6 +118,7 @@ struct nvmet_tcp_cmd {
- 	u32				pdu_len;
- 	u32				pdu_recv;
- 	int				sg_idx;
-+	char				recv_cbuf[CMSG_LEN(sizeof(char))];
- 	struct msghdr			recv_msg;
- 	struct bio_vec			*iov;
- 	u32				flags;
-@@ -1103,12 +1105,39 @@ static inline bool nvmet_tcp_pdu_valid(u8 type)
- 	return false;
- }
- 
-+static bool nvmet_tcp_tls_record_ok(struct msghdr *msg, char *cbuf)
-+{
-+	struct cmsghdr *cmsg = (struct cmsghdr *)cbuf;
-+	unsigned char ctype;
-+
-+	if (!IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS))
-+		return 0;
-+
-+	if (CMSG_OK(msg, cmsg) &&
-+	    cmsg->cmsg_level == SOL_TLS &&
-+	    cmsg->cmsg_type == TLS_GET_RECORD_TYPE) {
-+		ctype = *((unsigned char *)CMSG_DATA(cmsg));
-+		if (ctype != TLS_RECORD_TYPE_DATA) {
-+			pr_err("unhandled TLS record %d\n", ctype);
-+			return false;
-+		}
-+	}
-+	return true;
-+}
-+
- static int nvmet_tcp_try_recv_pdu(struct nvmet_tcp_queue *queue)
- {
- 	struct nvme_tcp_hdr *hdr = &queue->pdu.cmd.hdr;
- 	int len;
- 	struct kvec iov;
--	struct msghdr msg = { .msg_flags = MSG_DONTWAIT };
-+	char cbuf[CMSG_LEN(sizeof(char))] = {};
-+	struct msghdr msg = {
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+		.msg_control = cbuf,
-+		.msg_controllen = sizeof(cbuf),
-+#endif
-+		.msg_flags = MSG_DONTWAIT
-+	};
- 
- recv:
- 	iov.iov_base = (void *)&queue->pdu + queue->offset;
-@@ -1117,6 +1146,8 @@ static int nvmet_tcp_try_recv_pdu(struct nvmet_tcp_queue *queue)
- 			iov.iov_len, msg.msg_flags);
- 	if (unlikely(len < 0))
- 		return len;
-+	if (!nvmet_tcp_tls_record_ok(&msg, cbuf))
-+		return -ENOTCONN;
- 
- 	queue->offset += len;
- 	queue->left -= len;
-@@ -1176,6 +1207,9 @@ static int nvmet_tcp_try_recv_data(struct nvmet_tcp_queue *queue)
- 			cmd->recv_msg.msg_flags);
- 		if (ret <= 0)
- 			return ret;
-+		if (!nvmet_tcp_tls_record_ok(&cmd->recv_msg,
-+					     cmd->recv_cbuf))
-+			return -ENOTCONN;
- 
- 		cmd->pdu_recv += ret;
- 		cmd->rbytes_done += ret;
-@@ -1197,7 +1231,14 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet_tcp_queue *queue)
- {
- 	struct nvmet_tcp_cmd *cmd = queue->cmd;
- 	int ret;
--	struct msghdr msg = { .msg_flags = MSG_DONTWAIT };
-+	char cbuf[CMSG_LEN(sizeof(char))] = {};
-+	struct msghdr msg = {
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+		.msg_control = cbuf,
-+		.msg_controllen = sizeof(cbuf),
-+#endif
-+		.msg_flags = MSG_DONTWAIT
-+	};
- 	struct kvec iov = {
- 		.iov_base = (void *)&cmd->recv_ddgst + queue->offset,
- 		.iov_len = queue->left
-@@ -1207,6 +1248,8 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet_tcp_queue *queue)
- 			iov.iov_len, msg.msg_flags);
- 	if (unlikely(ret < 0))
- 		return ret;
-+	if (!nvmet_tcp_tls_record_ok(&msg, cbuf))
-+		return -ENOTCONN;
- 
- 	queue->offset += ret;
- 	queue->left -= ret;
-@@ -1376,6 +1419,10 @@ static int nvmet_tcp_alloc_cmd(struct nvmet_tcp_queue *queue,
- 	if (!c->r2t_pdu)
- 		goto out_free_data;
- 
-+	if (IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS)) {
-+		c->recv_msg.msg_control = c->recv_cbuf;
-+		c->recv_msg.msg_controllen = sizeof(c->recv_cbuf);
-+	}
- 	c->recv_msg.msg_flags = MSG_DONTWAIT | MSG_NOSIGNAL;
- 
- 	list_add_tail(&c->entry, &queue->free_list);
--- 
-2.35.3
-
+Question, why does nvmet needs to support user defined keyrings?
+I understood your argument for the host, but why should the target
+support it?

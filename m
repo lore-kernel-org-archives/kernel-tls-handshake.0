@@ -1,27 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA628460
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 14:34:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23278C433EF
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 14:34:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3F38460
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 14:35:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DDE8C433D2
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 14:35:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1681742099;
-	bh=QyIC8Y178UkaG4DXBlhbuGUVL+HQb8veq/MvGROT9VM=;
+	s=k20201202; t=1681742105;
+	bh=kZQUKO3RIAjBr+dAPNqHqoICOefkU9rZh5884kUPYG0=;
 	h=Subject:From:To:Date:In-Reply-To:References:From;
-	b=exY2lys48UTe8ZDEoOrK1skg4SrYXW+1b1K6kz2cDh9oGm/qPS+MHgm0mVMX4Di8v
-	 hrqrI+Q+ZpKG87rdb+I3IZNUpkGTZWFWbzsGkYyB+Pj7JTN2ct48oICWqsoJwDUzn6
-	 Y1Mjc6n9iaa/sDXnDzzSLdR+2jwUPzb5DcbpSSIOAcpJzSIqvUDjQNeNaqHudmEs8h
-	 Hb9ATrKTynZqKLZ85gJRnINibWc3NwYZfqQC+596nfqP/MPrc9rvIAgwgRl/+poIex
-	 7rvTsqtNhi30R7zBGSFJbETeafgU1aarLfa2gKamTKXqWc9AxN30XIAdVMJXNUWJVM
-	 kMjf4o4zQBaxg==
-Subject: [PATCH RFC 1/5] tlshd: Check mode bit settings on certificate
- material
+	b=ON3MIDy7zEab007dacsGKqdXB+tDQywSP7gdeLQFKY50re1uFncwaAJ7jiuk441Ug
+	 TpHfnaVpNMbxRFCR/2KcT+MljIZtoMPX9NHmoqAnZEoTZk9kQZK1JWfbRMLdqRkluw
+	 6mxjBE/FfTJnS3dbopfKUKHIDNHgpP5n4dRgjTB1rc7EY6NdaHVde2lozTV8lT9PAf
+	 ivEQwIwgJNg+ZSVIrJmHGnliG6lbKeLJrcBXDRaj14CrQAC4gXFEAljvHcsCnv2HKe
+	 wtNg+Vsxy5W2Qb1mbMThUbB5w0LZ88mzBtAKR05Ipg1m1oKkpJeK/i39sdUF5sfo8e
+	 l9NMEAXsnwUZQ==
+Subject: [PATCH RFC 2/5] tlshd: Fix client's use of Server Name Indication
 From: Chuck Lever <cel@kernel.org>
 To: kernel-tls-handshake@lists.linux.dev
-Date: Mon, 17 Apr 2023 10:34:58 -0400
+Date: Mon, 17 Apr 2023 10:35:04 -0400
 Message-ID: 
- <168174209812.9615.10225996903152811448.stgit@91.116.238.104.host.secureserver.net>
+ <168174210447.9615.8149321939211810293.stgit@91.116.238.104.host.secureserver.net>
 In-Reply-To: 
  <168174201703.9615.15054227659982658294.stgit@91.116.238.104.host.secureserver.net>
 References: 
@@ -38,149 +37,196 @@ Content-Transfer-Encoding: 7bit
 
 From: Chuck Lever <chuck.lever@oracle.com>
 
-Log a conventional warning if certificate material is not permitted
-defensively.
+The man page says gnutls_server_name_set(3) is used to send the
+local hostname to the remote peer as part of ClientHello. It appears
+that tlshd is incorrectly sending the remote's hostname instead.
 
-Suggested-by: John Haxby <john.haxby@oracle.com>
+To ensure that an appropriate hostname is used, enable the client's
+admin to set the client's hostname in /etc/tlshd.conf. If one isn't
+set there, the result of gethostname(3) is used instead. The SNI
+hostname needs to match one of the Subject names in the provided
+client certificate.
+
+I'll note that RFC 9289 should RECOMMEND or REQUIRE the use of SNI,
+but it currently does not.
+
 Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 ---
- src/tlshd/config.c |   36 +++++++++++++++++++++++++++---------
- src/tlshd/log.c    |   14 ++++++++++++++
- src/tlshd/tlshd.h  |    1 +
- 3 files changed, 42 insertions(+), 9 deletions(-)
+ src/tlshd/client.c       |   32 +++++++++++++++++++++++++++-----
+ src/tlshd/config.c       |   31 +++++++++++++++++++++++++++++++
+ src/tlshd/tlshd.conf     |    1 +
+ src/tlshd/tlshd.conf.man |   31 +++++++++++++++++++++++++++++--
+ src/tlshd/tlshd.h        |    1 +
+ 5 files changed, 89 insertions(+), 7 deletions(-)
 
-diff --git a/src/tlshd/config.c b/src/tlshd/config.c
-index fa2da64bfbdd..464635ed56e0 100644
---- a/src/tlshd/config.c
-+++ b/src/tlshd/config.c
-@@ -123,10 +123,18 @@ static int tlshd_file_open(const char *pathname)
- }
- #endif
+diff --git a/src/tlshd/client.c b/src/tlshd/client.c
+index f40e19882827..46a973f4393c 100644
+--- a/src/tlshd/client.c
++++ b/src/tlshd/client.c
+@@ -31,6 +31,7 @@
+ #include <stdio.h>
+ #include <errno.h>
+ #include <keyutils.h>
++#include <netdb.h>
  
-+/*
-+ * Expected file attributes
-+ */
-+#define TLSHD_OWNER		0	/* root */
-+#define TLSHD_CERT_MODE		(S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)
-+#define TLSHD_PRIVKEY_MODE	(S_IRUSR|S_IWUSR)
-+
- /*
-  * On success, caller must release buffer returned in @data by calling free(3)
-  */
--static bool tlshd_config_read_datum(const char *pathname, gnutls_datum_t *data)
-+static bool tlshd_config_read_datum(const char *pathname, gnutls_datum_t *data,
-+				    uid_t owner, mode_t mode)
- {
- 	struct stat statbuf;
- 	void *buf;
-@@ -137,21 +145,27 @@ static bool tlshd_config_read_datum(const char *pathname, gnutls_datum_t *data)
+ #include <gnutls/gnutls.h>
+ #include <gnutls/abstract.h>
+@@ -45,6 +46,30 @@
+ static unsigned int tlshd_num_remote_peerids;
+ static key_serial_t tlshd_remote_peerid[10];
  
- 	fd = tlshd_file_open(pathname);
- 	if (fd == -1) {
--		tlshd_log_perror("Failed to open file");
-+		tlshd_log_perror("open");
- 		goto out;
- 	}
- 	if (fstat(fd, &statbuf)) {
--		tlshd_log_perror("Failed to stat file");
-+		tlshd_log_perror("stat");
- 		goto out_close;
- 	}
-+	if (statbuf.st_uid != owner)
-+		tlshd_log_notice("File %s: expected owner %u",
-+				 pathname, owner);
-+	if ((statbuf.st_mode & ALLPERMS) != mode)
-+		tlshd_log_notice("File %s: expected mode %o",
-+				 pathname, mode);
- 	buf = malloc(statbuf.st_size);
- 	if (!buf) {
- 		errno = ENOMEM;
--		tlshd_log_perror("Failed to allocate buffer");
-+		tlshd_log_perror("malloc");
- 		goto out_close;
- 	}
- 	if (read(fd, buf, statbuf.st_size) == -1) {
--		tlshd_log_perror("Failed to read file");
-+		tlshd_log_perror("read");
- 		free(buf);
- 		goto out_close;
- 	}
-@@ -188,7 +202,8 @@ bool tlshd_config_get_client_cert(gnutls_pcert_st *cert)
- 		return false;
- 	}
- 
--	if (!tlshd_config_read_datum(pathname, &data))
-+	if (!tlshd_config_read_datum(pathname, &data, TLSHD_OWNER,
-+				     TLSHD_CERT_MODE))
- 		return false;
- 
- 	/* Config file supports only PEM-encoded certificates */
-@@ -227,7 +242,8 @@ bool tlshd_config_get_client_privkey(gnutls_privkey_t *privkey)
- 		return false;
- 	}
- 
--	if (!tlshd_config_read_datum(pathname, &data))
-+	if (!tlshd_config_read_datum(pathname, &data, TLSHD_OWNER,
-+				     TLSHD_PRIVKEY_MODE))
- 		return false;
- 
- 	ret = gnutls_privkey_init(privkey);
-@@ -273,7 +289,8 @@ bool tlshd_config_get_server_cert(gnutls_pcert_st *cert)
- 		return false;
- 	}
- 
--	if (!tlshd_config_read_datum(pathname, &data))
-+	if (!tlshd_config_read_datum(pathname, &data, TLSHD_OWNER,
-+				     TLSHD_CERT_MODE))
- 		return false;
- 
- 	/* Config file supports only PEM-encoded certificates */
-@@ -312,7 +329,8 @@ bool tlshd_config_get_server_privkey(gnutls_privkey_t *privkey)
- 		return false;
- 	}
- 
--	if (!tlshd_config_read_datum(pathname, &data))
-+	if (!tlshd_config_read_datum(pathname, &data, TLSHD_OWNER,
-+				     TLSHD_PRIVKEY_MODE))
- 		return false;
- 
- 	ret = gnutls_privkey_init(privkey);
-diff --git a/src/tlshd/log.c b/src/tlshd/log.c
-index 01e248660607..3594d529ad74 100644
---- a/src/tlshd/log.c
-+++ b/src/tlshd/log.c
-@@ -112,6 +112,20 @@ void tlshd_log_error(const char *fmt, ...)
- 	va_end(args);
- }
- 
-+/**
-+ * tlshd_log_notice - Emit a generic warning
-+ * @fmt - printf-style format string
-+ *
-+ */
-+void tlshd_log_notice(const char *fmt, ...)
++static void tlshd_client_set_sni_hostname(gnutls_session_t session)
 +{
-+	va_list args;
++	char buf[NI_MAXHOST];
++	size_t len = sizeof(buf);
++	int ret;
 +
-+	va_start(args, fmt);
-+	vsyslog(LOG_NOTICE, fmt, args);
-+	va_end(args);
++	if (!tlshd_config_get_sni_hostname(buf, &len)) {
++		ret = gethostname(buf, len);
++		if (ret < 0) {
++			tlshd_log_perror("gethostname");
++			return;
++		}
++		len = strlen(buf);
++	}
++
++	ret = gnutls_server_name_set(session, GNUTLS_NAME_DNS, buf, len);
++	if (ret != GNUTLS_E_SUCCESS) {
++		tlshd_log_gnutls_error(ret);
++		return;
++	}
++
++	tlshd_log_debug("Using SNI hostname: %s", buf);
 +}
 +
- /**
-  * tlshd_log_perror - Emit "system call failed" notification
-  * @sap: remote address to log
+ static void tlshd_client_anon_handshake(struct tlshd_handshake_parms *parms)
+ {
+ 	gnutls_certificate_credentials_t xcred;
+@@ -81,9 +106,7 @@ static void tlshd_client_anon_handshake(struct tlshd_handshake_parms *parms)
+ 	}
+ 	gnutls_transport_set_int(session, parms->sockfd);
+ 
+-	gnutls_server_name_set(session, GNUTLS_NAME_DNS,
+-			       parms->peername, strlen(parms->peername));
+-
++	tlshd_client_set_sni_hostname(session);
+ 	gnutls_credentials_set(session, GNUTLS_CRD_CERTIFICATE, xcred);
+ 
+ 	ret = gnutls_set_default_priority(session);
+@@ -277,8 +300,7 @@ static void tlshd_client_x509_handshake(struct tlshd_handshake_parms *parms)
+ 	}
+ 	gnutls_transport_set_int(session, parms->sockfd);
+ 
+-	gnutls_server_name_set(session, GNUTLS_NAME_DNS,
+-			       parms->peername, strlen(parms->peername));
++	tlshd_client_set_sni_hostname(session);
+ 	gnutls_credentials_set(session, GNUTLS_CRD_CERTIFICATE, xcred);
+ 	gnutls_certificate_set_verify_function(xcred,
+ 					       tlshd_client_x509_verify_function);
+diff --git a/src/tlshd/config.c b/src/tlshd/config.c
+index 464635ed56e0..cbc522927088 100644
+--- a/src/tlshd/config.c
++++ b/src/tlshd/config.c
+@@ -352,3 +352,34 @@ bool tlshd_config_get_server_privkey(gnutls_privkey_t *privkey)
+ 	tlshd_log_debug("Retrieved private key from %s", pathname);
+ 	return true;
+ }
++
++/**
++ * tlshd_config_get_sni_hostname - Get the SNI hostname from .conf
++ * @hostname: buffer to contain hostname string
++ * @len: OUT: length of hostname string
++ *
++ * Return values:
++ *   %true: hostname retrieved successfully
++ *   %false: hostname not retrieved
++ */
++bool tlshd_config_get_sni_hostname(char *hostname, size_t *len)
++{
++	GError *error = NULL;
++	gchar *result;
++
++	result = g_key_file_get_string(tlshd_configuration, "authenticate.client",
++					"sni-hostname", &error);
++	if (!result) {
++		tlshd_log_gerror("Missing key", error);
++		g_error_free(error);
++		return false;
++	}
++	if (strlen(result) > *len - 1) {
++		tlshd_log_error("SNI hostname too large");
++		return false;
++	}
++
++	strcpy(hostname, result);
++	*len = strlen(result);
++	return true;
++}
+diff --git a/src/tlshd/tlshd.conf b/src/tlshd/tlshd.conf
+index 2f301dd6a42c..a16a96206c12 100644
+--- a/src/tlshd/tlshd.conf
++++ b/src/tlshd/tlshd.conf
+@@ -30,6 +30,7 @@ nl_debug=0
+ [authenticate.client]
+ #x509.certificate= <pathname>
+ #x509.private_key= <pathname>
++#sni-hostname= <client hostname>
+ 
+ [authenticate.server]
+ #x509.certificate= <pathname>
+diff --git a/src/tlshd/tlshd.conf.man b/src/tlshd/tlshd.conf.man
+index 2fb361845950..bae689e2a387 100644
+--- a/src/tlshd/tlshd.conf.man
++++ b/src/tlshd/tlshd.conf.man
+@@ -80,8 +80,35 @@ The
+ section specifies default authentication material when establishing
+ TLS sessions.
+ There are two subsections:
+-.IR [client] and [server] .
+-In each of these subsections, there are two available options:
++.I [client]
++and
++.IR [server] .
++.P
++In the
++.I [client]
++subsection, there are three available options:
++.TP
++.B x509.certificate
++This option specifies the pathname of a file containing
++a PEM-encoded x.509 certificate that is to be presented during
++a ClientHello request when no other certificate is available.
++.TP
++.B x509.private_key
++This option specifies the pathname of a file containing
++a PEM-encoded private key associated with the above certificate.
++.TP
++.B sni-hostname
++This option specifies the hostname to present in the ClientHello
++Server Name Indication extension.
++If not provided, the default is to use the result of the
++.BR gethostname (3)
++library call.
++The SNI hostname should match one of the SubjectNames in the
++client's x.509 certificate.
++.P
++In the
++.I [server]
++subsection, there are two available options:
+ .TP
+ .B x509.certificate
+ This option specifies the pathname of a file containing
 diff --git a/src/tlshd/tlshd.h b/src/tlshd/tlshd.h
-index f598beeb65fd..d8cb3c4b4baa 100644
+index d8cb3c4b4baa..9b7bd522bc12 100644
 --- a/src/tlshd/tlshd.h
 +++ b/src/tlshd/tlshd.h
-@@ -87,6 +87,7 @@ extern void tlshd_log_failure(const char *hostname,
- 			      const struct sockaddr *sap, socklen_t salen);
+@@ -54,6 +54,7 @@ bool tlshd_config_get_client_cert(gnutls_pcert_st *cert);
+ bool tlshd_config_get_client_privkey(gnutls_privkey_t *privkey);
+ bool tlshd_config_get_server_cert(gnutls_pcert_st *cert);
+ bool tlshd_config_get_server_privkey(gnutls_privkey_t *privkey);
++bool tlshd_config_get_sni_hostname(char *hostname, size_t *len);
  
- extern void tlshd_log_debug(const char *fmt, ...);
-+extern void tlshd_log_notice(const char *fmt, ...);
- extern void tlshd_log_error(const char *fmt, ...);
- extern void tlshd_log_perror(const char *prefix);
- extern void tlshd_log_gai_error(int error);
+ /* handshake.c */
+ extern void tlshd_start_tls_handshake(gnutls_session_t session,
 
 

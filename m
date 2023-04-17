@@ -1,33 +1,33 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0118460
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 15:10:24 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3f16f792384so3149565e9.0
-        for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 08:10:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0960E8460
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 15:12:27 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-2f4130b898cso251162f8f.0
+        for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 08:12:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681744222; x=1684336222;
+        d=1e100.net; s=20221208; t=1681744346; x=1684336346;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TqlkhVbab+EjQ6gUsAOVQyNn+g6U3XFNNKE9iP//FAc=;
-        b=EWE1WZPKKUstYgti57e0QlDK6xcZqpUwL7TjPdez7vFo3oiBEMrayz9krm10WM7WWA
-         Z5S7tkSHPqhUgI3VIwFB9sz4n5pNfzRGtgPM6ZY3+0YsD+/bMwCP8MabUtIOSgiatSgj
-         Yt7izf7GZxb8HbWt6aR7lwWRoALL4OBPK5pXgE7DkOxkCZMBREbSPpnUrj2ydETurj0f
-         1MCXnPvCme/newvLTonOv38nPhAMm2lMVarNCE7NQ6q7RETcs4GKI/ypCcbtMhm4jV46
-         ScEcz3VouO0XOc0nwhe6ankLRx6Wyiya+3h6D2KpuYNOOYX2cPvanAH/SA9MynJ7mNP9
-         QWAg==
-X-Gm-Message-State: AAQBX9eMsWf8VLYldbEj1/+S0QeeiHkXqB93GtHlso3YOJb6Z3gVhfeP
-	tch+PS50JGgV+dRoyFISjcY=
-X-Google-Smtp-Source: AKy350bS1RdQSAJcWSf6GDd+f2TwRNo1jDZJcMYugxATqOBRJKk038NTj7YhzNZivac70zjR80eX+A==
-X-Received: by 2002:a05:600c:6025:b0:3f1:75a5:a369 with SMTP id az37-20020a05600c602500b003f175a5a369mr1499695wmb.3.1681744222332;
-        Mon, 17 Apr 2023 08:10:22 -0700 (PDT)
+        bh=c6i2IHb1dRf7Rq/h4Um0rVFJJU1I8nzPe8J3nLS/Xqo=;
+        b=bkgcCZkOhS9RkTffshLEfB3jToNbC6KRIXFayzArumxJ/r5BchI34c5kvGgIuwFgUB
+         jj/y2BL0FjNJXXGDM8K8A7Suli46I9cIc9iG7XqdKkl2hPdMc1UDaDCcyRzy3dpuRv3n
+         +bVAffHTyxbnaiQwzRGL+8e/o0soCb1KBIS1+0GkwznFuoY7cExqMcqWxkbDMv8Ojfqw
+         msYSBR7VDZ2LQ8m0YESjRXGp8Iww/Z7UYBC8BkUmLcE39OtGd7urTDGMgqxyUuVualp4
+         X8xf6UnK2CQUjFkY5WFgeIL7/qzXoWfflmK2dLTxoKWseL7TxR9/4l0sP1cFqK4yI4wA
+         a+BA==
+X-Gm-Message-State: AAQBX9cWo6acC43MH/1/Nu8G1noF4hMj7dKthfq4bZw+EpFKUmykJrww
+	ojW04MdS6w2zAXWAQvIcowE=
+X-Google-Smtp-Source: AKy350Zh1bNuv0vK8gv2VsVaUsWBFWmiIL8HeoDHI0un6BTqvMSvfIyTag7My8SmTYNkjxhPeQm16Q==
+X-Received: by 2002:a5d:6281:0:b0:2ef:9699:f906 with SMTP id k1-20020a5d6281000000b002ef9699f906mr7272926wru.7.1681744345931;
+        Mon, 17 Apr 2023 08:12:25 -0700 (PDT)
 Received: from [192.168.64.192] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id c7-20020a05600c0a4700b003ef4cd057f5sm16192594wmq.4.2023.04.17.08.10.21
+        by smtp.gmail.com with ESMTPSA id q21-20020a05600c46d500b003f03d483966sm16158530wmo.44.2023.04.17.08.12.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Apr 2023 08:10:22 -0700 (PDT)
-Message-ID: <36976756-b4c5-f2a5-34b8-e9731a49c477@grimberg.me>
-Date: Mon, 17 Apr 2023 18:10:20 +0300
+        Mon, 17 Apr 2023 08:12:25 -0700 (PDT)
+Message-ID: <57d53899-8695-2bf2-b6aa-0389ad82c7ea@grimberg.me>
+Date: Mon, 17 Apr 2023 18:12:24 +0300
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -36,33 +36,63 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH 08/18] nvme-tcp: do not set MSG_SENDPAGE_NOTLAST
+Subject: Re: [PATCH 18/18] nvmet-tcp: add configfs attribute 'param_keyring'
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Jakub Kicinski <kuba@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
- kernel-tls-handshake@lists.linux.dev
-References: <20230417130302.86274-1-hare@suse.de>
- <20230417130302.86274-9-hare@suse.de>
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>
+Cc: Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org,
+ Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
+References: <20230329135938.46905-1-hare@suse.de>
+ <20230329135938.46905-19-hare@suse.de>
+ <60ff89b4-5d63-a6db-18b1-e0f28055c5d9@grimberg.me>
+ <c7e895f1-1c95-f658-f7a1-c4cee5cf8c91@suse.de>
+ <1b018791-9aa3-b988-7045-40b46bc50989@grimberg.me>
+ <02e4f6eb-32c2-8f3c-872f-831e70da6166@suse.de>
+ <ffb33351-e26b-470e-9849-e195d9b05b52@grimberg.me>
+ <1b9a7d09-1af6-564a-18db-2a73f27435cd@suse.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20230417130302.86274-9-hare@suse.de>
+In-Reply-To: <1b9a7d09-1af6-564a-18db-2a73f27435cd@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-nak from me.
 
-> MSG_SENDPAGE_NOTLAST was introduced with commit 35f9c09fe9c7
-> ("tcp: tcp_sendpages() should call tcp_push() once") to fix issues
-> with the ->sendfile() call, and the implication seems to be that
-> the flag should be strictly internal to sendfile.
+>>>>>>> Add a configfs attribute to list and change the default keyring.
+>>>>>>
+>>>>>> is the keyring an attribute of a port? or a subsystem? Why the choice
+>>>>>> of making it per port?
+>>>>>>
+>>>>> As per discussion at fmds each port might want to use different 
+>>>>> credentials.
+>>>>> We can move it to subsystems if we decide we don't want to support 
+>>>>> that use-case.
+>>>>
+>>>> I think we should move it to the subsystem in Linux.
+>>>>
+>>> Easier said than done.
+>>>
+>>> We can only fetch the subsystem once we have the NQN, which we will
+>>> know after the connect command.
+>>> But out of necessity the connect command will only be transferred
+>>> after TLS handshake completed, so there is not subsystem NQN allowing
+>>> us to figure out the correct subsystem.
+>>>
+>>> So we'll have to keep it at the port level, I'm afraid.
+>>
+>> Question, why does nvmet needs to support user defined keyrings?
+>> I understood your argument for the host, but why should the target
+>> support it?
+> 
+> Hmm. Originally I implemented it to be similar to the host 
+> configuration, but from the implementation we don't _actually_ need it 
+> as we select the key from the entire key store.
 
-no, the use case was to allow sendpage consumers to build larger
-tso packets for large payloads (splice being the primary one), nvme-tcp
-also benefits from it (as do others), just like sendfile.
+Thanks for confirming.
 
-> Hence we shouldn't be setting it on nvme-tcp, and anyway doing
-> so will cause TLS sending invalid data.
+> Having it is just a nice way of avoiding having to have a daemon 
+> configuration.
 
-That is something else. I don't recall the full details on the
-discussion with Jakub, but it was not my intention to strike
-it altogether, just remove it if !sendpage_ok.
+I'm sorry, but I don't understand this statement. Can you clarify?
+
+> So if you insist we can drop it for the initial implementation.
+
+If there is a use-case, we can add it. But I'm trying to understand what
+is it.

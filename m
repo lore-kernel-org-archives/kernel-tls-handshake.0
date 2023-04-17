@@ -1,26 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3F38460
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 14:35:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DDE8C433D2
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 14:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287628460
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 14:35:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA8FDC433D2
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 14:35:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1681742105;
-	bh=kZQUKO3RIAjBr+dAPNqHqoICOefkU9rZh5884kUPYG0=;
+	s=k20201202; t=1681742111;
+	bh=cpKK8kgU7c76lgflzwQcqlAufdIeJbQbFEXPI83L0QE=;
 	h=Subject:From:To:Date:In-Reply-To:References:From;
-	b=ON3MIDy7zEab007dacsGKqdXB+tDQywSP7gdeLQFKY50re1uFncwaAJ7jiuk441Ug
-	 TpHfnaVpNMbxRFCR/2KcT+MljIZtoMPX9NHmoqAnZEoTZk9kQZK1JWfbRMLdqRkluw
-	 6mxjBE/FfTJnS3dbopfKUKHIDNHgpP5n4dRgjTB1rc7EY6NdaHVde2lozTV8lT9PAf
-	 ivEQwIwgJNg+ZSVIrJmHGnliG6lbKeLJrcBXDRaj14CrQAC4gXFEAljvHcsCnv2HKe
-	 wtNg+Vsxy5W2Qb1mbMThUbB5w0LZ88mzBtAKR05Ipg1m1oKkpJeK/i39sdUF5sfo8e
-	 l9NMEAXsnwUZQ==
-Subject: [PATCH RFC 2/5] tlshd: Fix client's use of Server Name Indication
+	b=BnLbgarK23JiV0AIisrMMYjbb6wBgnp3l2g+vaWasv1fafu2B2gzeg3KGCS9oWXcL
+	 UYpu9Y+XlkPMnMtp0Ur7lNh6a3p7f5vN8qht4ioUPwFkz05FROiSaIG//yvICPc/8L
+	 cM93EMxvXePm0wyVTW+PepaDQSAwTVNMc085Zd1cn/YyPf9g8v2NitZr37FWN0+3TA
+	 36TWQZJ0rusokIk8jlNiNELelqDOaN38ZNqQJUQVSuLyV2dKWweLee05a7B0DPHq+M
+	 2tyS4po4pxhxXYlI7Aa1yvtsbb9EE2SioHxRaAaGs6g5PV5/C2HyE3hFsSdMgANE0P
+	 9rUvr05KXLV/Q==
+Subject: [PATCH RFC 3/5] tlshd: Pass tlshd_parameters to the verification
+ functions
 From: Chuck Lever <cel@kernel.org>
 To: kernel-tls-handshake@lists.linux.dev
-Date: Mon, 17 Apr 2023 10:35:04 -0400
+Date: Mon, 17 Apr 2023 10:35:10 -0400
 Message-ID: 
- <168174210447.9615.8149321939211810293.stgit@91.116.238.104.host.secureserver.net>
+ <168174211085.9615.16504385081012512858.stgit@91.116.238.104.host.secureserver.net>
 In-Reply-To: 
  <168174201703.9615.15054227659982658294.stgit@91.116.238.104.host.secureserver.net>
 References: 
@@ -37,196 +38,271 @@ Content-Transfer-Encoding: 7bit
 
 From: Chuck Lever <chuck.lever@oracle.com>
 
-The man page says gnutls_server_name_set(3) is used to send the
-local hostname to the remote peer as part of ClientHello. It appears
-that tlshd is incorrectly sending the remote's hostname instead.
+I misunderstood the gnutls_session_get_ptr(3) API, possibly because
+many code examples I've audited (ab)use it without context or
+explanation.
 
-To ensure that an appropriate hostname is used, enable the client's
-admin to set the client's hostname in /etc/tlshd.conf. If one isn't
-set there, the result of gethostname(3) is used instead. The SNI
-hostname needs to match one of the Subject names in the provided
-client certificate.
+When used it properly, the full set of handshake parameters can be
+passed into the verification functions so the global variables can
+be replaced.
 
-I'll note that RFC 9289 should RECOMMEND or REQUIRE the use of SNI,
-but it currently does not.
+Note that, because tlshd never called gnutls_session_set_ptr(3),
+@hostname was always set to NULL. That means tlshd in ktls-utils-0.8
+always skipped the hostname part of certificate verification.
+
+The peername returned by DNS is fairly likely not to match the
+SubjectName in the certificate in many circumstances. To prevent
+breakage, we'll pass NULL explicitly to
+gnutls_certificate_verify_peers3() for the moment until we can get a
+real non-DNS-based hostname for certificate verification.
 
 Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 ---
- src/tlshd/client.c       |   32 +++++++++++++++++++++++++++-----
- src/tlshd/config.c       |   31 +++++++++++++++++++++++++++++++
- src/tlshd/tlshd.conf     |    1 +
- src/tlshd/tlshd.conf.man |   31 +++++++++++++++++++++++++++++--
- src/tlshd/tlshd.h        |    1 +
- 5 files changed, 89 insertions(+), 7 deletions(-)
+ src/tlshd/client.c |   37 ++++++++++++++++---------------------
+ src/tlshd/server.c |   40 ++++++++++++++++++++--------------------
+ src/tlshd/tlshd.h  |    2 +-
+ 3 files changed, 37 insertions(+), 42 deletions(-)
 
 diff --git a/src/tlshd/client.c b/src/tlshd/client.c
-index f40e19882827..46a973f4393c 100644
+index 46a973f4393c..1a9916d763c5 100644
 --- a/src/tlshd/client.c
 +++ b/src/tlshd/client.c
-@@ -31,6 +31,7 @@
- #include <stdio.h>
- #include <errno.h>
- #include <keyutils.h>
-+#include <netdb.h>
+@@ -43,9 +43,6 @@
+ #include "tlshd.h"
+ #include "netlink.h"
  
- #include <gnutls/gnutls.h>
- #include <gnutls/abstract.h>
-@@ -45,6 +46,30 @@
- static unsigned int tlshd_num_remote_peerids;
- static key_serial_t tlshd_remote_peerid[10];
- 
-+static void tlshd_client_set_sni_hostname(gnutls_session_t session)
-+{
-+	char buf[NI_MAXHOST];
-+	size_t len = sizeof(buf);
-+	int ret;
-+
-+	if (!tlshd_config_get_sni_hostname(buf, &len)) {
-+		ret = gethostname(buf, len);
-+		if (ret < 0) {
-+			tlshd_log_perror("gethostname");
-+			return;
-+		}
-+		len = strlen(buf);
-+	}
-+
-+	ret = gnutls_server_name_set(session, GNUTLS_NAME_DNS, buf, len);
-+	if (ret != GNUTLS_E_SUCCESS) {
-+		tlshd_log_gnutls_error(ret);
-+		return;
-+	}
-+
-+	tlshd_log_debug("Using SNI hostname: %s", buf);
-+}
-+
- static void tlshd_client_anon_handshake(struct tlshd_handshake_parms *parms)
- {
- 	gnutls_certificate_credentials_t xcred;
-@@ -81,9 +106,7 @@ static void tlshd_client_anon_handshake(struct tlshd_handshake_parms *parms)
- 	}
- 	gnutls_transport_set_int(session, parms->sockfd);
- 
--	gnutls_server_name_set(session, GNUTLS_NAME_DNS,
--			       parms->peername, strlen(parms->peername));
+-static unsigned int tlshd_num_remote_peerids;
+-static key_serial_t tlshd_remote_peerid[10];
 -
-+	tlshd_client_set_sni_hostname(session);
- 	gnutls_credentials_set(session, GNUTLS_CRD_CERTIFICATE, xcred);
+ static void tlshd_client_set_sni_hostname(gnutls_session_t session)
+ {
+ 	char buf[NI_MAXHOST];
+@@ -215,15 +212,15 @@ tlshd_x509_retrieve_key_cb(gnutls_session_t session,
+  */
+ static int tlshd_client_x509_verify_function(gnutls_session_t session)
+ {
++	struct tlshd_handshake_parms *parms;
+ 	const gnutls_datum_t *peercerts;
+ 	unsigned int i, status;
+-	const char *hostname;
+ 	gnutls_datum_t out;
+ 	int type, ret;
  
- 	ret = gnutls_set_default_priority(session);
-@@ -277,8 +300,7 @@ static void tlshd_client_x509_handshake(struct tlshd_handshake_parms *parms)
+-	hostname = gnutls_session_get_ptr(session);
++	parms = gnutls_session_get_ptr(session);
+ 
+-	ret = gnutls_certificate_verify_peers3(session, hostname, &status);
++	ret = gnutls_certificate_verify_peers3(session, NULL, &status);
+ 	if (ret != GNUTLS_E_SUCCESS) {
+ 		tlshd_log_gnutls_error(ret);
+ 		return GNUTLS_E_CERTIFICATE_ERROR;
+@@ -242,23 +239,24 @@ static int tlshd_client_x509_verify_function(gnutls_session_t session)
+ 	 * via a netlink attribute. */
+ 
+ 	peercerts = gnutls_certificate_get_peers(session,
+-						 &tlshd_num_remote_peerids);
+-	if (!peercerts || tlshd_num_remote_peerids == 0) {
++						 &parms->num_remote_peerids);
++	if (!peercerts || parms->num_remote_peerids == 0) {
+ 		tlshd_log_debug("The peer cert list is empty.\n");
+                 return GNUTLS_E_CERTIFICATE_ERROR;
+ 	}
+ 
+-	tlshd_log_debug("The peer offered %d certificate(s).\n",
+-			tlshd_num_remote_peerids);
++	tlshd_log_debug("The peer offered %u certificate(s).\n",
++			parms->num_remote_peerids);
+ 
+-	if (tlshd_num_remote_peerids > ARRAY_SIZE(tlshd_remote_peerid))
+-		tlshd_num_remote_peerids = ARRAY_SIZE(tlshd_remote_peerid);
+-	for (i = 0; i < tlshd_num_remote_peerids; i++) {
++	if (parms->num_remote_peerids > ARRAY_SIZE(parms->remote_peerid))
++		parms->num_remote_peerids = ARRAY_SIZE(parms->remote_peerid);
++	for (i = 0; i < parms->num_remote_peerids; i++) {
+ 		gnutls_x509_crt_t cert;
+ 
+ 		gnutls_x509_crt_init(&cert);
+ 		gnutls_x509_crt_import(cert, &peercerts[i], GNUTLS_X509_FMT_DER);
+-		tlshd_remote_peerid[i] = tlshd_keyring_create_cert(cert, hostname);
++		parms->remote_peerid[i] =
++			tlshd_keyring_create_cert(cert, parms->peername);
+ 		gnutls_x509_crt_deinit(cert);
+ 	}
+ 
+@@ -299,12 +297,12 @@ static void tlshd_client_x509_handshake(struct tlshd_handshake_parms *parms)
+ 		goto out_free_creds;
  	}
  	gnutls_transport_set_int(session, parms->sockfd);
++	gnutls_session_set_ptr(session, parms);
  
--	gnutls_server_name_set(session, GNUTLS_NAME_DNS,
--			       parms->peername, strlen(parms->peername));
-+	tlshd_client_set_sni_hostname(session);
+ 	tlshd_client_set_sni_hostname(session);
  	gnutls_credentials_set(session, GNUTLS_CRD_CERTIFICATE, xcred);
  	gnutls_certificate_set_verify_function(xcred,
  					       tlshd_client_x509_verify_function);
-diff --git a/src/tlshd/config.c b/src/tlshd/config.c
-index 464635ed56e0..cbc522927088 100644
---- a/src/tlshd/config.c
-+++ b/src/tlshd/config.c
-@@ -352,3 +352,34 @@ bool tlshd_config_get_server_privkey(gnutls_privkey_t *privkey)
- 	tlshd_log_debug("Retrieved private key from %s", pathname);
- 	return true;
- }
-+
-+/**
-+ * tlshd_config_get_sni_hostname - Get the SNI hostname from .conf
-+ * @hostname: buffer to contain hostname string
-+ * @len: OUT: length of hostname string
-+ *
-+ * Return values:
-+ *   %true: hostname retrieved successfully
-+ *   %false: hostname not retrieved
-+ */
-+bool tlshd_config_get_sni_hostname(char *hostname, size_t *len)
-+{
-+	GError *error = NULL;
-+	gchar *result;
-+
-+	result = g_key_file_get_string(tlshd_configuration, "authenticate.client",
-+					"sni-hostname", &error);
-+	if (!result) {
-+		tlshd_log_gerror("Missing key", error);
-+		g_error_free(error);
-+		return false;
-+	}
-+	if (strlen(result) > *len - 1) {
-+		tlshd_log_error("SNI hostname too large");
-+		return false;
-+	}
-+
-+	strcpy(hostname, result);
-+	*len = strlen(result);
-+	return true;
-+}
-diff --git a/src/tlshd/tlshd.conf b/src/tlshd/tlshd.conf
-index 2f301dd6a42c..a16a96206c12 100644
---- a/src/tlshd/tlshd.conf
-+++ b/src/tlshd/tlshd.conf
-@@ -30,6 +30,7 @@ nl_debug=0
- [authenticate.client]
- #x509.certificate= <pathname>
- #x509.private_key= <pathname>
-+#sni-hostname= <client hostname>
+-	gnutls_session_set_verify_cert(session, parms->peername, 0);
  
- [authenticate.server]
- #x509.certificate= <pathname>
-diff --git a/src/tlshd/tlshd.conf.man b/src/tlshd/tlshd.conf.man
-index 2fb361845950..bae689e2a387 100644
---- a/src/tlshd/tlshd.conf.man
-+++ b/src/tlshd/tlshd.conf.man
-@@ -80,8 +80,35 @@ The
- section specifies default authentication material when establishing
- TLS sessions.
- There are two subsections:
--.IR [client] and [server] .
--In each of these subsections, there are two available options:
-+.I [client]
-+and
-+.IR [server] .
-+.P
-+In the
-+.I [client]
-+subsection, there are three available options:
-+.TP
-+.B x509.certificate
-+This option specifies the pathname of a file containing
-+a PEM-encoded x.509 certificate that is to be presented during
-+a ClientHello request when no other certificate is available.
-+.TP
-+.B x509.private_key
-+This option specifies the pathname of a file containing
-+a PEM-encoded private key associated with the above certificate.
-+.TP
-+.B sni-hostname
-+This option specifies the hostname to present in the ClientHello
-+Server Name Indication extension.
-+If not provided, the default is to use the result of the
-+.BR gethostname (3)
-+library call.
-+The SNI hostname should match one of the SubjectNames in the
-+client's x.509 certificate.
-+.P
-+In the
-+.I [server]
-+subsection, there are two available options:
- .TP
- .B x509.certificate
- This option specifies the pathname of a file containing
+ 	tlshd_start_tls_handshake(session, parms);
+ 
+@@ -356,14 +354,15 @@ static void tlshd_client_psk_handshake_one(struct tlshd_handshake_parms *parms,
+ 		goto out_free_creds;
+ 	}
+ 	gnutls_transport_set_int(session, parms->sockfd);
++	gnutls_session_set_ptr(session, parms);
+ 	gnutls_credentials_set(session, GNUTLS_CRD_PSK, psk_cred);
+ 
+ 	tlshd_log_debug("start ClientHello handshake");
+ 	tlshd_start_tls_handshake(session, parms);
+ 	if (!parms->session_status) {
+ 		/* PSK uses the same identity for both client and server */
+-		tlshd_remote_peerid[0] = peerid;
+-		tlshd_num_remote_peerids = 1;
++		parms->num_remote_peerids = 1;
++		parms->remote_peerid[0] = peerid;
+ 	}
+ 
+ 	gnutls_deinit(session);
+@@ -429,10 +428,6 @@ void tlshd_clienthello_handshake(struct tlshd_handshake_parms *parms)
+ 		tlshd_log_debug("Unrecognized auth mode (%d)",
+ 				parms->auth_mode);
+ 	}
+-	if (tlshd_num_remote_peerids) {
+-		parms->num_remote_peerids = tlshd_num_remote_peerids;
+-		parms->remote_peerid = tlshd_remote_peerid;
+-	}
+ 
+ 	gnutls_global_deinit();
+ }
+diff --git a/src/tlshd/server.c b/src/tlshd/server.c
+index 267856f968ce..3e2cd6379b8d 100644
+--- a/src/tlshd/server.c
++++ b/src/tlshd/server.c
+@@ -43,8 +43,6 @@
+ 
+ static gnutls_privkey_t tlshd_server_privkey;
+ static gnutls_pcert_st tlshd_server_cert;
+-static unsigned int tlshd_num_remote_peerids;
+-static key_serial_t tlshd_remote_peerid[10];
+ 
+ /*
+  * XXX: After this point, tlshd_server_cert should be deinited on error.
+@@ -133,15 +131,15 @@ tlshd_x509_retrieve_key_cb(gnutls_session_t session,
+  */
+ static int tlshd_server_x509_verify_function(gnutls_session_t session)
+ {
++	struct tlshd_handshake_parms *parms;
+ 	const gnutls_datum_t *peercerts;
+ 	unsigned int i, status;
+-	const char *hostname;
+ 	gnutls_datum_t out;
+ 	int type, ret;
+ 
+-	hostname = gnutls_session_get_ptr(session);
++	parms = gnutls_session_get_ptr(session);
+ 
+-	ret = gnutls_certificate_verify_peers3(session, hostname, &status);
++	ret = gnutls_certificate_verify_peers3(session, NULL, &status);
+ 	switch (ret) {
+ 	case GNUTLS_E_SUCCESS:
+ 		break;
+@@ -166,23 +164,24 @@ static int tlshd_server_x509_verify_function(gnutls_session_t session)
+ 	 * via a netlink attribute. */
+ 
+ 	peercerts = gnutls_certificate_get_peers(session,
+-						 &tlshd_num_remote_peerids);
+-	if (!peercerts || tlshd_num_remote_peerids == 0) {
++						 &parms->num_remote_peerids);
++	if (!peercerts || parms->num_remote_peerids == 0) {
+ 		tlshd_log_debug("The peer cert list is empty.\n");
+                 return GNUTLS_E_CERTIFICATE_ERROR;
+ 	}
+ 
+-	tlshd_log_debug("The peer offered %d certificate(s).\n",
+-			tlshd_num_remote_peerids);
++	tlshd_log_debug("The peer offered %u certificate(s).\n",
++			parms->num_remote_peerids);
+ 
+-	if (tlshd_num_remote_peerids > ARRAY_SIZE(tlshd_remote_peerid))
+-		tlshd_num_remote_peerids= ARRAY_SIZE(tlshd_remote_peerid);
+-	for (i = 0; i < tlshd_num_remote_peerids; i++) {
++	if (parms->num_remote_peerids > ARRAY_SIZE(parms->remote_peerid))
++		parms->num_remote_peerids = ARRAY_SIZE(parms->remote_peerid);
++	for (i = 0; i < parms->num_remote_peerids; i++) {
+ 		gnutls_x509_crt_t cert;
+ 
+ 		gnutls_x509_crt_init(&cert);
+ 		gnutls_x509_crt_import(cert, &peercerts[i], GNUTLS_X509_FMT_DER);
+-		tlshd_remote_peerid[i] = tlshd_keyring_create_cert(cert, hostname);
++		parms->remote_peerid[i] =
++			tlshd_keyring_create_cert(cert, parms->peername);
+ 		gnutls_x509_crt_deinit(cert);
+ 	}
+ 
+@@ -223,6 +222,7 @@ static void tlshd_server_x509_handshake(struct tlshd_handshake_parms *parms)
+ 		goto out_free_creds;
+ 	}
+ 	gnutls_transport_set_int(session, parms->sockfd);
++	gnutls_session_set_ptr(session, parms);
+ 
+ 	gnutls_server_name_set(session, GNUTLS_NAME_DNS,
+ 			       parms->peername, strlen(parms->peername));
+@@ -252,11 +252,14 @@ out_free_creds:
+  *   %0: Matching key has been stored in @key
+  *   %-1: Error during lookup, @key is not updated
+  */
+-static int tlshd_server_psk_cb(__attribute__ ((unused))gnutls_session_t session,
++static int tlshd_server_psk_cb(gnutls_session_t session,
+ 			       const char *username, gnutls_datum_t *key)
+ {
++	struct tlshd_handshake_parms *parms;
+ 	key_serial_t psk;
+ 
++	parms = gnutls_session_get_ptr(session);
++
+ 	psk = keyctl_search(KEY_SPEC_SESSION_KEYRING, "psk", username, 0);
+ 	if (psk < 0) {
+ 		tlshd_log_error("failed to search key");
+@@ -267,8 +270,8 @@ static int tlshd_server_psk_cb(__attribute__ ((unused))gnutls_session_t session,
+ 		return -1;
+ 	}
+ 	/* PSK uses the same identity for both client and server */
+-	tlshd_remote_peerid[0] = psk;
+-	tlshd_num_remote_peerids = 1;
++	parms->remote_peerid[0] = psk;
++	parms->num_remote_peerids = 1;
+ 	return 0;
+ }
+ 
+@@ -293,6 +296,7 @@ static void tlshd_server_psk_handshake(struct tlshd_handshake_parms *parms)
+ 		goto out_free_creds;
+ 	}
+ 	gnutls_transport_set_int(session, parms->sockfd);
++	gnutls_session_set_ptr(session, parms);
+ 
+ 	gnutls_credentials_set(session, GNUTLS_CRD_PSK, psk_cred);
+ 
+@@ -337,10 +341,6 @@ void tlshd_serverhello_handshake(struct tlshd_handshake_parms *parms)
+ 		tlshd_log_debug("Unrecognized auth mode (%d)",
+ 				parms->auth_mode);
+ 	}
+-	if (tlshd_num_remote_peerids) {
+-		parms->num_remote_peerids = tlshd_num_remote_peerids;
+-		parms->remote_peerid = tlshd_remote_peerid;
+-	}
+ 
+ 	gnutls_global_deinit();
+ }
 diff --git a/src/tlshd/tlshd.h b/src/tlshd/tlshd.h
-index d8cb3c4b4baa..9b7bd522bc12 100644
+index 9b7bd522bc12..1c764787c28a 100644
 --- a/src/tlshd/tlshd.h
 +++ b/src/tlshd/tlshd.h
-@@ -54,6 +54,7 @@ bool tlshd_config_get_client_cert(gnutls_pcert_st *cert);
- bool tlshd_config_get_client_privkey(gnutls_privkey_t *privkey);
- bool tlshd_config_get_server_cert(gnutls_pcert_st *cert);
- bool tlshd_config_get_server_privkey(gnutls_privkey_t *privkey);
-+bool tlshd_config_get_sni_hostname(char *hostname, size_t *len);
+@@ -41,7 +41,7 @@ struct tlshd_handshake_parms {
+ 	unsigned int	session_status;
  
- /* handshake.c */
- extern void tlshd_start_tls_handshake(gnutls_session_t session,
+ 	unsigned int	num_remote_peerids;
+-	key_serial_t	*remote_peerid;
++	key_serial_t	remote_peerid[10];
+ };
+ 
+ /* client.c */
 
 

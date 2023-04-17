@@ -1,34 +1,34 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E595846C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A36846D
 	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 13:03:11 +0000 (UTC)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 6837A21A87;
+	by smtp-out1.suse.de (Postfix) with ESMTP id 7123E21A8A;
 	Mon, 17 Apr 2023 13:03:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1681736584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=R7ZqHcDZyVE9eXz3iC9L/7kP8HAqtk3cN9u0gFCafXY=;
-	b=JVlcmg1QK2ReceqwdX7YFiHB/0M6JcvVcraM3Q33YVAFFH7eVJ210aAjEiXW0T/SpYwR9B
-	IOqqRFEFIf/FkjRfwqwmvt8YlWXSdQ8IdhlgbPjaKRmKQ8YFkxfLYYAajU5dGQs+amK4aB
-	jhJ7LFH42STmLUlO8mvLOaTShdOEZc8=
+	bh=PU5AHOP28SHQUqOXAROKU8UDfy/03KUfrhMjwL3x5oo=;
+	b=NciwByJmJjhYcS4+2AXme5uLCw2yu5NISV4hjww3cAS9yDgsqz6blefxFYQmqwU560O5iP
+	uEK/etATUvYRvvRQSwrGlUszemgEOboaYq4UEHc0DyGf5rUOSwWCxy56DSTo+DYHGikCs5
+	RbPp+GOLesU8FubQ+PooIlDySqIl/+I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1681736584;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=R7ZqHcDZyVE9eXz3iC9L/7kP8HAqtk3cN9u0gFCafXY=;
-	b=cHQk10q6Z09IHfyHr8nm8rMjZ0GA0FUbSM1LqQDLBTdKb3YYe10zgsXF4cs5FGYp3vO3LZ
-	EOr1LqEezf0cNwDQ==
+	bh=PU5AHOP28SHQUqOXAROKU8UDfy/03KUfrhMjwL3x5oo=;
+	b=jS3jNqRMoveo1aZphswUn0OZan6n/PZAPrL6WzSwWeOt7T6Umv/Yq02qak3MlX6qhae0f9
+	LE1m1nyvqL63uiAw==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 57FDC2C161;
+	by relay2.suse.de (Postfix) with ESMTP id 608942C162;
 	Mon, 17 Apr 2023 13:03:04 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 5449851C25B8; Mon, 17 Apr 2023 15:03:04 +0200 (CEST)
+	id 5CDB151C25BA; Mon, 17 Apr 2023 15:03:04 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>,
@@ -37,9 +37,9 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	Chuck Lever <chuck.lever@oracle.com>,
 	kernel-tls-handshake@lists.linux.dev,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 15/18] nvmet-tcp: allocate socket file
-Date: Mon, 17 Apr 2023 15:02:59 +0200
-Message-Id: <20230417130302.86274-16-hare@suse.de>
+Subject: [PATCH 16/18] nvmet-tcp: enable TLS handshake upcall
+Date: Mon, 17 Apr 2023 15:03:00 +0200
+Message-Id: <20230417130302.86274-17-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230417130302.86274-1-hare@suse.de>
 References: <20230417130302.86274-1-hare@suse.de>
@@ -51,123 +51,373 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For the TLS upcall we need to allocate a socket file such
-that the userspace daemon is able to use the socket.
+Add functions to start the TLS handshake upcall when
+the TCP TSAS sectype is set to 'tls1.3' and add a config
+option NVME_TARGET_TCP_TLS.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/target/tcp.c | 36 +++++++++++++++++++++++-------------
- 1 file changed, 23 insertions(+), 13 deletions(-)
+ drivers/nvme/target/Kconfig    |  14 ++++
+ drivers/nvme/target/configfs.c |  63 ++++++++++++++++-
+ drivers/nvme/target/nvmet.h    |   1 +
+ drivers/nvme/target/tcp.c      | 126 ++++++++++++++++++++++++++++++++-
+ 4 files changed, 199 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
+index 79fc64035ee3..15af2b4341f6 100644
+--- a/drivers/nvme/target/Kconfig
++++ b/drivers/nvme/target/Kconfig
+@@ -84,6 +84,20 @@ config NVME_TARGET_TCP
+ 
+ 	  If unsure, say N.
+ 
++config NVME_TARGET_TCP_TLS
++	bool "NVMe over Fabrics TCP target TLS encryption support"
++	depends on NVME_TARGET_TCP
++	select NVME_COMMON
++	select NVME_KEYRING
++	select NET_HANDSHAKE
++	help
++	  Enables TLS encryption for the NVMe TCP target using the netlink handshake API.
++
++	  The TLS handshake daemon is availble at
++	  https://github.com/oracle/ktls-utils.
++
++	  If unsure, say N.
++
+ config NVME_TARGET_AUTH
+ 	bool "NVMe over Fabrics In-band Authentication support"
+ 	depends on NVME_TARGET
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 7f826ac8b75c..49b407702ad5 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -15,6 +15,7 @@
+ #ifdef CONFIG_NVME_TARGET_AUTH
+ #include <linux/nvme-auth.h>
+ #endif
++#include <linux/nvme-keyring.h>
+ #include <crypto/hash.h>
+ #include <crypto/kpp.h>
+ 
+@@ -159,10 +160,15 @@ static const struct nvmet_type_name_map nvmet_addr_treq[] = {
+ 	{ NVMF_TREQ_NOT_REQUIRED,	"not required" },
+ };
+ 
++static inline u8 nvmet_port_treq(struct nvmet_port *port)
++{
++	return (port->disc_addr.treq & NVME_TREQ_SECURE_CHANNEL_MASK);
++}
++
+ static ssize_t nvmet_addr_treq_show(struct config_item *item, char *page)
+ {
+-	u8 treq = to_nvmet_port(item)->disc_addr.treq &
+-		NVME_TREQ_SECURE_CHANNEL_MASK;
++	struct nvmet_port *port = to_nvmet_port(item);
++	u8 treq = nvmet_port_treq(port);
+ 	int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(nvmet_addr_treq); i++) {
+@@ -174,11 +180,16 @@ static ssize_t nvmet_addr_treq_show(struct config_item *item, char *page)
+ 	return snprintf(page, PAGE_SIZE, "\n");
+ }
+ 
++static inline u8 nvmet_port_treq_mask(struct nvmet_port *port)
++{
++	return (port->disc_addr.treq & ~NVME_TREQ_SECURE_CHANNEL_MASK);
++}
++
+ static ssize_t nvmet_addr_treq_store(struct config_item *item,
+ 		const char *page, size_t count)
+ {
+ 	struct nvmet_port *port = to_nvmet_port(item);
+-	u8 treq = port->disc_addr.treq & ~NVME_TREQ_SECURE_CHANNEL_MASK;
++	u8 treq = nvmet_port_treq_mask(port);
+ 	int i;
+ 
+ 	if (nvmet_is_port_enabled(port, __func__))
+@@ -193,6 +204,23 @@ static ssize_t nvmet_addr_treq_store(struct config_item *item,
+ 	return -EINVAL;
+ 
+ found:
++	if (port->disc_addr.trtype == NVMF_TRTYPE_TCP) {
++		if (!IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS)) {
++			pr_err("TLS is not supported\n");
++			return -EINVAL;
++		}
++		if (!port->keyring) {
++			pr_err("TLS keyring not configured\n");
++			return -EINVAL;
++		}
++		if (port->disc_addr.tsas.tcp.sectype != NVMF_TCP_SECTYPE_TLS13) {
++			pr_warn("cannot change TREQ when TLS is not enabled\n");
++			return -EINVAL;
++		} else if (nvmet_addr_treq[i].type == NVMF_TREQ_NOT_SPECIFIED) {
++			pr_warn("cannot set TREQ to 'not specified' when TLS is enabled\n");
++			return -EINVAL;
++		}
++	}
+ 	treq |= nvmet_addr_treq[i].type;
+ 	port->disc_addr.treq = treq;
+ 	return count;
+@@ -371,6 +399,7 @@ static ssize_t nvmet_addr_tsas_store(struct config_item *item,
+ 		const char *page, size_t count)
+ {
+ 	struct nvmet_port *port = to_nvmet_port(item);
++	u8 treq = nvmet_port_treq_mask(port);
+ 	int i;
+ 
+ 	if (nvmet_is_port_enabled(port, __func__))
+@@ -379,6 +408,15 @@ static ssize_t nvmet_addr_tsas_store(struct config_item *item,
+ 	if (port->disc_addr.trtype != NVMF_TRTYPE_TCP)
+ 		return -EINVAL;
+ 
++	if (!IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS)) {
++		pr_err("TLS is not supported\n");
++		return -EINVAL;
++	}
++	if (!port->keyring) {
++		pr_err("TLS keyring not configured\n");
++		return -EINVAL;
++	}
++
+ 	for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_tcp); i++) {
+ 		if (sysfs_streq(page, nvmet_addr_tsas_tcp[i].name))
+ 			goto found;
+@@ -389,6 +427,16 @@ static ssize_t nvmet_addr_tsas_store(struct config_item *item,
+ 
+ found:
+ 	nvmet_port_init_tsas_tcp(port, nvmet_addr_tsas_tcp[i].type);
++	if (nvmet_addr_tsas_tcp[i].type == NVMF_TCP_SECTYPE_TLS13) {
++		if (nvmet_port_treq(port) == NVMF_TREQ_NOT_SPECIFIED)
++			treq |= NVMF_TREQ_REQUIRED;
++		else
++			treq |= nvmet_port_treq(port);
++	} else {
++		/* Set to 'not specified' if TLS is not enabled */
++		treq |= NVMF_TREQ_NOT_SPECIFIED;
++	}
++	port->disc_addr.treq = treq;
+ 	return count;
+ }
+ 
+@@ -1795,6 +1843,7 @@ static void nvmet_port_release(struct config_item *item)
+ 	flush_workqueue(nvmet_wq);
+ 	list_del(&port->global_entry);
+ 
++	key_put(port->keyring);
+ 	kfree(port->ana_state);
+ 	kfree(port);
+ }
+@@ -1844,6 +1893,14 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
+ 		return ERR_PTR(-ENOMEM);
+ 	}
+ 
++	if (nvme_keyring_id()) {
++		port->keyring = key_lookup(nvme_keyring_id());
++		if (IS_ERR(port->keyring)) {
++			pr_warn("NVMe keyring not available, disabling TLS\n");
++			port->keyring = NULL;
++		}
++	}
++
+ 	for (i = 1; i <= NVMET_MAX_ANAGRPS; i++) {
+ 		if (i == NVMET_DEFAULT_ANA_GRPID)
+ 			port->ana_state[1] = NVME_ANA_OPTIMIZED;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index dc60a22646f7..a22f817f5935 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -158,6 +158,7 @@ struct nvmet_port {
+ 	struct config_group		ana_groups_group;
+ 	struct nvmet_ana_group		ana_default_group;
+ 	enum nvme_ana_state		*ana_state;
++	struct key			*keyring;
+ 	void				*priv;
+ 	bool				enabled;
+ 	int				inline_data_size;
 diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index ed98df72c76b..fc7a9fb56a83 100644
+index fc7a9fb56a83..ea853658430f 100644
 --- a/drivers/nvme/target/tcp.c
 +++ b/drivers/nvme/target/tcp.c
-@@ -122,6 +122,7 @@ struct nvmet_tcp_cmd {
+@@ -8,9 +8,12 @@
+ #include <linux/init.h>
+ #include <linux/slab.h>
+ #include <linux/err.h>
++#include <linux/key.h>
+ #include <linux/nvme-tcp.h>
++#include <linux/nvme-keyring.h>
+ #include <net/sock.h>
+ #include <net/tcp.h>
++#include <net/handshake.h>
+ #include <linux/inet.h>
+ #include <linux/llist.h>
+ #include <crypto/hash.h>
+@@ -66,6 +69,16 @@ device_param_cb(idle_poll_period_usecs, &set_param_ops,
+ MODULE_PARM_DESC(idle_poll_period_usecs,
+ 		"nvmet tcp io_work poll till idle time period in usecs: Default 0");
  
- enum nvmet_tcp_queue_state {
- 	NVMET_TCP_Q_CONNECTING,
-+	NVMET_TCP_Q_TLS_HANDSHAKE,
- 	NVMET_TCP_Q_LIVE,
- 	NVMET_TCP_Q_DISCONNECTING,
- };
-@@ -1481,12 +1482,12 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
- 	nvmet_sq_destroy(&queue->nvme_sq);
- 	cancel_work_sync(&queue->io_work);
- 	nvmet_tcp_free_cmd_data_in_buffers(queue);
--	sock_release(queue->sock);
-+	/* ->sock will be released by fput() */
-+	fput(queue->sock->file);
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
++/*
++ * TLS handshake timeout
++ */
++static int tls_handshake_timeout = 30;
++module_param(tls_handshake_timeout, int, 0644);
++MODULE_PARM_DESC(tls_handshake_timeout,
++		 "nvme TLS handshake timeout in seconds (default 30)");
++#endif
++
+ #define NVMET_TCP_RECV_BUDGET		8
+ #define NVMET_TCP_SEND_BUDGET		8
+ #define NVMET_TCP_IO_WORK_BUDGET	64
+@@ -155,6 +168,8 @@ struct nvmet_tcp_queue {
+ 	bool			data_digest;
+ 	struct ahash_request	*snd_hash;
+ 	struct ahash_request	*rcv_hash;
++	struct key		*tls_psk;
++	struct delayed_work	tls_handshake_work;
+ 
+ 	unsigned long           poll_end;
+ 
+@@ -1487,6 +1502,7 @@ static void nvmet_tcp_release_queue_work(struct work_struct *w)
  	nvmet_tcp_free_cmds(queue);
  	if (queue->hdr_digest || queue->data_digest)
  		nvmet_tcp_free_crypto(queue);
++	key_put(queue->tls_psk);
  	ida_free(&nvmet_tcp_queue_ida, queue->idx);
--
  	page = virt_to_head_page(queue->pf_cache.va);
  	__page_frag_cache_drain(page, queue->pf_cache.pagecnt_bias);
- 	kfree(queue);
-@@ -1609,15 +1610,16 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
+@@ -1501,8 +1517,12 @@ static void nvmet_tcp_data_ready(struct sock *sk)
+ 
+ 	read_lock_bh(&sk->sk_callback_lock);
+ 	queue = sk->sk_user_data;
+-	if (likely(queue))
+-		queue_work_on(queue_cpu(queue), nvmet_tcp_wq, &queue->io_work);
++	if (queue->data_ready)
++		queue->data_ready(sk);
++	if (likely(queue) &&
++	    queue->state != NVMET_TCP_Q_TLS_HANDSHAKE)
++		queue_work_on(queue_cpu(queue), nvmet_tcp_wq,
++			      &queue->io_work);
+ 	read_unlock_bh(&sk->sk_callback_lock);
+ }
+ 
+@@ -1610,6 +1630,89 @@ static int nvmet_tcp_set_queue_sock(struct nvmet_tcp_queue *queue)
  	return ret;
  }
  
--static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
-+static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 		struct socket *newsock)
- {
- 	struct nvmet_tcp_queue *queue;
-+	struct file *sock_file;
- 	int ret;
- 
- 	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
- 	if (!queue)
--		return -ENOMEM;
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
++static void nvmet_tcp_tls_queue_reset(struct nvmet_tcp_queue *queue)
++{
++	spin_lock(&queue->state_lock);
++	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
++		pr_warn("queue %d: TLS handshake already completed\n",
++			queue->idx);
++		spin_unlock(&queue->state_lock);
 +		return;
- 
- 	INIT_WORK(&queue->release_work, nvmet_tcp_release_queue_work);
- 	INIT_WORK(&queue->io_work, nvmet_tcp_io_work);
-@@ -1625,15 +1627,25 @@ static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 	queue->port = port;
- 	queue->nr_cmds = 0;
- 	spin_lock_init(&queue->state_lock);
--	queue->state = NVMET_TCP_Q_CONNECTING;
-+	if (queue->port->nport->disc_addr.tsas.tcp.sectype ==
-+	    NVMF_TCP_SECTYPE_TLS13)
-+		queue->state = NVMET_TCP_Q_TLS_HANDSHAKE;
++	}
++	queue->state = NVMET_TCP_Q_CONNECTING;
++	spin_unlock(&queue->state_lock);
++
++	pr_debug("queue %d: resetting queue callbacks after TLS handshake\n",
++		 queue->idx);
++	/*
++	 * Set callbacks after handshake; TLS implementation
++	 * might have changed the socket callbacks.
++	 */
++	nvmet_tcp_set_queue_sock(queue);
++}
++
++static void nvmet_tcp_tls_handshake_done(void *data, int status,
++					 key_serial_t peerid)
++{
++	struct nvmet_tcp_queue *queue = data;
++
++	pr_debug("queue %d: TLS handshake done, key %x, status %d\n",
++		 queue->idx, peerid, status);
++	if (!status) {
++		spin_lock(&queue->state_lock);
++		queue->tls_psk = key_lookup(peerid);
++		if (IS_ERR(queue->tls_psk)) {
++			pr_warn("queue %d: TLS key %x not found\n",
++				queue->idx, peerid);
++			queue->tls_psk = NULL;
++		}
++		spin_unlock(&queue->state_lock);
++	}
++	cancel_delayed_work_sync(&queue->tls_handshake_work);
++	if (status)
++		nvmet_tcp_schedule_release_queue(queue);
 +	else
-+		queue->state = NVMET_TCP_Q_CONNECTING;
- 	INIT_LIST_HEAD(&queue->free_list);
- 	init_llist_head(&queue->resp_list);
- 	INIT_LIST_HEAD(&queue->resp_send_list);
- 
-+	sock_file = sock_alloc_file(queue->sock, O_CLOEXEC, NULL);
-+	if (IS_ERR(sock_file)) {
-+		ret = PTR_ERR(sock_file);
-+		goto out_free_queue;
++		nvmet_tcp_tls_queue_reset(queue);
++}
++
++static void nvmet_tcp_tls_handshake_timeout_work(struct work_struct *w)
++{
++	struct nvmet_tcp_queue *queue = container_of(to_delayed_work(w),
++			struct nvmet_tcp_queue, tls_handshake_work);
++
++	pr_debug("queue %d: TLS handshake timeout\n", queue->idx);
++	nvmet_tcp_schedule_release_queue(queue);
++}
++
++static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue)
++{
++	int ret = -EOPNOTSUPP;
++	struct tls_handshake_args args;
++
++	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
++		pr_warn("cannot start TLS in state %d\n", queue->state);
++		return -EINVAL;
 +	}
 +
- 	queue->idx = ida_alloc(&nvmet_tcp_queue_ida, GFP_KERNEL);
- 	if (queue->idx < 0) {
- 		ret = queue->idx;
--		goto out_free_queue;
-+		goto out_sock;
- 	}
++	pr_debug("queue %d: TLS ServerHello\n", queue->idx);
++	args.ta_sock = queue->sock;
++	args.ta_done = nvmet_tcp_tls_handshake_done;
++	args.ta_data = queue;
++	args.ta_keyring = key_serial(queue->port->nport->keyring);
++	args.ta_timeout_ms = tls_handshake_timeout * 2 * 1024;
++
++	ret = tls_server_hello_psk(&args, GFP_KERNEL);
++	if (ret) {
++		pr_err("failed to start TLS, err=%d\n", ret);
++	} else {
++		queue_delayed_work(nvmet_wq, &queue->tls_handshake_work,
++				   tls_handshake_timeout * HZ);
++	}
++	return ret;
++}
++#endif
++
+ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
+ 		struct socket *newsock)
+ {
+@@ -1662,6 +1765,25 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
+ 	list_add_tail(&queue->queue_list, &nvmet_tcp_queue_list);
+ 	mutex_unlock(&nvmet_tcp_queue_mutex);
  
- 	ret = nvmet_tcp_alloc_cmd(queue, &queue->connect);
-@@ -1654,7 +1666,7 @@ static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
++#ifdef CONFIG_NVME_TARGET_TCP_TLS
++	INIT_DELAYED_WORK(&queue->tls_handshake_work,
++			  nvmet_tcp_tls_handshake_timeout_work);
++	if (queue->state == NVMET_TCP_Q_TLS_HANDSHAKE) {
++		struct sock *sk = queue->sock->sk;
++
++		/* Restore the default callbacks before starting upcall */
++		read_lock_bh(&sk->sk_callback_lock);
++		sk->sk_user_data = NULL;
++		sk->sk_data_ready = port->data_ready;
++		read_unlock_bh(&sk->sk_callback_lock);
++		if (!nvmet_tcp_tls_handshake(queue))
++			return;
++
++		/* TLS handshake failed, terminate the connection */
++		goto out_destroy_sq;
++	}
++#endif
++
+ 	ret = nvmet_tcp_set_queue_sock(queue);
  	if (ret)
  		goto out_destroy_sq;
- 
--	return 0;
-+	return;
- out_destroy_sq:
- 	mutex_lock(&nvmet_tcp_queue_mutex);
- 	list_del_init(&queue->queue_list);
-@@ -1664,9 +1676,11 @@ static int nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 	nvmet_tcp_free_cmd(&queue->connect);
- out_ida_remove:
- 	ida_free(&nvmet_tcp_queue_ida, queue->idx);
-+out_sock:
-+	fput(queue->sock->file);
- out_free_queue:
- 	kfree(queue);
--	return ret;
-+	pr_err("failed to allocate queue");
- }
- 
- static void nvmet_tcp_accept_work(struct work_struct *w)
-@@ -1683,11 +1697,7 @@ static void nvmet_tcp_accept_work(struct work_struct *w)
- 				pr_warn("failed to accept err=%d\n", ret);
- 			return;
- 		}
--		ret = nvmet_tcp_alloc_queue(port, newsock);
--		if (ret) {
--			pr_err("failed to allocate queue\n");
--			sock_release(newsock);
--		}
-+		nvmet_tcp_alloc_queue(port, newsock);
- 	}
- }
- 
 -- 
 2.35.3
 

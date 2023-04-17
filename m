@@ -1,44 +1,44 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013638460
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 15:35:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73708460
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 17 Apr 2023 15:36:46 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3500F1F86C;
-	Mon, 17 Apr 2023 15:35:47 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0812A1F890;
+	Mon, 17 Apr 2023 15:36:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681745747; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1681745805; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=veUXC3vcrjBdv6AiuUkPvBCIWe2nwhOQk6uFjfGXMug=;
-	b=r3Fk2lBaeUdPAzIDPtZjqVM/lN2qCy84GAXhohc/mh1Je6pFkwMDpeycbc30JhlGjuMSMd
-	melWezHuG3d9Ij8THSxSD5miUDXHaikJ2U2BOZ8eH5Ad/b62tBDp/UTvrs1ELSnx55aLuE
-	NhWJWj2iA/H8eAAm9TFBYNh/ymhoprQ=
+	bh=X04HwJApHEKRmZUvhtzZWCQZ243CBwNWrrY8JtkmuSM=;
+	b=wdYstHIrINuemA3RjGh3Uh1fgpEbgY4V258cOPeLzQ39hEgY3FtfXE9YuZQ+J3eJKWFzma
+	jnGaQWFMHt3iFE1tKcVH+UpR0ft8s1DZl9g9xwIN2sbxLs6OLLSi43oTHEhI3K5Q53urE3
+	AVr98WzTqvotaiWYL9H0dNVL/MTC8cU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681745747;
+	s=susede2_ed25519; t=1681745805;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=veUXC3vcrjBdv6AiuUkPvBCIWe2nwhOQk6uFjfGXMug=;
-	b=rwYIbex1YJw4WbCE+YG8YXaLFPa2iR8zXV4LFBZlazjKqJwcV8dkBTcgCnIs48aDNGc/LU
-	nj5UOl7aTQRhBwAQ==
+	bh=X04HwJApHEKRmZUvhtzZWCQZ243CBwNWrrY8JtkmuSM=;
+	b=ldj6lEbKELry3qUR2Dedcttn1yLj5uGqGGjze6T7pIpRWS80ce0SFxeJX0QZU4ERffWeMj
+	hcLHWI+RlJnYZyDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E7F661390E;
-	Mon, 17 Apr 2023 15:35:46 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A8B851390E;
+	Mon, 17 Apr 2023 15:36:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id n/rdNVJnPWRtOQAAMHmgww
-	(envelope-from <hare@suse.de>); Mon, 17 Apr 2023 15:35:46 +0000
-Message-ID: <cce7cbdb-0866-58ec-8bf1-d0eea7ce9fe1@suse.de>
-Date: Mon, 17 Apr 2023 17:35:46 +0200
+	id KLJvKIxnPWT0OQAAMHmgww
+	(envelope-from <hare@suse.de>); Mon, 17 Apr 2023 15:36:44 +0000
+Message-ID: <89b96e03-9a00-b1a7-733a-5e61ce57a164@suse.de>
+Date: Mon, 17 Apr 2023 17:36:44 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -47,60 +47,66 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: Re: [PATCH 08/18] nvme-tcp: do not set MSG_SENDPAGE_NOTLAST
+Subject: Re: [PATCH 11/18] nvme-tcp: enable TLS handshake upcall
 Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Jakub Kicinski <kuba@kernel.org>
+To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
  linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
  kernel-tls-handshake@lists.linux.dev
 References: <20230417130302.86274-1-hare@suse.de>
- <20230417130302.86274-9-hare@suse.de>
- <36976756-b4c5-f2a5-34b8-e9731a49c477@grimberg.me>
- <654702da-246a-934c-14e4-7b179c46ed98@suse.de>
- <5df08f86-2599-6e47-2fdc-bda8d70edaf2@grimberg.me>
+ <20230417130302.86274-12-hare@suse.de>
+ <73d59afa-d385-2616-fc74-13ad3bfe49be@grimberg.me>
+ <4e9b3f94-b059-b225-9fa6-68178ebda990@suse.de>
+ <298e74a7-4560-ac01-ad40-24019057b9bb@grimberg.me>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <5df08f86-2599-6e47-2fdc-bda8d70edaf2@grimberg.me>
+In-Reply-To: <298e74a7-4560-ac01-ad40-24019057b9bb@grimberg.me>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 4/17/23 17:28, Sagi Grimberg wrote:
+On 4/17/23 17:31, Sagi Grimberg wrote:
 > 
->>> nak from me.
+>>>>   static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
+>>>>   {
+>>>>       int ret;
+>>>> +    key_serial_t psk_id = 0;
+>>>> +
+>>>> +    if (ctrl->opts->tls) {
+>>>> +        psk_id = nvme_tls_psk_default(NULL,
+>>>> +                          ctrl->opts->host->nqn,
+>>>> +                          ctrl->opts->subsysnqn);
+>>>> +        if (!psk_id) {
+>>>> +            dev_err(ctrl->device, "no valid PSK found\n");
+>>>> +            ret = -ENOKEY;
+>>>> +            goto out_free_queue;
+>>>> +        }
+>>>> +    }
+>>>> -    ret = nvme_tcp_alloc_queue(ctrl, 0);
+>>>> +    ret = nvme_tcp_alloc_queue(ctrl, 0, psk_id);
+>>>>       if (ret)
+>>>> -        return ret;
+>>>> +        goto out_free_queue;
+>>>>       ret = nvme_tcp_alloc_async_req(to_tcp_ctrl(ctrl));
+>>>>       if (ret)
+>>>> @@ -1778,9 +1887,15 @@ static int nvme_tcp_alloc_admin_queue(struct 
+>>>> nvme_ctrl *ctrl)
+>>>>   static int __nvme_tcp_alloc_io_queues(struct nvme_ctrl *ctrl)
+>>>>   {
+>>>>       int i, ret;
+>>>> +    key_serial_t psk_id;
+>>>> +    if (!ctrl->tls_key) {
+>>>> +        dev_err(ctrl->device, "no PSK negotiated\n");
+>>>> +        return -ENOKEY;
+>>>> +    }
 >>>
->>>> MSG_SENDPAGE_NOTLAST was introduced with commit 35f9c09fe9c7
->>>> ("tcp: tcp_sendpages() should call tcp_push() once") to fix issues
->>>> with the ->sendfile() call, and the implication seems to be that
->>>> the flag should be strictly internal to sendfile.
+>>> is ctrl->tls_key always set? Looks like this is the expectation.
 >>>
->>> no, the use case was to allow sendpage consumers to build larger
->>> tso packets for large payloads (splice being the primary one), nvme-tcp
->>> also benefits from it (as do others), just like sendfile.
->>>
->>>> Hence we shouldn't be setting it on nvme-tcp, and anyway doing
->>>> so will cause TLS sending invalid data.
->>>
->>> That is something else. I don't recall the full details on the
->>> discussion with Jakub, but it was not my intention to strike
->>> it altogether, just remove it if !sendpage_ok.
->>>
->> But then we're running afoul with tls_sw_do_sendpage(), which uses 
->> MSG_SENDPAGE_NOTLAST as a record indicator. Forwarding 
->> MSG_SENDPAGE_NOTLAST to tls results in incorrect TLS records on the 
->> wire and a transmission stall.
 >>
->> Took me days to figure that out.
->>
->> If you have a better idea, I'm all ears.
+>> It needs to be set when TLS is enabled for the admin queue.
+>> Otherwise no.
 > 
-> So sendfile is unsupported over kTLS? Or is there some special
-> case for it in the upper layer?
+> Then aren't you missing also and statement with (ctrl->opts->tls) ?
 > 
-Dunno. Seems to work, at least according to commit d452d48b9f8b
-("tls: prevent oversized sendfile() hangs by ignoring MSG_MORE")
-
-Which is also where I got the notion about sendfile() from.
-If MSG_SENDPAGE_NOTLAST is valid for non-sendfile users then
-tls_sw_do_sendpage() has a bug.
+Indeed, I do. Will be fixing it up.
 
 Cheers,
 

@@ -1,129 +1,149 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7378F23C0
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 18 Apr 2023 11:02:36 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A000321A91;
-	Tue, 18 Apr 2023 11:02:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1681815754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=16TFCdKk9HB5/zol6veJLssefZsUoa/IVdihclHV2cg=;
-	b=gjLgF8TUJH9T/3PqD5TIgEY8acEebQv3j3z4278hL8wD70IEy7J8Y5bavZyq+97al6ADqQ
-	DyV91a794I4Hi8kFnIUTPj1W4uwLL9e37CpyObJedvu8A1dgSx1ynOjZuioQeSL/aCjRMg
-	0CKyM9+0EINT9dehVTg3Ak19upA3hFE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1681815754;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=16TFCdKk9HB5/zol6veJLssefZsUoa/IVdihclHV2cg=;
-	b=pOAGseS1OR6/yuqfSgAiv2enhZ/kaBZutB5vP71ZVdKMR3KQdOQsEycp7rSboPfrpEkcnc
-	/Jg4Omp/NyynXIAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 871C1139CC;
-	Tue, 18 Apr 2023 11:02:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 1G+5IMp4PmS9XgAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 18 Apr 2023 11:02:34 +0000
-Message-ID: <ab73a25d-8b2c-17de-d4ea-edd844c600af@suse.de>
-Date: Tue, 18 Apr 2023 13:02:34 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3C42F44
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 18 Apr 2023 14:08:02 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-63b5312bd4fso10525550b3a.0
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 18 Apr 2023 07:08:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=umich.edu; s=google-2016-06-03; t=1681826882; x=1684418882;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KMsy0mka0/oLQH13Cbhamw34gCcZf+VMF4t3FOHYBFM=;
+        b=it7GrLhufT1k+Suam7UQeo3Lfqmn+kaWn3fwGXvga/FY7jVxx4GVTFCe+xZKHytt2M
+         /UUAwh7yP53R401lU5u0tvy9tTBoHlH/1WDMyJ35+oc3lw9nojESMh9dAxuz9Xk3Z1Vq
+         1os7LLPEj6LKdq5pDFrIoYkdgVGSzzbNPbwI/srSylYfw3k2ESoDcdzUX1htUhemcSaQ
+         JUij+V387aPK7Q2E1QHXypZntneKLAlIMcy/hHED+Klf8jtukWcqw0cyw307sy5JAuIC
+         WaF/KJsnBEEuLoPv9A+3i2o49iqn+fdv0nfhpsrjd+GvcXEjYssEkID2CNiSEUuVIxNT
+         aRDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681826882; x=1684418882;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KMsy0mka0/oLQH13Cbhamw34gCcZf+VMF4t3FOHYBFM=;
+        b=LnnGn9q/9uoDyqydDIIkRLwyTNGzkJ+6TSupPuFOCwkaidb2yzLS0u55A/Jr/tiWbF
+         OlqL7mG4YBExqKCsaLiVeo17SDtbojXFZFpYuLaBEKRjVBpCEPF13QVz6RFIsaRJW3QH
+         yhJMgtvRZhmZ6DOetzv0W76ojOeytADJ9zPkCUILS0W0nUOlPEu00qOU6tiBrvP2tLe6
+         ey8dZ+EqF2kJ7hGlMpHwyjuZPjM2FN6gf2PUKVM7aoFBYq1cz/dgAHJ5HWi+DjJGxkHL
+         ngcxFXxiE8X+iXkhDGxvcntFk7WhbAjm4mGH4VnpVUn9ggSGSYPhmzK6MbaEYCwWQKe+
+         xP7w==
+X-Gm-Message-State: AAQBX9dI84RPpZD6hkxD2AvU4YSzH6Wc/wzCWZf2iPW9B+Q3vNOpwSaT
+	PTAes4HW7PCM0TCtrKMmopQCs+7SoMl6jEkXT5U=
+X-Google-Smtp-Source: AKy350a+48OKrMwkAPc6JdkNl4KK5hAUVWpkRFlbWJqWtGBQTJuhvFzMOUgyl7yPNktfRh88HOSXweUF/B5BppQWtd4=
+X-Received: by 2002:a63:df4b:0:b0:514:cc9:e013 with SMTP id
+ h11-20020a63df4b000000b005140cc9e013mr655957pgj.6.1681826881980; Tue, 18 Apr
+ 2023 07:08:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 07/18] net/tls: sanitize MSG_EOR handling
-Content-Language: en-US
-To: Sagi Grimberg <sagi@grimberg.me>, Jakub Kicinski <kuba@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
- kernel-tls-handshake@lists.linux.dev
-References: <20230417130302.86274-1-hare@suse.de>
- <20230417130302.86274-8-hare@suse.de>
- <20af9713-8d64-77de-dfbe-e9e732776d3c@grimberg.me>
- <20230417131048.66b6b3a0@kernel.org>
- <beb7b0e8-2cb5-0c0e-63f9-6a13b9dfb787@grimberg.me>
- <db39fd2d-6da2-852e-70aa-7499fedf8b48@suse.de>
- <b313144b-f510-f3d5-6066-6123c27039ed@suse.de>
- <392cfcc6-c4c7-da94-4e00-f6961c548867@grimberg.me>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <392cfcc6-c4c7-da94-4e00-f6961c548867@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <CAN-5tyFXD4JuGg-rjPSU0iHftrJM6Ypu=hhCK_s9qVi1Ld=FWA@mail.gmail.com>
+ <5F137415-B46D-43A6-B6E8-5CB48378BE5F@oracle.com> <CAN-5tyHjqnd8fXyJmsZ7E45JWYBgpczyu8AynyKKLYPXFEY1DA@mail.gmail.com>
+ <BC5EA691-3858-4E83-B0B2-E0FAB44C3FCC@oracle.com> <99E0BBA5-B7AA-4FAB-86D8-D125689211B9@oracle.com>
+ <CAN-5tyGd27YrqNX1G9Kjg2Y0TLP=9m_K+gAf+wVw_Hsr4PeC-g@mail.gmail.com> <69C7EFCD-7E5B-483F-B278-6B460D966FE5@oracle.com>
+In-Reply-To: <69C7EFCD-7E5B-483F-B278-6B460D966FE5@oracle.com>
+From: Olga Kornievskaia <aglo@umich.edu>
+Date: Tue, 18 Apr 2023 10:07:50 -0400
+Message-ID: <CAN-5tyFN+1nGw9+Q53d+JbwobB2=cyxqszMafh5o0yqjL=SwNQ@mail.gmail.com>
+Subject: Re: advice on kernel configs for NFS with TLS
+To: Chuck Lever III <chuck.lever@oracle.com>
+Cc: "kernel-tls-handshake@lists.linux.dev" <kernel-tls-handshake@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/18/23 12:43, Sagi Grimberg wrote:
-> 
-> 
-> On 4/18/23 13:39, Hannes Reinecke wrote:
->> On 4/18/23 12:24, Hannes Reinecke wrote:
->>> On 4/18/23 12:07, Sagi Grimberg wrote:
->>>>
->>>>>>> The TLS stack is using MSG_EOR internally, so the flag cannot be
->>>>>>> set for sendmsg()/sendpage(). But to avoid having the caller to
->>>>>>> check whether TLS is active modify the code to clear the MSG_EOR
->>>>>>> flag. And blank out MSG_MORE / MSG_SENDPAGE_NOTLAST, too, as they
->>>>>>> conflict with MSG_EOR anyway.
->>>>>>
->>>>>> This looks like a temporary workaround to me.
->>>>>>
->>>>>> The networking folks really need to be CC'd on this (same for 
->>>>>> patch 6).
->>>>>
->>>>> Thanks, when I said "we can support EOR" I obviously meant support
->>>>> not ignore it :(  No ack.
->>>>
->>>> Obviously neither Hannes or I have sufficient tls knowledge to properly
->>>> support it... It needs to be done by someone who knows the
->>>> implementation.
->>>>
->>>> Is this a large scope to add support for it? Because if it is, I'd
->>>> simply change nvme to clear MSG_EOR when tls is used (despite my
->>>> preference to not do special things for tls).
->>>
->>> There's a rather simple patch for tls_sw. It already paces the data 
->>> internally by an 'eor' variable, which is currently set to !MSG_MORE.
->>> So evaluating MSG_EOR here is really trivial, and doesn't seem to 
->>> cause any issues.
->>>
->>> Or, at least, none which would show up with NVMe-over-TLS :-)
->>>
->> Suggestion is to change it like this (sendpage follows suit):
->>
->> diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
->> index 827292e29f99..7b28b11ff611 100644
->> --- a/net/tls/tls_sw.c
->> +++ b/net/tls/tls_sw.c
->> @@ -953,9 +953,12 @@ int tls_sw_sendmsg(struct sock *sk, struct msghdr 
->> *msg, size_t size)
->>          int pending;
->>
->>          if (msg->msg_flags & ~(MSG_MORE | MSG_DONTWAIT | MSG_NOSIGNAL |
->> -                              MSG_CMSG_COMPAT))
->> +                              MSG_EOR | MSG_CMSG_COMPAT))
->>                  return -EOPNOTSUPP;
->>
->> +       if (MSG_EOR)
-> 
-> You probably meant if (msg->msg_flags & MSG_EOR)...
-> 
-Of course.
+On Mon, Apr 17, 2023 at 5:44=E2=80=AFPM Chuck Lever III <chuck.lever@oracle=
+.com> wrote:
+>
+>
+>
+> > On Apr 17, 2023, at 4:13 PM, Olga Kornievskaia <aglo@umich.edu> wrote:
+> >
+> > On Sat, Apr 15, 2023 at 4:09=E2=80=AFPM Chuck Lever III <chuck.lever@or=
+acle.com> wrote:
+> >>
+> >>
+> >>> On Apr 14, 2023, at 5:18 PM, Chuck Lever III <chuck.lever@oracle.com>=
+ wrote:
+> >>>
+> >>>> On Apr 14, 2023, at 5:15 PM, Olga Kornievskaia <aglo@umich.edu> wrot=
+e:
+> >>>>
+> >>>> On Fri, Apr 14, 2023 at 4:42=E2=80=AFPM Chuck Lever III <chuck.lever=
+@oracle.com> wrote:
+> >>>>>
+> >>>>>> On Apr 14, 2023, at 4:14 PM, Olga Kornievskaia <aglo@umich.edu> wr=
+ote:
+> >>>>>>
+> >>>>>> Hi folks,
+> >>>>>>
+> >>>>>> Do we have guidelines for how one were to build a kernel that woul=
+d
+> >>>>>> support NFS with TLS? As in what kernel options are required to be
+> >>>>>> turned on (and what off)? I was under the impression that if one w=
+ere
+> >>>>>> to start with a base RHEL9 kernel config that would be sufficient.=
+ But
+> >>>>>> I believe I'm wrong.
+> >>>>>>
+> >>>>>> For some reason when CONFIG_KUNIT is enabled it leads to a kernel
+> >>>>>> where the upcall doesn't happen. The kernel logs that it did
+> >>>>>> handshake_submit() but the tlshd never gets anything. I don't know=
+ why
+> >>>>>> this kernel options leads to this behavior as I'm at a loss how to
+> >>>>>> debug netlink upcall.
+> >>>>>
+> >>>>> handshake_genl_notify() is a no-op when CONFIG_KUNIT is enabled.
+> >>>>>
+> >>>>> Not suggesting that's the best long-term arrangement, but
+> >>>>> notification is disabled when KUNIT is running so that
+> >>>>> the Kunit tests don't depend on having a tlshd running.
+> >>>>
+> >>>> Thank you for the explanation. Is it fair to say that to have NFS wi=
+th
+> >>>> TLS CONFIG_KUNIT must be off? In that case, Jeff, what will RHEL do =
+as
+> >>>> it defines it by default? Or does it mean that handshake_genl_notify=
+()
+> >>>> needs to be reimplemented to make sure it's never a no-op?
+> >>>
+> >>> I didn't realize that distributions build with CONFIG_KUNIT
+> >>> enabled. I'll have to figure out another way to disable
+> >>> tlshd notification when running Kunit tests.
+> >>
+> >> Using a disconnected tag didn't seem like a popular idea, so
+> >> I've pushed a fix to topic-rpc-with-tls-upcall. You should
+> >> now be able to build a working RPC-with-TLS system with
+> >> CONFIG_KUNIT set.
+> >>
+> >> This push also rebases the branch on the latest net-next tree,
+> >> and attempts to address the warning about .kunitconfig files
+> >> being ignored.
+> >
+> > I've just gotten a v10 version I believe and built it (with KUNIT on)
+> > and I didn't get the upcall.
+> >
+> > I'm at commit 3cf4924e3d6e69ee42e917007ac9227b1576bc39 (HEAD ->
+> > chuck-rpc-with-tls-0417
+> > 2023, chuck/topic-rpc-with-tls-upcall)
+> >
+> > A git log shows the .gitignore patch so I believe I do have the v10 pat=
+ches.
+>
+> - Confirm that notification is working if CONFIG_KUNIT is disabled
+>
+> - Instrument handshake_genl_notify() to see where it is failing
 
-Cheers,
+Apologizes, I had a bad system. In v10, I can have CONFIG_KUNIT
+enabled and I get the upcall.
 
-Hannes
-
+>
+>
+>
+> --
+> Chuck Lever
+>
+>

@@ -1,34 +1,34 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D9523DF
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 19 Apr 2023 06:57:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D236B2575
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 19 Apr 2023 06:57:25 +0000 (UTC)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id 51D4E1FD8D;
+	by smtp-out1.suse.de (Postfix) with ESMTP id 5112D219B5;
 	Wed, 19 Apr 2023 06:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1681887438; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KtSpNgKrPfslxHev0vwTjRy2goQY36AKDkfQfPR7cik=;
-	b=Uni+8SI3fDRPVtUNg3JBhLyPQD5v4RfLVvwoeRlFLHxvfUerTIDLab4GzcLDWUzddPd4k9
-	WhPfptBnVnSrDBY+AQxAcNsykbzlgjXxwwOmTOCtTY7x9o2Y8Tpp2jDqduvmCrb7/yVyoz
-	7vW0S27KxylG22g87EAYM7UjLTxuarc=
+	bh=nvvAXBJs3n+guiyCOm4/4aLPXykLvb8ZavSlM1BkaLg=;
+	b=CZko+GtOmUERZ75W69A+JCh+fIGIyUoHLF0XdHhWW5MuVR1Q13aRR3dq3sHGIgZ7IamaTi
+	tUr0LCxvm0RSqOiport9dZROQuOMSzjHrBarMR29O7B6Ww6kU50dP11Cb+cgbf/EF+7Bap
+	VPFSSlWpzqkMm0ijfzhDHJIndo6ZFFg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1681887438;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KtSpNgKrPfslxHev0vwTjRy2goQY36AKDkfQfPR7cik=;
-	b=j24MsEkc7zTscOHddQxxKz3eMmxgYCoJB4+SGyvimBzyvvMeMnjXiywZMIo1K0kUxpfMMS
-	hilVJ/DShJArmQAg==
+	bh=nvvAXBJs3n+guiyCOm4/4aLPXykLvb8ZavSlM1BkaLg=;
+	b=N1BaVTY9RsqxsQQZfqGGcylK8PSPcP50w/953XYQgDBqNypvjgt7IMk1jWYxCpOvUQ1l88
+	/XnaJCAHD6/gGCCQ==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 420532C15F;
+	by relay2.suse.de (Postfix) with ESMTP id 3E7972C15D;
 	Wed, 19 Apr 2023 06:57:18 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 3ECFB51C26E3; Wed, 19 Apr 2023 08:57:18 +0200 (CEST)
+	id 2E00451C26DF; Wed, 19 Apr 2023 08:57:18 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>,
@@ -37,9 +37,9 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	Chuck Lever <chuck.lever@oracle.com>,
 	kernel-tls-handshake@lists.linux.dev,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 14/17] nvmet: make TCP sectype settable via configfs
-Date: Wed, 19 Apr 2023 08:57:11 +0200
-Message-Id: <20230419065714.52076-15-hare@suse.de>
+Subject: [PATCH 12/17] nvme-tcp: control message handling for recvmsg()
+Date: Wed, 19 Apr 2023 08:57:09 +0200
+Message-Id: <20230419065714.52076-13-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230419065714.52076-1-hare@suse.de>
 References: <20230419065714.52076-1-hare@suse.de>
@@ -51,109 +51,61 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a new configfs attribute 'addr_tsas' to make the TCP sectype
-settable via configfs.
+kTLS is sending TLS ALERT messages as control messages for recvmsg().
+As we can't do anything sensible with it just abort the connection
+and let the userspace agent to a re-negotiation.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/target/configfs.c | 65 ++++++++++++++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
+ drivers/nvme/host/tcp.c | 23 ++++++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 907143870da5..7f826ac8b75c 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -303,6 +303,11 @@ static void nvmet_port_init_tsas_rdma(struct nvmet_port *port)
- 	port->disc_addr.tsas.rdma.cms = NVMF_RDMA_CMS_RDMA_CM;
- }
- 
-+static void nvmet_port_init_tsas_tcp(struct nvmet_port *port, int sectype)
-+{
-+	port->disc_addr.tsas.tcp.sectype = sectype;
-+}
-+
- static ssize_t nvmet_addr_trtype_store(struct config_item *item,
- 		const char *page, size_t count)
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index d25695cf4e03..a3ac512fd1cc 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1362,6 +1362,11 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
  {
-@@ -325,11 +330,70 @@ static ssize_t nvmet_addr_trtype_store(struct config_item *item,
- 	port->disc_addr.trtype = nvmet_transport[i].type;
- 	if (port->disc_addr.trtype == NVMF_TRTYPE_RDMA)
- 		nvmet_port_init_tsas_rdma(port);
-+	else if (port->disc_addr.trtype == NVMF_TRTYPE_TCP)
-+		nvmet_port_init_tsas_tcp(port, NVMF_TCP_SECTYPE_NONE);
- 	return count;
- }
- 
- CONFIGFS_ATTR(nvmet_, addr_trtype);
- 
-+static const struct nvmet_type_name_map nvmet_addr_tsas_tcp[] = {
-+	{ NVMF_TCP_SECTYPE_NONE,	"none" },
-+	{ NVMF_TCP_SECTYPE_TLS13,	"tls1.3" },
-+};
-+
-+static const struct nvmet_type_name_map nvmet_addr_tsas_rdma[] = {
-+	{ NVMF_RDMA_QPTYPE_CONNECTED,	"connected" },
-+	{ NVMF_RDMA_QPTYPE_DATAGRAM,	"datagram"  },
-+};
-+
-+static ssize_t nvmet_addr_tsas_show(struct config_item *item,
-+		char *page)
-+{
-+	struct nvmet_port *port = to_nvmet_port(item);
-+	int i;
-+
-+	if (port->disc_addr.trtype == NVMF_TRTYPE_TCP) {
-+		for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_tcp); i++) {
-+			if (port->disc_addr.tsas.tcp.sectype == nvmet_addr_tsas_tcp[i].type)
-+				return sprintf(page, "%s\n", nvmet_addr_tsas_tcp[i].name);
-+		}
-+	} else if (port->disc_addr.trtype == NVMF_TRTYPE_RDMA) {
-+		for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_rdma); i++) {
-+			if (port->disc_addr.tsas.rdma.qptype == nvmet_addr_tsas_rdma[i].type)
-+				return sprintf(page, "%s\n", nvmet_addr_tsas_rdma[i].name);
+ 	struct nvme_tcp_icreq_pdu *icreq;
+ 	struct nvme_tcp_icresp_pdu *icresp;
++#ifdef CONFIG_NVME_TCP_TLS
++	char cbuf[CMSG_LEN(sizeof(char))] = {};
++	struct cmsghdr *cmsg;
++	unsigned char ctype;
++#endif
+ 	struct msghdr msg = {};
+ 	struct kvec iov;
+ 	bool ctrl_hdgst, ctrl_ddgst;
+@@ -1399,11 +1404,27 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
+ 	memset(&msg, 0, sizeof(msg));
+ 	iov.iov_base = icresp;
+ 	iov.iov_len = sizeof(*icresp);
++#ifdef CONFIG_NVME_TCP_TLS
++	msg.msg_control = cbuf;
++	msg.msg_controllen = sizeof(cbuf);
++#endif
+ 	ret = kernel_recvmsg(queue->sock, &msg, &iov, 1,
+ 			iov.iov_len, msg.msg_flags);
+ 	if (ret < 0)
+ 		goto free_icresp;
+-
++#ifdef CONFIG_NVME_TCP_TLS
++	cmsg = (struct cmsghdr *)cbuf;
++	if (CMSG_OK(&msg, cmsg) &&
++	    cmsg->cmsg_level == SOL_TLS &&
++	    cmsg->cmsg_type == TLS_GET_RECORD_TYPE) {
++		ctype = *((unsigned char *)CMSG_DATA(cmsg));
++		if (ctype != TLS_RECORD_TYPE_DATA) {
++			pr_err("queue %d: unhandled TLS record %d\n",
++			       nvme_tcp_queue_id(queue), ctype);
++			return -ENOTCONN;
 +		}
 +	}
-+	return sprintf(page, "reserved\n");
-+}
-+
-+static ssize_t nvmet_addr_tsas_store(struct config_item *item,
-+		const char *page, size_t count)
-+{
-+	struct nvmet_port *port = to_nvmet_port(item);
-+	int i;
-+
-+	if (nvmet_is_port_enabled(port, __func__))
-+		return -EACCES;
-+
-+	if (port->disc_addr.trtype != NVMF_TRTYPE_TCP)
-+		return -EINVAL;
-+
-+	for (i = 0; i < ARRAY_SIZE(nvmet_addr_tsas_tcp); i++) {
-+		if (sysfs_streq(page, nvmet_addr_tsas_tcp[i].name))
-+			goto found;
-+	}
-+
-+	pr_err("Invalid value '%s' for tsas\n", page);
-+	return -EINVAL;
-+
-+found:
-+	nvmet_port_init_tsas_tcp(port, nvmet_addr_tsas_tcp[i].type);
-+	return count;
-+}
-+
-+CONFIGFS_ATTR(nvmet_, addr_tsas);
-+
- /*
-  * Namespace structures & file operation functions below
-  */
-@@ -1741,6 +1805,7 @@ static struct configfs_attribute *nvmet_port_attrs[] = {
- 	&nvmet_attr_addr_traddr,
- 	&nvmet_attr_addr_trsvcid,
- 	&nvmet_attr_addr_trtype,
-+	&nvmet_attr_addr_tsas,
- 	&nvmet_attr_param_inline_data_size,
- #ifdef CONFIG_BLK_DEV_INTEGRITY
- 	&nvmet_attr_param_pi_enable,
++#endif
+ 	ret = -EINVAL;
+ 	if (icresp->hdr.type != nvme_tcp_icresp) {
+ 		pr_err("queue %d: bad type returned %d\n",
 -- 
 2.35.3
 

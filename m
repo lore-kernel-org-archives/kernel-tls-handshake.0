@@ -1,34 +1,34 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C22C2568
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 19 Apr 2023 06:57:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16EC823C6
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 19 Apr 2023 06:57:20 +0000 (UTC)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 459E0219A5;
+	by smtp-out1.suse.de (Postfix) with ESMTP id 3743C21999;
 	Wed, 19 Apr 2023 06:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1681887438; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LDukVeTcAcyShCFS4ee6afRX8c+3sxfriXRpHY74zEU=;
-	b=FKnfF20VNKPeIDcegZovrvdlArJCcNq1/OiCnOFXqTV7tBdLqmT2Kdpp5p1lhgnyFrS8Do
-	nkwXtVGDn4iTdAkv3v25JDqoZJw+YubKP2C1YpdKsujYER7GMRQnStWh+GIOYekDUfBsHo
-	W3rLzS4GkoBpPkhDUisBfZ05LLA6nWQ=
+	bh=3OTwR+cfXo8V6ukYMxUL2sC/EgXUXrfuFTwmmIrIZcw=;
+	b=2WyuEtOQJbM35QVmg8K+hyg0U/CsWv2G71kca5WbyJlyTHBS4LpdS0Sut2/H3FgbplCRhr
+	+ZraITWP/Z01lTvtMsMlYDqy3AOiSOmOcFWCael1XE4ilwWHat7tavqNNJCS9SlXC3660l
+	g76eO0UPSo+8fFb5aVZ6csOf4+Ef8V0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1681887438;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LDukVeTcAcyShCFS4ee6afRX8c+3sxfriXRpHY74zEU=;
-	b=DeP+Ke1tmKu9jY/54beYJ1vScdnMexXq0ABeLMtvbodPbgHctxy3PkBTm1na04YWmX5z3y
-	vYsHOiToRj1R6kBQ==
+	bh=3OTwR+cfXo8V6ukYMxUL2sC/EgXUXrfuFTwmmIrIZcw=;
+	b=p/FcGbQiuFSz00xuqqp8FTlLa2IODJ/Wl/1XPeEFq7s8ItTMTRDHgnIYEBLg0DASnsfcwJ
+	/Y9/j1ALvFadeRBA==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 2E7D02C153;
-	Wed, 19 Apr 2023 06:57:18 +0000 (UTC)
+	by relay2.suse.de (Postfix) with ESMTP id EBEBF2C146;
+	Wed, 19 Apr 2023 06:57:17 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id E841651C26D1; Wed, 19 Apr 2023 08:57:17 +0200 (CEST)
+	id DF9C851C26CF; Wed, 19 Apr 2023 08:57:17 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>,
@@ -37,9 +37,9 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	Chuck Lever <chuck.lever@oracle.com>,
 	kernel-tls-handshake@lists.linux.dev,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 05/17] nvme-keyring: implement nvme_tls_psk_default()
-Date: Wed, 19 Apr 2023 08:57:02 +0200
-Message-Id: <20230419065714.52076-6-hare@suse.de>
+Subject: [PATCH 04/17] nvme-tcp: add definitions for TLS cipher suites
+Date: Wed, 19 Apr 2023 08:57:01 +0200
+Message-Id: <20230419065714.52076-5-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230419065714.52076-1-hare@suse.de>
 References: <20230419065714.52076-1-hare@suse.de>
@@ -51,105 +51,29 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Implement a function to select the preferred PSK for TLS.
-
 Signed-off-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/common/keyring.c | 48 +++++++++++++++++++++++++++++++++++
- include/linux/nvme-keyring.h  |  8 ++++++
- 2 files changed, 56 insertions(+)
+ include/linux/nvme-tcp.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
-index 494dd365052e..f8d9a208397b 100644
---- a/drivers/nvme/common/keyring.c
-+++ b/drivers/nvme/common/keyring.c
-@@ -5,6 +5,7 @@
+diff --git a/include/linux/nvme-tcp.h b/include/linux/nvme-tcp.h
+index 75470159a194..19ca863813f1 100644
+--- a/include/linux/nvme-tcp.h
++++ b/include/linux/nvme-tcp.h
+@@ -18,6 +18,12 @@ enum nvme_tcp_pfv {
+ 	NVME_TCP_PFV_1_0 = 0x0,
+ };
  
- #include <linux/module.h>
- #include <linux/seq_file.h>
-+#include <linux/key.h>
- #include <linux/key-type.h>
- #include <keys/user-type.h>
- #include <linux/nvme.h>
-@@ -103,6 +104,53 @@ static struct key *nvme_tls_psk_lookup(struct key *keyring,
- 	return key_ref_to_ptr(keyref);
- }
- 
-+/*
-+ * NVMe PSK priority list
-+ *
-+ * 'Retained' PSKs (ie 'generated == false')
-+ * should be preferred to 'generated' PSKs,
-+ * and SHA-384 should be preferred to SHA-256.
-+ */
-+struct nvme_tls_psk_priority_list {
-+	bool generated;
-+	enum nvme_tcp_tls_cipher cipher;
-+} nvme_tls_psk_prio[] = {
-+	{ .generated = false,
-+	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
-+	{ .generated = false,
-+	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
-+	{ .generated = true,
-+	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
-+	{ .generated = true,
-+	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
++enum nvme_tcp_tls_cipher {
++	NVME_TCP_TLS_CIPHER_INVALID     = 0,
++	NVME_TCP_TLS_CIPHER_SHA256      = 1,
++	NVME_TCP_TLS_CIPHER_SHA384      = 2,
 +};
 +
-+/*
-+ * nvme_tls_psk_default - Return the preferred PSK to use for TLS ClientHello
-+ */
-+key_serial_t nvme_tls_psk_default(struct key *keyring,
-+		      const char *hostnqn, const char *subnqn)
-+{
-+	struct key *tls_key;
-+	key_serial_t tls_key_id;
-+	int prio;
-+
-+	for (prio = 0; prio < ARRAY_SIZE(nvme_tls_psk_prio); prio++) {
-+		bool generated = nvme_tls_psk_prio[prio].generated;
-+		enum nvme_tcp_tls_cipher cipher = nvme_tls_psk_prio[prio].cipher;
-+
-+		tls_key = nvme_tls_psk_lookup(keyring, hostnqn, subnqn,
-+					      cipher, generated);
-+		if (!IS_ERR(tls_key)) {
-+			tls_key_id = tls_key->serial;
-+			key_put(tls_key);
-+			return tls_key_id;
-+		}
-+	}
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(nvme_tls_psk_default);
-+
- int nvme_keyring_init(void)
- {
- 	int err;
-diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
-index 32bd264a71e6..4efea9dd967c 100644
---- a/include/linux/nvme-keyring.h
-+++ b/include/linux/nvme-keyring.h
-@@ -8,12 +8,20 @@
- 
- #ifdef CONFIG_NVME_KEYRING
- 
-+key_serial_t nvme_tls_psk_default(struct key *keyring,
-+		const char *hostnqn, const char *subnqn);
-+
- key_serial_t nvme_keyring_id(void);
- int nvme_keyring_init(void);
- void nvme_keyring_exit(void);
- 
- #else
- 
-+static inline key_serial_t nvme_tls_psk_default(struct key *keyring,
-+		const char *hostnqn, const char *subnqn)
-+{
-+	return 0;
-+}
- static inline key_serial_t nvme_keyring_id(void)
- {
- 	return 0;
+ enum nvme_tcp_fatal_error_status {
+ 	NVME_TCP_FES_INVALID_PDU_HDR		= 0x01,
+ 	NVME_TCP_FES_PDU_SEQ_ERR		= 0x02,
 -- 
 2.35.3
 

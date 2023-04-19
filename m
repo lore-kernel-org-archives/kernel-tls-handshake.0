@@ -1,34 +1,34 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78B72598
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 19 Apr 2023 06:57:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD33256C
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 19 Apr 2023 06:57:25 +0000 (UTC)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id 6C3EE1FD91;
+	by smtp-out1.suse.de (Postfix) with ESMTP id 4B29E219B3;
 	Wed, 19 Apr 2023 06:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1681887438; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/Hmf4TwUNkp9YwFkZ3givQx6ubEBhewgw4oYiSQmKDw=;
-	b=nucnq8VD+tr5EKp3N32B7DtSnibi7kWtcbB7BAwVjg7XfT8Ab/daxfmIjYZY+KTbNjZeev
-	Tj9pXdj9JhZSMIxDp/yAPr1dwB4Pgco/mG6hQ+E/kRfiYRtJXTelc1KZOtFuH24cIHyjCh
-	OSEkEP3EngUd3RYLkE6ONFwZKfwjTQU=
+	bh=sgcbHjUM943PrxMYrNm3+n6vXvKWv1aWg1e0dDLWooY=;
+	b=OUIWane5/rjcL5Q8d9p4q/TcfPv6dixHVH/rUomfbpg+1IAO6JlP7b6Yqm7nm/RrrJ+0QS
+	4OAErls1Mql9D6qtDkvQIyXPIFUBxPujZkqXetUuwtlKIkkRwHyMu2mWCJsyb6Hkg0+X/G
+	veZvddGpttD/Fclqr2P0U0PY/tloOuc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1681887438;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/Hmf4TwUNkp9YwFkZ3givQx6ubEBhewgw4oYiSQmKDw=;
-	b=WszjrTN+NlCbR5zj2xoXqtfre520XRZVGs5c7WtbfsIkEq3z9NJhoNUkK/0fV8S3IBbliz
-	68ShAaPAkRCg0BDQ==
+	bh=sgcbHjUM943PrxMYrNm3+n6vXvKWv1aWg1e0dDLWooY=;
+	b=2lr1nYOqcGjYEjsNbOEcAYniDNlnleIKCeuzfGfQvuy+YqEPn4D8mHPMoTQuqu+6uR5MZp
+	0FFxrmqTbNMxnQAg==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 5AE862C165;
+	by relay2.suse.de (Postfix) with ESMTP id 3237B2C15A;
 	Wed, 19 Apr 2023 06:57:18 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 57BF951C26E9; Wed, 19 Apr 2023 08:57:18 +0200 (CEST)
+	id 154E851C26D9; Wed, 19 Apr 2023 08:57:18 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>,
@@ -36,10 +36,11 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	linux-nvme@lists.infradead.org,
 	Chuck Lever <chuck.lever@oracle.com>,
 	kernel-tls-handshake@lists.linux.dev,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 17/17] nvmet-tcp: control messages for recvmsg()
-Date: Wed, 19 Apr 2023 08:57:14 +0200
-Message-Id: <20230419065714.52076-18-hare@suse.de>
+	Hannes Reinecke <hare@suse.de>,
+	David Howells <dhowells@redhat.com>
+Subject: [PATCH 09/17] security/keys: export key_lookup()
+Date: Wed, 19 Apr 2023 08:57:06 +0200
+Message-Id: <20230419065714.52076-10-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230419065714.52076-1-hare@suse.de>
 References: <20230419065714.52076-1-hare@suse.de>
@@ -51,122 +52,30 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-kTLS requires control messages for recvmsg() to relay any out-of-band
-TLS messages (eg TLS alerts) to the caller.
+For in-kernel consumers one cannot readily assign a user (eg when
+running from a workqueue), so the normal key search permissions
+cannot be applied.
+This patch exports the 'key_lookup()' function for a simple lookup
+of keys without checking for permissions.
 
+Cc: David Howells <dhowells@redhat.com>
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/target/tcp.c | 50 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 48 insertions(+), 2 deletions(-)
+ security/keys/key.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 26c911ddc2de..2974abd30b45 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -118,6 +118,7 @@ struct nvmet_tcp_cmd {
- 	u32				pdu_len;
- 	u32				pdu_recv;
- 	int				sg_idx;
-+	char				recv_cbuf[CMSG_LEN(sizeof(char))];
- 	struct msghdr			recv_msg;
- 	struct bio_vec			*iov;
- 	u32				flags;
-@@ -1104,12 +1105,39 @@ static inline bool nvmet_tcp_pdu_valid(u8 type)
- 	return false;
+diff --git a/security/keys/key.c b/security/keys/key.c
+index 5c0c7df833f8..bd1b7d45df90 100644
+--- a/security/keys/key.c
++++ b/security/keys/key.c
+@@ -693,6 +693,7 @@ struct key *key_lookup(key_serial_t id)
+ 	spin_unlock(&key_serial_lock);
+ 	return key;
  }
++EXPORT_SYMBOL_GPL(key_lookup);
  
-+static bool nvmet_tcp_tls_record_ok(struct msghdr *msg, char *cbuf)
-+{
-+	struct cmsghdr *cmsg = (struct cmsghdr *)cbuf;
-+	unsigned char ctype;
-+
-+	if (!IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS))
-+		return true;
-+
-+	if (CMSG_OK(msg, cmsg) &&
-+	    cmsg->cmsg_level == SOL_TLS &&
-+	    cmsg->cmsg_type == TLS_GET_RECORD_TYPE) {
-+		ctype = *((unsigned char *)CMSG_DATA(cmsg));
-+		if (ctype != TLS_RECORD_TYPE_DATA) {
-+			pr_err("unhandled TLS record %d\n", ctype);
-+			return false;
-+		}
-+	}
-+	return true;
-+}
-+
- static int nvmet_tcp_try_recv_pdu(struct nvmet_tcp_queue *queue)
- {
- 	struct nvme_tcp_hdr *hdr = &queue->pdu.cmd.hdr;
- 	int len;
- 	struct kvec iov;
--	struct msghdr msg = { .msg_flags = MSG_DONTWAIT };
-+	char cbuf[CMSG_LEN(sizeof(char))] = {};
-+	struct msghdr msg = {
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+		.msg_control = cbuf,
-+		.msg_controllen = sizeof(cbuf),
-+#endif
-+		.msg_flags = MSG_DONTWAIT
-+	};
- 
- recv:
- 	iov.iov_base = (void *)&queue->pdu + queue->offset;
-@@ -1118,6 +1146,8 @@ static int nvmet_tcp_try_recv_pdu(struct nvmet_tcp_queue *queue)
- 			iov.iov_len, msg.msg_flags);
- 	if (unlikely(len < 0))
- 		return len;
-+	if (!nvmet_tcp_tls_record_ok(&msg, cbuf))
-+		return -ENOTCONN;
- 
- 	queue->offset += len;
- 	queue->left -= len;
-@@ -1177,6 +1207,9 @@ static int nvmet_tcp_try_recv_data(struct nvmet_tcp_queue *queue)
- 			cmd->recv_msg.msg_flags);
- 		if (ret <= 0)
- 			return ret;
-+		if (!nvmet_tcp_tls_record_ok(&cmd->recv_msg,
-+					     cmd->recv_cbuf))
-+			return -ENOTCONN;
- 
- 		cmd->pdu_recv += ret;
- 		cmd->rbytes_done += ret;
-@@ -1198,7 +1231,14 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet_tcp_queue *queue)
- {
- 	struct nvmet_tcp_cmd *cmd = queue->cmd;
- 	int ret;
--	struct msghdr msg = { .msg_flags = MSG_DONTWAIT };
-+	char cbuf[CMSG_LEN(sizeof(char))] = {};
-+	struct msghdr msg = {
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+		.msg_control = cbuf,
-+		.msg_controllen = sizeof(cbuf),
-+#endif
-+		.msg_flags = MSG_DONTWAIT
-+	};
- 	struct kvec iov = {
- 		.iov_base = (void *)&cmd->recv_ddgst + queue->offset,
- 		.iov_len = queue->left
-@@ -1208,6 +1248,8 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet_tcp_queue *queue)
- 			iov.iov_len, msg.msg_flags);
- 	if (unlikely(ret < 0))
- 		return ret;
-+	if (!nvmet_tcp_tls_record_ok(&msg, cbuf))
-+		return -ENOTCONN;
- 
- 	queue->offset += ret;
- 	queue->left -= ret;
-@@ -1377,6 +1419,10 @@ static int nvmet_tcp_alloc_cmd(struct nvmet_tcp_queue *queue,
- 	if (!c->r2t_pdu)
- 		goto out_free_data;
- 
-+	if (IS_ENABLED(CONFIG_NVME_TARGET_TCP_TLS)) {
-+		c->recv_msg.msg_control = c->recv_cbuf;
-+		c->recv_msg.msg_controllen = sizeof(c->recv_cbuf);
-+	}
- 	c->recv_msg.msg_flags = MSG_DONTWAIT | MSG_NOSIGNAL;
- 
- 	list_add_tail(&c->entry, &queue->free_list);
+ /*
+  * Find and lock the specified key type against removal.
 -- 
 2.35.3
 

@@ -1,34 +1,34 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C592564
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275EC23D3
 	for <kernel-tls-handshake@lists.linux.dev>; Wed, 19 Apr 2023 06:57:21 +0000 (UTC)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id 4E5AF1FD8C;
+	by smtp-out1.suse.de (Postfix) with ESMTP id 3CEE42199B;
 	Wed, 19 Apr 2023 06:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1681887438; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wZXRO4qbhDvFqreQVzFlZlWMzEZZQaqd21ICS1LMOtQ=;
-	b=KkgOx1ohrBcrhXsjOujyo/+1RmSkDdYX2ZcNS3MTuvg8g+9vXuuYl+Mybk9H/CvkCHveDz
-	i8eZB0/HgS80ESlwScoWnK06en2eeQHxHKSSC1anp7VXDmHgWREQJ3ycyuIH1Jjn5YoPkM
-	dGGIV1giR8xw/royPWqhR8gQ+l+FF2E=
+	bh=9rasEmXQCGCjgR9dNkV8eIgT4/JUc92YBTpkdrk9erk=;
+	b=GBfQNZ1+HjJoQdXVsPee55kGeNtujImFlnyY0pTgxZVPTWja8aKxkDWmLylApEKUf9QLHa
+	3gK8oRxmCg+oo3rQRVNo5iPqDdRXjBdB/b9MUDc42fgvnfx8zqmKWYWhsDGBzpvQMFWTCV
+	UqIS464UNXmdWNiuenGdgTA8CEueG/I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1681887438;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wZXRO4qbhDvFqreQVzFlZlWMzEZZQaqd21ICS1LMOtQ=;
-	b=ZYtFFKBy9N65yG/NKiWmP6hOs5GQKOH6FqQBV8vM+/qMUnaLaM/9IPQyCKcXorWqRfvGin
-	5tAb8sollPDEWmDg==
+	bh=9rasEmXQCGCjgR9dNkV8eIgT4/JUc92YBTpkdrk9erk=;
+	b=Rwlib/BcqZZINMhAMGAGTeqMKo6pRmm6To1vadCR/jCrsyAD/AkYxb2FZEIa/8TCy9K1W/
+	vOgvuahiBRpZVRAQ==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 2DBFB2C149;
-	Wed, 19 Apr 2023 06:57:18 +0000 (UTC)
+	by relay2.suse.de (Postfix) with ESMTP id D29EA2C141;
+	Wed, 19 Apr 2023 06:57:17 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 04F2D51C26D5; Wed, 19 Apr 2023 08:57:18 +0200 (CEST)
+	id C66D251C26C9; Wed, 19 Apr 2023 08:57:17 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>,
@@ -36,11 +36,10 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	linux-nvme@lists.infradead.org,
 	Chuck Lever <chuck.lever@oracle.com>,
 	kernel-tls-handshake@lists.linux.dev,
-	Hannes Reinecke <hare@suse.de>,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH 07/17] net/tls: handle MSG_EOR for tls_sw TX flow
-Date: Wed, 19 Apr 2023 08:57:04 +0200
-Message-Id: <20230419065714.52076-8-hare@suse.de>
+	Hannes Reinecke <hare@suse.de>
+Subject: [PATCH 01/17] nvme-keyring: register '.nvme' keyring
+Date: Wed, 19 Apr 2023 08:56:58 +0200
+Message-Id: <20230419065714.52076-2-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230419065714.52076-1-hare@suse.de>
 References: <20230419065714.52076-1-hare@suse.de>
@@ -52,62 +51,165 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-tls_sw_sendmsg() / tls_do_sw_sendpage() already checks for an
-'end of record' by evaluating the 'MSG_MORE' / 'MSG_SENDPAGE_NOTLAST'
-setting. So MSG_EOR can easily be handled by treating it
-as the opposite of MSG_MORE / MSG_SENDPAGE_NOTLAST.
+Register a '.nvme' keyring to hold keys for TLS and DH-HMAC-CHAP and
+add a new config option NVME_KEYRING.
+We need a separate keyring for NVMe as the configuration is done
+via individual commands (eg for configfs), and the usual per-session
+or per-process keyrings can't be used.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
-Cc: Jakub Kicinski <kuba@kernel.org>
 ---
- net/tls/tls_sw.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/nvme/common/Kconfig   |  4 ++++
+ drivers/nvme/common/Makefile  |  3 ++-
+ drivers/nvme/common/keyring.c | 40 +++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/core.c      | 10 +++++++--
+ include/linux/nvme-keyring.h  | 28 ++++++++++++++++++++++++
+ 5 files changed, 82 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/nvme/common/keyring.c
+ create mode 100644 include/linux/nvme-keyring.h
 
-diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-index 827292e29f99..9bee2dcd55bf 100644
---- a/net/tls/tls_sw.c
-+++ b/net/tls/tls_sw.c
-@@ -953,9 +953,12 @@ int tls_sw_sendmsg(struct sock *sk, struct msghdr *msg, size_t size)
- 	int pending;
+diff --git a/drivers/nvme/common/Kconfig b/drivers/nvme/common/Kconfig
+index 4514f44362dd..641b27adb047 100644
+--- a/drivers/nvme/common/Kconfig
++++ b/drivers/nvme/common/Kconfig
+@@ -2,3 +2,7 @@
  
- 	if (msg->msg_flags & ~(MSG_MORE | MSG_DONTWAIT | MSG_NOSIGNAL |
--			       MSG_CMSG_COMPAT))
-+			       MSG_EOR | MSG_CMSG_COMPAT))
- 		return -EOPNOTSUPP;
- 
-+	if (msg->msg_flags & MSG_EOR)
-+		eor = true;
+ config NVME_COMMON
+        tristate
 +
- 	ret = mutex_lock_interruptible(&tls_ctx->tx_lock);
- 	if (ret)
- 		return ret;
-@@ -1173,6 +1176,8 @@ static int tls_sw_do_sendpage(struct sock *sk, struct page *page,
- 	bool eor;
++config NVME_KEYRING
++       bool
++       select KEYS
+diff --git a/drivers/nvme/common/Makefile b/drivers/nvme/common/Makefile
+index 720c625b8a52..0cbd0b0b8d49 100644
+--- a/drivers/nvme/common/Makefile
++++ b/drivers/nvme/common/Makefile
+@@ -4,4 +4,5 @@ ccflags-y			+= -I$(src)
  
- 	eor = !(flags & MSG_SENDPAGE_NOTLAST);
-+	if (flags & MSG_EOR)
-+		eor = true;
- 	sk_clear_bit(SOCKWQ_ASYNC_NOSPACE, sk);
+ obj-$(CONFIG_NVME_COMMON)	+= nvme-common.o
  
- 	/* Call the sk_stream functions to manage the sndbuf mem. */
-@@ -1274,7 +1279,7 @@ static int tls_sw_do_sendpage(struct sock *sk, struct page *page,
- int tls_sw_sendpage_locked(struct sock *sk, struct page *page,
- 			   int offset, size_t size, int flags)
+-nvme-common-y			+= auth.o
++nvme-common-$(CONFIG_NVME_AUTH)	+= auth.o
++nvme-common-$(CONFIG_NVME_KEYRING) += keyring.o
+diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
+new file mode 100644
+index 000000000000..5cf64b278119
+--- /dev/null
++++ b/drivers/nvme/common/keyring.c
+@@ -0,0 +1,40 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (c) 2023 Hannes Reinecke, SUSE Labs
++ */
++
++#include <linux/module.h>
++#include <linux/seq_file.h>
++#include <linux/key-type.h>
++#include <keys/user-type.h>
++#include <linux/nvme.h>
++
++static struct key *nvme_keyring;
++
++key_serial_t nvme_keyring_id(void)
++{
++	return nvme_keyring->serial;
++}
++EXPORT_SYMBOL_GPL(nvme_keyring_id);
++
++int nvme_keyring_init(void)
++{
++	nvme_keyring = keyring_alloc(".nvme",
++				     GLOBAL_ROOT_UID, GLOBAL_ROOT_GID,
++				     current_cred(),
++				     (KEY_POS_ALL & ~KEY_POS_SETATTR) |
++				     (KEY_USR_ALL & ~KEY_USR_SETATTR),
++				     KEY_ALLOC_NOT_IN_QUOTA, NULL, NULL);
++	if (IS_ERR(nvme_keyring))
++		return PTR_ERR(nvme_keyring);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(nvme_keyring_init);
++
++void nvme_keyring_exit(void)
++{
++	key_revoke(nvme_keyring);
++	key_put(nvme_keyring);
++}
++EXPORT_SYMBOL_GPL(nvme_keyring_exit);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 6c1e7d6709e0..79aa215aec76 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -25,6 +25,7 @@
+ #include "nvme.h"
+ #include "fabrics.h"
+ #include <linux/nvme-auth.h>
++#include <linux/nvme-keyring.h>
+ 
+ #define CREATE_TRACE_POINTS
+ #include "trace.h"
+@@ -5401,12 +5402,16 @@ static int __init nvme_core_init(void)
+ 		result = PTR_ERR(nvme_ns_chr_class);
+ 		goto unregister_generic_ns;
+ 	}
+-
+-	result = nvme_init_auth();
++	result = nvme_keyring_init();
+ 	if (result)
+ 		goto destroy_ns_chr;
++	result = nvme_init_auth();
++	if (result)
++		goto keyring_exit;
+ 	return 0;
+ 
++keyring_exit:
++	nvme_keyring_exit();
+ destroy_ns_chr:
+ 	class_destroy(nvme_ns_chr_class);
+ unregister_generic_ns:
+@@ -5430,6 +5435,7 @@ static int __init nvme_core_init(void)
+ static void __exit nvme_core_exit(void)
  {
--	if (flags & ~(MSG_MORE | MSG_DONTWAIT | MSG_NOSIGNAL |
-+	if (flags & ~(MSG_MORE | MSG_DONTWAIT | MSG_NOSIGNAL | MSG_EOR |
- 		      MSG_SENDPAGE_NOTLAST | MSG_SENDPAGE_NOPOLICY |
- 		      MSG_NO_SHARED_FRAGS))
- 		return -EOPNOTSUPP;
-@@ -1288,7 +1293,7 @@ int tls_sw_sendpage(struct sock *sk, struct page *page,
- 	struct tls_context *tls_ctx = tls_get_ctx(sk);
- 	int ret;
- 
--	if (flags & ~(MSG_MORE | MSG_DONTWAIT | MSG_NOSIGNAL |
-+	if (flags & ~(MSG_MORE | MSG_DONTWAIT | MSG_NOSIGNAL | MSG_EOR |
- 		      MSG_SENDPAGE_NOTLAST | MSG_SENDPAGE_NOPOLICY))
- 		return -EOPNOTSUPP;
- 
+ 	nvme_exit_auth();
++	nvme_keyring_exit();
+ 	class_destroy(nvme_ns_chr_class);
+ 	class_destroy(nvme_subsys_class);
+ 	class_destroy(nvme_class);
+diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
+new file mode 100644
+index 000000000000..32bd264a71e6
+--- /dev/null
++++ b/include/linux/nvme-keyring.h
+@@ -0,0 +1,28 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2023 Hannes Reinecke, SUSE Labs
++ */
++
++#ifndef _NVME_KEYRING_H
++#define _NVME_KEYRING_H
++
++#ifdef CONFIG_NVME_KEYRING
++
++key_serial_t nvme_keyring_id(void);
++int nvme_keyring_init(void);
++void nvme_keyring_exit(void);
++
++#else
++
++static inline key_serial_t nvme_keyring_id(void)
++{
++	return 0;
++}
++static inline int nvme_keyring_init(void)
++{
++	return 0;
++}
++static inline void nvme_keyring_exit(void) {}
++
++#endif /* !CONFIG_NVME_KEYRING */
++#endif /* _NVME_KEYRING_H */
 -- 
 2.35.3
 

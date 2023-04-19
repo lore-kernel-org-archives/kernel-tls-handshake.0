@@ -1,34 +1,34 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19BCC23CB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220DE23D0
 	for <kernel-tls-handshake@lists.linux.dev>; Wed, 19 Apr 2023 06:57:21 +0000 (UTC)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id 445821FD84;
+	by smtp-out1.suse.de (Postfix) with ESMTP id 3F0FC219A4;
 	Wed, 19 Apr 2023 06:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1681887438; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=D2jMKOmNF2qw/bBBdcdrFg+yGA0M8qQfBwrpoxTsBm4=;
-	b=OKeFqdSvAsKIfs+eM8gq1o648XHDFZyy72ZiFMUic/cyyjLAltlJjIK2ZOLOTTKgi49gLn
-	X13BDNb7r41FCzcxco69SoEtQuFx1+GyM6II5zoEhN64ucRTUggfAT+2+it4cnSR1P7T+Y
-	ez5f4u94L3G1wkkWB45SqdU0JfIkfc8=
+	bh=fbXGJqT4hT2InAf85ntthypdfFi3dfVDKCVJVFGzsYo=;
+	b=OmIDWJJft+HQH132rhpJP5GBY0QcIGeHkNQ1DJDUgv1ja6fQW2bQYP1Nti9Zltsbvt3o5r
+	v0cFy9/0/YvEcTMxb8sEUsYq7A0zg/hGOWELexcl33icDBysQJhomvoiMe0z8oloGUmA2q
+	4ewC1Y9dxLNT+Kk10p7NLUjsbIuX5Do=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1681887438;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=D2jMKOmNF2qw/bBBdcdrFg+yGA0M8qQfBwrpoxTsBm4=;
-	b=0GA+aPRixgPNnc7QE1WQGa3YAltTVa5GZj9Ye/loAdZO5mPNys5RBZyAQ4GAkLONb9iDr+
-	A5uhAY0k3IEIGwBA==
+	bh=fbXGJqT4hT2InAf85ntthypdfFi3dfVDKCVJVFGzsYo=;
+	b=ap35PDCW3NcLlkIw5SHhZX9qnCYi1N/Xw05vnODZkB3FcxKq59zEiclW5URVRzUssCfmzB
+	DF/iAXlmYdj4cfCQ==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id 2DC9F2C14E;
-	Wed, 19 Apr 2023 06:57:18 +0000 (UTC)
+	by relay2.suse.de (Postfix) with ESMTP id E4D462C145;
+	Wed, 19 Apr 2023 06:57:17 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id 0D4D851C26D7; Wed, 19 Apr 2023 08:57:18 +0200 (CEST)
+	id D76D951C26CD; Wed, 19 Apr 2023 08:57:17 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>,
@@ -37,9 +37,9 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	Chuck Lever <chuck.lever@oracle.com>,
 	kernel-tls-handshake@lists.linux.dev,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 08/17] nvme-tcp: fixup MSG_SENDPAGE_NOTLAST
-Date: Wed, 19 Apr 2023 08:57:05 +0200
-Message-Id: <20230419065714.52076-9-hare@suse.de>
+Subject: [PATCH 03/17] nvme: add TCP TSAS definitions
+Date: Wed, 19 Apr 2023 08:57:00 +0200
+Message-Id: <20230419065714.52076-4-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230419065714.52076-1-hare@suse.de>
 References: <20230419065714.52076-1-hare@suse.de>
@@ -51,61 +51,39 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We can only set MSG_SENDPAGE_NOTLAST when sending the command PDU if the
-actual data is transferred via sendpage(), too.
-If we use sendmsg() to transfer the data we end up with a TX stall on TLS
-as it implements different code paths for sendmsg() and sendpage().
-So check in nvme_tcp_try_send_pdu() if inline data is present and revert
-to sendmsg if the inline data cannot be sent via sendpage().
-
 Signed-off-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
- drivers/nvme/host/tcp.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ include/linux/nvme.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 273c1f2760a4..9ecd7db2cd98 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -995,9 +995,11 @@ static int nvme_tcp_try_send_data(struct nvme_tcp_request *req)
- 		if (last && !queue->data_digest && !nvme_tcp_queue_more(queue))
- 			flags |= MSG_EOR;
- 		else
--			flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
-+			flags |= MSG_MORE;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 4fad4aa245fb..6e55a7a701e6 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -108,6 +108,13 @@ enum {
+ 	NVMF_RDMA_CMS_RDMA_CM	= 1, /* Sockets based endpoint addressing */
+ };
  
- 		if (sendpage_ok(page)) {
-+			if (flags & MSG_MORE)
-+				flags |= MSG_SENDPAGE_NOTLAST;
- 			ret = kernel_sendpage(queue->sock, page, offset, len,
- 					flags);
- 		} else {
-@@ -1049,15 +1051,23 @@ static int nvme_tcp_try_send_cmd_pdu(struct nvme_tcp_request *req)
- 	int ret;
- 
- 	if (inline_data || nvme_tcp_queue_more(queue))
--		flags |= MSG_MORE | MSG_SENDPAGE_NOTLAST;
-+		flags |= MSG_MORE;
- 	else
- 		flags |= MSG_EOR;
- 
- 	if (queue->hdr_digest && !req->offset)
- 		nvme_tcp_hdgst(queue->snd_hash, pdu, sizeof(*pdu));
- 
--	ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
--			offset_in_page(pdu) + req->offset, len,  flags);
-+	if (!inline_data || sendpage_ok(nvme_tcp_req_cur_page(req))) {
-+		if (flags & MSG_MORE)
-+			flags |= MSG_SENDPAGE_NOTLAST;
-+		ret = kernel_sendpage(queue->sock, virt_to_page(pdu),
-+				offset_in_page(pdu) + req->offset, len,  flags);
-+	} else {
-+		ret = sock_no_sendpage(queue->sock, virt_to_page(pdu),
-+				offset_in_page(pdu) + req->offset,
-+				len, flags);
-+	}
- 	if (unlikely(ret <= 0))
- 		return ret;
++/* TSAS SECTYPE for TCP transport */
++enum {
++	NVMF_TCP_SECTYPE_NONE = 0, /* No Security */
++	NVMF_TCP_SECTYPE_TLS12 = 1, /* TLSv1.2, NVMe-oF 1.1 and NVMe-TCP 3.6.1.1 */
++	NVMF_TCP_SECTYPE_TLS13 = 2, /* TLSv1.3, NVMe-oF 1.1 and NVMe-TCP 3.6.1.1 */
++};
++
+ #define NVME_AQ_DEPTH		32
+ #define NVME_NR_AEN_COMMANDS	1
+ #define NVME_AQ_BLK_MQ_DEPTH	(NVME_AQ_DEPTH - NVME_NR_AEN_COMMANDS)
+@@ -1453,6 +1460,9 @@ struct nvmf_disc_rsp_page_entry {
+ 			__u16	pkey;
+ 			__u8	resv10[246];
+ 		} rdma;
++		struct tcp {
++			__u8	sectype;
++		} tcp;
+ 	} tsas;
+ };
  
 -- 
 2.35.3

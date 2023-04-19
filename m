@@ -1,34 +1,34 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275EC23D3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E77923D8
 	for <kernel-tls-handshake@lists.linux.dev>; Wed, 19 Apr 2023 06:57:21 +0000 (UTC)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 3CEE42199B;
+	by smtp-out2.suse.de (Postfix) with ESMTP id 4E2551FD8A;
 	Wed, 19 Apr 2023 06:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1681887438; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9rasEmXQCGCjgR9dNkV8eIgT4/JUc92YBTpkdrk9erk=;
-	b=GBfQNZ1+HjJoQdXVsPee55kGeNtujImFlnyY0pTgxZVPTWja8aKxkDWmLylApEKUf9QLHa
-	3gK8oRxmCg+oo3rQRVNo5iPqDdRXjBdB/b9MUDc42fgvnfx8zqmKWYWhsDGBzpvQMFWTCV
-	UqIS464UNXmdWNiuenGdgTA8CEueG/I=
+	bh=FkpxMGhY1MA5ByHnAK2jYlZ4UwNSE3Z7E6lf4DHHRnE=;
+	b=Gw5rE7yBN8T6tCeso4ggow6u5vDZ7kPamt5oNPgWNzdktj5kmGx8+U9MwQU+b6iQyZb2yJ
+	zEBOE0cItOxJc5dQ3E64J0IRYqEWTBrSk8QemsYnLTNh6hF4wSSePs968+TyqJhnjYWoIa
+	uNsw0KKsJtPOyyYmt4g/i+y/Xb4kzFA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1681887438;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9rasEmXQCGCjgR9dNkV8eIgT4/JUc92YBTpkdrk9erk=;
-	b=Rwlib/BcqZZINMhAMGAGTeqMKo6pRmm6To1vadCR/jCrsyAD/AkYxb2FZEIa/8TCy9K1W/
-	vOgvuahiBRpZVRAQ==
+	bh=FkpxMGhY1MA5ByHnAK2jYlZ4UwNSE3Z7E6lf4DHHRnE=;
+	b=xCbhR6B+Kn7C2p09JcG52p/LPxOk9yKNrdYolJB9VK7GeRfhoo/1tlpM0WCTO+Lo+oSJz3
+	L5LYO6jp2J63SVDw==
 Received: from adalid.arch.suse.de (adalid.arch.suse.de [10.161.8.13])
-	by relay2.suse.de (Postfix) with ESMTP id D29EA2C141;
-	Wed, 19 Apr 2023 06:57:17 +0000 (UTC)
+	by relay2.suse.de (Postfix) with ESMTP id 3AE982C15C;
+	Wed, 19 Apr 2023 06:57:18 +0000 (UTC)
 Received: by adalid.arch.suse.de (Postfix, from userid 16045)
-	id C66D251C26C9; Wed, 19 Apr 2023 08:57:17 +0200 (CEST)
+	id 3687751C26E1; Wed, 19 Apr 2023 08:57:18 +0200 (CEST)
 From: Hannes Reinecke <hare@suse.de>
 To: Sagi Grimberg <sagi@grimberg.me>
 Cc: Christoph Hellwig <hch@lst.de>,
@@ -37,9 +37,9 @@ Cc: Christoph Hellwig <hch@lst.de>,
 	Chuck Lever <chuck.lever@oracle.com>,
 	kernel-tls-handshake@lists.linux.dev,
 	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH 01/17] nvme-keyring: register '.nvme' keyring
-Date: Wed, 19 Apr 2023 08:56:58 +0200
-Message-Id: <20230419065714.52076-2-hare@suse.de>
+Subject: [PATCH 13/17] nvme-fabrics: parse options 'keyring' and 'tls_key'
+Date: Wed, 19 Apr 2023 08:57:10 +0200
+Message-Id: <20230419065714.52076-14-hare@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230419065714.52076-1-hare@suse.de>
 References: <20230419065714.52076-1-hare@suse.de>
@@ -51,165 +51,178 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Register a '.nvme' keyring to hold keys for TLS and DH-HMAC-CHAP and
-add a new config option NVME_KEYRING.
-We need a separate keyring for NVMe as the configuration is done
-via individual commands (eg for configfs), and the usual per-session
-or per-process keyrings can't be used.
+Parse the fabrics options 'keyring' and 'tls_key' and store the
+referenced keys in the options structure.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
 ---
- drivers/nvme/common/Kconfig   |  4 ++++
- drivers/nvme/common/Makefile  |  3 ++-
- drivers/nvme/common/keyring.c | 40 +++++++++++++++++++++++++++++++++++
- drivers/nvme/host/core.c      | 10 +++++++--
- include/linux/nvme-keyring.h  | 28 ++++++++++++++++++++++++
- 5 files changed, 82 insertions(+), 3 deletions(-)
- create mode 100644 drivers/nvme/common/keyring.c
- create mode 100644 include/linux/nvme-keyring.h
+ drivers/nvme/host/fabrics.c | 69 ++++++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/fabrics.h |  6 ++++
+ drivers/nvme/host/tcp.c     | 11 ++++--
+ 3 files changed, 82 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/common/Kconfig b/drivers/nvme/common/Kconfig
-index 4514f44362dd..641b27adb047 100644
---- a/drivers/nvme/common/Kconfig
-+++ b/drivers/nvme/common/Kconfig
-@@ -2,3 +2,7 @@
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 2aa8fb991455..8fb80ccc38e1 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -605,6 +605,10 @@ static const match_table_t opt_tokens = {
+ 	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
+ 	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
+ 	{ NVMF_OPT_TOS,			"tos=%d"		},
++#ifdef CONFIG_NVME_TCP_TLS
++	{ NVMF_OPT_KEYRING,		"keyring=%d"		},
++	{ NVMF_OPT_TLS_KEY,		"tls_key=%d"		},
++#endif
+ 	{ NVMF_OPT_FAIL_FAST_TMO,	"fast_io_fail_tmo=%d"	},
+ 	{ NVMF_OPT_DISCOVERY,		"discovery"		},
+ 	{ NVMF_OPT_DHCHAP_SECRET,	"dhchap_secret=%s"	},
+@@ -622,8 +626,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 	char *options, *o, *p;
+ 	int token, ret = 0;
+ 	size_t nqnlen  = 0;
+-	int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO;
++	int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO, key_id;
+ 	uuid_t hostid;
++	struct key *key = NULL;
  
- config NVME_COMMON
-        tristate
-+
-+config NVME_KEYRING
-+       bool
-+       select KEYS
-diff --git a/drivers/nvme/common/Makefile b/drivers/nvme/common/Makefile
-index 720c625b8a52..0cbd0b0b8d49 100644
---- a/drivers/nvme/common/Makefile
-+++ b/drivers/nvme/common/Makefile
-@@ -4,4 +4,5 @@ ccflags-y			+= -I$(src)
- 
- obj-$(CONFIG_NVME_COMMON)	+= nvme-common.o
- 
--nvme-common-y			+= auth.o
-+nvme-common-$(CONFIG_NVME_AUTH)	+= auth.o
-+nvme-common-$(CONFIG_NVME_KEYRING) += keyring.o
-diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
-new file mode 100644
-index 000000000000..5cf64b278119
---- /dev/null
-+++ b/drivers/nvme/common/keyring.c
-@@ -0,0 +1,40 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2023 Hannes Reinecke, SUSE Labs
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/seq_file.h>
-+#include <linux/key-type.h>
-+#include <keys/user-type.h>
-+#include <linux/nvme.h>
-+
-+static struct key *nvme_keyring;
-+
-+key_serial_t nvme_keyring_id(void)
-+{
-+	return nvme_keyring->serial;
-+}
-+EXPORT_SYMBOL_GPL(nvme_keyring_id);
-+
-+int nvme_keyring_init(void)
-+{
-+	nvme_keyring = keyring_alloc(".nvme",
-+				     GLOBAL_ROOT_UID, GLOBAL_ROOT_GID,
-+				     current_cred(),
-+				     (KEY_POS_ALL & ~KEY_POS_SETATTR) |
-+				     (KEY_USR_ALL & ~KEY_USR_SETATTR),
-+				     KEY_ALLOC_NOT_IN_QUOTA, NULL, NULL);
-+	if (IS_ERR(nvme_keyring))
-+		return PTR_ERR(nvme_keyring);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(nvme_keyring_init);
-+
-+void nvme_keyring_exit(void)
-+{
-+	key_revoke(nvme_keyring);
-+	key_put(nvme_keyring);
-+}
-+EXPORT_SYMBOL_GPL(nvme_keyring_exit);
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6c1e7d6709e0..79aa215aec76 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -25,6 +25,7 @@
- #include "nvme.h"
- #include "fabrics.h"
- #include <linux/nvme-auth.h>
-+#include <linux/nvme-keyring.h>
- 
- #define CREATE_TRACE_POINTS
- #include "trace.h"
-@@ -5401,12 +5402,16 @@ static int __init nvme_core_init(void)
- 		result = PTR_ERR(nvme_ns_chr_class);
- 		goto unregister_generic_ns;
- 	}
--
--	result = nvme_init_auth();
-+	result = nvme_keyring_init();
- 	if (result)
- 		goto destroy_ns_chr;
-+	result = nvme_init_auth();
-+	if (result)
-+		goto keyring_exit;
- 	return 0;
- 
-+keyring_exit:
-+	nvme_keyring_exit();
- destroy_ns_chr:
- 	class_destroy(nvme_ns_chr_class);
- unregister_generic_ns:
-@@ -5430,6 +5435,7 @@ static int __init nvme_core_init(void)
- static void __exit nvme_core_exit(void)
+ 	/* Set defaults */
+ 	opts->queue_size = NVMF_DEF_QUEUE_SIZE;
+@@ -891,6 +896,66 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 			}
+ 			opts->tos = token;
+ 			break;
++		case NVMF_OPT_KEYRING:
++			if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
++				pr_err("TLS is not supported\n");
++				ret = -EINVAL;
++				goto out;
++			}
++			if (match_int(args, &key_id)) {
++				ret = -EINVAL;
++				goto out;
++			}
++			if (key_id < 0) {
++				pr_err("Invalid keyring id %d\n", key_id);
++				ret = -EINVAL;
++				goto out;
++			}
++			if (!key_id) {
++				pr_debug("Using default keyring\n");
++				key_put(opts->keyring);
++				opts->keyring = NULL;
++				break;
++			}
++			key = key_lookup(key_id);
++			if (!key) {
++				pr_err("Keyring id %08x not found\n", key_id);
++				ret = -ENOKEY;
++				goto out;
++			}
++			key_put(opts->keyring);
++			opts->keyring = key;
++			break;
++		case NVMF_OPT_TLS_KEY:
++			if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
++				pr_err("TLS is not supported\n");
++				ret = -EINVAL;
++				goto out;
++			}
++			if (match_int(args, &key_id)) {
++				ret = -EINVAL;
++				goto out;
++			}
++			if (key_id < 0) {
++				pr_err("Invalid key id %d\n", key_id);
++				ret = -EINVAL;
++				goto out;
++			}
++			if (!key_id) {
++				pr_debug("Using 'best' PSK\n");
++				key_put(opts->tls_key);
++				opts->tls_key = NULL;
++				break;
++			}
++			key = key_lookup(key_id);
++			if (!key) {
++				pr_err("Key id %08x not found\n", key_id);
++				ret = -ENOKEY;
++				goto out;
++			}
++			key_put(opts->tls_key);
++			opts->tls_key = key;
++			break;
+ 		case NVMF_OPT_DISCOVERY:
+ 			opts->discovery_nqn = true;
+ 			break;
+@@ -1055,6 +1120,8 @@ static int nvmf_check_allowed_opts(struct nvmf_ctrl_options *opts,
+ void nvmf_free_options(struct nvmf_ctrl_options *opts)
  {
- 	nvme_exit_auth();
-+	nvme_keyring_exit();
- 	class_destroy(nvme_ns_chr_class);
- 	class_destroy(nvme_subsys_class);
- 	class_destroy(nvme_class);
-diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
-new file mode 100644
-index 000000000000..32bd264a71e6
---- /dev/null
-+++ b/include/linux/nvme-keyring.h
-@@ -0,0 +1,28 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2023 Hannes Reinecke, SUSE Labs
-+ */
-+
-+#ifndef _NVME_KEYRING_H
-+#define _NVME_KEYRING_H
-+
-+#ifdef CONFIG_NVME_KEYRING
-+
-+key_serial_t nvme_keyring_id(void);
-+int nvme_keyring_init(void);
-+void nvme_keyring_exit(void);
-+
-+#else
-+
-+static inline key_serial_t nvme_keyring_id(void)
-+{
-+	return 0;
-+}
-+static inline int nvme_keyring_init(void)
-+{
-+	return 0;
-+}
-+static inline void nvme_keyring_exit(void) {}
-+
-+#endif /* !CONFIG_NVME_KEYRING */
-+#endif /* _NVME_KEYRING_H */
+ 	nvmf_host_put(opts->host);
++	key_put(opts->keyring);
++	key_put(opts->tls_key);
+ 	kfree(opts->transport);
+ 	kfree(opts->traddr);
+ 	kfree(opts->trsvcid);
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 5db36e250e7a..2ff7b7168a40 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -71,6 +71,8 @@ enum {
+ 	NVMF_OPT_DHCHAP_SECRET	= 1 << 23,
+ 	NVMF_OPT_DHCHAP_CTRL_SECRET = 1 << 24,
+ 	NVMF_OPT_TLS		= 1 << 25,
++	NVMF_OPT_KEYRING	= 1 << 26,
++	NVMF_OPT_TLS_KEY	= 1 << 27,
+ };
+ 
+ /**
+@@ -103,6 +105,8 @@ enum {
+  * @dhchap_secret: DH-HMAC-CHAP secret
+  * @dhchap_ctrl_secret: DH-HMAC-CHAP controller secret for bi-directional
+  *              authentication
++ * @keyring:    Keyring to use for key lookups
++ * @tls_key:    TLS key for encrypted connections (TCP)
+  * @tls:        Start TLS encrypted connections (TCP)
+  * @disable_sqflow: disable controller sq flow control
+  * @hdr_digest: generate/verify header digest (TCP)
+@@ -130,6 +134,8 @@ struct nvmf_ctrl_options {
+ 	int			max_reconnects;
+ 	char			*dhchap_secret;
+ 	char			*dhchap_ctrl_secret;
++	struct key		*keyring;
++	struct key		*tls_key;
+ 	bool			tls;
+ 	bool			disable_sqflow;
+ 	bool			hdr_digest;
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index a3ac512fd1cc..84bf6c80cc7c 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1582,6 +1582,8 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
+ 
+ 	dev_dbg(nctrl->device, "queue %d: start TLS with key %x\n",
+ 		qid, pskid);
++	if (nctrl->opts->keyring)
++		keyring = key_serial(nctrl->opts->keyring);
+ 	args.ta_sock = queue->sock;
+ 	args.ta_done = nvme_tcp_tls_done;
+ 	args.ta_data = queue;
+@@ -1890,9 +1892,12 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
+ 	key_serial_t psk_id = 0;
+ 
+ 	if (ctrl->opts->tls) {
+-		psk_id = nvme_tls_psk_default(NULL,
+-					      ctrl->opts->host->nqn,
+-					      ctrl->opts->subsysnqn);
++		if (ctrl->opts->tls_key)
++			psk_id = key_serial(ctrl->opts->tls_key);
++		else
++			psk_id = nvme_tls_psk_default(ctrl->opts->keyring,
++						      ctrl->opts->host->nqn,
++						      ctrl->opts->subsysnqn);
+ 		if (!psk_id) {
+ 			dev_err(ctrl->device, "no valid PSK found\n");
+ 			ret = -ENOKEY;
 -- 
 2.35.3
 

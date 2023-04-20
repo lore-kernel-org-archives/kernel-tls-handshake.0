@@ -1,199 +1,116 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE768F44
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 20 Apr 2023 17:56:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69E0BC433EF;
-	Thu, 20 Apr 2023 17:56:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F208F44
+	for <kernel-tls-handshake@lists.linux.dev>; Thu, 20 Apr 2023 17:56:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DA88C433D2;
+	Thu, 20 Apr 2023 17:56:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682013392;
-	bh=/SbfuxzidwhfKSqhs5xHtJb0tWqZEYnOHpFcd9eNzqo=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=JTrdkP1kWDcjtNr3pyHf218GtGuX8Khvl7NEB2KebOEtVXV+34H+DlQ//InWaIYMF
-	 4qy2zyC2wGm5ShsSgTyb+WALEaqIzSGYq5YrsWPC/ULsIVVqhwfKrPf0/LuZ+5I5M8
-	 ZbfGTP7pDmuGJlrSdy0NCArp5XS+7rIllZDLFnQqfR1olrGeXqyiiqqzm0AQQN27Su
-	 SFsHvWBOe08uMORpR5m9amRjGFmfxBvYPrOw3zeMTms0xcjBCTCOcYUzHNgA1Y/246
-	 7QkmnkBh7Hjds4gyjbE/q51Ec5DY22C/bSAFeuFdZXczi13SHBZazy4kGjCgbSqdec
-	 LsTM81vEWzOug==
-Subject: [PATCH v1 2/2] NFSD: Handle new xprtsec= export option
-From: Chuck Lever <cel@kernel.org>
-To: linux-nfs@vger.kernel.org
-Cc: kernel-tls-handshake@lists.linux.dev
-Date: Thu, 20 Apr 2023 13:56:31 -0400
-Message-ID: 
- <168201339129.6370.5280916277494986894.stgit@91.116.238.104.host.secureserver.net>
-In-Reply-To: 
- <168201329016.6370.17351667274885826598.stgit@91.116.238.104.host.secureserver.net>
-References: 
- <168201329016.6370.17351667274885826598.stgit@91.116.238.104.host.secureserver.net>
-User-Agent: StGit/1.5
+	s=k20201202; t=1682013400;
+	bh=tafVwy5Yk2gbY8wvmTFGksa0Tt3e80TF66rooYP8jAg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AeEBaBS2OKW0opezrYzpNhCdsnkIb3hLvarnSVhByC6o9tBpFKzQkk/zQlQIuOHcf
+	 ug15DaKPP7ujXnVM4pTADjajV1wpOedUHhjFXrxmk+ZrPkrnLvjp38c+6v1A9YXWXC
+	 /NzndiW7D1eRKqYSrO2tdqAVnzG9Rk9evYuvweP0l6LYTpzyC++LHZilzzxg0XpGGx
+	 +FBRW8xWjCl9agRCKJcs/jPY4GyxCongWJezhaUArfTYLKgkwPkfr4XoFeyBIHSaK8
+	 RxO3Raqj6j9/mL7gPY8iPLT4TNFi+uZAdJkWvtn6dZ8OosF9/XdnbPOPl/IHqutEh/
+	 meDYTLvgKDH5w==
+Date: Thu, 20 Apr 2023 10:56:38 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Chuck Lever <cel@kernel.org>
+Cc: kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
+	netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev
+Subject: Re: [PATCH v10 2/4] net/handshake: Create a NETLINK service for
+ handling handshake requests
+Message-ID: <20230420175638.GA2835317@dev-arch.thelio-3990X>
+References: <168174169259.9520.1911007910797225963.stgit@91.116.238.104.host.secureserver.net>
+ <168174194627.9520.9141674093687429487.stgit@91.116.238.104.host.secureserver.net>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <168174194627.9520.9141674093687429487.stgit@91.116.238.104.host.secureserver.net>
 
-From: Chuck Lever <chuck.lever@oracle.com>
+Hi Chuck,
 
-Enable administrators to require clients to use transport layer
-security when accessing particular exports.
+On Mon, Apr 17, 2023 at 10:32:26AM -0400, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
+> 
+> When a kernel consumer needs a transport layer security session, it
+> first needs a handshake to negotiate and establish a session. This
+> negotiation can be done in user space via one of the several
+> existing library implementations, or it can be done in the kernel.
+> 
+> No in-kernel handshake implementations yet exist. In their absence,
+> we add a netlink service that can:
+> 
+> a. Notify a user space daemon that a handshake is needed.
+> 
+> b. Once notified, the daemon calls the kernel back via this
+>    netlink service to get the handshake parameters, including an
+>    open socket on which to establish the session.
+> 
+> c. Once the handshake is complete, the daemon reports the
+>    session status and other information via a second netlink
+>    operation. This operation marks that it is safe for the
+>    kernel to use the open socket and the security session
+>    established there.
+> 
+> The notification service uses a multicast group. Each handshake
+> mechanism (eg, tlshd) adopts its own group number so that the
+> handshake services are completely independent of one another. The
+> kernel can then tell via netlink_has_listeners() whether a handshake
+> service is active and prepared to handle a handshake request.
+> 
+> A new netlink operation, ACCEPT, acts like accept(2) in that it
+> instantiates a file descriptor in the user space daemon's fd table.
+> If this operation is successful, the reply carries the fd number,
+> which can be treated as an open and ready file descriptor.
+> 
+> While user space is performing the handshake, the kernel keeps its
+> muddy paws off the open socket. A second new netlink operation,
+> DONE, indicates that the user space daemon is finished with the
+> socket and it is safe for the kernel to use again. The operation
+> also indicates whether a session was established successfully.
+> 
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+...
+>  net/handshake/netlink.c                    |  312 ++++++++++++++++++++++++++
+...
+> +static struct pernet_operations __net_initdata handshake_genl_net_ops = {
+> +	.init		= handshake_net_init,
+> +	.exit		= handshake_net_exit,
+> +	.id		= &handshake_net_id,
+> +	.size		= sizeof(struct handshake_net),
+> +};
+...
+> +static void __exit handshake_exit(void)
+> +{
+> +	unregister_pernet_subsys(&handshake_genl_net_ops);
+> +	handshake_net_id = 0;
+> +
+> +	handshake_req_hash_destroy();
+> +	genl_unregister_family(&handshake_nl_family);
+> +}
+> +
+> +module_init(handshake_init);
+> +module_exit(handshake_exit);
 
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
----
- fs/nfsd/export.c                 |   51 ++++++++++++++++++++++++++++++++++++--
- fs/nfsd/export.h                 |    1 +
- include/uapi/linux/nfsd/export.h |   13 ++++++++++
- 3 files changed, 62 insertions(+), 3 deletions(-)
+I am not sure if this has been reported yet but it appears this
+introduces a section mismatch warning in several configurations
+according to KernelCI:
 
-diff --git a/fs/nfsd/export.c b/fs/nfsd/export.c
-index 6da74aebe1fb..ae85257b4238 100644
---- a/fs/nfsd/export.c
-+++ b/fs/nfsd/export.c
-@@ -439,7 +439,6 @@ static int check_export(struct path *path, int *flags, unsigned char *uuid)
- 		return -EINVAL;
- 	}
- 	return 0;
--
- }
- 
- #ifdef CONFIG_NFSD_V4
-@@ -546,6 +545,29 @@ static inline int
- secinfo_parse(char **mesg, char *buf, struct svc_export *exp) { return 0; }
- #endif
- 
-+static int xprtsec_parse(char **mesg, char *buf, struct svc_export *exp)
-+{
-+	unsigned int i, mode, listsize;
-+	int err;
-+
-+	err = get_uint(mesg, &listsize);
-+	if (err)
-+		return err;
-+	if (listsize > NFSEXP_XPRTSEC_NUM)
-+		return -EINVAL;
-+
-+	exp->ex_xprtsec_modes = 0;
-+	for (i = 0; i < listsize; i++) {
-+		err = get_uint(mesg, &mode);
-+		if (err)
-+			return err;
-+		if (mode > NFSEXP_XPRTSEC_MTLS)
-+			return -EINVAL;
-+		exp->ex_xprtsec_modes |= mode;
-+	}
-+	return 0;
-+}
-+
- static inline int
- nfsd_uuid_parse(char **mesg, char *buf, unsigned char **puuid)
- {
-@@ -608,6 +630,7 @@ static int svc_export_parse(struct cache_detail *cd, char *mesg, int mlen)
- 	exp.ex_client = dom;
- 	exp.cd = cd;
- 	exp.ex_devid_map = NULL;
-+	exp.ex_xprtsec_modes = NFSEXP_XPRTSEC_ALL;
- 
- 	/* expiry */
- 	err = get_expiry(&mesg, &exp.h.expiry_time);
-@@ -649,6 +672,8 @@ static int svc_export_parse(struct cache_detail *cd, char *mesg, int mlen)
- 				err = nfsd_uuid_parse(&mesg, buf, &exp.ex_uuid);
- 			else if (strcmp(buf, "secinfo") == 0)
- 				err = secinfo_parse(&mesg, buf, &exp);
-+			else if (strcmp(buf, "xprtsec") == 0)
-+				err = xprtsec_parse(&mesg, buf, &exp);
- 			else
- 				/* quietly ignore unknown words and anything
- 				 * following. Newer user-space can try to set
-@@ -662,6 +687,7 @@ static int svc_export_parse(struct cache_detail *cd, char *mesg, int mlen)
- 		err = check_export(&exp.ex_path, &exp.ex_flags, exp.ex_uuid);
- 		if (err)
- 			goto out4;
-+
- 		/*
- 		 * No point caching this if it would immediately expire.
- 		 * Also, this protects exportfs's dummy export from the
-@@ -823,6 +849,7 @@ static void export_update(struct cache_head *cnew, struct cache_head *citem)
- 	for (i = 0; i < MAX_SECINFO_LIST; i++) {
- 		new->ex_flavors[i] = item->ex_flavors[i];
- 	}
-+	new->ex_xprtsec_modes = item->ex_xprtsec_modes;
- }
- 
- static struct cache_head *svc_export_alloc(void)
-@@ -1034,9 +1061,26 @@ static struct svc_export *exp_find(struct cache_detail *cd,
- 
- __be32 check_nfsd_access(struct svc_export *exp, struct svc_rqst *rqstp)
- {
--	struct exp_flavor_info *f;
--	struct exp_flavor_info *end = exp->ex_flavors + exp->ex_nflavors;
-+	struct exp_flavor_info *f, *end = exp->ex_flavors + exp->ex_nflavors;
-+	struct svc_xprt *xprt = rqstp->rq_xprt;
-+
-+	if (exp->ex_xprtsec_modes & NFSEXP_XPRTSEC_NONE) {
-+		if (!test_bit(XPT_TLS_SESSION, &xprt->xpt_flags))
-+			goto ok;
-+	}
-+	if (exp->ex_xprtsec_modes & NFSEXP_XPRTSEC_TLS) {
-+		if (test_bit(XPT_TLS_SESSION, &xprt->xpt_flags) &&
-+		    !test_bit(XPT_PEER_AUTH, &xprt->xpt_flags))
-+			goto ok;
-+	}
-+	if (exp->ex_xprtsec_modes & NFSEXP_XPRTSEC_MTLS) {
-+		if (test_bit(XPT_TLS_SESSION, &xprt->xpt_flags) &&
-+		    test_bit(XPT_PEER_AUTH, &xprt->xpt_flags))
-+			goto ok;
-+	}
-+	goto denied;
- 
-+ok:
- 	/* legacy gss-only clients are always OK: */
- 	if (exp->ex_client == rqstp->rq_gssclient)
- 		return 0;
-@@ -1061,6 +1105,7 @@ __be32 check_nfsd_access(struct svc_export *exp, struct svc_rqst *rqstp)
- 	if (nfsd4_spo_must_allow(rqstp))
- 		return 0;
- 
-+denied:
- 	return rqstp->rq_vers < 4 ? nfserr_acces : nfserr_wrongsec;
- }
- 
-diff --git a/fs/nfsd/export.h b/fs/nfsd/export.h
-index d03f7f6a8642..2df8ae25aad3 100644
---- a/fs/nfsd/export.h
-+++ b/fs/nfsd/export.h
-@@ -77,6 +77,7 @@ struct svc_export {
- 	struct cache_detail	*cd;
- 	struct rcu_head		ex_rcu;
- 	struct export_stats	ex_stats;
-+	unsigned long		ex_xprtsec_modes;
- };
- 
- /* an "export key" (expkey) maps a filehandlefragement to an
-diff --git a/include/uapi/linux/nfsd/export.h b/include/uapi/linux/nfsd/export.h
-index 2124ba904779..a73ca3703abb 100644
---- a/include/uapi/linux/nfsd/export.h
-+++ b/include/uapi/linux/nfsd/export.h
-@@ -62,5 +62,18 @@
- 					| NFSEXP_ALLSQUASH \
- 					| NFSEXP_INSECURE_PORT)
- 
-+/*
-+ * Transport layer security policies that are permitted to access
-+ * an export
-+ */
-+#define NFSEXP_XPRTSEC_NONE	0x0001
-+#define NFSEXP_XPRTSEC_TLS	0x0002
-+#define NFSEXP_XPRTSEC_MTLS	0x0004
-+
-+#define NFSEXP_XPRTSEC_NUM	(3)
-+
-+#define NFSEXP_XPRTSEC_ALL	(NFSEXP_XPRTSEC_NONE | \
-+				 NFSEXP_XPRTSEC_TLS | \
-+				 NFSEXP_XPRTSEC_MTLS)
- 
- #endif /* _UAPINFSD_EXPORT_H */
+https://lore.kernel.org/6441748e.170a0220.531bd.8013@mx.google.com/
 
+  $ make -skj"$(nproc)" ARCH=mips CROSS_COMPILE=mips-linux- O=build jazz_defconfig all
+  ...
+  WARNING: modpost: vmlinux.o: section mismatch in reference: handshake_exit (section: .exit.text) -> handshake_genl_net_ops (section: .init.data)
 
+I guess '__net_initdata' should be dropped from handshake_genl_net_ops?
+
+Cheers,
+Nathan

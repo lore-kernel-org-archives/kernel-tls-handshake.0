@@ -1,72 +1,59 @@
-Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2AA8F44
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 20 Apr 2023 17:42:00 +0000 (UTC)
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-	by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4Q2Q2S4q2rz4xrr0
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 20 Apr 2023 19:41:52 +0200 (CEST)
-Received: from ramsan.of.borg ([84.195.187.55])
-	by laurent.telenet-ops.be with bizsmtp
-	id n5hl290011C8whw015hlzL; Thu, 20 Apr 2023 19:41:45 +0200
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1ppYCp-00HJNO-Ep;
-	Thu, 20 Apr 2023 19:37:23 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1ppYDj-00Fpe1-JL;
-	Thu, 20 Apr 2023 19:37:23 +0200
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: Chuck Lever <chuck.lever@oracle.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: kernel-tls-handshake@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] net/handshake: Fix section mismatch in handshake_exit
-Date: Thu, 20 Apr 2023 19:37:23 +0200
-Message-Id: <20230420173723.3773434-1-geert@linux-m68k.org>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C705C8F44
+	for <kernel-tls-handshake@lists.linux.dev>; Thu, 20 Apr 2023 17:56:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5076AC433EF;
+	Thu, 20 Apr 2023 17:56:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1682013379;
+	bh=Wja/VYvxJzyDI34sWit11mdsm9XzBkD6G2oeYwe0gts=;
+	h=Subject:From:To:Cc:Date:From;
+	b=Lq2kG1zvbQiyeYd7NLkfuetQCM4cHWn8P6qggdLNXcJBTwpMsr4yvqUhRsPNIiW5H
+	 q1yeU6c2c4YAxGXT4Xyam3+/ZdgD2P6RWYjQW8Wh/NUqvXrZ0GMbrj991LD5mhHsHl
+	 B7acdmFbEcyUuFxNFrH7/gWnpn/FGkLgQsq6cMLgk1u9+HdUAkfoQmmIOWjyhmxAlQ
+	 g/3OTb6unCsoeUM+v5r3odrSSclZbwcwbzvAptTSPGgUVMY64B64LlakYWhMLsFbKK
+	 Z+2Iu4v6ZKIxTLKDl3yneUMWro5+976ims1YZfKftxfWGuOY6T335ByRjZetHCIVhQ
+	 SdD3lobrIQB9g==
+Subject: [PATCH v1 0/2] NFSD support for RPC-with-TLS
+From: Chuck Lever <cel@kernel.org>
+To: linux-nfs@vger.kernel.org
+Cc: kernel-tls-handshake@lists.linux.dev
+Date: Thu, 20 Apr 2023 13:56:18 -0400
+Message-ID: 
+ <168201329016.6370.17351667274885826598.stgit@91.116.238.104.host.secureserver.net>
+User-Agent: StGit/1.5
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-If CONFIG_NET_NS=n (e.g. m68k/defconfig):
+Jakub has pulled the netlink handshake mechanism into net-next. I
+plan to rebase nfsd-next on net-next so I can include the following
+two patches as the first in-kernel consumer of TLS handshakes.
 
-    WARNING: modpost: vmlinux.o: section mismatch in reference: handshake_exit (section: .exit.text) -> handshake_genl_net_ops (section: .init.data)
-    ERROR: modpost: Section mismatches detected.
-
-Fix this by dropping the __net_initdata tag from handshake_genl_net_ops.
-
-Fixes: 3b3009ea8abb713b ("net/handshake: Create a NETLINK service for handling handshake requests")
-Reported-by: noreply@ellerman.id.au
-Closes: http://kisskb.ellerman.id.au/kisskb/buildresult/14912987
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 ---
- net/handshake/netlink.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
-index 8ea0ff993f9fba50..35c9c445e0b850d8 100644
---- a/net/handshake/netlink.c
-+++ b/net/handshake/netlink.c
-@@ -249,7 +249,7 @@ static void __net_exit handshake_net_exit(struct net *net)
- 	}
- }
- 
--static struct pernet_operations __net_initdata handshake_genl_net_ops = {
-+static struct pernet_operations handshake_genl_net_ops = {
- 	.init		= handshake_net_init,
- 	.exit		= handshake_net_exit,
- 	.id		= &handshake_net_id,
--- 
-2.34.1
+Chuck Lever (2):
+      SUNRPC: Support TLS handshake in the server-side TCP socket code
+      NFSD: Handle new xprtsec= export option
+
+
+ fs/nfsd/export.c                 |  51 +++++++++++++++-
+ fs/nfsd/export.h                 |   1 +
+ include/linux/sunrpc/svc_xprt.h  |   5 +-
+ include/linux/sunrpc/svcsock.h   |   2 +
+ include/trace/events/sunrpc.h    |  16 ++++-
+ include/uapi/linux/nfsd/export.h |  13 ++++
+ net/sunrpc/svc_xprt.c            |   5 +-
+ net/sunrpc/svcauth_unix.c        |  11 +++-
+ net/sunrpc/svcsock.c             | 101 ++++++++++++++++++++++++++++++-
+ 9 files changed, 194 insertions(+), 11 deletions(-)
+
+--
+Chuck Lever
 

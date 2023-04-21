@@ -1,32 +1,50 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D6F198
-	for <kernel-tls-handshake@lists.linux.dev>; Fri, 21 Apr 2023 00:36:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDD2FC433EF;
-	Fri, 21 Apr 2023 00:36:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682037383;
-	bh=tYjaWzcLiDxjvx2RsIZxgTM3l+Fu+bf3C6VF6D/N83Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z3R2Cne1HUPNq7sIqLNQC08+Sp3EHMuZIHemlErWrKDXIvuehdgkaOvHvsGMpQ9eK
-	 QknmRNFEcw6MQtsNTCKdGKZQbYt4JhBPrvoFI6GCAUF6QUmwdQ8kTXD2PTSbvePRLM
-	 RtcYONY04/DAhw1+Y1Hu8vwsmfU2k/zbiRVTXCn4NDhEdnc3GA8EcEXRlhVAHqztgz
-	 ddE3TTp8UoVTQQ+ir3buj156yFyHgOAzJGpiQhqXDLVgjFaDtZwnzZEBZLdVldbXGX
-	 XTjx4wf+Q/2hcLdi3PlvBU267McDJ46/DDo8EM87CMiwhzTI8lP1FvsBK1v/cT/7d6
-	 aY6DqRXkfbTvw==
-Date: Thu, 20 Apr 2023 20:36:20 -0400
-From: Chuck Lever <cel@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Chuck Lever <chuck.lever@oracle.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] net/handshake: Fix section mismatch in handshake_exit
-Message-ID: <ZEHahFowL+7Pc3Jm@manet.1015granger.net>
-References: <20230420173723.3773434-1-geert@linux-m68k.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055BA160
+	for <kernel-tls-handshake@lists.linux.dev>; Fri, 21 Apr 2023 06:32:04 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 19B5A1FDDB;
+	Fri, 21 Apr 2023 06:32:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1682058723; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=anBXLsOH67TngonUM9cUYiFUalItWHQkLvb7KU6lRDA=;
+	b=D62WDrk1RJWWq0aiGrAoYAmo2nJ0GNJ6eGwIrbMgTLkJD9M9sJKMMX27NPPYDqwkFp3h5T
+	VGsyAC82LV58szBJb71TAA0l2XiLnwi6cUhN98Ju/gMqUKWfFGdMFctPGSO6OfMycCJJ1p
+	y8+Frp+nLkdtI4kMKdXRzxUDz5dmHb8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1682058723;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=anBXLsOH67TngonUM9cUYiFUalItWHQkLvb7KU6lRDA=;
+	b=3eqQXoWEbG2YfRHwqH3zj0SEFPudsRJNVrH0gHtzoDIip4Sbrb55h8G07oYLT3pKE0t9cJ
+	w1+q1kxgUhjFvsBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0863B13456;
+	Fri, 21 Apr 2023 06:32:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id UF0LAuMtQmR+cgAAMHmgww
+	(envelope-from <dwagner@suse.de>); Fri, 21 Apr 2023 06:32:03 +0000
+Date: Fri, 21 Apr 2023 08:32:02 +0200
+From: Daniel Wagner <dwagner@suse.de>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>, 
+	Keith Busch <kbusch@kernel.org>, linux-nvme@lists.infradead.org, 
+	Chuck Lever <chuck.lever@oracle.com>, kernel-tls-handshake@lists.linux.dev
+Subject: Re: [PATCH 13/17] nvme-fabrics: parse options 'keyring' and 'tls_key'
+Message-ID: <bp3sinhr2fgfooryjbiezzsyuz2kwarxhldsgsbhij5uk7suct@hrdupmuv7jpn>
+References: <20230419065714.52076-1-hare@suse.de>
+ <20230419065714.52076-14-hare@suse.de>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -35,40 +53,14 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230420173723.3773434-1-geert@linux-m68k.org>
+In-Reply-To: <20230419065714.52076-14-hare@suse.de>
 
-On Thu, Apr 20, 2023 at 07:37:23PM +0200, Geert Uytterhoeven wrote:
-> If CONFIG_NET_NS=n (e.g. m68k/defconfig):
+On Wed, Apr 19, 2023 at 08:57:10AM +0200, Hannes Reinecke wrote:
+> Parse the fabrics options 'keyring' and 'tls_key' and store the
+> referenced keys in the options structure.
 > 
->     WARNING: modpost: vmlinux.o: section mismatch in reference: handshake_exit (section: .exit.text) -> handshake_genl_net_ops (section: .init.data)
->     ERROR: modpost: Section mismatches detected.
-> 
-> Fix this by dropping the __net_initdata tag from handshake_genl_net_ops.
-> 
-> Fixes: 3b3009ea8abb713b ("net/handshake: Create a NETLINK service for handling handshake requests")
-> Reported-by: noreply@ellerman.id.au
-> Closes: http://kisskb.ellerman.id.au/kisskb/buildresult/14912987
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
 
-Reviewed-by: Chuck Lever <chuck.lever@oracle.com>
+Thanks!
 
-> ---
->  net/handshake/netlink.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
-> index 8ea0ff993f9fba50..35c9c445e0b850d8 100644
-> --- a/net/handshake/netlink.c
-> +++ b/net/handshake/netlink.c
-> @@ -249,7 +249,7 @@ static void __net_exit handshake_net_exit(struct net *net)
->  	}
->  }
->  
-> -static struct pernet_operations __net_initdata handshake_genl_net_ops = {
-> +static struct pernet_operations handshake_genl_net_ops = {
->  	.init		= handshake_net_init,
->  	.exit		= handshake_net_exit,
->  	.id		= &handshake_net_id,
-> -- 
-> 2.34.1
-> 
+Reviewed-by: Daniel Wagner <dwagner@suse.de>

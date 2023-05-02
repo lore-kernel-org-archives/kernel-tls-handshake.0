@@ -1,65 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 123BE7F
-	for <kernel-tls-handshake@lists.linux.dev>; Sat, 22 Apr 2023 03:30:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B40A0C433EF;
-	Sat, 22 Apr 2023 03:30:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1682134218;
-	bh=qXQkVg3s1Pgn6+y0rxUr3E2JnkSisA+o9MAANIf7Cqo=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=TtBo2xsuARA7nxwLfkkWPU0HkPVRaaRGqwjbzqZYQY+mYLPWu8ROPqQ5JCkshbGs9
-	 7vvHxWSsz5D0zps1ul8BbNAG7o4ilqCpH5t6AVLWUBB5cf2w6+YkruHOqI26omRvO/
-	 wfFuxvTOzcQVUPnxOJToykk5kQUZ/UHVI/++gMwOFhwH+khco2Fi14cpmO8tj9oGo2
-	 +Ea0jEs92NLfh1dopBMgUvXIbsmgvADO8XgBBMnczghrRQmbLDsiOje7bDalXbWXB1
-	 8oZxw+9UZfFf+I5+CLCKRh06+wWFZUcSVHQUQSV3u1gafTJsJV/8K1bgt6d/Wk3srN
-	 2DLz70VSiR4Uw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 98573E270DA;
-	Sat, 22 Apr 2023 03:30:18 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F457E
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  2 May 2023 08:04:31 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3063208beedso1218340f8f.1
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 02 May 2023 01:04:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683014670; x=1685606670;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8GjW/Q6g7UOzoS+aS3tWwHjYMhU2glKnIHTMurdTi20=;
+        b=IhIPSSf2FnbnozgclHcdlkoD+yeDUA6gzy7eYNNsnxXnr0IYF8t0zE5QeVvUmWO/Ui
+         RvykLJ/yL3eaoukSmRaxd9jC3MyBF7a0GiGsR52gzay85/B5lioN//+SpyqentS5b9N2
+         zdCYH/2Y9igep2/02FbKl4DqXRFHhusMikXNMJgcO58H3oCRmoOO7tH9ba1zBdMa6e7A
+         hayzrQUDHRdPQAmemfb7Wl4NSQLYS81aS/TKQdLHkauouW4zOqwPt8YBm3GH7l7NNasf
+         um4dbOzzBGbsvjB0uZAcJUR3/u9K54OFoT77BINgzy6n52lTFeYmTid8T1nA2HqvnmYL
+         JWDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683014670; x=1685606670;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8GjW/Q6g7UOzoS+aS3tWwHjYMhU2glKnIHTMurdTi20=;
+        b=Zf9gSZAmexAabERENGM+QiKdnLjusnHet+D9J3X9EefcCbnzu6efF+WuWPIVGFDcwz
+         qg4obG73ZqVJyZ5T23eJZP3hA3rWfQ+3CldPWRDw/6JdeaPNzryWWANvufOx6sdSGmVC
+         WUKp62mpvKWgH+5hwqh0SX+CQYjZbDz/ZejflJaG+DWWptJl3tAt3y60956fyVsiTpSC
+         uZbmtNZGEk9N5qT2sVv18WI/msEKIzuvnB326krCSu0+mxmYf6RN+rmnDI7lspqTJtmP
+         ooBDJZIg/wGlKyvsmzv85qQWJkDtikO0weAAaEWttXppX2eOlz7KEza6MKVduFlJErX6
+         y70g==
+X-Gm-Message-State: AC+VfDwna9nhJAfWTEA5UnrWmqPKa3bgPHABNzbnFzn845ANurwcf6Uh
+	VtuATUVRUO4ZmDDfFPoUigZD2w==
+X-Google-Smtp-Source: ACHHUZ65JT1OfykQmeT+EluvoI4KrcqXUjIRl8xgcOfVEtGlnSUXYwX72aJQvIJXZuaAkesRK//bzA==
+X-Received: by 2002:a5d:6245:0:b0:306:3995:a123 with SMTP id m5-20020a5d6245000000b003063995a123mr458954wrv.27.1683014669991;
+        Tue, 02 May 2023 01:04:29 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id g2-20020a5d5402000000b002da75c5e143sm30121071wrv.29.2023.05.02.01.04.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 May 2023 01:04:27 -0700 (PDT)
+Date: Tue, 2 May 2023 11:04:23 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: chuck.lever@oracle.com
+Cc: kernel-tls-handshake@lists.linux.dev
+Subject: [bug report] net/handshake: Create a NETLINK service for handling
+ handshake requests
+Message-ID: <f4e2ebae-c40f-4267-84e5-f3944d4d7f9f@kili.mountain>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] net/handshake: Fix section mismatch in handshake_exit
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <168213421862.22496.15254337472403818932.git-patchwork-notify@kernel.org>
-Date: Sat, 22 Apr 2023 03:30:18 +0000
-References: <20230420173723.3773434-1-geert@linux-m68k.org>
-In-Reply-To: <20230420173723.3773434-1-geert@linux-m68k.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: chuck.lever@oracle.com, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, kernel-tls-handshake@lists.linux.dev,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello:
+Hello Chuck Lever,
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+The patch 3b3009ea8abb: "net/handshake: Create a NETLINK service for
+handling handshake requests" from Apr 17, 2023, leads to the
+following Smatch static checker warning:
 
-On Thu, 20 Apr 2023 19:37:23 +0200 you wrote:
-> If CONFIG_NET_NS=n (e.g. m68k/defconfig):
-> 
->     WARNING: modpost: vmlinux.o: section mismatch in reference: handshake_exit (section: .exit.text) -> handshake_genl_net_ops (section: .init.data)
->     ERROR: modpost: Section mismatches detected.
-> 
-> Fix this by dropping the __net_initdata tag from handshake_genl_net_ops.
-> 
-> [...]
+	net/handshake/netlink.c:153 handshake_nl_accept_doit()
+	warn: fd used after fd_install() 'sock->file'
 
-Here is the summary with links:
-  - net/handshake: Fix section mismatch in handshake_exit
-    https://git.kernel.org/netdev/net-next/c/6aa445e39693
+net/handshake/netlink.c
+    116 int handshake_nl_accept_doit(struct sk_buff *skb, struct genl_info *info)
+    117 {
+    118         struct net *net = sock_net(skb->sk);
+    119         struct handshake_net *hn = handshake_pernet(net);
+    120         struct handshake_req *req = NULL;
+    121         struct socket *sock;
+    122         int class, fd, err;
+    123 
+    124         err = -EOPNOTSUPP;
+    125         if (!hn)
+    126                 goto out_status;
+    127 
+    128         err = -EINVAL;
+    129         if (GENL_REQ_ATTR_CHECK(info, HANDSHAKE_A_ACCEPT_HANDLER_CLASS))
+    130                 goto out_status;
+    131         class = nla_get_u32(info->attrs[HANDSHAKE_A_ACCEPT_HANDLER_CLASS]);
+    132 
+    133         err = -EAGAIN;
+    134         req = handshake_req_next(hn, class);
+    135         if (!req)
+    136                 goto out_status;
+    137 
+    138         sock = req->hr_sk->sk_socket;
+    139         fd = handshake_dup(sock);
+                     ^^^^^^^^^^^^^^^^^^^
+This calls fd_install(newfd, sock->file) so we cannot trust sock->file
+again after handshake_dup() succeeds.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
 
+    140         if (fd < 0) {
+    141                 err = fd;
+    142                 goto out_complete;
+    143         }
+    144         err = req->hr_proto->hp_accept(req, info, fd);
+    145         if (err)
+    146                 goto out_complete;
+                        ^^^^^^^^^^^^^^^^^
+This is an issue.  I believe it's better to leak the fd here and let it
+get cleaned up later when the process dies.  (I sound very confident
+here, but really I am just repeating things other people have said, like
+some kind of ChatGPT nonsense generator).
 
+	if (err) {
+		sock->file = NULL;
+		goto out_complete;
+	}
+
+    147 
+    148         trace_handshake_cmd_accept(net, req, req->hr_sk, fd);
+    149         return 0;
+    150 
+    151 out_complete:
+    152         handshake_complete(req, -EIO, NULL);
+--> 153         fput(sock->file);
+    154 out_status:
+    155         trace_handshake_cmd_accept_err(net, req, NULL, err);
+    156         return err;
+    157 }
+
+regards,
+dan carpenter

@@ -1,125 +1,117 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2084.outbound.protection.outlook.com [40.107.94.84])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F457E
-	for <kernel-tls-handshake@lists.linux.dev>; Tue,  2 May 2023 08:04:31 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3063208beedso1218340f8f.1
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 02 May 2023 01:04:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683014670; x=1685606670;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8GjW/Q6g7UOzoS+aS3tWwHjYMhU2glKnIHTMurdTi20=;
-        b=IhIPSSf2FnbnozgclHcdlkoD+yeDUA6gzy7eYNNsnxXnr0IYF8t0zE5QeVvUmWO/Ui
-         RvykLJ/yL3eaoukSmRaxd9jC3MyBF7a0GiGsR52gzay85/B5lioN//+SpyqentS5b9N2
-         zdCYH/2Y9igep2/02FbKl4DqXRFHhusMikXNMJgcO58H3oCRmoOO7tH9ba1zBdMa6e7A
-         hayzrQUDHRdPQAmemfb7Wl4NSQLYS81aS/TKQdLHkauouW4zOqwPt8YBm3GH7l7NNasf
-         um4dbOzzBGbsvjB0uZAcJUR3/u9K54OFoT77BINgzy6n52lTFeYmTid8T1nA2HqvnmYL
-         JWDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683014670; x=1685606670;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8GjW/Q6g7UOzoS+aS3tWwHjYMhU2glKnIHTMurdTi20=;
-        b=Zf9gSZAmexAabERENGM+QiKdnLjusnHet+D9J3X9EefcCbnzu6efF+WuWPIVGFDcwz
-         qg4obG73ZqVJyZ5T23eJZP3hA3rWfQ+3CldPWRDw/6JdeaPNzryWWANvufOx6sdSGmVC
-         WUKp62mpvKWgH+5hwqh0SX+CQYjZbDz/ZejflJaG+DWWptJl3tAt3y60956fyVsiTpSC
-         uZbmtNZGEk9N5qT2sVv18WI/msEKIzuvnB326krCSu0+mxmYf6RN+rmnDI7lspqTJtmP
-         ooBDJZIg/wGlKyvsmzv85qQWJkDtikO0weAAaEWttXppX2eOlz7KEza6MKVduFlJErX6
-         y70g==
-X-Gm-Message-State: AC+VfDwna9nhJAfWTEA5UnrWmqPKa3bgPHABNzbnFzn845ANurwcf6Uh
-	VtuATUVRUO4ZmDDfFPoUigZD2w==
-X-Google-Smtp-Source: ACHHUZ65JT1OfykQmeT+EluvoI4KrcqXUjIRl8xgcOfVEtGlnSUXYwX72aJQvIJXZuaAkesRK//bzA==
-X-Received: by 2002:a5d:6245:0:b0:306:3995:a123 with SMTP id m5-20020a5d6245000000b003063995a123mr458954wrv.27.1683014669991;
-        Tue, 02 May 2023 01:04:29 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id g2-20020a5d5402000000b002da75c5e143sm30121071wrv.29.2023.05.02.01.04.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 May 2023 01:04:27 -0700 (PDT)
-Date: Tue, 2 May 2023 11:04:23 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: chuck.lever@oracle.com
-Cc: kernel-tls-handshake@lists.linux.dev
-Subject: [bug report] net/handshake: Create a NETLINK service for handling
- handshake requests
-Message-ID: <f4e2ebae-c40f-4267-84e5-f3944d4d7f9f@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9068E7E
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  2 May 2023 14:17:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XfOsF7Z2HoKrFSYvPwiT9tVy4sEdVbTtir41msB3ybR8LIvMCChJ/TcylZuNZXUFNGJQCUQi1pSRZFt2kNRosi34SNe03zUkxmC0hegbHTYBecPqi4mkjZKOFIgo9iyujzx+T+Umit0ueO0zlx8g8IsF6cvLqAX8BVwx3QCqhEzrAdiHMnNHdfZjnVC360H6sxooEyCpfPGgEo/mPWO16sT9WrUAYkyS2E+jtVqCUu5Z+RR5QUKaGYNV3aCyES8gcUwouSaCoXNGiSjT/jaVSxxjQK1Lr/JmhRYM4RHnbBYnN5+TZhyIpnWfucNjYkpuENSoCATJHf866+BNeT3eAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vEFNRYOum5gkqgLIS7DDerU7xCMYeoBQDSzyv0+OTog=;
+ b=Kge7Qr+yXPahr2l6xC0Ia1A2diRRByzRodPs5krw8Pl2SBefNzWJa9TZ/V9xpNIGtTi1Fi9tvh67C2OctxqnUBJE5D5FTamBfztQx0jR5C9c0im8MRz/VP1uSc+TOdNmecQg0DEKhbrkrCyIuGHUr3iSj4Jcnvgv2K9wcpTEpTpynQmHwj+/8jvn7Bl5/RYPM7tw6X79D2XuaGnQqVJSzue4gAwz4GusQNCY6Id6S0ABn4qLZL+gFhkmnN+VX2zftzLvkvlsmmrHbi24kgYWHdoyGNjSTtuZXKwI1V8+fNdjr7gwE2grQzpTwvx+Ex9HvnCdN27KBexsuUkCmvfibA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vEFNRYOum5gkqgLIS7DDerU7xCMYeoBQDSzyv0+OTog=;
+ b=idI7MRC6BeusVz0I8m3vrsq2VPPe7tHdSrYwvZ8nc3cSjy9L8tlj3QCoLIkhuG/C6NklRMX4rQ/MH4aZo6oTqBoSqeIiTKLEo2dI8e1PMbvAr7E7/DzT+D3Ybr0Q5Z4RS756nn3oWBBmbUl6+EXSAOD1oUOuKlQEEZj/o3PccxxkaqybeZp1HtdzUcX+KedlmFjKqrsDX5sPDLlpw8RgrVhSz+rjxquwPErzNQFUyzk53NGkzkCmoiNwKzR9kXqXeso2+GIjLSjhf75MAsaxVp7ftdJT3qgrqBFZoxAINmV7MUx3Hvqp9I3SQucgLNKvB8GBqEQDcfWaju7VH9p3Yw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
+ by DM4PR12MB5039.namprd12.prod.outlook.com (2603:10b6:5:38a::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.31; Tue, 2 May
+ 2023 14:17:33 +0000
+Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::fada:70ac:b58a:12f6]) by SJ1PR12MB6075.namprd12.prod.outlook.com
+ ([fe80::fada:70ac:b58a:12f6%9]) with mapi id 15.20.6340.030; Tue, 2 May 2023
+ 14:17:32 +0000
+From: Aurelien Aptel <aaptel@nvidia.com>
+To: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
+ kernel-tls-handshake@lists.linux.dev, Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH 01/17] nvme-keyring: register '.nvme' keyring
+In-Reply-To: <20230419065714.52076-2-hare@suse.de>
+References: <20230419065714.52076-1-hare@suse.de>
+ <20230419065714.52076-2-hare@suse.de>
+Date: Tue, 02 May 2023 17:17:25 +0300
+Message-ID: <2538re6rf62.fsf@mtr-vdi-124.i-did-not-set--mail-host-address--so-tickle-me>
+Content-Type: text/plain
+X-ClientProxiedBy: FR3P281CA0067.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4b::14) To SJ1PR12MB6075.namprd12.prod.outlook.com
+ (2603:10b6:a03:45e::8)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|DM4PR12MB5039:EE_
+X-MS-Office365-Filtering-Correlation-Id: d763ee31-815a-4bcb-de5c-08db4b17f822
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	FiKeERP/SKqONDJcH2JGKHxEW+B4LFWdwqxQpcnur+Vq4VKguxLLlzir6CZrUfSCChxFsSRWP4bfVKI+0n9++BIfzAltTInAlB2gSXMmODxIUyxbBPbkAdbjsXVi2/466MKDn4sJvdemfYttQem/kRwxwvpzYEI2o5KtLuXb58EZ0gt762oPX1N6hug6RD8Lxq5fROi43pRILZY8j9uhTIT27ITk4uw2k9vkZiV1EqmY4tESWU40tHqpaBrsTigVytwbyQB0at2gS2qwpdKPhMqOG9u6Nid1MmvLUxf5ATfGflKmG3LTzPIooJlEoLTRZYKo7PRUthOC5wO6CuIuhlLs1O7+1119uR1Aj0Bwis89Hm6qwQYLaPj+RNfg6dU3hqp+H2wSxG/f1EYoXS2F5pNnrdxIqMBM+Rm+wB1ZCLNECUhM+3zb+FCkNpVZ1ge825Bb/hCzcnXX34gIkyo3eNA7ZN4EHNUmGTtud/NjZdZmLnH1c27J8bA4Hz1lRH6Mo68XwzABodPO+qlkf809U4jqlZ32NMJYT1W7mnjGsGi9iOLkfsATpQ/MWIHdzyV+
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(366004)(376002)(136003)(346002)(396003)(451199021)(110136005)(4326008)(41300700001)(316002)(54906003)(8936002)(66476007)(66556008)(66946007)(4744005)(2906002)(478600001)(8676002)(5660300002)(6666004)(6486002)(186003)(26005)(9686003)(6512007)(6506007)(86362001)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?RElelv90Ua1XH03hUUxB4JS5qVpgQEonJlo38y0VWcw6CddXmTKrQ1iiD7AY?=
+ =?us-ascii?Q?Y2Vic2q8tHqlMOT4E0yZSL86hQczRsayu5qK8RoqqVflpKZ1kXChLMkrSFti?=
+ =?us-ascii?Q?TS61sBlz0/iRZ0+MabLTsMJoacTSuR+BpEOf9JIQm0UpFj8QYWL9LumQwJIS?=
+ =?us-ascii?Q?/TBYDAkEPro7PND2fFRC1wbrwGm1tQhcDFVFD9ZB++DcdjRBIhnTEVBbVbHy?=
+ =?us-ascii?Q?EnHsulb1J9jFRxGDKldRVFMLWSGTa3wi/+kYSyfKJL0C0PNaTYbiUvZlS/4j?=
+ =?us-ascii?Q?03hiGcGKTuN8lGRf53bCORseHqrvSOtIP1zj6BOGWrfarYzpPqXovyXAn2uN?=
+ =?us-ascii?Q?QjhQv02k/00RJ7gGIXzC31n8iNw5E0oUo6Va9ZgWtLAAlVQDQrgBT+TJrOEY?=
+ =?us-ascii?Q?taq/D0BH1gQ+/vp7UllZKtcU7c20ID6sgZq8DI4x7a+1Nqbcb/GKHxNn3MdB?=
+ =?us-ascii?Q?0Uqu5Y64UarLefZsh+QqKeSZ5ID0nPysvUBSAfGfUJiyyCZgOd59j6HjtuuC?=
+ =?us-ascii?Q?Qm3CMnqzpWZjsqI2pRijnX58ap/yOsP8PDwtvSwTsKK27Y3KU00vR72Q1FxF?=
+ =?us-ascii?Q?QmFiHdVRMvKJszfO2MdpWaOlnPoV6zqlDWwjZvuruIebk8RuxsmqEZo1FQxm?=
+ =?us-ascii?Q?2MXhpKcSr7ARtKBscnCVP2Ey1cNi2PJrlsG0lWC4120SkW1cziGsfuRxXF66?=
+ =?us-ascii?Q?1z+3l+RvPTZs7PBYzQeLyOcf79gMj0vKqTmo5wbqDpdkE+1fAN+SN5rgKse8?=
+ =?us-ascii?Q?rDaKaUMlDAkrRn0siLOwPazyCHSfcrb/ToU/cEVoUQH+/54Mb6jT6NMuyBsX?=
+ =?us-ascii?Q?56LrSQMmW6CbpFd61CHIGtYqkKHI5xmOdsVdkCzYvb4W6Gfo0lhLutLbYbuy?=
+ =?us-ascii?Q?3pcMCo+8Pl7lSebBo11+TyYhnWFVeTOHS1gIDxWfEesMaBjwAANh5QIe3UGb?=
+ =?us-ascii?Q?50FUJXGsCJVmXknj3tq5/muFuSWum1nBlEWgtc15efn38IkrtHs69P1XFVZQ?=
+ =?us-ascii?Q?b1xEinxBshhqb/2T9l5WNL1Zl+K4/0mlH7DQlQtifz7WZUr2kOlksXHdxSLG?=
+ =?us-ascii?Q?o1b45L6Nb0mwTA0NwEA3hE16U1ZxmVvWnCH56b7exPDP5jNm+HB6+/wXP136?=
+ =?us-ascii?Q?7x2bvz7oskuC84ZD3uZxKU8Kt+41MKz+C/s0zJVgfKZ3Kl8XL0sc+KEegPAm?=
+ =?us-ascii?Q?g9kqb1Dd4Fz4ineFStJHlrJSp8Av5UkEekt/5s3zT3UAFELTta55ZuBTNx7B?=
+ =?us-ascii?Q?EEqdK82J5gaPMz97yNRx5M1YEeZc8xUswFQp4crb8JVaKdE3zKirSjua5ZNZ?=
+ =?us-ascii?Q?hbx2MlDAyE8eA/QPUbZ8z6qE70tIOV+y/6hFAX7JKk5Q0Bqyfe3ybBl16Q+0?=
+ =?us-ascii?Q?zNaDaFrHLECcGNekVYWPAEIX6Cj0NeLzQgXOGlLks5L7k/72Zwe4JPgFXW6M?=
+ =?us-ascii?Q?l6oZ52d4X6NjZfYk5ACd4237GrH0W7YXKi+GidR0Yu2I6Pa6AnMVNamnUPS2?=
+ =?us-ascii?Q?maH+tS4k+YC5hEL2aL6B9cRuXQDT2GrwRLP0U5YfvGTUl/qPjjA5aPByCq68?=
+ =?us-ascii?Q?B5GlT9P7rVP30zb1mDMNbyw6U0YGkZhCcP4pa9qi?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d763ee31-815a-4bcb-de5c-08db4b17f822
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2023 14:17:32.5153
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sBu+A5UMd6UmlmDjG4FLdckLw+eP40VDPgR+fhnS/LbkQVsYTOqrOUWXHmAomrk/0lOWKd/9N8E7N63QX+ZKDA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5039
 
-Hello Chuck Lever,
+Hi Hannes,
 
-The patch 3b3009ea8abb: "net/handshake: Create a NETLINK service for
-handling handshake requests" from Apr 17, 2023, leads to the
-following Smatch static checker warning:
+Just a heads up for anyone looking at this:
 
-	net/handshake/netlink.c:153 handshake_nl_accept_doit()
-	warn: fd used after fd_install() 'sock->file'
+Hannes Reinecke <hare@suse.de> writes:
+> Register a '.nvme' keyring to hold keys for TLS and DH-HMAC-CHAP and
+> add a new config option NVME_KEYRING.
 
-net/handshake/netlink.c
-    116 int handshake_nl_accept_doit(struct sk_buff *skb, struct genl_info *info)
-    117 {
-    118         struct net *net = sock_net(skb->sk);
-    119         struct handshake_net *hn = handshake_pernet(net);
-    120         struct handshake_req *req = NULL;
-    121         struct socket *sock;
-    122         int class, fd, err;
-    123 
-    124         err = -EOPNOTSUPP;
-    125         if (!hn)
-    126                 goto out_status;
-    127 
-    128         err = -EINVAL;
-    129         if (GENL_REQ_ATTR_CHECK(info, HANDSHAKE_A_ACCEPT_HANDLER_CLASS))
-    130                 goto out_status;
-    131         class = nla_get_u32(info->attrs[HANDSHAKE_A_ACCEPT_HANDLER_CLASS]);
-    132 
-    133         err = -EAGAIN;
-    134         req = handshake_req_next(hn, class);
-    135         if (!req)
-    136                 goto out_status;
-    137 
-    138         sock = req->hr_sk->sk_socket;
-    139         fd = handshake_dup(sock);
-                     ^^^^^^^^^^^^^^^^^^^
-This calls fd_install(newfd, sock->file) so we cannot trust sock->file
-again after handshake_dup() succeeds.
+I'm not sure what the config deps should be but this series fails to
+build if CONFIG_NVME_AUTH is not set:
 
+ERROR: modpost: missing MODULE_LICENSE() in drivers/nvme/common/nvme-common.o
 
-    140         if (fd < 0) {
-    141                 err = fd;
-    142                 goto out_complete;
-    143         }
-    144         err = req->hr_proto->hp_accept(req, info, fd);
-    145         if (err)
-    146                 goto out_complete;
-                        ^^^^^^^^^^^^^^^^^
-This is an issue.  I believe it's better to leak the fd here and let it
-get cleaned up later when the process dies.  (I sound very confident
-here, but really I am just repeating things other people have said, like
-some kind of ChatGPT nonsense generator).
-
-	if (err) {
-		sock->file = NULL;
-		goto out_complete;
-	}
-
-    147 
-    148         trace_handshake_cmd_accept(net, req, req->hr_sk, fd);
-    149         return 0;
-    150 
-    151 out_complete:
-    152         handshake_complete(req, -EIO, NULL);
---> 153         fput(sock->file);
-    154 out_status:
-    155         trace_handshake_cmd_accept_err(net, req, NULL, err);
-    156         return err;
-    157 }
-
-regards,
-dan carpenter
+Cheers,

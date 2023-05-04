@@ -1,48 +1,48 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF40FBF7
-	for <kernel-tls-handshake@lists.linux.dev>; Thu,  4 May 2023 14:58:19 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-2f55ffdbaedso423108f8f.2
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 04 May 2023 07:58:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18626FBF7
+	for <kernel-tls-handshake@lists.linux.dev>; Thu,  4 May 2023 14:58:55 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3023a56048bso538455f8f.3
+        for <kernel-tls-handshake@lists.linux.dev>; Thu, 04 May 2023 07:58:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683212298; x=1685804298;
+        d=linaro.org; s=google; t=1683212333; x=1685804333;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=sFhF7FYTBsyiAf07jWtXlnNDSmFLUuXZtpIstvg+wpE=;
-        b=T0xfZ38bHWTw8mJ+9IMeVPYeVM7EialRCeVyKm1g/ZZ25oLfoUvnmSjV76h2XNMMj6
-         JRUd2bUx/RvjuzZhGNnxx6n6SRlJojuDJF85ghhP5ZokJgha3nS4VopyLGVL0qDugZjB
-         8la0j0QgzNqjraCxzx+YaDtNpLXOkMSlYJ4vx1ws0jIdFO+cadFAcZbZKA2k87QrohTY
-         Z0B39ptRhkXCFr4wTBJ4bbZFx80Qkhus8AIsLYhQLet7oocqdI85mPBRSZ54OLEQXiec
-         zrknG4kk22s0ZcFLDur+q3s30deyjcYROccVw2Y8ROaVklGuR5Tq1DrmXDXgb+MLMLGI
-         Fetw==
+        bh=4v+n1pJ5F0+6XHeR6nwttzAUXT3ccV3EzPCUDlQG8II=;
+        b=D47aNkwsT1vvdgk3Be1Zq3PbH651ixPdwP+7WIfhzAohJCHYW9Wqhu1DJxJiwH6fkz
+         2KmZpVkwGbhlznhTv2AnRLaOPuT/nIxwS75OhKPAx5fWKfV4b2LvfqbJiW0ArCtCQo2J
+         fdDR7dyk0pd7wHihB+fDLh2K9iyAeuBKnRqJFV7hzMJpY1EW28wwbPMoMJA0ZczEp83i
+         trrtMwK6FhjJiXoQHz711gmrb/ZurakpudAxhcU2Yt9mGnIcOPvFKQ38G16RweHNXYSf
+         b+cVCF2W6QvhcyANJaakW5eq8022mVT0c/NcYVjY5uj5fbzeN+4SV0sZ/vwRfsLmxKjR
+         K9NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683212298; x=1685804298;
+        d=1e100.net; s=20221208; t=1683212333; x=1685804333;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sFhF7FYTBsyiAf07jWtXlnNDSmFLUuXZtpIstvg+wpE=;
-        b=GH0+oEDEC7WkG+BN1hsb9JMUfbrqrsMGKjNnS/GNSZyNfL06Wgb3/mvixVgjQjItwW
-         Wrl2oEGTMQOz/fh7gI59d/7h9x4szCjRstKdabRf1NlsJTD9KJn+j8KyUcXaEU0fq2LX
-         /deAWPhi97D9XEmRxWNRbCCNkPC1m5znaWgnwlVE8Uzf/6pm4wCU1IuUWrTA4ORP3RLL
-         Ho+Vh/VZ/Ip7LXsJhAZrmlfL+CIwg+ScEVA7KlN20icSrz5cKOB5MjLROaOXwwerTTTu
-         qisGSTepeIsLK7735i8nyjn1OTRffNfBAiFJaT/Ggi6fzfuBfXvd/6f+fMwR387ZLBPw
-         nudQ==
-X-Gm-Message-State: AC+VfDy/uswcs1NfPu2eHUa3FqbVqhYJCfmt2CfxO/Ms8gFhrftWrCRc
-	/fu3oqFRSvtFJlLgNUh99HoKfA==
-X-Google-Smtp-Source: ACHHUZ6FbnsHrKXd4qe0ePV/pe3Ag8AsoTn6hxRw7HAo1Eihotl84P4K5QnX2daTH3t2EJihwAkpTw==
-X-Received: by 2002:adf:f40f:0:b0:2dc:c0da:409 with SMTP id g15-20020adff40f000000b002dcc0da0409mr2751274wro.27.1683212297998;
-        Thu, 04 May 2023 07:58:17 -0700 (PDT)
+        bh=4v+n1pJ5F0+6XHeR6nwttzAUXT3ccV3EzPCUDlQG8II=;
+        b=hIYIDyJ7st5J2EuWyqBS2iD5IXZv+abfYolH8NdFppOgGDQTQSjW3Ud2ZhJ3Weup64
+         O+UmOpmgDh1Gy/fTUwAtWO6ywFN2YBUXxju6Er26vaP2Z0kSwktJXIeLjk+/R+TAxJGf
+         ovHl+5Lk0di0fwsPT733GntesO+hRPQv1wRV7FQnFvH3Bh6eh4s84tNN+oizpCKATjwW
+         B4J8nyFGLwz3plcQbR5PmBzrV7ihyro7qmKqxb75aUMIOBd6taYFIe4eQXO42kHZeJJ7
+         ib6g1EnqdQZnmk+XvfBolBpHgUuPrvSSNLyKJ8Nwf4W+ob/kFHiNyUxSKyOdra5wN//v
+         LU6g==
+X-Gm-Message-State: AC+VfDyc30T2JPkukx8md20BSdmz2h4LQu20G7vrsRwoNLjaT2RU6WdU
+	YlxGj+BA94ERQG+FSGo6Kqu6vF2GH7mPgcUPJKI=
+X-Google-Smtp-Source: ACHHUZ69zHHtOYmJdH3Eym8Xe0GXvbaXSYHnaFy4VNGEhiIK1GJMR4VJ/+ZE0E6KVWiacgZ9+jWdGA==
+X-Received: by 2002:a5d:5007:0:b0:2f6:519c:6aa6 with SMTP id e7-20020a5d5007000000b002f6519c6aa6mr2651660wrt.9.1683212333271;
+        Thu, 04 May 2023 07:58:53 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id t15-20020adfe10f000000b00304832cd960sm27162769wrz.10.2023.05.04.07.58.12
+        by smtp.gmail.com with ESMTPSA id e14-20020adfef0e000000b003063938bf7bsm7544763wro.86.2023.05.04.07.58.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 May 2023 07:58:15 -0700 (PDT)
-Date: Thu, 4 May 2023 17:57:24 +0300
+        Thu, 04 May 2023 07:58:51 -0700 (PDT)
+Date: Thu, 4 May 2023 17:57:32 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: chuck.lever@oracle.com
 Cc: kernel-tls-handshake@lists.linux.dev
 Subject: [bug report] net/handshake: Create a NETLINK service for handling
  handshake requests
-Message-ID: <3fb2bdde-cddb-4884-b217-90472ceeb524@kili.mountain>
+Message-ID: <8ab80ee4-968c-49d7-9ce3-faf9b40bebff@kili.mountain>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -58,58 +58,52 @@ The patch 3b3009ea8abb: "net/handshake: Create a NETLINK service for
 handling handshake requests" from Apr 17, 2023, leads to the
 following Smatch static checker warning:
 
-	net/handshake/netlink.c:195 handshake_nl_done_doit()
-	error: uninitialized symbol 'req'.
+	net/handshake/netlink.c:51 handshake_genl_notify()
+	warn: use 'flags' here instead of GFP_XXX?
 
 net/handshake/netlink.c
-    159 int handshake_nl_done_doit(struct sk_buff *skb, struct genl_info *info)
-    160 {
-    161         struct net *net = sock_net(skb->sk);
-    162         struct socket *sock = NULL;
-    163         struct handshake_req *req;
+    37 int handshake_genl_notify(struct net *net, const struct handshake_proto *proto,
+    38                           gfp_t flags)
+                                 ^^^^^^^^^^^
 
-uninitialized
+    39 {
+    40         struct sk_buff *msg;
+    41         void *hdr;
+    42 
+    43         /* Disable notifications during unit testing */
+    44         if (!test_bit(HANDSHAKE_F_PROTO_NOTIFY, &proto->hp_flags))
+    45                 return 0;
+    46 
+    47         if (!genl_has_listeners(&handshake_nl_family, net,
+    48                                 proto->hp_handler_class))
+    49                 return -ESRCH;
+    50 
+--> 51         msg = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
+                                                       ^^^^^^^^^^
+should be flags?
 
-    164         int fd, status, err;
-    165 
-    166         if (GENL_REQ_ATTR_CHECK(info, HANDSHAKE_A_DONE_SOCKFD))
-    167                 return -EINVAL;
-    168         fd = nla_get_u32(info->attrs[HANDSHAKE_A_DONE_SOCKFD]);
-    169 
-    170         err = 0;
-    171         sock = sockfd_lookup(fd, &err);
-    172         if (err) {
-    173                 err = -EBADF;
-    174                 goto out_status;
-
-goto
-
-    175         }
-    176 
-    177         req = handshake_req_hash_lookup(sock->sk);
-    178         if (!req) {
-    179                 err = -EBUSY;
-    180                 fput(sock->file);
-    181                 goto out_status;
-    182         }
-    183 
-    184         trace_handshake_cmd_done(net, req, sock->sk, fd);
-    185 
-    186         status = -EIO;
-    187         if (info->attrs[HANDSHAKE_A_DONE_STATUS])
-    188                 status = nla_get_u32(info->attrs[HANDSHAKE_A_DONE_STATUS]);
-    189 
-    190         handshake_complete(req, status, info);
-    191         fput(sock->file);
-    192         return 0;
-    193 
-    194 out_status:
---> 195         trace_handshake_cmd_done_err(net, req, sock->sk, err);
-                                                  ^^^
-warn
-
-    196         return err;
-    197 }
+    52         if (!msg)
+    53                 return -ENOMEM;
+    54 
+    55         hdr = genlmsg_put(msg, 0, 0, &handshake_nl_family, 0,
+    56                           HANDSHAKE_CMD_READY);
+    57         if (!hdr)
+    58                 goto out_free;
+    59 
+    60         if (nla_put_u32(msg, HANDSHAKE_A_ACCEPT_HANDLER_CLASS,
+    61                         proto->hp_handler_class) < 0) {
+    62                 genlmsg_cancel(msg, hdr);
+    63                 goto out_free;
+    64         }
+    65 
+    66         genlmsg_end(msg, hdr);
+    67         return genlmsg_multicast_netns(&handshake_nl_family, net, msg,
+    68                                        0, proto->hp_handler_class, flags);
+    69 
+    70 out_free:
+    71         nlmsg_free(msg);
+    72         return -EMSGSIZE;
+    73 }
 
 regards,
 dan carpenter

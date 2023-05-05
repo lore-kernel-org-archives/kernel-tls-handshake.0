@@ -1,97 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5030E2F33;
-	Fri,  5 May 2023 20:58:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3A1DC433D2;
-	Fri,  5 May 2023 20:58:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD748C2D2;
+	Fri,  5 May 2023 23:16:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8CE4C433D2;
+	Fri,  5 May 2023 23:16:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683320289;
-	bh=bIcl3jMwwIwDnX5GHYrzaNcHs2ilD1TkEoemVZMj9CQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=AFIKpcpgvdWAjm55IdBzYmlnrjMGxAYJuE8nBqxiXqydS0HO93oZf6KgLYe57U4fL
-	 1tgMyo4t0eEvwJdxfojQEZjAL5arnP+1e7KlhquLjjR36zlPoBP4HwwqOkboswGKOG
-	 JH/QUZ/zGeogfJsoXd8yl4GI8DalXeRDRn9k7d0aqPS7Q5SHf5rKrYsgyQ1sJUVUZc
-	 aSq+zfsTThsO0xPVEyYe+F6Coa7KYhlrqZc1L59hlUteo+scPisVCvNtRhd+tnXAgT
-	 5EfUTAoAynXEZLTkcPh0gKUxnk8aJCSCYeY/7XniOfbxTALCMq8w3jOku5IZSiSA/I
-	 U+KngOtYcPiAw==
-Date: Fri, 5 May 2023 13:58:08 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Chuck Lever <cel@kernel.org>
+	s=k20201202; t=1683328603;
+	bh=MjrcaV8NKMjjMk5QK1Jq414XZDQN6qQIQKeGSYFsT1M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Fm/WY/DLUUmlnk/SmxjACPZ1n4lAF6aZ8kNKwMhElz+bVSSkRlnlJyzVqTvWRVamT
+	 fG89Lc2QTRY3PKXTtJ8/Y6t57yK4yrD9vZd4ib77bvFklGKJZq1tsCqGHbozZbvI6K
+	 Mi1uZzjcnlJxefbikTLcPac/2GpFwJwSSHShfzGUT3IUvs4MRGRvLKqcRVhA2VWscW
+	 7GIo8t4E6kOYsDyvvJKdsBND6HWOT+GGGX71tt4jrIFuXLXqEuCocqzqFxTiLcupsz
+	 UBsjFHKyzCIroEk9peCr3LKCA4qpG/k9kmpW9Po1rj8cb1C9djkD197x8RzMADYFrF
+	 V1sNfF4FlC2CQ==
+Date: Fri, 5 May 2023 19:16:40 -0400
+From: Chuck Lever <cel@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
 Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- dan.carpenter@linaro.org
-Subject: Re: [PATCH 2/5] net/handshake: Fix handshake_dup() ref counting
-Message-ID: <20230505135808.6992113b@kernel.org>
-In-Reply-To: <168321389545.16695.14828237648251844351.stgit@oracle-102.nfsv4bat.org>
+	dan.carpenter@linaro.org
+Subject: Re: [PATCH 0/5] Bug fixes for net/handshake
+Message-ID: <ZFWOWErJ6eR/RX/X@manet.1015granger.net>
 References: <168321371754.16695.4217960864733718685.stgit@oracle-102.nfsv4bat.org>
-	<168321389545.16695.14828237648251844351.stgit@oracle-102.nfsv4bat.org>
+ <20230505133918.3c7257e8@kernel.org>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230505133918.3c7257e8@kernel.org>
 
-On Thu, 04 May 2023 11:25:05 -0400 Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
+On Fri, May 05, 2023 at 01:39:18PM -0700, Jakub Kicinski wrote:
+> On Thu, 04 May 2023 11:24:12 -0400 Chuck Lever wrote:
+> > I plan to send these as part of a 6.4-rc PR.
 > 
-> If get_unused_fd_flags() fails, we ended up calling fput(sock->file)
-> twice.
-> 
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for handling handshake requests")
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> Can you elaborate?  You'll send us the same code as PR?
+> I'm about to send the first batch of fixes to Linus,
+> I was going to apply this series.
 
-> diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
-> index 7ec8a76c3c8a..3508bc3e661d 100644
-> --- a/net/handshake/netlink.c
-> +++ b/net/handshake/netlink.c
-> @@ -96,17 +96,13 @@ EXPORT_SYMBOL(handshake_genl_put);
->   */
->  static int handshake_dup(struct socket *sock)
->  {
-> -	struct file *file;
->  	int newfd;
->  
-> -	file = get_file(sock->file);
->  	newfd = get_unused_fd_flags(O_CLOEXEC);
-> -	if (newfd < 0) {
-> -		fput(file);
-> +	if (newfd < 0)
->  		return newfd;
-> -	}
->  
-> -	fd_install(newfd, file);
-> +	fd_install(newfd, sock->file);
+Since I am listed as a maintainer/supporter of net/handshake, I
+assumed I can and should be sending changes through nfsd or some
+other repo I can commit to.
 
-I'm not vfs expert but doesn't this mean that we will now have the file
-installed in the fd table, under newfd, before we incremented the
-refcount?  Can't another thread close(newfd) and make sock->file
-get freed?
+netdev@ is also listed in MAINTAINERS, so I Cc'd you all on this
+series. I did not intend for you to be responsible for merging the
+series. We'll need to agree on a workflow going forward.
 
->  	return newfd;
->  }
->  
-> @@ -143,11 +139,11 @@ int handshake_nl_accept_doit(struct sk_buff *skb, struct genl_info *info)
->  		goto out_complete;
->  
->  	trace_handshake_cmd_accept(net, req, req->hr_sk, fd);
-> +	get_file(sock->file);	/* released by DONE */
-
-What if DONE does not get called?
-
->  	return 0;
->  
->  out_complete:
->  	handshake_complete(req, -EIO, NULL);
-
-We don't want to release the fd here?
-
-> -	fput(sock->file);
->  out_status:
->  	trace_handshake_cmd_accept_err(net, req, NULL, err);
->  	return err;
--- 
-pw-bot: cr
+Since you had some review questions about one of the patches,
+maybe that patch should not be merged at this time by either of us.

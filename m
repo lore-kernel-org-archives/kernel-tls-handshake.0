@@ -1,65 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AB8D304;
-	Fri,  5 May 2023 23:58:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C951FC433EF;
-	Fri,  5 May 2023 23:58:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4AEA621;
+	Sat,  6 May 2023 00:45:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 240B4C433EF;
+	Sat,  6 May 2023 00:45:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683331128;
-	bh=o5wx+4P6YdZOTfD4FbhIf08nZzpS5Hc5OvyK3xBMcGQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nEwObzL9FGv0BpBqs3URTqX85VLjuOZcBbPtEcosmjDlAu39JGwO97QCdnX03+F7N
-	 F+aQA6asaZPG/iFv115/fiZvWNljaFz4BFeiY8fWJlgSjXnQweLceku1VF7FcNUEYt
-	 OlAVRd7f+4I9f3ta0qjPJ/8f4WU4FdhGjrbDL+DDNgT1geWxyaEJaDnFZ9TQN+wEY8
-	 MVUtR1uD5dSoNGwa1nD/nE1yqeVAUrVGDWRwi6obCLwCIvXNFUDW5YLq5+ttYdisOG
-	 9JZTa8xNZYSDje+iY9D/9yhUQc6S854DyNtXPcBsq2OeS8fRdeC/x9Nw0GXXrNoq+i
-	 4Qz5yCFwMPd5g==
-Date: Fri, 5 May 2023 19:58:45 -0400
+	s=k20201202; t=1683333919;
+	bh=JlPSvOTGN/lrTMu4sjUnp9Jq2iN+uO0djrh24cm2MaQ=;
+	h=Subject:From:To:Cc:Date:From;
+	b=j1K7pzefZbVY/LnOQVoTo9mB2JONPShLc8OfbZiGXjj877NwSG2UnHFsYZKS4k/WF
+	 3k27tZkzcP/yjH+voSR3J7HLfwKkRLZpX8bGjPojNtWN5dlj5jUK9EGZrL9e+E2LiH
+	 Aegb7LGx2Sm961sBH7EsRepWdZhJ0XkpanCCL/1VY0QCXhP/pN7wTYw2LRUFdRGYft
+	 sxjPidG4AZ6NJPPnI1y8vFophElr3o7CMh1o6Xlw3jMoLYFarpij7kw/v4Hak9YMc6
+	 M2e7J8nvbXPzrCQvaTq726291FSdJIPoiLaftUGdGXm2LSlr0FUeKqPTJ+GMJO3FyS
+	 kMO8tEiYC//HQ==
+Subject: [PATCH v2 0/6] Bug fixes for net/handshake
 From: Chuck Lever <cel@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
-	dan.carpenter@linaro.org
-Subject: Re: [PATCH 0/5] Bug fixes for net/handshake
-Message-ID: <ZFWYNW4JAOWX6ASq@manet.1015granger.net>
-References: <168321371754.16695.4217960864733718685.stgit@oracle-102.nfsv4bat.org>
- <20230505133918.3c7257e8@kernel.org>
- <ZFWOWErJ6eR/RX/X@manet.1015granger.net>
- <20230505164715.55a12c77@kernel.org>
+To: kernel-tls-handshake@lists.linux.dev
+Cc: netdev@vger.kernel.org, dan.carpenter@linaro.org
+Date: Fri, 05 May 2023 20:45:08 -0400
+Message-ID: 
+ <168333373851.7813.11884763481187785511.stgit@oracle-102.nfsv4bat.org>
+User-Agent: StGit/1.5
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230505164715.55a12c77@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 05, 2023 at 04:47:15PM -0700, Jakub Kicinski wrote:
-> On Fri, 5 May 2023 19:16:40 -0400 Chuck Lever wrote:
-> > On Fri, May 05, 2023 at 01:39:18PM -0700, Jakub Kicinski wrote:
-> > > On Thu, 04 May 2023 11:24:12 -0400 Chuck Lever wrote:  
-> > > > I plan to send these as part of a 6.4-rc PR.  
-> > > 
-> > > Can you elaborate?  You'll send us the same code as PR?
-> > > I'm about to send the first batch of fixes to Linus,
-> > > I was going to apply this series.  
-> > 
-> > Since I am listed as a maintainer/supporter of net/handshake, I
-> > assumed I can and should be sending changes through nfsd or some
-> > other repo I can commit to.
-> > 
-> > netdev@ is also listed in MAINTAINERS, so I Cc'd you all on this
-> > series. I did not intend for you to be responsible for merging the
-> > series. We'll need to agree on a workflow going forward.
-> 
-> Let me talk to DaveM and Paolo -- with NFS being the main user
-> taking it via your trees is likely fine. But if it's a generic TLS
-> handshake and other users will appear - netdev trees may be a more
-> natural central point :S DaveM and Paolo are more familiar with
-> existing cases of similar nature (rxrpc?)..
+Build tested only, but these should address Jakub's review comments.
 
-Makes sense. We expect NVMe to become a consumer in the near future,
-and have considered a putative in-kernel QUIC implementation to be
-another potential consumer down the road.
+Please consider these for merge via net-next.
+
+Changes since v1:
+- Rework "Fix handshake_dup() ref counting"
+- Unpin sock->file when a handshake is cancelled
+
+---
+
+Chuck Lever (6):
+      net/handshake: Remove unneeded check from handshake_dup()
+      net/handshake: Fix handshake_dup() ref counting
+      net/handshake: Fix uninitialized local variable
+      net/handshake: handshake_genl_notify() shouldn't ignore @flags
+      net/handshake: Unpin sock->file if a handshake is cancelled
+      net/handshake: Enable the SNI extension to work properly
+
+
+ Documentation/netlink/specs/handshake.yaml |  4 ++++
+ Documentation/networking/tls-handshake.rst |  5 +++++
+ include/net/handshake.h                    |  1 +
+ include/uapi/linux/handshake.h             |  1 +
+ net/handshake/handshake.h                  |  1 +
+ net/handshake/netlink.c                    | 11 +++--------
+ net/handshake/request.c                    |  4 ++++
+ net/handshake/tlshd.c                      |  8 ++++++++
+ 8 files changed, 27 insertions(+), 8 deletions(-)
+
+--
+Chuck Lever
+

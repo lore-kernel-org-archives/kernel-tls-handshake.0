@@ -1,160 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2099.outbound.protection.outlook.com [40.107.93.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF12621;
-	Sat,  6 May 2023 00:47:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C3B4C433D2;
-	Sat,  6 May 2023 00:47:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683334071;
-	bh=eTxFe8I0usIgXQc4fJI8zUjobHNfAGGIsd3NKKltHMQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=VoPlxoH+/9NOT+F5fs9KAOGn0+MjOe5UFJNBfH1tv2fqxLhsmKTfHtcdSV0tSrkdq
-	 g0clwzOkGin6jdAv+1bZEGK6NEDc/2GLqaB6fyJoh6eiO+cCzCuW47Mic9tT/gfMPq
-	 hQ7JQSOrnlaiPDDkjgBx4V1GggnrEW1A3tifw/fUbp8xdAYykkmmej6ug7XnN9gVrL
-	 HBtPx3socnUbW+wH04kAag0s55Bf/0kyggS2isoK8BZZ4zWlN8y8vQvWO3C/3yafDX
-	 LRra8BQ1Nrcy67oa7+L2hyz05cwVy/a6a9Jq0j3tGYZLNPNYVR+ouoR7Blrzh0WCur
-	 moPRmro1//Wew==
-Subject: [PATCH v2 6/6] net/handshake: Enable the SNI extension to work
- properly
-From: Chuck Lever <cel@kernel.org>
-To: kernel-tls-handshake@lists.linux.dev
-Cc: netdev@vger.kernel.org, dan.carpenter@linaro.org
-Date: Fri, 05 May 2023 20:47:40 -0400
-Message-ID: 
- <168333405010.7813.3126925595560504793.stgit@oracle-102.nfsv4bat.org>
-In-Reply-To: 
- <168333373851.7813.11884763481187785511.stgit@oracle-102.nfsv4bat.org>
-References: 
- <168333373851.7813.11884763481187785511.stgit@oracle-102.nfsv4bat.org>
-User-Agent: StGit/1.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9A58BEB
+	for <kernel-tls-handshake@lists.linux.dev>; Sat,  6 May 2023 16:07:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IUgr+Ayvnw7TS/sRso0Xyls2ng3mYUr5SddNRN90DO3i8Ra2useLKq4AwltFXUfIzu6ZG5AyEH6g6dpI2aJrwLpCEy/YdWku6CwljE1RlCNDC8dfuuzIVxgwxgRv3efjwDBoSzP3xIiboA3rkuzqDhZ56KomOCvZwfz3qwBllncS6kt/K1i8cPIx9+sQQxN0ZnNT7mRZDMoyOnj9a53BgC8MbXO4ZFIiyQBq/KxeO7vxfx2nr/vdzIeg8AEGyCPs8laJ1wqHp1QWNf8xsFIGSR8SUDx155OyVuxUwjrY6011WmKctdMfjHuW9HgxRGaFC/MjkQeQv8366d1kRcuk8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A15VQkP8tVO3hYroY6BFK9zkslDymLSXSo0zaWmh/i8=;
+ b=ZaX1Yd/p3dVF273hP8tBkBjA6tXayueXZZGixICgsHHfYiceUSXs+1mzybf8Za4rd95sXpBsm9EIs/W1GPlMJxjdAOxvOcuM6vOsW/cHLM5OCFrkYgaWfPPoFmQIKvIZFnI9Vj6gFSVrbeBZE53a8vPZallgd1A+p6KNHqBHHWxTNQb6KBOCG0KnsP/m0LZqcgrmRHAuyUfL3YE1YxUlRrM0GaQnpaAQaDrAbs3hnEGd9k5DViAf1kw01sYusmClvGWZzU38oIlNahUmO5xZsa/p36UXbX9dWLP6pIeCKsYuyApBxxHDxz6ci0NHk/MHNPBKy6RxqHTAxYAMEpgMQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
+ dkim=pass header.d=corigine.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A15VQkP8tVO3hYroY6BFK9zkslDymLSXSo0zaWmh/i8=;
+ b=OdMF6e9xhuRWjBkDjhKykvnK9pAr+EiL5S5xbE8bEVLQ2Yh+ZoHH4Eqc0BvSeZmYwR4/B30avn+W48nuPPYBNJIWoqaTaLnlRms5OLvUIZlS923q7XTfKepJdNSxRh/W54uSHND0mvmSZgSatAaS0Cb/BqWdfFv5wUsFOIdautA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=corigine.com;
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
+ by BL0PR13MB4545.namprd13.prod.outlook.com (2603:10b6:208:17d::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.32; Sat, 6 May
+ 2023 16:07:14 +0000
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::f416:544d:18b7:bb34]) by PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::f416:544d:18b7:bb34%5]) with mapi id 15.20.6363.029; Sat, 6 May 2023
+ 16:07:14 +0000
+Date: Sat, 6 May 2023 18:07:08 +0200
+From: Simon Horman <simon.horman@corigine.com>
+To: Chuck Lever <cel@kernel.org>
+Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+	dan.carpenter@linaro.org
+Subject: Re: [PATCH v2 2/6] net/handshake: Fix handshake_dup() ref counting
+Message-ID: <ZFZ7LNJ/rHoTjFdI@corigine.com>
+References: <168333373851.7813.11884763481187785511.stgit@oracle-102.nfsv4bat.org>
+ <168333395123.7813.7077088598355438510.stgit@oracle-102.nfsv4bat.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <168333395123.7813.7077088598355438510.stgit@oracle-102.nfsv4bat.org>
+X-ClientProxiedBy: AM3PR07CA0135.eurprd07.prod.outlook.com
+ (2603:10a6:207:8::21) To PH0PR13MB4842.namprd13.prod.outlook.com
+ (2603:10b6:510:78::6)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|BL0PR13MB4545:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6874a941-54a8-4abd-cefa-08db4e4bf4da
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	6H75sQBb39M9ayb3TX+pvOf4/XmSJ2Zd7CiP00eSdcHAbbe+XtP6cHbdOz8ypNtNPb2G6ge3g/ADfG7N95xJ66thsaq3IT15egxUfuGynDbbzSvjkx1LAtSKtoa/+QvN8idH0bV2+1VjAXY0Oae+ccziH2qGdQApCZjhfipWxhriN//AZHyWejTbXFojG3ygeYDOeZ2/gt5gRgYksKZmVz2q7nusmZDUGfPHYM9q+t624kdp0E8vPdNJiisjw30+2rP/0CQGDMo16VM5uWsAhHnSTtZkf2Yl0YRMgZCYUhGWWTpyaWbFGbDhL4GsrsgXjVzTglTSjR+eA7YR4VcuGAbAsRB58+1uyqyGgnDgg9hS5MzkQ94lddRZoN60KDZ6gicFXly2sHqbBheG5fnlWm4HiTsyHSiaSXwLi7tNk3vIyU1y2wA2yljODxbXnB0NnhFEHJ16TOX6Pm59S5487pxgJupAb+WY6Jze6iRUsWVWAiBP79hzWZNytce2EsqQ3B4kYuXqFNL367zv0lK4Z/yyRlYSTF+uctPLz3FrKJA4bLdfI4EPcB/G2Vgm2vnL1qC2rudck0Agtgkd7LM5wyVqazCdyWM2rzdGLbnpK8o=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(366004)(39830400003)(346002)(396003)(136003)(451199021)(36756003)(478600001)(8936002)(66476007)(6916009)(66946007)(4326008)(66556008)(44832011)(8676002)(316002)(4744005)(38100700002)(2906002)(41300700001)(5660300002)(186003)(6666004)(86362001)(6512007)(2616005)(6506007)(6486002)(83380400001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?IUa0OqQuuduDB/l7qQn5kudyLuqaqLdkYXVhcVFNf15HOOszv4q/rmNM5RnQ?=
+ =?us-ascii?Q?fPPP+zb5n3uohjrabz/yhj3ElMx0dHYEbatKpWEax6eOjuzce1UiCH256zH9?=
+ =?us-ascii?Q?C4KyGYP2+prTyFpZpWGxnIhh+B8Blh7+wnvacfTlIDF+jcRHfGvJnQei37wz?=
+ =?us-ascii?Q?Jp+jn5e19W+KvgPQuiTnK8ULmIFw1qvBDtR1lWsRCHfToFq72tzwY/zRAk+a?=
+ =?us-ascii?Q?0DRCmOlljZRckU/YeDDZFcQVkrqciFsd4jp9GC7FZH8QSQ0Vtrm0jSjb4KPR?=
+ =?us-ascii?Q?UhKeRCTaytULhj5JcI8yg0oQ18pRggfE2k6IjclpJEGxK03XJ6uZITDoQ4+H?=
+ =?us-ascii?Q?Q/zYNpAOpL7iMl0TNvsVQyzB53XEkxis2f6pk0x2Xlhg8HWR3zMGlYqEpDpN?=
+ =?us-ascii?Q?5neN9CDQZyfFiD9gWljNLXUpHxze9CckGzgQRnlBSiYg25UqFpVrxUiz26S2?=
+ =?us-ascii?Q?bkzwiBkbfr3PC0g5t0cMLwtoKeC5F4w+FblMiEbJvl3ixLKznpXE1V1DNPQR?=
+ =?us-ascii?Q?Hhoq55TC2KLJsq7JOasHX7FmsvzpPEHB6icChAK+PbcKX3/ZMLIqunfpHsix?=
+ =?us-ascii?Q?oUR61x7T5vIrW25GAmbCu1uuYnoM2vkyl5c8bQcU7RblI7R/7GIIyysWF4hn?=
+ =?us-ascii?Q?kHQK+yvpklMLNcneYWwfpxvKWPd0XUpoSY05fmwn220o9i0l9+zMcjxqVPyk?=
+ =?us-ascii?Q?OLq635nJu6YTZmrPLMxCwHVM8c1JdtUHVg6+AZu9XPinkH8vawKN0aZZfINq?=
+ =?us-ascii?Q?WAMj49Nz+kusv7D/JbSbadNsnQYcIe1TYqHS2+LWoZXrXZ2fj17WfrIdi1MG?=
+ =?us-ascii?Q?dl+zpKPqRbcCegtSB0axs5Gx2qZhJAxnp5Q/BRLdAmv02ndAQiPsrvx4cmj+?=
+ =?us-ascii?Q?LaQdgdDslI+9yxfjM9kxz1YA+QiQQfA8WzH9od/YhkaH35J6iHJnFtUWr4oJ?=
+ =?us-ascii?Q?p/FpbgQpwsRdn/NW5olmCeTn5z7Rdr4azxoSUtT/+yxp3kkFCviX98JDAdYI?=
+ =?us-ascii?Q?qUGqEO+lvkn/2U6yfWp+r2YsoXxhlN5a95Xa4fQPeGkIxeY+bMZFa1JzHQso?=
+ =?us-ascii?Q?UL7ONLa9Wz0BByJNnr4Av1l4SQnYSpeW5I8b4/Uluv4AynoOWhMyn7GvlSpe?=
+ =?us-ascii?Q?VvfE3DXvLv1AuYW/pfjJ2v4uzAfVTiTRCNB645bn7dByunYG7GuE6gPcPQwB?=
+ =?us-ascii?Q?Ii3YCnxq1DfMG2mZhCeeZs9OEDJ7sWKBKnS8OANO0Ier1a38zeaZR5sX1elX?=
+ =?us-ascii?Q?KeUspGXUsTHMHU6C7/yCgKtLA3LFWpeRH7CkoWgpBZ5x/RWGf4R5CE1UGgqm?=
+ =?us-ascii?Q?QuZMJKzxbLjr3qrkVCPGXMp4lLsdcRVZzH8c3iBwc0qJth1GgCUHan01lLAO?=
+ =?us-ascii?Q?ofDd1tahmtDnXwqHO4oDjKl6ZfAUcUL87nm/jAiwNgCQpGXhli+usgKyctCO?=
+ =?us-ascii?Q?w1Cke3CzS4JY7oLA2ghbCRI3g7l1TGgf7tUDCCS9rNq9G1aWX8aVRZt3Lp1I?=
+ =?us-ascii?Q?PqdoNq+SmZ9kChPSmX3bUmLr+cpSDAxX1B6+Cm+Lhkwv0D+TUsCEvkhJUMTk?=
+ =?us-ascii?Q?jQKniN7nbVHrPBen0YpGeb1fwt4IARdawTAz0iVnVLNC8gofCbZPirvNWkxR?=
+ =?us-ascii?Q?RKVpMgMAP0lxn/3VW9ec1yUbdUxLG6Pqryymr0EVMPBsO0fSPeolgf+gDQpm?=
+ =?us-ascii?Q?o2y6JA=3D=3D?=
+X-OriginatorOrg: corigine.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6874a941-54a8-4abd-cefa-08db4e4bf4da
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2023 16:07:14.2143
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Spuy2CkbMEi4RxpXbvO1mYlQtQuKXjJ5FZHHqNMfO6CiuxjL1twmzyLKc+304efqhWPpLP+l4OpEHseFIuXPV2ly6E4IDxMP5iLUDUMZN3g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR13MB4545
 
-From: Chuck Lever <chuck.lever@oracle.com>
+On Fri, May 05, 2023 at 08:46:01PM -0400, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
+> 
+> If get_unused_fd_flags() fails, we ended up calling fput(sock->file)
+> twice.
+> 
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for handling handshake requests")
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 
-Enable the upper layer protocol to specify the SNI peername. This
-avoids the need for tlshd to use a DNS lookup, which can return a
-hostname that doesn't match the incoming certificate's SubjectName.
-
-Fixes: 2fd5532044a8 ("net/handshake: Add a kernel API for requesting a TLSv1.3 handshake")
 Reviewed-by: Simon Horman <simon.horman@corigine.com>
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
----
- Documentation/netlink/specs/handshake.yaml |    4 ++++
- Documentation/networking/tls-handshake.rst |    5 +++++
- include/net/handshake.h                    |    1 +
- include/uapi/linux/handshake.h             |    1 +
- net/handshake/tlshd.c                      |    8 ++++++++
- 5 files changed, 19 insertions(+)
-
-diff --git a/Documentation/netlink/specs/handshake.yaml b/Documentation/netlink/specs/handshake.yaml
-index 614f1a585511..6d89e30f5fd5 100644
---- a/Documentation/netlink/specs/handshake.yaml
-+++ b/Documentation/netlink/specs/handshake.yaml
-@@ -68,6 +68,9 @@ attribute-sets:
-         type: nest
-         nested-attributes: x509
-         multi-attr: true
-+      -
-+        name: peername
-+        type: string
-   -
-     name: done
-     attributes:
-@@ -105,6 +108,7 @@ operations:
-             - auth-mode
-             - peer-identity
-             - certificate
-+            - peername
-     -
-       name: done
-       doc: Handler reports handshake completion
-diff --git a/Documentation/networking/tls-handshake.rst b/Documentation/networking/tls-handshake.rst
-index a2817a88e905..6f5ea1646a47 100644
---- a/Documentation/networking/tls-handshake.rst
-+++ b/Documentation/networking/tls-handshake.rst
-@@ -53,6 +53,7 @@ fills in a structure that contains the parameters of the request:
-         struct socket   *ta_sock;
-         tls_done_func_t ta_done;
-         void            *ta_data;
-+        const char      *ta_peername;
-         unsigned int    ta_timeout_ms;
-         key_serial_t    ta_keyring;
-         key_serial_t    ta_my_cert;
-@@ -71,6 +72,10 @@ instantiated a struct file in sock->file.
- has completed. Further explanation of this function is in the "Handshake
- Completion" sesction below.
- 
-+The consumer can provide a NUL-terminated hostname in the @ta_peername
-+field that is sent as part of ClientHello. If no peername is provided,
-+the DNS hostname associated with the server's IP address is used instead.
-+
- The consumer can fill in the @ta_timeout_ms field to force the servicing
- handshake agent to exit after a number of milliseconds. This enables the
- socket to be fully closed once both the kernel and the handshake agent
-diff --git a/include/net/handshake.h b/include/net/handshake.h
-index 3352b1ab43b3..2e26e436e85f 100644
---- a/include/net/handshake.h
-+++ b/include/net/handshake.h
-@@ -24,6 +24,7 @@ struct tls_handshake_args {
- 	struct socket		*ta_sock;
- 	tls_done_func_t		ta_done;
- 	void			*ta_data;
-+	const char		*ta_peername;
- 	unsigned int		ta_timeout_ms;
- 	key_serial_t		ta_keyring;
- 	key_serial_t		ta_my_cert;
-diff --git a/include/uapi/linux/handshake.h b/include/uapi/linux/handshake.h
-index 1de4d0b95325..3d7ea58778c9 100644
---- a/include/uapi/linux/handshake.h
-+++ b/include/uapi/linux/handshake.h
-@@ -44,6 +44,7 @@ enum {
- 	HANDSHAKE_A_ACCEPT_AUTH_MODE,
- 	HANDSHAKE_A_ACCEPT_PEER_IDENTITY,
- 	HANDSHAKE_A_ACCEPT_CERTIFICATE,
-+	HANDSHAKE_A_ACCEPT_PEERNAME,
- 
- 	__HANDSHAKE_A_ACCEPT_MAX,
- 	HANDSHAKE_A_ACCEPT_MAX = (__HANDSHAKE_A_ACCEPT_MAX - 1)
-diff --git a/net/handshake/tlshd.c b/net/handshake/tlshd.c
-index fcbeb63b4eb1..b735f5cced2f 100644
---- a/net/handshake/tlshd.c
-+++ b/net/handshake/tlshd.c
-@@ -31,6 +31,7 @@ struct tls_handshake_req {
- 	int			th_type;
- 	unsigned int		th_timeout_ms;
- 	int			th_auth_mode;
-+	const char		*th_peername;
- 	key_serial_t		th_keyring;
- 	key_serial_t		th_certificate;
- 	key_serial_t		th_privkey;
-@@ -48,6 +49,7 @@ tls_handshake_req_init(struct handshake_req *req,
- 	treq->th_timeout_ms = args->ta_timeout_ms;
- 	treq->th_consumer_done = args->ta_done;
- 	treq->th_consumer_data = args->ta_data;
-+	treq->th_peername = args->ta_peername;
- 	treq->th_keyring = args->ta_keyring;
- 	treq->th_num_peerids = 0;
- 	treq->th_certificate = TLS_NO_CERT;
-@@ -214,6 +216,12 @@ static int tls_handshake_accept(struct handshake_req *req,
- 	ret = nla_put_u32(msg, HANDSHAKE_A_ACCEPT_MESSAGE_TYPE, treq->th_type);
- 	if (ret < 0)
- 		goto out_cancel;
-+	if (treq->th_peername) {
-+		ret = nla_put_string(msg, HANDSHAKE_A_ACCEPT_PEERNAME,
-+				     treq->th_peername);
-+		if (ret < 0)
-+			goto out_cancel;
-+	}
- 	if (treq->th_timeout_ms) {
- 		ret = nla_put_u32(msg, HANDSHAKE_A_ACCEPT_TIMEOUT, treq->th_timeout_ms);
- 		if (ret < 0)
-
 

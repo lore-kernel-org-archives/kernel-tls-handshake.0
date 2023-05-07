@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A901C04;
-	Sun,  7 May 2023 08:27:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C77BC433EF;
-	Sun,  7 May 2023 08:27:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 027F41C04;
+	Sun,  7 May 2023 08:27:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36F31C433EF;
+	Sun,  7 May 2023 08:27:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683448039;
-	bh=39BFUDcaURhMF4m+2rfCdcLkfYLPT9HwFFpyNWFN7kI=;
+	s=k20201202; t=1683448074;
+	bh=luhCUiWvTKFZW0rqUS0UuzAGiUr2t0MkDIwftiLSgQE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K8yNs80uFv5GCq/IOo3JN5+gUqLdbp/56uVpM0GcFML9ZiKNQdur01+dbJpln8l/C
-	 qriH2cT3YB9AB7c7PXCQ4SzgJPwMo0zBh50mAFxF20kZ2N5MEoz/CsEw4aE3h46I1T
-	 7mepT3t2groO3iM1jIsWK+2NE0RtlUO3ngIYfmeM6VW+9p+ARNENHuhP7EE6SUCj5w
-	 Uzju9coYIYy0ejDNsGoXgPJSr4HmaGhJqL6a1lB+PSxafEuntRswQQmVDoVlWnqyIO
-	 M5onUrQ0MDTJM2QS2BrvHnsaOTiYYQ3pZKiZLHLFqhHSpSZObtn+b3Ej0XVLQxs1bq
-	 72vBaN3unkasQ==
-Date: Sun, 7 May 2023 11:27:15 +0300
+	b=EuRV+j9/6qrKXkHOCy1z/kx8OV4ygs9w/rG2cZgaZyOTX17uSmuOQDSRNlrQwDzdw
+	 V+PWg/Z92PfzaLwzETMtKaLulDBXMVo8bwO44OO1x6BOa6YdFcPOwQgz/eyf3fGuSi
+	 weJJOiQbv59/m7rdWl2E+jbniSvIt5vibJx/4brqG7DgScPW2Cww2o/7LdejQPgDaP
+	 5Kj7TkOMKklr8LqY3BUT2rexqY26En0WXr31lBpQayRIV/4rllnF3UeHJrMgMURowA
+	 +8htQt/XBCTqVwU/8wdQsqILRh0rsjlSXQgA9L80ZlBSrHNnvpzkDkRdGDeRQT+Bxf
+	 pgvDFnlOVgHGw==
+Date: Sun, 7 May 2023 11:27:50 +0300
 From: Leon Romanovsky <leon@kernel.org>
 To: Chuck Lever <cel@kernel.org>
 Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
 	dan.carpenter@linaro.org
-Subject: Re: [PATCH v2 6/6] net/handshake: Enable the SNI extension to work
- properly
-Message-ID: <20230507082715.GJ525452@unreal>
+Subject: Re: [PATCH v2 5/6] net/handshake: Unpin sock->file if a handshake is
+ cancelled
+Message-ID: <20230507082750.GK525452@unreal>
 References: <168333373851.7813.11884763481187785511.stgit@oracle-102.nfsv4bat.org>
- <168333405010.7813.3126925595560504793.stgit@oracle-102.nfsv4bat.org>
+ <168333403089.7813.511134747683134976.stgit@oracle-102.nfsv4bat.org>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -33,25 +33,21 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <168333405010.7813.3126925595560504793.stgit@oracle-102.nfsv4bat.org>
+In-Reply-To: <168333403089.7813.511134747683134976.stgit@oracle-102.nfsv4bat.org>
 
-On Fri, May 05, 2023 at 08:47:40PM -0400, Chuck Lever wrote:
+On Fri, May 05, 2023 at 08:47:13PM -0400, Chuck Lever wrote:
 > From: Chuck Lever <chuck.lever@oracle.com>
 > 
-> Enable the upper layer protocol to specify the SNI peername. This
-> avoids the need for tlshd to use a DNS lookup, which can return a
-> hostname that doesn't match the incoming certificate's SubjectName.
+> If user space never calls DONE, sock->file's reference count remains
+> elevated. Enable sock->file to be freed eventually in this case.
 > 
-> Fixes: 2fd5532044a8 ("net/handshake: Add a kernel API for requesting a TLSv1.3 handshake")
-> Reviewed-by: Simon Horman <simon.horman@corigine.com>
+> Reported-by: Jakub Kacinski <kuba@kernel.org>
+> Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for handling handshake requests")
 > Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 > ---
->  Documentation/netlink/specs/handshake.yaml |    4 ++++
->  Documentation/networking/tls-handshake.rst |    5 +++++
->  include/net/handshake.h                    |    1 +
->  include/uapi/linux/handshake.h             |    1 +
->  net/handshake/tlshd.c                      |    8 ++++++++
->  5 files changed, 19 insertions(+)
+>  net/handshake/handshake.h |    1 +
+>  net/handshake/request.c   |    4 ++++
+>  2 files changed, 5 insertions(+)
 > 
 
 Thanks,

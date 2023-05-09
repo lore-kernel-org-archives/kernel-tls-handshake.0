@@ -1,278 +1,263 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABE319524
-	for <kernel-tls-handshake@lists.linux.dev>; Tue,  9 May 2023 14:25:00 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1FD1B21C7B;
-	Tue,  9 May 2023 14:24:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1683642299; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T+GTEFJL52uI7uazFDrE31LpvKl2DXOQO6QtEYwOv38=;
-	b=RDBiZS+ppWfHuTO6RwP11KVOL2c9ilmV98PuUxueamXv4wDhhizWAkBgHzfWWV3fStcqtJ
-	eqbiQo6gasFkDR2e0WGJrOerH4T1c/DvNsRuOHZ4XvZP0EzdfuJl0OQ3xZW4S8PqNBPszm
-	GwTmHaWdqAYqYoe4JHr2BEUvGKiHOz8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1683642299;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T+GTEFJL52uI7uazFDrE31LpvKl2DXOQO6QtEYwOv38=;
-	b=wX7hvdiW1QraAQJJfm6VWjKVtW1Mj+NNXDyrrEoGiKiyhdQWC9+U7JcbGxtHj9nZX9N4P1
-	trF/oYdsyKb/GXBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A46EB139B3;
-	Tue,  9 May 2023 14:24:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id ejTJHrlXWmR5CQAAMHmgww
-	(envelope-from <hare@suse.de>); Tue, 09 May 2023 14:24:57 +0000
-Message-ID: <aa843227-2430-e5f2-a292-3ed504338db7@suse.de>
-Date: Tue, 9 May 2023 16:24:50 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D31617FE1
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  9 May 2023 14:32:52 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 349EHdEo008804;
+	Tue, 9 May 2023 14:32:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2023-03-30;
+ bh=pr0dZX2CDyRIHAsjl07l1U978NwW05OcObu3mrrSDjI=;
+ b=C4O14YMTS111c7BW+fVcYiqTRK9IworjWg6+nSewmCVPB7zctO+enV9ihlpiNkvY9ZYg
+ OUiLsHPtWbE+n2R/8q8W1jbg+vov/pt0drpUiLXZF3eq67/bmvSNww5t6aeJOfLXNJx7
+ gJD2r0eFjxq+JU0qVTjZgzwQeegM0xQ0mwHbasucmD+Sw+BgN75MOQapeIZcuxeig6El
+ iL577tGQZHGsWQpzAqUR/nZr7YTKP8JhQcNkI61349l2phtrCxU1xr+xTV3i3wggewfu
+ S3DcXmpnewaokQf56aWN16b1Sy5UqatKRwpjIzmyRhuZQVK/BemN+S/wbY1Rx9TiDCub 3Q== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3qf7771ypu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 09 May 2023 14:32:47 +0000
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 349De6OP026830;
+	Tue, 9 May 2023 14:32:46 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2103.outbound.protection.outlook.com [104.47.58.103])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3qf81efs83-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 09 May 2023 14:32:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NoMD6dAcWwrLN8uMs2ZDX/Ck36fKvykxQzdWbBRl2mBLE/Zw2DdxQobRpRfOC63qlUIRHbaUp5Z0uHLNwHCGVi4A4qQma8GzZqEdXe7hTrCnDGbQ24MqXbUxjSrBnKrPxXzAC/2sLLuyPToNaX1YIa7KqvC8ALONrhT4SaPt56fZWCxKAFSxIt+AF+7YTHHA1j2Cg7PTXYw3kSrGENBrfsCKBUC0ErwA/CfaxscGA28bAqAzNtgbAdurqW2mjmqnG5PmjFflJ+a5NsBgu6MEDKmWLlN6Lp44aLNNAPKF280b8KbR6yIiBLs7L5VHznSqUEZxlZuw++TvDZwtbJI5Dw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pr0dZX2CDyRIHAsjl07l1U978NwW05OcObu3mrrSDjI=;
+ b=npJ69Kcl4f0NNVrGjdb02oP6yJwc/FpbB1V4a3VPbJJFaMPxFYvJw/WUeJG4d75qkBwcw58J/7BbMeaWsosHqezfpyrtNxz6J7GAxUxIT69HsQfp6c0H1iD1QLEL8SiFA3Emz7dLPCBIlDcHeWR9ZNL4AX4zkreFhEW3xjIFin71C/FYJ5WAn/1g817x+PbB2Rfk/YDLtDneSI6zbYSQbf60D3Eo1llYkl/ZbeZ9msUHU9fBH1XvSQDpEtlTJ2lhlzJtlgzrZMfNJ8G+NoapN5y6LGgL6f/SfH4+s5a2GTxeYQAJe4BAkeAnEfpYgJmpAKKCqmHGMaGlfVL9juOenQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pr0dZX2CDyRIHAsjl07l1U978NwW05OcObu3mrrSDjI=;
+ b=YoOb0Az+0nDRCt4xScroLceHi8iMXQ/kL5gztQt4XIZrX+wc+wDBr2RluEnpaGV18/KaFRLvg+oPDSI0psqqUhHKGmdGLHSKsdK2B4mzxsVAWQQBehUpjvNWOy1NM+SCuJjByXaKiQwZhYKEByXHY8jrAA/3USr0w3+7xjRybcE=
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
+ by IA0PR10MB6841.namprd10.prod.outlook.com (2603:10b6:208:437::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.32; Tue, 9 May
+ 2023 14:32:39 +0000
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::ecbd:fc46:2528:36db]) by BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::ecbd:fc46:2528:36db%5]) with mapi id 15.20.6363.033; Tue, 9 May 2023
+ 14:32:39 +0000
+From: Chuck Lever III <chuck.lever@oracle.com>
+To: Paolo Abeni <pabeni@redhat.com>
+CC: Leon Romanovsky <leon@kernel.org>, Chuck Lever <cel@kernel.org>,
+        kernel-tls-handshake <kernel-tls-handshake@lists.linux.dev>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "dan.carpenter@linaro.org"
+	<dan.carpenter@linaro.org>
+Subject: Re: [PATCH v2 2/6] net/handshake: Fix handshake_dup() ref counting
+Thread-Topic: [PATCH v2 2/6] net/handshake: Fix handshake_dup() ref counting
+Thread-Index: AQHZf7QsoSIApHx1cEC5oKYOzkZtjK9Oe64AgAMN9ICAAHPmAIAABk2AgAAC6wA=
+Date: Tue, 9 May 2023 14:32:39 +0000
+Message-ID: <D02AD35E-E28E-4998-B1C5-9019F258F738@oracle.com>
+References: 
+ <168333373851.7813.11884763481187785511.stgit@oracle-102.nfsv4bat.org>
+ <168333395123.7813.7077088598355438510.stgit@oracle-102.nfsv4bat.org>
+ <20230507082556.GG525452@unreal>
+ <80ebc863cd77158a964698f7a887b15dc88e4631.camel@redhat.com>
+ <CD7ADFAB-137C-407C-93D4-4AF314FE0E52@oracle.com>
+ <2e1fb95f613b6991b173d7947334927b22e49242.camel@redhat.com>
+In-Reply-To: <2e1fb95f613b6991b173d7947334927b22e49242.camel@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.500.231)
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN0PR10MB5128:EE_|IA0PR10MB6841:EE_
+x-ms-office365-filtering-correlation-id: 6b22b55f-3cdb-44e2-544d-08db509a3d91
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ iQDDGm6QXDcICYdPXDWgQq4QiSeF1buffvhcPgDSIg73YNHfRk3tB93hx//pDmQqfMbfd8kbxF8GJoe6floEjsJPatCVdaGuHBbaBjFyON8fVSgdzh/vQeE6SjhZesq3rfXK5BC4G2+TS5+lDX51b9Oc2jexhOUQ/5PKWDmWvQtwWNXCtEh6ZIOq6a5C9IwxyGBD5aX/4iw0p/WmC9o2mgIEHl/FT0traFOeSdAEPAeyXJ1STn6OLhWtfXqZ6y/My+8gWEyvIFN2K1eKIN3u+KcD261nuV7P2IB7GscuI3LRHwrmoRKEUSXn/mjXbmlO1i5senATWSpPpdKjdIFND6CkTEf49q42+f9+lXq+z+RCRSnVWmku2hICmksmN6iB+wNmk4MIkipFOjWgKtHVafhLHXtOCA7et225WHUAxn5ObOpZjw1S+MuetFrHAZFbPIyT1T2fPbnLs1F1rzUQrtDwPRZMN0dFtr2h6/i9TNPP7QnbApbIsQu8mRUK9/h31iqe6DfgdAQSvvBd+Xk64LDL4mv1jORvZQKiyvVVRO/QHv9+jp9Sfajc3Tkr2YE+LmRgIDJ+dWL2LQrIa0aWkr+VSTjYbIWycTjpjfsrYzbgNpv38Mq82FH13juVLuUqUz9wQi79obuZLdt2PgnOKA==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(136003)(39860400002)(366004)(376002)(396003)(346002)(451199021)(36756003)(33656002)(83380400001)(91956017)(2616005)(71200400001)(478600001)(6486002)(54906003)(26005)(186003)(53546011)(6506007)(6512007)(6916009)(2906002)(66476007)(38100700002)(66446008)(76116006)(66556008)(66946007)(122000001)(64756008)(41300700001)(4326008)(8936002)(86362001)(38070700005)(316002)(5660300002)(8676002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?XHy84TWQL/taLnVxkAdBofg/fjQiRbE1DdZ6PEvyXu8t2QsHH7hsKjA4KoTU?=
+ =?us-ascii?Q?OrP9nuhYRoERoJdqPO9AtzSSPqrt7QM5SWH2jIb7pVOM6Iy9/Id1ORiY/FGJ?=
+ =?us-ascii?Q?ZYrCUXlOsJc5rdLEdpr59pbvSIhnQscbA6XK/Gczh1YwAokpb7Erz2pBJU6b?=
+ =?us-ascii?Q?EM98hIN2zq1bUvqsgboMTqrWx0ZPyqyIUpUsmGJTM3pKX1tkswc3xsEiMo1I?=
+ =?us-ascii?Q?dXg7OdnH9ctYsbN3Z5l9xumjFCLK9UMMOW6fzc8BHz46z/hl27tJ8L2jlMk6?=
+ =?us-ascii?Q?UQEs7v8xGKE6Qz+6Nw2VrQhJqxq9iUusuQ6Nobtwg4WnYHwZDIYttkLO2dJU?=
+ =?us-ascii?Q?BbsHZv1hMFkzYbg8S3SHPPEOC+UYxRFtjslpuU90wq+Df9558a9zgAzVDmDJ?=
+ =?us-ascii?Q?nIu/BiPAXYS/1To7uhhaG/Intr1kqHE1nEcNA5qQPA9Ut4SN9RApcmfgKoC1?=
+ =?us-ascii?Q?m6mD3ocQ9l7XVgE7yXajfWP127lbN95RUI0g9nAOEYYBazfPSahinaSVn8wL?=
+ =?us-ascii?Q?IlFNeNAfpHpy28d7yUC4WlSC309sxNGGjgG3Vb39fq4sHYUqeAeEzdIoeFlu?=
+ =?us-ascii?Q?/U4zI3i1Y0WUD5mTeNMISH2qt04Ho1CCTDmmgxFsBzkAEE/yv2KqJi814mcs?=
+ =?us-ascii?Q?gf4iOnkYfQnJYMYhbC6DdLM7s6GfgQpuG7KibfAUNstKDzu9tNqbibWdvM0N?=
+ =?us-ascii?Q?9qBrLeoSHbiKJo/uLjDaZLSoogVweuTqL0VOdfyQ9qijz5nmExx3UpNDDgeR?=
+ =?us-ascii?Q?vKqGwXVysvHqwDrMmV8uZ4q5bMHYysUEE6Qxr8fKT07PaT83LJ/FofX8puIJ?=
+ =?us-ascii?Q?HMMF6fpWshRtY10SFtImhcMXSDczGaLTf2LmcHTFET/52UBZHMSEL+WlpNSG?=
+ =?us-ascii?Q?ipunt/ILZ9A77I5GWgdkyzSfNvexoijPvFsQ4x36Y00rNvdcu73s7xbSVktM?=
+ =?us-ascii?Q?ekPX9xfR5Alr6Ngj02nXcnei2x5bQ/hYr+3P/MMDhdUZwxvMRaQ3ux6FxdGh?=
+ =?us-ascii?Q?aJjSOSBg0xddWKyhpIYh5mtdfrXLDfGHb6vJxzhphH9P4PFKt8FXKH3LgO6E?=
+ =?us-ascii?Q?KUcBV1tEVic4UTc+BbhlEI3Je5EYXtBU2u94Z8z4qyT68QOXnq+R7ye0ZMK8?=
+ =?us-ascii?Q?nX3NiZGDmLdHMqhP2hdD7EvyrL7SVAKDUClbo42XSXY4vlHP4GOf6c6CrO17?=
+ =?us-ascii?Q?6Mf50UgGRxoPG4AfsKsAhVw61aLXHnyDkibau2y5K2LkIRyXmMJMn4jPs0u5?=
+ =?us-ascii?Q?nJOW0a3zhjDOIFmtzndKDGmDglxDFo5N7wHOq5zHR4Z9QAnc/tJdA8ecn/Ob?=
+ =?us-ascii?Q?imoDu/GtMP46gHZ7TdhKsAFRbW1IYGmlF00sNQg/pMufNVc/bKy+q8CHFXb+?=
+ =?us-ascii?Q?4bu87BKGTGq+I3IwyNZTscsx7F4MYxXUziCdO5rkaVf8VCzdrar+5m4X67hR?=
+ =?us-ascii?Q?Oj5nzmiPCB7j69vRYEAVt9KE0gOTR/ebgwf4n452cCfnN6v5hwhMfI3WkM7g?=
+ =?us-ascii?Q?DSHxc9NzO225vYkYXfzmNy1t9Z6VCP/3a9ChEvFzesC2uOGlizS2HkDDveVN?=
+ =?us-ascii?Q?tVkeh2dMuWl/8TjtsL0Sz1jnCmVkizskJz7REvec+XNu0ourV/zNO8pmRNLx?=
+ =?us-ascii?Q?Tw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1D9A7B4B462F0E40B22239BAC31F9CEA@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH 13/17] nvme-fabrics: parse options 'keyring' and 'tls_key'
-Content-Language: en-US
-To: Max Gurtovoy <mgurtovoy@nvidia.com>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
- kernel-tls-handshake@lists.linux.dev
-References: <20230419065714.52076-1-hare@suse.de>
- <20230419065714.52076-14-hare@suse.de>
- <3acac781-58d2-e0de-6072-b6b9d67550a0@nvidia.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <3acac781-58d2-e0de-6072-b6b9d67550a0@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	P6oHs4p15yQUK3PQvAX5qDsSdfv7PpyVYSDKgJZfZU+LpUsb6uTXpAeagYI1zD71avi1WYw7NLZ4/P3J6JeuHf9n20H9gHHZxEzAqilpmgSlOqdJw3MumWbY+sZJwhm7/IrDX0gnDAMzSaypAke2ETCiarcroej6RXO4wS8nLok305w4occShxRy0j4b722QTTXckAjh0Dt56U6InWFV+4QjJuzZhw6194Emyxm184TZfzeaiThE8jMsGjEW6mgGXvWxKCIfleY0Fuk0RJUm2p0Ud4DmryycY89xY4eB8ahtU7dIAf/jfQ/rziJcSfGLGhmeTPa4PO+6IVa9xPVc/f3UImlomEpwVE2xeQtd30aPLbf8j4wxdU3uhWsW0DWodG+okXVuykPghIqJ4j6n8GzMLsNFdNl4uwnB8M6BEXQE5MwXvG50C33/Hh4L76T4w8P3t05QW6p5w82TDzeY5YItsnISHYFSnYawZFAsQ+w6hVgk5/2BGNNuYUX4BOCNFEneHbV+y6MlhnC+FPYN+/hvZ1EP0Vaf+ED4ckrE2C0dAT2XXqIao2fMuBwgJUX1OI/xuAlKvxFNpa4pdihXBs+xsC/wNA6tN1Y4bdaQSqgGk5EUgrRysPMVBxJnRt+4ZgQfkRhGHp0qKliBgGoYtDphm5+TaxebWi1gU3+r7EODbRnF0LtJQ8c6NoHt3ZuE6Og5f6qXuXqaD73EPwWLH3A7YudXrv3OsIlVigQJ0DmUTKsBWNtznSqOHA369cX0KEvMWV21AECl/WSopfJMkn6Dwe5MieoTOItptFXKEvBvL/sjVxuJIvk+DowTrl+OBDqlknwr6U9iPta47wgwtIa2DqkrsqHs6COlLw9TYSfME0SRrA1m1/L/TaWTEBkhwQZOrZ46juPXpIVIg3WK8g==
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b22b55f-3cdb-44e2-544d-08db509a3d91
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 May 2023 14:32:39.0652
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7Hj3XApax4t54wONI5pPRsqciKOtIMaKQM56rH/WprtxKW8M6CbDxnh9OTkqIGCbuDdpSkA1TMdT0j2QV+0hGg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB6841
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-09_08,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0 mlxscore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 spamscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305090119
+X-Proofpoint-GUID: GGJuA_fA-joPtIMz_Rf38h77E-sBurVC
+X-Proofpoint-ORIG-GUID: GGJuA_fA-joPtIMz_Rf38h77E-sBurVC
 
-On 5/9/23 12:00, Max Gurtovoy wrote:
-> 
-> 
-> On 19/04/2023 9:57, Hannes Reinecke wrote:
->> Parse the fabrics options 'keyring' and 'tls_key' and store the
->> referenced keys in the options structure.
-> 
-> Please add an example of how the nvme-cli will issue a connect command 
-> with these new args.
-> 
-Okay.
 
->>
->> Signed-off-by: Hannes Reinecke <hare@suse.de>
->> ---
->>   drivers/nvme/host/fabrics.c | 69 ++++++++++++++++++++++++++++++++++++-
->>   drivers/nvme/host/fabrics.h |  6 ++++
->>   drivers/nvme/host/tcp.c     | 11 ++++--
->>   3 files changed, 82 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
->> index 2aa8fb991455..8fb80ccc38e1 100644
->> --- a/drivers/nvme/host/fabrics.c
->> +++ b/drivers/nvme/host/fabrics.c
->> @@ -605,6 +605,10 @@ static const match_table_t opt_tokens = {
->>       { NVMF_OPT_NR_WRITE_QUEUES,    "nr_write_queues=%d"    },
->>       { NVMF_OPT_NR_POLL_QUEUES,    "nr_poll_queues=%d"    },
->>       { NVMF_OPT_TOS,            "tos=%d"        },
->> +#ifdef CONFIG_NVME_TCP_TLS
->> +    { NVMF_OPT_KEYRING,        "keyring=%d"        },
->> +    { NVMF_OPT_TLS_KEY,        "tls_key=%d"        },
->> +#endif
-> 
-> redundant ifdef here.
-> 
-See explanation to the other patch. This ifdef is required to allow
-nvme-cli to check for support of these option.
 
->>       { NVMF_OPT_FAIL_FAST_TMO,    "fast_io_fail_tmo=%d"    },
->>       { NVMF_OPT_DISCOVERY,        "discovery"        },
->>       { NVMF_OPT_DHCHAP_SECRET,    "dhchap_secret=%s"    },
->> @@ -622,8 +626,9 @@ static int nvmf_parse_options(struct 
->> nvmf_ctrl_options *opts,
->>       char *options, *o, *p;
->>       int token, ret = 0;
->>       size_t nqnlen  = 0;
->> -    int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO;
->> +    int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO, key_id;
->>       uuid_t hostid;
->> +    struct key *key = NULL;
->>       /* Set defaults */
->>       opts->queue_size = NVMF_DEF_QUEUE_SIZE;
->> @@ -891,6 +896,66 @@ static int nvmf_parse_options(struct 
->> nvmf_ctrl_options *opts,
->>               }
->>               opts->tos = token;
->>               break;
->> +        case NVMF_OPT_KEYRING:
->> +            if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
->> +                pr_err("TLS is not supported\n");
->> +                ret = -EINVAL;
->> +                goto out;
->> +            }
->> +            if (match_int(args, &key_id)) {
->> +                ret = -EINVAL;
->> +                goto out;
->> +            }
->> +            if (key_id < 0) {
->> +                pr_err("Invalid keyring id %d\n", key_id);
->> +                ret = -EINVAL;
->> +                goto out;
->> +            }
->> +            if (!key_id) {
->> +                pr_debug("Using default keyring\n");
->> +                key_put(opts->keyring);
->> +                opts->keyring = NULL;
->> +                break;
->> +            }
->> +            key = key_lookup(key_id);
->> +            if (!key) {
->> +                pr_err("Keyring id %08x not found\n", key_id);
->> +                ret = -ENOKEY;
->> +                goto out;
->> +            }
->> +            key_put(opts->keyring);
->> +            opts->keyring = key;
->> +            break;
->> +        case NVMF_OPT_TLS_KEY:
->> +            if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
->> +                pr_err("TLS is not supported\n");
->> +                ret = -EINVAL;
->> +                goto out;
->> +            }
->> +            if (match_int(args, &key_id)) {
->> +                ret = -EINVAL;
->> +                goto out;
->> +            }
->> +            if (key_id < 0) {
->> +                pr_err("Invalid key id %d\n", key_id);
->> +                ret = -EINVAL;
->> +                goto out;
->> +            }
->> +            if (!key_id) {
->> +                pr_debug("Using 'best' PSK\n");
->> +                key_put(opts->tls_key);
->> +                opts->tls_key = NULL;
->> +                break;
->> +            }
->> +            key = key_lookup(key_id);
->> +            if (!key) {
->> +                pr_err("Key id %08x not found\n", key_id);
->> +                ret = -ENOKEY;
->> +                goto out;
->> +            }
->> +            key_put(opts->tls_key);
->> +            opts->tls_key = key;
->> +            break;
->>           case NVMF_OPT_DISCOVERY:
->>               opts->discovery_nqn = true;
->>               break;
->> @@ -1055,6 +1120,8 @@ static int nvmf_check_allowed_opts(struct 
->> nvmf_ctrl_options *opts,
->>   void nvmf_free_options(struct nvmf_ctrl_options *opts)
->>   {
->>       nvmf_host_put(opts->host);
->> +    key_put(opts->keyring);
->> +    key_put(opts->tls_key);
->>       kfree(opts->transport);
->>       kfree(opts->traddr);
->>       kfree(opts->trsvcid);
->> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
->> index 5db36e250e7a..2ff7b7168a40 100644
->> --- a/drivers/nvme/host/fabrics.h
->> +++ b/drivers/nvme/host/fabrics.h
->> @@ -71,6 +71,8 @@ enum {
->>       NVMF_OPT_DHCHAP_SECRET    = 1 << 23,
->>       NVMF_OPT_DHCHAP_CTRL_SECRET = 1 << 24,
->>       NVMF_OPT_TLS        = 1 << 25,
->> +    NVMF_OPT_KEYRING    = 1 << 26,
->> +    NVMF_OPT_TLS_KEY    = 1 << 27,
->>   };
->>   /**
->> @@ -103,6 +105,8 @@ enum {
->>    * @dhchap_secret: DH-HMAC-CHAP secret
->>    * @dhchap_ctrl_secret: DH-HMAC-CHAP controller secret for 
->> bi-directional
->>    *              authentication
->> + * @keyring:    Keyring to use for key lookups
-> 
-> is it only for TLS ? if it does please reflect in the comment and in the 
-> name of the member.
-> 
-Yes and no. Currently it's just for TLS, but I've got patches to convert 
-DH-HMAC-CHAP over to use this keyring, too.
+> On May 9, 2023, at 7:22 AM, Paolo Abeni <pabeni@redhat.com> wrote:
+>=20
+> On Tue, 2023-05-09 at 13:59 +0000, Chuck Lever III wrote:
+>>=20
+>>> On May 9, 2023, at 12:04 AM, Paolo Abeni <pabeni@redhat.com> wrote:
+>>>=20
+>>> On Sun, 2023-05-07 at 11:25 +0300, Leon Romanovsky wrote:
+>>>> On Fri, May 05, 2023 at 08:46:01PM -0400, Chuck Lever wrote:
+>>>>> From: Chuck Lever <chuck.lever@oracle.com>
+>>>>>=20
+>>>>> If get_unused_fd_flags() fails, we ended up calling fput(sock->file)
+>>>>> twice.
+>>>>>=20
+>>>>> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+>>>>> Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for han=
+dling handshake requests")
+>>>>> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+>>>>> ---
+>>>>> net/handshake/netlink.c |    4 +---
+>>>>> 1 file changed, 1 insertion(+), 3 deletions(-)
+>>>>>=20
+>>>>> diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
+>>>>> index 7ec8a76c3c8a..032d96152e2f 100644
+>>>>> --- a/net/handshake/netlink.c
+>>>>> +++ b/net/handshake/netlink.c
+>>>>> @@ -101,10 +101,8 @@ static int handshake_dup(struct socket *sock)
+>>>>>=20
+>>>>> file =3D get_file(sock->file);
+>>>>> newfd =3D get_unused_fd_flags(O_CLOEXEC);
+>>>>> - if (newfd < 0) {
+>>>>> - fput(file);
+>>>>> + if (newfd < 0)
+>>>>> return newfd;
+>>>>=20
+>>>> IMHO, the better way to fix it is to change handshake_nl_accept_doit()
+>>>> do not call to fput(sock->file) in error case. It is not right thing
+>>>> to have a call to handshake_dup() and rely on elevated get_file()
+>>>> for failure too as it will be problematic for future extension of
+>>>> handshake_dup().
+>>>=20
+>>> I agree with the above: I think a failing helper should leave the
+>>> larger scope status unmodified. In this case a failing handshake_dup()
+>>> should not touch file refcount, and handshake_nl_accept_doit() should
+>>> be modified accordingly, something alike:
+>>>=20
+>>> ---
+>>> diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
+>>> index e865fcf68433..8897a17189ad 100644
+>>> --- a/net/handshake/netlink.c
+>>> +++ b/net/handshake/netlink.c
+>>> @@ -138,14 +138,15 @@ int handshake_nl_accept_doit(struct sk_buff *skb,=
+ struct genl_info *info)
+>>> }
+>>> err =3D req->hr_proto->hp_accept(req, info, fd);
+>>> if (err)
+>>> - goto out_complete;
+>>> + goto out_put;
+>>>=20
+>>> trace_handshake_cmd_accept(net, req, req->hr_sk, fd);
+>>> return 0;
+>>>=20
+>>> +out_put:
+>>> + fput(sock->file);
+>>> out_complete:
+>>> handshake_complete(req, -EIO, NULL);
+>>> - fput(sock->file);
+>>> out_status:
+>>> trace_handshake_cmd_accept_err(net, req, NULL, err);
+>>> return err;
+>>=20
+>> I'm happy to accommodate these changes, but it's not clear to me
+>> whether you want this hunk applied /in addition to/ my fix or
+>> /instead of/.
+>=20
+> It's above (completely untested!) chunk is intended to be a replace for
+> patch 2/6
+>=20
+>>> ---
+>>>=20
+>>> Somewhat related: handshake_nl_done_doit() releases the file refcount
+>>> even if the req lookup fails.
+>>=20
+>> That's because sockfd_lookup() increments the file ref count.
+>=20
+> Ooops, I missed that.
+>=20
+> Then in the successful path handshake_nl_done_doit() should call
+> fput() twice ?!? 1 for the reference acquired by sockfd_lookup() and 1
+> for the reference owned by  'req' ?!? Otherwise a ref will be leaked.
+>=20
+>>> If that is caused by a concurrent
+>>> req_cancel - not sure if possible at all, possibly syzkaller could
+>>> guess if instructed about the API - such refcount will underflow, as it
+>>> is rightfully decremented by req_cancel, too.
+>>=20
+>> More likely, req_cancel might take the file ref count to zero
+>> before sockfd_lookup can increment it, resulting in a UAF?
+>>=20
+>> Let me think about this.
+>=20
+> I now think this race is not possible, but I now fear the refcount leak
+> mentioned above.
 
->> + * @tls_key:    TLS key for encrypted connections (TCP)
->>    * @tls:        Start TLS encrypted connections (TCP)
->>    * @disable_sqflow: disable controller sq flow control
->>    * @hdr_digest: generate/verify header digest (TCP)
->> @@ -130,6 +134,8 @@ struct nvmf_ctrl_options {
->>       int            max_reconnects;
->>       char            *dhchap_secret;
->>       char            *dhchap_ctrl_secret;
->> +    struct key        *keyring;
->> +    struct key        *tls_key;
->>       bool            tls;
->>       bool            disable_sqflow;
->>       bool            hdr_digest;
->> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
->> index a3ac512fd1cc..84bf6c80cc7c 100644
->> --- a/drivers/nvme/host/tcp.c
->> +++ b/drivers/nvme/host/tcp.c
->> @@ -1582,6 +1582,8 @@ static int nvme_tcp_start_tls(struct nvme_ctrl 
->> *nctrl,
->>       dev_dbg(nctrl->device, "queue %d: start TLS with key %x\n",
->>           qid, pskid);
->> +    if (nctrl->opts->keyring)
->> +        keyring = key_serial(nctrl->opts->keyring);
->>       args.ta_sock = queue->sock;
->>       args.ta_done = nvme_tcp_tls_done;
->>       args.ta_data = queue;
->> @@ -1890,9 +1892,12 @@ static int nvme_tcp_alloc_admin_queue(struct 
->> nvme_ctrl *ctrl)
->>       key_serial_t psk_id = 0;
->>       if (ctrl->opts->tls) {
->> -        psk_id = nvme_tls_psk_default(NULL,
->> -                          ctrl->opts->host->nqn,
->> -                          ctrl->opts->subsysnqn);
->> +        if (ctrl->opts->tls_key)
->> +            psk_id = key_serial(ctrl->opts->tls_key);
->> +        else
->> +            psk_id = nvme_tls_psk_default(ctrl->opts->keyring,
->> +                              ctrl->opts->host->nqn,
->> +                              ctrl->opts->subsysnqn);
-> 
-> I don't understand why this patch can't be squashed to patch 11/17 ?
-> If possible please do before next version submission.
-> 
-Oh, sure, it can.
-Will do with the next round.
+Not sure why I haven't seen evidence of a leak here. I'll have a closer loo=
+k.
 
->>           if (!psk_id) {
->>               dev_err(ctrl->device, "no valid PSK found\n");
->>               ret = -ENOKEY;
 
-Cheers,
+--
+Chuck Lever
 
-Hannes
--- 
-Dr. Hannes Reinecke                Kernel Storage Architect
-hare@suse.de                              +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Ivo Totev, Andrew
-Myers, Andrew McDonald, Martje Boudien Moerman
 

@@ -1,167 +1,223 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2066.outbound.protection.outlook.com [40.107.93.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA71A33D1
-	for <kernel-tls-handshake@lists.linux.dev>; Tue,  9 May 2023 07:04:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1683615889;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KLKimmPNwCp11rCXqZKJJTcKqRna14kMObZ17X1sciI=;
-	b=E2zAp5nlpJ7AiaAZfdPOp8FwlgW/PTEpiqwZ3qVdhFyZMAiZmDMy6eZ7TrskFTuPMP/mWa
-	FeBlL6WQ3YY6RsLA5pM9Oyj3RYycc5vSSDznfXUOpVK/i1wzjCFcxbhTsIUarpou4bB3T6
-	s3y3Hvt5TDmxi6CgdkI2x7kyH1I6Y7w=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-487-xpvz5BgoMMCrAjaZJWbrJQ-1; Tue, 09 May 2023 03:04:48 -0400
-X-MC-Unique: xpvz5BgoMMCrAjaZJWbrJQ-1
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-5ef4d54d84cso10170416d6.0
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 09 May 2023 00:04:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683615888; x=1686207888;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=g+PavQnsDrQ3Ziaclav5kottbUNlilAfnc2SUG1Hbbs=;
-        b=afEyydb+Jk36UXjJ3HLouC39n24Mk05dxj2UuNxFuhmtv/FhnOTfyHhU0Fd9iZGfiP
-         tSmxPiQAZFmbDbxn2FO3zMgXgSaa00sxcyBwOU6EQL4U0tX4mtHjYW8c13V8jqzWUpIH
-         1CA2nJtX9/oVsUFfkdkXGSIFwDbvQ7JtxmdnmCQkiiaEJtjq7AyqTDi2NK54eiZB8DV1
-         cexT72a9HH3hPKMeru79xw1Qgl0uL/58XhY3qypEdIknSxH3mE4BtcLmIqAB0ZB26Q6T
-         WoGv6DmUhfk/Ie9VrvN9BHzFcP5zaWuDaYyPlvO2H6c/ryhaMHZUVq/tdqru0sdIqXyw
-         eXEA==
-X-Gm-Message-State: AC+VfDxxpBQ4zuxAm9ScX/MsQIAg5PS7RFhja2tOwpUSB7+Ngoa9zxpl
-	jOTb86qitX7x9s9NIK5XoldQGz/52afO4KdarzpEGb7UbI2jEFU+9DYTDLyELX8X+xusx7LYdiG
-	EmV5d3XSNNtepJgzLfFm/nWTAO4tbYMULU6k=
-X-Received: by 2002:a05:6214:5290:b0:61b:7115:55a9 with SMTP id kj16-20020a056214529000b0061b711555a9mr17505924qvb.0.1683615888270;
-        Tue, 09 May 2023 00:04:48 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7xcooT/xK5gavWdwem56NjI42j7fRg+aB9WVumPKuESVRQojNiPJ/4T05I173D0VVw7nSfzA==
-X-Received: by 2002:a05:6214:5290:b0:61b:7115:55a9 with SMTP id kj16-20020a056214529000b0061b711555a9mr17505911qvb.0.1683615887961;
-        Tue, 09 May 2023 00:04:47 -0700 (PDT)
-Received: from gerbillo.redhat.com (146-241-255-65.dyn.eolo.it. [146.241.255.65])
-        by smtp.gmail.com with ESMTPSA id g14-20020a0ce4ce000000b005ef608dc422sm572876qvm.41.2023.05.09.00.04.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 00:04:47 -0700 (PDT)
-Message-ID: <80ebc863cd77158a964698f7a887b15dc88e4631.camel@redhat.com>
-Subject: Re: [PATCH v2 2/6] net/handshake: Fix handshake_dup() ref counting
-From: Paolo Abeni <pabeni@redhat.com>
-To: Leon Romanovsky <leon@kernel.org>, Chuck Lever <cel@kernel.org>
-Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
-	dan.carpenter@linaro.org
-Date: Tue, 09 May 2023 09:04:39 +0200
-In-Reply-To: <20230507082556.GG525452@unreal>
-References: <168333373851.7813.11884763481187785511.stgit@oracle-102.nfsv4bat.org>
-	 <168333395123.7813.7077088598355438510.stgit@oracle-102.nfsv4bat.org>
-	 <20230507082556.GG525452@unreal>
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C743C3B
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  9 May 2023 07:31:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GQVpGR5fYQV21yuobO6BL7M/5iN/hJZSfswybcx9sWT27ogLxfmevPuPsAMB3o8OXptEkZgkEAWteDwGUr1ZXv2goBGm/K7B4fHr6q4zNMAALK+ChbE42Z8ImhiRPeYxqgGrTVLu/c6KB4CBEvuUeCm2gZXf8xgSr++PO0RGd41hnjWFxbfVTBhmCAiOa5MkS2yuDmEj/tW0+2KUSOPP/VLo+2mWJVn1OrUhkJtyLeoQ3PyxmvUTZ58b8VQC1VPbdw9ioRtSoOz+/UDjTZ1CEk9HMdB3kX7DfU1oN9hq5q5o1sR0ME1aAHWjdV5y8vKJgiTlAUdBMbNiJabeTOwvXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n9vWs6fI5Jc5DKXjDR6Nn2YfkK0NABoQzHE61MYYdFc=;
+ b=IZZy9mILFRYwfWzWuoSXMM7U6kKb7oqmE05b8YXmMZpUGg+JFZrXrSmYaEdJCsibKLwmvmnWGakdY/c999eOC0i3VCrUrggXpfZqosIxjCO8nl1v5F8NB9McmZRPaERlPoAnz6i4X7V9l/hbqfBK+mWTY/rrCErnVhENWxW5gC7hL04BJGKGCMF/PLeP22e5hsGNx5bVJIMl/cA1emAUsIc+VKQRnsKJsm0P+zgkEMom8QWunYyvFU8/g2Yohto94KpaYx5Q9xVFyogVTDNzmbrfYGx6L2ZhN9IAEEoNbp7sqEYAGMTouRUXaw0r3NBGFS/im6mOkxhcyyFpt7Y27Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n9vWs6fI5Jc5DKXjDR6Nn2YfkK0NABoQzHE61MYYdFc=;
+ b=LeeYcZluF3ULxRM7ouHFFAZg0/64RkDP2fWduXxoqNw5NDzkcFfzh3y+Bi1pgDZqnaGDM5x2JSICYDTGrejF4JLc4D+DK5R/d+qRsUzbmZI4fHNuShKd/057EVojh+VFZdBmzwGwIlarjRwBGXlQnjo6FfKVPcTaeAebo9hzTQTWL0RoZEyVhGJgGR1T9T92voJTK54ky1kzyC9UJUiCOoU+t8nL4sktULMTzW+kTOmYm+5h51XSjt9awPYYR/xkeaBxVQNr08J92hrwmVVT4E48aso2AjGKoQ6EiwjEB5WxQ4agIhd7tlGGzKsPlQMubWYt2OXQnyzg2GM4k7wtJA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
+ by CY5PR12MB6129.namprd12.prod.outlook.com (2603:10b6:930:27::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.33; Tue, 9 May
+ 2023 07:31:45 +0000
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::61c3:1cd:90b6:c307]) by DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::61c3:1cd:90b6:c307%4]) with mapi id 15.20.6363.032; Tue, 9 May 2023
+ 07:31:44 +0000
+Message-ID: <79ecbedd-9392-cc0f-dd7f-37668cd67d3d@nvidia.com>
+Date: Tue, 9 May 2023 10:31:38 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH 05/17] nvme-keyring: implement nvme_tls_psk_default()
+Content-Language: en-US
+To: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+ linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
+ kernel-tls-handshake@lists.linux.dev
+References: <20230419065714.52076-1-hare@suse.de>
+ <20230419065714.52076-6-hare@suse.de>
+From: Max Gurtovoy <mgurtovoy@nvidia.com>
+In-Reply-To: <20230419065714.52076-6-hare@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0091.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9b::10) To DM4PR12MB5040.namprd12.prod.outlook.com
+ (2603:10b6:5:38b::19)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|CY5PR12MB6129:EE_
+X-MS-Office365-Filtering-Correlation-Id: ae25c785-61c8-4b06-b012-08db505f709b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	jJjP7tPHq1xYKUaG6VxHOFf/ABRE6Y5+kj6kqkH4Y43yEkUgEFcWiEU6Hbemlz5dsl66/GvXw4ptsMcurY5w9zLULBAS/ISlHiOOYY3ov/n7oKLxRHpiEogXYDrfSlw6UT1k1DAU0fPfNZZpoIjdX8zK7Wc/HWO3Zk3NWEPGyFjDLZfIg6U3vEoQsO8/i3AG8SEmnV16/1tyIVw83lNVXROno0WFLWhRwRLFjEAlGndyzY2vJ+ptrE3tym2tUVSVyFQp2rhelzhpKKFxSJFcWQcnr4AK3qRtrY2yVXqJzZvpScODe54bBt2sKvdc8s3jOiwgApCbPqhZjM3dy2mFgGYm58yXra5YMIF50t1aJw5D4dXGrRxPH/HcPno/MzPtID7wdYnn1wG0gxv10xm4NJh0Y7v7cpmlcvRdPMpXKu9Jd7U+KwpZCg7wKEq/cXz/Dwv2XduQD5s/90J734QUlKOEC6IyvLx227Ee/QFntohynrwCeZDy0BXyoUzWsSjxB7SFquezpp8eoFkUmaxYzLatTptrK1ntU+MfAjlfWASn2hYJFSkamxOuJIjkIE/JZT6MjSL94dP5q/GFemmhmudYeYSTESZTRTHl8BMrxId7ZGbUWuPzPVoMgqK3WOLu1SUgqxWSKFgoRP7Jx3LGHg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(376002)(346002)(39860400002)(396003)(136003)(451199021)(2616005)(478600001)(86362001)(6666004)(31696002)(6512007)(6506007)(26005)(6486002)(66556008)(4326008)(66476007)(66946007)(316002)(54906003)(110136005)(53546011)(186003)(31686004)(38100700002)(41300700001)(8676002)(8936002)(5660300002)(2906002)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QkVWNzFOK1IwSUpNV2dJalcyOWhuS2h2SDduRUhzUFRjcVJHMkZ1ZXA0YTVB?=
+ =?utf-8?B?TGo0aVE5MTRqVFpjWmQ0QytydTNIVXBTMzdLUE03VDFpWkVWYmNxZlYwRVNY?=
+ =?utf-8?B?RkdSMThtcTk5aU0yMjZoUHRjV1dFZnFoeHYrV2thNVYyR2JIRUpBRkNTVmFh?=
+ =?utf-8?B?Qm4xelBFMXQ5eXJZOURhREVMOTBVTldFalNqdDYrVHEzOXR1eFQvTk81aWF2?=
+ =?utf-8?B?WXdGOHJqa0lYclc0WVcvVEJlNFloS2YwejUrWUdDUkNaYTFwbEtRTjF5MU1n?=
+ =?utf-8?B?Y3FITGFNb2U5eDdZV1hFdjEweTRqMVE0RzJyNW0rTUpFVThqZ0hiclpINndQ?=
+ =?utf-8?B?VnAvY3JNRnp5VHg2Nnc1QTVuRkxMbXpKaStoWWo4K2o1VUdPNktRY0xPcFdM?=
+ =?utf-8?B?VG1Ra3BjZ0hCanNMRHdPOWNxNkZkd3JGWkt5RngyY0U4MTZsN2NabGk2RDho?=
+ =?utf-8?B?TktMTnMvSUw5RWM0UGIzVnN6WHdPaFNucU00Q20xSWhKSFVhRitFcllJTzF0?=
+ =?utf-8?B?RFZVMWtSbS9YN3FEK1RkUUVqL2tOQm1IUk14aXB4VkVRMTc0OXVNSTh3ak9r?=
+ =?utf-8?B?a3VuM1BxSzl5bVYyalZOcG51MFJyUTNhSTNLWWNmQVZ1dC9VSkZPZjJOMUR2?=
+ =?utf-8?B?bDQzRmlvUG5TWDUyekg5NFRCT3JvZUFsSm9sdFdwSi9Wb1V3ZEhKUU95d3dD?=
+ =?utf-8?B?VTg1bmtPSUNOU0VuODNJVHFPOUt1WlZCcGtzL3JYTUxtNHJuaXpMeXE3azZk?=
+ =?utf-8?B?c3VJMEJlVmt5UVhIS05POUtJUytjYTd1aC9Nd21SQUx0M3M1bUJaUjJCM2Jr?=
+ =?utf-8?B?cG1ZUGprOTdoMi9JMnBLQlFUbEpZT291ZkgrRWtweVg5UGZyajZOMFBDaHBx?=
+ =?utf-8?B?TkVoUUtaWUxYRkVXc3c2aSttcmZYbVpXdmlEQnhYQUZibjlaS0RWOVp3WER1?=
+ =?utf-8?B?cUY1dlFLOFlkcXBVanh2UGs1c1lnSnpGZmF6YWdOcXE1U1VlVU4rRjRhemkw?=
+ =?utf-8?B?NmNnRU9IeUZyM2NnTEJkUnZCZThiSUpIdUtCNERMamF2Z1pvUm9VdGk4Q3F6?=
+ =?utf-8?B?SGtCaEVNN1QxT3BlZVpWNER5K1BHQ3JuMStnVXJEZHFMNkM5SW9rZzRUdk5m?=
+ =?utf-8?B?K05pbm9KTFgyM21Da2Z5ZnZNN3h4bmZsY3lSMHMzWWtZNjAxL0c0TFVxcnVy?=
+ =?utf-8?B?dXBPNE51bkVWZ250UWhuUDdkZWJZT2tlM2xpa01BYmFCcXBlQ2VpSlVVTS9B?=
+ =?utf-8?B?d2NIazRsSnFIR0R3Z1pOZ0VwOEtRdE4rUjlZaERDVjVrdW1sUGg2TjIrTlpV?=
+ =?utf-8?B?WEZHbjhCVUxkbmpWdElUTkpOa05TR0pWbnRrd2d1b20xclZvQVVYRk9UMFZj?=
+ =?utf-8?B?dUZVbzF2N2U1eWNmbTdPQmxMcGNjZ05rOVhHcFkvb1FZQ3RxYW5lRHIzOGY3?=
+ =?utf-8?B?c0o4Nnk2d0pheCtOL25tdW0wRWdMUnF0QW5VamwreVFRbGRQYXJBSkVLREMy?=
+ =?utf-8?B?dmRYRXRycFBSRlRsRkpQSEdrZlZjdTNaYkRleGpNRUtjMDkvc1U5cm1ndFJi?=
+ =?utf-8?B?KzkvTXQyU09ZVlhQVTllOW9jUWpnWHlFMU5ReU53Qzh2ZHhuU1dvcWkrVmF0?=
+ =?utf-8?B?eXVmY3hJRG9vNm5xS1RrT05MMFBWR0F1NERsdXR6UFQxWklYMnNxWmxnc0pt?=
+ =?utf-8?B?ekM3SDdCK2xxT3dUY1NDcktFcnJLSHBQOENsc3lhUnh1dHFMM3dmTWp1cnRj?=
+ =?utf-8?B?OHNiV3pOdWxzVTN6Rk1SejA5aERQeUNQRFRsOGJid1MyR01xaDg3Y2lhMCt3?=
+ =?utf-8?B?NzJjUUFJVDhOc2tnRThKb3VhclBCVytja00vQTg3NWpBK1QySHhtM2wrdlJy?=
+ =?utf-8?B?ZUdUVGdTR0M4MWhzZnNmU2d1aVFSRTFsNUxvQWZLWjM2dTh1MVArREtRNld1?=
+ =?utf-8?B?TTBtbnY0ZytJMTZtN1crL21GR0ZURTYxVkFhZ2ZkSG5rcjB4YUthaitoTWNC?=
+ =?utf-8?B?a0MvTlBuMGNRREhGcXdwa3ljNE83aTROZDdyT01TMy83dTdONHdmZCtnM3NO?=
+ =?utf-8?B?ZmwwcVZVeVA0MWdqUzVzRVBrcWV6VVM5MVZORk0ySUVkSmlweExueW5TdzRa?=
+ =?utf-8?Q?S+4qk9UkvZDZAmsFxmi3xiy7A?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae25c785-61c8-4b06-b012-08db505f709b
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2023 07:31:44.7028
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /ReSnwoiKt7W7a4WaH6BsFpm02E0ewOrPbu7+1HIqB+TDWyHSvgp8oVcfFpbzbZ+ovG12/U0bRpxLcLnLyrHJQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6129
 
-On Sun, 2023-05-07 at 11:25 +0300, Leon Romanovsky wrote:
-> On Fri, May 05, 2023 at 08:46:01PM -0400, Chuck Lever wrote:
-> > From: Chuck Lever <chuck.lever@oracle.com>
-> >=20
-> > If get_unused_fd_flags() fails, we ended up calling fput(sock->file)
-> > twice.
-> >=20
-> > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for handl=
-ing handshake requests")
-> > Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-> > ---
-> >  net/handshake/netlink.c |    4 +---
-> >  1 file changed, 1 insertion(+), 3 deletions(-)
-> >=20
-> > diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
-> > index 7ec8a76c3c8a..032d96152e2f 100644
-> > --- a/net/handshake/netlink.c
-> > +++ b/net/handshake/netlink.c
-> > @@ -101,10 +101,8 @@ static int handshake_dup(struct socket *sock)
-> > =20
-> >  =09file =3D get_file(sock->file);
-> >  =09newfd =3D get_unused_fd_flags(O_CLOEXEC);
-> > -=09if (newfd < 0) {
-> > -=09=09fput(file);
-> > +=09if (newfd < 0)
-> >  =09=09return newfd;
->=20
-> IMHO, the better way to fix it is to change handshake_nl_accept_doit()
-> do not call to fput(sock->file) in error case. It is not right thing
-> to have a call to handshake_dup() and rely on elevated get_file()
-> for failure too as it will be problematic for future extension of
-> handshake_dup().
+Hannes,
+I wonder if we can squash the keyring patches 1/17 + 2/17 + 5/17 to a 
+single patch ?
+And start the series with some preparations in the nvme/tcp for it to 
+compile..
+This will reduce the amount of commits and simplify the review.
 
-I agree with the above: I think a failing helper should leave the
-larger scope status unmodified. In this case a failing handshake_dup()
-should not touch file refcount, and handshake_nl_accept_doit() should
-be modified accordingly, something alike:
-
----
-diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
-index e865fcf68433..8897a17189ad 100644
---- a/net/handshake/netlink.c
-+++ b/net/handshake/netlink.c
-@@ -138,14 +138,15 @@ int handshake_nl_accept_doit(struct sk_buff *skb, str=
-uct genl_info *info)
- =09}
- =09err =3D req->hr_proto->hp_accept(req, info, fd);
- =09if (err)
--=09=09goto out_complete;
-+=09=09goto out_put;
-=20
- =09trace_handshake_cmd_accept(net, req, req->hr_sk, fd);
- =09return 0;
-=20
-+out_put:
-+=09fput(sock->file);
- out_complete:
- =09handshake_complete(req, -EIO, NULL);
--=09fput(sock->file);
- out_status:
- =09trace_handshake_cmd_accept_err(net, req, NULL, err);
- =09return err;
----
-
-Somewhat related: handshake_nl_done_doit() releases the file refcount
-even if the req lookup fails. If that is caused by a concurrent
-req_cancel - not sure if possible at all, possibly syzkaller could
-guess if instructed about the API - such refcount will underflow, as it
-is rightfully decremented by req_cancel, too.
-
-I think it should be safer adding a chunk like:
-
----
-diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
-index e865fcf68433..3e3e849f302a 100644
---- a/net/handshake/netlink.c
-+++ b/net/handshake/netlink.c
-@@ -172,7 +173,6 @@ int handshake_nl_done_doit(struct sk_buff *skb, struct =
-genl_info *info)
- =09req =3D handshake_req_hash_lookup(sock->sk);
- =09if (!req) {
- =09=09err =3D -EBUSY;
--=09=09fput(sock->file);
- =09=09goto out_status;
- =09}
----
-
-Possibly explicitly documenting the used ownership rules for the file
-refcount in the relevant functions could help with future maintenance.
-
-Finally it's not clear to me if we agreed to a target tree or not ;) I
-see no replies so my suggestion.
-
-Thanks!
-
-Paolo
-
+On 19/04/2023 9:57, Hannes Reinecke wrote:
+> Implement a function to select the preferred PSK for TLS.
+> 
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> ---
+>   drivers/nvme/common/keyring.c | 48 +++++++++++++++++++++++++++++++++++
+>   include/linux/nvme-keyring.h  |  8 ++++++
+>   2 files changed, 56 insertions(+)
+> 
+> diff --git a/drivers/nvme/common/keyring.c b/drivers/nvme/common/keyring.c
+> index 494dd365052e..f8d9a208397b 100644
+> --- a/drivers/nvme/common/keyring.c
+> +++ b/drivers/nvme/common/keyring.c
+> @@ -5,6 +5,7 @@
+>   
+>   #include <linux/module.h>
+>   #include <linux/seq_file.h>
+> +#include <linux/key.h>
+>   #include <linux/key-type.h>
+>   #include <keys/user-type.h>
+>   #include <linux/nvme.h>
+> @@ -103,6 +104,53 @@ static struct key *nvme_tls_psk_lookup(struct key *keyring,
+>   	return key_ref_to_ptr(keyref);
+>   }
+>   
+> +/*
+> + * NVMe PSK priority list
+> + *
+> + * 'Retained' PSKs (ie 'generated == false')
+> + * should be preferred to 'generated' PSKs,
+> + * and SHA-384 should be preferred to SHA-256.
+> + */
+> +struct nvme_tls_psk_priority_list {
+> +	bool generated;
+> +	enum nvme_tcp_tls_cipher cipher;
+> +} nvme_tls_psk_prio[] = {
+> +	{ .generated = false,
+> +	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
+> +	{ .generated = false,
+> +	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
+> +	{ .generated = true,
+> +	  .cipher = NVME_TCP_TLS_CIPHER_SHA384, },
+> +	{ .generated = true,
+> +	  .cipher = NVME_TCP_TLS_CIPHER_SHA256, },
+> +};
+> +
+> +/*
+> + * nvme_tls_psk_default - Return the preferred PSK to use for TLS ClientHello
+> + */
+> +key_serial_t nvme_tls_psk_default(struct key *keyring,
+> +		      const char *hostnqn, const char *subnqn)
+> +{
+> +	struct key *tls_key;
+> +	key_serial_t tls_key_id;
+> +	int prio;
+> +
+> +	for (prio = 0; prio < ARRAY_SIZE(nvme_tls_psk_prio); prio++) {
+> +		bool generated = nvme_tls_psk_prio[prio].generated;
+> +		enum nvme_tcp_tls_cipher cipher = nvme_tls_psk_prio[prio].cipher;
+> +
+> +		tls_key = nvme_tls_psk_lookup(keyring, hostnqn, subnqn,
+> +					      cipher, generated);
+> +		if (!IS_ERR(tls_key)) {
+> +			tls_key_id = tls_key->serial;
+> +			key_put(tls_key);
+> +			return tls_key_id;
+> +		}
+> +	}
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_tls_psk_default);
+> +
+>   int nvme_keyring_init(void)
+>   {
+>   	int err;
+> diff --git a/include/linux/nvme-keyring.h b/include/linux/nvme-keyring.h
+> index 32bd264a71e6..4efea9dd967c 100644
+> --- a/include/linux/nvme-keyring.h
+> +++ b/include/linux/nvme-keyring.h
+> @@ -8,12 +8,20 @@
+>   
+>   #ifdef CONFIG_NVME_KEYRING
+>   
+> +key_serial_t nvme_tls_psk_default(struct key *keyring,
+> +		const char *hostnqn, const char *subnqn);
+> +
+>   key_serial_t nvme_keyring_id(void);
+>   int nvme_keyring_init(void);
+>   void nvme_keyring_exit(void);
+>   
+>   #else
+>   
+> +static inline key_serial_t nvme_tls_psk_default(struct key *keyring,
+> +		const char *hostnqn, const char *subnqn)
+> +{
+> +	return 0;
+> +}
+>   static inline key_serial_t nvme_keyring_id(void)
+>   {
+>   	return 0;

@@ -1,306 +1,272 @@
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2072.outbound.protection.outlook.com [40.107.100.72])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A96253B2
-	for <kernel-tls-handshake@lists.linux.dev>; Tue,  9 May 2023 10:00:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2886817ACF
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  9 May 2023 13:59:50 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34972uaA013206;
+	Tue, 9 May 2023 13:59:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2023-03-30;
+ bh=2ZML4e7U5L1PADBL8T1ishvvApMCkMqmL9zMw52NfY4=;
+ b=LKdZR4eHpjPjwYkSHClqjridyrnP+F+L8v3d10C2W/K0ukVjrmP7mPrAQnpc5CQVUOJ/
+ x8tF9e/+y7XqbhGOPkeRvu6+phi12VnJ/l57JJNhbB/MT6/Chh/WgL8ZTt4zYgbiWSZi
+ cUDrorwpiVigYaDKVQ1nCBZLAyJD7lscHLEwgbi8irOn4Z+pYOpvBup817TwPJ3sVmXt
+ Zy6h6AAdfsH/RuMKJsyiiDeIVPqlpYrNhpZ4ZAdWXy9wvFOLZbx0iwlIk7xPE7r3zW2+
+ LvGxRF9X52ehSZUDkJEJXswQnIBW7SRR4es8VYEgFLVaxK1hXD6H08KqWs6xCs0JBSOH ig== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3qf77g1wxm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 09 May 2023 13:59:44 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 349Cu0UR015886;
+	Tue, 9 May 2023 13:59:42 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2173.outbound.protection.outlook.com [104.47.55.173])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3qf77g143k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 09 May 2023 13:59:42 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nsmK5lXsR/6uE6nWf5K6U6lWskOAnKB13t6EmlHWAQPn1K3LLWUF2Yo5mF7m+lAAsxLyJ7bx3XoQISgtGJbgmfsCB4u6CtFvLNkDVLSRnKpBQA7r5zyMzE7liYaaIKKTZTtDDeYKexpUnMUHA3jsLtJLh1op29JA/GswZklixgDlSYc4H2ou/tu9wo9cTGo+kUNx+m6HKoHQc5QIV2kvo48ucLo4Q35zJ6o2KBQWto1HxLWs+G1jQ9FcVxhhw01FYwfxIVoNN/Iw6fbs1lAC0uCWDU77IY/C58YlhaCV38C0Deyc4L27zUflYMtxhU0PnUQiFBH5+q8aNzDsZRKoIA==
+ b=bWtsZLqItrXu75h6whcyreAfVQOh2PWcIj9KnvC3zrN/64ANkqDbPPn0MKaBAgomChfV8G53GBDuozrcVqfpkbzITQiVzfVhfuapOWWtLlDFBr9uE+GFS4GCluZ8c6yGuh9AAmTxOxTR1uQuOLa/PAmgDflW/69Hasa/daN6H/hDitoqxKHLzdwoeoAjybUgPCz8rzIeHN+927mTtBclQGlSoNucN9Xc1G9ofECmZoy+bNvuI1hlftHV4E9TeVLx6wki70vhnSmfR2ZxPqFYRlyOUQphBnlTyDMqj5w6kL5oz2U+TiD0gkx9JHSDF1gtdlvr37qGcNmwp0UouOxLdQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tZvXLNudMFjIYpAxAfKFzoB8uTigcLdXXDqZm1Mo3Cg=;
- b=gmI69PzW5ip95jtxxDb7lvNXIGp4aTbcIN+5OKZvf9EEwm+tNZ6xdpi9lmgEiwBaxxk/yxy6ykBN3/DjVVf9O8aHuipDa8koaoN+t01gjxyVBBfroXeas/eMIoXl0CMVU64A11pGtwcDM3ajLgw419D46ULWJFbLr2hjDpOyLhzp219dvtLRtpoXElbn+tBA9y5qoT/3rkpwCzso8Ol9gumfqV7iy7ZEeWa2np98RVAJ5H69csAmgMobQbi5mvga5PmmJXHd0QKNkvbkfkjmMLFV33jEf+r8pi0M9bfcv+XEtb2O3GSTHpa3WnM/mGDXxu2p5jHjgpna9z721rYc3g==
+ bh=2ZML4e7U5L1PADBL8T1ishvvApMCkMqmL9zMw52NfY4=;
+ b=a7ec9rzJUbA9M3Y+M0CMQfa1v2cMVs+V+P0JxKG/kvapwWOqjL6BLHa6HGan8ZvN/EisFAcLHQqpfYSqXWt1voQkiye47EN/dEcIT9CeWliJIW4qsdD/6wYy5JFYr/1ZCdaXbg0Qhqtp1f4Vol5yufIC3G2uvWeJ/q+5aYbj1nptvDdiQqoPqyHPcMn2eItnoLCcqcFIlT84HydWh1bi5y6Fz5iarNe4jrnkXiMM5LDFTX2wRc2OK9e9hRIpBrvwtTWzHjDchhbqyoDFaOdVP7hnPri3FyjX0Nsha86IG1MS2wErqo2xoY10eilymLwkcyzWhl/2jAhF5CkzVsUYLQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tZvXLNudMFjIYpAxAfKFzoB8uTigcLdXXDqZm1Mo3Cg=;
- b=ntaeKMo3dl88MXHykeUt8ufkyRl4zOenIhZXJ+mzii1x9k/duXqw5IND146akBctGQiaKQcKb5UEAHXyo5/IJFOhEZHsCYnQdf3ExF6CA1a/pRcKszX10MeivWVw45qtZcA0liJXhNyrDseCTk1xoa5tqKOB2/iJr24zEJmK5F+zSMhhtoEUoYFITKw9wOBe3RszBo0dx5fghZltMweAgEFnlxYQ5uKICiV4JqY5rpc/YITKiTz7MTwKRSgkNgQwbudyoVNcejQBG7uz426X22tCGGasn9JFrdfAcpGTXMPbft5M5TLLIFEhkpAKgvPIgvtkutoXCCPEdDl9YHJpdw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by SN7PR12MB7023.namprd12.prod.outlook.com (2603:10b6:806:260::16) with
+ bh=2ZML4e7U5L1PADBL8T1ishvvApMCkMqmL9zMw52NfY4=;
+ b=ItblA883zdABjteXZyKM/hTDkpVI5UlePSK3mAGjY3l/E7M2y7QsW6o06yD1DT5QnTiYptnEoqVF+jEE4mVfva9KJv+VvtQUu+KArpj2zPUOiQkP/cWcejDC8C5PBFes8EIy0+VLTJubv/zJwZGWFCxaGHDohAcMAoaa3krd37w=
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
+ by DS7PR10MB4829.namprd10.prod.outlook.com (2603:10b6:5:38c::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.32; Tue, 9 May
- 2023 10:00:18 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::61c3:1cd:90b6:c307]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::61c3:1cd:90b6:c307%4]) with mapi id 15.20.6363.032; Tue, 9 May 2023
- 10:00:18 +0000
-Message-ID: <3acac781-58d2-e0de-6072-b6b9d67550a0@nvidia.com>
-Date: Tue, 9 May 2023 13:00:11 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH 13/17] nvme-fabrics: parse options 'keyring' and 'tls_key'
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.33; Tue, 9 May
+ 2023 13:59:39 +0000
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::ecbd:fc46:2528:36db]) by BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::ecbd:fc46:2528:36db%5]) with mapi id 15.20.6363.033; Tue, 9 May 2023
+ 13:59:39 +0000
+From: Chuck Lever III <chuck.lever@oracle.com>
+To: Paolo Abeni <pabeni@redhat.com>
+CC: Leon Romanovsky <leon@kernel.org>, Chuck Lever <cel@kernel.org>,
+        kernel-tls-handshake <kernel-tls-handshake@lists.linux.dev>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "dan.carpenter@linaro.org"
+	<dan.carpenter@linaro.org>
+Subject: Re: [PATCH v2 2/6] net/handshake: Fix handshake_dup() ref counting
+Thread-Topic: [PATCH v2 2/6] net/handshake: Fix handshake_dup() ref counting
+Thread-Index: AQHZf7QsoSIApHx1cEC5oKYOzkZtjK9Oe64AgAMN9ICAAHPmAA==
+Date: Tue, 9 May 2023 13:59:39 +0000
+Message-ID: <CD7ADFAB-137C-407C-93D4-4AF314FE0E52@oracle.com>
+References: 
+ <168333373851.7813.11884763481187785511.stgit@oracle-102.nfsv4bat.org>
+ <168333395123.7813.7077088598355438510.stgit@oracle-102.nfsv4bat.org>
+ <20230507082556.GG525452@unreal>
+ <80ebc863cd77158a964698f7a887b15dc88e4631.camel@redhat.com>
+In-Reply-To: <80ebc863cd77158a964698f7a887b15dc88e4631.camel@redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Hannes Reinecke <hare@suse.de>, Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- linux-nvme@lists.infradead.org, Chuck Lever <chuck.lever@oracle.com>,
- kernel-tls-handshake@lists.linux.dev
-References: <20230419065714.52076-1-hare@suse.de>
- <20230419065714.52076-14-hare@suse.de>
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-In-Reply-To: <20230419065714.52076-14-hare@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0170.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b4::8) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.500.231)
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN0PR10MB5128:EE_|DS7PR10MB4829:EE_
+x-ms-office365-filtering-correlation-id: fed3d0b3-db5f-487f-b9e0-08db5095a182
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ XlJeMVikwcSdrHudQeG1GDQ/TJrAhLW8mP7U2W/OJ3byoBA8z6SAYMWEchAhtZvuO5dmICTdagy9w1eu2239/zvwldVE5ngfHc2Zyin22xWbeWkUuuQ+x9fnPLo4Nb75ryvKbYWfNOVwLgKnZMMBTY7ZJHeEoZnqN1LBfRszPX5sjurlZct1xkFVrUh+jXxmrtwABbUoS//7uNZvOMSgqEXSRnantO7krUVnIU7B1Fb62ZK+hDB7tuRdtRDN6EFXMwr9Z+KVWKkzM0GfLnO90BgkaSNiqGpz1N1PJGirAnvIKq7kEI923KSGIcWMnz0P5QTmEKfODqdJ9DUvDitoJTxuP55QnB3Pz4nk2Ax7Vv3iEFpTqLKRg2MFIQKSsGAfvvIYS+Ab+vriOPDLE00tzdGvJFg51r6KNHWxsnIlwdt6/hSg3uQCvWeF2rk9X7nOtG3H90iWct+rfWzr+yqs0eyhYjH1dcd+Jc0/5hRl+SsVLoFyJMEMmAVpi0rMYoLkL5/8trLhFeVn8/LPIkyqkf8TvYPjrlWHAeCZE07A2o1F/0aEdBBf7VpSPFvdizllm3TQtEpHdVGQF7ug6f8vu8ZCXXAOksLmYPDTcGQPOvYGjEav11CDL29qtlfz5OfhzJF23zXKjKrddcTpvA78uw==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(136003)(366004)(396003)(39860400002)(346002)(451199021)(83380400001)(54906003)(8676002)(8936002)(316002)(38070700005)(2906002)(66946007)(76116006)(4326008)(6486002)(66446008)(2616005)(6916009)(64756008)(71200400001)(5660300002)(66556008)(66476007)(478600001)(86362001)(53546011)(33656002)(186003)(122000001)(6506007)(6512007)(41300700001)(38100700002)(26005)(36756003)(91956017)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?Yf0mShnhs0wne+EHDRdfdhOKGJxhoptPgKppqG9cJViP94hXgjnN+kGfX5I9?=
+ =?us-ascii?Q?TvJBLQMHD9HvLiRfX23a/p1/9I7HCr6IFw3bxZkZwFzvv4wsFWq4pjI0EHnw?=
+ =?us-ascii?Q?Fqul/Ac3WZYDui/pQ4ND83rt12wVZtcQZ+UweFbgv4eQK8tU9bfka0dvHlT5?=
+ =?us-ascii?Q?ecgOwMQnjiR99Xiey8+Otq5YtWt+GzKhza+U65qdun94SyfL97BvTLnjNqWO?=
+ =?us-ascii?Q?z3HEYuW++YxAZV7ByY9x+EOy+YBPQVLJNB5KHmy55JYX8c215NsI0oYidnvH?=
+ =?us-ascii?Q?8SgW2e/xSOY2Zs60gAwnerSTLEz7/X+S2G8IpFu535B9DxAuy79RO8+TnTry?=
+ =?us-ascii?Q?GBwLZHttoizH4WRHyMTczTUMGd/Q8OZulYXg1Ni+y0fySdOQg0jMjYZnb5eE?=
+ =?us-ascii?Q?RkI7cocUGbo5aTGl1etuqPA4p9w5FeEqz6kDKhS+zrZ7wm9ePiemYmodtyfv?=
+ =?us-ascii?Q?OuGvt6FhC2n9PWYaUOz7xIC4N4tOgcfcGPMKL0expTNKLJ7TrSj/tN5LRkqZ?=
+ =?us-ascii?Q?XGoYn2gbsPIn/5U9AgNY70f/YdJH1sicNgbbMK3GCvLJGUBHdu9+tIEnoi2U?=
+ =?us-ascii?Q?TjVQIF2iuuGG8cP6uOw1zoQLG3YQ1gpIYlSMqLU9F4cHyBKv8kQoMtAvmd+P?=
+ =?us-ascii?Q?UX+rPNIXnfMjx9kbkv0nFbOO/OZTTKPmrajFasXbuEIEoWDUzvbzoUUz9FIf?=
+ =?us-ascii?Q?QxHwtlApEgxjRuDBFZW1MrCDqkuZjM0Klu9SNLkszyVmOvmsCQ2pSoGY2X1F?=
+ =?us-ascii?Q?u8Eyq6+w91iHDJsCKATEuzfjgylp4SP9ysX5u+cdDcq+d+qxSBK0cD9w4d/V?=
+ =?us-ascii?Q?sPRcuSp1tNeutchy89N2W6Q/yUb37NS2GoMNtIVi6nzfNHnc6FtI42GViMOR?=
+ =?us-ascii?Q?AFgJRXI9GTGLiERuRHMIUnoRmwjtzKEbDWrwLKhw1GjK0CWDNd+TLm2HibXZ?=
+ =?us-ascii?Q?goR5jay54SuUWfkyuxEyRxErGL1RUcMbWH35wUEcVExtXiSqHRgM2aT4naeg?=
+ =?us-ascii?Q?aorBYcACD8l+kjrezz3GY7KxvfeCR658i1oj9VipzoWeH1dmIP2kO8cU/71Z?=
+ =?us-ascii?Q?n1jAVVHv0Tccl3VG/jxnl8Ob2Cy43j6mTIDlX6Ksv2QXg66r3MEVAmXV+QU1?=
+ =?us-ascii?Q?BjtApWpb0mECWa+AaaXJ5vvQuCHfjtCnxPDEdF4Qj+l4Ab3B2/T5/DWkvEEn?=
+ =?us-ascii?Q?8xXf01KKmI9f86Un5DhHstMMM0lpCfU+HSCFkIDixm7sUKe6FLHfCmpY7MnL?=
+ =?us-ascii?Q?Cbd7gIu5M6ZIFZrk397lKSXcVbj6WtwpaZEF7PIDPHoX4SDCu0IQxTSoNMYB?=
+ =?us-ascii?Q?zyBKQGA38Ehzq/TrPuMp2GSkdd+WfqGOQOwbzCVkaGk4BLbnedeNYFNWgygB?=
+ =?us-ascii?Q?c0wY/u4z6kJEBgVY7YJl1fV45kfT+ECcddklkmQnoAII+huNv6L/BotbgyUL?=
+ =?us-ascii?Q?wtTzZZixj2UNlyD0aRuo1V4rKUFVOmQEipDe5RmwpfZLpfypF2cviE1+Y7Ua?=
+ =?us-ascii?Q?LI6PjD01DwjeUkCy80h1NpDHEsGO5ri48gstBOh60d7EHj3CfS/eumYwajoG?=
+ =?us-ascii?Q?+wTXgYXbERz6Q5j4grbLPm25JhOWwQ0Dgfxlmqaeab3fMKGtDyBAMjHKQl7E?=
+ =?us-ascii?Q?og=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <7866C5F15793EA40B15C18894CE69BC8@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|SN7PR12MB7023:EE_
-X-MS-Office365-Filtering-Correlation-Id: fa80a036-98f7-43f1-f116-08db50743194
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	EUWqWt5Y3ZpmCav/bJS1xJxrUlTQ3OQC83Ka+GbHvYt0DimZhhe2niwAQBWV60g3219W6+yMIivQ0yuMuPbF2V4nqdMZhlFoCrtYLJh/xgjXjZF5AqMo+S1QvmIgu8uDSoYNgggAEPt8SRu827nvPFa2ngheABlNy0F04GMm8G+i/Y9FpxRC97y0GN2368PAOeJ3xSJHpfaJkl5VDn4ifoba6UEuPPFp2q8uU0ovlgB5oklmLJeMUMij6Ts3sorgfFskuGOv0cX4Gn7QneQeNvk064uCoA0NignV7key365S7XPk7Lacfcv3rngmDUpnbRb6WJT5i+p1XGU3lTomJG1qyoe7UugCxPnHnBEuCKZW19tjD+gt3SQdbchKRquzZfwQ4u0cJLuM5zZI6/FYyFqMJASTUyxhKX3mkd81dU+ws1tbE42RsZamUdDT/Ryy3hhu9eINHpQIiD4QfcKuhvZmPOw4nVihspvYcs+LloJ588/oTWbYjjWCDCI2/9bIi2CsVZz8RN7ydE531pO4JnZ6NXXLo/a6BVdloYd8NlZalozRt50tXy719nGf8bhnp/4A3Mbt0ZnKiEANs99uoOvpk4c8IVA93nNR1MtNmLPoL0qBUZvqjlMWOHfaCrRP94EFwrCScv5KntaM91D0+A==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(396003)(366004)(346002)(39860400002)(376002)(451199021)(186003)(83380400001)(2616005)(2906002)(38100700002)(36756003)(86362001)(31696002)(8936002)(6486002)(6666004)(316002)(8676002)(41300700001)(31686004)(5660300002)(478600001)(110136005)(54906003)(66946007)(66556008)(4326008)(66476007)(53546011)(26005)(6506007)(6512007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Smo3ajhlY0tlM2FneDdvbVYvM09uWkVmWWFHR3VMWkYvQlZKZS9icFh5MFZ0?=
- =?utf-8?B?blBHMnlHNlp1YXlBYmt0bGozbVNkODdCbVNaME56ekVUc1JUaThtS1pMNWs3?=
- =?utf-8?B?YkRPMWlvUXU1L0FoVHRuSlpxMDVxdnQ5N0hOTXdsZFZzS1lxdGtYR1BHUGpY?=
- =?utf-8?B?RjdiYkNyQjVtdnZrK0VKbDFSMXJBQ0IvWTRMSG54NmdiTk53b3VKY3V2MWNY?=
- =?utf-8?B?UDh0RUFLZTZraVVhVHU3NmVidGlPdEhXdGNDc2pTdlFleWJVNklJWmZCdGQr?=
- =?utf-8?B?Z3ZLY2UrYkZ6dHVWOCsxWWZiMXZ2OEVBV3lKZTloT280MVF0OFZEN1gxRHpv?=
- =?utf-8?B?d0hSajNiYnM4RmJQbERUQzNqRTcrNTZyZ09sa2VDSmduM2JIS3hRQ2x3Z2I0?=
- =?utf-8?B?MGZwTjdpOGRCUnp0VnlrczFRR3lKNFEwNHgvM3VyZStsU2NPdG54UENZcmEy?=
- =?utf-8?B?eG5Ha2E3T2J2RFJ2VTFKL1ZDNC9LRmxGNGJqZ2Z0aVBMNVBkcGxGNjBldTYx?=
- =?utf-8?B?V2t0VHpvSU1KdkVGa2c5UHFpYU5YYmhZS281M2ZIY1NIUlNmUG5nRUhhWnB3?=
- =?utf-8?B?NkxjZGRPNGxhd29wUklyaHVSSFZKaEJTbkgvUzBTZXRaMk03TzZYV0RmK21l?=
- =?utf-8?B?VTVJZ1VaaDlHZFdYZ3dMYWsrOFRpRjlGVXdRVFQ4QTVXcGlLUGx3emRRT0xT?=
- =?utf-8?B?QklwRzBucHRjdGxYK0NOblA3OTQ1MllKZTlmRnVWc3dPb0RwV3Rrbkg5TUdq?=
- =?utf-8?B?SHlhZEpmeEtkMkJOempLMUtkWmxGUGtHYTVYdlI0Q3Q4Y2d3M3phYkJaR0FG?=
- =?utf-8?B?TjFVUytDYWtYOEtPNVpUK1habDZ3UHFyK29hVHVjZHd0dXlYTTY4TElicVBX?=
- =?utf-8?B?MGtHNE9DcVJlc3lDSmNmVFExUXVSdHZXUmcwMStHckpwa1hXcmt0YUN1VHl1?=
- =?utf-8?B?bk5rNk96WTZDbm5PbUo2cXRCdkdBdHBaYnJVL0gyWjljUGwzV0RPZ00wcC9R?=
- =?utf-8?B?TWFUMCtoRTNJcnRCNkJXd1dqVzdEU3BKdGtFc2IxZkVBd3phZXlkMjVzRWdp?=
- =?utf-8?B?NVpNQ25FUUtVbnFIenpDSDFXUDJKN1YzdmNhU09QNEJ1QUhTNjQvYUN2dFBr?=
- =?utf-8?B?cHBrSUtOR1crYWx2dFhaenhmQ2FWUit0c1IrV3VqalRUZGhjNG50Vmo1dnZa?=
- =?utf-8?B?dVdyNlBlTFkrWHlmVjJUemhVb040SGx5TDYzUExLbzh3S0QzUVB1Rmd5dkg4?=
- =?utf-8?B?ZlRqdVd0b0VkVGhkWHBWZTE5UEM2ZUdsbVVnOVR2R0xmMlpDVDd3bmgzK1BC?=
- =?utf-8?B?U2dmN3FlL0xUclpIR0paOC9FdkdlTGxYSkFERTZYeGcrT2E3NUpWa0J2eXM1?=
- =?utf-8?B?dnBFMDN2N0w5NU5ZR09XRHFGYkdab2IxMXpubzluMlJPTHU0UG54SUhCMDIz?=
- =?utf-8?B?SXZDMnVrcFU1MWV2TndVN0xLZy9kNGVZR3pwVWJnSXhJR2tmN2V5bFM2RkdP?=
- =?utf-8?B?QjRHMitLRzlzSVZPM3VTZGpxaHRLZXJ0YmV4SzY4NEYrR0htZGVjaTREbFl6?=
- =?utf-8?B?eTBKUjEvVXJKRm4wYzl1bDh2eXJRbER4dU5nZzJ6bjR0UHU4U24xNTV0R0lI?=
- =?utf-8?B?QzVOSitidnVRM3JGWUY4SkNVZ1RRTVNyQ2hQa1Z4R3Z5bVNDOEllV0E4Szhz?=
- =?utf-8?B?dURCTHU3Q2xxbEd0dFNCUnVXcGpJN0dIWkdSamNHc05DZ1QvU3NsalYyd0pP?=
- =?utf-8?B?M1U2OTNkbDI5bU1ObllSb2dHMUpFUTEvZXU1dnp5OUlKUWpPaEtRYUxwM0FZ?=
- =?utf-8?B?L0lDRHo0d3g4Qk9BL3plM0ZFKzNJa0FMdnJTQ3FGd3JOTlJLbUg3bWU1TVFJ?=
- =?utf-8?B?bHNmTkEzNlYzVDk2dzlQVU5oYURvNFhVU1ZwZXdwMHVuVjdZZ1lYRmV2elo0?=
- =?utf-8?B?R0pFUnlXNXFtT3pWZzk2eW5rQklKaEVjMnhtejR1eTZ6SHUvdHlLWEY3U3Nm?=
- =?utf-8?B?M2RDRk83Z0RpR2ViMUN1YjB5TEhGZ0V6MlBxZE9zNmsxS1h0TTRabGtjajJq?=
- =?utf-8?B?VlNJUGJhVzVwRy9YTlFNcU51MkRNSnRRQ2JIajdRQW5OSXdxKy9hbktmVzhS?=
- =?utf-8?Q?et59H0qPdGd1lH4kUJsbNZHEM?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa80a036-98f7-43f1-f116-08db50743194
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	MuRSzGCglWfd0lAzcSwt1SvWQXtMpjKVN8uzjY09Mnqo6ifMA1K/cZLyQ3FTPY7+0HN4KsmoFJKH96ePAmyBNA8Jw74RtGWSCDLhjrjTtEhoH5DbT+/YdzPfjMLYAlOcDYTe7J3GVwZQXoGAzM7TDyug9iPvqjbZZYwCfbxwBakhgBt0hvwnORLCl8RpVeyeKJnnhTdgVkYYrzISOSS+lD+3KKMzBELa+PuKDGAdEk7/tivS5DcT26OWeHvrySDqjYIM73/ensqvsbWuY/p66UMulDNLB/s/1YzszfoSuPi9tlrhGVGjjJ7AhCltew3CVvCnz0SbK3K0iL+U27VlPWwDVtvCrset/K91fT8i1vhcDo5J0C3gKCPTE0SOsYSMOZAWgBRAUIb/4OCmB3/l0UPi+/TFarNGDqVwK6E6p64ReT17c8zMj0Nv+Jtx/1KUjod4QL2VT5BJM6uRY82CSUF+dPUoOgvtOcXWC1lXjzCpMbHjw8iIiDCDJkjE8h4WQxzX6YsoC1b1BMeCzPsCCRBy9KA0sZvr03RIXXyv2nih7byyxlP3fdxuWiFAPeokuQYbfrHvOBgOhaK+J/kIDaOz+ByM2Rf2kxdyJE1hJ0GqGJg2oNaZQaYkKpTRSs8BVIbdJ4+W6kOxOuZ032f4mk4DIYHjqC/DYGkSULAiMJXrz9T2a8ZaQTPlZgA+5hJ3kr4AAFqZApWLOMV9b/ES+kV8nQfHweXmAGfMyPN+F/CHpVbVV3omv6IlOeeMp2SuYQJ1YGPZs3SksUUyMke8NWsaGaQT9nRoRnrL+nF/INNP582ia8JePsfN0fm5KJPXTyLAIAOmgwNoi2rOxoK0EpdFuy0UwO/rk1Aoyy4ClrN0Sx0J/iFQpBrbDTm8/6SYeYoqGR0lNSxc+QR3gj5UbQ==
+X-OriginatorOrg: oracle.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2023 10:00:18.3563
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fed3d0b3-db5f-487f-b9e0-08db5095a182
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 May 2023 13:59:39.2688
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b1ZmH8oZ5CEvwWN/tPVqp2s0OsfJt1j3O/JxvUyugovk7AnsrKUr04MOUI8NjVG+FUBWElcX5zRe27RT4ZIn/A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7023
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: uGaXv5NXF4CYQfnp7pP70xocrCbW/Q2pK4RDYEo1kAiy4c7g41mgHXxfKk5QV+gc4YDBBxBpKQdbtprelSzh6Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB4829
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-09_08,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
+ adultscore=0 spamscore=0 mlxscore=0 phishscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305090115
+X-Proofpoint-GUID: 2M0owQrXbAWHlne7PYLkIK4Dny9NwiAU
+X-Proofpoint-ORIG-GUID: 2M0owQrXbAWHlne7PYLkIK4Dny9NwiAU
 
 
 
-On 19/04/2023 9:57, Hannes Reinecke wrote:
-> Parse the fabrics options 'keyring' and 'tls_key' and store the
-> referenced keys in the options structure.
-
-Please add an example of how the nvme-cli will issue a connect command 
-with these new args.
-
-> 
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
+> On May 9, 2023, at 12:04 AM, Paolo Abeni <pabeni@redhat.com> wrote:
+>=20
+> On Sun, 2023-05-07 at 11:25 +0300, Leon Romanovsky wrote:
+>> On Fri, May 05, 2023 at 08:46:01PM -0400, Chuck Lever wrote:
+>>> From: Chuck Lever <chuck.lever@oracle.com>
+>>>=20
+>>> If get_unused_fd_flags() fails, we ended up calling fput(sock->file)
+>>> twice.
+>>>=20
+>>> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+>>> Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for handl=
+ing handshake requests")
+>>> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+>>> ---
+>>> net/handshake/netlink.c |    4 +---
+>>> 1 file changed, 1 insertion(+), 3 deletions(-)
+>>>=20
+>>> diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
+>>> index 7ec8a76c3c8a..032d96152e2f 100644
+>>> --- a/net/handshake/netlink.c
+>>> +++ b/net/handshake/netlink.c
+>>> @@ -101,10 +101,8 @@ static int handshake_dup(struct socket *sock)
+>>>=20
+>>> file =3D get_file(sock->file);
+>>> newfd =3D get_unused_fd_flags(O_CLOEXEC);
+>>> - if (newfd < 0) {
+>>> - fput(file);
+>>> + if (newfd < 0)
+>>> return newfd;
+>>=20
+>> IMHO, the better way to fix it is to change handshake_nl_accept_doit()
+>> do not call to fput(sock->file) in error case. It is not right thing
+>> to have a call to handshake_dup() and rely on elevated get_file()
+>> for failure too as it will be problematic for future extension of
+>> handshake_dup().
+>=20
+> I agree with the above: I think a failing helper should leave the
+> larger scope status unmodified. In this case a failing handshake_dup()
+> should not touch file refcount, and handshake_nl_accept_doit() should
+> be modified accordingly, something alike:
+>=20
 > ---
->   drivers/nvme/host/fabrics.c | 69 ++++++++++++++++++++++++++++++++++++-
->   drivers/nvme/host/fabrics.h |  6 ++++
->   drivers/nvme/host/tcp.c     | 11 ++++--
->   3 files changed, 82 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 2aa8fb991455..8fb80ccc38e1 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -605,6 +605,10 @@ static const match_table_t opt_tokens = {
->   	{ NVMF_OPT_NR_WRITE_QUEUES,	"nr_write_queues=%d"	},
->   	{ NVMF_OPT_NR_POLL_QUEUES,	"nr_poll_queues=%d"	},
->   	{ NVMF_OPT_TOS,			"tos=%d"		},
-> +#ifdef CONFIG_NVME_TCP_TLS
-> +	{ NVMF_OPT_KEYRING,		"keyring=%d"		},
-> +	{ NVMF_OPT_TLS_KEY,		"tls_key=%d"		},
-> +#endif
+> diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
+> index e865fcf68433..8897a17189ad 100644
+> --- a/net/handshake/netlink.c
+> +++ b/net/handshake/netlink.c
+> @@ -138,14 +138,15 @@ int handshake_nl_accept_doit(struct sk_buff *skb, s=
+truct genl_info *info)
+> }
+> err =3D req->hr_proto->hp_accept(req, info, fd);
+> if (err)
+> - goto out_complete;
+> + goto out_put;
+>=20
+> trace_handshake_cmd_accept(net, req, req->hr_sk, fd);
+> return 0;
+>=20
+> +out_put:
+> + fput(sock->file);
+> out_complete:
+> handshake_complete(req, -EIO, NULL);
+> - fput(sock->file);
+> out_status:
+> trace_handshake_cmd_accept_err(net, req, NULL, err);
+> return err;
 
-redundant ifdef here.
+I'm happy to accommodate these changes, but it's not clear to me
+whether you want this hunk applied /in addition to/ my fix or
+/instead of/.
 
->   	{ NVMF_OPT_FAIL_FAST_TMO,	"fast_io_fail_tmo=%d"	},
->   	{ NVMF_OPT_DISCOVERY,		"discovery"		},
->   	{ NVMF_OPT_DHCHAP_SECRET,	"dhchap_secret=%s"	},
-> @@ -622,8 +626,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   	char *options, *o, *p;
->   	int token, ret = 0;
->   	size_t nqnlen  = 0;
-> -	int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO;
-> +	int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO, key_id;
->   	uuid_t hostid;
-> +	struct key *key = NULL;
->   
->   	/* Set defaults */
->   	opts->queue_size = NVMF_DEF_QUEUE_SIZE;
-> @@ -891,6 +896,66 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   			}
->   			opts->tos = token;
->   			break;
-> +		case NVMF_OPT_KEYRING:
-> +			if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
-> +				pr_err("TLS is not supported\n");
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			if (match_int(args, &key_id)) {
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			if (key_id < 0) {
-> +				pr_err("Invalid keyring id %d\n", key_id);
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			if (!key_id) {
-> +				pr_debug("Using default keyring\n");
-> +				key_put(opts->keyring);
-> +				opts->keyring = NULL;
-> +				break;
-> +			}
-> +			key = key_lookup(key_id);
-> +			if (!key) {
-> +				pr_err("Keyring id %08x not found\n", key_id);
-> +				ret = -ENOKEY;
-> +				goto out;
-> +			}
-> +			key_put(opts->keyring);
-> +			opts->keyring = key;
-> +			break;
-> +		case NVMF_OPT_TLS_KEY:
-> +			if (!IS_ENABLED(CONFIG_NVME_TCP_TLS)) {
-> +				pr_err("TLS is not supported\n");
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			if (match_int(args, &key_id)) {
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			if (key_id < 0) {
-> +				pr_err("Invalid key id %d\n", key_id);
-> +				ret = -EINVAL;
-> +				goto out;
-> +			}
-> +			if (!key_id) {
-> +				pr_debug("Using 'best' PSK\n");
-> +				key_put(opts->tls_key);
-> +				opts->tls_key = NULL;
-> +				break;
-> +			}
-> +			key = key_lookup(key_id);
-> +			if (!key) {
-> +				pr_err("Key id %08x not found\n", key_id);
-> +				ret = -ENOKEY;
-> +				goto out;
-> +			}
-> +			key_put(opts->tls_key);
-> +			opts->tls_key = key;
-> +			break;
->   		case NVMF_OPT_DISCOVERY:
->   			opts->discovery_nqn = true;
->   			break;
-> @@ -1055,6 +1120,8 @@ static int nvmf_check_allowed_opts(struct nvmf_ctrl_options *opts,
->   void nvmf_free_options(struct nvmf_ctrl_options *opts)
->   {
->   	nvmf_host_put(opts->host);
-> +	key_put(opts->keyring);
-> +	key_put(opts->tls_key);
->   	kfree(opts->transport);
->   	kfree(opts->traddr);
->   	kfree(opts->trsvcid);
-> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-> index 5db36e250e7a..2ff7b7168a40 100644
-> --- a/drivers/nvme/host/fabrics.h
-> +++ b/drivers/nvme/host/fabrics.h
-> @@ -71,6 +71,8 @@ enum {
->   	NVMF_OPT_DHCHAP_SECRET	= 1 << 23,
->   	NVMF_OPT_DHCHAP_CTRL_SECRET = 1 << 24,
->   	NVMF_OPT_TLS		= 1 << 25,
-> +	NVMF_OPT_KEYRING	= 1 << 26,
-> +	NVMF_OPT_TLS_KEY	= 1 << 27,
->   };
->   
->   /**
-> @@ -103,6 +105,8 @@ enum {
->    * @dhchap_secret: DH-HMAC-CHAP secret
->    * @dhchap_ctrl_secret: DH-HMAC-CHAP controller secret for bi-directional
->    *              authentication
-> + * @keyring:    Keyring to use for key lookups
 
-is it only for TLS ? if it does please reflect in the comment and in the 
-name of the member.
+> ---
+>=20
+> Somewhat related: handshake_nl_done_doit() releases the file refcount
+> even if the req lookup fails.
 
-> + * @tls_key:    TLS key for encrypted connections (TCP)
->    * @tls:        Start TLS encrypted connections (TCP)
->    * @disable_sqflow: disable controller sq flow control
->    * @hdr_digest: generate/verify header digest (TCP)
-> @@ -130,6 +134,8 @@ struct nvmf_ctrl_options {
->   	int			max_reconnects;
->   	char			*dhchap_secret;
->   	char			*dhchap_ctrl_secret;
-> +	struct key		*keyring;
-> +	struct key		*tls_key;
->   	bool			tls;
->   	bool			disable_sqflow;
->   	bool			hdr_digest;
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index a3ac512fd1cc..84bf6c80cc7c 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1582,6 +1582,8 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
->   
->   	dev_dbg(nctrl->device, "queue %d: start TLS with key %x\n",
->   		qid, pskid);
-> +	if (nctrl->opts->keyring)
-> +		keyring = key_serial(nctrl->opts->keyring);
->   	args.ta_sock = queue->sock;
->   	args.ta_done = nvme_tcp_tls_done;
->   	args.ta_data = queue;
-> @@ -1890,9 +1892,12 @@ static int nvme_tcp_alloc_admin_queue(struct nvme_ctrl *ctrl)
->   	key_serial_t psk_id = 0;
->   
->   	if (ctrl->opts->tls) {
-> -		psk_id = nvme_tls_psk_default(NULL,
-> -					      ctrl->opts->host->nqn,
-> -					      ctrl->opts->subsysnqn);
-> +		if (ctrl->opts->tls_key)
-> +			psk_id = key_serial(ctrl->opts->tls_key);
-> +		else
-> +			psk_id = nvme_tls_psk_default(ctrl->opts->keyring,
-> +						      ctrl->opts->host->nqn,
-> +						      ctrl->opts->subsysnqn);
+That's because sockfd_lookup() increments the file ref count.
 
-I don't understand why this patch can't be squashed to patch 11/17 ?
-If possible please do before next version submission.
 
->   		if (!psk_id) {
->   			dev_err(ctrl->device, "no valid PSK found\n");
->   			ret = -ENOKEY;
+> If that is caused by a concurrent
+> req_cancel - not sure if possible at all, possibly syzkaller could
+> guess if instructed about the API - such refcount will underflow, as it
+> is rightfully decremented by req_cancel, too.
+
+More likely, req_cancel might take the file ref count to zero
+before sockfd_lookup can increment it, resulting in a UAF?
+
+Let me think about this.
+
+
+> I think it should be safer adding a chunk like:
+>=20
+> ---
+> diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
+> index e865fcf68433..3e3e849f302a 100644
+> --- a/net/handshake/netlink.c
+> +++ b/net/handshake/netlink.c
+> @@ -172,7 +173,6 @@ int handshake_nl_done_doit(struct sk_buff *skb, struc=
+t genl_info *info)
+> req =3D handshake_req_hash_lookup(sock->sk);
+> if (!req) {
+> err =3D -EBUSY;
+> - fput(sock->file);
+> goto out_status;
+> }
+> ---
+>=20
+> Possibly explicitly documenting the used ownership rules for the file
+> refcount in the relevant functions could help with future maintenance.
+>=20
+> Finally it's not clear to me if we agreed to a target tree or not ;) I
+> see no replies so my suggestion.
+
+Since we expect other subsystems to use net/handshake besides
+SunRPC, I agree to going with netdev, even for this series once
+it is acceptable.
+
+
+--
+Chuck Lever
+
+

@@ -1,278 +1,277 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F20B29118
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 16 May 2023 19:43:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2A60C433D2;
-	Tue, 16 May 2023 19:43:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1684266223;
-	bh=0cifp6VmmhCEDQnTWVp8nDnSel08/sRy/06a03y/7fY=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=ee0gvcUZ5UGpLuNGbOq/w852tUBijDnm9s1bwwmQJLSvSpWP35S1eyN7iKKGQwaz4
-	 tQSrJYuQ6dB7oiemdlhjJY2B+mjwyEywbQrRd3eeeSdFGjDLxec+aYP6DKYDnF5luw
-	 gIvOQzMqjQl+WRyQP2RupPktbfI0HoUVtvMtJa4LQeYflVJ7x0Q9Ii1mbDk+6pHAoZ
-	 wBxcF3dD8dxenlDL0/5Vhc2bGwx0LxuXM9XWHiOooHQ0ui0CTthnuExmDvQH2+UKCi
-	 7z4BR75SARf8b8/7Us/q5bQH1e9EP3RzXY1IFgaMdpZqozrg7aPzRo8FvtaYcl7TD6
-	 GYAc3eZGxaFTg==
-Subject: [PATCH RFC 12/12] NFS: Add an "xprtsec=" NFS mount option
-From: Chuck Lever <cel@kernel.org>
-To: anna.schumaker@netapp.com, trondmy@hammerspace.com
-Cc: Chuck Lever <chuck.lever@oracle.com>, linux-nfs@vger.kernel.org,
- kernel-tls-handshake@lists.linux.dev
-Date: Tue, 16 May 2023 15:43:31 -0400
-Message-ID: 
- <168426620158.74246.4700489766147656540.stgit@oracle-102.nfsv4bat.org>
-In-Reply-To: 
- <168426587118.74246.214357450560967997.stgit@oracle-102.nfsv4bat.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2EB847E
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 16 May 2023 20:05:57 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34GK01pH031751;
+	Tue, 16 May 2023 20:05:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2023-03-30;
+ bh=SgMu6BUjKhSSeaLFKRiowITn01u9mSzfh+crrxnTEQ4=;
+ b=KmzlgWsVeDBNUyfkML0qxWF39H4MiQc57aEmOHLoyq76ygEC5Hos9vLOh4qQJHk99VKW
+ E2VGAXcW+QXYDtDP9HDGOByjO7ZXme0AoFPFw1H7lh+KCHR/jP+h1dO9cDflyqPy3lvg
+ R5T1XjAZfUKoGE5m7hEjlKNVNceGMHvMEeUfCmO+oNbvvBGsP2jQ6HHMjdd0U6Cu668f
+ 6xT2728icbzqGMcipyc1asY7aveQUCKDJgb66X5HKLbujA21vLCOWAxUw7uhWnZxL0ts
+ 3/2IhTnRFKwP4LwVU+3RGgCxLZitQm4WBL8SijuAV5rBeO0eMc3YwOYUp3GBWlT7t86h cw== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3qj2eb3nbe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 16 May 2023 20:05:52 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 34GIl5ds033869;
+	Tue, 16 May 2023 20:05:52 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2171.outbound.protection.outlook.com [104.47.57.171])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3qj1051f71-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 16 May 2023 20:05:52 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZRaFJ/9feADx3CjZyewA1LqPBFgsPZb6p6mKwBqBwmVgp0NfhOvlYaHfclhi51W57UYR+2ds03515vX+69SfsD2FVah1rfc0nEynUs8qZqfbwpTQ4NiLGNlV90nuPHU57TXQzSv9GTqjPt7UvFYwrpeZodC9b+HQtdUTm0p2cBZ/lCJmw2GZg/R9XmZbITAmfZnjGTEny1ZYUWPojZPWqg402V+rPSl6I3dbRbsoBqSLvmQkmyHUbkcHtwzoSWodp8+eHlIbxV8HOkIPkOJM7rYlwKmctkAIvJslSTTN+YZOvymJlfqoQA0CeO11bc8BzBl8kiKe54O5cCqx6YzW1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SgMu6BUjKhSSeaLFKRiowITn01u9mSzfh+crrxnTEQ4=;
+ b=nnRCS3Yq4OpO7qoH/yFWPd/TBZQHFz4Nut3vxQg7YU2MtGOYZro3N485jbvt3TlD/9EAfKWBdq+FiHVNrcpCtokTBVr44Mq8XvmXIaWal7f1bp81g69iGL/q/mTM2MCephpL8smdcgaVWkDlLWPYwMwTFo+b81VKeAAmSix6Jn/q784qIu3Vi7vUbg0LmGH1P9NumZAwCjC1efTCBfodG9Ut99CizFADLK4IbkLF92JkFvjJov0VaNfotHFwz+zKn4gMDxhmUcafekbRyRIljoXUiMWN2nd68oiLn021ogYM6bOF0ASMqPMzXxciHLieaNnBj8DC0W+TSx/98IxMxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SgMu6BUjKhSSeaLFKRiowITn01u9mSzfh+crrxnTEQ4=;
+ b=qoJsZz3BgaJgrI4VHpfT6Fj2EcLOH/w2LoU6vS6b38/a4YMLuz33fnLUBjUt3DrH25bq3ErEsLUNBTpDCrvxwTC513/jyKhroQ0sxlP7R8zgVCS+PcOe/LYSYwToAXDnQP6UC8CiQJMYzUJoq57NzEKS9izdr1Sxhh4VenpYyUk=
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
+ by SA2PR10MB4649.namprd10.prod.outlook.com (2603:10b6:806:119::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.33; Tue, 16 May
+ 2023 20:05:49 +0000
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::ecbd:fc46:2528:36db]) by BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::ecbd:fc46:2528:36db%5]) with mapi id 15.20.6387.034; Tue, 16 May 2023
+ 20:05:49 +0000
+From: Chuck Lever III <chuck.lever@oracle.com>
+To: Paolo Abeni <pabeni@redhat.com>
+CC: Leon Romanovsky <leon@kernel.org>, Chuck Lever <cel@kernel.org>,
+        kernel-tls-handshake <kernel-tls-handshake@lists.linux.dev>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "dan.carpenter@linaro.org"
+	<dan.carpenter@linaro.org>
+Subject: Re: [PATCH v2 2/6] net/handshake: Fix handshake_dup() ref counting
+Thread-Topic: [PATCH v2 2/6] net/handshake: Fix handshake_dup() ref counting
+Thread-Index: 
+ AQHZf7QsoSIApHx1cEC5oKYOzkZtjK9Oe64AgAMN9ICAAHPmAIAABk2AgAAC6wCAC11oAA==
+Date: Tue, 16 May 2023 20:05:49 +0000
+Message-ID: <32775B32-E82E-4497-9B24-1983711EBD3D@oracle.com>
 References: 
- <168426587118.74246.214357450560967997.stgit@oracle-102.nfsv4bat.org>
-User-Agent: StGit/1.5
+ <168333373851.7813.11884763481187785511.stgit@oracle-102.nfsv4bat.org>
+ <168333395123.7813.7077088598355438510.stgit@oracle-102.nfsv4bat.org>
+ <20230507082556.GG525452@unreal>
+ <80ebc863cd77158a964698f7a887b15dc88e4631.camel@redhat.com>
+ <CD7ADFAB-137C-407C-93D4-4AF314FE0E52@oracle.com>
+ <2e1fb95f613b6991b173d7947334927b22e49242.camel@redhat.com>
+ <D02AD35E-E28E-4998-B1C5-9019F258F738@oracle.com>
+In-Reply-To: <D02AD35E-E28E-4998-B1C5-9019F258F738@oracle.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3731.500.231)
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN0PR10MB5128:EE_|SA2PR10MB4649:EE_
+x-ms-office365-filtering-correlation-id: 3ea7d559-cfc5-423f-6b7f-08db5648f194
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ wfWk6We0GcRsslElqNTN8PeIFLWWQLlsM/V7D4flF9mrWVfm7Fga63OJCNmC5FrfGLOGuxf6fnrM2DUGb2E7igwnf2enkrlsTxtdmVtvFEebAQNkYmEA160Nu0c2O0ltbp+rFfZYj0Fr/8pnmkv5iYr5UkP9r0TOrFkJiLSYHQEvWCpD0u3PCBPXQDMsDJQzv1g+TjR0BDmFtr/oC41d6Z25Hw80sB/a4us+JgRZQZONnuCo2FJStuFn9a7rTF2PoOcywHUNy3fP1X24Dp7EbE8Kc1tMkrpNnhyG88BOYyetvKRkxAWexl+Z8DzZJSCjrdiIXkuf10eX985vTCHRXVqyu0dzStrOS78YR8HNO2mjMckwpp4sN6cVZdSyQS6GOnco/c7yxJocvjz4vwlmrj3AWlERcRiKROgW+2izu0ls50/a8fvZv0+B8ae2mugbA4PbMP3JBsSBRVe4aTJgu45urkyyspIXlcJNk/zrTOaJkHnc/wdoVz2EbTs20tSo9IxscdaHGFDKCvsoMJ9SuP8nkf4Te/hzSCcKBznEP7jwEHExWrhgHkiGDh+SSysLUPpQSpcr8A1ayts2AhsLeEBbUltBJr1dmpVFP8N/qaasaaRvNvzQRldWdEC96+MjWd9Pd/5JhNxvDoDCcFC6EQ==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(39860400002)(346002)(376002)(366004)(136003)(451199021)(6916009)(36756003)(4326008)(2906002)(8936002)(5660300002)(8676002)(41300700001)(91956017)(76116006)(66476007)(66446008)(64756008)(86362001)(316002)(66946007)(66556008)(478600001)(54906003)(71200400001)(33656002)(6486002)(26005)(6512007)(6506007)(53546011)(83380400001)(2616005)(186003)(38070700005)(38100700002)(122000001)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?3xX9h6lYx9F9TqDFJC2Rms7cYYqEuDG0NbR57LmZ076mdE82qqZP2FJ5sMd9?=
+ =?us-ascii?Q?WSYBwpN6yz9vKWgXD5BNJps3+L/T5ICjg3+6hcK9M7/rDhYu7w5iobjzZwEi?=
+ =?us-ascii?Q?CgvcEq/eZD0+qO9bQ+k/jrZUqhy0KFU0URnlwktc0gHiCP8eXh8F+wIW1gJ2?=
+ =?us-ascii?Q?qeUmcTxwUlTqHUPehkc1s/EdjJTXoSRBgdG0yzqUsjsm99cDrQBmu+jeEQcH?=
+ =?us-ascii?Q?pyIkp71fU7fLqYyU1qGmpd41KL1jjKL6VY9k4QG3MdEUCtGpz5W7oAFnWdi1?=
+ =?us-ascii?Q?PyUuru6FAXVaPqCogvhFTuSi3AbKuHa4WNrxpysJj3MMN5enk4JJAkQAzH9U?=
+ =?us-ascii?Q?s9VHtX3CPNadZXNj/uriUxCe4X0XTGE3zD/ko+4IO8Zt9vlKQyhdLNyXb6BX?=
+ =?us-ascii?Q?oQxuWaAstB89/4bm6KygF/9FM7TRXVd04JFLdwJySbYaFU4AiVoxufpCcsVa?=
+ =?us-ascii?Q?FEjnBB9Xk6kQg37NacTd9hYiTXAcHeauS2b2Cn+cY4skfIB9H84yrCn7p4Th?=
+ =?us-ascii?Q?b6HJGK2rCLGk/CpACFASMsC869ytgRdKcIAhgVQFVpRpDRfbw+7v3CyB5geC?=
+ =?us-ascii?Q?10HJaxyA5C3O9/QgfCZJ4KBzmTcnJ7aepnnSxwVYdfCrPxLJa6t/XlG4j5ss?=
+ =?us-ascii?Q?3YBCrPzZG/xJtVtJR8jMUoCn+gEJU0R5Z8XOWlmO5bRYYZdz4gqoro36oF9T?=
+ =?us-ascii?Q?r+EgI7NyqTqZSBs9IQz4x/sLk/CVtWWv/7l5a1EsxgpLpH9v+SfSyt5ZiGeW?=
+ =?us-ascii?Q?p2qJYiKyLSoeMX3HIpsrm2tw2Uv6dwi/CyvH4/2YUYLvtUpBYaeP5IFg/R1x?=
+ =?us-ascii?Q?DYhMxWCsFusU1uzbc5RSvdCKAGsIwZ75URXeO2Xrjtf9cb7YmMSQagORGeUY?=
+ =?us-ascii?Q?f0LcKHUN0Rg2KMV6CLzS1d62ASPFEdaEQFYIwIq85kI+DqVqoyU2oxRoJhKp?=
+ =?us-ascii?Q?2WwMX4fWo/0J55HqC04iAXJx3Yq9DUVsSOZHItxX3nc2VEC7Z050GXDmK4Us?=
+ =?us-ascii?Q?lAKTQmf6rjWsVM8WTFxZDvMnKcA3PnQ+Wdv8y9MjIovXqN+tMNWwaclx0Nu6?=
+ =?us-ascii?Q?fVG3eqXvMtBPpt7BC0x7JmgAlW2yIzcrW0IJExkZXEkqfdEXHMcJ02MLtegR?=
+ =?us-ascii?Q?lkfa6OKtj9gYOqX2/1xSeM9rPlwRcZal+4Lz423sI3oAR7YwKTqH10nQcjRp?=
+ =?us-ascii?Q?gvVesCycvbfuZyIXXksMFPvVmHYZw7+ks5IVewA9V3XJjcJ2AXqRgz6ImYXB?=
+ =?us-ascii?Q?5h+kdlVWIe/s4Ufb+JdX3XHApwxW22/7PWlXfg5SS9UfrUYsJ5enYe/oUsqc?=
+ =?us-ascii?Q?xI/WhDGN/Eg+VTHzdhsXJo1CxZczyO6+Y7B4j7sw3qd7XcAuoOGEs/BbZ2o9?=
+ =?us-ascii?Q?bVX4mfjOpu0EwxWLbA/Hran1kyJAp/y4cwWtRCcn/I0ezViEx1yDFVxdsIv/?=
+ =?us-ascii?Q?FGiopiv021EIe62T+aKqT1VZmeDWQ/9fAh/+uNh/xODO3d25MVd0T8fjnZah?=
+ =?us-ascii?Q?wYM+N4ujvzc/7XofhUo+3/WgC9q+sW1S9+XulFOk79TW93X6wswQoPvMMwAK?=
+ =?us-ascii?Q?Z/eEvS92ZLwR3i1Xqd5p2UM7OdXtJFxv8YVJfDZonhEgXnuNtRpJzW3mYe4B?=
+ =?us-ascii?Q?Aw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <67BCF480B7C69E41A88DB8545E724CE5@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	3Bohy6/PSaKyJFLHXAby1AbYG/Hba9Py3QIigpxrO5kgh1HXC/bUEeco6W2K+wP2gU2xEtN9eSeQ3jDKBEen8CNMDDY72ty6wgrRLPQkZyKd2XoPK37mSYD3qK8GmHG9kCBgcQVFIDt+VWNYSkHraoIKFCFh7ivbkaQNb/GnrKsAifUBxrGBUSv4z+JkHZ202epPql9Etdsd3JpO3Zw8KkUA/nqycOQezKQRIB9miOYX5W8PU1nZWs9mQg4PhiRMYV8ypLYVlEf6Fu4if+M2Er4tpjNzUCz+te8XVUNZLRYWS7Iyx5v0hILMzKXDyEFYvI1OqZOTsyUzE6EmZ6/SvYt99W6jASj8KDSAKV5dU8KxDT9FoL3BTGwg/1xdDQm8gFy65oe/b0z+qLOnfILvL/RrG8NVLln9mJmQhrjYxw/aJy5HweUycYQFm/YSTLXW9p7aeDqK1X60ArrwFk5JG+r2fIBJFK+VzUqN6BJnMzGZ4/r1qudCRL1UfchdyNWL5Y8hs3WYct/Lp8ejhdDp/AG+bID7uKfS02dkNY01FgAl1WQVOp6CzICHYPDEe9vxp/oJW9eewUA39RJUxr0ZxFmcG6z4NDevO7CIr9ebyIxXqkhAGgmOalp0vFAdZLjXuuMMrQN4im+ul2HcCPmJW1N2yH14l6Xz3WY/bSvicmf1VBNxQwFekjjYobe+4sBZ13OBJNPc0GzMsubTepUN8hlIVPE7AeSfd95KrtcNdc9fF2CWXvdTm1THKdmqNs4wLwqx7+bAzu3p8USSfTbewLFxEvJq5AxhTe2KrLpZN9inv4yBDYjxYTqnOXd48S7I4Hhwh++7rUvoVDocMqmYKFwyljPYMjoq/YAYjjSk2T9JIthP7YCxYuefXcSNBTnVmiE31Nck9N1bAPKc9mEuFg==
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ea7d559-cfc5-423f-6b7f-08db5648f194
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2023 20:05:49.3251
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZQ7SJwSNiQAxJC/aGMt49UqVxsPPw4uY8lcdWcmwHuZKyKOohbr4buXISHG4ZyPtlzQ/vlGH4z1uxTPxz1bIEA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR10MB4649
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-16_12,2023-05-16_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 spamscore=0
+ bulkscore=0 suspectscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305160169
+X-Proofpoint-GUID: 1ieS-xe54swmox5MzSfJ07MFafvBsskH
+X-Proofpoint-ORIG-GUID: 1ieS-xe54swmox5MzSfJ07MFafvBsskH
 
-From: Chuck Lever <chuck.lever@oracle.com>
 
-After some discussion, we decided that controlling transport layer
-security policy should be separate from the setting for the user
-authentication flavor. To accomplish this, add a new NFS mount
-option to select a transport layer security policy for RPC
-operations associated with the mount point.
 
-  xprtsec=none     - Transport layer security is forced off.
+> On May 9, 2023, at 10:32 AM, Chuck Lever III <chuck.lever@oracle.com> wro=
+te:
+>=20
+>=20
+>=20
+>> On May 9, 2023, at 7:22 AM, Paolo Abeni <pabeni@redhat.com> wrote:
+>>=20
+>> On Tue, 2023-05-09 at 13:59 +0000, Chuck Lever III wrote:
+>>>=20
+>>>> On May 9, 2023, at 12:04 AM, Paolo Abeni <pabeni@redhat.com> wrote:
+>>>>=20
+>>>> On Sun, 2023-05-07 at 11:25 +0300, Leon Romanovsky wrote:
+>>>>> On Fri, May 05, 2023 at 08:46:01PM -0400, Chuck Lever wrote:
+>>>>>> From: Chuck Lever <chuck.lever@oracle.com>
+>>>>>>=20
+>>>>>> If get_unused_fd_flags() fails, we ended up calling fput(sock->file)
+>>>>>> twice.
+>>>>>>=20
+>>>>>> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+>>>>>> Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for ha=
+ndling handshake requests")
+>>>>>> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+>>>>>> ---
+>>>>>> net/handshake/netlink.c |    4 +---
+>>>>>> 1 file changed, 1 insertion(+), 3 deletions(-)
+>>>>>>=20
+>>>>>> diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
+>>>>>> index 7ec8a76c3c8a..032d96152e2f 100644
+>>>>>> --- a/net/handshake/netlink.c
+>>>>>> +++ b/net/handshake/netlink.c
+>>>>>> @@ -101,10 +101,8 @@ static int handshake_dup(struct socket *sock)
+>>>>>>=20
+>>>>>> file =3D get_file(sock->file);
+>>>>>> newfd =3D get_unused_fd_flags(O_CLOEXEC);
+>>>>>> - if (newfd < 0) {
+>>>>>> - fput(file);
+>>>>>> + if (newfd < 0)
+>>>>>> return newfd;
+>>>>>=20
+>>>>> IMHO, the better way to fix it is to change handshake_nl_accept_doit(=
+)
+>>>>> do not call to fput(sock->file) in error case. It is not right thing
+>>>>> to have a call to handshake_dup() and rely on elevated get_file()
+>>>>> for failure too as it will be problematic for future extension of
+>>>>> handshake_dup().
+>>>>=20
+>>>> I agree with the above: I think a failing helper should leave the
+>>>> larger scope status unmodified. In this case a failing handshake_dup()
+>>>> should not touch file refcount, and handshake_nl_accept_doit() should
+>>>> be modified accordingly, something alike:
+>>>>=20
+>>>> ---
+>>>> diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
+>>>> index e865fcf68433..8897a17189ad 100644
+>>>> --- a/net/handshake/netlink.c
+>>>> +++ b/net/handshake/netlink.c
+>>>> @@ -138,14 +138,15 @@ int handshake_nl_accept_doit(struct sk_buff *skb=
+, struct genl_info *info)
+>>>> }
+>>>> err =3D req->hr_proto->hp_accept(req, info, fd);
+>>>> if (err)
+>>>> - goto out_complete;
+>>>> + goto out_put;
+>>>>=20
+>>>> trace_handshake_cmd_accept(net, req, req->hr_sk, fd);
+>>>> return 0;
+>>>>=20
+>>>> +out_put:
+>>>> + fput(sock->file);
+>>>> out_complete:
+>>>> handshake_complete(req, -EIO, NULL);
+>>>> - fput(sock->file);
+>>>> out_status:
+>>>> trace_handshake_cmd_accept_err(net, req, NULL, err);
+>>>> return err;
+>>>=20
+>>> I'm happy to accommodate these changes, but it's not clear to me
+>>> whether you want this hunk applied /in addition to/ my fix or
+>>> /instead of/.
+>>=20
+>> It's above (completely untested!) chunk is intended to be a replace for
+>> patch 2/6
+>>=20
+>>>> ---
+>>>>=20
+>>>> Somewhat related: handshake_nl_done_doit() releases the file refcount
+>>>> even if the req lookup fails.
+>>>=20
+>>> That's because sockfd_lookup() increments the file ref count.
+>>=20
+>> Ooops, I missed that.
+>>=20
+>> Then in the successful path handshake_nl_done_doit() should call
+>> fput() twice ?!? 1 for the reference acquired by sockfd_lookup() and 1
+>> for the reference owned by  'req' ?!? Otherwise a ref will be leaked.
+>>=20
+>>>> If that is caused by a concurrent
+>>>> req_cancel - not sure if possible at all, possibly syzkaller could
+>>>> guess if instructed about the API - such refcount will underflow, as i=
+t
+>>>> is rightfully decremented by req_cancel, too.
+>>>=20
+>>> More likely, req_cancel might take the file ref count to zero
+>>> before sockfd_lookup can increment it, resulting in a UAF?
+>>>=20
+>>> Let me think about this.
+>>=20
+>> I now think this race is not possible, but I now fear the refcount leak
+>> mentioned above.
+>=20
+> Not sure why I haven't seen evidence of a leak here. I'll have a closer l=
+ook.
 
-  xprtsec=tls      - Establish an encryption-only TLS session. If
-                     the initial handshake fails, the mount fails.
-                     If TLS is not available on a reconnect, drop
-                     the connection and try again.
+I added provisional trace points to report the value of f_count
+before the fput() in done_doit and also where the RPC client
+destroys the socket. The latter reports f_count is 1, as I would
+expect, just before the final __fput_sync().
 
-  xprtsec=mtls     - Both sides authenticate and an encrypted
-                     session is created. If the initial handshake
-                     fails, the mount fails. If TLS is not available
-                     on a reconnect, drop the connection and try
-                     again.
 
-To support client peer authentication (mtls), the handshake daemon
-will have configurable default authentication material (certificate
-or pre-shared key). In the future, mount options can be added that
-can provide this material on a per-mount basis.
-
-Updates to mount.nfs (to support xprtsec=auto) and nfs(5) will be
-sent under separate cover.
-
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
----
- fs/nfs/client.c     |    5 ++---
- fs/nfs/fs_context.c |   50 ++++++++++++++++++++++++++++++++++++++++++++++++++
- fs/nfs/internal.h   |    1 +
- fs/nfs/nfs4client.c |    6 ++----
- fs/nfs/super.c      |   12 ++++++++++++
- 5 files changed, 67 insertions(+), 7 deletions(-)
-
-diff --git a/fs/nfs/client.c b/fs/nfs/client.c
-index 9bfdade0f6e6..c3a984b1879d 100644
---- a/fs/nfs/client.c
-+++ b/fs/nfs/client.c
-@@ -515,6 +515,7 @@ int nfs_create_rpc_client(struct nfs_client *clp,
- 		.version	= clp->rpc_ops->version,
- 		.authflavor	= flavor,
- 		.cred		= cl_init->cred,
-+		.xprtsec	= cl_init->xprtsec,
- 	};
- 
- 	if (test_bit(NFS_CS_DISCRTRY, &clp->cl_flags))
-@@ -680,9 +681,7 @@ static int nfs_init_server(struct nfs_server *server,
- 		.cred = server->cred,
- 		.nconnect = ctx->nfs_server.nconnect,
- 		.init_flags = (1UL << NFS_CS_REUSEPORT),
--		.xprtsec = {
--			.policy = RPC_XPRTSEC_NONE,
--		},
-+		.xprtsec = ctx->xprtsec,
- 	};
- 	struct nfs_client *clp;
- 	int error;
-diff --git a/fs/nfs/fs_context.c b/fs/nfs/fs_context.c
-index 5626d358ee2e..e49e3d18ef88 100644
---- a/fs/nfs/fs_context.c
-+++ b/fs/nfs/fs_context.c
-@@ -18,6 +18,9 @@
- #include <linux/nfs_fs.h>
- #include <linux/nfs_mount.h>
- #include <linux/nfs4_mount.h>
-+
-+#include <net/handshake.h>
-+
- #include "nfs.h"
- #include "internal.h"
- 
-@@ -88,6 +91,7 @@ enum nfs_param {
- 	Opt_vers,
- 	Opt_wsize,
- 	Opt_write,
-+	Opt_xprtsec,
- };
- 
- enum {
-@@ -194,6 +198,7 @@ static const struct fs_parameter_spec nfs_fs_parameters[] = {
- 	fsparam_string("vers",		Opt_vers),
- 	fsparam_enum  ("write",		Opt_write, nfs_param_enums_write),
- 	fsparam_u32   ("wsize",		Opt_wsize),
-+	fsparam_string("xprtsec",	Opt_xprtsec),
- 	{}
- };
- 
-@@ -267,6 +272,20 @@ static const struct constant_table nfs_secflavor_tokens[] = {
- 	{}
- };
- 
-+enum {
-+	Opt_xprtsec_none,
-+	Opt_xprtsec_tls,
-+	Opt_xprtsec_mtls,
-+	nr__Opt_xprtsec
-+};
-+
-+static const struct constant_table nfs_xprtsec_policies[] = {
-+	{ "none",	Opt_xprtsec_none },
-+	{ "tls",	Opt_xprtsec_tls },
-+	{ "mtls",	Opt_xprtsec_mtls },
-+	{}
-+};
-+
- /*
-  * Sanity-check a server address provided by the mount command.
-  *
-@@ -430,6 +449,29 @@ static int nfs_parse_security_flavors(struct fs_context *fc,
- 	return 0;
- }
- 
-+static int nfs_parse_xprtsec_policy(struct fs_context *fc,
-+				    struct fs_parameter *param)
-+{
-+	struct nfs_fs_context *ctx = nfs_fc2context(fc);
-+
-+	trace_nfs_mount_assign(param->key, param->string);
-+
-+	switch (lookup_constant(nfs_xprtsec_policies, param->string, -1)) {
-+	case Opt_xprtsec_none:
-+		ctx->xprtsec.policy = RPC_XPRTSEC_NONE;
-+		break;
-+	case Opt_xprtsec_tls:
-+		ctx->xprtsec.policy = RPC_XPRTSEC_TLS_ANON;
-+		break;
-+	case Opt_xprtsec_mtls:
-+		ctx->xprtsec.policy = RPC_XPRTSEC_TLS_X509;
-+		break;
-+	default:
-+		return nfs_invalf(fc, "NFS: Unrecognized transport security policy");
-+	}
-+	return 0;
-+}
-+
- static int nfs_parse_version_string(struct fs_context *fc,
- 				    const char *string)
- {
-@@ -696,6 +738,11 @@ static int nfs_fs_context_parse_param(struct fs_context *fc,
- 		if (ret < 0)
- 			return ret;
- 		break;
-+	case Opt_xprtsec:
-+		ret = nfs_parse_xprtsec_policy(fc, param);
-+		if (ret < 0)
-+			return ret;
-+		break;
- 
- 	case Opt_proto:
- 		if (!param->string)
-@@ -1574,6 +1621,9 @@ static int nfs_init_fs_context(struct fs_context *fc)
- 		ctx->selected_flavor	= RPC_AUTH_MAXFLAVOR;
- 		ctx->minorversion	= 0;
- 		ctx->need_mount		= true;
-+		ctx->xprtsec.policy	= RPC_XPRTSEC_NONE;
-+		ctx->xprtsec.cert_serial	= TLS_NO_CERT;
-+		ctx->xprtsec.privkey_serial	= TLS_NO_PRIVKEY;
- 
- 		fc->s_iflags		|= SB_I_STABLE_WRITES;
- 	}
-diff --git a/fs/nfs/internal.h b/fs/nfs/internal.h
-index 5c986c0d3cce..0019c7578f9d 100644
---- a/fs/nfs/internal.h
-+++ b/fs/nfs/internal.h
-@@ -102,6 +102,7 @@ struct nfs_fs_context {
- 	unsigned int		bsize;
- 	struct nfs_auth_info	auth_info;
- 	rpc_authflavor_t	selected_flavor;
-+	struct xprtsec_parms	xprtsec;
- 	char			*client_address;
- 	unsigned int		version;
- 	unsigned int		minorversion;
-diff --git a/fs/nfs/nfs4client.c b/fs/nfs/nfs4client.c
-index 75ed8354576b..bfc68d4e8d32 100644
---- a/fs/nfs/nfs4client.c
-+++ b/fs/nfs/nfs4client.c
-@@ -1130,9 +1130,6 @@ static int nfs4_server_common_setup(struct nfs_server *server,
- static int nfs4_init_server(struct nfs_server *server, struct fs_context *fc)
- {
- 	struct nfs_fs_context *ctx = nfs_fc2context(fc);
--	struct xprtsec_parms xprtsec = {
--		.policy		= RPC_XPRTSEC_NONE,
--	};
- 	struct rpc_timeout timeparms;
- 	int error;
- 
-@@ -1164,7 +1161,7 @@ static int nfs4_init_server(struct nfs_server *server, struct fs_context *fc)
- 				ctx->nfs_server.nconnect,
- 				ctx->nfs_server.max_connect,
- 				fc->net_ns,
--				&xprtsec);
-+				&ctx->xprtsec);
- 	if (error < 0)
- 		return error;
- 
-@@ -1323,6 +1320,7 @@ int nfs4_update_server(struct nfs_server *server, const char *hostname,
- 		.dstaddr	= (struct sockaddr *)sap,
- 		.addrlen	= salen,
- 		.servername	= hostname,
-+		/* cel: bleh. We might need to pass TLS parameters here */
- 	};
- 	char buf[INET6_ADDRSTRLEN + 1];
- 	struct sockaddr_storage address;
-diff --git a/fs/nfs/super.c b/fs/nfs/super.c
-index 30e53e93049e..059b0beabc1b 100644
---- a/fs/nfs/super.c
-+++ b/fs/nfs/super.c
-@@ -59,6 +59,8 @@
- #include <linux/uaccess.h>
- #include <linux/nfs_ssc.h>
- 
-+#include <uapi/linux/tls.h>
-+
- #include "nfs4_fs.h"
- #include "callback.h"
- #include "delegation.h"
-@@ -491,6 +493,16 @@ static void nfs_show_mount_options(struct seq_file *m, struct nfs_server *nfss,
- 	seq_printf(m, ",timeo=%lu", 10U * nfss->client->cl_timeout->to_initval / HZ);
- 	seq_printf(m, ",retrans=%u", nfss->client->cl_timeout->to_retries);
- 	seq_printf(m, ",sec=%s", nfs_pseudoflavour_to_name(nfss->client->cl_auth->au_flavor));
-+	switch (clp->cl_xprtsec.policy) {
-+	case RPC_XPRTSEC_TLS_ANON:
-+		seq_puts(m, ",xprtsec=tls");
-+		break;
-+	case RPC_XPRTSEC_TLS_X509:
-+		seq_puts(m, ",xprtsec=mtls");
-+		break;
-+	default:
-+		break;
-+	}
- 
- 	if (version != 4)
- 		nfs_show_mountd_options(m, nfss, showdefaults);
+--
+Chuck Lever
 
 

@@ -1,85 +1,212 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F3411192
-	for <kernel-tls-handshake@lists.linux.dev>; Fri, 19 May 2023 15:42:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1684510961;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Jt+/cJ4nWjCmvpQkJFUy4G/NdHR1IPGRqyictYqkQog=;
-	b=TsbQPvoTtpFd6/LCYeIP7L1cK4JPyYzBfq9gr7QJQGpj89JLQ2Pa4HsemAqSgssqiBJJ6y
-	QqRhNpNF3ivbhV2qyHraYHgNmi0K2b+JDiiUMkh4+wVSNJwCa35rAoZXabE6Jcg0QkRs/G
-	x2VhJ+NhpO1bzcc1BsPg3OjeWxWifrE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-279-6X5uUgQNMWCfXIuQgez2Ig-1; Fri, 19 May 2023 11:42:37 -0400
-X-MC-Unique: 6X5uUgQNMWCfXIuQgez2Ig-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-3f08900caadso5384615e9.0
-        for <kernel-tls-handshake@lists.linux.dev>; Fri, 19 May 2023 08:42:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684510956; x=1687102956;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Jt+/cJ4nWjCmvpQkJFUy4G/NdHR1IPGRqyictYqkQog=;
-        b=eGEhnblI/vWdFMXaCZ9bIBkROiv+gx/SNpyaE1lb5Yq43CffHJ/xv/DCHYVRQtvVXy
-         Bipjlv3KCQjrMzJCu0j1fOKG1ByXXJDGCSPv+hzU0qCueKRH9rpqu4fT+onQKxafdzlU
-         EFhXBUKZQdZGkCnEa9+wfnwuR+HLB/EdHXxD1LGdviW81cVecIbMWrcPjaqftEV2+VvZ
-         cBLZjP69z9Tj/jd70Vz22vy3G6xEx9itHLK5u4vUk0VTrca3kn1epWAx3lpHHLgz2dhc
-         Lhvg/dBD7rWBqMN7dLSIqyGtZWhNo9urrdFmhcH7VHFw5rzu3X/4cQ24G9Z0CbbrOa1B
-         z1tA==
-X-Gm-Message-State: AC+VfDwYHdaR3KcHQ2e/pfFE67vgj/rs2SSu6biOUd4O+ZuksoOeVV3N
-	bIkaR4Ar3IwOgMdMLY+LRRAqPCjAJBqa4yZg5Cs174Sg6miqhXX3cNZpeZOmv3f1Bg8P8TrwCHS
-	gLLhkb6Da/Do38rXRbGrVf/MmodvFXMBkepk=
-X-Received: by 2002:a05:600c:1d0e:b0:3f4:2297:f25b with SMTP id l14-20020a05600c1d0e00b003f42297f25bmr2158039wms.0.1684510956774;
-        Fri, 19 May 2023 08:42:36 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4N9GJzZz8wHS97yA0R3l/hkzXH2gTECzf/kabyPfHR/tZ+jyEYNC24niZl0bnehX1oxKHY0A==
-X-Received: by 2002:a05:600c:1d0e:b0:3f4:2297:f25b with SMTP id l14-20020a05600c1d0e00b003f42297f25bmr2158026wms.0.1684510956416;
-        Fri, 19 May 2023 08:42:36 -0700 (PDT)
-Received: from gerbillo.redhat.com (146-241-235-104.dyn.eolo.it. [146.241.235.104])
-        by smtp.gmail.com with ESMTPSA id n8-20020a1c7208000000b003f50876905dsm2811299wmc.6.2023.05.19.08.42.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 May 2023 08:42:36 -0700 (PDT)
-Message-ID: <586f34837914765c25bac131438cd83609c9b6d4.camel@redhat.com>
-Subject: Re: [PATCH] net/handshake: Squelch allocation warning during Kunit
- test
-From: Paolo Abeni <pabeni@redhat.com>
-To: Chuck Lever <cel@kernel.org>, netdev@vger.kernel.org, 
-	kernel-tls-handshake@lists.linux.dev
-Cc: Linux Kernel Functional Testing <lkft@linaro.org>, Chuck Lever
-	 <chuck.lever@oracle.com>
-Date: Fri, 19 May 2023 17:42:34 +0200
-In-Reply-To: <168450889814.157177.678686730886780464.stgit@oracle-102.nfsv4bat.org>
-References: <168450889814.157177.678686730886780464.stgit@oracle-102.nfsv4bat.org>
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC3910942;
+	Fri, 19 May 2023 17:08:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90FB5C433D2;
+	Fri, 19 May 2023 17:08:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1684516115;
+	bh=XPRezjf3uWnVCchxZy0QwibFO9g9lepWWHZwAZDzTrg=;
+	h=Subject:From:To:Cc:Date:From;
+	b=kXnMXJIOzf33QsA2fZbMkE+FzzdfjzBkten4eTjlPbyMAGlxs63e8YM2am6oKzKHK
+	 qg7vgAFSL2MfoCNTMNQlOqeAHThM/U6qHMl5U8/YevfSQKl45Zr+OLOHvBDtkjgoVX
+	 pgcms6YrYMn9/mmJaG6bPDcjaSZSQ7ISqdedrbjuY/x2mdmPvEWWWXoYcWNM4gEob0
+	 7VkpR3HihPfWVc+JvhhOT26eGrDeo8kmxcgVSDKAliV3ubDVSjOSq5c8yEQNATvsUh
+	 wOydwpv/RpKAmUTpyWdb3vRlF5hBtkfSlDGWexZ/3kCm1o4i5OsgVCcyKM3POQY915
+	 Bp2SluhRr5ngA==
+Subject: [PATCH] net/handshake: Fix sock->file allocation
+From: Chuck Lever <cel@kernel.org>
+To: dan.carpenter@linaro.org
+Cc: Chuck Lever <chuck.lever@oracle.com>, netdev@vger.kernel.org,
+ kernel-tls-handshake@lists.linux.dev
+Date: Fri, 19 May 2023 13:08:24 -0400
+Message-ID: 
+ <168451609436.45209.15407022385441542980.stgit@oracle-102.nfsv4bat.org>
+User-Agent: StGit/1.5
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2023-05-19 at 11:09 -0400, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
->=20
-> The "handshake_req_alloc excessive privsize" kunit test is intended
-> to check what happens when the maximum privsize is exceeded. The
-> WARN_ON_ONCE_GFP at mm/page_alloc.c:4744 can be disabled safely for
-> this allocator call site.
+From: Chuck Lever <chuck.lever@oracle.com>
 
-Should such flag being added to the relevant entry in
-handshake_req_alloc_params?
+	sock->file = sock_alloc_file(sock, O_NONBLOCK, NULL);
+	^^^^                         ^^^^
 
-Thanks!
+sock_alloc_file() calls release_sock() on error but the left hand
+side of the assignment dereferences "sock".  This isn't the bug and
+I didn't report this earlier because there is an assert that it
+doesn't fail.
 
-Paolo
+net/handshake/handshake-test.c:221 handshake_req_submit_test4() error: dereferencing freed memory 'sock'
+net/handshake/handshake-test.c:233 handshake_req_submit_test4() warn: 'req' was already freed.
+net/handshake/handshake-test.c:254 handshake_req_submit_test5() error: dereferencing freed memory 'sock'
+net/handshake/handshake-test.c:290 handshake_req_submit_test6() error: dereferencing freed memory 'sock'
+net/handshake/handshake-test.c:321 handshake_req_cancel_test1() error: dereferencing freed memory 'sock'
+net/handshake/handshake-test.c:355 handshake_req_cancel_test2() error: dereferencing freed memory 'sock'
+net/handshake/handshake-test.c:367 handshake_req_cancel_test2() warn: 'req' was already freed.
+net/handshake/handshake-test.c:395 handshake_req_cancel_test3() error: dereferencing freed memory 'sock'
+net/handshake/handshake-test.c:407 handshake_req_cancel_test3() warn: 'req' was already freed.
+net/handshake/handshake-test.c:451 handshake_req_destroy_test1() error: dereferencing freed memory 'sock'
+net/handshake/handshake-test.c:463 handshake_req_destroy_test1() warn: 'req' was already freed.
+
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+---
+ net/handshake/handshake-test.c |   42 +++++++++++++++++++++++++++-------------
+ 1 file changed, 28 insertions(+), 14 deletions(-)
+
+diff --git a/net/handshake/handshake-test.c b/net/handshake/handshake-test.c
+index e6adc5dec11a..daa1779063ed 100644
+--- a/net/handshake/handshake-test.c
++++ b/net/handshake/handshake-test.c
+@@ -209,6 +209,7 @@ static void handshake_req_submit_test4(struct kunit *test)
+ {
+ 	struct handshake_req *req, *result;
+ 	struct socket *sock;
++	struct file *filp;
+ 	int err;
+ 
+ 	/* Arrange */
+@@ -218,9 +219,10 @@ static void handshake_req_submit_test4(struct kunit *test)
+ 	err = __sock_create(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP,
+ 			    &sock, 1);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
+-	sock->file = sock_alloc_file(sock, O_NONBLOCK, NULL);
+-	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sock->file);
++	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
+ 	KUNIT_ASSERT_NOT_NULL(test, sock->sk);
++	sock->file = filp;
+ 
+ 	err = handshake_req_submit(sock, req, GFP_KERNEL);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
+@@ -241,6 +243,7 @@ static void handshake_req_submit_test5(struct kunit *test)
+ 	struct handshake_req *req;
+ 	struct handshake_net *hn;
+ 	struct socket *sock;
++	struct file *filp;
+ 	struct net *net;
+ 	int saved, err;
+ 
+@@ -251,9 +254,10 @@ static void handshake_req_submit_test5(struct kunit *test)
+ 	err = __sock_create(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP,
+ 			    &sock, 1);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
+-	sock->file = sock_alloc_file(sock, O_NONBLOCK, NULL);
+-	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sock->file);
++	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
+ 	KUNIT_ASSERT_NOT_NULL(test, sock->sk);
++	sock->file = filp;
+ 
+ 	net = sock_net(sock->sk);
+ 	hn = handshake_pernet(net);
+@@ -276,6 +280,7 @@ static void handshake_req_submit_test6(struct kunit *test)
+ {
+ 	struct handshake_req *req1, *req2;
+ 	struct socket *sock;
++	struct file *filp;
+ 	int err;
+ 
+ 	/* Arrange */
+@@ -287,9 +292,10 @@ static void handshake_req_submit_test6(struct kunit *test)
+ 	err = __sock_create(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP,
+ 			    &sock, 1);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
+-	sock->file = sock_alloc_file(sock, O_NONBLOCK, NULL);
+-	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sock->file);
++	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
+ 	KUNIT_ASSERT_NOT_NULL(test, sock->sk);
++	sock->file = filp;
+ 
+ 	/* Act */
+ 	err = handshake_req_submit(sock, req1, GFP_KERNEL);
+@@ -307,6 +313,7 @@ static void handshake_req_cancel_test1(struct kunit *test)
+ {
+ 	struct handshake_req *req;
+ 	struct socket *sock;
++	struct file *filp;
+ 	bool result;
+ 	int err;
+ 
+@@ -318,8 +325,9 @@ static void handshake_req_cancel_test1(struct kunit *test)
+ 			    &sock, 1);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
+ 
+-	sock->file = sock_alloc_file(sock, O_NONBLOCK, NULL);
+-	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sock->file);
++	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
++	sock->file = filp;
+ 
+ 	err = handshake_req_submit(sock, req, GFP_KERNEL);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
+@@ -340,6 +348,7 @@ static void handshake_req_cancel_test2(struct kunit *test)
+ 	struct handshake_req *req, *next;
+ 	struct handshake_net *hn;
+ 	struct socket *sock;
++	struct file *filp;
+ 	struct net *net;
+ 	bool result;
+ 	int err;
+@@ -352,8 +361,9 @@ static void handshake_req_cancel_test2(struct kunit *test)
+ 			    &sock, 1);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
+ 
+-	sock->file = sock_alloc_file(sock, O_NONBLOCK, NULL);
+-	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sock->file);
++	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
++	sock->file = filp;
+ 
+ 	err = handshake_req_submit(sock, req, GFP_KERNEL);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
+@@ -380,6 +390,7 @@ static void handshake_req_cancel_test3(struct kunit *test)
+ 	struct handshake_req *req, *next;
+ 	struct handshake_net *hn;
+ 	struct socket *sock;
++	struct file *filp;
+ 	struct net *net;
+ 	bool result;
+ 	int err;
+@@ -392,8 +403,9 @@ static void handshake_req_cancel_test3(struct kunit *test)
+ 			    &sock, 1);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
+ 
+-	sock->file = sock_alloc_file(sock, O_NONBLOCK, NULL);
+-	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sock->file);
++	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
++	sock->file = filp;
+ 
+ 	err = handshake_req_submit(sock, req, GFP_KERNEL);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
+@@ -436,6 +448,7 @@ static void handshake_req_destroy_test1(struct kunit *test)
+ {
+ 	struct handshake_req *req;
+ 	struct socket *sock;
++	struct file *filp;
+ 	int err;
+ 
+ 	/* Arrange */
+@@ -448,8 +461,9 @@ static void handshake_req_destroy_test1(struct kunit *test)
+ 			    &sock, 1);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
+ 
+-	sock->file = sock_alloc_file(sock, O_NONBLOCK, NULL);
+-	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sock->file);
++	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
++	sock->file = filp;
+ 
+ 	err = handshake_req_submit(sock, req, GFP_KERNEL);
+ 	KUNIT_ASSERT_EQ(test, err, 0);
 
 

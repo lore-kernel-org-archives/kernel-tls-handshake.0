@@ -1,96 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E366523C7E
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 18 May 2023 13:49:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05C73C4339B;
-	Thu, 18 May 2023 13:49:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41BDC2F5;
+	Fri, 19 May 2023 15:09:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39691C433EF;
+	Fri, 19 May 2023 15:09:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1684417759;
-	bh=Haxgjn+l8zIwOGoUjK5HLIKn5x5c1qsyAX+6hsBR/lU=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=fuPLluEjPzfyZ0roCpIP2Rxk09KSR9/9vri+sPIMA+vdVl4H8ujanNHyX4U9/YtKf
-	 7r18LfXjLdXCfzJ+Y7Ue70tc3cvPRJ5mgsuBNL4kHvRx90xhWrc0uY6yjTg0IaEWDF
-	 E6epbBxJzv1T53g4Cfo89UVcjY4KqNNtJwpfUNCPblPAe5gqFVravVIZFNUODnf6Uj
-	 4sDBZNkFzlyl+vMcq4P1/MIfw6MIPCU7AlJwNvQ5FN0RTd8jKy9jnsXRFXxTc8GXuF
-	 jVHPOIYqXnFaeaEP1yk6p2eMWI9SFRVmXLAMzdsN45Uha+6j3O0Ru+OF1i4Q35U2RP
-	 mO0S8cTmGc47A==
-Message-ID: <653b33f74a4d9c1886db230b873146e388543739.camel@kernel.org>
-Subject: Re: [PATCH RFC 00/12] client-side RPC-with-TLS
-From: Jeff Layton <jlayton@kernel.org>
-To: Chuck Lever <cel@kernel.org>, anna.schumaker@netapp.com, 
-	trondmy@hammerspace.com
-Cc: Chuck Lever <chuck.lever@oracle.com>, linux-nfs@vger.kernel.org, 
-	kernel-tls-handshake@lists.linux.dev
-Date: Thu, 18 May 2023 09:49:17 -0400
-In-Reply-To: <168426587118.74246.214357450560967997.stgit@oracle-102.nfsv4bat.org>
-References: 
-	<168426587118.74246.214357450560967997.stgit@oracle-102.nfsv4bat.org>
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1 (3.48.1-1.fc38) 
+	s=k20201202; t=1684508964;
+	bh=c1dg5Ciwd6p/IoOCat4qrtA6b96sOCi6/kT15aNsBpo=;
+	h=Subject:From:To:Cc:Date:From;
+	b=GhoXBhHwIxzGP3gFPkHk+kBNhiJ0kGd2a322tCfyXBM3512m04QDudzadoGdTFNNv
+	 cBI4eEONkQ7uvoT+aiYHFpYFXU1UDavP/eh8uCrwtnd1k4+YEmGoBKEh4RWdfhX5Ci
+	 pbmn91xSqLb067vQzpmv+W5I+iYJEIQATu9Yuk/TE2iCWkvChQ5zFwYI83WukKCNUe
+	 ZYLgvBYdERdtCW70oDSLdquL1S+oRM2U+PbdPKn+Ja6f2120geBfBHbWhv9WJMxvBG
+	 tGzT2X0hK3qSRcROPAKYi1iyje0jkkATF5PVGsHCjC00SBJ80i8YwC3pVoisD7WB7q
+	 v/pf92lBJABmg==
+Subject: [PATCH] net/handshake: Squelch allocation warning during Kunit test
+From: Chuck Lever <cel@kernel.org>
+To: netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev
+Cc: Linux Kernel Functional Testing <lkft@linaro.org>,
+ Chuck Lever <chuck.lever@oracle.com>
+Date: Fri, 19 May 2023 11:09:12 -0400
+Message-ID: 
+ <168450889814.157177.678686730886780464.stgit@oracle-102.nfsv4bat.org>
+User-Agent: StGit/1.5
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2023-05-16 at 15:38 -0400, Chuck Lever wrote:
-> Now that TLS handshake support is available in the kernel, let's
-> have a look at what is needed to support NFS in-transit confiden-
-> tiality in the Linux NFS client.
->=20
-> These apply to v6.4-rc2 (actually, net-next to be precise), but
-> previously they've been tested at multiple NFS bake-a-thon events.
->=20
-> ---
->=20
-> Chuck Lever (12):
->       NFS: Improvements for fs_context-related tracepoints
->       SUNRPC: Plumb an API for setting transport layer security
->       SUNRPC: Trace the rpc_create_args
->       SUNRPC: Refactor rpc_call_null_helper()
->       SUNRPC: Add RPC client support for the RPC_AUTH_TLS auth flavor
->       SUNRPC: Ignore data_ready callbacks during TLS handshakes
->       SUNRPC: Capture CMSG metadata on client-side receive
->       SUNRPC: Add a connect worker function for TLS
->       SUNRPC: Add RPC-with-TLS support to xprtsock.c
->       SUNRPC: Add RPC-with-TLS tracepoints
->       NFS: Have struct nfs_client carry a TLS policy field
->       NFS: Add an "xprtsec=3D" NFS mount option
->=20
->=20
->  fs/nfs/client.c                 |   7 +
->  fs/nfs/fs_context.c             |  55 +++++
->  fs/nfs/internal.h               |   2 +
->  fs/nfs/nfs3client.c             |   1 +
->  fs/nfs/nfs4client.c             |  18 +-
->  fs/nfs/super.c                  |  12 ++
->  include/linux/nfs_fs_sb.h       |   3 +-
->  include/linux/sunrpc/auth.h     |   1 +
->  include/linux/sunrpc/clnt.h     |   2 +
->  include/linux/sunrpc/xprt.h     |  17 ++
->  include/linux/sunrpc/xprtsock.h |   3 +
->  include/trace/events/sunrpc.h   |  96 ++++++++-
->  net/sunrpc/Makefile             |   2 +-
->  net/sunrpc/auth.c               |   2 +-
->  net/sunrpc/auth_tls.c           | 120 +++++++++++
->  net/sunrpc/clnt.c               |  22 +-
->  net/sunrpc/xprtsock.c           | 343 +++++++++++++++++++++++++++++++-
->  17 files changed, 677 insertions(+), 29 deletions(-)
->  create mode 100644 net/sunrpc/auth_tls.c
->=20
+From: Chuck Lever <chuck.lever@oracle.com>
+
+The "handshake_req_alloc excessive privsize" kunit test is intended
+to check what happens when the maximum privsize is exceeded. The
+WARN_ON_ONCE_GFP at mm/page_alloc.c:4744 can be disabled safely for
+this allocator call site.
+
+Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+Fixes: 88232ec1ec5e ("net/handshake: Add Kunit tests for the handshake consumer API")
+Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+---
+ net/handshake/request.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+I sent this fix to the reporter last week, but haven't posted it to
+netdev@ yet.
+
+diff --git a/net/handshake/request.c b/net/handshake/request.c
+index d78d41abb3d9..24097cccd158 100644
+--- a/net/handshake/request.c
++++ b/net/handshake/request.c
+@@ -120,7 +120,8 @@ struct handshake_req *handshake_req_alloc(const struct handshake_proto *proto,
+ 	if (!proto->hp_accept || !proto->hp_done)
+ 		return NULL;
+ 
+-	req = kzalloc(struct_size(req, hr_priv, proto->hp_privsize), flags);
++	req = kzalloc(struct_size(req, hr_priv, proto->hp_privsize),
++		      flags | __GFP_NOWARN);
+ 	if (!req)
+ 		return NULL;
+ 
 
 
-These all look reasonable to me. For any that don't already have it, you
-can add:
-
-Reviewed-by: Jeff Layton <jlayton@kernel.org>
-
-I'd really like to see these in linux-next soon, so that there is a
-prayer of them making v6.5.
-
-Thanks,
---=20
-Jeff Layton <jlayton@kernel.org>

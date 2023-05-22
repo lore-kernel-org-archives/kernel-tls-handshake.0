@@ -1,40 +1,40 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7E812B95
-	for <kernel-tls-handshake@lists.linux.dev>; Fri, 19 May 2023 18:51:11 +0000 (UTC)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-62385de2d40so5917796d6.0
-        for <kernel-tls-handshake@lists.linux.dev>; Fri, 19 May 2023 11:51:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0BBE168CC
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 22 May 2023 20:35:54 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-3f38b7ca98aso56462071cf.1
+        for <kernel-tls-handshake@lists.linux.dev>; Mon, 22 May 2023 13:35:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684522270; x=1687114270;
+        d=gmail.com; s=20221208; t=1684787754; x=1687379754;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YZEuVqJ8qfDTxAym1kegruMqAYA7yHsDvs495RAHDvY=;
-        b=JFdFgRjq/caxr7XdQYWB4GE3FspnN3HEe5ZK3UQWceypu8ggInCsi6vMlGY0aXn9YZ
-         iF747dVCr0YB49lqLIB8ooVwEX+oOf/pnigfVvDLRv4V7JUSBKUieq5RLF1GE4Oum2J1
-         K6zrqyBH/Vr7POJUECWRW1GCsMmjaY9Ie0ISNCdyQAWW4UFxtXguhlNvpei04epuB9Xg
-         y9+kmuwkW3Z60UavHY6av1aG474mL+u/ychkiHTGEiwxn9lcUNUcl02fKKKV0FKNI3y1
-         DggyBfr7lqjlBxs1D4dR7FvbObjZ5id+ZPQyQ9p4WYoik6pRPMFS5lwfgrGnp951b3rt
-         GjLg==
+        bh=tIiyJ1/CYG8ugzrZM7QueNjZ1bjU5LDz8tPFKPLu/ko=;
+        b=TvJZM7K7Bm8jbujEXmk08Zy4oW8Kv0E6bDXJ3yOs7GzfUcpArrQudvAayRJkuBH5wW
+         50gIUUwkuOs9tgYuDePvFi5BBQg6HH8cE6Sh3GdEpNicB5YaTpSEv/YFpTvRvKHr2Eyt
+         SMcMd0GEFc9rCbdG/vHFauwKhiPG66Op6hCYYqgJ698H0W8k6+0ONTQPztjDHS/3kMnn
+         81ejl4d+37oeYKPvEKRgRGwrO+tNgkUzB6WeTVmJ4Y0peJz96fNq7QFg2aRz+h1MVFJ2
+         Vh837wjF6E4WwPc8UTHpRdsbXk0Yg+xPlo1h3COMy3gAgdg9y1uSBNg2JTZWU0UmCF5A
+         WCjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684522270; x=1687114270;
+        d=1e100.net; s=20221208; t=1684787754; x=1687379754;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YZEuVqJ8qfDTxAym1kegruMqAYA7yHsDvs495RAHDvY=;
-        b=cFmOqAfI3nKxL7Qy+wovwTWqYLfZZSFpR+XR4tA8WtiJTPdJrlHh+CnruGLzq9lPx5
-         fdQLI6JqV9g42jqPUEFnjGjyBvPh7YB053GfGY/oOVGtsdFHC2eUhmXUgs8fXmLSd3Jf
-         sOEyi5YjeJO+Rb5MqXJzO4izYLvMMHbjHPk0pHSaAozaHyNWl6HisVKdjxSegu3WRuK9
-         kOu9T1eaGgIEJg7mDEx1nUW9RiA3aG/bK15Rj8cjagLrZQrhZ9v9LEdQ2Yoq81anR2n5
-         AWci1EF7/sRqlyab77ujzIxuTkd0aA+H+CJgt2uVFQ2oZEMOQwtAMviTUiCE3MDINum9
-         jy9w==
-X-Gm-Message-State: AC+VfDwAthlZtRwCbFuicRA/TL+xkyGZXnb2++SsDqFjdmW1c5i5zj4u
-	Ntkt6qzDMPMDBHUim1A3Q5cRnoaHjO+wChuQZo4=
-X-Google-Smtp-Source: ACHHUZ4uSLIAQf9yP2oWhtAZzzKh5Y/ivgrFyn9zY5o0lYE9vzhmSnRHKGmPicH0Ucq8Sm4tY/HFBEigSgvvKbHICcA=
-X-Received: by 2002:a05:6214:5193:b0:623:9c94:aff with SMTP id
- kl19-20020a056214519300b006239c940affmr6260483qvb.21.1684522269842; Fri, 19
- May 2023 11:51:09 -0700 (PDT)
+        bh=tIiyJ1/CYG8ugzrZM7QueNjZ1bjU5LDz8tPFKPLu/ko=;
+        b=aIz7oHfOC18QFD/C1f4Jcfit3+Vdji1bUk1jD8eCnWra0D0CuF9cJoSDH3BunZcCt4
+         iFOua+w0IXtfo9tWJ02Lp0YCnnkx1D84jHEweOaJauFB330zv6fARW3LmL+OwqsQMpfC
+         NjdNbO5jg0JUue2IjyX43vDXIHATRKx0fI/Gvic8vr4JfhKxaH9FfQexcVrR14Czw5YV
+         kK6laJxEg6loBYhmyCI2h63pTm8g+3xHp3gffPIvbBBjsh4sQNCJvZmros5yQxNj7kz8
+         IpsXZ3RDCdFp2MNUsQIC39fpr+ewWPemMQh723XeJDd3ruDNjmHTcU2EFEP4XakVqqVu
+         ZfAw==
+X-Gm-Message-State: AC+VfDwEFwulQ+DOiVh9PyOputcl1WE8yvwE1cy5wnycY9quxnPK5U16
+	MxHHkneynw3s6kNzvz5A28206p1UtWihsJj+VaA=
+X-Google-Smtp-Source: ACHHUZ6UXDCaYEyIz7fQvbeaTaTYmPSy8jTRs6DPTgK13EVQLVileHTU6PkcObau3UjicvU/ZFEiNjNEr9E/9c+ZfvI=
+X-Received: by 2002:a05:622a:1808:b0:3f4:fd21:508d with SMTP id
+ t8-20020a05622a180800b003f4fd21508dmr19912667qtc.27.1684787753611; Mon, 22
+ May 2023 13:35:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -42,479 +42,103 @@ List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <168426587118.74246.214357450560967997.stgit@oracle-102.nfsv4bat.org>
- <168426612899.74246.12074514989473589840.stgit@oracle-102.nfsv4bat.org>
- <CAFX2Jfn2epNz+OpMTD0yeTCjNNxTRR0rANp8+GHk7sLeVpUBhw@mail.gmail.com> <177C4F24-FD8D-446D-9FA9-6EB04E45460E@oracle.com>
-In-Reply-To: <177C4F24-FD8D-446D-9FA9-6EB04E45460E@oracle.com>
+ <168426600329.74246.10545150506762914826.stgit@oracle-102.nfsv4bat.org>
+In-Reply-To: <168426600329.74246.10545150506762914826.stgit@oracle-102.nfsv4bat.org>
 From: Anna Schumaker <schumaker.anna@gmail.com>
-Date: Fri, 19 May 2023 14:50:51 -0400
-Message-ID: <CAFX2Jfnxv4S24ZHGVtwR3KCTD9o9dQ3n7H=ButuK8PeW_=1D5A@mail.gmail.com>
-Subject: Re: [PATCH RFC 09/12] SUNRPC: Add RPC-with-TLS support to xprtsock.c
-To: Chuck Lever III <chuck.lever@oracle.com>
-Cc: Chuck Lever <cel@kernel.org>, Anna Schumaker <anna.schumaker@netapp.com>, 
-	Trond Myklebust <trondmy@hammerspace.com>, 
-	Linux NFS Mailing List <linux-nfs@vger.kernel.org>, 
-	"kernel-tls-handshake@lists.linux.dev" <kernel-tls-handshake@lists.linux.dev>
+Date: Mon, 22 May 2023 16:35:34 -0400
+Message-ID: <CAFX2Jfk9up-eyLhe7s65E6+vBTjXrATREFoYJVkCBLAT_56o2g@mail.gmail.com>
+Subject: Re: [PATCH RFC 04/12] SUNRPC: Refactor rpc_call_null_helper()
+To: Chuck Lever <cel@kernel.org>
+Cc: anna.schumaker@netapp.com, trondmy@hammerspace.com, 
+	Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, linux-nfs@vger.kernel.org, 
+	kernel-tls-handshake@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 19, 2023 at 2:33=E2=80=AFPM Chuck Lever III <chuck.lever@oracle=
-.com> wrote:
->
->
->
-> > On May 19, 2023, at 2:19 PM, Anna Schumaker <schumaker.anna@gmail.com> =
-wrote:
-> >
-> > Hi Chuck,
-> >
-> > On Tue, May 16, 2023 at 3:52=E2=80=AFPM Chuck Lever <cel@kernel.org> wr=
-ote:
-> >>
-> >> From: Chuck Lever <chuck.lever@oracle.com>
-> >>
-> >> Use the new TLS handshake API to enable the SunRPC client code
-> >> to request a TLS handshake. This implements support for RFC 9289.
-> >>
-> >> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-> >> ---
-> >> include/linux/sunrpc/xprtsock.h |    1
-> >> net/sunrpc/xprtsock.c           |  289 +++++++++++++++++++++++++++++++=
-+++-----
-> >> 2 files changed, 253 insertions(+), 37 deletions(-)
-> >>
-> >> diff --git a/include/linux/sunrpc/xprtsock.h b/include/linux/sunrpc/xp=
-rtsock.h
-> >> index 574a6a5391ba..700a1e6c047c 100644
-> >> --- a/include/linux/sunrpc/xprtsock.h
-> >> +++ b/include/linux/sunrpc/xprtsock.h
-> >> @@ -57,6 +57,7 @@ struct sock_xprt {
-> >>        struct work_struct      error_worker;
-> >>        struct work_struct      recv_worker;
-> >>        struct mutex            recv_mutex;
-> >> +       struct completion       handshake_done;
-> >>        struct sockaddr_storage srcaddr;
-> >>        unsigned short          srcport;
-> >>        int                     xprt_err;
-> >> diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
-> >> index 7ea5984a52a3..686dd313f89f 100644
-> >> --- a/net/sunrpc/xprtsock.c
-> >> +++ b/net/sunrpc/xprtsock.c
-> >> @@ -48,6 +48,7 @@
-> >> #include <net/udp.h>
-> >> #include <net/tcp.h>
-> >> #include <net/tls.h>
-> >> +#include <net/handshake.h>
-> >>
-> >> #include <linux/bvec.h>
-> >> #include <linux/highmem.h>
-> >> @@ -189,6 +190,11 @@ static struct ctl_table xs_tunables_table[] =3D {
-> >>  */
-> >> #define XS_IDLE_DISC_TO                (5U * 60 * HZ)
-> >>
-> >> +/*
-> >> + * TLS handshake timeout.
-> >> + */
-> >> +#define XS_TLS_HANDSHAKE_TO    (10U * HZ)
-> >> +
-> >> #if IS_ENABLED(CONFIG_SUNRPC_DEBUG)
-> >> # undef  RPC_DEBUG_DATA
-> >> # define RPCDBG_FACILITY       RPCDBG_TRANS
-> >> @@ -1238,6 +1244,10 @@ static void xs_reset_transport(struct sock_xprt=
- *transport)
-> >>        if (atomic_read(&transport->xprt.swapper))
-> >>                sk_clear_memalloc(sk);
-> >>
-> >> +       /* XXX: Maybe also send a TLS Closure alert? */
-> >> +
-> >> +       tls_handshake_cancel(sk);
-> >> +
-> >>        kernel_sock_shutdown(sock, SHUT_RDWR);
-> >>
-> >>        mutex_lock(&transport->recv_mutex);
-> >> @@ -2411,60 +2421,266 @@ static void xs_tcp_setup_socket(struct work_s=
-truct *work)
-> >>        current_restore_flags(pflags, PF_MEMALLOC);
-> >> }
-> >>
-> >> +/*
-> >> + * Transfer the connected socket to @upper_transport, then mark that
-> >> + * xprt CONNECTED.
-> >> + */
-> >> +static int xs_tls_finish_connecting(struct rpc_xprt *lower_xprt,
-> >> +                                   struct sock_xprt *upper_transport)
-> >> +{
-> >> +       struct sock_xprt *lower_transport =3D
-> >> +                       container_of(lower_xprt, struct sock_xprt, xpr=
-t);
-> >> +       struct rpc_xprt *upper_xprt =3D &upper_transport->xprt;
-> >> +
-> >> +       if (!upper_transport->inet) {
-> >> +               struct socket *sock =3D lower_transport->sock;
-> >> +               struct sock *sk =3D sock->sk;
-> >> +
-> >> +               /* Avoid temporary address, they are bad for long-live=
-d
-> >> +                * connections such as NFS mounts.
-> >> +                * RFC4941, section 3.6 suggests that:
-> >> +                *    Individual applications, which have specific
-> >> +                *    knowledge about the normal duration of connectio=
-ns,
-> >> +                *    MAY override this as appropriate.
-> >> +                */
-> >> +               if (xs_addr(upper_xprt)->sa_family =3D=3D PF_INET6) {
-> >> +                       ip6_sock_set_addr_preferences(sk,
-> >> +                               IPV6_PREFER_SRC_PUBLIC);
-> >> +               }
-> >> +
-> >> +               xs_tcp_set_socket_timeouts(upper_xprt, sock);
-> >> +               tcp_sock_set_nodelay(sk);
-> >> +
-> >> +               lock_sock(sk);
-> >> +
-> >> +               /*
-> >> +                * @sk is already connected, so it now has the RPC cal=
-lbacks.
-> >> +                * Reach into @lower_transport to save the original on=
-es.
-> >> +                */
-> >> +               upper_transport->old_data_ready =3D lower_transport->o=
-ld_data_ready;
-> >> +               upper_transport->old_state_change =3D lower_transport-=
->old_state_change;
-> >> +               upper_transport->old_write_space =3D lower_transport->=
-old_write_space;
-> >> +               upper_transport->old_error_report =3D lower_transport-=
->old_error_report;
-> >> +               sk->sk_user_data =3D upper_xprt;
-> >> +
-> >> +               /* socket options */
-> >> +               sock_reset_flag(sk, SOCK_LINGER);
-> >> +
-> >> +               xprt_clear_connected(upper_xprt);
-> >> +
-> >> +               upper_transport->sock =3D sock;
-> >> +               upper_transport->inet =3D sk;
-> >> +               upper_transport->file =3D lower_transport->file;
-> >> +
-> >> +               release_sock(sk);
-> >> +
-> >> +               /* Reset lower_transport before shutting down its clnt=
- */
-> >> +               mutex_lock(&lower_transport->recv_mutex);
-> >> +               lower_transport->inet =3D NULL;
-> >> +               lower_transport->sock =3D NULL;
-> >> +               lower_transport->file =3D NULL;
-> >> +
-> >> +               xprt_clear_connected(lower_xprt);
-> >> +               xs_sock_reset_connection_flags(lower_xprt);
-> >> +               xs_stream_reset_connect(lower_transport);
-> >> +               mutex_unlock(&lower_transport->recv_mutex);
-> >> +       }
-> >> +
-> >> +       if (!xprt_bound(upper_xprt))
-> >> +               return -ENOTCONN;
-> >> +
-> >> +       xs_set_memalloc(upper_xprt);
-> >> +
-> >> +       if (!xprt_test_and_set_connected(upper_xprt)) {
-> >> +               upper_xprt->connect_cookie++;
-> >> +               clear_bit(XPRT_SOCK_CONNECTING, &upper_transport->sock=
-_state);
-> >> +               xprt_clear_connecting(upper_xprt);
-> >> +
-> >> +               upper_xprt->stat.connect_count++;
-> >> +               upper_xprt->stat.connect_time +=3D (long)jiffies -
-> >> +                                          upper_xprt->stat.connect_st=
-art;
-> >> +               xs_run_error_worker(upper_transport, XPRT_SOCK_WAKE_PE=
-NDING);
-> >> +       }
-> >> +       return 0;
-> >> +}
-> >> +
-> >> /**
-> >> - * xs_tls_connect - establish a TLS session on a socket
-> >> - * @work: queued work item
-> >> + * xs_tls_handshake_done - TLS handshake completion handler
-> >> + * @data: address of xprt to wake
-> >> + * @status: status of handshake
-> >> + * @peerid: serial number of key containing the remote's identity
-> >>  *
-> >>  */
-> >> -static void xs_tls_connect(struct work_struct *work)
-> >> +static void xs_tls_handshake_done(void *data, int status, key_serial_=
-t peerid)
-> >> {
-> >> -       struct sock_xprt *transport =3D
-> >> -               container_of(work, struct sock_xprt, connect_worker.wo=
-rk);
-> >> -       struct rpc_clnt *clnt;
-> >> +       struct rpc_xprt *lower_xprt =3D data;
-> >> +       struct sock_xprt *lower_transport =3D
-> >> +                               container_of(lower_xprt, struct sock_x=
-prt, xprt);
-> >>
-> >> -       clnt =3D transport->clnt;
-> >> -       transport->clnt =3D NULL;
-> >> -       if (IS_ERR(clnt))
-> >> -               goto out_unlock;
-> >> +       lower_transport->xprt_err =3D status ? -EACCES : 0;
-> >> +       complete(&lower_transport->handshake_done);
-> >> +       xprt_put(lower_xprt);
-> >> +}
-> >>
-> >> -       xs_tcp_setup_socket(work);
-> >> +static int xs_tls_handshake_sync(struct rpc_xprt *lower_xprt, struct =
-xprtsec_parms *xprtsec)
-> >> +{
-> >> +       struct sock_xprt *lower_transport =3D
-> >> +                               container_of(lower_xprt, struct sock_x=
-prt, xprt);
-> >> +       struct tls_handshake_args args =3D {
-> >> +               .ta_sock        =3D lower_transport->sock,
-> >> +               .ta_done        =3D xs_tls_handshake_done,
-> >> +               .ta_data        =3D xprt_get(lower_xprt),
-> >> +               .ta_peername    =3D lower_xprt->servername,
-> >
-> > This part isn't compiling for me on v6.4-rc2:
-> >
-> > net/sunrpc/xprtsock.c:2538:4: error: field designator 'ta_peername'
-> > does not refer to any field in type 'struct tls_handshake_args'
-> >                .ta_peername    =3D lower_xprt->servername,
-> >                 ^
-> > 1 error generated.
-> >
-> > Am I missing a patch, or did this struct get changed somewhere along th=
-e line?
->
-> The patch series is based on net-next, which includes a patch
-> that changes this code.
->
-> I had expected those patches to have been merged, but they are
-> still pending.
+Hi Chuck,
 
-Makes sense! I wonder what the hold up is. Oh well, I'll rebase on top
-of that and try again :)
+On Tue, May 16, 2023 at 3:42=E2=80=AFPM Chuck Lever <cel@kernel.org> wrote:
+>
+> From: Chuck Lever <chuck.lever@oracle.com>
+>
+> I'm about to add a use case that does not want RPC_TASK_NULLCREDS.
+> Refactor rpc_call_null_helper() so that callers provide NULLCREDS
+> when they need it.
+>
+> Reviewed-by: Jeff Layton <jlayton@kernel.org>
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> ---
+>  net/sunrpc/clnt.c |   16 +++++++++-------
+>  1 file changed, 9 insertions(+), 7 deletions(-)
+>
+> diff --git a/net/sunrpc/clnt.c b/net/sunrpc/clnt.c
+> index 4cdb539b5854..2dca0ae489ec 100644
+> --- a/net/sunrpc/clnt.c
+> +++ b/net/sunrpc/clnt.c
+> @@ -2811,8 +2811,7 @@ struct rpc_task *rpc_call_null_helper(struct rpc_cl=
+nt *clnt,
+>                 .rpc_op_cred =3D cred,
+>                 .callback_ops =3D ops ?: &rpc_null_ops,
+>                 .callback_data =3D data,
+> -               .flags =3D flags | RPC_TASK_SOFT | RPC_TASK_SOFTCONN |
+> -                        RPC_TASK_NULLCREDS,
+> +               .flags =3D flags | RPC_TASK_SOFT | RPC_TASK_SOFTCONN,
+>         };
+>
+>         return rpc_run_task(&task_setup_data);
+> @@ -2820,7 +2819,8 @@ struct rpc_task *rpc_call_null_helper(struct rpc_cl=
+nt *clnt,
+>
+>  struct rpc_task *rpc_call_null(struct rpc_clnt *clnt, struct rpc_cred *c=
+red, int flags)
+>  {
+> -       return rpc_call_null_helper(clnt, NULL, cred, flags, NULL, NULL);
+> +       return rpc_call_null_helper(clnt, NULL, cred, flags | RPC_TASK_NU=
+LLCREDS,
+> +                                   NULL, NULL);
+>  }
+>  EXPORT_SYMBOL_GPL(rpc_call_null);
 
+I think you missed updating rpc_ping() right below this function as
+well, I'm unable to mount without the flag. Although I do wonder if it
+would be easier to slightly rename rpc_call_null_helper(), and then
+create a new rpc_call_null_helper() that appends the
+RPC_TASK_NULLCREDS flag. Then we don't need to touch current callers,
+and your new use case could call the renamed function.
+
+What do you think?
 Anna
 
 >
+> @@ -2920,12 +2920,13 @@ int rpc_clnt_test_and_add_xprt(struct rpc_clnt *c=
+lnt,
+>                 goto success;
+>         }
 >
-> > Anna
-> >
-> >> +       };
-> >> +       struct sock *sk =3D lower_transport->inet;
-> >> +       int rc;
-> >>
-> >> -       rpc_shutdown_client(clnt);
-> >> +       init_completion(&lower_transport->handshake_done);
-> >> +       set_bit(XPRT_SOCK_IGNORE_RECV, &lower_transport->sock_state);
-> >>
-> >> -out_unlock:
-> >> -       return;
-> >> +       lower_transport->xprt_err =3D -ETIMEDOUT;
-> >> +       switch (xprtsec->policy) {
-> >> +       case RPC_XPRTSEC_TLS_ANON:
-> >> +               rc =3D tls_client_hello_anon(&args, GFP_KERNEL);
-> >> +               if (rc)
-> >> +                       goto out_put_xprt;
-> >> +               break;
-> >> +       case RPC_XPRTSEC_TLS_X509:
-> >> +               args.ta_my_cert =3D xprtsec->cert_serial;
-> >> +               args.ta_my_privkey =3D xprtsec->privkey_serial;
-> >> +               rc =3D tls_client_hello_x509(&args, GFP_KERNEL);
-> >> +               if (rc)
-> >> +                       goto out_put_xprt;
-> >> +               break;
-> >> +       default:
-> >> +               rc =3D -EACCES;
-> >> +               goto out_put_xprt;
-> >> +       }
-> >> +
-> >> +       rc =3D wait_for_completion_interruptible_timeout(&lower_transp=
-ort->handshake_done,
-> >> +                                                      XS_TLS_HANDSHAK=
-E_TO);
-> >> +       if (rc <=3D 0) {
-> >> +               if (!tls_handshake_cancel(sk)) {
-> >> +                       if (rc =3D=3D 0)
-> >> +                               rc =3D -ETIMEDOUT;
-> >> +                       goto out_put_xprt;
-> >> +               }
-> >> +       }
-> >> +
-> >> +       rc =3D lower_transport->xprt_err;
-> >> +
-> >> +out:
-> >> +       xs_stream_reset_connect(lower_transport);
-> >> +       clear_bit(XPRT_SOCK_IGNORE_RECV, &lower_transport->sock_state)=
-;
-> >> +       return rc;
-> >> +
-> >> +out_put_xprt:
-> >> +       xprt_put(lower_xprt);
-> >> +       goto out;
-> >> }
-> >>
-> >> -static void xs_set_transport_clnt(struct rpc_clnt *clnt, struct rpc_x=
-prt *xprt)
-> >> +/**
-> >> + * xs_tls_connect - establish a TLS session on a socket
-> >> + * @work: queued work item
-> >> + *
-> >> + * For RPC-with-TLS, there is a two-stage connection process.
-> >> + *
-> >> + * The "upper-layer xprt" is visible to the RPC consumer. Once it has
-> >> + * been marked connected, the consumer knows that a TCP connection an=
-d
-> >> + * a TLS session have been established.
-> >> + *
-> >> + * A "lower-layer xprt", created in this function, handles the mechan=
-ics
-> >> + * of connecting the TCP socket, performing the RPC_AUTH_TLS probe, a=
-nd
-> >> + * then driving the TLS handshake. Once all that is complete, the upp=
-er
-> >> + * layer xprt is marked connected.
-> >> + */
-> >> +static void xs_tls_connect(struct work_struct *work)
-> >> {
-> >> -       struct sock_xprt *transport =3D container_of(xprt, struct sock=
-_xprt, xprt);
-> >> +       struct sock_xprt *upper_transport =3D
-> >> +               container_of(work, struct sock_xprt, connect_worker.wo=
-rk);
-> >> +       struct rpc_clnt *upper_clnt =3D upper_transport->clnt;
-> >> +       struct rpc_xprt *upper_xprt =3D &upper_transport->xprt;
-> >>        struct rpc_create_args args =3D {
-> >> -               .net            =3D xprt->xprt_net,
-> >> -               .protocol       =3D xprt->prot,
-> >> -               .address        =3D (struct sockaddr *)&xprt->addr,
-> >> -               .addrsize       =3D xprt->addrlen,
-> >> -               .timeout        =3D clnt->cl_timeout,
-> >> -               .servername     =3D xprt->servername,
-> >> -               .nodename       =3D clnt->cl_nodename,
-> >> -               .program        =3D clnt->cl_program,
-> >> -               .prognumber     =3D clnt->cl_prog,
-> >> -               .version        =3D clnt->cl_vers,
-> >> +               .net            =3D upper_xprt->xprt_net,
-> >> +               .protocol       =3D upper_xprt->prot,
-> >> +               .address        =3D (struct sockaddr *)&upper_xprt->ad=
-dr,
-> >> +               .addrsize       =3D upper_xprt->addrlen,
-> >> +               .timeout        =3D upper_clnt->cl_timeout,
-> >> +               .servername     =3D upper_xprt->servername,
-> >> +               .nodename       =3D upper_clnt->cl_nodename,
-> >> +               .program        =3D upper_clnt->cl_program,
-> >> +               .prognumber     =3D upper_clnt->cl_prog,
-> >> +               .version        =3D upper_clnt->cl_vers,
-> >>                .authflavor     =3D RPC_AUTH_TLS,
-> >> -               .cred           =3D clnt->cl_cred,
-> >> +               .cred           =3D upper_clnt->cl_cred,
-> >>                .xprtsec        =3D {
-> >>                        .policy         =3D RPC_XPRTSEC_NONE,
-> >>                },
-> >> -               .flags          =3D RPC_CLNT_CREATE_NOPING,
-> >>        };
-> >> +       unsigned int pflags =3D current->flags;
-> >> +       struct rpc_clnt *lower_clnt;
-> >> +       struct rpc_xprt *lower_xprt;
-> >> +       int status;
-> >>
-> >> -       switch (xprt->xprtsec.policy) {
-> >> -       case RPC_XPRTSEC_TLS_ANON:
-> >> -       case RPC_XPRTSEC_TLS_X509:
-> >> -               transport->clnt =3D rpc_create(&args);
-> >> -               break;
-> >> -       default:
-> >> -               transport->clnt =3D ERR_PTR(-ENOTCONN);
-> >> +       if (atomic_read(&upper_xprt->swapper))
-> >> +               current->flags |=3D PF_MEMALLOC;
-> >> +
-> >> +       xs_stream_start_connect(upper_transport);
-> >> +
-> >> +       /* This implicitly sends an RPC_AUTH_TLS probe */
-> >> +       lower_clnt =3D rpc_create(&args);
-> >> +       if (IS_ERR(lower_clnt)) {
-> >> +               clear_bit(XPRT_SOCK_CONNECTING, &upper_transport->sock=
-_state);
-> >> +               xprt_clear_connecting(upper_xprt);
-> >> +               xprt_wake_pending_tasks(upper_xprt, PTR_ERR(lower_clnt=
-));
-> >> +               smp_mb__before_atomic();
-> >> +               xs_run_error_worker(upper_transport, XPRT_SOCK_WAKE_PE=
-NDING);
-> >> +               goto out_unlock;
-> >>        }
-> >> +
-> >> +       /* RPC_AUTH_TLS probe was successful. Try a TLS handshake on
-> >> +        * the lower xprt.
-> >> +        */
-> >> +       rcu_read_lock();
-> >> +       lower_xprt =3D rcu_dereference(lower_clnt->cl_xprt);
-> >> +       rcu_read_unlock();
-> >> +       status =3D xs_tls_handshake_sync(lower_xprt, &upper_xprt->xprt=
-sec);
-> >> +       if (status)
-> >> +               goto out_close;
-> >> +
-> >> +       status =3D xs_tls_finish_connecting(lower_xprt, upper_transpor=
-t);
-> >> +       if (status)
-> >> +               goto out_close;
-> >> +
-> >> +       trace_rpc_socket_connect(upper_xprt, upper_transport->sock, 0)=
-;
-> >> +       if (!xprt_test_and_set_connected(upper_xprt)) {
-> >> +               upper_xprt->connect_cookie++;
-> >> +               clear_bit(XPRT_SOCK_CONNECTING, &upper_transport->sock=
-_state);
-> >> +               xprt_clear_connecting(upper_xprt);
-> >> +
-> >> +               upper_xprt->stat.connect_count++;
-> >> +               upper_xprt->stat.connect_time +=3D (long)jiffies -
-> >> +                                          upper_xprt->stat.connect_st=
-art;
-> >> +               xs_run_error_worker(upper_transport, XPRT_SOCK_WAKE_PE=
-NDING);
-> >> +       }
-> >> +       rpc_shutdown_client(lower_clnt);
-> >> +
-> >> +out_unlock:
-> >> +       current_restore_flags(pflags, PF_MEMALLOC);
-> >> +       upper_transport->clnt =3D NULL;
-> >> +       xprt_unlock_connect(upper_xprt, upper_transport);
-> >> +       return;
-> >> +
-> >> +out_close:
-> >> +       rpc_shutdown_client(lower_clnt);
-> >> +
-> >> +       /* xprt_force_disconnect() wakes tasks with a fixed tk_status =
-code.
-> >> +        * Wake them first here to ensure they get our tk_status code.
-> >> +        */
-> >> +       xprt_wake_pending_tasks(upper_xprt, status);
-> >> +       xs_tcp_force_close(upper_xprt);
-> >> +       xprt_clear_connecting(upper_xprt);
-> >> +       goto out_unlock;
-> >> }
-> >>
-> >> /**
-> >> @@ -2498,8 +2714,7 @@ static void xs_connect(struct rpc_xprt *xprt, st=
-ruct rpc_task *task)
-> >>        } else
-> >>                dprintk("RPC:       xs_connect scheduled xprt %p\n", xp=
-rt);
-> >>
-> >> -       xs_set_transport_clnt(task->tk_client, xprt);
-> >> -
-> >> +       transport->clnt =3D task->tk_client;
-> >>        queue_delayed_work(xprtiod_workqueue,
-> >>                        &transport->connect_worker,
-> >>                        delay);
+> -       task =3D rpc_call_null_helper(clnt, xprt, NULL, RPC_TASK_ASYNC,
+> -                       &rpc_cb_add_xprt_call_ops, data);
+> +       task =3D rpc_call_null_helper(clnt, xprt, NULL,
+> +                                   RPC_TASK_ASYNC | RPC_TASK_NULLCREDS,
+> +                                   &rpc_cb_add_xprt_call_ops, data);
+>         if (IS_ERR(task))
+>                 return PTR_ERR(task);
+> -
+>         data->xps->xps_nunique_destaddr_xprts++;
+> +
+>         rpc_put_task(task);
+>  success:
+>         return 1;
+> @@ -2940,7 +2941,8 @@ static int rpc_clnt_add_xprt_helper(struct rpc_clnt=
+ *clnt,
+>         int status =3D -EADDRINUSE;
 >
+>         /* Test the connection */
+> -       task =3D rpc_call_null_helper(clnt, xprt, NULL, 0, NULL, NULL);
+> +       task =3D rpc_call_null_helper(clnt, xprt, NULL, RPC_TASK_NULLCRED=
+S,
+> +                                   NULL, NULL);
+>         if (IS_ERR(task))
+>                 return PTR_ERR(task);
 >
-> --
-> Chuck Lever
 >
 >

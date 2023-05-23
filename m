@@ -1,91 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C451FD2
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 23 May 2023 02:38:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E49ADC433EF;
-	Tue, 23 May 2023 02:37:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7564C8D;
+	Tue, 23 May 2023 02:40:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6A16CC4339E;
+	Tue, 23 May 2023 02:40:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1684809480;
-	bh=J7vobndCNYxScNHj6ckEoE3gTvd0amC9yTAsOt9IOqU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=THjMggFjjkY6Sy0q68jnL31RC4P4z0C5BKOl1eNIw27IgXU5Qy7s4Xas8A+fWG4oQ
-	 2MQVo0ukcVULuuaXXeUbHS9RU1Teli8YJbIUKxv1MlrXUyGtX+hS5sNYcBWRfqp6rU
-	 qgTGV0KGeG8JcgO0qmdZXCGZADndgCWr6E0w6+FbmFiPlC48PZSi4aoAu2KsLei0d8
-	 221HBivYJhK14IVC/S4y7/p7ZrpaGdOeF3J/h8tObiTjmEFQ6PakMfW0wgXzifiUg+
-	 JF0wxdRNk4Flw1+o+MD63TwZ1FOa7Tl/rAibPcunrIzUX8hMS8ZdhGmP5CSzIfXJ8Z
-	 kGliA4lErZcSQ==
-Date: Mon, 22 May 2023 22:37:57 -0400
-From: Chuck Lever <cel@kernel.org>
-To: anna.schumaker@netapp.com
-Cc: Chuck Lever <chuck.lever@oracle.com>, jlayton@redhat.com,
-	linux-nfs@vger.kernel.org, kernel-tls-handshake@lists.linux.dev
-Subject: Re: [PATCH] SUNRPC: @clnt specifies auth flavor of RPC ping
-Message-ID: <ZGwnBY11KWX21nzC@manet.1015granger.net>
-References: <CAFX2Jfk9up-eyLhe7s65E6+vBTjXrATREFoYJVkCBLAT_56o2g@mail.gmail.com>
- <168479039188.9346.7280595186663128472.stgit@oracle-102.nfsv4bat.org>
+	s=k20201202; t=1684809619;
+	bh=zjgwag9ZdCze0QagvwjnO6eLEQj7OrrBNwtXTpYaZ9U=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=WvBHOAdx0b6POQ3wdzASqDqHuDJCLPN8oRdS0UZOemy7SJ6uklsK7p+t4SgaI3o6w
+	 QRWZY7zd9m9iNSUvc0BnrJ55k0NNitFdVp/unGvP37OqNF90McOyrYzbv62zW0CBKv
+	 e8OFsKKSWAtbsgmw0kwVX3gc7wNVBX3zHnEDXr5csprwxV1r31KMhRRGoer6f2Vww8
+	 Tg/gVumwSukzH0ka0qaSeKNHpbCKWz5uPbM8CRzGHBYgWA96ck8A7wkk9fxTrNuiWX
+	 cj3pYxrxxILzn3CnV8lzdVAZVAL2r+Sv52vCnMSEwBaBljA5/P/MD4HwIHkottfeah
+	 nt7yLDCHzXxAg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 436D3E22AEC;
+	Tue, 23 May 2023 02:40:19 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <168479039188.9346.7280595186663128472.stgit@oracle-102.nfsv4bat.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] net/handshake: Squelch allocation warning during Kunit
+ test
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <168480961927.27018.8602474022287809118.git-patchwork-notify@kernel.org>
+Date: Tue, 23 May 2023 02:40:19 +0000
+References: <168451636052.47152.9600443326570457947.stgit@oracle-102.nfsv4bat.org>
+In-Reply-To: <168451636052.47152.9600443326570457947.stgit@oracle-102.nfsv4bat.org>
+To: Chuck Lever <cel@kernel.org>
+Cc: netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
+ lkft@linaro.org, chuck.lever@oracle.com
 
-On Mon, May 22, 2023 at 05:21:22PM -0400, Chuck Lever wrote:
+Hello:
+
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Fri, 19 May 2023 13:12:50 -0400 you wrote:
 > From: Chuck Lever <chuck.lever@oracle.com>
 > 
-> When connecting, we don't want to send both a NULL ping and an
-> RPC_AUTH_TLS probe, because, except for the detection of RPC-with-
-> TLS support, both serve effectively the same purpose.
+> The "handshake_req_alloc excessive privsize" kunit test is intended
+> to check what happens when the maximum privsize is exceeded. The
+> WARN_ON_ONCE_GFP at mm/page_alloc.c:4744 can be disabled safely for
+> this test.
 > 
-> Modify rpc_ping() so it can send a TLS probe when @clnt's flavor
-> is RPC_AUTH_TLS. All other callers continue to use AUTH_NONE.
-> 
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-> ---
->  net/sunrpc/clnt.c |   14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
-> 
-> Does it help to replace 4/12 with this?  Compile-tested only.
-> 
-> 
-> diff --git a/net/sunrpc/clnt.c b/net/sunrpc/clnt.c
-> index 4cdb539b5854..274ad74cb2bd 100644
-> --- a/net/sunrpc/clnt.c
-> +++ b/net/sunrpc/clnt.c
-> @@ -2826,10 +2826,22 @@ EXPORT_SYMBOL_GPL(rpc_call_null);
->  
->  static int rpc_ping(struct rpc_clnt *clnt)
->  {
-> +	struct rpc_message msg = {
-> +		.rpc_proc = &rpcproc_null,
-> +	};
-> +	struct rpc_task_setup task_setup_data = {
-> +		.rpc_client = clnt,
-> +		.rpc_message = &msg,
-> +		.callback_ops = &rpc_null_ops,
-> +		.flags = RPC_TASK_SOFT | RPC_TASK_SOFTCONN,
-> +	};
->  	struct rpc_task	*task;
->  	int status;
->  
-> -	task = rpc_call_null_helper(clnt, NULL, NULL, 0, NULL, NULL);
-> +	if (clnt->cl_auth->au_flavor != RPC_AUTH_TLS)
-> +		flags |= RPC_TASK_NULLCREDS;
+> [...]
 
-Obviously this needs to be:
+Here is the summary with links:
+  - [v2] net/handshake: Squelch allocation warning during Kunit test
+    https://git.kernel.org/netdev/net/c/b21c7ba6d9a5
 
-		task_setup_data.flags |= RPC_TASK_NULLCREDS;
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-This has been fixed in the topic-rpc-with-tls-upcall branch.
 
-> +
-> +	task = rpc_run_task(&task_setup_data);
->  	if (IS_ERR(task))
->  		return PTR_ERR(task);
->  	status = task->tk_status;
-> 
-> 

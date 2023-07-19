@@ -1,124 +1,123 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37FF0101F4
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 19 Jul 2023 13:25:02 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36JCwqiQ026403;
-	Wed, 19 Jul 2023 13:24:57 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E8C156D1
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 19 Jul 2023 15:46:28 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36JCwmpw004144;
+	Wed, 19 Jul 2023 13:36:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : references : in-reply-to : content-type :
  content-id : content-transfer-encoding : mime-version; s=corp-2023-03-30;
- bh=rxpDeIq5og+RrrrObHfD+Eoqf+z3Ng64Wug7h0g4L5I=;
- b=g2bbYqTI0Zr1GlrWV6tw6GBAEeYpuWZZqAEvNS0gyqboG8NRumVwfGY+voz82k8ptHUd
- 15GwzVPFDKJKRragDcU1riQcmTgV8SM90nJD4n9miACnkrbcdc94r4vLV3IVpuf1T+Cl
- 9X3r6Z49MueVJhvQgNsmeQgNv7S0beMhrwXIdetrpB+zkUL93DG+sVD07SLLQW9OhpiA
- 8Lkb0tIepXU8iMVKneN5NXyOLWhsD1LjPffn7aIIgxLUJilS2eLt9cuESxiOuW2/oRz0
- LuOkZ/hv+6fXUjf/RCmCIx6ScFl16ZszbHxlrzBOcqVoGzIZsNf/fN7AnsAOmi7lO5TR 6g== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3run8a7gnc-1
+ bh=3+qSiUtiod17JE/ameIbTu6eZc2ZSavDt17/peab6g4=;
+ b=gtXLp0Iq/mHdwGjMZQ8FhwdCTZiRH6BTsTWEx+MrGvdwzDQFzlhJ5o+pmZgQTZXmBo+K
+ k3IC3svKtuUTy/6rzgwXnQhUd91VFuxUZJiVRxfzpX7Dec/hWw4bu0aj8oSofluLaKTi
+ B3kJ4ClmmJelkmi7PpP3C3n3F+ZFLe7QIRCRvdqir5fgZko0dovtk6BzKrpgvdRWAGbP
+ N4Y3hrXQwtoso+76sF/AJ/bcRNNN3czUNTrnyGsfmbzycEtc5q3izJ7SrnoFyQNoCj/7
+ VDqPj1P0CR+sHaRFzpQjkdPm2dUTkFOf2syFlgs/wd+0huDIBH++kV392Ps2Dmwo6a7G 7Q== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3run787c6x-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 Jul 2023 13:24:56 +0000
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 36JBOQ3q000934;
-	Wed, 19 Jul 2023 13:24:41 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2169.outbound.protection.outlook.com [104.47.57.169])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3ruhw6uf7u-1
+	Wed, 19 Jul 2023 13:36:14 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 36JBjfJF023917;
+	Wed, 19 Jul 2023 13:36:13 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2174.outbound.protection.outlook.com [104.47.57.174])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3ruhw73y5d-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 Jul 2023 13:24:40 +0000
+	Wed, 19 Jul 2023 13:36:12 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F/pBDE3HBqYjVAqwJIyv8NtHvtB2v8yM8Nv3C1jFkUtkeFvFrNIjqgoi9z9psjPIXIsMWUUd5lWM0I+la8ClA0m9pMos25cIZFDrMhHiYy18ysmQS6ZqN0MxfvpdaufFBODMiaRfA1neso+J1WixiEXnSP20Txea67lJL9mocef4o0cQWUuR9YYoR/i4Tk+gi+vDwGPmBI4JlXvU7/AbRXNfrzLyoqAlwCvcHd6vWUTzfhEhpO0tOdyyOx578mAuuqZ8mov7ACwkizerUKk5fFbRwf+hD47YWYuzoCqihFQL4cT+r5boc0Wftk8vGBhoccmWmI0IlyuU3A7E+oHpyA==
+ b=DiWFoXIwWpNk6DImhWW1pyoe8WrOPagl+43aw3pj+s/cOir2O9ktB7AyCp5tcWkd7LEP5It1Tn2H/li7DMqH5MUSlX+vkekRd4UqtmsJA/jmnrTFYaFzmscKeRHnDuawxwCdXMyUBlZPPGIh4db5zHVtv9ToDxdjRlKcHez+fSSOaG0d9mmf6EBTyvRBnQVxUzZ5md1GgWmBpQC1HFNVdJUMr4wh92kIsCu8v5HCPQDcLMsmZkCGcF1pBwVrtCmWdACuFRXqTLAccNzBuAp+ATWAjUzvEehRqdPfAcfFqgkGcS480riupbm+5M/1GNwlo3Qzkc2CTL3Xh1ZVAAsbiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rxpDeIq5og+RrrrObHfD+Eoqf+z3Ng64Wug7h0g4L5I=;
- b=G5UlVOYwnIiw6CHvMDJJ4y0D54x8yeSatdSPgI8yjhlcBhH/JNX9cqYjRggR23940Sg3a3lknSPJihhwkop6ZptrldZIO/xFxVd4dH9cffwxwIob34SkSvzxyWlrYxVSD0VRbz82WTriQMD8vhwZo8B1fMsStJ1OeIyiksDNXfSLkt/wm7hzP+qcj4BsPQX6icH4Ai6niOTYYV0rdNx291LTX+g8H9J4wSgtNvrEgMFwCnShagchZ1XOgHlq6+f9PwmasTFTFHY69skhYaj/ZG8kA1kyCsB9tg29bimZeVCStbMNEgm4+FkA9zPuI7U8gpkSeGKVN/g7P3NImjcstA==
+ bh=3+qSiUtiod17JE/ameIbTu6eZc2ZSavDt17/peab6g4=;
+ b=DesAyfb+kU0eCr5H+DGahLyCkDair/ZIsc0WJb5AVUyxXfjMwEjdNdD7WiuXLwYJ2DCkOg1C415ks//2+sWK9k+CrxrXeOelk+5ynORynYZw3YtwImhroFNQUvn94I84BPuDtucqlxMpdHDW+xYUZ/GbkhOggo7rGBd6WtpjmKmJb4TTgNP4NNiH6uce6WgAFycI/W2xqUY63ijf8Xzbf5kb0GsPlNOczwE/fmaBUlyhzeSm3QC2J0e0CicYsclauCtjTtyJNumONgRXvK8z96HmxPKOTr9C+d7U4OMiskqp5s2rcstGqhz8ZBotuGenZQ2z/OO4b/DVIvsBZ8zvcg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rxpDeIq5og+RrrrObHfD+Eoqf+z3Ng64Wug7h0g4L5I=;
- b=fpqfvmNWtUi31T3dsXh1/WGIbsGlv/1mszofl5B5/JorLPlR0PCC6o8KJxOMH3L7lXMM3ZPcU5TSy7TxHqo4SJ29MX8evsbrbxE86u6retYlVz1S8ekQuqylBt7LC+a29EPNTG3ao9es9ANeGCyzNl+YSWSfbTh3K7ONMfXvPG4=
+ bh=3+qSiUtiod17JE/ameIbTu6eZc2ZSavDt17/peab6g4=;
+ b=XA0g3tfloj4pME+0zz9KkRPY36ZQNLaZ43SnLUnOh+Klzxs/VXHRDMoDZSAlmyYmXseRVJR+ykzAX0vrNQadmrLsMRc/L0g6JiG2TqfBb6Uzpfhqv04Rw7AJHkN1HGOIgReExQUx8WSa+cB2D4naGL8nsx3oEd1n4pozpaEmSho=
 Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
- by CH2PR10MB4133.namprd10.prod.outlook.com (2603:10b6:610:a6::7) with
+ by SN7PR10MB7075.namprd10.prod.outlook.com (2603:10b6:806:34f::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.33; Wed, 19 Jul
- 2023 13:24:38 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6609.24; Wed, 19 Jul
+ 2023 13:36:11 +0000
 Received: from BN0PR10MB5128.namprd10.prod.outlook.com
  ([fe80::2990:c166:9436:40e]) by BN0PR10MB5128.namprd10.prod.outlook.com
  ([fe80::2990:c166:9436:40e%6]) with mapi id 15.20.6609.022; Wed, 19 Jul 2023
- 13:24:38 +0000
+ 13:36:10 +0000
 From: Chuck Lever III <chuck.lever@oracle.com>
 To: Hannes Reinecke <hare@suse.de>
-CC: Chuck Lever <cel@kernel.org>, "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo
- Abeni <pabeni@redhat.com>,
-        "open list:NETWORKING [GENERAL]"
-	<netdev@vger.kernel.org>,
-        "kernel-tls-handshake@lists.linux.dev"
-	<kernel-tls-handshake@lists.linux.dev>
-Subject: Re: [PATCH net-next v1 3/7] net/handshake: Add API for sending TLS
- Closure alerts
-Thread-Topic: [PATCH net-next v1 3/7] net/handshake: Add API for sending TLS
- Closure alerts
-Thread-Index: Adm6RF5V4azh2F7WKEiRxsMxNg8GAA==
-Date: Wed, 19 Jul 2023 13:24:38 +0000
-Message-ID: <33AFECBC-E0A8-4C87-9625-B0DA22F8D617@oracle.com>
+CC: Chuck Lever <cel@kernel.org>, "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org"
+	<kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "kernel-tls-handshake@lists.linux.dev" <kernel-tls-handshake@lists.linux.dev>
+Subject: Re: [PATCH net-next v1 5/7] net/handshake: Add helpers for parsing
+ incoming TLS Alerts
+Thread-Topic: [PATCH net-next v1 5/7] net/handshake: Add helpers for parsing
+ incoming TLS Alerts
+Thread-Index: Adm6RfruiaTFLIv8iUiY2M/pv53Q1w==
+Date: Wed, 19 Jul 2023 13:36:10 +0000
+Message-ID: <74209F42-2099-4682-9478-54040B1BCC1A@oracle.com>
 References: 
  <168970659111.5330.9206348580241518146.stgit@oracle-102.nfsv4bat.org>
- <168970680139.5330.16891764300979182957.stgit@oracle-102.nfsv4bat.org>
- <6dc3e2ec-fa9d-32c5-1d44-023d366d329e@suse.de>
-In-Reply-To: <6dc3e2ec-fa9d-32c5-1d44-023d366d329e@suse.de>
+ <168970685465.5330.12951636644707988195.stgit@oracle-102.nfsv4bat.org>
+ <8c9399d8-1f2e-5da0-28c2-722f382a5a08@suse.de>
+In-Reply-To: <8c9399d8-1f2e-5da0-28c2-722f382a5a08@suse.de>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-mailer: Apple Mail (2.3731.600.7)
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN0PR10MB5128:EE_|CH2PR10MB4133:EE_
-x-ms-office365-filtering-correlation-id: 10e8534f-5d52-499c-0174-08db885b80d3
+x-ms-traffictypediagnostic: BN0PR10MB5128:EE_|SN7PR10MB7075:EE_
+x-ms-office365-filtering-correlation-id: 6d131593-2db3-49d9-296c-08db885d1d69
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info: 
- ZATN5E7dmdBuIKAuZE+YHpNaIydZOv9jEsLlG4ufGlbEVlpIEextV/onTBTB4HsF/Dns8cT+idQFaatP86s+76vn8oRqRcHpQziHflfX/48ofmlzdraJUGA31LHt+A7er7i6E5io/oA6eInsnIgbXY9DkZsHg1lEJlbfkRESgVpko8vPpMj6WmDkulwTRfK/cqFDOIYQ0sK9isHXqrpKtWdTKRugttSEYyBVPhBIvfLV8ikNKUPpaz2YoThFS5xYBO1T8t3zAyxOJ8o8yT6j7sO56tMEYwhSWXdJmoVd/WPgCJ8V7iiSnFym1s6BdvELe2hLL0CWJDoV/7frEtQ8ucGdur4o61P9zBI5uwGGlZJRvvCnwuLQakZGF1loZqlMZxhJZ7ty46nGdf1PCYmxHuXEpqDuwhKOXtBi2Wi6vMyA2cBWs4gW0aoKekHUPgCF871j6GpBP9cNDTNM1KXsY0cf1PH/UvBswd5ztHha1IgZBzrSkaKFd3AK5HhzukIsXbWd1F6GejVrZkP3DcwUgL4Lg2AwjXr6Io4zxncvFKkSAqwc3Y1rbECUcpzRR5gwupabaYUiqE7sZiel64cksyGbC8PR9oxketRP8qsNlmpUoh1tz1c3TL9RTtTqdZt0H4sw6XID4ZVgZuEh6mUQCA==
+ muPKCq4Ox4xB5EJfgWb8WZTQxRgZXORictcgoVm5MoFaAyvITbCDceRAqtGGhDjdNr/gKIiq5o3yL5B8ZmAaxB396aanWvpxqJTzYWlJlq8F4tj9qhEaThyDFBXd0Qr/iJJm/mL4pw9J2JSxBTqr1hNLXF1bSUP+ae0EJ2sDrPlfhWyro8u47dEUb40MC1Pg5W/y4e9rxCF19faCFOU/NcNBYyDCX4vHit09uI6YybHOxgJlnTikEYsCw+hTCz0eFyokkAqV15uy9wuXFUoQ5D5ySy0uYbWXiHESYEN/4sRyTqt9UVURvoqGEzW//yBJ48Pr9P/9Dh4ToU7ZLlW0PEWVi6rGmscLyfuNuf9sBiWlP+Ms/SfkxB8EH5eRKmFXq1I0aT+dLH2ePifmM4Ymo7dm1qrHWCO6amZ3FcvFPyWmEuQM+fVdisTza1Uhe2BSG5j3BSaeQd0BLt5vYoAjfIMfRXoEEeALATjZOO/p+Yt0+MfQKpuKazCBY/FyX5m7J6Bju7IWKV+qnSGKAXoGIAZzasP+qobQ0GkIUw7y1NV2eJ7TXHCvk/b5P4dIh/h8hYbyuAg8Em9cOQomhvTPRLVDFsycoAfYtQGb15R2+7/H7LEbkdQXoEADW9WFji2NeQPZBpk5UcahbArcTPrXIA==
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(396003)(39860400002)(376002)(366004)(136003)(451199021)(71200400001)(66946007)(54906003)(6486002)(41300700001)(478600001)(8676002)(8936002)(5660300002)(76116006)(66476007)(64756008)(66556008)(6512007)(4326008)(91956017)(2616005)(66446008)(316002)(6916009)(122000001)(83380400001)(186003)(26005)(53546011)(6506007)(38100700002)(86362001)(36756003)(38070700005)(33656002)(15650500001)(2906002)(45980500001);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(366004)(136003)(396003)(376002)(39860400002)(451199021)(41300700001)(54906003)(86362001)(478600001)(316002)(38070700005)(91956017)(66946007)(4326008)(6916009)(76116006)(66476007)(66556008)(64756008)(66446008)(2906002)(8676002)(8936002)(33656002)(5660300002)(122000001)(15650500001)(36756003)(26005)(53546011)(6506007)(186003)(38100700002)(6512007)(2616005)(83380400001)(6486002)(71200400001)(45980500001);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?ilRcPMxXFF8/JnZFc7UQ9zX/4vtGvy03J+fzAeN/sYliu96+W0qBUbC5EJ1E?=
- =?us-ascii?Q?fBdEgCtn5/shf2t/sWe4rl0IDyhQ+QqLTeu0NWOzXCsy3SHla8eosLUHmgcc?=
- =?us-ascii?Q?P4ZxWEhIqWjHrb06MEia0ckC7MZnb6mC04u3LqG1RdtO9mqLVr/JAMAR2t3+?=
- =?us-ascii?Q?jhg08Etx4eM2Cq68jWZTYP0EZlSPCwtL3qz+c9TjrROLQxyeRCZcjM2GT3uc?=
- =?us-ascii?Q?kh4h9gcKmF3XprhTzrenN9UFQqA99W5PfO43Uq1KtV9STjRudco35jrGaa/n?=
- =?us-ascii?Q?YQG/IqYvW/5oB/X+xJa3jmGVTZzr6eGUfYrSZlObF/uYqB+aKPx+JWgFH2DJ?=
- =?us-ascii?Q?Ve00ds+IjYISVPl8ZYmrZdoxY1gRIbv7K2mmnKuqinExGUiGkEZcA+7t1Faj?=
- =?us-ascii?Q?enOYg2C00OKcg0pCXmW15NdymGRilh2kBXyVxru7C/8w++9qBAYNmnkNd2JX?=
- =?us-ascii?Q?FTuOjID+fLU/Z64BfJhUdLdUvKQPKeLwMm5+WZsu5RiHkkRMSEtOZf3EXEPD?=
- =?us-ascii?Q?5Vo/MnIVj18eocDJZ7qSmZcqVxLl9KTq7fahr+myZ55RBa0FMRfou/I+Sy2o?=
- =?us-ascii?Q?0xO4qUQiP69t8V+JUYsVyyITclxA8+8U05Ifk/sZzqAUe9Sve+lkadRqPQTE?=
- =?us-ascii?Q?xPNc061umWd+rtsdLNDKnIQfO+6FO4jzxb+/4ezKIxl9yhGyvEwHRx7CftqZ?=
- =?us-ascii?Q?T5y/vznpikDe/J+fsgOFJIlb+22Kx8wLFmNwZZTzwOo+7qxq30232Q6WPE9j?=
- =?us-ascii?Q?aX0UCgSsB9G8T2lCMLKyfPYJDPJX3C9UdxB/t6AifSjizbQKMRiRYSqqeCFs?=
- =?us-ascii?Q?kcnuLRyvkJq77EWaS1Cb9lrZ8TAaetregTJXBLiF3bs5jPH03OOgljC/zXTr?=
- =?us-ascii?Q?xZatyxNqwRWypYwLPZKW55trhQ4nF/36C/2xrjKRR0w8TSX3FafyzQ0CzgKo?=
- =?us-ascii?Q?Yr5yn2xtqIebPMcKlFzkn7JF7/nwuxLu1h1m63X1OXAa9AU0XrZWJ/ofolb2?=
- =?us-ascii?Q?qzWRLnIUEM0lKxVeM3CIyXQD7Qv7ixtsKqnAqYDpNLqLfWXdeDbJVDwqaG7L?=
- =?us-ascii?Q?T5xI5YrAP/BVABKGlZTEPvm6/+tyqNdX3RjEDMCanpoyGdhoDT39k1fdmPvn?=
- =?us-ascii?Q?BilTnexKACUtdVZz2t1OTzuewavgLUKTSgc5uPkd2ddX1EO6OtwhU77D0gRf?=
- =?us-ascii?Q?+ETZOXdJragaLQCBroxP6z8auyKkJOHqWrn2ptSViksiw5N3OJrUz5aB8zYj?=
- =?us-ascii?Q?kJBNIWtXvtI7RZ8TbbTJARCstt6Z1X5IxBp6S1cAVZ12HvylD0UyUy+r5DsS?=
- =?us-ascii?Q?rgpkQ4SRRZMERHR1hYx0d3Xq9kVN7ariiYLCni4gUTPa805ozm/qxRXP2iII?=
- =?us-ascii?Q?mDxTK1v+Jjx5OfpZOndobiYgzk6NSc62om5vRiotRlgEQT0XHOjlPTHP1INX?=
- =?us-ascii?Q?YJYEHsOuOdW8ZKqsX+8crQj3Lp7l4pdPVcSFAuOVJS4vPvEmOeExNqI2XOKf?=
- =?us-ascii?Q?gI0kLB2RJ00Cl9IN8ajglK7ZrvUgPIDaft8iSYS44mtTl5UwWpJuFknme8ft?=
- =?us-ascii?Q?TQ/i0uVaOXLFPZGaj+NHsiyadKtFghkjXdQpqcOjJxp0RiTZw8GVBjFzco92?=
- =?us-ascii?Q?QQ=3D=3D?=
+ =?us-ascii?Q?3JSZS83CZu5X9xnDngd134sEds6Jh27M0fc9wD+zWe7HffaX8mu2wNw8j88K?=
+ =?us-ascii?Q?dlPRWOfU+gXO90NMnbUphqUyEs5o9wqntQqvhBnj55wR7I1lYz83vfh5zbl4?=
+ =?us-ascii?Q?XsfSaJe6nWJOpozuyTAbMUZELp9BfpiQe+SNtZNz+bZ+KXiY37u1zPjvwW48?=
+ =?us-ascii?Q?QArKIGc2ZlNom46xq36TDzISjC5siB0XK2sdRQ/9DXmb18sDhyqI32ecX9hY?=
+ =?us-ascii?Q?8OYDYpgo5eUVMTSAY9IyQNYtAE//bBholYlhRESRGsMjCWbncxs5iOhW1Xcp?=
+ =?us-ascii?Q?g9Z93CkYxAbZlX6umDCsn0fOTDdW0Zad503wLHxaVPlLBp8uxPbv9FQdJ2qg?=
+ =?us-ascii?Q?Ca6bZOKaZBSLKyr7+ljvX3BQXmQG6u7NHray3T1MKW9mBa0+ZI5uHrfVWAj2?=
+ =?us-ascii?Q?g3BwuJQejVBSUF3faswuYBWVHARgpivFxXxkE4po1kWNis2J2+v3WeAFq7tv?=
+ =?us-ascii?Q?L8muxS9AO4Mzi/OtJKkx7CK4OxWRHgXQUM1sY7wtut1zqyFkWVqqQATFpK6h?=
+ =?us-ascii?Q?4K2qTEY7bBctLfgBqILjA7sxahNoL9p1KnlWNFgXj1+w/maR9kisrj83KFNI?=
+ =?us-ascii?Q?J0VXTbom20pkiutArly7yy/9+yTVRe4kPOxLDojSVGvpMSvHO19ropUi958e?=
+ =?us-ascii?Q?nRhWUdcgXN1UFG6AEzeY5WqnAgF6DVpuOAW5xAlSt6B7GFTfoVejGT88oLZU?=
+ =?us-ascii?Q?iDkklnx+aYoY7XWDNjq0I1b+/SiYKQqXoLkU9Um08DFDsv7ettoUvUgj5S8r?=
+ =?us-ascii?Q?SeFlcYkVmv/wJIna2ch5Ss8pTSOuVv8vyfc04XIylbaAyPKHX3dT7Kss222V?=
+ =?us-ascii?Q?iW8CMs3t77xnFURZb6o5vVqLCfUkEU4lbuReKod5uILHrhRg3qBppv0vWQuq?=
+ =?us-ascii?Q?pzjhD12yzbEof7PzEZhTeOljWPGmYdmnBV8NA2a/OVUlAGq7d6YtNrz8XAiy?=
+ =?us-ascii?Q?xtGW2B1hExe91+izlUMWXYtPUX8ETWY9PIg4+IwdI1TFhKSaRKmOfkhmgn1I?=
+ =?us-ascii?Q?QytEIFgLE80VJN6NPoZx+g02/LHDlbc0xIEaKjLoNuUwzg4EaxN/w6IOA8ub?=
+ =?us-ascii?Q?XbxUN62EOidfJ+n12cY+PJFd3ec/kq3jty/W6/deiFFdMqWHdTA1KCWEZJ90?=
+ =?us-ascii?Q?+lF8tY0q+0DpOlBKNEnYfv4b57vyBxy+2V7LH/OVmPnbqfjkWLNSDPUtY0vK?=
+ =?us-ascii?Q?ZsYuFKAlyr98FMDloFOjrcx0ZTdtc+LTKw4dgsekfYzkI4UoLcEcIRjjnGl8?=
+ =?us-ascii?Q?40nlhyjxq9huYPY/UOa04pc96bCDcLpGqR47kIk7/dHMwTt2ZwMhhQ4fQYo0?=
+ =?us-ascii?Q?bAxLwrJ97QllToiUEuuZ6nNzUm+u2WTQDLf/ONujL9YI1e3EZXI0pLxxGNgo?=
+ =?us-ascii?Q?FvEOaiqWVjHnlR5SMZ/CQjmfQHRcvylCAV+Xa/n4rSOugZjNdknw7DM3XCVB?=
+ =?us-ascii?Q?18tHEIjpmnf8MFTQk3wBa2AXxbMt36Wp144S6j1GxPFFRxPUnfSlfJj9txvn?=
+ =?us-ascii?Q?7FfKOsZdVMCUrebxgjsz3h9KOMo8S37BHDW2XbLGuEfj68R8cYqILIXmYi9t?=
+ =?us-ascii?Q?Nm0iySR+D7nXouwDrPPVQ+AVtr0iOq6bkxf+2IS7UsQYWXCRz3Vdbc8kXK2z?=
+ =?us-ascii?Q?AQ=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <85327EFCEBE2504B959E61DB04CC049B@namprd10.prod.outlook.com>
+Content-ID: <D750952F4A4B0A48A085193BCF7A84BB@namprd10.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
@@ -128,233 +127,139 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	=?us-ascii?Q?nwBYXLlCKQZKV2QHhIOvzyumWS74PRzbz7qQDA0hW9w/dMD8h9Ep2znVFkbI?=
- =?us-ascii?Q?jiNMrKLSNCn65CdZYpvaOuDMFgC5GAMDhv6RCh9zf4YM+CcBrT0ZugndOAju?=
- =?us-ascii?Q?mVaxTKyTVw79qX2CTfJbj+FNwfcDpjudYf79z8cXvhpPXk78lldP0SzSYURQ?=
- =?us-ascii?Q?Zdk3YcH0ahl6j5jMDz9eQ971FqiX/dlWYaCOLCsMPMmLaQdGJUBhWyei3eX8?=
- =?us-ascii?Q?yYVOjX0GamGRleCQkdNkVTv1GtGs8Bb8wb0FXpJGsiJWfPyn8CYYLGssFeQD?=
- =?us-ascii?Q?04flM+Na1a1nXWEsLU+0AJIbah3szeSUdyW6+K/aa1ak/qv5MjdrQJYbcVJI?=
- =?us-ascii?Q?4Yio7vaRfM/ghYb3iKQysuR5kbR1Su7gImBrkKb4Br0gizGxn9rObmzJjv2q?=
- =?us-ascii?Q?GNa2Z86flKRvwgGY4TlMFVOFUBc7qlAQiAQlPDMC/z3u5p77yDd6pRIM3TFs?=
- =?us-ascii?Q?EzicHswMf+uLQfIJ8Z/wvntEYuq7e976z9DBtXaKQ3GO8P8CG1XULejDwSAs?=
- =?us-ascii?Q?fiqPbS6sAIpfzdTkzDBCAKjN+3+u/ys5ObGJrhZk5fjHsKCRTRoJnPQebEj7?=
- =?us-ascii?Q?bQzKKmiwEy344v6R/pjRgFdqrQJGcaWDtSr36lwjZB8SJb17ybWHs3ZkrjQL?=
- =?us-ascii?Q?JVvAGF5Pc65BvLIYtVwN0tBoTkPgxTVsoYbxnLaqqGRW/xoVB3jnCQ/NOqHR?=
- =?us-ascii?Q?sc6o4hweHzt3KxQe/S9xx8+7HK1+yXcUC3u+NN+GKYFErPga8XooYTI5fxvY?=
- =?us-ascii?Q?dLBwxpUuAhZUmBaag0yXeBGpjy3lms5e8QOL8tsPO3QbXEC9LhUZ7+DPkxQU?=
- =?us-ascii?Q?kRUPyv7/rRdlr+EvoM4wtaoErN3xLU7LdgIVbnQUJI0NEm/mstjIDR9KYUQ8?=
- =?us-ascii?Q?oNOK3EpFJ06UMkykNzucD3o9G8RBW10sK7Jz+kYN6dQxzO8xB0GzcGYYM5WS?=
+	=?us-ascii?Q?BrzbJ416alVvF5OAOgTgcvGShVsEBxU5P7/p5EHfycE4IwcZn6/Iv35IPhGx?=
+ =?us-ascii?Q?JvPd8FTwPJgizOTueCNVAhSqTp9Yof/M77pYDxuf5GTeJrhxJkqWecnyPBXH?=
+ =?us-ascii?Q?EaIAJrM439z8ci/tMtY2hiI2VjBC5Ib99FMlHGOADyeA6l13M6nn6RTf4kE4?=
+ =?us-ascii?Q?2ZuCcqPd5XNDKmLr/enLGXNYCpKA8aBn4ecrgYT4JUC86ibofgl3hYxpJ7te?=
+ =?us-ascii?Q?tx+l9fSmBqhA4FqFXKCYJX5gSL7qANmDv0T4BsDdjsp1zwY/749Cc4vaRQzs?=
+ =?us-ascii?Q?7vfyW3vRwhvCg5IME8qJK4Lpjez+qIvRiEyAeS+P6ZQ1y4Ycw+MIywTm6OjC?=
+ =?us-ascii?Q?2vQtn58gRuCDTho/ZEPBGq+619BRBTh6n78wHry0qokIzaeTarBK4Jd0Uk/j?=
+ =?us-ascii?Q?k2bZrrtzMTM0A/NX/cpfD10dZ6qcWM+867IBzp9mL/zWiS0TJlgpDYrHtb+6?=
+ =?us-ascii?Q?i/NSDIniFCzyWpNYELhyhWaSmSGN86JMmBq7ucQWRjTyN7rhn1Px6sEi8rXP?=
+ =?us-ascii?Q?Hl06wB6W5FG7zr8IDs2pWJT3JAc5bUPg0eXitPjHJ5Aw4qZTX5gXLChJlnMd?=
+ =?us-ascii?Q?PeKxHHsL/FdqCurgB3PenO+bZGgQTumtarRX0aLob6DDsMi1CNw8wwazk4xg?=
+ =?us-ascii?Q?YmSQC7rqTVah4gJWu0ij9QS8QT0BjCAV+IC5YxabLI1nspGKZ3cJWT2oI/jl?=
+ =?us-ascii?Q?CImZHRk5QEIygz4s+usssJmCp6XA5BkW5ZnLt6yZfpuk2WCdbKK2qUPcVGI7?=
+ =?us-ascii?Q?Muiz22jfehX3M4SEYkl2qtmSbJqak+aRlzSefMW3gJGSwrMtvbww3t5XuyVQ?=
+ =?us-ascii?Q?4sxWP8A3mF2SbK9c94gY9wduEi3iT77DuOSArR+ENWZR4JaeBXYLFpKCXXue?=
+ =?us-ascii?Q?W2Kkp+XSz6jMY/MC4nuyKl+8T0ArUVWZXEzFYBakPGyyR2HF+PyeOUAWvf5y?=
 X-OriginatorOrg: oracle.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10e8534f-5d52-499c-0174-08db885b80d3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2023 13:24:38.7439
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d131593-2db3-49d9-296c-08db885d1d69
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2023 13:36:10.9713
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Vs8kpjxAo5654NRcjw9kPK3yyuR2IHVo3idzmNoZCL47qeeq+srjAeIe4lcHdVSWiMmVpHlC1QaU8Aw1YMCgnQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR10MB4133
+X-MS-Exchange-CrossTenant-userprincipalname: 4qaEnMSIz8ZMVRbJK89O4w2gmAhJhG5WnoV8w5isI+cqmNioGS8RhrBVcyaJfo842oWJ4p1szFjzWHcgsJovIg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB7075
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-19_08,2023-07-19_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
- suspectscore=0 phishscore=0 bulkscore=0 mlxscore=0 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2307190120
-X-Proofpoint-GUID: tEH_tMyGjVuRo_q6IpC07z9VD1uGzc7V
-X-Proofpoint-ORIG-GUID: tEH_tMyGjVuRo_q6IpC07z9VD1uGzc7V
+ definitions=2023-07-19_09,2023-07-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 adultscore=0 mlxscore=0
+ bulkscore=0 spamscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
+ definitions=main-2307190122
+X-Proofpoint-ORIG-GUID: fQoglkPJH7CxWIz6VJwKHFFch_wYfYZH
+X-Proofpoint-GUID: fQoglkPJH7CxWIz6VJwKHFFch_wYfYZH
 
 
 
-> On Jul 19, 2023, at 3:47 AM, Hannes Reinecke <hare@suse.de> wrote:
+> On Jul 19, 2023, at 3:52 AM, Hannes Reinecke <hare@suse.de> wrote:
 >=20
 > On 7/18/23 21:00, Chuck Lever wrote:
 >> From: Chuck Lever <chuck.lever@oracle.com>
->> This helper sends an alert only if a TLS session was established.
+>> Kernel TLS consumers can replace common TLS Alert parsing code with
+>> these helpers.
 >> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 >> ---
->>  include/net/handshake.h   |    1 +
->>  net/handshake/Makefile    |    2 +
->>  net/handshake/alert.c     |   62 ++++++++++++++++++++++++++++++++++++++=
-+++++++
->>  net/handshake/handshake.h |    4 +++
->>  net/handshake/tlshd.c     |   23 +++++++++++++++++
->>  5 files changed, 91 insertions(+), 1 deletion(-)
->>  create mode 100644 net/handshake/alert.c
+>>  include/net/handshake.h |    4 ++++
+>>  net/handshake/alert.c   |   46 ++++++++++++++++++++++++++++++++++++++++=
+++++++
+>>  2 files changed, 50 insertions(+)
 >> diff --git a/include/net/handshake.h b/include/net/handshake.h
->> index 2e26e436e85f..bb88dfa6e3c9 100644
+>> index bb88dfa6e3c9..d0fd6a3898c6 100644
 >> --- a/include/net/handshake.h
 >> +++ b/include/net/handshake.h
->> @@ -40,5 +40,6 @@ int tls_server_hello_x509(const struct tls_handshake_a=
-rgs *args, gfp_t flags);
->>  int tls_server_hello_psk(const struct tls_handshake_args *args, gfp_t f=
-lags);
->>    bool tls_handshake_cancel(struct sock *sk);
->> +void tls_handshake_close(struct socket *sock);
->>    #endif /* _NET_HANDSHAKE_H */
->> diff --git a/net/handshake/Makefile b/net/handshake/Makefile
->> index 247d73c6ff6e..ef4d9a2112bd 100644
->> --- a/net/handshake/Makefile
->> +++ b/net/handshake/Makefile
->> @@ -8,6 +8,6 @@
->>  #
->>    obj-y +=3D handshake.o
->> -handshake-y :=3D genl.o netlink.o request.o tlshd.o trace.o
->> +handshake-y :=3D alert.o genl.o netlink.o request.o tlshd.o trace.o
->>    obj-$(CONFIG_NET_HANDSHAKE_KUNIT_TEST) +=3D handshake-test.o
+>> @@ -42,4 +42,8 @@ int tls_server_hello_psk(const struct tls_handshake_ar=
+gs *args, gfp_t flags);
+>>  bool tls_handshake_cancel(struct sock *sk);
+>>  void tls_handshake_close(struct socket *sock);
+>>  +u8 tls_record_type(const struct sock *sk, const struct cmsghdr *msg);
+>> +bool tls_alert_recv(const struct sock *sk, const struct msghdr *msg,
+>> +     u8 *level, u8 *description);
+>> +
+>>  #endif /* _NET_HANDSHAKE_H */
 >> diff --git a/net/handshake/alert.c b/net/handshake/alert.c
->> new file mode 100644
->> index 000000000000..999d3ffaf3e3
->> --- /dev/null
+>> index 999d3ffaf3e3..93e05d8d599c 100644
+>> --- a/net/handshake/alert.c
 >> +++ b/net/handshake/alert.c
->> @@ -0,0 +1,62 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Handle the TLS Alert protocol
->> + *
->> + * Author: Chuck Lever <chuck.lever@oracle.com>
->> + *
->> + * Copyright (c) 2023, Oracle and/or its affiliates.
->> + */
->> +
->> +#include <linux/types.h>
->> +#include <linux/socket.h>
->> +#include <linux/kernel.h>
->> +#include <linux/module.h>
->> +#include <linux/skbuff.h>
->> +#include <linux/inet.h>
->> +
->> +#include <net/sock.h>
->> +#include <net/handshake.h>
->> +#include <net/genetlink.h>
->> +#include <net/tls.h>
->> +#include <net/tls_prot.h>
->> +
->> +#include "handshake.h"
+>> @@ -60,3 +60,49 @@ int tls_alert_send(struct socket *sock, u8 level, u8 =
+description)
+>>   ret =3D sock_sendmsg(sock, &msg);
+>>   return ret < 0 ? ret : 0;
+>>  }
 >> +
 >> +/**
->> + * tls_alert_send - send a TLS Alert on a kTLS socket
->> + * @sock: open kTLS socket to send on
->> + * @level: TLS Alert level
->> + * @description: TLS Alert description
+>> + * tls_record_type - Look for TLS RECORD_TYPE information
+>> + * @sk: socket (for IP address information)
+>> + * @cmsg: incoming message to be parsed
 >> + *
->> + * Returns zero on success or a negative errno.
+>> + * Returns zero or a TLS_RECORD_TYPE value.
 >> + */
->> +int tls_alert_send(struct socket *sock, u8 level, u8 description)
+>> +u8 tls_record_type(const struct sock *sk, const struct cmsghdr *cmsg)
 >> +{
->> + u8 record_type =3D TLS_RECORD_TYPE_ALERT;
->> + u8 buf[CMSG_SPACE(sizeof(record_type))];
->> + struct msghdr msg =3D { 0 };
->> + struct cmsghdr *cmsg;
->> + struct kvec iov;
->> + u8 alert[2];
->> + int ret;
+>> + u8 record_type;
 >> +
->> + alert[0] =3D level;
->> + alert[1] =3D description;
->> + iov.iov_base =3D alert;
->> + iov.iov_len =3D sizeof(alert);
+>> + if (cmsg->cmsg_level !=3D SOL_TLS)
+>> + return 0;
+>> + if (cmsg->cmsg_type !=3D TLS_GET_RECORD_TYPE)
+>> + return 0;
 >> +
->> + memset(buf, 0, sizeof(buf));
->> + msg.msg_control =3D buf;
->> + msg.msg_controllen =3D sizeof(buf);
->> + msg.msg_flags =3D MSG_DONTWAIT;
->> +
->> + cmsg =3D CMSG_FIRSTHDR(&msg);
->> + cmsg->cmsg_level =3D SOL_TLS;
->> + cmsg->cmsg_type =3D TLS_SET_RECORD_TYPE;
->> + cmsg->cmsg_len =3D CMSG_LEN(sizeof(record_type));
->> + memcpy(CMSG_DATA(cmsg), &record_type, sizeof(record_type));
->> +
->> + iov_iter_kvec(&msg.msg_iter, ITER_SOURCE, &iov, 1, iov.iov_len);
->> + ret =3D sock_sendmsg(sock, &msg);
->> + return ret < 0 ? ret : 0;
+>> + record_type =3D *((u8 *)CMSG_DATA(cmsg));
+>> + return record_type;
 >> +}
->> diff --git a/net/handshake/handshake.h b/net/handshake/handshake.h
->> index 4dac965c99df..af1633d5ad73 100644
->> --- a/net/handshake/handshake.h
->> +++ b/net/handshake/handshake.h
->> @@ -41,6 +41,7 @@ struct handshake_req {
->>    enum hr_flags_bits {
->>   HANDSHAKE_F_REQ_COMPLETED,
->> + HANDSHAKE_F_REQ_SESSION,
->>  };
->>    /* Invariants for all handshake requests for one transport layer
->> @@ -63,6 +64,9 @@ enum hp_flags_bits {
->>   HANDSHAKE_F_PROTO_NOTIFY,
->>  };
->>  +/* alert.c */
->> +int tls_alert_send(struct socket *sock, u8 level, u8 description);
+>> +EXPORT_SYMBOL(tls_record_type);
 >> +
->>  /* netlink.c */
->>  int handshake_genl_notify(struct net *net, const struct handshake_proto=
- *proto,
->>    gfp_t flags);
->> diff --git a/net/handshake/tlshd.c b/net/handshake/tlshd.c
->> index b735f5cced2f..aad3c5b06b03 100644
->> --- a/net/handshake/tlshd.c
->> +++ b/net/handshake/tlshd.c
->> @@ -18,6 +18,7 @@
->>  #include <net/sock.h>
->>  #include <net/handshake.h>
->>  #include <net/genetlink.h>
->> +#include <net/tls_prot.h>
->>    #include <uapi/linux/keyctl.h>
->>  #include <uapi/linux/handshake.h>
->> @@ -100,6 +101,9 @@ static void tls_handshake_done(struct handshake_req =
-*req,
->>   if (info)
->>   tls_handshake_remote_peerids(treq, info);
->>  + if (!status)
->> + set_bit(HANDSHAKE_F_REQ_SESSION, &req->hr_flags);
->> +
->>   treq->th_consumer_done(treq->th_consumer_data, -status,
->>         treq->th_peerid[0]);
->>  }
->> @@ -424,3 +428,22 @@ bool tls_handshake_cancel(struct sock *sk)
->>   return handshake_req_cancel(sk);
->>  }
->>  EXPORT_SYMBOL(tls_handshake_cancel);
->> +
+> tls_process_cmsg() does nearly the same thing; why didn't you update it t=
+o use your helper?
+
+tls_process_cmsg() is looking for TLS_SET_RECORD_TYPE,
+not TLS_GET_RECORD_TYPE. It looks different enough that
+I didn't feel comfortable touching it.
+
+
 >> +/**
->> + * tls_handshake_close - send a Closure alert
->> + * @sock: an open socket
+>> + * tls_alert_recv - Look for TLS Alert messages
+>> + * @sk: socket (for IP address information)
+>> + * @msg: incoming message to be parsed
+>> + * @level: OUT - TLS AlertLevel value
+>> + * @description: OUT - TLS AlertDescription value
 >> + *
+>> + * Return values:
+>> + *   %true: @msg contained a TLS Alert; @level and @description filled =
+in
+>> + *   %false: @msg did not contain a TLS Alert
 >> + */
->> +void tls_handshake_close(struct socket *sock)
+>> +bool tls_alert_recv(const struct sock *sk, const struct msghdr *msg,
+>> +     u8 *level, u8 *description)
 >> +{
->> + struct handshake_req *req;
+>> + const struct kvec *iov;
+>> + u8 *data;
 >> +
->> + req =3D handshake_req_hash_lookup(sock->sk);
->> + if (!req)
->> + return;
->> + if (!test_bit(HANDSHAKE_F_REQ_SESSION, &req->hr_flags))
->> + return;
->> + tls_alert_send(sock, TLS_ALERT_LEVEL_WARNING,
->> +       TLS_ALERT_DESC_CLOSE_NOTIFY);
+>> + iov =3D msg->msg_iter.kvec;
+>> + data =3D iov->iov_base;
+>> + *level =3D data[0];
+>> + *description =3D data[1];
+>> + return true;
 >> +}
->> +EXPORT_SYMBOL(tls_handshake_close);
-> Why do we need to check for the 'REQ_SESSION' flag?
-> Isn't the hash_lookup sufficient here?
+>> +EXPORT_SYMBOL(tls_alert_recv);
+> Shouldn't we check the type of message here?
 
-REQ_SESSION indicates that a TLS session was established
-successfully.
-
-The hash will contain a handshake context starting before the
-tlshd upcall, and will continue to exist even if the handshake
-attempt failed. Those are both times when a Close alert should
-not be sent.
-
-
-> And it it safe to just do a 'test_bit' here?
-> Wouldn't it be better to do
->=20
-> if (test_and_clear_bit()) tls_alert_send()
->=20
-> Hmm?
-
-Yes, that makes sense.
+Well it looks like the return value is never used. This
+function acts as more of a parser rather than a predicate.
+I'll kill the boolean return value.
 
 
 --

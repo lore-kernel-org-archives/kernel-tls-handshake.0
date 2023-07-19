@@ -1,44 +1,44 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C80C8D0
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 19 Jul 2023 07:47:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4860C8D0
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 19 Jul 2023 07:52:23 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 715D91F8C3;
-	Wed, 19 Jul 2023 07:47:14 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F08EB1F8CD;
+	Wed, 19 Jul 2023 07:52:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1689752834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1689753141; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UZSKyZsi6Ba56vSUwXobHwRYULrUvaiDeyAzsnSksaE=;
-	b=HG5nDqx9hJAGsP0OU4csa4qzZU/eAXE44YC668tM6mU3LFXiuCeEnN3TiuX505u2PW5fEe
-	r0xSj+PYKBSZvEt6tf7do9nEF8G0or+K1/gBH2IHrt7ync2/2RjrJ2Y0nslVehnFsGyTsg
-	CGj64UUVgNO5yhsCYn2RZC8ZigYb66E=
+	bh=1v468TN4AMZgDIxg3ILZC5YRAoRdjDvIhssgXBNu1Sk=;
+	b=XIdGAGk0vioPQeup/8siJWVSKrXWCnkNONIj4Y/9lMgHGSKxfLwhCSZqnJ+D6TAOOFW16C
+	9lNFcmC4SyWH9ftNm0Ho7rMg0bMI+zisVTamRXPhSb5bvowiJGsegCM8P8GTaaCaGhIzTp
+	uIuKDbeHf0Gcqka2PIBaWcT0gyrtKfU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1689752834;
+	s=susede2_ed25519; t=1689753141;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UZSKyZsi6Ba56vSUwXobHwRYULrUvaiDeyAzsnSksaE=;
-	b=F1IIJVatA0SmWKQxYRtFrUJCM6avimgdstOc3lFOWdfO9ihLi39XlQ89f1g/P2ilMCVLy5
-	1G192rOTyN6sYuCw==
+	bh=1v468TN4AMZgDIxg3ILZC5YRAoRdjDvIhssgXBNu1Sk=;
+	b=zZz5ptexm2bUC11Ig3qYoGyv6PmaCNV8cykAPFYH4W26i2q131BmdmcrxNLkrXbwwMvIBy
+	LPPLj7G8wsOWm9AQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5389713460;
-	Wed, 19 Jul 2023 07:47:14 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D493713460;
+	Wed, 19 Jul 2023 07:52:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id plu1EgKVt2SYZgAAMHmgww
-	(envelope-from <hare@suse.de>); Wed, 19 Jul 2023 07:47:14 +0000
-Message-ID: <6dc3e2ec-fa9d-32c5-1d44-023d366d329e@suse.de>
-Date: Wed, 19 Jul 2023 09:47:13 +0200
+	id 2F2FMzWWt2SEaQAAMHmgww
+	(envelope-from <hare@suse.de>); Wed, 19 Jul 2023 07:52:21 +0000
+Message-ID: <8c9399d8-1f2e-5da0-28c2-722f382a5a08@suse.de>
+Date: Wed, 19 Jul 2023 09:52:21 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -47,201 +47,103 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH net-next v1 3/7] net/handshake: Add API for sending TLS
- Closure alerts
+Subject: Re: [PATCH net-next v1 5/7] net/handshake: Add helpers for parsing
+ incoming TLS Alerts
 Content-Language: en-US
 To: Chuck Lever <cel@kernel.org>, davem@davemloft.net, edumazet@google.com,
  kuba@kernel.org, pabeni@redhat.com
 Cc: netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev
 References: <168970659111.5330.9206348580241518146.stgit@oracle-102.nfsv4bat.org>
- <168970680139.5330.16891764300979182957.stgit@oracle-102.nfsv4bat.org>
+ <168970685465.5330.12951636644707988195.stgit@oracle-102.nfsv4bat.org>
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <168970680139.5330.16891764300979182957.stgit@oracle-102.nfsv4bat.org>
+In-Reply-To: <168970685465.5330.12951636644707988195.stgit@oracle-102.nfsv4bat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 On 7/18/23 21:00, Chuck Lever wrote:
 > From: Chuck Lever <chuck.lever@oracle.com>
 > 
-> This helper sends an alert only if a TLS session was established.
+> Kernel TLS consumers can replace common TLS Alert parsing code with
+> these helpers.
 > 
 > Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 > ---
->   include/net/handshake.h   |    1 +
->   net/handshake/Makefile    |    2 +
->   net/handshake/alert.c     |   62 +++++++++++++++++++++++++++++++++++++++++++++
->   net/handshake/handshake.h |    4 +++
->   net/handshake/tlshd.c     |   23 +++++++++++++++++
->   5 files changed, 91 insertions(+), 1 deletion(-)
->   create mode 100644 net/handshake/alert.c
+>   include/net/handshake.h |    4 ++++
+>   net/handshake/alert.c   |   46 ++++++++++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 50 insertions(+)
 > 
 > diff --git a/include/net/handshake.h b/include/net/handshake.h
-> index 2e26e436e85f..bb88dfa6e3c9 100644
+> index bb88dfa6e3c9..d0fd6a3898c6 100644
 > --- a/include/net/handshake.h
 > +++ b/include/net/handshake.h
-> @@ -40,5 +40,6 @@ int tls_server_hello_x509(const struct tls_handshake_args *args, gfp_t flags);
->   int tls_server_hello_psk(const struct tls_handshake_args *args, gfp_t flags);
->   
+> @@ -42,4 +42,8 @@ int tls_server_hello_psk(const struct tls_handshake_args *args, gfp_t flags);
 >   bool tls_handshake_cancel(struct sock *sk);
-> +void tls_handshake_close(struct socket *sock);
+>   void tls_handshake_close(struct socket *sock);
 >   
+> +u8 tls_record_type(const struct sock *sk, const struct cmsghdr *msg);
+> +bool tls_alert_recv(const struct sock *sk, const struct msghdr *msg,
+> +		    u8 *level, u8 *description);
+> +
 >   #endif /* _NET_HANDSHAKE_H */
-> diff --git a/net/handshake/Makefile b/net/handshake/Makefile
-> index 247d73c6ff6e..ef4d9a2112bd 100644
-> --- a/net/handshake/Makefile
-> +++ b/net/handshake/Makefile
-> @@ -8,6 +8,6 @@
->   #
->   
->   obj-y += handshake.o
-> -handshake-y := genl.o netlink.o request.o tlshd.o trace.o
-> +handshake-y := alert.o genl.o netlink.o request.o tlshd.o trace.o
->   
->   obj-$(CONFIG_NET_HANDSHAKE_KUNIT_TEST) += handshake-test.o
 > diff --git a/net/handshake/alert.c b/net/handshake/alert.c
-> new file mode 100644
-> index 000000000000..999d3ffaf3e3
-> --- /dev/null
+> index 999d3ffaf3e3..93e05d8d599c 100644
+> --- a/net/handshake/alert.c
 > +++ b/net/handshake/alert.c
-> @@ -0,0 +1,62 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Handle the TLS Alert protocol
-> + *
-> + * Author: Chuck Lever <chuck.lever@oracle.com>
-> + *
-> + * Copyright (c) 2023, Oracle and/or its affiliates.
-> + */
-> +
-> +#include <linux/types.h>
-> +#include <linux/socket.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/skbuff.h>
-> +#include <linux/inet.h>
-> +
-> +#include <net/sock.h>
-> +#include <net/handshake.h>
-> +#include <net/genetlink.h>
-> +#include <net/tls.h>
-> +#include <net/tls_prot.h>
-> +
-> +#include "handshake.h"
+> @@ -60,3 +60,49 @@ int tls_alert_send(struct socket *sock, u8 level, u8 description)
+>   	ret = sock_sendmsg(sock, &msg);
+>   	return ret < 0 ? ret : 0;
+>   }
 > +
 > +/**
-> + * tls_alert_send - send a TLS Alert on a kTLS socket
-> + * @sock: open kTLS socket to send on
-> + * @level: TLS Alert level
-> + * @description: TLS Alert description
+> + * tls_record_type - Look for TLS RECORD_TYPE information
+> + * @sk: socket (for IP address information)
+> + * @cmsg: incoming message to be parsed
 > + *
-> + * Returns zero on success or a negative errno.
+> + * Returns zero or a TLS_RECORD_TYPE value.
 > + */
-> +int tls_alert_send(struct socket *sock, u8 level, u8 description)
+> +u8 tls_record_type(const struct sock *sk, const struct cmsghdr *cmsg)
 > +{
-> +	u8 record_type = TLS_RECORD_TYPE_ALERT;
-> +	u8 buf[CMSG_SPACE(sizeof(record_type))];
-> +	struct msghdr msg = { 0 };
-> +	struct cmsghdr *cmsg;
-> +	struct kvec iov;
-> +	u8 alert[2];
-> +	int ret;
+> +	u8 record_type;
 > +
-> +	alert[0] = level;
-> +	alert[1] = description;
-> +	iov.iov_base = alert;
-> +	iov.iov_len = sizeof(alert);
+> +	if (cmsg->cmsg_level != SOL_TLS)
+> +		return 0;
+> +	if (cmsg->cmsg_type != TLS_GET_RECORD_TYPE)
+> +		return 0;
 > +
-> +	memset(buf, 0, sizeof(buf));
-> +	msg.msg_control = buf;
-> +	msg.msg_controllen = sizeof(buf);
-> +	msg.msg_flags = MSG_DONTWAIT;
-> +
-> +	cmsg = CMSG_FIRSTHDR(&msg);
-> +	cmsg->cmsg_level = SOL_TLS;
-> +	cmsg->cmsg_type = TLS_SET_RECORD_TYPE;
-> +	cmsg->cmsg_len = CMSG_LEN(sizeof(record_type));
-> +	memcpy(CMSG_DATA(cmsg), &record_type, sizeof(record_type));
-> +
-> +	iov_iter_kvec(&msg.msg_iter, ITER_SOURCE, &iov, 1, iov.iov_len);
-> +	ret = sock_sendmsg(sock, &msg);
-> +	return ret < 0 ? ret : 0;
+> +	record_type = *((u8 *)CMSG_DATA(cmsg));
+> +	return record_type;
 > +}
-> diff --git a/net/handshake/handshake.h b/net/handshake/handshake.h
-> index 4dac965c99df..af1633d5ad73 100644
-> --- a/net/handshake/handshake.h
-> +++ b/net/handshake/handshake.h
-> @@ -41,6 +41,7 @@ struct handshake_req {
->   
->   enum hr_flags_bits {
->   	HANDSHAKE_F_REQ_COMPLETED,
-> +	HANDSHAKE_F_REQ_SESSION,
->   };
->   
->   /* Invariants for all handshake requests for one transport layer
-> @@ -63,6 +64,9 @@ enum hp_flags_bits {
->   	HANDSHAKE_F_PROTO_NOTIFY,
->   };
->   
-> +/* alert.c */
-> +int tls_alert_send(struct socket *sock, u8 level, u8 description);
+> +EXPORT_SYMBOL(tls_record_type);
 > +
->   /* netlink.c */
->   int handshake_genl_notify(struct net *net, const struct handshake_proto *proto,
->   			  gfp_t flags);
-> diff --git a/net/handshake/tlshd.c b/net/handshake/tlshd.c
-> index b735f5cced2f..aad3c5b06b03 100644
-> --- a/net/handshake/tlshd.c
-> +++ b/net/handshake/tlshd.c
-> @@ -18,6 +18,7 @@
->   #include <net/sock.h>
->   #include <net/handshake.h>
->   #include <net/genetlink.h>
-> +#include <net/tls_prot.h>
->   
->   #include <uapi/linux/keyctl.h>
->   #include <uapi/linux/handshake.h>
-> @@ -100,6 +101,9 @@ static void tls_handshake_done(struct handshake_req *req,
->   	if (info)
->   		tls_handshake_remote_peerids(treq, info);
->   
-> +	if (!status)
-> +		set_bit(HANDSHAKE_F_REQ_SESSION, &req->hr_flags);
-> +
->   	treq->th_consumer_done(treq->th_consumer_data, -status,
->   			       treq->th_peerid[0]);
->   }
-> @@ -424,3 +428,22 @@ bool tls_handshake_cancel(struct sock *sk)
->   	return handshake_req_cancel(sk);
->   }
->   EXPORT_SYMBOL(tls_handshake_cancel);
-> +
+tls_process_cmsg() does nearly the same thing; why didn't you update it 
+to use your helper?
+
 > +/**
-> + * tls_handshake_close - send a Closure alert
-> + * @sock: an open socket
+> + * tls_alert_recv - Look for TLS Alert messages
+> + * @sk: socket (for IP address information)
+> + * @msg: incoming message to be parsed
+> + * @level: OUT - TLS AlertLevel value
+> + * @description: OUT - TLS AlertDescription value
 > + *
+> + * Return values:
+> + *   %true: @msg contained a TLS Alert; @level and @description filled in
+> + *   %false: @msg did not contain a TLS Alert
 > + */
-> +void tls_handshake_close(struct socket *sock)
+> +bool tls_alert_recv(const struct sock *sk, const struct msghdr *msg,
+> +		    u8 *level, u8 *description)
 > +{
-> +	struct handshake_req *req;
+> +	const struct kvec *iov;
+> +	u8 *data;
 > +
-> +	req = handshake_req_hash_lookup(sock->sk);
-> +	if (!req)
-> +		return;
-> +	if (!test_bit(HANDSHAKE_F_REQ_SESSION, &req->hr_flags))
-> +		return;
-> +	tls_alert_send(sock, TLS_ALERT_LEVEL_WARNING,
-> +		       TLS_ALERT_DESC_CLOSE_NOTIFY);
+> +	iov = msg->msg_iter.kvec;
+> +	data = iov->iov_base;
+> +	*level = data[0];
+> +	*description = data[1];
+> +	return true;
 > +}
-> +EXPORT_SYMBOL(tls_handshake_close);
+> +EXPORT_SYMBOL(tls_alert_recv);
 > 
-Why do we need to check for the 'REQ_SESSION' flag?
-Isn't the hash_lookup sufficient here?
-And it it safe to just do a 'test_bit' here?
-Wouldn't it be better to do
-
-if (test_and_clear_bit()) tls_alert_send()
-
-Hmm?
+Shouldn't we check the type of message here?
 
 Cheers,
 

@@ -1,293 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78BC825939;
-	Tue, 25 Jul 2023 20:38:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D6F6C433C8;
-	Tue, 25 Jul 2023 20:38:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C33ED5;
+	Thu, 27 Jul 2023 04:36:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AB90C433C7;
+	Thu, 27 Jul 2023 04:36:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1690317514;
-	bh=qkmY3uLqRjsX0uqKIGgEFPj1VUPQEPODKUeUELmASPk=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=HRBMjMaZKTvjkbmPXTw+CGSV1PrddlKGn0sqDR98HfP6kQHfNPqpLbG/0w/lPKLA6
-	 +2OPcUXayuhAv0Lml+xSlC4HnpGig5QGhtt80fW+44lKKdMVymSa9WzGnT4ctm0CCV
-	 N/U+Cu7/AJ/dncxCD8Xr8ghlR9jHBRovynknMUIs07g5G5VzksY1hk3DrUqrECmsLF
-	 wPVoDiAa8altaBHNN2xITYYtGxvJWSGoJlheq0K7WvKrVz3CLvMHr6zxtcdkvKejdk
-	 0NOveYdAmsO1daf4T+uPJ1jWnDl5aylGF3FH8wI/yspAdrS/39RPspuPGOBc3ZRhHf
-	 ti2c4d9iPxiIA==
-Subject: [PATCH net-next v2 7/7] net/handshake: Trace events for TLS Alert
- helpers
-From: Chuck Lever <cel@kernel.org>
-To: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com
-Cc: netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev
-Date: Tue, 25 Jul 2023 16:38:23 -0400
-Message-ID: 
- <169031749340.15386.15667428526689326497.stgit@oracle-102.nfsv4bat.org>
-In-Reply-To: 
- <169031700320.15386.6923217931442885226.stgit@oracle-102.nfsv4bat.org>
-References: 
- <169031700320.15386.6923217931442885226.stgit@oracle-102.nfsv4bat.org>
-User-Agent: StGit/1.5
+	s=k20201202; t=1690432577;
+	bh=hsDktSd9M7zkimN2Hb5m6FsokqiQPRPyitSVBQKAxac=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rTmbpIy90BL0sU1NLGejD3NNaixelygXmcOnBZe5ben0Zqx+redlc6unHq1HoISB4
+	 l5oIYdE+gqM6Uly3JenP0kPxnr7ryvfKipWRA9fMoBzCf4kW4KfKWSCOgdK7iGStN+
+	 qvr3ieEWZedJ2F6+Bja6p2mxf7oQTaXkZtTQ6Gmt7crUIKZ7o50bxTizBXw77mKRiE
+	 Agf0rCJ3G+HbQ4j8htsHK2drn6eh+c3TZJbhC/IbOiBZCJ6pG8qpirfjt8UQZ+RaiI
+	 8wd2pdBsfoQ+UrSjuOgktdCWONe1Eqbc2Fm1AYzPRuvxW9P/06v/qADbC4R4yxd+e+
+	 QCHEA25cA1nSQ==
+Date: Wed, 26 Jul 2023 21:36:16 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Chuck Lever <cel@kernel.org>
+Cc: davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev
+Subject: Re: [PATCH net-next v2 1/7] net/tls: Move TLS protocol elements to
+ a separate header
+Message-ID: <20230726213616.25141508@kernel.org>
+In-Reply-To: <169031734129.15386.4192319236812962393.stgit@oracle-102.nfsv4bat.org>
+References: <169031700320.15386.6923217931442885226.stgit@oracle-102.nfsv4bat.org>
+	<169031734129.15386.4192319236812962393.stgit@oracle-102.nfsv4bat.org>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-From: Chuck Lever <chuck.lever@oracle.com>
+On Tue, 25 Jul 2023 16:35:51 -0400 Chuck Lever wrote:
+> --- a/include/net/tls.h
+> +++ b/include/net/tls.h
+> @@ -45,6 +45,7 @@
+>  
+>  #include <net/net_namespace.h>
+>  #include <net/tcp.h>
+> +#include <net/tls_prot.h>
 
-Add observability for the new TLS Alert infrastructure.
+I'd be tempted to push this only to places that need it:
 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
----
- include/trace/events/handshake.h |  160 ++++++++++++++++++++++++++++++++++++++
- net/handshake/alert.c            |    7 ++
- net/handshake/trace.c            |    2 
- 3 files changed, 169 insertions(+)
+net/tls/tls.h
+net/sunrpc/svcsock.c
+net/sunrpc/xprtsock.c
+drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_io.c
 
-diff --git a/include/trace/events/handshake.h b/include/trace/events/handshake.h
-index 8dadcab5f12a..bdd8a03cf5ba 100644
---- a/include/trace/events/handshake.h
-+++ b/include/trace/events/handshake.h
-@@ -6,7 +6,86 @@
- #define _TRACE_HANDSHAKE_H
- 
- #include <linux/net.h>
-+#include <net/tls_prot.h>
- #include <linux/tracepoint.h>
-+#include <trace/events/net_probe_common.h>
-+
-+#define TLS_RECORD_TYPE_LIST \
-+	record_type(CHANGE_CIPHER_SPEC) \
-+	record_type(ALERT) \
-+	record_type(HANDSHAKE) \
-+	record_type(DATA) \
-+	record_type(HEARTBEAT) \
-+	record_type(TLS12_CID) \
-+	record_type_end(ACK)
-+
-+#undef record_type
-+#undef record_type_end
-+#define record_type(x)		TRACE_DEFINE_ENUM(TLS_RECORD_TYPE_##x);
-+#define record_type_end(x)	TRACE_DEFINE_ENUM(TLS_RECORD_TYPE_##x);
-+
-+TLS_RECORD_TYPE_LIST
-+
-+#undef record_type
-+#undef record_type_end
-+#define record_type(x)		{ TLS_RECORD_TYPE_##x, #x },
-+#define record_type_end(x)	{ TLS_RECORD_TYPE_##x, #x }
-+
-+#define show_tls_content_type(type) \
-+	__print_symbolic(type, TLS_RECORD_TYPE_LIST)
-+
-+TRACE_DEFINE_ENUM(TLS_ALERT_LEVEL_WARNING);
-+TRACE_DEFINE_ENUM(TLS_ALERT_LEVEL_FATAL);
-+
-+#define show_tls_alert_level(level) \
-+	__print_symbolic(level, \
-+		{ TLS_ALERT_LEVEL_WARNING,	"Warning" }, \
-+		{ TLS_ALERT_LEVEL_FATAL,	"Fatal" })
-+
-+#define TLS_ALERT_DESCRIPTION_LIST \
-+	alert_description(CLOSE_NOTIFY) \
-+	alert_description(UNEXPECTED_MESSAGE) \
-+	alert_description(BAD_RECORD_MAC) \
-+	alert_description(RECORD_OVERFLOW) \
-+	alert_description(HANDSHAKE_FAILURE) \
-+	alert_description(BAD_CERTIFICATE) \
-+	alert_description(UNSUPPORTED_CERTIFICATE) \
-+	alert_description(CERTIFICATE_REVOKED) \
-+	alert_description(CERTIFICATE_EXPIRED) \
-+	alert_description(CERTIFICATE_UNKNOWN) \
-+	alert_description(ILLEGAL_PARAMETER) \
-+	alert_description(UNKNOWN_CA) \
-+	alert_description(ACCESS_DENIED) \
-+	alert_description(DECODE_ERROR) \
-+	alert_description(DECRYPT_ERROR) \
-+	alert_description(TOO_MANY_CIDS_REQUESTED) \
-+	alert_description(PROTOCOL_VERSION) \
-+	alert_description(INSUFFICIENT_SECURITY) \
-+	alert_description(INTERNAL_ERROR) \
-+	alert_description(INAPPROPRIATE_FALLBACK) \
-+	alert_description(USER_CANCELED) \
-+	alert_description(MISSING_EXTENSION) \
-+	alert_description(UNSUPPORTED_EXTENSION) \
-+	alert_description(UNRECOGNIZED_NAME) \
-+	alert_description(BAD_CERTIFICATE_STATUS_RESPONSE) \
-+	alert_description(UNKNOWN_PSK_IDENTITY) \
-+	alert_description(CERTIFICATE_REQUIRED) \
-+	alert_description_end(NO_APPLICATION_PROTOCOL)
-+
-+#undef alert_description
-+#undef alert_description_end
-+#define alert_description(x)		TRACE_DEFINE_ENUM(TLS_ALERT_DESC_##x);
-+#define alert_description_end(x)	TRACE_DEFINE_ENUM(TLS_ALERT_DESC_##x);
-+
-+TLS_ALERT_DESCRIPTION_LIST
-+
-+#undef alert_description
-+#undef alert_description_end
-+#define alert_description(x)		{ TLS_ALERT_DESC_##x, #x },
-+#define alert_description_end(x)	{ TLS_ALERT_DESC_##x, #x }
-+
-+#define show_tls_alert_description(desc) \
-+	__print_symbolic(desc, TLS_ALERT_DESCRIPTION_LIST)
- 
- DECLARE_EVENT_CLASS(handshake_event_class,
- 	TP_PROTO(
-@@ -106,6 +185,47 @@ DECLARE_EVENT_CLASS(handshake_error_class,
- 		),						\
- 		TP_ARGS(net, req, sk, err))
- 
-+DECLARE_EVENT_CLASS(handshake_alert_class,
-+	TP_PROTO(
-+		const struct sock *sk,
-+		unsigned char level,
-+		unsigned char description
-+	),
-+	TP_ARGS(sk, level, description),
-+	TP_STRUCT__entry(
-+		/* sockaddr_in6 is always bigger than sockaddr_in */
-+		__array(__u8, saddr, sizeof(struct sockaddr_in6))
-+		__array(__u8, daddr, sizeof(struct sockaddr_in6))
-+		__field(unsigned int, netns_ino)
-+		__field(unsigned long, level)
-+		__field(unsigned long, description)
-+	),
-+	TP_fast_assign(
-+		const struct inet_sock *inet = inet_sk(sk);
-+
-+		memset(__entry->saddr, 0, sizeof(struct sockaddr_in6));
-+		memset(__entry->daddr, 0, sizeof(struct sockaddr_in6));
-+		TP_STORE_ADDR_PORTS(__entry, inet, sk);
-+
-+		__entry->netns_ino = sock_net(sk)->ns.inum;
-+		__entry->level = level;
-+		__entry->description = description;
-+	),
-+	TP_printk("src=%pISpc dest=%pISpc %s: %s",
-+		__entry->saddr, __entry->daddr,
-+		show_tls_alert_level(__entry->level),
-+		show_tls_alert_description(__entry->description)
-+	)
-+);
-+#define DEFINE_HANDSHAKE_ALERT(name)				\
-+	DEFINE_EVENT(handshake_alert_class, name,		\
-+		TP_PROTO(					\
-+			const struct sock *sk,			\
-+			unsigned char level,			\
-+			unsigned char description		\
-+		),						\
-+		TP_ARGS(sk, level, description))
-+
- 
- /*
-  * Request lifetime events
-@@ -154,6 +274,46 @@ DEFINE_HANDSHAKE_ERROR(handshake_cmd_accept_err);
- DEFINE_HANDSHAKE_FD_EVENT(handshake_cmd_done);
- DEFINE_HANDSHAKE_ERROR(handshake_cmd_done_err);
- 
-+/*
-+ * TLS Record events
-+ */
-+
-+TRACE_EVENT(tls_contenttype,
-+	TP_PROTO(
-+		const struct sock *sk,
-+		unsigned char type
-+	),
-+	TP_ARGS(sk, type),
-+	TP_STRUCT__entry(
-+		/* sockaddr_in6 is always bigger than sockaddr_in */
-+		__array(__u8, saddr, sizeof(struct sockaddr_in6))
-+		__array(__u8, daddr, sizeof(struct sockaddr_in6))
-+		__field(unsigned int, netns_ino)
-+		__field(unsigned long, type)
-+	),
-+	TP_fast_assign(
-+		const struct inet_sock *inet = inet_sk(sk);
-+
-+		memset(__entry->saddr, 0, sizeof(struct sockaddr_in6));
-+		memset(__entry->daddr, 0, sizeof(struct sockaddr_in6));
-+		TP_STORE_ADDR_PORTS(__entry, inet, sk);
-+
-+		__entry->netns_ino = sock_net(sk)->ns.inum;
-+		__entry->type = type;
-+	),
-+	TP_printk("src=%pISpc dest=%pISpc %s",
-+		__entry->saddr, __entry->daddr,
-+		show_tls_content_type(__entry->type)
-+	)
-+);
-+
-+/*
-+ * TLS Alert events
-+ */
-+
-+DEFINE_HANDSHAKE_ALERT(tls_alert_send);
-+DEFINE_HANDSHAKE_ALERT(tls_alert_recv);
-+
- #endif /* _TRACE_HANDSHAKE_H */
- 
- #include <trace/define_trace.h>
-diff --git a/net/handshake/alert.c b/net/handshake/alert.c
-index 4cb76fc2c531..5e558cb3c32f 100644
---- a/net/handshake/alert.c
-+++ b/net/handshake/alert.c
-@@ -22,6 +22,8 @@
- 
- #include "handshake.h"
- 
-+#include <trace/events/handshake.h>
-+
- /**
-  * tls_alert_send - send a TLS Alert on a kTLS socket
-  * @sock: open kTLS socket to send on
-@@ -40,6 +42,8 @@ int tls_alert_send(struct socket *sock, u8 level, u8 description)
- 	u8 alert[2];
- 	int ret;
- 
-+	trace_tls_alert_send(sock->sk, level, description);
-+
- 	alert[0] = level;
- 	alert[1] = description;
- 	iov.iov_base = alert;
-@@ -78,6 +82,7 @@ u8 tls_get_record_type(const struct sock *sk, const struct cmsghdr *cmsg)
- 		return 0;
- 
- 	record_type = *((u8 *)CMSG_DATA(cmsg));
-+	trace_tls_contenttype(sk, record_type);
- 	return record_type;
- }
- EXPORT_SYMBOL(tls_get_record_type);
-@@ -100,5 +105,7 @@ void tls_alert_recv(const struct sock *sk, const struct msghdr *msg,
- 	data = iov->iov_base;
- 	*level = data[0];
- 	*description = data[1];
-+
-+	trace_tls_alert_recv(sk, *level, *description);
- }
- EXPORT_SYMBOL(tls_alert_recv);
-diff --git a/net/handshake/trace.c b/net/handshake/trace.c
-index 1c4d8e27e17a..44432d0857b9 100644
---- a/net/handshake/trace.c
-+++ b/net/handshake/trace.c
-@@ -8,8 +8,10 @@
-  */
- 
- #include <linux/types.h>
-+#include <linux/ipv6.h>
- 
- #include <net/sock.h>
-+#include <net/inet_sock.h>
- #include <net/netlink.h>
- #include <net/genetlink.h>
- 
+to make rebuilds smaller. Bunch of ethernet drivers will get rebuilt
+every time we touch this header, and they don't care about the proto
+details.
 
-
+But I'm probably overly sensitive to build times so up to you.

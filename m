@@ -1,138 +1,265 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C074C15BD
-	for <kernel-tls-handshake@lists.linux.dev>; Sun, 30 Jul 2023 12:27:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1690720019;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qXxQsQEagc5rGOAZHUrZUKYRAS23kZoJ3Sp9AQLcKBo=;
-	b=beKcIqRmiAZTcNVACqF//+2o8zh1QPMJz3iP2EdgpXp/ciWepSlz1VNCxbBTBzuet3YIa6
-	CsCFedramINn5Ug7i1m/QUl/sAAhJ/rDVLPzhQ8jH4KzHBC+FeADO0JQB+1UkEFj1/DZx2
-	0SI2dssqlSrnEGs8mXVCN4w0+KOglIQ=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-634-NwiJ6NUsMzqwXbIPrzx-WQ-1; Sun, 30 Jul 2023 08:26:57 -0400
-X-MC-Unique: NwiJ6NUsMzqwXbIPrzx-WQ-1
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-76c7cffef41so66532685a.1
-        for <kernel-tls-handshake@lists.linux.dev>; Sun, 30 Jul 2023 05:26:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690720017; x=1691324817;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qXxQsQEagc5rGOAZHUrZUKYRAS23kZoJ3Sp9AQLcKBo=;
-        b=VfQTrAHwm4VMt+UTbymA/Ra4egfo0PAgjPnlq7xBO5NDtY5p/LfNMdn7oh3evk/ftn
-         GNe/p4r4aC3+c6vfUz4aXd4H4WlQrHm5YpVrM7TOgCIhtASR/okkwqzbBCSuJFONNXWp
-         aDNVbg80q3MrI37XMR915NDlTuPTaVbwY/BN6uADNbfurrW2/XX2sZs412EkQLmQv7B8
-         XzkmbTeG7uUDwyXXk5s7dxIkSZPgdhuI0I5IUAIg7/d026qrH0ht8TeamZo4NhJ5YIsV
-         Gp/jQofokC15IugW/wyjt6xh2DT7y6rLPRCFhZZPf0NIEv8unbTrwPpxaDTCAgjZoV5y
-         ES+w==
-X-Gm-Message-State: ABy/qLbSlwtnFHDz6IjvDH0ig0Yxs0W6NHe1tIEzXZ3TitI28rNobL1T
-	su2uozrJVLRGcoyX4ICw6TRjo6h/OSK1ZIAU1Ljj2jVKz5OuDrkeR6AIrjpI5L5kNs7SmDFp13A
-	fNlp5sD+6Wx6I+Hqs3aadWuwhgkj4yCp2QS8=
-X-Received: by 2002:a05:622a:1816:b0:403:ebbe:c79d with SMTP id t22-20020a05622a181600b00403ebbec79dmr6641419qtc.2.1690720016934;
-        Sun, 30 Jul 2023 05:26:56 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEe7MBz0NpGHTFTJYJXNA4kwjo0Af3GS7ImT9cqbTooHQONnjOAxrEhJGiOYM4AVRzXpNMgqQ==
-X-Received: by 2002:a05:622a:1816:b0:403:ebbe:c79d with SMTP id t22-20020a05622a181600b00403ebbec79dmr6641399qtc.2.1690720016632;
-        Sun, 30 Jul 2023 05:26:56 -0700 (PDT)
-Received: from [172.31.1.12] ([70.105.251.231])
-        by smtp.gmail.com with ESMTPSA id g13-20020ac8070d000000b00400aa16bf38sm2627322qth.82.2023.07.30.05.26.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 30 Jul 2023 05:26:42 -0700 (PDT)
-Message-ID: <6dd3118d-c21c-0588-1f35-460f2d8aa4c6@redhat.com>
-Date: Sun, 30 Jul 2023 08:26:30 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B1F4435
+	for <kernel-tls-handshake@lists.linux.dev>; Mon,  7 Aug 2023 20:54:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D38DC433C7
+	for <kernel-tls-handshake@lists.linux.dev>; Mon,  7 Aug 2023 20:54:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1691441680;
+	bh=Yy8/NasFsi9XqqFHzvk4gwbV6C7lP4Y8FCbYNrnI0vA=;
+	h=Subject:From:To:Date:From;
+	b=UVzL3kVYn4VIZSGZJVZ879DZtCva5VHzVgjRRTM68zn69LdL1FWLogC+SIyYS/3iw
+	 aCApJSJsWCCnTrUxw21ZOtddcoPVeaRnvj1AHqQ/veHRA4vAhUz7NteuoOmri7fCAG
+	 feRUrXqEFdSHqQkOkH7S4MtOPJ9uNJ+t0NaLSKCm3QhVaskcocNeJk6ktagW41SDQ3
+	 KJ4dpaCltispvBtWKk5KaUTs12byIR0ed0SF2PJ+H00jNL6cFJSYVInq1IEwXO7/Hj
+	 9Z+neAhZL/iYjX2dNPagwasq6LpeB2waa2MdEblF0AYcFJ9RdSVgrJUZtcjbLA+aI2
+	 SNMOG3YFX+fQg==
+Subject: [PATCH v1] tlshd: Add .conf option to specify trust store
+From: Chuck Lever <cel@kernel.org>
+To: kernel-tls-handshake@lists.linux.dev
+Date: Mon, 07 Aug 2023 16:54:38 -0400
+Message-ID: 
+ <169144160144.20878.14334844376236760810.stgit@91.116.238.104.host.secureserver.net>
+User-Agent: StGit/1.5
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v1] nfs(5): Document the new "xprtsec=" mount option
-To: Chuck Lever <cel@kernel.org>
-Cc: Chuck Lever <chuck.lever@oracle.com>, linux-nfs@vger.kernel.org,
- kernel-tls-handshake@lists.linux.dev
-References: <168935977873.1850.8214830433103692090.stgit@bazille.1015granger.net>
-From: Steve Dickson <steved@redhat.com>
-In-Reply-To: <168935977873.1850.8214830433103692090.stgit@bazille.1015granger.net>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
+From: Chuck Lever <chuck.lever@oracle.com>
+
+Enable administrators to provide a trust store that is specifically
+for certificate verification during kernel-driven handshakes. This
+makes using self-signed certificates just for SunRPC more secure, for
+example.
+
+Partially addresses issue #21.
+
+Suggested-by: Olga Kornievskaia <kolga@netapp.com>
+Suggested-by: Ben Hutchings <benh@debian.org>
+Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+---
+ src/tlshd/client.c       |   16 +++++++++++-
+ src/tlshd/config.c       |   60 ++++++++++++++++++++++++++++++++++++++++++++++
+ src/tlshd/server.c       |    8 +++++-
+ src/tlshd/tlshd.conf     |    2 ++
+ src/tlshd/tlshd.conf.man |   10 +++++++-
+ src/tlshd/tlshd.h        |    2 ++
+ 6 files changed, 94 insertions(+), 4 deletions(-)
+
+Hi all-
+
+This is untested. Interested in comments.
 
 
-On 7/14/23 2:36 PM, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
-> 
-> More information about RPC-with-TLS and some brief set-up guidance
-> are to be provided in a separate man page in Section 7.
-> 
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-I think I got it right... I also added a couple .IP
-to make the section a bit more readable...
+diff --git a/src/tlshd/client.c b/src/tlshd/client.c
+index 6a16263a058f..30a408d06d19 100644
+--- a/src/tlshd/client.c
++++ b/src/tlshd/client.c
+@@ -47,6 +47,7 @@ static void tlshd_client_anon_handshake(struct tlshd_handshake_parms *parms)
+ 	gnutls_certificate_credentials_t xcred;
+ 	gnutls_session_t session;
+ 	unsigned int flags;
++	char *cafile;
+ 	int ret;
+ 
+ 	ret = gnutls_certificate_allocate_credentials(&xcred);
+@@ -63,7 +64,12 @@ static void tlshd_client_anon_handshake(struct tlshd_handshake_parms *parms)
+ 	gnutls_certificate_set_flags(xcred,
+ 			GNUTLS_CERTIFICATE_SKIP_KEY_CERT_MATCH | GNUTLS_CERTIFICATE_SKIP_OCSP_RESPONSE_CHECK);
+ 
+-	ret = gnutls_certificate_set_x509_system_trust(xcred);
++	if (tlshd_config_get_client_truststore(&cafile)) {
++		ret = gnutls_certificate_set_x509_trust_file(xcred, cafile,
++							     GNUTLS_X509_FMT_PEM);
++		free(cafile);
++	} else
++		ret = gnutls_certificate_set_x509_system_trust(xcred);
+ 	if (ret < 0) {
+ 		tlshd_log_gnutls_error(ret);
+ 		goto out_free_creds;
+@@ -247,6 +253,7 @@ static void tlshd_client_x509_handshake(struct tlshd_handshake_parms *parms)
+ 	gnutls_certificate_credentials_t xcred;
+ 	gnutls_session_t session;
+ 	unsigned int flags;
++	char *cafile;
+ 	int ret;
+ 
+ 	ret = gnutls_certificate_allocate_credentials(&xcred);
+@@ -255,7 +262,12 @@ static void tlshd_client_x509_handshake(struct tlshd_handshake_parms *parms)
+ 		return;
+ 	}
+ 
+-	ret = gnutls_certificate_set_x509_system_trust(xcred);
++	if (tlshd_config_get_client_truststore(&cafile)) {
++		ret = gnutls_certificate_set_x509_trust_file(xcred, cafile,
++							     GNUTLS_X509_FMT_PEM);
++		free(cafile);
++	} else
++		ret = gnutls_certificate_set_x509_system_trust(xcred);
+ 	if (ret < 0) {
+ 		tlshd_log_gnutls_error(ret);
+ 		goto out_free_creds;
+diff --git a/src/tlshd/config.c b/src/tlshd/config.c
+index e668e1d0c78b..727fa69f65e6 100644
+--- a/src/tlshd/config.c
++++ b/src/tlshd/config.c
+@@ -184,6 +184,36 @@ out:
+ 	return ret;
+ }
+ 
++/**
++ * tlshd_config_get_client_truststore - Get truststore for ClientHello from .conf
++ * @bundle: OUT: pathname to truststore
++ *
++ * Return values:
++ *   %false: pathname not retrieved
++ *   %true: pathname retrieved successfully; caller must free @bundle using free(3)
++ */
++bool tlshd_config_get_client_truststore(char **bundle)
++{
++	GError *error = NULL;
++	gchar *pathname;
++
++	pathname = g_key_file_get_string(tlshd_configuration, "authenticate.client",
++					 "x509.truststore", &error);
++	if (!pathname) {
++		tlshd_log_gerror("Client x.509 truststore not specified", error);
++		g_error_free(error);
++		return false;
++	}
++
++	*bundle = strdup(pathname);
++	g_free(pathname);
++	if (!*bundle)
++		return false;
++
++	tlshd_log_debug("Client x.509 truststore is %s", *bundle);
++	return true;
++}
++
+ /**
+  * tlshd_config_get_client_cert - Get cert for ClientHello from .conf
+  * @cert: OUT: in-memory certificate
+@@ -280,6 +310,36 @@ bool tlshd_config_get_client_privkey(gnutls_privkey_t *privkey)
+ 	return true;
+ }
+ 
++/**
++ * tlshd_config_get_server_truststore - Get truststore for ServerHello from .conf
++ * @bundle: OUT: pathname to truststore
++ *
++ * Return values:
++ *   %false: pathname not retrieved
++ *   %true: pathname retrieved successfully; caller must free @bundle using free(3)
++ */
++bool tlshd_config_get_server_truststore(char **bundle)
++{
++	GError *error = NULL;
++	gchar *pathname;
++
++	pathname = g_key_file_get_string(tlshd_configuration, "authenticate.server",
++					 "x509.truststore", &error);
++	if (!pathname) {
++		tlshd_log_gerror("Server x.509 truststore not specified", error);
++		g_error_free(error);
++		return false;
++	}
++
++	*bundle = strdup(pathname);
++	g_free(pathname);
++	if (!*bundle)
++		return false;
++
++	tlshd_log_debug("Server x.509 truststore is %s", *bundle);
++	return true;
++}
++
+ /**
+  * tlshd_config_get_server_cert - Get cert for ServerHello from .conf
+  * @cert: OUT: in-memory certificate
+diff --git a/src/tlshd/server.c b/src/tlshd/server.c
+index b969d57014d7..b34ba5838edb 100644
+--- a/src/tlshd/server.c
++++ b/src/tlshd/server.c
+@@ -201,6 +201,7 @@ static void tlshd_server_x509_handshake(struct tlshd_handshake_parms *parms)
+ {
+ 	gnutls_certificate_credentials_t xcred;
+ 	gnutls_session_t session;
++	char *cafile;
+ 	int ret;
+ 
+ 	ret = gnutls_certificate_allocate_credentials(&xcred);
+@@ -209,7 +210,12 @@ static void tlshd_server_x509_handshake(struct tlshd_handshake_parms *parms)
+ 		return;
+ 	}
+ 
+-	ret = gnutls_certificate_set_x509_system_trust(xcred);
++	if (tlshd_config_get_server_truststore(&cafile)) {
++		ret = gnutls_certificate_set_x509_trust_file(xcred, cafile,
++							     GNUTLS_X509_FMT_PEM);
++		free(cafile);
++	} else
++		ret = gnutls_certificate_set_x509_system_trust(xcred);
+ 	if (ret < 0) {
+ 		tlshd_log_gnutls_error(ret);
+ 		goto out_free_creds;
+diff --git a/src/tlshd/tlshd.conf b/src/tlshd/tlshd.conf
+index 2f301dd6a42c..5ad64d238e0f 100644
+--- a/src/tlshd/tlshd.conf
++++ b/src/tlshd/tlshd.conf
+@@ -28,9 +28,11 @@ nl_debug=0
+ #keyrings= <keyring>;<keyring>;<keyring>
+ 
+ [authenticate.client]
++#x509.truststore= <pathname>
+ #x509.certificate= <pathname>
+ #x509.private_key= <pathname>
+ 
+ [authenticate.server]
++#x509.truststore= <pathname>
+ #x509.certificate= <pathname>
+ #x509.private_key= <pathname>
+diff --git a/src/tlshd/tlshd.conf.man b/src/tlshd/tlshd.conf.man
+index eb0cd11543bd..3d29c18fb7f5 100644
+--- a/src/tlshd/tlshd.conf.man
++++ b/src/tlshd/tlshd.conf.man
+@@ -81,7 +81,15 @@ section specifies default authentication material when establishing
+ TLS sessions.
+ There are two subsections:
+ .IR [client] and [server] .
+-In each of these subsections, there are two available options:
++In each of these subsections, there are three available options:
++.TP
++.B x509.truststore
++This option specifies the pathname of a file containing a
++PEM-encoded trust store that is to be used to verify a
++certificate during a handshake.
++If this option is not specified,
++.B tlshd
++uses the system's trust store.
+ .TP
+ .B x509.certificate
+ This option specifies the pathname of a file containing
+diff --git a/src/tlshd/tlshd.h b/src/tlshd/tlshd.h
+index c4da3fd80889..ae1ea37ccb0f 100644
+--- a/src/tlshd/tlshd.h
++++ b/src/tlshd/tlshd.h
+@@ -52,8 +52,10 @@ extern void tlshd_clienthello_handshake(struct tlshd_handshake_parms *parms);
+ /* config.c */
+ bool tlshd_config_init(const gchar *pathname);
+ void tlshd_config_shutdown(void);
++bool tlshd_config_get_client_truststore(char **bundle);
+ bool tlshd_config_get_client_cert(gnutls_pcert_st *cert);
+ bool tlshd_config_get_client_privkey(gnutls_privkey_t *privkey);
++bool tlshd_config_get_server_truststore(char **bundle);
+ bool tlshd_config_get_server_cert(gnutls_pcert_st *cert);
+ bool tlshd_config_get_server_privkey(gnutls_privkey_t *privkey);
+ 
 
-steved.
-> ---
->   utils/mount/nfs.man |   38 +++++++++++++++++++++++++++++++++++++-
->   1 file changed, 37 insertions(+), 1 deletion(-)
-> 
-> diff --git a/utils/mount/nfs.man b/utils/mount/nfs.man
-> index d9f34df36b42..dfc31a5dad26 100644
-> --- a/utils/mount/nfs.man
-> +++ b/utils/mount/nfs.man
-> @@ -574,7 +574,43 @@ The
->   .B sloppy
->   option is an alternative to specifying
->   .BR mount.nfs " -s " option.
-> -
-> +.TP 1.5i
-> +.BI xprtsec= policy
-> +Specifies the use of transport layer security to protect NFS network
-> +traffic on behalf of this mount point.
-> +.I policy
-> +can be one of
-> +.BR none ,
-> +.BR tls ,
-> +or
-> +.BR mtls .
-> +.IP
-> +If
-> +.B none
-> +is specified,
-> +transport layer security is forced off, even if the NFS server supports
-> +transport layer security.
-> +If
-> +.B tls
-> +is specified, the client uses RPC-with-TLS to provide in-transit
-> +confidentiality.
-> +If
-> +.B mtls
-> +is specified, the client uses RPC-with-TLS to authenticate itself and
-> +to provide in-transit confidentiality.
-> +If either
-> +.B tls
-> +or
-> +.B mtls
-> +is specified and the server does not support RPC-with-TLS or peer
-> +authentication fails, the mount attempt fails.
-> +.IP
-> +If the
-> +.B xprtsec=
-> +option is not specified,
-> +the default behavior depends on the kernel version,
-> +but is usually equivalent to
-> +.BR "xprtsec=none" .
->   .SS "Options for NFS versions 2 and 3 only"
->   Use these options, along with the options in the above subsection,
->   for NFS versions 2 and 3 only.
-> 
-> 
 

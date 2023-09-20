@@ -1,100 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA6028DB9;
-	Tue, 19 Sep 2023 19:50:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32D3DC433C8;
-	Tue, 19 Sep 2023 19:50:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65BD14426;
+	Wed, 20 Sep 2023 11:00:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EA607C433C8;
+	Wed, 20 Sep 2023 11:00:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695153014;
-	bh=Lcj9eNyGpLTTf7vSIn1C/bOzZVEKBLrcr8Lf+whvyOc=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=uCWuHDwYg6YcgKm6Z8KzofY9uepRJ8/EvTYpNfhbbbPqDm3JJa/tz+q7poZpyM5ut
-	 CzpDx2JKPsdJGoiX+LtHJHyMhRacWtCXmwDbg+UgEmbAYTcrLA+43CAZdUW7nSqftV
-	 axkfJhEVPuXwiCmnYakKEx62Ff1ukHOYrN4U7MJ54CuyeDK3Dco1qkM0sB35LW4uyj
-	 q1FJILJtgbvhyqqmYRxQt4cxTbifJkz9h42iG4G8Yhkp2fdQWKPLkGAExuU/JTcAJu
-	 S5T4zTuwf7M+DFIgrNbOMtSnPrkWeYbs32NcWkYDqvYg5JER/QoCKEaobn1UtLeXmP
-	 5CYyLeY/rXuNg==
-Subject: [PATCH v1 2/2] handshake: Fix sign of key_serial_t fields
-From: Chuck Lever <cel@kernel.org>
-To: netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev
-Cc: Chuck Lever <chuck.lever@oracle.com>
-Date: Tue, 19 Sep 2023 15:50:03 -0400
-Message-ID: 
- <169515299313.5349.16234521174047472380.stgit@oracle-102.nfsv4bat.org>
-In-Reply-To: 
- <169515283988.5349.4586265020008671093.stgit@oracle-102.nfsv4bat.org>
-References: 
- <169515283988.5349.4586265020008671093.stgit@oracle-102.nfsv4bat.org>
-User-Agent: StGit/1.5
+	s=k20201202; t=1695207623;
+	bh=e1LT1uWKTNbY/jHcSEbz9Us/LzaooCwhK99Cm+guV/Y=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=AXBZPDJpWq1JCw9uNB26VbpK/YqL39v0McD75clMC6LStz7ks8sAQWWmRgUn7cHd9
+	 I6zEU2k5k1c5nLgBA5199JJLZEl+0yAcO83hqo/paZaj0Tg3/Tt6lItjAF4jrDfIbj
+	 neeqRvuljkSTVQt7LeiM/Lf+mnXfE0hNW4HqElNyXQfuyfd+tvSy3kjfVDRI23AIS4
+	 s+1tSPwygSOdRWoNPI6o49AtxLAgFnZjVt4nqoP9mJBDwcg0rtOjkqEM9JC2fj1GEh
+	 OtRqTHl5PyUFebIAyeu6vEdW9VWIkzHymDzDWXZCQTT7WVtXzJHB0wf4xC4NLlca8e
+	 DIYUaCEPrzXaA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id CF94CC41671;
+	Wed, 20 Sep 2023 11:00:22 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] net/handshake: Fix memory leak in __sock_create() and
+ sock_alloc_file()
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <169520762284.31903.2503841633352666153.git-patchwork-notify@kernel.org>
+Date: Wed, 20 Sep 2023 11:00:22 +0000
+References: <20230919104406.847875-1-ruanjinjie@huawei.com>
+In-Reply-To: <20230919104406.847875-1-ruanjinjie@huawei.com>
+To: Ruan Jinjie <ruanjinjie@huawei.com>
+Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ chuck.lever@oracle.com, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com
 
-From: Chuck Lever <chuck.lever@oracle.com>
+Hello:
 
-key_serial_t fields are signed integers. Use nla_get/put_s32 for
-those to avoid implicit signed conversion in the netlink protocol.
+This patch was applied to netdev/net.git (main)
+by David S. Miller <davem@davemloft.net>:
 
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
----
- Documentation/netlink/specs/handshake.yaml |    4 ++--
- net/handshake/tlshd.c                      |    4 ++--
- tools/net/ynl/generated/handshake-user.h   |    4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
+On Tue, 19 Sep 2023 18:44:06 +0800 you wrote:
+> When making CONFIG_DEBUG_KMEMLEAK=y and CONFIG_DEBUG_KMEMLEAK_AUTO_SCAN=y,
+> modprobe handshake-test and then rmmmod handshake-test, the below memory
+> leak is detected.
+> 
+> The struct socket_alloc which is allocated by alloc_inode_sb() in
+> __sock_create() is not freed. And the struct dentry which is allocated
+> by __d_alloc() in sock_alloc_file() is not freed.
+> 
+> [...]
 
-diff --git a/Documentation/netlink/specs/handshake.yaml b/Documentation/netlink/specs/handshake.yaml
-index a49b46b80e16..b934cc513e3d 100644
---- a/Documentation/netlink/specs/handshake.yaml
-+++ b/Documentation/netlink/specs/handshake.yaml
-@@ -34,10 +34,10 @@ attribute-sets:
-     attributes:
-       -
-         name: cert
--        type: u32
-+        type: s32
-       -
-         name: privkey
--        type: u32
-+        type: s32
-   -
-     name: accept
-     attributes:
-diff --git a/net/handshake/tlshd.c b/net/handshake/tlshd.c
-index 83595e6ae0ee..f018b931784c 100644
---- a/net/handshake/tlshd.c
-+++ b/net/handshake/tlshd.c
-@@ -169,9 +169,9 @@ static int tls_handshake_put_certificate(struct sk_buff *msg,
- 	if (!entry_attr)
- 		return -EMSGSIZE;
- 
--	if (nla_put_u32(msg, HANDSHAKE_A_X509_CERT,
-+	if (nla_put_s32(msg, HANDSHAKE_A_X509_CERT,
- 			treq->th_certificate) ||
--	    nla_put_u32(msg, HANDSHAKE_A_X509_PRIVKEY,
-+	    nla_put_s32(msg, HANDSHAKE_A_X509_PRIVKEY,
- 			treq->th_privkey)) {
- 		nla_nest_cancel(msg, entry_attr);
- 		return -EMSGSIZE;
-diff --git a/tools/net/ynl/generated/handshake-user.h b/tools/net/ynl/generated/handshake-user.h
-index f8e481fa9e09..2b34acc608de 100644
---- a/tools/net/ynl/generated/handshake-user.h
-+++ b/tools/net/ynl/generated/handshake-user.h
-@@ -28,8 +28,8 @@ struct handshake_x509 {
- 		__u32 privkey:1;
- 	} _present;
- 
--	__u32 cert;
--	__u32 privkey;
-+	__s32 cert;
-+	__s32 privkey;
- };
- 
- /* ============== HANDSHAKE_CMD_ACCEPT ============== */
+Here is the summary with links:
+  - net/handshake: Fix memory leak in __sock_create() and sock_alloc_file()
+    https://git.kernel.org/netdev/net/c/4a0f07d71b04
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 

@@ -1,173 +1,73 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEEF41A290
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 19 Oct 2023 13:12:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8610139D
+	for <kernel-tls-handshake@lists.linux.dev>; Thu, 19 Oct 2023 13:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linbit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linbit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bO3RlvNH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7jE69Kg0"
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D7E3321A36;
-	Thu, 19 Oct 2023 13:06:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1697720799; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=irXw/srMeT+dYH+sp8YCsw3fD667aRO7MSm4VAMh0KU=;
-	b=bO3RlvNHdOFrvQIEcdtueZclxNcDDpm/nR4X05B+mskqkGusTm19j26wp4cTqP2HvY9UzE
-	LK8rRTPaQhCZmN/r2VGb7+Dp+0qKgTZloKWzc2xH9J0RakaXMPk/nssI4+oHs7rqnR51Kt
-	I8x8TRvYxG9HB/ReTI39Kj6vlHTHiQY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1697720799;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=irXw/srMeT+dYH+sp8YCsw3fD667aRO7MSm4VAMh0KU=;
-	b=7jE69Kg0jnb0P56ITn/A8+Hs8W8ZZtHSn3qwsxIGfoM35esuEjrmLv0W5kzxLsha+15NJg
-	ZO28JdHZJNXG0AAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C80D01357F;
-	Thu, 19 Oct 2023 13:06:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id XstMMN8pMWUnVAAAMHmgww
-	(envelope-from <hare@suse.de>); Thu, 19 Oct 2023 13:06:39 +0000
-Message-ID: <15f85fca-54bc-46c6-b016-0d1761052fe4@suse.de>
-Date: Thu, 19 Oct 2023 15:06:39 +0200
+	dkim=pass (2048-bit key) header.d=linbit-com.20230601.gappssmtp.com header.i=@linbit-com.20230601.gappssmtp.com header.b="H6FTMP0p"
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-7ab4c86eeb0so3055962241.2
+        for <kernel-tls-handshake@lists.linux.dev>; Thu, 19 Oct 2023 06:36:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1697722614; x=1698327414; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OsFML12RHJnOHfkSBiU6dzKYQ/8Nst4lG6vD/F4MSTM=;
+        b=H6FTMP0pWaM8cL1z2GbYOP0Ro6JE1GLG1aAqbNP8Mw9otqetKr6nF970IRycKVjfno
+         2BjqBym0pQOcsq0axuXVyobNXsqyXNOUTJVOEb80PXTqf7dpBmZYuteAi9RDkOwXZ5Vs
+         YsDeU4uwNimmh+WfG+Lo30FqRX/9OlvhEqU8eU8EvYPjrzMvKVbBxPhaZ71SlWs7f7Jk
+         0zmQ0SPmTFjzOQZbuSC6jxPNqjOdWdsjUpZFRAbioHSHESXPlEqTpQ91U0IOcGTh63TV
+         //G9EjE/jmMzYEnMSV+sG/GkgFKsUJbNnOo5YsQkSOOtawsc60zzL8A5h00RiaHMdRqR
+         857w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697722614; x=1698327414;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OsFML12RHJnOHfkSBiU6dzKYQ/8Nst4lG6vD/F4MSTM=;
+        b=Hq/hvQAOzjt4SdUF+kVohFaq6Y7HoM1FbwTczc6oFexUhjKuIMaR7drkjW3pyMaLvh
+         iYhcaMcj0YJMucNc0iHGbOWSWmmFjuPAuopXnSokG4qtvxRam70d8J5EMQqDjJbljcbr
+         MmowuPitOJ4JWR1JK339kxYlecVSPamGIpr2cSf3EwM91+WwwI4C9ojm0+bK5wEztrMx
+         tiyW7hEi8xZ82uv3dPedpvyXgWtHGKjmD+jXYtEpKRXoA5hCsQONZSmuP4sdGpdukFkN
+         lzX1Ucr0dpI9UVozLoW9mvD3FGjCPTrPSheJemje/CNowH+kkl6/N4RP5wj+3EZwU82v
+         qnfQ==
+X-Gm-Message-State: AOJu0YyZv9Jp5OfxjctocDfqYiGrLM1HX5pnVI/vxD0FABGCz/Q2JBy9
+	gXSFWQOaTj4lBXVFINPhOBVEQFrTzthpB4B3V9pCqA==
+X-Google-Smtp-Source: AGHT+IF9qEMTK3Cq0qn/2zsXc0jRLIf65Pa8o2bb6aXKmDlqkmaMThCy3c4XXGmo1fYPHHdp3TyySxIbp9Dctp6RrpM=
+X-Received: by 2002:a67:b242:0:b0:452:6ac0:ed19 with SMTP id
+ s2-20020a67b242000000b004526ac0ed19mr2125923vsh.31.1697722613710; Thu, 19 Oct
+ 2023 06:36:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] net/handshake: fix file ref count in
- handshake_nl_accept_doit()
-Content-Language: en-US
-To: =?UTF-8?Q?Moritz_Wanzenb=C3=B6ck?= <moritz.wanzenboeck@linbit.com>,
- netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev
-Cc: chuck.lever@oracle.com
-References: <20231019125847.276443-1-moritz.wanzenboeck@linbit.com>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20231019125847.276443-1-moritz.wanzenboeck@linbit.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -7.09
-X-Spamd-Result: default: False [-7.09 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 RCPT_COUNT_THREE(0.00)[4];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-3.00)[-1.000];
-	 BAYES_HAM(-3.00)[100.00%];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-1.00)[-1.000];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 RCVD_TLS_ALL(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[]
-X-Spam-Flag: NO
+References: <20231019125847.276443-1-moritz.wanzenboeck@linbit.com> <15f85fca-54bc-46c6-b016-0d1761052fe4@suse.de>
+In-Reply-To: <15f85fca-54bc-46c6-b016-0d1761052fe4@suse.de>
+From: =?UTF-8?Q?Moritz_Wanzenb=C3=B6ck?= <moritz.wanzenboeck@linbit.com>
+Date: Thu, 19 Oct 2023 15:36:41 +0200
+Message-ID: <CAKnz9xJzjpLgZLVZR+LVhrHFQn=utFoZRUrUyowZzKZ=YXhWbQ@mail.gmail.com>
+Subject: Re: [PATCH] net/handshake: fix file ref count in handshake_nl_accept_doit()
+To: Hannes Reinecke <hare@suse.de>
+Cc: netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, 
+	chuck.lever@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/19/23 14:58, Moritz Wanzenböck wrote:
-> If req->hr_proto->hp_accept() fail, we call fput() twice:
-> Once in the error path, but also a second time because sock->file
-> is at that point already associated with the file descriptor. Once
-> the task exits, as it would probably do after receiving an error
-> reading from netlink, the fd is closed, calling fput() a second time.
-> 
-> To fix, we move installing the file after the error path for the
-> hp_accept() call. In the case of errors we simply put the unused fd.
-> In case of success we can use fd_install() to link the sock->file
-> to the reserved fd.
-> 
-> Fixes: 7ea9c1ec66bc ("net/handshake: Fix handshake_dup() ref counting")
-> Signed-off-by: Moritz Wanzenböck <moritz.wanzenboeck@linbit.com>
-> ---
->   net/handshake/netlink.c | 30 +++++-------------------------
->   1 file changed, 5 insertions(+), 25 deletions(-)
-> 
-> diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
-> index 64a0046dd611..89637e732866 100644
-> --- a/net/handshake/netlink.c
-> +++ b/net/handshake/netlink.c
-> @@ -87,29 +87,6 @@ struct nlmsghdr *handshake_genl_put(struct sk_buff *msg,
->   }
->   EXPORT_SYMBOL(handshake_genl_put);
->   
-> -/*
-> - * dup() a kernel socket for use as a user space file descriptor
-> - * in the current process. The kernel socket must have an
-> - * instatiated struct file.
-> - *
-> - * Implicit argument: "current()"
-> - */
-> -static int handshake_dup(struct socket *sock)
-> -{
-> -	struct file *file;
-> -	int newfd;
-> -
-> -	file = get_file(sock->file);
-> -	newfd = get_unused_fd_flags(O_CLOEXEC);
-> -	if (newfd < 0) {
-> -		fput(file);
-> -		return newfd;
-> -	}
-> -
-> -	fd_install(newfd, file);
-> -	return newfd;
-> -}
-> -
->   int handshake_nl_accept_doit(struct sk_buff *skb, struct genl_info *info)
->   {
->   	struct net *net = sock_net(skb->sk);
-> @@ -133,17 +110,20 @@ int handshake_nl_accept_doit(struct sk_buff *skb, struct genl_info *info)
->   		goto out_status;
->   
->   	sock = req->hr_sk->sk_socket;
-> -	fd = handshake_dup(sock);
-> +	fd = get_unused_fd_flags(O_CLOEXEC);
->   	if (fd < 0) {
->   		err = fd;
->   		goto out_complete;
->   	}
-> +
->   	err = req->hr_proto->hp_accept(req, info, fd);
->   	if (err) {
-> -		fput(sock->file);
-> +		put_unused_fd(fd);
->   		goto out_complete;
->   	}
->   
-> +	fd_install(fd, get_file(sock->file));
-> +
->   	trace_handshake_cmd_accept(net, req, req->hr_sk, fd);
->   	return 0;
->   
-??
-You sure this works?
-With this patch 'fd' won't be available during the 'hp_accept' call,
-but I thought that we might want to read from the socket here.
-Hmm?
+On Thu, Oct 19, 2023 at 3:06=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
+e:
+>
+> ??
+> You sure this works?
+> With this patch 'fd' won't be available during the 'hp_accept' call,
+> but I thought that we might want to read from the socket here.
+> Hmm?
 
-Cheers,
+Yes, this works. 'hp_accept' only constructs the netlink message for
+user space, so it only needs 'fd' for its integer value.
 
-Hannes
-
+Regards,
+Moritz

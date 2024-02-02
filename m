@@ -1,61 +1,61 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707E028F3
-	for <kernel-tls-handshake@lists.linux.dev>; Fri,  2 Feb 2024 20:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 767AC18049
+	for <kernel-tls-handshake@lists.linux.dev>; Fri,  2 Feb 2024 20:51:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706906979; cv=none; b=Wnw6LDtyVcDYkIKIrLbPQn3sD6wlmjuSAI03JcEe8JQ6Bj4Jl5JrGOafmjRXYK8D1iQdRKiiZLbM4x2OUlfoiF5UBAtXKroZ1UC+Zuo9VNfAvEdxWysjARAMTtSu0bnZrX8li6HhaseuLoDB5EcCaQdrWdDVBJ8JOdkn8PUBuvI=
+	t=1706907070; cv=none; b=BgHduFlvMm4zMnpZ51kzvkgRYUiNNtAUn8cfdzoprlhMN93LZHxpcqUMkR1huECZqlK6ly/2L7UY1xrMQUN0q4i2gHWT+PZJRkcFtu1pRDz+H0TRpRyOmlMM915Kk+G6HNEbelYpP2SFCkC4iyoYFV1iabO6gg3W7Scz7rR9G0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706906979; c=relaxed/simple;
-	bh=8N4wOk90N8CXaqanetl5Ad0rHah/DO5pYKu/p2+7dn4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nx+AP5VgPHEI25m/A32DP1QGfp8B9uMIGEOxZlYy8kK/v0DcKrE7lKvZmsnIX0wyYNRlGsLYSZmB9rk2kqz1s3NSixMgz++fIZ/swbwkDG0n8TfJxY4rR+FYd7CI4B34ENfKoWsIWeCYF2i3J2kej0rlhQYyV79ZZ8+dvbQPg/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S6+20nXo; arc=none smtp.client-ip=209.85.215.180
+	s=arc-20240116; t=1706907070; c=relaxed/simple;
+	bh=TC7HRIqXTR+8mPsLyq/3qpPGN7cey0WfYsX0189ZmT0=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=oyv0LYbT2TOD5U9ASOARLtJdx7itXZYK4hIECA3SEnV4aGNqtXUaSowBOUhaoCRbeRpsntxrVFqcYAD49dK1+rA+p5Ian0HLsQ7OdJ8nm+57AeYIrXD00aKPOpfJDuaQ2Ki2WGaYZGroli9DZF5y4SpozbqkjWtk8BlceGtJkEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wn3R7ffu; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S6+20nXo"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5dbcfa0eb5dso2336726a12.3
-        for <kernel-tls-handshake@lists.linux.dev>; Fri, 02 Feb 2024 12:49:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wn3R7ffu"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6de28744a46so1962237b3a.3
+        for <kernel-tls-handshake@lists.linux.dev>; Fri, 02 Feb 2024 12:51:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706906978; x=1707511778; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=sN7xemauWmjtqPIUP0z093eagdZIcXA/UYJxW0nyEsQ=;
-        b=S6+20nXoYJ7kTdgijuebrqk8AlYCuwoYpeGPw379BYgV3An1HxxF9vqlh1f4Dji75z
-         O9kpRW5sSnhr5fn49qlZDqy5YbY3dnjvykP5Nx9u17jeSz7UR9VrfgRim4ARvAqwpE4D
-         aX4odPxi+UNHzKvTSMoyi1H7NHE4E/0VsRiMOK8yQrH15r5ADCLhToT/N6bnMYHP5ZyP
-         1wtT0SIv5Hl/vft62XFvhG7vd2cL8hN8OpzkKi4y+Gm44Spe/8QOeqiBWg6veXfSUtjY
-         tMAFyNGI9B+rvAtQ8VqiYgSoQX3cxCzhCJbZES6rBNjGs7ANF26agU5FD/xnPwhDRpzi
-         Gomw==
+        d=gmail.com; s=20230601; t=1706907069; x=1707511869; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=QUOLivjsZbHCREIAaoaMDHaNPDVqlHwXUANPzreXoLw=;
+        b=Wn3R7ffuIzNNMYJ27Mb74OXmS79PqSzPEIbQfl8CXbz7uz6hlwQ8xbYiUyhWLJP65x
+         uYgGVNVW2G+WvHb0kkgukGh8ZlPAM1Afi9geIB2dH5G2N3NdfbmefHdx3cVCApaUbZZs
+         qXcoSdkvStEiNN7RNWZWkIVZGUPec/pEC1tEPk+upMe5HdYTAjyg1/iqDJPbtKLzP7Av
+         XR9ZNnvyGiZZxaYzia0GR0nvia+R9oc0frQgDqqJ0S5O1Vp2TRL6x7pVCU7T38wfSeWu
+         vRaZc53ooeGu/kltwYH+GNOwMBsi3er+LslOnrWmnHkxF5qN/E2zuW/7b6cJpnWLTn4j
+         swGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706906978; x=1707511778;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sN7xemauWmjtqPIUP0z093eagdZIcXA/UYJxW0nyEsQ=;
-        b=j92Z50M760eHJqkkG4i9AK8VSmumN4CMzw5Zu5rh2dSQrq/4gQ6RKuohd96CaUqx/1
-         j5UFuq1nAs7r09jbH/T+f/2mTyReA4nrPC8Az4zKlk+iT3HurxYIhnXFMDglQ+WWOrfs
-         +MgFZItsA7abRfaa8qEeK+IstM+/o60HEVxfnIwg9/YB/IdQR4HcGgYfo/9LK27wKCNq
-         fQMZ051jUG+COIyNn48BarajJuMa8c++gmpz84GXVHh/uF248AAphV0UdANQVIKFb/KV
-         a2VEHXp6oiZrKyd0IYthxwZ8L2MSuFZuMg0AifI00Ds1zsOJOy+FBYu22aLELXdMkm4O
-         4iEw==
-X-Gm-Message-State: AOJu0Yzskkszn0ORVmi2DSgpjheubSjEVvWEt4V7/UEioLeuidXW+dmN
-	sW1B2P2RXwyfWjJjRbpkQYV6SgTzL1QC9320kyqMyDB2BUpoLFL6
-X-Google-Smtp-Source: AGHT+IE9VPHbKbcNocPJv88d/v1ipENvERiBVGXbylG4wps5dD4sUz8Nio0WB5MmB9jV4FHy+qfZdw==
-X-Received: by 2002:a05:6a20:c78d:b0:19e:3af0:af33 with SMTP id hk13-20020a056a20c78d00b0019e3af0af33mr8856025pzb.60.1706906977627;
-        Fri, 02 Feb 2024 12:49:37 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCWnsXeWOo7q8jXWxIRVJsB5/SJhLMBhHMtD4TKqT8Kw/m05KJ7M12dmGkrZnSxQbAKTS+d9qVS91r1bQxNmsbfnhRpX9/0dk1EZa8lWliPOe2mcy6F/yVDv1lY9UMDJ+UB5NmuD0ztIPSikgCE=
+        d=1e100.net; s=20230601; t=1706907069; x=1707511869;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QUOLivjsZbHCREIAaoaMDHaNPDVqlHwXUANPzreXoLw=;
+        b=GEwT4O6wo5KtUNuQSbbFCJceIgeo7t+IAzXPEc1/kGWCKHfFlijMBbZ9zG39ThFp3w
+         qN7xOdoTc128OFdqWVC7kzZZpIctvY4tROrM83RGUZGQZ3vBJOSc/PjaPJEetnjn4JQu
+         4PacFyvKFItnPxueI0MXaABscgmGmUNmthepZOSnrhUesMzosVFLd1qh2RU20xfJTF8+
+         oJp4exavpsu0H9XuyGft1OFOyd8mVi+7yl5ZVD08um8DMCxRwrPIr2NyB1qE11m9HbfR
+         kbiYt5Ej2v3fCp8Zr3woE5Zy3nfANVSo6JAfzZKsBUWmGo/UoEpQsZqOafJ95VfgJiR/
+         2ZBw==
+X-Gm-Message-State: AOJu0Yzo8ixavdHVFF3MF64mohL9arbXHOmStxfEW4D2lTwTw+8zCpBO
+	yW5iykGRZpIPIfTxljyVJdnzw5ZoYzAl+NZ2eL4QMv2LopCSANrtbDiCJD8v
+X-Google-Smtp-Source: AGHT+IHbH42rEGR3AsFHuSUm8xbAej356+6T04DdyMIDNjt317AyY0bbzUb0uTCHo0QBFZDdxMhd5w==
+X-Received: by 2002:a05:6a00:2309:b0:6dd:84f5:34ae with SMTP id h9-20020a056a00230900b006dd84f534aemr11121990pfh.2.1706907068694;
+        Fri, 02 Feb 2024 12:51:08 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXh97U84V6yypDuOmmtHVNttnvl194U8mcv8YejR2MWDtci9c+TnIk53FZBXEqiMiId+ANdJjmpG4M6o2U64s4c2PXZWlVQhN5v4c2Z3BQP/9Z+80u9NOlsnMUuT/aNV9b1kz3bt3sGqZdUFoM=
 Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id t3-20020a62d143000000b006e001635563sm999382pfl.118.2024.02.02.12.49.35
+        by smtp.gmail.com with ESMTPSA id t3-20020a62d143000000b006e001635563sm999382pfl.118.2024.02.02.12.51.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Feb 2024 12:49:36 -0800 (PST)
+        Fri, 02 Feb 2024 12:51:08 -0800 (PST)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <f76d66dd-5920-4bf1-95f5-dd64f19826d4@roeck-us.net>
-Date: Fri, 2 Feb 2024 12:49:35 -0800
+Message-ID: <39a8176f-7c22-41ac-a027-dac10e349c51@roeck-us.net>
+Date: Fri, 2 Feb 2024 12:51:07 -0800
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -65,12 +65,13 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: Persistent problem with handshake unit tests
 Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
 To: Jakub Kicinski <kuba@kernel.org>
 Cc: Chuck Lever <chuck.lever@oracle.com>,
  kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org
 References: <b22d1b62-a6b1-4dd6-9ccb-827442846f3c@roeck-us.net>
  <20240202112248.7df97993@kernel.org>
-From: Guenter Roeck <linux@roeck-us.net>
+ <f76d66dd-5920-4bf1-95f5-dd64f19826d4@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
  xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
  RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
@@ -114,25 +115,31 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
  HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
  mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240202112248.7df97993@kernel.org>
+In-Reply-To: <f76d66dd-5920-4bf1-95f5-dd64f19826d4@roeck-us.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2/2/24 11:22, Jakub Kicinski wrote:
-> On Fri, 2 Feb 2024 09:21:22 -0800 Guenter Roeck wrote:
->> when running handshake kunit tests in qemu, I always get the following
->> failure.
+On 2/2/24 12:49, Guenter Roeck wrote:
+> On 2/2/24 11:22, Jakub Kicinski wrote:
+>> On Fri, 2 Feb 2024 09:21:22 -0800 Guenter Roeck wrote:
+>>> when running handshake kunit tests in qemu, I always get the following
+>>> failure.
+>>
+>> Sorry for sidetracking - how do you run kunit to get all the tests?
+>> We run:
+>>
+>>     ./tools/testing/kunit/kunit.py run --alltests
+>>
+>> but more and more I feel like the --alltests is a cruel joke.
 > 
-> Sorry for sidetracking - how do you run kunit to get all the tests?
-> We run:
+> I have CONFIG_NET_HANDSHAKE_KUNIT_TEST=y enabled in my configuration.
+> The tests run during boot, so no additional work is needed. I don't run all
+> tests because many take too long to execute in qemu.
 > 
-> 	./tools/testing/kunit/kunit.py run --alltests
-> 
-> but more and more I feel like the --alltests is a cruel joke.
 
-I have CONFIG_NET_HANDSHAKE_KUNIT_TEST=y enabled in my configuration.
-The tests run during boot, so no additional work is needed. I don't run all
-tests because many take too long to execute in qemu.
+Follow-up: If this test isn't supposed to run during boot, please
+let me know and I'll drop it.
 
+Thanks,
 Guenter
 

@@ -1,250 +1,254 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C364A08
-	for <kernel-tls-handshake@lists.linux.dev>; Tue,  6 Feb 2024 16:47:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707238031; cv=fail; b=H+bQpF9GzfNLbYFJf/NVJWFHwIBMVISTTJzLvtTxVPphMoTivGweullcpDdVh4gWOM70U0Wm00JMmtjbzDGaZyznt8XlhA0rgSws3CYhY43AdUyt32n40FrXikEniV1BFVfrpvFE9RqOjfPVOT5oJ4UkiaRQ67ta7tm8KC+/DVQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707238031; c=relaxed/simple;
-	bh=1PB62JcCvmMG7DUYOrM+0QoWSHrsH6haX+tOJc/cPpU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ldcavZi3gH4bePWSym1QfF42XKAeY5a7z5jZG7SULvepgr/L6eAzG9+SLCHdUtbPI0zvuy0uvkMFcHkj/2LmEh6wNgNVcFkHGVqA0rSjECJgBiXQ2U1P4lu6A/f3Qdpd+nx8tTKQVZVDVinKSkGtW2RtB8y1M82vmPaIM5IdRv4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=O7tZNhXB; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=Z2ZHD3Id; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090DD134A4
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  6 Feb 2024 17:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707242134; cv=none; b=K13lFx0c7j9GexmFV6LwfhUF/kEdiAcUwDvmEA4tQZCT8Js7SlETGt8X2NI0SqAta2Ov0U1tC17qg59IQH2mI9VcPtfrHEyXcR90QOSnASsaFFEqY9kKIioYqd1b+pvoPFRgZUerEGnjhmd62AJV6UZr5hM4do/RbgltYg7OS68=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707242134; c=relaxed/simple;
+	bh=HcDkmBsFhnyU5rbwWI3oAT4kaqE7UquOzQKTZx5BPHY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J3sQLwh7ONr43ZjHwUi+bdJpBkOksR8OXtqibzSUXci/QQeitpCo+c+Vw3N9yE2khKWplhaWUXX+A7WnxWakBZmL31xh9jOq7KM9NqJ6+CkybOkfSnF/Eu/ez/KjnC0NcXdJKx2yHpSlLutnnKtA02tAzk1lQF+0fz7tEiBDWAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=er6dkXGx; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="O7tZNhXB";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Z2ZHD3Id"
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 416GFSn6031190;
-	Tue, 6 Feb 2024 16:47:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2023-11-20;
- bh=BeuQz/aLTW6po5z6A1YR7u7VXb6CcbJ6bfs6PbQImBg=;
- b=O7tZNhXBHDatlmUNRxpPmchh6fOKmxeKb+/jHVo3ka+VpMl9PmEFN4vjvS5f9D3kT46u
- Jjgh67boYEPwWRd7d2Fz47wowTgLg+immu2XZ/DjYyxFNrnFJf9UjiqSF4vx615SS9nb
- jkIQ9xsoDZJn/4ZVblpHeU6oLcrMASNOxVrtwNZy8SJOOapfmRL9lFNxlrS4ky6dk6W/
- UffIs424I9KtnSX7Ke7ruQhM6PV0nIa/a/UQyM6Qj026psJOyGPidKLDU1YC/4qQQ7As
- Z8G1FkmqQcJdwasw/QkdH/ChLu+2kqXcb2sq/HU1GQikpQcDs9Yo0bTFkC6F/E470106 yQ== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3w1dcbf8rx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 06 Feb 2024 16:47:07 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 416Faj1K036804;
-	Tue, 6 Feb 2024 16:47:06 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3w1bx7kgdf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 06 Feb 2024 16:47:06 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k0JHcY9WYITdBt9dvlemV4eX3sV84Ei+87tu1D3Va+QrqOX/5oytQAroFBocHVVxpuM+Hm8UodCaL1e3blLsKgAAIet2dxbVU/H3acHlcv6W9wk5OhlLZnGVjqf9Y9sG5v4oP5PM8Hpt4jaKOA8FYgiFLSs/hcYmQ7MYQC2w+/GOdUa2XGVztoowg5QkTGr/l/ALyCGa2Xn1nZbZfHR1sPSlRenRcdF5o+BaaHdLHtu1ueJcteqZycz8E9M5mBFIwxgoX1EQW/E81qa/K+KIsxGZx7ZWzC15jHwTfNeW9R4qPiK3iLeUhjiZvi4vkBrsTt8un+66WRx8ezPh1RvYGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BeuQz/aLTW6po5z6A1YR7u7VXb6CcbJ6bfs6PbQImBg=;
- b=Nzm8c620zuZsPMMsgyI+/uT4Lu+Rca6pzOc+5WvC6fBnD04Aj97veYeISAwLlRWw/mqNp5ThCqsdpgepMNhgtREE2Z0WRsLbDIrV/rXBH2EG9XFBWcEDdAILDFXMDZjqVTNYbRjJNXShZ4AC3de0bq65LAW0O4o/vGqt4fCoVdnJwB1GF+hjlzOubUqmlmSWzlp+C7rGAMo5r0U4OT9etuHGS5EhnPFTtQgTAviQ2VN8peVZzSCli5Z3Clo1BWCOJkHN/wHNfzRfR1PSppkncGsxEI3tyqykXSatDp3f1RCQuzl7i0VpRRUkOWHghlxnEfdGbjNvVzCR0QsBcKce7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="er6dkXGx"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6e04fd5e05aso695009b3a.0
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 06 Feb 2024 09:55:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BeuQz/aLTW6po5z6A1YR7u7VXb6CcbJ6bfs6PbQImBg=;
- b=Z2ZHD3IdoQ9OskggyboW1aHEsaWSBc2+94daayt6VVlab8HGrEDKci53/8tOPfyjZBH4t4BddtoVJoBLNLWl1bA+W9wL4hy4mUctCQ06OMyPsiyH3Nt0cxw+3E23u+X9XPe20eS4IiU6h9bo1ZFTQCrfMIULUow6+xPsrkJSts4=
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
- by BN0PR10MB5237.namprd10.prod.outlook.com (2603:10b6:408:120::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.36; Tue, 6 Feb
- 2024 16:47:03 +0000
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::ed:9f6b:7944:a2fa]) by BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::ed:9f6b:7944:a2fa%7]) with mapi id 15.20.7249.035; Tue, 6 Feb 2024
- 16:47:03 +0000
-Date: Tue, 6 Feb 2024 11:47:00 -0500
-From: Chuck Lever <chuck.lever@oracle.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: Persistent problem with handshake unit tests
-Message-ID: <ZcJihCDh30LD4NPy@tissot.1015granger.net>
-References: <b22d1b62-a6b1-4dd6-9ccb-827442846f3c@roeck-us.net>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b22d1b62-a6b1-4dd6-9ccb-827442846f3c@roeck-us.net>
-X-ClientProxiedBy: CH0PR03CA0054.namprd03.prod.outlook.com
- (2603:10b6:610:b3::29) To BN0PR10MB5128.namprd10.prod.outlook.com
- (2603:10b6:408:117::24)
+        d=gmail.com; s=20230601; t=1707242132; x=1707846932; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=a/BmeUVInIyHDCTL4se8RMMR8I9jTDDaYFkyAPbmr+Y=;
+        b=er6dkXGxVcmCJTdZs2i7EDoDScAbJhaY/BugqihoHjyt4eG+0C+aBiDJvyJdoSnXpy
+         QORxj0NkuPXa36Ev3s2GWCEMIsV71yRuWk0GoGZ1yXrrHmu+GL0BycDc6u/ZwL1sxP4k
+         GbINCuROmgz5FskBaEmlpJKVrw8t/ONnDhWC8ET7sPVohRy9FOOiNBKd1wuTb+72I88e
+         NixAftwCFMsAFlTf0OBRFKVmjn5YoZn1h63Ja6CLBNGQkvlOPYREujiJdrE3lm3GUOYv
+         DC6a0NpdWy2OaxYKWFlTYBWX6yCG0ofP/34ns5bvakz9COLMOgdfzdA4YLaDL3aaCUVB
+         dm3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707242132; x=1707846932;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a/BmeUVInIyHDCTL4se8RMMR8I9jTDDaYFkyAPbmr+Y=;
+        b=wDhurl2qxAT1m9ZfetkbR0ldc2daBTyD/iOw5jjkJpITdDmMR6WlZT55SgXfrrtFDJ
+         QMZp4yPCqQ7LcyoFaNa5Pozm+xjgK/d1uHa5LftCNafdMWDiQ0DQ3X7EPYv+3ZwE8/WT
+         v9s/kMSrYJ2OlinzucTaM7kK64NcPi8cC5j05ANibzUXKqoLWv4qXQtt6OtPX4gav+xU
+         +qTFx0Vo8X/aNfYyKmS9blijvGx3MInu6mwHWHlivvALfzrkDtdDkhTBDYsgbZ8lNkcM
+         umj50BXiKsu3g2/7ximo/7tM73Qc5J1lRHgatX9B/8chpXIkm4bMGCIiqi4bYEIWiZqf
+         VxgQ==
+X-Gm-Message-State: AOJu0YwcNbZB9dliF/t/DutI/Rs+Ky6BgxZbXjHwp1tQBnKiawgss4qn
+	KkX2L6Ya/vw6niDzLb2NOu1dofIKRcUyAjiLBG086KhC/A7bSO4u
+X-Google-Smtp-Source: AGHT+IEu+0lFxKweihu5Dr8Ev9+SmgPYX/223dgdbcRMq8XdErBxgJVArFosTjAFThYKyu/DxL3Idw==
+X-Received: by 2002:a05:6a00:3491:b0:6e0:4a19:8da6 with SMTP id cp17-20020a056a00349100b006e04a198da6mr339318pfb.3.1707242132190;
+        Tue, 06 Feb 2024 09:55:32 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWphSMDuzHqgz9CLLu0kRGdX/QkB80JWBW1FO3bNcCU1tReDLKRmwXEeyKZdWFV3w1wfasgiJzUogDqytpu3yE3oD1BUfrI
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id z13-20020aa785cd000000b006d9c216a9e6sm2222969pfn.56.2024.02.06.09.55.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Feb 2024 09:55:31 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <6904162b-5ac1-4f2c-a48a-02c104f6fe4c@roeck-us.net>
+Date: Tue, 6 Feb 2024 09:55:30 -0800
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN0PR10MB5128:EE_|BN0PR10MB5237:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3b292036-ca82-4e44-9252-08dc27333f22
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	cB3DTktV/FBcuHkQHDAnvTj6ChfcyYPwpAr4Dm1ohnElMhtczO72s2mRPUrLC+/c76M57F1/IYnzbN6sEv6R9j6T1agOqDIBAMDV4JNjhqSVUb7Xav220Vh4wfKHklP1ZQkSsBvSW+FhXb5MYC6mAVLv6aLwGJYsDnB1MOrxWzXYbE2xQpBnJTN1hWa9jQw8qW1PEMX6a+OpoX8IvqWmH9eF/TNazkv8ISX/dS1XHFwpdgOTmpNqSjDaPx79Ub/PZYS24KdB2AKFLjG0df8xAG+P2rcDMYhsTeWgFzG22oOIug/TCeHcxSHDdJwWmO1MEMC8S0PZW1LHS6R20AV76rQ7opfEhdF/no2mBL5rexG8XoUGmhuH+CiK1aTrBaiEE5613tqDvUwF/BR+HJ01cJgZz0g5BTEPlhu1SpPONFOSsU5QMz8gNqih5DFhL4r1eX74FKEZ1aig0c73atufWqM7iHs1vo5Oz1/d/pOxrq8xO7MqUWru0K4vLW51YBUBSeQfzF/5aU9rNIlqTKi37dl21WwYKeptY3xhhLiY8EJHzeEcHS6GKoWoO+GPvUJz
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(366004)(39860400002)(346002)(376002)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(6506007)(86362001)(41300700001)(478600001)(6486002)(2906002)(5660300002)(44832011)(66556008)(316002)(66946007)(66476007)(6916009)(8676002)(4326008)(26005)(8936002)(9686003)(6512007)(38100700002)(83380400001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?33BOLFm6MuOzPYnx8wIF5zBDd79DC3ANPDK+PrepLqC6dhbCfhkzPoBDkEiv?=
- =?us-ascii?Q?l4ynl1DKYj5Z+s0gFrKSRcPEs7FTKBmKJL6VOL9CvQVzKhEnAC4tHSd3P1Sb?=
- =?us-ascii?Q?r07T3sJsR3lcpuCGzYtOCstft8R2oUqnHeD7WVxGMpq2viL3Wg9Tpzhp+Xzd?=
- =?us-ascii?Q?HwOlcFk/7azMgV9Ei9iozuIN/iaj2opDKwOFq7TZyWlTfC7WNDdoWRh2lE4s?=
- =?us-ascii?Q?EvxSewi6zbIeFrPq+S8NnaQY06ittjJBJgTp673cWfIRVJ/P5DA5POGfWqC8?=
- =?us-ascii?Q?VHNCs+5iH5rTrPKkdXJO6jrI1dVYdXNXDs16W/i9lyEx6iNhKW0X5Qp4G12H?=
- =?us-ascii?Q?rGFOg0EAXu2HGsxfSe2hIKRU9wzQdoozBZsXKeBplvEDUnHcocM0OAK6HYia?=
- =?us-ascii?Q?vlCRlIE6byPd4FdJU63yM+PWG38VIR/Pxi0RvxZV5xEhXWooFIMBkFgRP4P1?=
- =?us-ascii?Q?JVcJ/vaPKjOijpkS7PPj4GbXE3yE26GiQKFyEGw/IuqIIpPgby9fQHCFdhEK?=
- =?us-ascii?Q?WJB3xWvqBchphLvZDo3VEvVtlPIxBXjqC3GQ6qZriLN7hQ0Bl6V1SHBpkwbc?=
- =?us-ascii?Q?YLC0w5wnwKFT3mXnpZ2JqTSIJky9/kSg6OTRo/QnfA5DUE3VDiHPWmDGY7Em?=
- =?us-ascii?Q?XlvnEYSGoVxsmJVGnM9RXMZbH0hMEChm3hzXAXAKcD6dj4W/2Gh9HE6T9day?=
- =?us-ascii?Q?vzRIy9Bvwk2jNEiXRLQOITAvT9niLwS1Pz1pl96fDbiclKJDyu2EwNIzNlr0?=
- =?us-ascii?Q?gXTbfB5DiZJTuKV69u+XL9qKHb4iM6AHIt/hSXA5LlzI/5qsT39VF3mGu1+n?=
- =?us-ascii?Q?t2PHWCYPN8lSRNHRSc7xV8hOnpjRNM2ItZAeykFP+aQTYfdPfA9C3LjKwTjO?=
- =?us-ascii?Q?FqfclN8ZWqfpgUDivdJKAwCtks1yonFWqCb3tWFTR5g08B+teYZC+KFHUK7W?=
- =?us-ascii?Q?y1T3CxK6xqGlDzCDucJPhqtiPITjS+ALl5qams+sORFFtG+j5XZMBtMJpVYI?=
- =?us-ascii?Q?Yc+4AN6WxJxfM+wmpyVmt0p9G3sFVYzOj6HW5QegWVxDpY5JRj41k81GnWGv?=
- =?us-ascii?Q?aBRh0gs7wy2rJlGn7bowgPCibnEwE4lmvxC7ayW8ziLSo3NgG4C80oaV3Mxy?=
- =?us-ascii?Q?o9ruBNs6PDkMj0ST+qLo35t/6Dbp5fxqXuD+WkNw3CIrtziiFqsU+p/QOr1o?=
- =?us-ascii?Q?X8bY/zYkB0xT+WPrWnnLByH5jTRKWGfEDXHmM7yfVjGyjnBL7u8R5tdYnVTO?=
- =?us-ascii?Q?6AA2kFxWQp5sJ67RvuRntCAvzPNHrrS89xaKX9zQg6WxWfR5UF5dOhnHzVDl?=
- =?us-ascii?Q?jYLgWvgL3AFw5SGbuHjc3d5wEIAAGlYgdC8kJM5/VtOZAYN+e/0kE8PhOBh6?=
- =?us-ascii?Q?Z8RcTvWc5IQj3UwbDRhNc6QZ54WZlnBidzC+QWPzU46xqMVp11rrkj937n+N?=
- =?us-ascii?Q?tB696uvEsZgwfXf7v7zQFJcrUOjraEqtbxP+hzsxDvF6IvPYz5v1jcnTCcv5?=
- =?us-ascii?Q?8RRvMDbtDIEYX79H+a6/kKt60PMH/mhXL/G4/9jW29cKR8DnmcZnDrf97iLQ?=
- =?us-ascii?Q?XexV4wI8x9uywJIPqUWUP9DwxQZoFi1eJ5ylTIk40T5XIuu0q2s3HwLVE2cY?=
- =?us-ascii?Q?Cw=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	ZMujx/CWxhGb5rUtHgzZ+OQWWF4/iJiXcKMfiGLzSsJMDGDNNad/kH98LUCKbSNbzDUFmEFnp0wmq6iauMZnnnN0Ls4mstX2Ch8PSAKOFh2G2hRIae/uLz0XhjcKbfhg+IkB4qgUVtZWcjvt9Ob7Prq3lY9Cy4wPPatVx+CgTB4NfIotQZI82wpQl+4snCuI2ShRzUaB3wSWyFmxNaPMtdhP1lee8ce9kExuYMmDCluCT2imcTNC6VICbuecoKKuTo5WEBZmstLKc2ii3rmf5nayziFLeQ0uwxk4e0CG21A4a+eOoGBMSERujwvhtieNWJxMak3/mODpx0bYE2mCxQj6ZUQJpqhrV+HR6Uz/HXauQlO9KaB3Ubc+mYRTyRncSq+zGL5E9O4RJX7P2ZikpjWGjbuugOu8xmJMFW8e1c9oqo/gmLCwQJA/DmLOf8pyJqccBcEltGkbJJ8zJhSpTidBB531vlyW2shfNpeCwskHe1lKxOHtBj9Q6OykbNLfLCJT3dAx9hwohG4SeG0Fdv2F6hxDqT6ifJ7U5Zx0ZgqDv6fj6prxo7cxYVimbkKNRbKjuVR5YRh0hy+dmnT7RLd7CYTJvuvwaexw7ZUYA2s=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b292036-ca82-4e44-9252-08dc27333f22
-X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2024 16:47:03.7095
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gYp1BnH77zrdSL/CAiCqGKTtW5D7EZlHUEE+zHrOhvABQJ8ep5U+LzmFom78MvUynn05j6OepAGeP5xmOboBww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5237
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-06_10,2024-01-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0
- mlxlogscore=999 suspectscore=0 adultscore=0 spamscore=0 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2402060117
-X-Proofpoint-GUID: pjewVlODWFobyW3jv1wb69nvrDNpnB2C
-X-Proofpoint-ORIG-GUID: pjewVlODWFobyW3jv1wb69nvrDNpnB2C
+User-Agent: Mozilla Thunderbird
+Subject: Re: Persistent problem with handshake unit tests
+Content-Language: en-US
+To: Chuck Lever <chuck.lever@oracle.com>
+Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org
+References: <b22d1b62-a6b1-4dd6-9ccb-827442846f3c@roeck-us.net>
+ <ZcJihCDh30LD4NPy@tissot.1015granger.net>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <ZcJihCDh30LD4NPy@tissot.1015granger.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 02, 2024 at 09:21:22AM -0800, Guenter Roeck wrote:
-> Hi,
+On 2/6/24 08:47, Chuck Lever wrote:
+> On Fri, Feb 02, 2024 at 09:21:22AM -0800, Guenter Roeck wrote:
+>> Hi,
+>>
+>> when running handshake kunit tests in qemu, I always get the following
+>> failure.
+>>
+>>      KTAP version 1
+>>      # Subtest: Handshake API tests
+>>      1..11
+>>          KTAP version 1
+>>          # Subtest: req_alloc API fuzzing
+>>          ok 1 handshake_req_alloc NULL proto
+>>          ok 2 handshake_req_alloc CLASS_NONE
+>>          ok 3 handshake_req_alloc CLASS_MAX
+>>          ok 4 handshake_req_alloc no callbacks
+>>          ok 5 handshake_req_alloc no done callback
+>>          ok 6 handshake_req_alloc excessive privsize
+>>          ok 7 handshake_req_alloc all good
+>>      # req_alloc API fuzzing: pass:7 fail:0 skip:0 total:7
+>>      ok 1 req_alloc API fuzzing
+>>      ok 2 req_submit NULL req arg
+>>      ok 3 req_submit NULL sock arg
+>>      ok 4 req_submit NULL sock->file
+>>      ok 5 req_lookup works
+>>      ok 6 req_submit max pending
+>>      ok 7 req_submit multiple
+>>      ok 8 req_cancel before accept
+>>      ok 9 req_cancel after accept
+>>      ok 10 req_cancel after done
+>>      # req_destroy works: EXPECTATION FAILED at net/handshake/handshake-test.c:478
+>>      Expected handshake_req_destroy_test == req, but
+>>          handshake_req_destroy_test == 00000000
+>>          req == c5080280
+>>      not ok 11 req_destroy works
+>> # Handshake API tests: pass:10 fail:1 skip:0 total:11
+>> # Totals: pass:16 fail:1 skip:0 total:17
+>> not ok 31 Handshake API tests
+>> ############## destroy 0xc5080280
+>> ...
+>>
+>> The line starting with "#######" is from added debug information.
+>>
+>> diff --git a/net/handshake/handshake-test.c b/net/handshake/handshake-test.c
+>> index 16ed7bfd29e4..a2417c56fe15 100644
+>> --- a/net/handshake/handshake-test.c
+>> +++ b/net/handshake/handshake-test.c
+>> @@ -434,6 +434,7 @@ static struct handshake_req *handshake_req_destroy_test;
+>>
+>>   static void test_destroy_func(struct handshake_req *req)
+>>   {
+>> +       pr_info("############## destroy 0x%px\n", req);
+>>          handshake_req_destroy_test = req;
+>>   }
+>>
+>> It appears that the destroy function works, but is delayed. Unfortunately,
+>> I don't know enough about the network subsystem and/or the handshake
+>> protocol to suggest a fix. I'd be happy to submit a fix if you let me know
+>> how that should look like.
+>>
+>> Thanks,
+>> Guenter
 > 
-> when running handshake kunit tests in qemu, I always get the following
-> failure.
+> I am able to reproduce the test failure at boot:
 > 
->     KTAP version 1
->     # Subtest: Handshake API tests
->     1..11
->         KTAP version 1
->         # Subtest: req_alloc API fuzzing
->         ok 1 handshake_req_alloc NULL proto
->         ok 2 handshake_req_alloc CLASS_NONE
->         ok 3 handshake_req_alloc CLASS_MAX
->         ok 4 handshake_req_alloc no callbacks
->         ok 5 handshake_req_alloc no done callback
->         ok 6 handshake_req_alloc excessive privsize
->         ok 7 handshake_req_alloc all good
->     # req_alloc API fuzzing: pass:7 fail:0 skip:0 total:7
->     ok 1 req_alloc API fuzzing
->     ok 2 req_submit NULL req arg
->     ok 3 req_submit NULL sock arg
->     ok 4 req_submit NULL sock->file
->     ok 5 req_lookup works
->     ok 6 req_submit max pending
->     ok 7 req_submit multiple
->     ok 8 req_cancel before accept
->     ok 9 req_cancel after accept
->     ok 10 req_cancel after done
->     # req_destroy works: EXPECTATION FAILED at net/handshake/handshake-test.c:478
->     Expected handshake_req_destroy_test == req, but
->         handshake_req_destroy_test == 00000000
->         req == c5080280
->     not ok 11 req_destroy works
-> # Handshake API tests: pass:10 fail:1 skip:0 total:11
-> # Totals: pass:16 fail:1 skip:0 total:17
-> not ok 31 Handshake API tests
-> ############## destroy 0xc5080280
-> ...
+> [  125.404130]     KTAP version 1
+> [  125.404690]     # Subtest: Handshake API tests
+> [  125.405540]     1..11
+> [  125.405966]         KTAP version 1
+> [  125.406623]         # Subtest: req_alloc API fuzzing
+> [  125.406971]         ok 1 handshake_req_alloc NULL proto
+> [  125.408275]         ok 2 handshake_req_alloc CLASS_NONE
+> [  125.409599]         ok 3 handshake_req_alloc CLASS_MAX
+> [  125.410879]         ok 4 handshake_req_alloc no callbacks
+> [  125.412200]         ok 5 handshake_req_alloc no done callback
+> [  125.413525]         ok 6 handshake_req_alloc excessive privsize
+> [  125.414896]         ok 7 handshake_req_alloc all good
+> [  125.416036]     # req_alloc API fuzzing: pass:7 fail:0 skip:0 total:7
+> [  125.416891]     ok 1 req_alloc API fuzzing
+> [  125.418439]     ok 2 req_submit NULL req arg
+> [  125.419399]     ok 3 req_submit NULL sock arg
+> [  125.420925]     ok 4 req_submit NULL sock->file
+> [  125.422305]     ok 5 req_lookup works
+> [  125.423667]     ok 6 req_submit max pending
+> [  125.425061]     ok 7 req_submit multiple
+> [  125.426151]     ok 8 req_cancel before accept
+> [  125.427225]     ok 9 req_cancel after accept
+> [  125.428318]     ok 10 req_cancel after done
+> [  125.429424]     # req_destroy works: EXPECTATION FAILED at net/handshake/handshake-test.c:477
+> [  125.429424]     Expected handshake_req_destroy_test == req, but
+> [  125.429424]         handshake_req_destroy_test == 0000000000000000
+> [  125.429424]         req == ffff88802c5e6900
+> [  125.430479]     not ok 11 req_destroy works
+> [  125.435215] # Handshake API tests: pass:10 fail:1 skip:0 total:11
+> [  125.435858] # Totals: pass:16 fail:1 skip:0 total:17
+> [  125.437224] not ok 69 Handshake API tests
 > 
-> The line starting with "#######" is from added debug information.
+> I'll have a look.
 > 
-> diff --git a/net/handshake/handshake-test.c b/net/handshake/handshake-test.c
-> index 16ed7bfd29e4..a2417c56fe15 100644
-> --- a/net/handshake/handshake-test.c
-> +++ b/net/handshake/handshake-test.c
-> @@ -434,6 +434,7 @@ static struct handshake_req *handshake_req_destroy_test;
-> 
->  static void test_destroy_func(struct handshake_req *req)
->  {
-> +       pr_info("############## destroy 0x%px\n", req);
->         handshake_req_destroy_test = req;
->  }
-> 
-> It appears that the destroy function works, but is delayed. Unfortunately,
-> I don't know enough about the network subsystem and/or the handshake
-> protocol to suggest a fix. I'd be happy to submit a fix if you let me know
-> how that should look like.
-> 
-> Thanks,
-> Guenter
 
-I am able to reproduce the test failure at boot:
+Since the destroy function runs asynchronously, the best I could come up with
+was to use completion handling. The following patch fixes the problem for me.
 
-[  125.404130]     KTAP version 1
-[  125.404690]     # Subtest: Handshake API tests
-[  125.405540]     1..11
-[  125.405966]         KTAP version 1
-[  125.406623]         # Subtest: req_alloc API fuzzing
-[  125.406971]         ok 1 handshake_req_alloc NULL proto
-[  125.408275]         ok 2 handshake_req_alloc CLASS_NONE
-[  125.409599]         ok 3 handshake_req_alloc CLASS_MAX
-[  125.410879]         ok 4 handshake_req_alloc no callbacks
-[  125.412200]         ok 5 handshake_req_alloc no done callback
-[  125.413525]         ok 6 handshake_req_alloc excessive privsize
-[  125.414896]         ok 7 handshake_req_alloc all good
-[  125.416036]     # req_alloc API fuzzing: pass:7 fail:0 skip:0 total:7
-[  125.416891]     ok 1 req_alloc API fuzzing
-[  125.418439]     ok 2 req_submit NULL req arg
-[  125.419399]     ok 3 req_submit NULL sock arg
-[  125.420925]     ok 4 req_submit NULL sock->file
-[  125.422305]     ok 5 req_lookup works
-[  125.423667]     ok 6 req_submit max pending
-[  125.425061]     ok 7 req_submit multiple
-[  125.426151]     ok 8 req_cancel before accept
-[  125.427225]     ok 9 req_cancel after accept
-[  125.428318]     ok 10 req_cancel after done
-[  125.429424]     # req_destroy works: EXPECTATION FAILED at net/handshake/handshake-test.c:477
-[  125.429424]     Expected handshake_req_destroy_test == req, but
-[  125.429424]         handshake_req_destroy_test == 0000000000000000
-[  125.429424]         req == ffff88802c5e6900
-[  125.430479]     not ok 11 req_destroy works
-[  125.435215] # Handshake API tests: pass:10 fail:1 skip:0 total:11
-[  125.435858] # Totals: pass:16 fail:1 skip:0 total:17
-[  125.437224] not ok 69 Handshake API tests
+Guenter
 
-I'll have a look.
+---
+diff --git a/net/handshake/handshake-test.c b/net/handshake/handshake-test.c
+index 16ed7bfd29e4..dc119c1e211b 100644
+--- a/net/handshake/handshake-test.c
++++ b/net/handshake/handshake-test.c
+@@ -432,9 +432,12 @@ static void handshake_req_cancel_test3(struct kunit *test)
+
+  static struct handshake_req *handshake_req_destroy_test;
+
++static DECLARE_COMPLETION(handshake_request_destroyed);
++
+  static void test_destroy_func(struct handshake_req *req)
+  {
+         handshake_req_destroy_test = req;
++       complete(&handshake_request_destroyed);
+  }
+
+  static struct handshake_proto handshake_req_alloc_proto_destroy = {
+@@ -473,6 +476,8 @@ static void handshake_req_destroy_test1(struct kunit *test)
+         /* Act */
+         fput(filp);
+
++       wait_for_completion_timeout(&handshake_request_destroyed, msecs_to_jiffies(100));
++
+         /* Assert */
+         KUNIT_EXPECT_PTR_EQ(test, handshake_req_destroy_test, req);
+  }
 
 
--- 
-Chuck Lever
+

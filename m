@@ -1,61 +1,61 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090DD134A4
-	for <kernel-tls-handshake@lists.linux.dev>; Tue,  6 Feb 2024 17:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFF013AF0
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  6 Feb 2024 19:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707242134; cv=none; b=K13lFx0c7j9GexmFV6LwfhUF/kEdiAcUwDvmEA4tQZCT8Js7SlETGt8X2NI0SqAta2Ov0U1tC17qg59IQH2mI9VcPtfrHEyXcR90QOSnASsaFFEqY9kKIioYqd1b+pvoPFRgZUerEGnjhmd62AJV6UZr5hM4do/RbgltYg7OS68=
+	t=1707246340; cv=none; b=uGoR6fYU3hW0h0QmyW7ikTEZurmop/NQH3XxDlIyVGnfaMQHnYBkj89DPByVqnQpB/BmZr5bMxNvgpZcv1jmVpBJzZL+1/dN+T3ILca9Hf1GAd/CY9MGfSuGhNkW6mj2u5eUWiygJ8DYF8mQPsUnuwIU/AC9yHzxX+9sD99crrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707242134; c=relaxed/simple;
-	bh=HcDkmBsFhnyU5rbwWI3oAT4kaqE7UquOzQKTZx5BPHY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J3sQLwh7ONr43ZjHwUi+bdJpBkOksR8OXtqibzSUXci/QQeitpCo+c+Vw3N9yE2khKWplhaWUXX+A7WnxWakBZmL31xh9jOq7KM9NqJ6+CkybOkfSnF/Eu/ez/KjnC0NcXdJKx2yHpSlLutnnKtA02tAzk1lQF+0fz7tEiBDWAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=er6dkXGx; arc=none smtp.client-ip=209.85.210.180
+	s=arc-20240116; t=1707246340; c=relaxed/simple;
+	bh=cDXt8/KgezbQ9k4QrWmg55pFGn8sVaFpM2xAgpGdXks=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=oQUWPPJ0suYn7XB6QNb+IZkWgSLdfvhBgyptjYCw9GlxZIP9kX9O+u+lV4yTQIfDaBFz3wtaMGgSSdcxjNWLoHpH6fFYlpEAc701JKl2LUJXhOrOEz34fEBUAhPnz7H/dSUzbb1GKNOaDzfMvwZBO0PsnmldpkGvtiEJ80HTZTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Np52DHiB; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="er6dkXGx"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6e04fd5e05aso695009b3a.0
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 06 Feb 2024 09:55:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Np52DHiB"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2967682b29aso2101925a91.2
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 06 Feb 2024 11:05:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707242132; x=1707846932; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=a/BmeUVInIyHDCTL4se8RMMR8I9jTDDaYFkyAPbmr+Y=;
-        b=er6dkXGxVcmCJTdZs2i7EDoDScAbJhaY/BugqihoHjyt4eG+0C+aBiDJvyJdoSnXpy
-         QORxj0NkuPXa36Ev3s2GWCEMIsV71yRuWk0GoGZ1yXrrHmu+GL0BycDc6u/ZwL1sxP4k
-         GbINCuROmgz5FskBaEmlpJKVrw8t/ONnDhWC8ET7sPVohRy9FOOiNBKd1wuTb+72I88e
-         NixAftwCFMsAFlTf0OBRFKVmjn5YoZn1h63Ja6CLBNGQkvlOPYREujiJdrE3lm3GUOYv
-         DC6a0NpdWy2OaxYKWFlTYBWX6yCG0ofP/34ns5bvakz9COLMOgdfzdA4YLaDL3aaCUVB
-         dm3A==
+        d=gmail.com; s=20230601; t=1707246338; x=1707851138; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=8QVZlmzeYNePpIX/m9g1cnWLftSxxyFSQRCe3h6EOJM=;
+        b=Np52DHiBCmLP1OU+8znLbiUby23yQ3hstMp7S+qsMddKiClaRJhWxF8kCG+y//4z70
+         mKEkBmfcrV5KspgBYmpAcg7aIDW5nDlZ6wfnK1dz5amlpWqQi/jAv9W+JM0oiQOwrMhm
+         dYaK6+YSv88fLI8f8wOu1sXvyKMtZ4ahz6fSld9oPC/EqooAf9jQFKj2pvgy5lEVNXXU
+         7sg1w7pSd4GpxvdMzNJCi1eA0qGw5VZZJ8eZwK/I4Gh41AtprSuJafPIyWm13PRrfHW+
+         UOH9L1WDpcEWVqhwqYI37VNqxY9u17LR/vAqspN+leTWIBIoUw34B2hhp8o9uQNup+lg
+         NgfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707242132; x=1707846932;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a/BmeUVInIyHDCTL4se8RMMR8I9jTDDaYFkyAPbmr+Y=;
-        b=wDhurl2qxAT1m9ZfetkbR0ldc2daBTyD/iOw5jjkJpITdDmMR6WlZT55SgXfrrtFDJ
-         QMZp4yPCqQ7LcyoFaNa5Pozm+xjgK/d1uHa5LftCNafdMWDiQ0DQ3X7EPYv+3ZwE8/WT
-         v9s/kMSrYJ2OlinzucTaM7kK64NcPi8cC5j05ANibzUXKqoLWv4qXQtt6OtPX4gav+xU
-         +qTFx0Vo8X/aNfYyKmS9blijvGx3MInu6mwHWHlivvALfzrkDtdDkhTBDYsgbZ8lNkcM
-         umj50BXiKsu3g2/7ximo/7tM73Qc5J1lRHgatX9B/8chpXIkm4bMGCIiqi4bYEIWiZqf
-         VxgQ==
-X-Gm-Message-State: AOJu0YwcNbZB9dliF/t/DutI/Rs+Ky6BgxZbXjHwp1tQBnKiawgss4qn
-	KkX2L6Ya/vw6niDzLb2NOu1dofIKRcUyAjiLBG086KhC/A7bSO4u
-X-Google-Smtp-Source: AGHT+IEu+0lFxKweihu5Dr8Ev9+SmgPYX/223dgdbcRMq8XdErBxgJVArFosTjAFThYKyu/DxL3Idw==
-X-Received: by 2002:a05:6a00:3491:b0:6e0:4a19:8da6 with SMTP id cp17-20020a056a00349100b006e04a198da6mr339318pfb.3.1707242132190;
-        Tue, 06 Feb 2024 09:55:32 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCWphSMDuzHqgz9CLLu0kRGdX/QkB80JWBW1FO3bNcCU1tReDLKRmwXEeyKZdWFV3w1wfasgiJzUogDqytpu3yE3oD1BUfrI
+        d=1e100.net; s=20230601; t=1707246338; x=1707851138;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8QVZlmzeYNePpIX/m9g1cnWLftSxxyFSQRCe3h6EOJM=;
+        b=pi4DNUnRjNJaItCea374ZTfpAwCq+P6f0AI1OOER+oiA1WIdtELSHfVjjF9ndGAJ2C
+         8fUQHXrILKBMijRe5qR+u/ZJWvR7alXnKMpii2WhE0IcAYp2xtYd1eVIaKWkM5R52jtb
+         jAGZoW5ymoav/002oHyWMd6PmgQ8oIfOrtzEnchNLbgSax+J13ZS6XYywlUp6vHMuivy
+         BOlZI1rBQpVDr2i5Jb/MTVLJqThuEhOD4BBzN/NhXb57HFCgN7/fDqHuSdzZeScEnVcM
+         abHSvmC2/B7nofpj3jy8HE4XWZtZwWI2eWLVolX2XFurUiGmIkivfx4OswDnssaou8tp
+         1pKw==
+X-Gm-Message-State: AOJu0YxwP3auqki1zGek7kq5dSL3rTVnlHXb6AVuNK1LQUIuBjCrnS3q
+	9me4xW5K83zCv3G1w04goHa336CplRCPW/dDEp8aIauw/p94rcpQ
+X-Google-Smtp-Source: AGHT+IHGSvXwd+dYz6UHVRMeSKq0y93IGmxQ9k/Ia8I95uhAMj+OmpB4WP/5ovE11sZo9Aq0wtYikg==
+X-Received: by 2002:a17:90a:d443:b0:296:a13c:8f84 with SMTP id cz3-20020a17090ad44300b00296a13c8f84mr448444pjb.33.1707246338197;
+        Tue, 06 Feb 2024 11:05:38 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCX3xK73HpD7OrcdlWXhMD2cKB+xmkfOrbNGlL2fgJsKVaPKIiS75N66BcUZu6/jaUmLy6OZzY8immeogxLCav7g8y7nCqIp
 Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id z13-20020aa785cd000000b006d9c216a9e6sm2222969pfn.56.2024.02.06.09.55.31
+        by smtp.gmail.com with ESMTPSA id sc12-20020a17090b510c00b002932ec731d1sm2112094pjb.18.2024.02.06.11.05.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Feb 2024 09:55:31 -0800 (PST)
+        Tue, 06 Feb 2024 11:05:37 -0800 (PST)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <6904162b-5ac1-4f2c-a48a-02c104f6fe4c@roeck-us.net>
-Date: Tue, 6 Feb 2024 09:55:30 -0800
+Message-ID: <e6e235a2-85d9-4e3d-9ee4-3a9f00aaf1a5@roeck-us.net>
+Date: Tue, 6 Feb 2024 11:05:36 -0800
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -65,11 +65,12 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: Persistent problem with handshake unit tests
 Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
 To: Chuck Lever <chuck.lever@oracle.com>
 Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org
 References: <b22d1b62-a6b1-4dd6-9ccb-827442846f3c@roeck-us.net>
  <ZcJihCDh30LD4NPy@tissot.1015granger.net>
-From: Guenter Roeck <linux@roeck-us.net>
+ <6904162b-5ac1-4f2c-a48a-02c104f6fe4c@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
  xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
  RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
@@ -113,142 +114,52 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
  HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
  mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <ZcJihCDh30LD4NPy@tissot.1015granger.net>
+In-Reply-To: <6904162b-5ac1-4f2c-a48a-02c104f6fe4c@roeck-us.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2/6/24 08:47, Chuck Lever wrote:
-> On Fri, Feb 02, 2024 at 09:21:22AM -0800, Guenter Roeck wrote:
->> Hi,
->>
->> when running handshake kunit tests in qemu, I always get the following
->> failure.
->>
->>      KTAP version 1
->>      # Subtest: Handshake API tests
->>      1..11
->>          KTAP version 1
->>          # Subtest: req_alloc API fuzzing
->>          ok 1 handshake_req_alloc NULL proto
->>          ok 2 handshake_req_alloc CLASS_NONE
->>          ok 3 handshake_req_alloc CLASS_MAX
->>          ok 4 handshake_req_alloc no callbacks
->>          ok 5 handshake_req_alloc no done callback
->>          ok 6 handshake_req_alloc excessive privsize
->>          ok 7 handshake_req_alloc all good
->>      # req_alloc API fuzzing: pass:7 fail:0 skip:0 total:7
->>      ok 1 req_alloc API fuzzing
->>      ok 2 req_submit NULL req arg
->>      ok 3 req_submit NULL sock arg
->>      ok 4 req_submit NULL sock->file
->>      ok 5 req_lookup works
->>      ok 6 req_submit max pending
->>      ok 7 req_submit multiple
->>      ok 8 req_cancel before accept
->>      ok 9 req_cancel after accept
->>      ok 10 req_cancel after done
->>      # req_destroy works: EXPECTATION FAILED at net/handshake/handshake-test.c:478
->>      Expected handshake_req_destroy_test == req, but
->>          handshake_req_destroy_test == 00000000
->>          req == c5080280
->>      not ok 11 req_destroy works
->> # Handshake API tests: pass:10 fail:1 skip:0 total:11
->> # Totals: pass:16 fail:1 skip:0 total:17
->> not ok 31 Handshake API tests
->> ############## destroy 0xc5080280
->> ...
->>
->> The line starting with "#######" is from added debug information.
->>
->> diff --git a/net/handshake/handshake-test.c b/net/handshake/handshake-test.c
->> index 16ed7bfd29e4..a2417c56fe15 100644
->> --- a/net/handshake/handshake-test.c
->> +++ b/net/handshake/handshake-test.c
->> @@ -434,6 +434,7 @@ static struct handshake_req *handshake_req_destroy_test;
->>
->>   static void test_destroy_func(struct handshake_req *req)
->>   {
->> +       pr_info("############## destroy 0x%px\n", req);
->>          handshake_req_destroy_test = req;
->>   }
->>
->> It appears that the destroy function works, but is delayed. Unfortunately,
->> I don't know enough about the network subsystem and/or the handshake
->> protocol to suggest a fix. I'd be happy to submit a fix if you let me know
->> how that should look like.
->>
->> Thanks,
->> Guenter
+On 2/6/24 09:55, Guenter Roeck wrote:
+[ ...]
+
 > 
-> I am able to reproduce the test failure at boot:
-> 
-> [  125.404130]     KTAP version 1
-> [  125.404690]     # Subtest: Handshake API tests
-> [  125.405540]     1..11
-> [  125.405966]         KTAP version 1
-> [  125.406623]         # Subtest: req_alloc API fuzzing
-> [  125.406971]         ok 1 handshake_req_alloc NULL proto
-> [  125.408275]         ok 2 handshake_req_alloc CLASS_NONE
-> [  125.409599]         ok 3 handshake_req_alloc CLASS_MAX
-> [  125.410879]         ok 4 handshake_req_alloc no callbacks
-> [  125.412200]         ok 5 handshake_req_alloc no done callback
-> [  125.413525]         ok 6 handshake_req_alloc excessive privsize
-> [  125.414896]         ok 7 handshake_req_alloc all good
-> [  125.416036]     # req_alloc API fuzzing: pass:7 fail:0 skip:0 total:7
-> [  125.416891]     ok 1 req_alloc API fuzzing
-> [  125.418439]     ok 2 req_submit NULL req arg
-> [  125.419399]     ok 3 req_submit NULL sock arg
-> [  125.420925]     ok 4 req_submit NULL sock->file
-> [  125.422305]     ok 5 req_lookup works
-> [  125.423667]     ok 6 req_submit max pending
-> [  125.425061]     ok 7 req_submit multiple
-> [  125.426151]     ok 8 req_cancel before accept
-> [  125.427225]     ok 9 req_cancel after accept
-> [  125.428318]     ok 10 req_cancel after done
-> [  125.429424]     # req_destroy works: EXPECTATION FAILED at net/handshake/handshake-test.c:477
-> [  125.429424]     Expected handshake_req_destroy_test == req, but
-> [  125.429424]         handshake_req_destroy_test == 0000000000000000
-> [  125.429424]         req == ffff88802c5e6900
-> [  125.430479]     not ok 11 req_destroy works
-> [  125.435215] # Handshake API tests: pass:10 fail:1 skip:0 total:11
-> [  125.435858] # Totals: pass:16 fail:1 skip:0 total:17
-> [  125.437224] not ok 69 Handshake API tests
-> 
-> I'll have a look.
+> Since the destroy function runs asynchronously, the best I could come up with
+> was to use completion handling. The following patch fixes the problem for me.
 > 
 
-Since the destroy function runs asynchronously, the best I could come up with
-was to use completion handling. The following patch fixes the problem for me.
+I don't know if it is a proper fix, but I no longer see the problem with
+the patch below applied on top of v6.8-rc3.
 
 Guenter
 
----
-diff --git a/net/handshake/handshake-test.c b/net/handshake/handshake-test.c
-index 16ed7bfd29e4..dc119c1e211b 100644
---- a/net/handshake/handshake-test.c
-+++ b/net/handshake/handshake-test.c
-@@ -432,9 +432,12 @@ static void handshake_req_cancel_test3(struct kunit *test)
-
-  static struct handshake_req *handshake_req_destroy_test;
-
-+static DECLARE_COMPLETION(handshake_request_destroyed);
-+
-  static void test_destroy_func(struct handshake_req *req)
-  {
-         handshake_req_destroy_test = req;
-+       complete(&handshake_request_destroyed);
-  }
-
-  static struct handshake_proto handshake_req_alloc_proto_destroy = {
-@@ -473,6 +476,8 @@ static void handshake_req_destroy_test1(struct kunit *test)
-         /* Act */
-         fput(filp);
-
-+       wait_for_completion_timeout(&handshake_request_destroyed, msecs_to_jiffies(100));
-+
-         /* Assert */
-         KUNIT_EXPECT_PTR_EQ(test, handshake_req_destroy_test, req);
-  }
-
-
+> 
+> ---
+> diff --git a/net/handshake/handshake-test.c b/net/handshake/handshake-test.c
+> index 16ed7bfd29e4..dc119c1e211b 100644
+> --- a/net/handshake/handshake-test.c
+> +++ b/net/handshake/handshake-test.c
+> @@ -432,9 +432,12 @@ static void handshake_req_cancel_test3(struct kunit *test)
+> 
+>   static struct handshake_req *handshake_req_destroy_test;
+> 
+> +static DECLARE_COMPLETION(handshake_request_destroyed);
+> +
+>   static void test_destroy_func(struct handshake_req *req)
+>   {
+>          handshake_req_destroy_test = req;
+> +       complete(&handshake_request_destroyed);
+>   }
+> 
+>   static struct handshake_proto handshake_req_alloc_proto_destroy = {
+> @@ -473,6 +476,8 @@ static void handshake_req_destroy_test1(struct kunit *test)
+>          /* Act */
+>          fput(filp);
+> 
+> +       wait_for_completion_timeout(&handshake_request_destroyed, msecs_to_jiffies(100));
+> +
+>          /* Assert */
+>          KUNIT_EXPECT_PTR_EQ(test, handshake_req_destroy_test, req);
+>   }
+> 
+> 
+> 
 

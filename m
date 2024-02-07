@@ -1,61 +1,78 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2729517C76
-	for <kernel-tls-handshake@lists.linux.dev>; Tue,  6 Feb 2024 19:24:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19160D271
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  7 Feb 2024 01:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707247452; cv=none; b=L/PR+JLZkqPFcTshdV9M04AXSQ830Br+Ckwh6FZmZFIGObuTf7AqxAhStmSnR38+atu9kraYpDEx4EitXNSxJBatV9sq7l7ItxqbRMet+AOM78PLTIruRM0y30T3GP+460GSjkuo1OGsgz+6DROryZflu4v3fDtEUUD68WbEscY=
+	t=1707268915; cv=none; b=EHWLjhDUgq4YcoBkXJNVn9CLSM6sqrJVEYPy9AmLDYymh+/m8lwv7ApDOfxzsoWM00L5t5iUzsFPmt2eN0yWPmtUbEtennKUTMPfN2y/eOXaFFMu3vJTmk+ImP0HDRrkv6W1CqdrRa99Q6NoXiRK5E6nAYr/REQGwYKAMUnKzIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707247452; c=relaxed/simple;
-	bh=3fDDvHVyGe8nQJ32cFaqDjBf2LcuYahBc1xocu25lIk=;
+	s=arc-20240116; t=1707268915; c=relaxed/simple;
+	bh=QP4b6iMinNA6fbi9MlC/VzO6Vr1Ia7P85NTw94gh2Ac=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B/Yb6aiyVe6DGhOSJhmRjx8vcDrCpXLiifFX9LVuqmYSdV2wNclcbzHmKi+6GovQUEUffEt3RD6XPHyA2kzc0kLQ4YVDpgTXyHn1ahPo7dGGbk/4kKQ1rCKJtkckev8txgP1O69yv0TdfalwHAUd4AzeOFjPXxjA7zOwo3LjTGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AjSKTaTy; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=Sy5TNDqJfrZGTGZUTnpSIV1qYZFaSgnb04V/ZQ6HY++s1Bp124ovvtiPjy4AOY2/n6Uq6pEQplEINF3ASE2Qi11ilJ5pzv6DLK2cxCdZm+WB+bIz/iAmXrqyljcyLl2Hqpuu9FpFBiCXgAI/emQuE0ylpSPJYJH4tZ8138S0LtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=siR675Sv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aFqrzLLA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=siR675Sv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aFqrzLLA; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AjSKTaTy"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6e03af57c97so1594032b3a.3
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 06 Feb 2024 11:24:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707247445; x=1707852245; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=m/uRC4p37+EtimrNnsDK4eSmm5+RjmVno/13/ietU2U=;
-        b=AjSKTaTyQD9UCn5cveRxFCdnuV56hSgCjdzhgKQqjzBkzE9RwW1wGz9/KVt/9DJ6oS
-         60htMzCBJS0g3jCgUXJqhYlofXdJHg7ppTNC7n+0b9sBFty2ZYUTJ+n+wx2Top0zVcuv
-         i3NI6Up2Hd/Y6OFbTH52XNa0CsfB1+rHllN2DDxnRm0CNkCSY4alPNCkrpd/ALHHOqBX
-         HtQy7YD9kwF0e2rcU78eAL1qVvqvuRtQuIH6n/+U4BZemC2K6ekJ9r1dCm274W4XDJyk
-         1P0yEuchhosJr95Y3g/x69vjUaCFOQIa3DLW5qMgnmEo94T0GLdZb+FG6kejMk+57cv4
-         MeNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707247445; x=1707852245;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m/uRC4p37+EtimrNnsDK4eSmm5+RjmVno/13/ietU2U=;
-        b=HbIrUhTex0QxOPPanW9Ald7GlXUlLJmGZRH1ISSSEN4n8cTWIiAZHWlpOnmi6o0eMz
-         mD2PJZeSggKEaS4zC8ynvomdhezuSF89q3AfdD8aYy5ANLs+tBBpe+dNN5Uzdc/x7wr6
-         Ki6OAYp7FJCP5SrRF7A/pd4NJl0Dkx44lcTT5WBcw0P0a/BuumGRJx0sI0uVosL6rgLx
-         v1C7Q4Lv/Ox+DqqNetELDcE3WAMywcQ9IBca8LqVDBm9EvSfV6+jFr1eTJQ4Vt1JVTJr
-         1JnUg3ZkicXS1v2q6Yso/5IgfDLtD1BtbN7m9seH+9L7B3dIX4w6uVookXFvB9EBpo72
-         9iQA==
-X-Gm-Message-State: AOJu0YxTMXhAFxFeJz6/IKSvKMUjrur1ksibwbjnsP5wlcnOwShdE4IU
-	y+Wv6yxigCca92s4jow/1dppzUyKHUVzNcSyHr5N8p107Inm22F6
-X-Google-Smtp-Source: AGHT+IEav+UuH6kjgGPcZEuP/kpAxHwH2Tw9YufkT29pcUr8924e3pkDTwrGysCfoQDzg/S85DL7FA==
-X-Received: by 2002:a62:d445:0:b0:6e0:2e81:89f with SMTP id u5-20020a62d445000000b006e02e81089fmr506916pfl.33.1707247445409;
-        Tue, 06 Feb 2024 11:24:05 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCWFv+C4S/gG+JeSf+CNzPGmtp3VkkUoG0uJDngft2UayUHrOKEQceJkbVdwzEvOJX8Vyqzb0qXe/WSaylMRLhYVpC+3qysZ
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id p15-20020a63e64f000000b005cfb6e7b0c7sm2555435pgj.39.2024.02.06.11.24.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Feb 2024 11:24:05 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <41362a3c-6fa5-4567-9c31-5bc2d8542630@roeck-us.net>
-Date: Tue, 6 Feb 2024 11:24:03 -0800
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="siR675Sv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aFqrzLLA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="siR675Sv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aFqrzLLA"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 01F2121FF4;
+	Wed,  7 Feb 2024 01:21:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707268912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6tb1bFva1nuFmw2W/4ywFFy2C9NQVrgmZiIKFy7fRmM=;
+	b=siR675SvnDUwgKAPy4i+2L2+KUfuqOpnj44oLDF9X3DFg2g8Gbnvq3NOrOM6vZcxzROVpf
+	dxJWN9WmPnuGvoF8ZBj5Wa/NGWGy46jSygcmwR8FdFM/DI8fryh9zkXoOYqiqiFZ7A/hEf
+	bkFroKVibvLftCWfHfj/kmZfjx2cvUs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707268912;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6tb1bFva1nuFmw2W/4ywFFy2C9NQVrgmZiIKFy7fRmM=;
+	b=aFqrzLLAx1MR05a8iBqDVdKH96pQeP05VvfxM+RZaja7ec/uJePmEqXzsvq9BSPhV8eMPI
+	qPqEHQu3z/5lZtAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1707268912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6tb1bFva1nuFmw2W/4ywFFy2C9NQVrgmZiIKFy7fRmM=;
+	b=siR675SvnDUwgKAPy4i+2L2+KUfuqOpnj44oLDF9X3DFg2g8Gbnvq3NOrOM6vZcxzROVpf
+	dxJWN9WmPnuGvoF8ZBj5Wa/NGWGy46jSygcmwR8FdFM/DI8fryh9zkXoOYqiqiFZ7A/hEf
+	bkFroKVibvLftCWfHfj/kmZfjx2cvUs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1707268912;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6tb1bFva1nuFmw2W/4ywFFy2C9NQVrgmZiIKFy7fRmM=;
+	b=aFqrzLLAx1MR05a8iBqDVdKH96pQeP05VvfxM+RZaja7ec/uJePmEqXzsvq9BSPhV8eMPI
+	qPqEHQu3z/5lZtAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D4E03139D0;
+	Wed,  7 Feb 2024 01:21:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 2EtYHS3bwmXpbAAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 07 Feb 2024 01:21:49 +0000
+Message-ID: <5cfc6045-ac75-4faf-b0da-d46a2d219f51@suse.de>
+Date: Wed, 7 Feb 2024 10:21:46 +0900
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -63,82 +80,107 @@ List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Persistent problem with handshake unit tests
+Subject: Re: [PATCH v1] net/handshake: Fix handshake_req_destroy_test1
 Content-Language: en-US
-To: Chuck Lever <chuck.lever@oracle.com>
-Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org
-References: <b22d1b62-a6b1-4dd6-9ccb-827442846f3c@roeck-us.net>
- <ZcJihCDh30LD4NPy@tissot.1015granger.net>
- <6904162b-5ac1-4f2c-a48a-02c104f6fe4c@roeck-us.net>
- <e6e235a2-85d9-4e3d-9ee4-3a9f00aaf1a5@roeck-us.net>
- <ZcKDd1to4MPANCrn@tissot.1015granger.net>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <ZcKDd1to4MPANCrn@tissot.1015granger.net>
+To: Chuck Lever <cel@kernel.org>, kernel-tls-handshake@lists.linux.dev,
+ netdev@vger.kernel.org
+Cc: Chuck Lever <chuck.lever@oracle.com>
+References: <170724699027.91401.7839730697326806733.stgit@oracle-102.nfsv4bat.org>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <170724699027.91401.7839730697326806733.stgit@oracle-102.nfsv4bat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=siR675Sv;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=aFqrzLLA
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-1.52 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 RCPT_COUNT_THREE(0.00)[4];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 BAYES_HAM(-0.02)[54.16%];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[]
+X-Spam-Score: -1.52
+X-Rspamd-Queue-Id: 01F2121FF4
+X-Spam-Flag: NO
 
-On 2/6/24 11:07, Chuck Lever wrote:
-> On Tue, Feb 06, 2024 at 11:05:36AM -0800, Guenter Roeck wrote:
->> On 2/6/24 09:55, Guenter Roeck wrote:
->> [ ...]
->>
->>>
->>> Since the destroy function runs asynchronously, the best I could come up with
->>> was to use completion handling. The following patch fixes the problem for me.
->>>
->>
->> I don't know if it is a proper fix, but I no longer see the problem with
->> the patch below applied on top of v6.8-rc3.
+On 2/7/24 03:16, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
 > 
-> I've got something similar but simpler that I will post with a full
-> patch description, root cause, and rationale. Stand by.
+> Recently, handshake_req_destroy_test1 started failing:
 > 
+> Expected handshake_req_destroy_test == req, but
+>      handshake_req_destroy_test == 0000000000000000
+>      req == 0000000060f99b40
+> not ok 11 req_destroy works
+> 
+> This is because "sock_release(sock)" was replaced with "fput(filp)"
+> to address a memory leak. Note that sock_release() is synchronous
+> but fput() usually delays the final close and clean-up.
+> 
+> The delay is not consequential in the other cases that were changed
+> but handshake_req_destroy_test1 is testing that handshake_req_cancel()
+> followed by closing the file actually does call the ->hp_destroy
+> method. Thus the PTR_EQ test at the end has to be sure that the
+> final close is complete before it checks the pointer.
+> 
+> We cannot use a completion here because if ->hp_destroy is never
+> called (ie, there is an API bug) then the test will hang.
+> 
+> Reported by: Guenter Roeck <linux@roeck-us.net>
+> Closes: https://lore.kernel.org/netdev/ZcKDd1to4MPANCrn@tissot.1015granger.net/T/#mac5c6299f86799f1c71776f3a07f9c566c7c3c40
+> Fixes: 4a0f07d71b04 ("net/handshake: Fix memory leak in __sock_create() and sock_alloc_file()")
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> ---
+>   net/handshake/handshake-test.c |    5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/net/handshake/handshake-test.c b/net/handshake/handshake-test.c
+> index 16ed7bfd29e4..34fd1d9b2db8 100644
+> --- a/net/handshake/handshake-test.c
+> +++ b/net/handshake/handshake-test.c
+> @@ -471,7 +471,10 @@ static void handshake_req_destroy_test1(struct kunit *test)
+>   	handshake_req_cancel(sock->sk);
+>   
+>   	/* Act */
+> -	fput(filp);
+> +	/* Ensure the close/release/put process has run to
+> +	 * completion before checking the result.
+> +	 */
+> +	__fput_sync(filp);
+>   
+>   	/* Assert */
+>   	KUNIT_EXPECT_PTR_EQ(test, handshake_req_destroy_test, req);
+> 
+> 
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Excellent.
+Cheers,
 
-Thanks!
-Guenter
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), GF: Ivo Totev, Andrew McDonald,
+Werner Knoblich
 

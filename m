@@ -1,153 +1,158 @@
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4A46CDBA
-	for <kernel-tls-handshake@lists.linux.dev>; Thu,  6 Jun 2024 21:00:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0AC81BDEF
+	for <kernel-tls-handshake@lists.linux.dev>; Thu,  6 Jun 2024 21:00:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717707649; cv=none; b=IHgzewucM3+4BQvKBWprT5J7ab3Gprb5glThOfKigk+Ls9V63Pko7TUhZUXJ5AUb76udkcXV+znsZDtT+SYukOrVOzJCQRrN2tfBy7FASkzcOVJOwXdPQeGTvlT0zCpJsVNvh+Wzx2i9nudZGkqAcsdfMEr4PbXbtwqdDu9OfwU=
+	t=1717707657; cv=none; b=WDRgZwN4FZxl5fw3FXaLpQ9XsjE6Yi1/EEfTM5Z/vtVNa+qHjuLpzaNt4qSTbp9bDPynUwuGETOM2Gn9RfdWUE7XrCGAAHCKUQ3+axHQSDDK/1zKvlJIkfQCq0ETMrf+QGd+PWa13hzVJgCxuhEGL+PMRkzH0+akBIJH2BwXSF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717707649; c=relaxed/simple;
-	bh=xaYWWV2a9Eyh4pTT4c5JukEbUwPGF5c0GTCcGveBkUU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kyCSWfoGDe/Au1687TxrC8slfv8j7gZ9vKKqh7rzHHpngKMDj3S6JS3v/MxrauuzfkLONYeq+fUJJtykZCGS5nfy7WX79OoZ3Cr1WRhDdaWUrF0lFcNfc+PprbW5W8pbTvl4HW4n/+KDED1xKMNWOJmYsHBg1A1Icheyjk2qGjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GDLjLkW9; arc=none smtp.client-ip=209.85.166.47
+	s=arc-20240116; t=1717707657; c=relaxed/simple;
+	bh=EB4Vil5Y24ZwzlfAPD4mDDbT7dJ1qdsdgf7DA0pKCZs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MBiV+7Ggrw+vgGadnV+hZumuNmX/w0qEFBzjx/yPjp2mnq57lPnUPQK+AGWvz2C9Qi+u8dE3+3/pki5Sj1iOwWchaG5myq2WoOeSLexC1yiyW8UAZQfEnaW6GLGs84ExAAkdsErTwYL+2kYq+RsrIZdI8il0FmEsiNaTvzaD9+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SfQJXMaG; arc=none smtp.client-ip=209.85.167.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GDLjLkW9"
-Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-7eb358b6f3cso2505339f.0
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 06 Jun 2024 14:00:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SfQJXMaG"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52b904713c6so268673e87.1
+        for <kernel-tls-handshake@lists.linux.dev>; Thu, 06 Jun 2024 14:00:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717707647; x=1718312447; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2CavziyRYvVsiZBjGnr3XXDj9edie5dUVdVwHnqzVUk=;
-        b=GDLjLkW9tglYGjxFEjDwQyXys41lNR5A7n2jx86jD9qlsa1Uy/UU+dpraPjtDsaHIJ
-         XjnHkUBQsf3deR7BhttL1QUKI7W+npqbnpjZCH1WKNdnv5zjrsA5uu4D32kSIc8n12Sl
-         avXfFUKtm+HPvnmCltfNqzgryHW1peRto5VvbDmrrBcfHObZ3i8lxkSrh5CiHU99JmJz
-         JeVatkRwZUceuaRGarE0mK9pDAMsYTxGRMj2inl0hmhsiTQLC01ig34R3rMa+oJzzg2z
-         t7Edybqxtsh5Si3u+r9V5QmWu9xe5Du3+t65KOMibY9zThxT4iKYfxBNncbbt1qXfx3d
-         JxUw==
+        d=gmail.com; s=20230601; t=1717707654; x=1718312454; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EB4Vil5Y24ZwzlfAPD4mDDbT7dJ1qdsdgf7DA0pKCZs=;
+        b=SfQJXMaG18zLSmejgXjNh0iyjEbYVGgZy93yX0JreOIw7vpB9gZ+RPcDQhbMiDp6+V
+         Z9U8qYKrOGXG1y3AHe0gFgrbG2Kp9+RX52pKLatWNWgerw8IIoEBMcsiIu67kAXuDb99
+         izA3iMvjp7e04DT2Z5sOT95Xf6qDvyXhqi5zYDKa656YapfVqpONGKfs7Ar97XTjGUU7
+         Nb+FjAdBt1nm2b1lncb+SoaKrEXkWHVBU28v6ZTJofqRtQjN8h0rCGRagR0gBJVdeokc
+         GykcRzWQbUmBPVaD/kBZZO+39u/WiLGuyBGRMWOMwsVZGh49rd85SyuJc9Ejln6+wuH9
+         P26g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717707647; x=1718312447;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2CavziyRYvVsiZBjGnr3XXDj9edie5dUVdVwHnqzVUk=;
-        b=c2GPSYGDoLhMS3DxyQMUpECJkJkXDX10Gec9So0/RaZBp7rjz016Vm8Iy1yIGOd2FB
-         WgK6s5yTq/v8+TtV0j1DbUZAAYze3jI1MgW/PJlrpSMpOARQrffApvZaGrTzumhV4yt2
-         uYTSIO34Xc+9Qwmo9Hi00Z4cWbZtkrtsC/SRUyv3vajgKTHhPaXStHsWMi35AWNvgK9c
-         VcQU4T6aiMNUj3IkMgS4jJTVhulINYydvo0K4I7X7ho004UC75l7a1QZS42KL1x+B0RG
-         /39zVKx4t/ARKArAGp6bt2jtu6VoZSArSHOEiaBYCXKZMP5Y/JBqkPMVTQFFEgJCfyMs
-         wTQA==
-X-Gm-Message-State: AOJu0Yx5U6yV5kmAUttBWPQ3kAeLQRagMGc8fCYq46GrFlOroehVlz09
-	dMCBXE9Bxdzj7sMsU1y6mZl2h4FWDvidJlrM/66/YvP8G7loGnGH
-X-Google-Smtp-Source: AGHT+IFsVR/WzCdLxnPRaPK1y0W+sSF2JR9bM5w4S68qFVDARiblGtLrWYD4ehi4ZAIwSItBplj0cA==
-X-Received: by 2002:a05:6602:8ca:b0:7eb:2c80:5354 with SMTP id ca18e2360f4ac-7eb5712c5a8mr89809739f.0.1717707646587;
-        Thu, 06 Jun 2024 14:00:46 -0700 (PDT)
-Received: from kolga-mac-1.attlocal.net ([2600:1700:6a10:2e90:b13d:10eb:8bb8:c3c9])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4b7a24d38d2sm499414173.170.2024.06.06.14.00.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jun 2024 14:00:45 -0700 (PDT)
-From: Olga Kornievskaia <olga.kornievskaia@gmail.com>
-To: chuck.lever@oracle.com
-Cc: kernel-tls-handshake@lists.linux.dev
-Subject: [PATCH 1/1] config: supply meaningful error for non-existing pathnames
-Date: Thu,  6 Jun 2024 17:00:44 -0400
-Message-Id: <20240606210044.42285-1-olga.kornievskaia@gmail.com>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+        d=1e100.net; s=20230601; t=1717707654; x=1718312454;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EB4Vil5Y24ZwzlfAPD4mDDbT7dJ1qdsdgf7DA0pKCZs=;
+        b=jTUuMvVXuV0DYFhFzvI1PtSK75siQXs6RL/r8RM+UzSeCA3MUbWRc0ShoSgg/iIBq7
+         GOEDzM2z65MgXot4rCuvx8Vj12tEy87rQHlKS+z5rW8jCHIff8CwCok9yJ1uTBbYLLst
+         Hshxjxs+OSSmxQNSQWNSFc1mHfbXe+iw8UhDlJ5v2vu2n+EGUA5iAwwVCAiqwitM1f4n
+         bb1HwoHQrFkJ0iPIKqHR80k/B+J4zAkJdQRUxWLIPuxuKBS/3IgDq/QrIfptniHGJzmm
+         stRL+t832fjXhrjFC/+wbJROYGG1lv1uujW5xbx74NVAKvXeh34yBLh41H0SUMOIS/zq
+         puVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWWDlvaR6g0IEFcrbR7D0O2OqDuH6yDIGHgP1aEmQUj6w5ZOgUZZmw7CMy20bQq1KuBbO5tdvXp6Rc7/eVM2mXUf1be30wyiXHjgnh2IPZZ30t+mKI=
+X-Gm-Message-State: AOJu0YwfxsZtk/pQEFsBhmsvkm9mZvz1j7MTMoYRIYM/x301uzktOoy7
+	rHLKASObYiW1AyCWZmPXOj9D7edkqIHjQS9jN+2rYTpwLFyz2j4YZ9G39zzIATb1zh9qdVfJY2p
+	p9HePgqM8lHA/aveMOSXLO0gXfSY=
+X-Google-Smtp-Source: AGHT+IEF6mtF1UC/ABHxR+sYXWdvtEhzdKSXuk1A4WOXvzg/4qWwFh5kfBm496jABEXVJEFlls1iVI9GSOBdq++lQkA=
+X-Received: by 2002:a2e:2206:0:b0:2ea:9449:7713 with SMTP id
+ 38308e7fff4ca-2eadcb994d1mr4993591fa.0.1717707653576; Thu, 06 Jun 2024
+ 14:00:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAN-5tyGgNks+gwSScNpaBrf8ogAv5iLTQ3eCd857ULh6gn-b_Q@mail.gmail.com>
+ <63F4681D-E7A0-4860-A4B8-0D7BA9818A62@oracle.com> <CAN-5tyEP-+s_8LppBqos0+sWTbUq-nwL6+q-rSK7tz6Gzd2B-w@mail.gmail.com>
+ <2D1C791F-C5A1-4985-9BFF-DD2E5753071E@oracle.com>
+In-Reply-To: <2D1C791F-C5A1-4985-9BFF-DD2E5753071E@oracle.com>
+From: Olga Kornievskaia <olga.kornievskaia@gmail.com>
+Date: Thu, 6 Jun 2024 17:00:41 -0400
+Message-ID: <CAN-5tyHav3f1XOj1n=MAUm6N8oB6QgY_guav119LNEjiMrXcGw@mail.gmail.com>
+Subject: Re: tlshd.conf question
+To: Chuck Lever III <chuck.lever@oracle.com>
+Cc: Olga Kornievskaia <kolga@netapp.com>, 
+	kernel-tls-handshake <kernel-tls-handshake@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Olga Kornievskaia <kolga@netapp.com>
+On Thu, Jun 6, 2024 at 1:59=E2=80=AFPM Chuck Lever III <chuck.lever@oracle.=
+com> wrote:
+>
+>
+>
+> > On Jun 5, 2024, at 10:50=E2=80=AFAM, Olga Kornievskaia <olga.kornievska=
+ia@gmail.com> wrote:
+> >
+> > On Wed, Jun 5, 2024 at 9:49=E2=80=AFAM Chuck Lever III <chuck.lever@ora=
+cle.com> wrote:
+> >>
+> >> [ Redirecting to gmail/netapp addresses ]
+> >>
+> >> Maybe <aglo@umich.edu> is not subscribed to kdevops@...?
+> >>
+> >>
+> >>> On Jun 4, 2024, at 2:41=E2=80=AFPM, Olga Kornievskaia <aglo@umich.edu=
+> wrote:
+> >>>
+> >>> Hi Chuck,
+> >>>
+> >>> Should "pathnames" in the "authentication" section ignore any spaces
+> >>> that might be present in the same line after the name be ignored?
+> >>>
+> >>> It took me by surprise that they weren't and it took me too long to
+> >>> realise that I had:
+> >>> "x509.certificate=3D/root/server.crt " and not
+> >>> "x509.certificate=3D/root/server.crt" in my config.
+> >>
+> >> Agreed, that's surprising behavior. tlshd uses a popular
+> >> library to parse its config file... maybe there's an option
+> >> to the library API that can get it to behave better.
+> >>
+> >> I would like to be able to support blanks inside of path
+> >> names, but I'm not sure how that would work.
+> >>
+> >> Anyway, can you open an issue tracker ticket for this?
+> >
+> > I have opened it.
+> >
+> > I think as a first step, my initial suggestion is to update the man
+> > page to highlight the fact that names shouldn't have any extra
+> > characters appended. If that's acceptable I can take a stab at the man
+> > page patch.
+> >
+> > Don't we want to allow having spaces in the pathname? But I'm not sure
+> > what real value is to have a legitimate name that ends on space or
+> > tab. But if we do allow spaces in names, shouldn't there be rules such
+> > that the name needs to be in double quotes? I would like to add I have
+> > not experimented with creating and using such name in tlshd.conf, I'm
+> > just speculating here. You mentioned that tlshd is using a popular
+> > parsing library which perhaps lists somewhere what its syntax rules
+> > are?
+>
+> It's Glib. The config file is treated as a raw key-value store.
+> Have a look for documentation, but I haven't found anything that
+> suggests it treats these blobs as anything else by an unprocessed
+> UTF-8 string. If we want extra escaping, we'll have to add that
+> explicitly to tlshd.
+>
+>
+> > Regardless of what is decided about the spaces/tabs I feel like this
+> > should be agreed by the community and then documented in the man page
+> > as to the appropriate syntax to be used?
+>
+> Propose a man page patch here, I think, and we can discuss it.
+>
+> Note that I've been asked to cut ktls-utils 0.11 ASAP. Can we
+> get this finished by next week?
 
-If tlshd.conf had a non-exists pathname, the code would have a
-non-descriptive error:
-tlshd[64556]: open: No such file or directory
+I decided that if we modify the man page but then we would fix
+handling pathnames the man page would need to be changed. So instead I
+thought, I would have been happy if I had a meaningful error. So I'd
+send out a patch at attempt at that. let me know what you think. I
+added the checks for exists of a file. But I also found out that
+config isn't read in the beginning but rather for an upcall. It would
+have been great if at start up it would just notice that supplied
+files didn't exist and exit with error messages.. Anyway. Patch to
+follow.
 
-Such error can happen when a filename specified had trailing spaces
-after the name of the file.
-
-Instead provide a more descriptive error such as:
-tlshd[64423]: server x509.certificate pathname "/root/server.crt " does not exist
-
-In hope that the administrator would notice the error or extra spaces or
-some other typos in the pathname.
-
-Signed-off-by: Olga Kornievskaia <kolga@netapp.com>
----
- src/tlshd/config.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/src/tlshd/config.c b/src/tlshd/config.c
-index 20e914d..aeaba05 100644
---- a/src/tlshd/config.c
-+++ b/src/tlshd/config.c
-@@ -184,6 +184,9 @@ bool tlshd_config_get_client_truststore(char **bundle)
- 	if (!pathname) {
- 		g_error_free(error);
- 		return false;
-+	} else if (access(pathname, F_OK)) {
-+		tlshd_log_debug("client x509.truststore pathname \"%s\" does not exist", pathname);
-+		return false;
- 	}
- 
- 	*bundle = strdup(pathname);
-@@ -217,6 +220,9 @@ bool tlshd_config_get_client_certs(gnutls_pcert_st *certs,
- 	if (!pathname) {
- 		g_error_free(error);
- 		return false;
-+	} else if (access(pathname, F_OK)) {
-+		tlshd_log_debug("client x509.certificate pathname \"%s\" does not exist", pathname);
-+		return false;
- 	}
- 
- 	if (!tlshd_config_read_datum(pathname, &data, TLSHD_OWNER,
-@@ -261,6 +267,9 @@ bool tlshd_config_get_client_privkey(gnutls_privkey_t *privkey)
- 	if (!pathname) {
- 		g_error_free(error);
- 		return false;
-+	} else if (access(pathname, F_OK)) {
-+		tlshd_log_debug("client x095.private_key pathname \"%s\" does not exist", pathname);
-+		return false;
- 	}
- 
- 	if (!tlshd_config_read_datum(pathname, &data, TLSHD_OWNER,
-@@ -310,6 +319,9 @@ bool tlshd_config_get_server_truststore(char **bundle)
- 	if (!pathname) {
- 		g_error_free(error);
- 		return false;
-+	} else if (access(pathname, F_OK)) {
-+		tlshd_log_debug("server x509.truststore pathname \"%s\" does not exist", pathname);
-+		return false;
- 	}
- 
- 	*bundle = strdup(pathname);
-@@ -343,6 +355,9 @@ bool tlshd_config_get_server_certs(gnutls_pcert_st *certs,
- 	if (!pathname) {
- 		g_error_free(error);
- 		return false;
-+	} else if (access(pathname, F_OK)) {
-+		tlshd_log_debug("server x509.certificate pathname \"%s\" does not exist", pathname);
-+		return false;
- 	}
- 
- 	if (!tlshd_config_read_datum(pathname, &data, TLSHD_OWNER,
-@@ -386,6 +401,9 @@ bool tlshd_config_get_server_privkey(gnutls_privkey_t *privkey)
- 	if (!pathname) {
- 		g_error_free(error);
- 		return false;
-+	} else if (access(pathname, F_OK)) {
-+		tlshd_log_debug("server x509.privkey pathname \"%s\" does not exist", pathname);
-+		return false;
- 	}
- 
- 	if (!tlshd_config_read_datum(pathname, &data, TLSHD_OWNER,
--- 
-2.43.0
-
+>
+>
+> --
+> Chuck Lever
+>
+>

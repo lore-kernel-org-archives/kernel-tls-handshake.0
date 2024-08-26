@@ -1,84 +1,100 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E99422EE5
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 18 Jul 2024 18:12:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4C0B677
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 26 Aug 2024 18:26:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721326355; cv=none; b=SJ1QYk4c6NFOPlxF41sn/a7Z47FObbTmLkelLuv9IbqbErBXQzeWFPL5fsP6wY96dOO5a7l9hxspj1bXMT2MBicEfbcWP8CFbPhGuTZIN/bfG4af05t46HvXHVW3ZZmLGrKNQlUc5NtqYSI1yEcR4SCtXKU6YekzCNacgjohU9M=
+	t=1724696817; cv=none; b=jOkQaagUhsqYcKdcDgT3B8SDVS5ZWn1DpbYbYnsQSF3tHEc7srKUh7sDtkkDvLHtXcwMdVKtOpajRZJ0OL0iPYMP7ort/phbcrhh0Oz2kcSk75WLDu5I6/69MrsHQ3RsO9CHRlzB5mtHnjUmtvqsaOJnTbEQVBQqxoVUdG86+ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721326355; c=relaxed/simple;
-	bh=hz/ieI0CuuATN4pn/zhjFFXzdw3SfLXTr1QOQ/4hEe4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=TGEfVCHQN/n6iZQqEVoc4johe2BN2PZKaZjG2f9UKwFY0zeoWQb3QyvcCVbbwgDMVtAItN8s67U//oma3NAou2RjPj5DfMiCd1BEm9yxYFJBkb0uAABz6imAyjFy093TAPmoi3QtVnkXTqfxasMejHzJgUbJckhRiF78kCM4+90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Twh837zk; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1724696817; c=relaxed/simple;
+	bh=vf6hjI1ICx8m4r7yxx7EU9Z1Etq83mh+tT3xC191mFA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=P6I9zVyFbaQC0R0p8i2bwjfT+HxmB8m0UQOOIWsTh75rHvyAXYQMu8GMYEs2eNKDO4DkABtPVGmYcNE25vTpRDMuXQVWbdwhGFB68CZyidYLaXJudi5aPiSLEKlV+ZnZzHo/B4WIwoQ1IiIOET/1kr1DX3hP75O98VYnfZ0rjFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=PPI+sVBd; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Twh837zk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1721326352;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n2rmpI0GZhYU1js2clOgyLQ62XNQsgZEfExGLV26V8g=;
-	b=Twh837zk2s/pdkVOdsj9LMvkO4cZVb+bMo/bECsi2i3BuKtUki92PNU4P46Hz+7IRzBeSM
-	NU4lX4LNUAB9hDeMqa97/Rg5FkMlwFDUaDsBcpmQU4c82SHB9r9yYENQ7SxF2H9UlVpdue
-	8wH2Weh2V+WOx22wyRC4Bbl3x4vJEaw=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-462-crROozvENxOvIJks2Ngcig-1; Thu,
- 18 Jul 2024 14:12:31 -0400
-X-MC-Unique: crROozvENxOvIJks2Ngcig-1
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DB29F1955D4F;
-	Thu, 18 Jul 2024 18:12:29 +0000 (UTC)
-Received: from aion.redhat.com (unknown [10.22.32.3])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 85C683000188;
-	Thu, 18 Jul 2024 18:12:29 +0000 (UTC)
-Received: by aion.redhat.com (Postfix, from userid 1000)
-	id DCD101B764F; Thu, 18 Jul 2024 14:12:27 -0400 (EDT)
-Date: Thu, 18 Jul 2024 14:12:27 -0400
-From: Scott Mayhew <smayhew@redhat.com>
-To: Chuck Lever III <chuck.lever@oracle.com>
-Cc: kernel-tls-handshake <kernel-tls-handshake@lists.linux.dev>
-Subject: Re: ktls-utils project Kanban board
-Message-ID: <ZplbC7nzUg5ITrfz@aion>
-References: <1B8279CB-C5FE-480E-B6D8-7018EFCFB54B@oracle.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="PPI+sVBd"
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7a66907fa39so285969485a.3
+        for <kernel-tls-handshake@lists.linux.dev>; Mon, 26 Aug 2024 11:26:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1724696814; x=1725301614; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HMZCb7iB66Y1W1Ryns5DKj2T2TKMVtliIt3MIZTvWbI=;
+        b=PPI+sVBdBfftm2RoBL9V0lJEqJyS18hYNDppyTl6PnPnpqhfwyjx8OnMzbTIwrOXb8
+         7vyr/8rdjvpDGvbEFUoPg2f+gZeQYr1VxeQIk1iTYUvOVEPv0JoQxhZV8bVODsgyoqF2
+         GhBBHj8zg+9nWxJqZj1xjFmXTlygL8Fzj7BQjRJqPKlGY4ypwwpbta6JOEsWYt832HMa
+         qj5Rsq9pPrQdF67W0r4buijW1Mp3AUpEV7SEm6UW2uA9amxDIIqVqmfWZengjBrXK3+z
+         B9tfzgxJyHhOynhBoCRT6xipxQKWB0a9tF/fbO2VxltLGS225ZJiwq8XcTlz0Vnop1p+
+         V1FQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724696814; x=1725301614;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HMZCb7iB66Y1W1Ryns5DKj2T2TKMVtliIt3MIZTvWbI=;
+        b=UguSS6cRb8MHz3yePAme/sQejQ+HwRQnjrp7OSM84cTYF3B4anZWs1tAHcLtzzQ+1C
+         m/sowwzKXMdmSphqdxDOGtOw5X3XhepZkOlODyCgOFL+G/DxNKCj5bp8bwbOxDmJDX+P
+         pFLUfyRqfX+4ZafZnjBBex0RVt/PSgKGV7m3jL8QDWfxIEXvWRDikafLk6eIV2Pgnnxa
+         u7hMdI8b8MuYp9Ty9GmJpbTlEnVIiePcEzrQsQ2YzhFaEJMSWY+EFM8aSwcPruXn2+Wn
+         xu3zlNmFwRzW4F4g12trs2KO89mR+GmG/IXu6HxXdN2EFpDsPoWj+LGOQ2bVtgg0epWL
+         C+mA==
+X-Gm-Message-State: AOJu0YwvyfDUNeylU3tZzMHLeaveMT3/frImELLLsiCX/8RDG/XpMpZv
+	CFhQMlimKudQKb40u5j6UZHPD0xA7dYU2fAq8p/hDmBz4xbp2TrMMKLrTcGlI4c=
+X-Google-Smtp-Source: AGHT+IGMbwrMjTB6suqc2Zw4TDMy5Z2Pr87vUDeGD69GcUGpb6D/dsdkRq53eYkvtU6pia34scjiQg==
+X-Received: by 2002:a05:620a:170b:b0:79e:ffc6:c435 with SMTP id af79cd13be357-7a6897c4103mr1085304085a.63.1724696813847;
+        Mon, 26 Aug 2024 11:26:53 -0700 (PDT)
+Received: from localhost ([130.44.215.91])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7a67f3622fasm478294685a.70.2024.08.26.11.26.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Aug 2024 11:26:53 -0700 (PDT)
+From: A K M Fazla Mehrab <a.mehrab@bytedance.com>
+To: netdev@vger.kernel.org
+Cc: kernel-tls-handshake@lists.linux.dev,
+	chuck.lever@oracle.com,
+	A K M Fazla Mehrab <a.mehrab@bytedance.com>
+Subject: [Patch net-next] net/handshake: use sockfd_put() helper
+Date: Mon, 26 Aug 2024 18:26:52 +0000
+Message-Id: <20240826182652.2449359-1-a.mehrab@bytedance.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <1B8279CB-C5FE-480E-B6D8-7018EFCFB54B@oracle.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Tue, 16 Jul 2024, Chuck Lever III wrote:
+Replace fput() with sockfd_put() in handshake_nl_done_doit().
 
-> I've created a Kanban board for ongoing ktls-utils work:
-> 
-> https://github.com/orgs/oracle/projects/14
-> 
-> I think it is publicly viewable, but I'm the only one
-> who can modify it...?
+Signed-off-by: A K M Fazla Mehrab <a.mehrab@bytedance.com>
+---
+ net/handshake/netlink.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Just confirming, I can view (but not modify) your board.
-
--Scott
-> 
-> 
-> --
-> Chuck Lever
-> 
-> 
-> 
+diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
+index 89637e732866..7e46d130dce2 100644
+--- a/net/handshake/netlink.c
++++ b/net/handshake/netlink.c
+@@ -153,7 +153,7 @@ int handshake_nl_done_doit(struct sk_buff *skb, struct genl_info *info)
+ 	if (!req) {
+ 		err = -EBUSY;
+ 		trace_handshake_cmd_done_err(net, req, sock->sk, err);
+-		fput(sock->file);
++		sockfd_put(sock);
+ 		return err;
+ 	}
+ 
+@@ -164,7 +164,7 @@ int handshake_nl_done_doit(struct sk_buff *skb, struct genl_info *info)
+ 		status = nla_get_u32(info->attrs[HANDSHAKE_A_DONE_STATUS]);
+ 
+ 	handshake_complete(req, status, info);
+-	fput(sock->file);
++	sockfd_put(sock);
+ 	return 0;
+ }
+ 
+-- 
+2.20.1
 

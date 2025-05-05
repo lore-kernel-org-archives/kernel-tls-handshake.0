@@ -1,481 +1,221 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E680D2FB
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 29 Apr 2025 15:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745940176; cv=none; b=Iy2PnFmKRUeBRCpQHLDn7H2gh1MnAqZDKBSLiR+1ur0F+4RnrtympLnwPq3MWU+XprkfYGmF0LN1v+LS3HrdSXh7to4ldf24ABZ8MXcNdLJeTWOgmLkunXViIq9ON0AUsr9MGNrep6jVkjxAbMwMS17jcDhZsa1m39xdeCVNMz8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745940176; c=relaxed/simple;
-	bh=3/dikogmpnIZToX1d8KEPa4vdbNFdXhKruFiiE5U8k0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LikIoNB3DhcMzrXdnwrIy1vFQtw7mzb3lHDDK4UaBrzM2ESxuFe5beDA0MqcVaNfx9Kb94FIhk8naTpcqfs+vW9SbXGZNmenDNwEjq9KpgIGQDXLQSS97J4igs9xG7uCMla8CwLupN1M1pn6Yc1V9SMipWtvTgSkxhLP7S/rDmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pv215PjO; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76FD226C39A;
+	Mon,  5 May 2025 18:07:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746468432; cv=fail; b=ioeO2Bp2TESd+BmGvpUY15l3cwg89/ByGvRuhARxq1mJ0ElCcvaCPDpwKq86x+fktmp0YHx6/wrwjKHno6GsUgQpYqLpEFYeOXxm8MIi06Ma2VrhId+N17xUJGmM/Lwu+t4mMMqbdgInfRcAf/QuOUZgGBPEh2l//GybKmZ5Ldo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746468432; c=relaxed/simple;
+	bh=tO1rJdy/eauTUKfSWB2VqR0AoNC+plnX2q4tpJ7W+j8=;
+	h=Message-ID:Date:Subject:References:To:Cc:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=m7vjNdln3TE0ZvVOQYGedCESOQnRjgANJqwGmbkfswhg8r/vSXUpm3mZkrAd0a2ZsXQP5a+51nmgSoQNUEEHxjFu1U/vq2JkXSL156XrQuv5xKE/Vh3XBV93gkYHr2TRNIifmwTG59LFIZRkAnh82go9Oow12BtRS3epbrsjEdQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=T585DtUW; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=s3QrZUhy; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pv215PjO"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5e5e22e6ed2so9922910a12.3
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 29 Apr 2025 08:22:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="T585DtUW";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="s3QrZUhy"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 545HWDCa028743;
+	Mon, 5 May 2025 18:07:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=MwBoQxedDF9kCE195HbUq8OjPfnLlS2LBjzyqzX7ltc=; b=
+	T585DtUWMYQW7Z/1MahU7/zguoNchMvmrIB1bVSiK4F1+DEPmFf8XAE/rNXMEAtd
+	Br/6Lvg/zZCukl4AULns/EmjBDr0yz53vgmS0N9o91LbVdXmLnKXYPudnS0yHPkA
+	u8SijSm/RSo3Dj4ynOYKiJBZNZB3D1mQLQWmsjeQnTfHV7Wpur7miWi1QGSyFJhg
+	8mIX0rJlbW0aLUMoJh0wDLX46fQafhvi631R+NUdPBRL1tr20po2mu/Ofgl9t6jI
+	48ITSa0ridw9diSdW4s3S33iq7w1i0Ls1z7+63qDmdxOLV2Tcy03KlKSHrzAcFLj
+	5Qfz6mtMuPSJfoUUQhdeGw==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46f1th02mv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 05 May 2025 18:07:02 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 545Gjp2M038297;
+	Mon, 5 May 2025 18:07:01 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2175.outbound.protection.outlook.com [104.47.59.175])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 46d9k7rn5r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 05 May 2025 18:07:01 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=c6IEh3rKgVQ0XNzT6ZJTAWt2WRKBOl101r+c2LzN0miwzPRyoY740baUS3kNLokVnLXuX5xwu0MJUvUTegFg5xaf5QgIz09Ga0Jseckhlt9vol9HUSvyD3yfkH28DLcX92VNGcuWXSGVK9ZzkPknOGJnHawriQi5G/VIiujRa/7lgLu73hD1MpG39kOeFeLW6LUutx6TbDDPgde0qYH4QvdADI9YcPm/lZywgttHyFbEukprSWkdZFCzfw1Ot8s2dLhqvv4/zPBwmyrcgfZKhnXrg+yv4OwHy6yFcn4vRhYNrgYd/V1gYIoNwIS4L3l+j8oKABPhMnwsIux4HptPrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MwBoQxedDF9kCE195HbUq8OjPfnLlS2LBjzyqzX7ltc=;
+ b=b6OIrM7oHXzGfIVmyHMChnqCVzYosHFRymnnsYXcRq2oVhWYLbo+Cxj7+SLk9GgCHiHyVbhZnEG0mTm4PGObmWnselVc/TPE7z0yHkrZcu1VnM11l2ysvktJrEmS0rm73Z3Z7HBiVoXkedm0Wvf2Qd+d6I4D85iusEcgUuD9ryX7zzNv60P1PGaQuzrhejSK2FMdR6cg+wrio88FIoVWnqf7bSgpVLvgCtnHgPiSdXuxc3761ipC1N+wP67jCLtWbPnPLGXLg+smEnGiHoNqOH+31nQDTjHSvyAInSJ/6k0ER5q2Ju36zB8q2ZOCOujjKJ1ACfnloSNUtSITaMUVMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745940172; x=1746544972; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wMHGmY9jx1nK5GVeT3TAnqQv1dpKtfLeGSN1Hs+mwo0=;
-        b=Pv215PjOZySnYJ2TuCEkCqQulEbS/D1lPaheU1lgCVWqaS2zzkcmbXw51FdIvz5Hc+
-         PlVKlCRcDgYK7XXiAkxbeXWB+Pg5UQrSsYB8TLXNxiAm29npxKwUuWu+dQIRNGfPcexf
-         dFX6zqWk49TiBC66ioSgees7sFsNZVCJsuBqmYFRy1hrVVMeFTpkNflZXM0dtaNfxC/z
-         HdBLO3QxWD7rhf6cpJICjTV6iaV6P7YKhIXGJy0aqKm4uF8UyMczFYloUux7d4ikAm0r
-         DUxQ6hRc/p2D94RB5FW/IJ2B0SY0S9r9hN9Nqe2ZLhB4npmnXDKLSh9CghLa2csifY93
-         Rfpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745940172; x=1746544972;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wMHGmY9jx1nK5GVeT3TAnqQv1dpKtfLeGSN1Hs+mwo0=;
-        b=FucplksZcjAKQtkVBD94C/omqUth9cuhnYt79ndue6k7DEdy/q6swFx1/o3M/9KohN
-         6JtYf7MveYTtcs5eQPhrtLRINcwgrnazVlapsefzkXv7gDxIrtGcR1l82u3G78FuxfOy
-         p0A/+UIB4f0spZstUJXNcJfppCdljOgYqr7CzWwVIlhb1h4WJbdfwkCqJ9jXwrlRgjPI
-         tTb8PqLwmAbdg5sf9AUGPQ0aVecOgyBm/KT1sJ5cOZwrlzD4KFeEDSEU8QEwa5t/gMAt
-         lVoMBwX4Q/RIwFZB/ykay9LIJAou3CkiwwZK7vFPdqtdRVPgHkplD1n5KuDWDuGLvRc3
-         Psuw==
-X-Gm-Message-State: AOJu0YxhZqfESTfpmhCXtMHEMxY1RQm/KWwu7TITtYKILR914LsLc/u5
-	emHsgWo4D4wMJWT5XQLBrhBltldBXU+6LMDD0S0+NiJmnSJWkQiMdkaGKWh0XeaK+2mhf3iZwXH
-	mmcdZj4i3kJs23hKIfAA2dtpscydRmIwx
-X-Gm-Gg: ASbGnctHMTL6p4UecfcNn9Z1XBOyAG+GW+wdFAof5S0f5rIc/0+xj+yHTYA9pSSGR9m
-	rLY0AqWSS8LOcBJxLdfkT2I/UtRJHevgShH/vaWOnp0vq8Jy1loQCfzuxXYXdahGA+A80v2pyg9
-	vzaQc6ApQ5yAxuR+jTufdOvLqXT2W5lxsv8ziIPiS59NMUszNv8cU9SmOX7Tg+5rGDZQ==
-X-Google-Smtp-Source: AGHT+IGPmjNTBF3rp5CBko97MBXQnlHhmvNsoz7s3AKg1qMTqScebLfy8Olc8CNj/MUpaGjUuqVCZ0agA5ruVP6o0J8=
-X-Received: by 2002:a05:6402:234d:b0:5f4:370d:96bc with SMTP id
- 4fb4d7f45d1cf-5f83809e3c1mr3065826a12.2.1745940171986; Tue, 29 Apr 2025
- 08:22:51 -0700 (PDT)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MwBoQxedDF9kCE195HbUq8OjPfnLlS2LBjzyqzX7ltc=;
+ b=s3QrZUhyR8xeoPDtpVnDs9j8OdBRKIBPtt1+aIMxgccKueXw8CPmVjPjc6Nw+Ut6zhQIMXnD6NZiV8uAQpxx+59j5/hdYeEK15Cxkz+1EtIDTuzNSz1zs1tdeNunaifTfK/69mZMeMErLVcISQd7UmXX/dd3+TjMFCJkr8XTVUM=
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
+ by SJ0PR10MB6432.namprd10.prod.outlook.com (2603:10b6:a03:486::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Mon, 5 May
+ 2025 18:06:58 +0000
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::743a:3154:40da:cf90]) by BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::743a:3154:40da:cf90%5]) with mapi id 15.20.8699.022; Mon, 5 May 2025
+ 18:06:58 +0000
+Message-ID: <32e4bd99-a85f-4f53-94bd-b8c3ecf2c66f@oracle.com>
+Date: Mon, 5 May 2025 14:06:56 -0400
+User-Agent: Mozilla Thunderbird
+Subject: [ANNOUNCE] ktls-utils 1.0.0
+References: <oracle/ktls-utils/push/refs/tags/ktls-utils-1.0.0/000000-c787cd@github.com>
+Content-Language: en-US
+To: kernel-tls-handshake <kernel-tls-handshake@lists.linux.dev>
+Cc: Linux NFS Mailing List <linux-nfs@vger.kernel.org>
+From: Chuck Lever <chuck.lever@oracle.com>
+In-Reply-To: <oracle/ktls-utils/push/refs/tags/ktls-utils-1.0.0/000000-c787cd@github.com>
+X-Forwarded-Message-Id: <oracle/ktls-utils/push/refs/tags/ktls-utils-1.0.0/000000-c787cd@github.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH2PR14CA0020.namprd14.prod.outlook.com
+ (2603:10b6:610:60::30) To BN0PR10MB5128.namprd10.prod.outlook.com
+ (2603:10b6:408:117::24)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAPVZmxxw+zkn8xkc_xZK32xxFXNXJ=PZgdXrk6BD7Y5uziE6aA@mail.gmail.com>
- <b2c61dbf-33db-4914-8a1d-beac3b3036ea@oracle.com> <CAPVZmxxPihFEMhMh8ijD-KnUx9S=xqFd6SGxxNKbwinuZj7dWQ@mail.gmail.com>
- <71f137db-f013-4530-a4c6-601fea874e1f@oracle.com> <CAPVZmxztn9qmi81ntcYNW0+jrM3rxRG2o8etD5TRpZCttD18yg@mail.gmail.com>
- <35503c1d-4170-4e3f-acbf-890572e7325f@oracle.com> <CAPVZmxxDA00bY715jgKJ80s8dbbtbLozj4qTzOb7_JwZEgZpaw@mail.gmail.com>
- <2b5b9a52-0ccc-4d1c-9496-860c8271c62b@oracle.com>
-In-Reply-To: <2b5b9a52-0ccc-4d1c-9496-860c8271c62b@oracle.com>
-From: Steve Sears <sjsorca@gmail.com>
-Date: Tue, 29 Apr 2025 11:22:40 -0400
-X-Gm-Features: ATxdqUHP_fPs1Sz6yss5cb1EFsoSvqV9NZUxUFlHC22ZdtOS7KZz7wIqPHJEkoc
-Message-ID: <CAPVZmxyGW+yYw0p7LsNvCanWm49wsFOc68yqwZOpS9gZEhfDAw@mail.gmail.com>
-Subject: Re: Missed rpc NULL response leads to hung mount command
-To: Chuck Lever <chuck.lever@oracle.com>
-Cc: kernel-tls-handshake@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN0PR10MB5128:EE_|SJ0PR10MB6432:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9332f815-be9a-44ce-58ea-08dd8bffa084
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|4022899009|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?N0k3RG92aFpwUTVwT2VZRzZOdE5zRGt3M3hvZ3c0YXlYRmhPc1V4dm5iVTZF?=
+ =?utf-8?B?cDViTldPSzFVVk9NbGJLUnl4R1NQL2JkWjZRNlpuY1RINVFPZzQwZkJGVkdX?=
+ =?utf-8?B?K3phTEhyeXhOR3ZCYkhSN1BjQkpEMFN4RzBNTGVaVXluSkNJODJ2LzVBdkh0?=
+ =?utf-8?B?cmpSb3VDempuTzRQT0JheS9DNFdZbU96d3cyYU83QWhPNTFlOXlQck9MaytL?=
+ =?utf-8?B?M2VOYzdoeXhyYWlNemxGUnd5UW9OdUdsNGRRQ1IzeEdXVkNCeUVqRExnNDJG?=
+ =?utf-8?B?blpQZFptTEZNcXl2aC8yN3BFSjZBOGNvdmI5QktKdThxVUtIZ0FpdHJLU29S?=
+ =?utf-8?B?NjBpN2JVekJtOHBjbCthZWxEYlVtNTJqOGlqdmxxWTRnL2RvWFdYTTlPS2hO?=
+ =?utf-8?B?Uk5oallpOWZPdW02R1FmVUE3amtnZjNnMHdRTFF6dnVSTENBbDMza29DN2VV?=
+ =?utf-8?B?QU1KanY2TDBMQWlSUWtaYlUyUHRLeHZoc29XdnFzZmIwdThDMmxuRTJnNnhZ?=
+ =?utf-8?B?eSsycE1HVThZbldOaFNSNkVkbjhpMFVjVHRQK0tFcDBmbHFOc293dmlJUUdV?=
+ =?utf-8?B?T291QmpmRTBKMGhEdlVodndVbCt5dkZnUXNjZ0hDRnpFMHVIQyt5QmpuMFox?=
+ =?utf-8?B?Y3g3aUh2bWVvM0FwY0w5RFRrVWx1VCtMbURaRmI4YnNEOENMZVpYRXZpNTR6?=
+ =?utf-8?B?cm1LY0VZYmtEQVV5N3BCdENhOE05NGhHb1pBWHhyV2U2akZCOFg5UUJRR3Ey?=
+ =?utf-8?B?ci91SDVYV2RsYVJiRG9kZmZBeTFYUGozWFM0VWk2WC9WL1Y4SXkxam1aUW1a?=
+ =?utf-8?B?MDNRZFk0ajZObEhRdjNraVp3Tit6RjRUT3c0WndNUkNSR0I3WndQUFVGV01p?=
+ =?utf-8?B?NngwVU4yUHZmZHVLbnRzQU81QnI1TFlwKzZFYVQrVUFvRUlnSlhoU21VZkpM?=
+ =?utf-8?B?V1VuNDVlQ0V1N21nWGMvZHQwTWVhZUxWK2hBbVZtK2duSmMzQWJ5a0tpUGg4?=
+ =?utf-8?B?UXdqVnpnZ1VudjltTlFOMjBFMm8rSkJoTXFPbVBiRHJXS3dEWU1OcDNOQXZz?=
+ =?utf-8?B?R3A3L24xckQyU01Icm1acUZQNTF1M1VhYU8vTlJOWms5MmEycVhBM2NtMEhu?=
+ =?utf-8?B?MUdNODZ4bER6NEpQb054T1hBTFFKMll5QVQvTjhWeU54YXdSM1RiNExVcjVU?=
+ =?utf-8?B?dXRjTTdnK0hybGczZ1d2QkFQc3RZQVB5SVF4UHRHMmVDb1EzWlRmY0puUFpQ?=
+ =?utf-8?B?WnRIb1M0bmdJZ3hUei9aYmJ0ZmxuSC9yb1hvNjhaUE5lQ0VoRWJQR2VPcS9a?=
+ =?utf-8?B?Y0JCb3Q2Yk5iRE5SbDFmR0w5ZW5KQzBGOXBDZ2hHSWxGVFY1NDFJR2VGbFZF?=
+ =?utf-8?B?QkhucHRCL08vMEtQTk9Ja2JRRE5YMlV4WUFxVTJzVndzRGs5N1BnM1FNTWpH?=
+ =?utf-8?B?TjZ4ZTY3R29lYjdQMHRnaFJrUjVvc1M1WnFKSTVMZENkVGpiN1lUbE0wRkhU?=
+ =?utf-8?B?ME5HVCtuU1pPVzY2Y2p1cVJidU1tOGRlTnFTMHg0bkNib3ZkZi9kS1dLRjZv?=
+ =?utf-8?B?OHpFRUNJK1p0Q0ZSd1Jtbmt4Y216S05vQmNiWnV2SlNmbHd6bjVEQ1BRYnNo?=
+ =?utf-8?B?L0NiNG13aW9wMUJhelhoVFYrdzJBQ2UvbEFMbFhTWVRHeXB6a1RvUC9FOUJE?=
+ =?utf-8?B?bGxiandoMEUvcFdSbUhSMnpKUGdhNExTTTJtMnFsRFhPdWRKVWdjbUpaUnhk?=
+ =?utf-8?B?elVsM3hZOWtiQU84NWZSTE5DRHFqRTdmWGVkLzFrMUFrTnFVZ2hoWDNFNjdT?=
+ =?utf-8?B?bGpFL20xV2lkRGtybzJPR1FNZVVDWFZmbXlDaCtuZzFWWTZhN21zMnE2aGph?=
+ =?utf-8?B?YjY5ZVhERzdsdUNjWFg0cnl2NzhRTWhWTW14OHZBMlVvUkZmcEVaQms4ZWxr?=
+ =?utf-8?Q?rH+HsiJUIK0=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(4022899009)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZkVPbUlKSXA1OGtvUVlRMTMvSVJEMlZNdEhFMnhPM0JQM2tROHNYN1dxc0lx?=
+ =?utf-8?B?TDBLUjlmc21jYlVCNUhSNWk0aGdnb1RxOW1lZjFDU1Iyc2src0ZKSFc5RkY4?=
+ =?utf-8?B?YzFwRndTdk9ZVWVxNXlnalc3c3pBRUdYcVg1M014N09lOVhGWWhPazFWMzhh?=
+ =?utf-8?B?S0ZPc01BcmNlTXlGMW5wODdZNHNHUVhmWjd4MXpMNFJyWS82bXpYeFJBc2Fq?=
+ =?utf-8?B?enZ0b2VER0RBdE5FbUdTaThrNFg4TXY5NVZROHRFOXgrYU5lenJ3QVdNOFJT?=
+ =?utf-8?B?TXRDeU00MksyZ3FpbnQvMDF5aFJRRFZWeWZlNnhUM2F6b3BoMXpLMmZMZ0hm?=
+ =?utf-8?B?SVVEODdLdUpIK3pJamtLVXdJUloxS0orYjV0Q0VpSHZRS0tqVUVheldxSGJ1?=
+ =?utf-8?B?dGJyUVhhUmErYjV5OWJxUVlpbm5EbVNWQjJlOG1SL3RPWmw5SXVMSlg0N1My?=
+ =?utf-8?B?dkowdkRwVlYvQTRGOTdVQkxQWUNWZWZ0UFdtSHBjWndqYll5WVMwWG4wMXFW?=
+ =?utf-8?B?cWpoSk53OTVuREw3em5ORXpLRWIyQWtibVZhQlFYcFgxQkdEWlQ0eVVhbjBz?=
+ =?utf-8?B?U3cvTzRMeHZJSGROQWY4Q1VNQitBOFg2OEZkaTJLbmlHWWI4ejNzSzMzVjFr?=
+ =?utf-8?B?TDVtUU5qaHhJQ1BoTU5FTGlKUExVcVNXbjVoYlpVdjA3anRkdkpaVUx6VHhh?=
+ =?utf-8?B?d0h3cENvbnVwUmROOHBUSmpxRVA5a1pvb2haSmpDd05jL0N0L1IvN2tKc044?=
+ =?utf-8?B?c2RHZmdmRUpDL3NHSE5qYUVkZ0ZVYUtwZVpqdlM5WTJBWmFScTlQQ2lwZUtw?=
+ =?utf-8?B?VUtsUmJIamFvOXgyRlNZY2lOYjBYa2pZekpDUDErTGlUekhBZktTcEMvam9k?=
+ =?utf-8?B?Y0hDS0srTzFFZ0ZiSmVZSDE5MmpWWGFqSjRFc05GZ3kwQVl1VEhNOHl1Qit3?=
+ =?utf-8?B?N3RuUVkrNVR2NVB4S3ZMT0lwVXZJUTY5cmVpODF5eEc1NE5CNFdpejNFa2xE?=
+ =?utf-8?B?a21IOTJMZnA3a2ZTam1raW51ajVpNzhCYXI4TFB5eEVScGJrczBvRGE0ZVF0?=
+ =?utf-8?B?TWhRTWhxcEpxcHkxZzB5cXhqOFlRbWhBR3BVZUU3VjBRNGhadDZjbDlVcC9J?=
+ =?utf-8?B?VFo0R2lyT2JBTDEyU1YvMzJNRU0vQ1BUck1LVkE4d0Evd1ZWclg2RGM3eERx?=
+ =?utf-8?B?Um9HbDRzR0ZvL05hK2tsRERqN2hvekZCYWs5RzVZem1BY2RYVmZhWmsxSDNP?=
+ =?utf-8?B?a2dDR3dOQ3picCszdTd0eWZocWxOd00wWm51MjVVbmpxSE9XbjJLaGc4enc0?=
+ =?utf-8?B?a1ZoSENxcFVieG41aFdPeEdnTWlsT0V0RlpXMk1PRDYrOTlqdHcwNFRMOU5U?=
+ =?utf-8?B?bkdvUkw5dnBHSUtEN0gvdStUZkROY0lBcTZvUTFEeUkvY3ZHcjlPZnM0R3Y2?=
+ =?utf-8?B?Q1p5M3FWaUNSQ0xWWkF5dkdxai9UenFZT1VBQVhsbUJIYk9YV2tkYU5IVk45?=
+ =?utf-8?B?eVlXQlJ0Ky9OR2xRR3FxUld6NlB6dWE3ckJsdnJQM0xqa0ZBd2dRR1NPdG5u?=
+ =?utf-8?B?WmpEdUpwR0pxTUFxQ21iNzkxWVR4QVlMdVZoRmpDRzZ1S2NqbFJQYlhLQmto?=
+ =?utf-8?B?b1FmNzdCSnFxYldzU0JiVE8zT1lnYUx6SE95ZmVqVTlYRHhSZDZxYWd3cnFB?=
+ =?utf-8?B?aTRLWkQrMk9rVU9hTFcwaURyVG5QWEkvbHRILytlbkMwWmFoa0tVRVo0b1A2?=
+ =?utf-8?B?K2NaSm9OZEhxYjZ0WW5aSGc4UzRvSUV2SzNhdi85TWJWMmptdEVUZFB5SzFR?=
+ =?utf-8?B?blhDSk81UFVIZk9mNVhPYUQvYUswU1lFWnFKV0U3WTY4cnQzKytUaUh6OEZy?=
+ =?utf-8?B?WWdoNGQxOXJrRlFmZUZ2cjhqaWZWclArMXpXMDdUMHZRSlNkMU9rMjAvc0hS?=
+ =?utf-8?B?emRKOWIyNGhObFN2RE9ySWtKNHBwekVPV1ZMNEhRYWd2emdEYXNZQ0ozODRz?=
+ =?utf-8?B?Q0MxQTRmekQvYVlzR3NFSnZ4Z0NnN1pWWWRZY3JuMU1Xemkwb2ljcS95NkZL?=
+ =?utf-8?B?bEU4MFkzVUp3QVlUV2V1T0xaSThuRWE4M1J5cFBtUFB3blo2ZUh1REE5eVV4?=
+ =?utf-8?Q?7pEyKIP/cpL+uYtvYYw5zYqmF?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	tL/Mpau8LiilwD0FCLRV6PZubzRj0qk2EF75wKB9xtNFKqqaFUJvZFk4rLL/7cQXk+mDt25XdRJmMiHMXP5VSqZbdGSCsFtsKyG1+6y58WWsK31T5M2vGN/gXvKptAsNOJrrS9MNS+ZNaqjhmmYT6rKGXa2GU6cAgQzGxbpY8Ay0Mg+ZyMBk1Y9mF2gTXm9k2n2NNzUOoPLBxKbXGcvJzeet6UQ0ZlkKbuqXbTL1YaMNa6qGMmxsmVQjEiv7JEKc4Y/q0Y/sBVg8bOzvfINT1pP73Sw3etiEUozX559apPUbDpfSJWm0oaa8io/VL64okEHoz9e6foUuJR41UEgsAtPsLTnoV/y49sF/z6+gaqVq12inbSii4hKinvaFf7ZZPdK5ZaGVFhZKBDal/yyqZwsDFcZDwM6r6AgZAafnsb8bUY1qkB+Uy8gIEBs6drvkidboM/yh47fygOOQKX/m5og3X0bnew0VOCpRdpDqxEw1q2cmrqqG3W9BxhEVvPLRIAmzBR0rI5fESRi82srn7cHz/X2DP3WUsJ/DSbH8Xdrirs3IlHfwJ7jvsgGu2ykyplK93CETVbDFWqE+M4ddBP4sQgcMpAsJ8CV5aIfaaSU=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9332f815-be9a-44ce-58ea-08dd8bffa084
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 18:06:58.4176
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Wfjqbqb7WRpiUd4BLF/Hh1uqodA8m/IKPQndgKrpvH88h+8/P7gD+xId83XErOV3tZMrW3BkkREOs4ZzoAzdBg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB6432
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-05_08,2025-05-05_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
+ adultscore=0 mlxscore=0 spamscore=0 mlxlogscore=999 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2504070000
+ definitions=main-2505050170
+X-Authority-Analysis: v=2.4 cv=R7wDGcRX c=1 sm=1 tr=0 ts=6818fe46 cx=c_pps a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=GoEa3M9JfhUA:10 a=NEAV23lmAAAA:8 a=yPCof4ZbAAAA:8 a=FbGEPtFUfCT0HSo4qEEA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: sYUunYU-gbg1L5-iRe0szLWVQ1phuDmd
+X-Proofpoint-ORIG-GUID: sYUunYU-gbg1L5-iRe0szLWVQ1phuDmd
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA1MDE3MCBTYWx0ZWRfXxQqqJ4KzJgiT fO52pK81DD/Xe/un13YnSgjt5M3cxC1UoL3W1w3fV1bRzgOIrBRPQZO7qWZ2iAIsMKP4iuhEsKm 5xIWKmD07tldJNl1mF0JjJP9BGpyhLaiHvDLVZEfx2qPCH4wALbDw5OA4c23vcsTNlR9qMpRU6U
+ C/CKluKwT9BsI+fExOS7ZB/yyS4GhgHF/e8QP2pxfjwCCHtDixnmpVKi875+MiesEaUKODL+aKd 0T3KqlZs/EZlzqDUgUVOwR+SJJY4LPvgVKuAQVBOK0ddR0NNawQKvqw0dG/rGacudknTWxr8YJE 8n78dDlF8tFYjR5rZaaHnw8GRzCdFIiXv7O9J34rLLRRGP9ZvDh/9lssi7vfmthFUgBvJDbGImx
+ HKM4XyYufHZ0rITxtrgMBwFIiG6ehFWRtbqC9cYH+XvKfH8HPKDngb0dRsZsm8yqUujzUhWX
 
-On Tue, Apr 29, 2025 at 10:40=E2=80=AFAM Chuck Lever <chuck.lever@oracle.co=
-m> wrote:
->
-> On 4/29/25 7:04 AM, Steve Sears wrote:
-> > On Mon, Apr 28, 2025 at 2:12=E2=80=AFPM Chuck Lever <chuck.lever@oracle=
-.com> wrote:
-> >>
-> >> On 4/28/25 2:08 PM, Steve Sears wrote:
-> >>> On Mon, Apr 28, 2025 at 2:00=E2=80=AFPM Chuck Lever <chuck.lever@orac=
-le.com> wrote:
-> >>>>
-> >>>> On 4/28/25 12:54 PM, Steve Sears wrote:
-> >>>>> On Sun, Apr 27, 2025 at 11:35=E2=80=AFAM Chuck Lever <chuck.lever@o=
-racle.com> wrote:
-> >>>>>>
-> >>>>>> On 4/24/25 2:03 PM, Steve Sears wrote:
-> >>>>>>> Originally posted to the ktls-utils list and Chuck Lever recommen=
-ded
-> >>>>>>> this list is more germaine to the problem I am trying to solve.
-> >>>>>>>
-> >>>>>>> I am implementing the NFS server side of a TLS connection using t=
-he
-> >>>>>>> OpenSSL library. There may be a bug in my implementation, but it =
-isn't
-> >>>>>>> obvious given the data so I am reaching out to this list. Please
-> >>>>>>> respond if the problem sounds familiar or if you have ideas on ho=
-w to
-> >>>>>>> pursue it.
-> >>>>>>>
-> >>>>>>> Here are some key datapoints:
-> >>>>>>> - Using a Linux 6.12.16-2 client
-> >>>>>>> - sudo mount -o xprtsec=3Dtls,vers=3D4.2,hard,acregmin=3D0,acregm=
-ax=3D0
-> >>>>>>> testmachine.lab.space:/share1 /mnt/share1/
-> >>>>>>> - Looking at tlshd logs: the handshake always works. Always.
-> >>>>>>> - The client will hang on the mount most of the time, but maybe 1=
-/50
-> >>>>>>> or so it works fine. And when the mount succeeds everything conti=
-nues
-> >>>>>>> to work great and tcpdump shows all TLS 1.3 packets, etc.
-> >>>>>>> - The hang appears to be from an rpc_ping() when the rpc null rep=
-ly is
-> >>>>>>> not processed.
-> >>>>>>
-> >>>>>> Hi Steve -
-> >>>>>>
-> >>>>>> What does this mean, exactly? Which side is not processing the pin=
-g?
-> >>>>>> If the ping does not work, then operation on the connection will n=
-ot
-> >>>>>> proceed.
-> >>>>>
-> >>>>> It is unclear if I am looking at the right problem, I am still tryi=
-ng
-> >>>>> to understand how the client works. The client sends two rpc null
-> >>>>> requests: an AUTH_TLS and an AUTH_SYS. The AUTH_TLS is received on =
-the
-> >>>>> server and a reply sent, and the client sees the reply and does the
-> >>>>> TLS handshake successfully. This part works every time.
-> >>>>>
-> >>>>> The, the AUTH_TLS is received on the server and a reply is sent. Th=
-e
-> >>>>> bpf trace shows the null rpc being sent, but we see no evidence of =
-a
-> >>>>> reply for this one. Or perhaps more accurately, we see a reply but =
-the
-> >>>>> client doesn't think it is a reply to the rpc null AUTH_SYS it sent=
-.
-> >>>>
-> >>>> That suggests the server's reply could be malformed.
-> >>>
-> >>> Thanks, that is useful. The first rpc null arrives and is responded t=
-o
-> >>> in plain text. Should both rpc nulls be treated the same? The server
-> >>> currently encrypts the 2nd one, which might be the issue. Although as
-> >>> I mentioned before it works 1/50 or so, which has me scratching my
-> >>> head...
-> >>
-> You could add "-e handshake". I don't see the ping operations here.
-> Perhaps the client is re-using an existing connection?
->
->
-> --
-> Chuck Lever
+This is the official release of ktls-utils 1.0.0
 
-Rats, I had not noticed I failed to reply to the list.
+The marquee feature of this release is initial support for the Linux
+kernel's QUICv1 implementation. In-kernel QUICv1 support has not yet
+been merged but it is reaching maturity.
 
-Here is another trace from the client done immediately after a reboot,
-hopefully to eliminate any cache or open connection reuse. The command
-was
+I had hoped to include a few fixes that enable ktls-utils to be built
+on MUSL-based platforms, but the contributor has not responded to
+requests to sign the OCA (he said he would sign, but has since
+disappeared).
 
-#  trace-cmd record -e sunrpc -e nfs4 -e nfs -e handshake
 
-The mount command runs in another pty. The trace is stopped while the
-mount is hung to eliminate calls to clean up.
+-------- Forwarded Message --------
+Subject: [oracle/ktls-utils]
+Date: Mon, 05 May 2025 11:02:34 -0700
+From: Chuck Lever <noreply@github.com>
+To: chuck.lever@oracle.com
 
-I don't see much that is interesting. The only ping reference is an
-xprt_ping, which obviously lacks details. I  confirmed with 'trace-cmd
-list -f | grep rpc_ping' that rpc_ping should show up with sunrpc, odd
-that it is not in the trace.
+  Branch: refs/tags/ktls-utils-1.0.0
+  Home:   https://github.com/oracle/ktls-utils
 
-CPU 3 is empty
-cpus=3D4
-       mount.nfs-15294 [002]   171.966914: nfs_mount_option:     option sou=
-rce
-       mount.nfs-15294 [002]   171.966916: nfs_mount_option:     option xpr=
-tsec
-       mount.nfs-15294 [002]   171.966917: nfs_mount_assign:
-option xprtsec=3Dtls
-       mount.nfs-15294 [002]   171.966918: nfs_mount_option:     option ver=
-s
-       mount.nfs-15294 [002]   171.966919: nfs_mount_assign:     option ver=
-s=3D4.2
-       mount.nfs-15294 [002]   171.966919: nfs_mount_option:     option har=
-d
-       mount.nfs-15294 [002]   171.966920: nfs_mount_option:     option acr=
-egmin
-       mount.nfs-15294 [002]   171.966921: nfs_mount_option:     option acr=
-egmax
-       mount.nfs-15294 [002]   171.966922: nfs_mount_option:     option nco=
-nnect
-       mount.nfs-15294 [002]   171.966922: nfs_mount_assign:
-option nconnect=3D4
-       mount.nfs-15294 [002]   171.966922: nfs_mount_option:     option add=
-r
-       mount.nfs-15294 [002]   171.966923: nfs_mount_assign:
-option addr=3D10.200.107.13
-       mount.nfs-15294 [002]   171.966924: nfs_mount_option:
-option clientaddr
-       mount.nfs-15294 [002]   171.966924: nfs_mount_assign:
-option clientaddr=3D10.200.107.14
-       mount.nfs-15294 [002]   171.966925: nfs_mount_path:       path=3D'/s=
-hare1'
-       mount.nfs-15294 [002]   171.966945: xprt_create:
-peer=3D[10.200.107.13]:2049 state=3DBOUND
-       mount.nfs-15294 [002]   171.967066: rpc_clnt_new_err:
-program=3Dnfs server=3Dfqdn-server.io error=3D-22
-     kworker/2:3-1530  [002]   171.967070: xprt_destroy:
-peer=3D[10.200.107.13]:2049 state=3DLOCKED|BOUND
-       mount.nfs-15294 [002]   171.967085: xprt_create:
-peer=3D[10.200.107.13]:2049 state=3DBOUND
-       mount.nfs-15294 [002]   171.967104: rpc_clnt_new:
-client=3D00000008 peer=3D[10.200.107.13]:2049 program=3Dnfs
-server=3Dfqdn-server.ioxprtsec=3D0x1
-flags=3DDISCRTRY|INFINITE_SLOTS|NO_RETRANS_TIMEOUT
-       mount.nfs-15294 [002]   171.967107: rpc_task_begin:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|CRED_NOREF runstate=3D0x4 status=3D=
-0
-action=3D(nil)s
-       mount.nfs-15294 [002]   171.967108: rpc_task_run_action:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|CRED_NOREF runstate=3DRUNNING|0x4
-status=3D0 action=3Drpc_prepare_task
-       mount.nfs-15294 [002]   171.967109: rpc_task_run_action:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|CRED_NOREF runstate=3DRUNNING|0x4
-status=3D0 action=3Dcall_start
-       mount.nfs-15294 [002]   171.967109: rpc_request:
-task:00000001@00000008 nfsv4 NULL (sync)
-       mount.nfs-15294 [002]   171.967110: rpc_task_run_action:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|CRED_NOREF runstate=3DRUNNING|0x4
-status=3D0 action=3Dcall_reserve
-       mount.nfs-15294 [002]   171.967123: xprt_reserve:
-task:00000001@00000008 xid=3D0x9cb6506a
-       mount.nfs-15294 [002]   171.967123: rpc_task_run_action:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|CRED_NOREF runstate=3DRUNNING|0x4
-status=3D0 action=3Dcall_reserveresult
-       mount.nfs-15294 [002]   171.967124: rpc_task_run_action:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|CRED_NOREF runstate=3DRUNNING|0x4
-status=3D0 action=3Dcall_refresh
-       mount.nfs-15294 [002]   171.967124: rpc_task_run_action:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|CRED_NOREF runstate=3DRUNNING|0x4
-status=3D0 action=3Dcall_refreshresult
-       mount.nfs-15294 [002]   171.967125: rpc_task_run_action:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|CRED_NOREF runstate=3DRUNNING|0x4
-status=3D0 action=3Dcall_allocate
-       mount.nfs-15294 [002]   171.967129: rpc_buf_alloc:
-task:00000001@00000008 callsize=3D56 recvsize=3D32 status=3D0
-       mount.nfs-15294 [002]   171.967129: rpc_task_run_action:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|CRED_NOREF runstate=3DRUNNING|0x4
-status=3D0 action=3Dcall_encode
-       mount.nfs-15294 [002]   171.967131: rpc_task_run_action:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|CRED_NOREF runstate=3DRUNNING|0x1c
-status=3D0 action=3Dcall_connect
-       mount.nfs-15294 [002]   171.967132: xprt_reserve_xprt:
-task:00000001@00000008 snd_task:00000001
-       mount.nfs-15294 [002]   171.967132: xprt_connect:
-peer=3D[10.200.107.13]:2049 state=3DLOCKED|BOUND
-       mount.nfs-15294 [002]   171.967134: rpc_task_sleep:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|CRED_NOREF runstate=3DRUNNING|0x1c
-status=3D0 timeout=3D0 queue=3Dxprt_pending
-       mount.nfs-15294 [002]   171.967138: rpc_task_sync_sleep:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|CRED_NOREF runstate=3D0x1e
-status=3D0 action=3Dcall_connect_status
-   kworker/u19:2-150   [002]   171.967145: xprt_create:
-peer=3D[10.200.107.13]:2049 state=3DBOUND
-   kworker/u19:2-150   [002]   171.967169: rpc_clnt_new:
-client=3D00000009 peer=3D[10.200.107.13]:2049 program=3Dnfs
-server=3Dfqdn-server.ioxprtsec=3Dnone flags=3D
-   kworker/u19:2-150   [002]   171.967170: rpc_task_begin:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|CRED_NOREF
-runstate=3D0x4 status=3D0 action=3D(nil)s
-   kworker/u19:2-150   [002]   171.967170: rpc_task_run_action:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|CRED_NOREF
-runstate=3DRUNNING|0x4 status=3D0 action=3Drpc_prepare_task
-   kworker/u19:2-150   [002]   171.967171: rpc_task_run_action:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|CRED_NOREF
-runstate=3DRUNNING|0x4 status=3D0 action=3Dcall_start
-   kworker/u19:2-150   [002]   171.967171: rpc_request:
-task:00000001@00000009 nfsv4 NULL (sync)
-   kworker/u19:2-150   [002]   171.967171: rpc_task_run_action:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|CRED_NOREF
-runstate=3DRUNNING|0x4 status=3D0 action=3Dcall_reserve
-   kworker/u19:2-150   [002]   171.967171: xprt_reserve:
-task:00000001@00000009 xid=3D0x9671bd5c
-   kworker/u19:2-150   [002]   171.967171: rpc_task_run_action:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|CRED_NOREF
-runstate=3DRUNNING|0x4 status=3D0 action=3Dcall_reserveresult
-   kworker/u19:2-150   [002]   171.967171: rpc_task_run_action:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|CRED_NOREF
-runstate=3DRUNNING|0x4 status=3D0 action=3Dcall_refresh
-   kworker/u19:2-150   [002]   171.967172: rpc_task_run_action:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|CRED_NOREF
-runstate=3DRUNNING|0x4 status=3D0 action=3Dcall_refreshresult
-   kworker/u19:2-150   [002]   171.967172: rpc_task_run_action:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|CRED_NOREF
-runstate=3DRUNNING|0x4 status=3D0 action=3Dcall_allocate
-   kworker/u19:2-150   [002]   171.967174: rpc_buf_alloc:
-task:00000001@00000009 callsize=3D56 recvsize=3D32 status=3D0
-   kworker/u19:2-150   [002]   171.967174: rpc_task_run_action:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|CRED_NOREF
-runstate=3DRUNNING|0x4 status=3D0 action=3Dcall_encode
-   kworker/u19:2-150   [002]   171.967174: rpc_task_run_action:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|CRED_NOREF
-runstate=3DRUNNING|0x1c status=3D0 action=3Dcall_connect
-   kworker/u19:2-150   [002]   171.967175: xprt_reserve_xprt:
-task:00000001@00000009 snd_task:00000001
-   kworker/u19:2-150   [002]   171.967175: xprt_connect:
-peer=3D[10.200.107.13]:2049 state=3DLOCKED|BOUND
-   kworker/u19:2-150   [002]   171.967175: rpc_task_sleep:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|CRED_NOREF
-runstate=3DRUNNING|0x1c status=3D0 timeout=3D0 queue=3Dxprt_pending
-   kworker/u19:2-150   [002]   171.967177: rpc_task_sync_sleep:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|CRED_NOREF
-runstate=3D0x1e status=3D0 action=3Dcall_connect_status
-   kworker/u19:1-72    [002]   171.967235: rpc_socket_connect:
-error=3D-115 socket:[89204] srcaddr=3D10.200.107.14:899
-dstaddr=3D10.200.107.13:2049 state=3D2 (CONNECTING) sk_state=3D2 (SYN_SENT)
-   kworker/u19:1-72    [002]   171.967236: xprt_release_xprt:
-task:ffffffff@ffffffff snd_task:ffffffff
-   systemd-udevd-770   [001]   171.967435: rpc_socket_state_change:
-socket:[89204] srcaddr=3D10.200.107.14:899 dstaddr=3D10.200.107.13:2049
-state=3D2 (CONNECTING) sk_state=3D1 (ESTABLISHED)
-   kworker/u18:0-43    [001]   171.967469: rpc_task_wakeup:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|CRED_NOREF
-runstate=3D0x1e status=3D-11 timeout=3D60000 queue=3Dxprt_pending
-   kworker/u19:2-150   [002]   171.967486: rpc_task_sync_wake:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|CRED_NOREF
-runstate=3DRUNNING|0x1c status=3D-11 action=3Dcall_connect_status
-   kworker/u19:2-150   [002]   171.967486: rpc_task_run_action:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|CRED_NOREF
-runstate=3DRUNNING|0x1c status=3D-11 action=3Dcall_connect_status
-   kworker/u19:2-150   [002]   171.967487: rpc_connect_status:
-task:00000001@00000009 status=3D-11
-   kworker/u19:2-150   [002]   171.967487: rpc_task_run_action:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|CRED_NOREF
-runstate=3DRUNNING|0x1c status=3D0 action=3Dcall_transmit
-   kworker/u19:2-150   [002]   171.967487: xprt_reserve_xprt:
-task:00000001@00000009 snd_task:00000001
-   kworker/u19:2-150   [002]   171.967488: rpc_xdr_sendto:
-task:00000001@00000009 head=3D[0xffff8eae9d27c008,40] page=3D0(0)
-tail=3D[(nil),0] len=3D40
-   kworker/u19:2-150   [002]   171.967504: xprt_transmit:
-task:00000001@00000009 xid=3D0x9671bd5c seqno=3D0 status=3D0
-   kworker/u19:2-150   [002]   171.967505: xprt_release_xprt:
-task:00000001@00000009 snd_task:ffffffff
-   kworker/u19:2-150   [002]   171.967505: rpc_task_run_action:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|SENT|CRED_NOREF
-runstate=3DRUNNING|0x14 status=3D0 action=3Dcall_transmit_status
-   kworker/u19:2-150   [002]   171.967506: rpc_task_sleep:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|SENT|CRED_NOREF
-runstate=3DRUNNING|0x14 status=3D0 timeout=3D0 queue=3Dxprt_pending
-   kworker/u19:2-150   [002]   171.967507: rpc_task_sync_sleep:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|SENT|CRED_NOREF
-runstate=3D0x16 status=3D0 action=3Dcall_status
-              xz-15292 [001]   171.968111: xs_data_ready:
-peer=3D[10.200.107.13]:2049
-   kworker/u18:0-43    [001]   171.968135: xprt_lookup_rqst:
-peer=3D[10.200.107.13]:2049 xid=3D0x9671bd5c status=3D0
-   kworker/u18:0-43    [001]   171.968137: rpc_task_wakeup:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|SENT|CRED_NOREF
-runstate=3D0x6 status=3D0 timeout=3D59999 queue=3Dxprt_pending
-   kworker/u18:0-43    [001]   171.968142: xs_stream_read_request:
-peer=3D[10.200.107.13]:2049 xid=3D0x9671bd5c copied=3D32 reclen=3D32 offset=
-=3D32
-   kworker/u18:0-43    [001]   171.968144: xs_stream_read_data:
-peer=3D[10.200.107.13]:2049 err=3D-11 total=3D36
-   kworker/u19:2-150   [002]   171.968148: rpc_task_sync_wake:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|SENT|CRED_NOREF
-runstate=3DRUNNING|0x4 status=3D0 action=3Dcall_status
-   kworker/u19:2-150   [002]   171.968149: rpc_task_run_action:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|SENT|CRED_NOREF
-runstate=3DRUNNING|0x4 status=3D0 action=3Dxprt_timer
-   kworker/u19:2-150   [002]   171.968149: rpc_task_run_action:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|SENT|CRED_NOREF
-runstate=3DRUNNING|0x4 status=3D0 action=3Dcall_status
-   kworker/u19:2-150   [002]   171.968150: xprt_ping:
-peer=3D[10.200.107.13]:2049 status=3D0
-   kworker/u19:2-150   [002]   171.968150: rpc_task_run_action:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|SENT|CRED_NOREF
-runstate=3DRUNNING|0x4 status=3D0 action=3Dcall_decode
-   kworker/u19:2-150   [002]   171.968151: rpc_xdr_recvfrom:
-task:00000001@00000009 head=3D[0xffff8eae9d27c040,32] page=3D0(0)
-tail=3D[(nil),0] len=3D32
-   kworker/u19:2-150   [002]   171.968152: rpc_task_run_action:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|SENT|CRED_NOREF
-runstate=3DRUNNING|0x4 status=3D0 action=3Drpc_exit_task
-   kworker/u19:2-150   [002]   171.968152: rpc_task_end:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|SENT|CRED_NOREF
-runstate=3DRUNNING|0x4 status=3D0 action=3Drpc_exit_task
-   kworker/u19:2-150   [002]   171.968153: rpc_stats_latency:
-task:00000001@00000009 xid=3D0x9671bd5c nfsv4 NULL backlog=3D318 rtt=3D646
-execute=3D982 xprt_id=3D6
-   kworker/u19:2-150   [002]   171.968154: rpc_task_call_done:
-task:00000001@00000009 flags=3DDYNAMIC|SOFT|SOFTCONN|SENT|CRED_NOREF
-runstate=3DRUNNING|0x4 status=3D0 action=3Drpc_tls_probe_call_done
-   kworker/u19:2-150   [002]   171.968154: xprt_release_xprt:
-task:00000001@00000009 snd_task:ffffffff
-   kworker/u19:2-150   [002]   171.968165: handshake_submit:
-req=3D0xffff8eae9f1c1e40 sk=3D0xffff8eae864d1300
-           tlshd-15296 [002]   171.969156: handshake_cmd_accept:
-req=3D0xffff8eae9f1c1e40 sk=3D0xffff8eae864d1300 fd=3D6
-          <idle>-0     [001]   172.097756: xs_data_ready:
-peer=3D[10.200.107.13]:2049
-          <idle>-0     [001]   172.100410: xs_data_ready:
-peer=3D[10.200.107.13]:2049
-           tlshd-15296 [002]   172.100511: handshake_cmd_done:
-req=3D0xffff8eae9f1c1e40 sk=3D0xffff8eae864d1300 fd=3D6
-           tlshd-15296 [002]   172.100512: handshake_complete:
-req=3D0xffff8eae9f1c1e40 sk=3D0xffff8eae864d1300 status=3D0
-   kworker/u19:2-150   [002]   172.100532: xprt_release_xprt:
-task:ffffffff@ffffffff snd_task:ffffffff
-   kworker/u19:2-150   [002]   172.100533: rpc_socket_connect:
-error=3D0 socket:[89204] srcaddr=3D10.200.107.14:899
-dstaddr=3D10.200.107.13:2049 state=3D2 (CONNECTING) sk_state=3D1
-(ESTABLISHED)
-   kworker/u19:2-150   [002]   172.100535: rpc_clnt_shutdown:    client=3D0=
-0000009
-   kworker/u19:2-150   [002]   172.100536: rpc_clnt_release:     client=3D0=
-0000009
-   kworker/u19:2-150   [002]   172.100564: xprt_release_xprt:
-task:ffffffff@ffffffff snd_task:ffffffff
-   kworker/u19:2-150   [002]   172.100566: rpc_task_wakeup:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|CRED_NOREF runstate=3D0x1e
-status=3D-11 timeout=3D59867 queue=3Dxprt_pending
-     kworker/2:3-1530  [002]   172.100573: rpc_clnt_free:        client=3D0=
-0000009
-     kworker/2:3-1530  [002]   172.100608: xprt_destroy:
-peer=3D[10.200.107.13]:2049 state=3DLOCKED|BOUND
-       mount.nfs-15294 [000]   172.100668: rpc_task_sync_wake:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|CRED_NOREF runstate=3DRUNNING|0x1c
-status=3D-11 action=3Dcall_connect_status
-       mount.nfs-15294 [000]   172.100670: rpc_task_run_action:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|CRED_NOREF runstate=3DRUNNING|0x1c
-status=3D-11 action=3Dcall_connect_status
-       mount.nfs-15294 [000]   172.100671: rpc_connect_status:
-task:00000001@00000008 status=3D-11
-       mount.nfs-15294 [000]   172.100671: rpc_task_run_action:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|CRED_NOREF runstate=3DRUNNING|0x1c
-status=3D0 action=3Dcall_transmit
-       mount.nfs-15294 [000]   172.100673: xprt_reserve_xprt:
-task:00000001@00000008 snd_task:00000001
-       mount.nfs-15294 [000]   172.100675: rpc_xdr_sendto:
-task:00000001@00000008 head=3D[0xffff8eae9d278808,40] page=3D0(0)
-tail=3D[(nil),0] len=3D40
-       mount.nfs-15294 [000]   172.100725: xprt_transmit:
-task:00000001@00000008 xid=3D0x9cb6506a seqno=3D0 status=3D0
-       mount.nfs-15294 [000]   172.100727: xprt_release_xprt:
-task:00000001@00000008 snd_task:ffffffff
-       mount.nfs-15294 [000]   172.100728: rpc_task_run_action:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|SENT|CRED_NOREF
-runstate=3DRUNNING|0x14 status=3D0 action=3Dcall_transmit_status
-       mount.nfs-15294 [000]   172.100729: rpc_task_sleep:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|SENT|CRED_NOREF
-runstate=3DRUNNING|0x14 status=3D0 timeout=3D0 queue=3Dxprt_pending
-       mount.nfs-15294 [000]   172.100731: rpc_task_sync_sleep:
-task:00000001@00000008
-flags=3DNULLCREDS|DYNAMIC|SOFT|SOFTCONN|SENT|CRED_NOREF runstate=3D0x16
-status=3D0 action=3Dcall_status
+To unsubscribe from these emails, change your notification settings at
+https://github.com/oracle/ktls-utils/settings/notifications

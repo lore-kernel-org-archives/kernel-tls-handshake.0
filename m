@@ -1,90 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD4D1F91C5
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  7 May 2025 09:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970A321D3F9
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  7 May 2025 14:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746610857; cv=none; b=p5LRbH7eH5zliufmMhY854U6wY38ORNEfI0EGSDd/9CyGWaeWyxkKxWp9NTSmDwdYHqlFl48mXrazqURHZxgL7embJFQZU2mQ6udfpCmkilxrTN2wN2uY7HY7yJilzowmtrwu2BFdF2HQqbToofKRsaO2NqfQ+cyPz3GXksSRvg=
+	t=1746629325; cv=none; b=OMg018n/qej2oQDctlBjup+r0hxZuLiEGf195AxeDG4vU/8ugXWhZCiy7NMRCghDXvpPdiD4fqTk40RbhZ2EybYF0y9XJ+MBy22vVcWnNGMDavVjE0CqEkYOEv55VXRKJzh3O07+yFJNyjJEHyXbmepxFuMFNq6h6oVTsNeYz4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746610857; c=relaxed/simple;
-	bh=DflWMP1YuzuQ5vH06lh0le/JMRdskS8d8TMO2J6HC2w=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QP3v5Y1HBm+BdQkzEcqFznWIuqpa4JRNJgcoTAR38OhT6NXNsj/wI8NuPE38jaCZdiwdMnpFp4GPTkgtdIbm2znr8/zBYcAhRmDpzpibSAv0esGY/wXN4WFJyfDax8VmzGW9LBwirRfSWM5vN/MC/uzhjZQHoxNq5ALd1gBYvPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nO0G0+p1; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nO0G0+p1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85B8CC4CEF0;
-	Wed,  7 May 2025 09:40:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746610857;
-	bh=DflWMP1YuzuQ5vH06lh0le/JMRdskS8d8TMO2J6HC2w=;
-	h=From:To:Cc:Subject:Date:From;
-	b=nO0G0+p1yzuIVfKNUQeJFrPfTHo4qyQd0iVxKNi8CO+gEAQwDYpg9XCJBxKWdsPhW
-	 sQxjCWuRqrX74RcH9zNCSS1F1m7mKoeoapjlM6t0qgYMp2lzCHw5Asb4G6XDSCNINO
-	 TvUezUYwKjoy6Q5a/1GQv7zy/KtMJ3X9xQEiYaSrEEe2SAxnAU2M3wEn3pVUtCetIH
-	 VmOBAkqqwHBDpO7wkPaccCi1hTwoVqJF3JO8X5dsAzpNnf8WTR2V4/HNN2yaD7fyZy
-	 WjRsKGnB38w1JtF3sty1bKJ6rI61gwIO+U1Ef2lWnQs69He/xzBfj7Hw6W1r33VLGY
-	 m5w2w9ZVGWFBw==
-From: hare@kernel.org
-To: Christoph Hellwig <hch@lst.de>
-Cc: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	linux-nvme@lists.infradead.org,
-	kernel-tls-handshake@lists.linux.dev,
-	Hannes Reinecke <hare@kernel.org>
-Subject: [PATCH] net/handshake: Add new parameter 'HANDSHAKE_A_ACCEPT_KEYRING'
-Date: Wed,  7 May 2025 11:40:49 +0200
-Message-Id: <20250507094049.26181-1-hare@kernel.org>
-X-Mailer: git-send-email 2.35.3
+	s=arc-20240116; t=1746629325; c=relaxed/simple;
+	bh=EAKMHUJqzlQgDrepx4CDqYCADzmC7w3H6FiJl08P0iU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=shXaBoC9kTciK+YZOBAnRDsmR/mynNeeM8CgVCpywfW34hS7Avz6d/2dKPCCdwe8Zk8K03nTgzzLbCEoNF+lT0c68Vj3BnTMUh2PRiCaBjXkzZISRakOi9fOAHbRnsNMVxJQqc9szZvlR6s05c+RMrweSJ1j/0OQ+MmUtf+Oy/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-441ab63a415so70748105e9.3
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 07 May 2025 07:48:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746629321; x=1747234121;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EAKMHUJqzlQgDrepx4CDqYCADzmC7w3H6FiJl08P0iU=;
+        b=HdgeIoZ8zioqJbOe1ljMUywnQ4VQOjY0rcmRVWaRxoT7h9Ipe/ny5QUy3OaXpPrhTg
+         5PjIUMz9hqm8AISGsL+r5/8Qnf4bYeQZNNAu/hl4wgj19LS88ECDWOgtlG/MYn4ZrPXI
+         FOpVGDs4WIjnJs1PMvC57PTevJd7+D/nzJy+Rhg9lzJUYc7Ql7s5b1bTB3R3atC0jIoN
+         uy4tyBQFVojagzXOY0qboWe/Mw8FybW2kJ5H0aOkans2YZzcxTu1YFQ3YANjGLxNA7TL
+         Lpu5tzhae0KzV150woAm0BsbCnoyWeIvMZuFOJ41rnO2rayTJLkTiD4LWGn8We8RASfe
+         jXZg==
+X-Forwarded-Encrypted: i=1; AJvYcCV5CN+d3CKOKCofoLKBvu6bALoXZi76wg0IR7QaspsSilGpmM3MI7vqk5KISen4aW9N2U2vBF27XRGNJMvgfa6fptaf8Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw9yeTphWwNe+n/x/vmkhaJV+uUdx4INFEzx4cxbnBGrqvfQ7jD
+	JCdyh8+nuOST2Rv6r1sZ06TnNbkWBR3ynZSOErII+wWiz60603Vp
+X-Gm-Gg: ASbGncuGTxkz7+vnZuVKNWJg5caUk2mYPuo1A4ktDC7YaYNsIRycHBNSApvxmDn1yqU
+	3ZKyH7ezlDfg4tmQuQ9ZWajLoa/qaKIZM14Zt84gm2C+21MAMAINQabMfb2Z452/XBcHiefSyjn
+	x3uQ6FCosKoiGJeCEiVUvbPhnjj1WTiB6IWim4lYI2nLsb1AmC/wB81fas+Lz0beAUfsGaOWr77
+	YwasRX71+a1O3NtbAZDfBM5cyZN+aQ2vo9gBF2A6ZV8DxCF7gvgWW+U9Sco/8o3tLMRTYR2Z2BX
+	/IY6jz/fpBiAmhGZdd0TCkTBOusrHc+Vi5mAgtcxedMe9yl1UMep1qH+3Qd3zkKRjAr8rseOhJv
+	sVPl1yKgIWWQLqBAA
+X-Google-Smtp-Source: AGHT+IF5BTozncU2f8ZOakRdmEUv5uIWg8hax2hMSrXQM17uMKwSEvjMx5Ip07y2lNB42HNCyDZFCQ==
+X-Received: by 2002:a05:600c:37c6:b0:43c:f8fc:f6a6 with SMTP id 5b1f17b1804b1-441d44c321emr32242065e9.9.1746629320547;
+        Wed, 07 May 2025 07:48:40 -0700 (PDT)
+Received: from [10.50.5.11] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a0b6d0e1ebsm1458450f8f.80.2025.05.07.07.48.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 May 2025 07:48:40 -0700 (PDT)
+Message-ID: <b56bc2a2-3357-4d50-b53b-e65866ba1e7b@grimberg.me>
+Date: Wed, 7 May 2025 17:48:38 +0300
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] NFS: support the kernel keyring for TLS
+To: Christoph Hellwig <hch@lst.de>, Chuck Lever <chuck.lever@oracle.com>,
+ Trond Myklebust <trondmy@kernel.org>
+Cc: Anna Schumaker <anna@kernel.org>, David Howells <dhowells@redhat.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>, linux-nfs@vger.kernel.org,
+ kernel-tls-handshake <kernel-tls-handshake@lists.linux.dev>,
+ keyrings@vger.kernel.org
+References: <20250507080944.3947782-1-hch@lst.de>
+ <20250507080944.3947782-2-hch@lst.de>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20250507080944.3947782-2-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Hannes Reinecke <hare@kernel.org>
+Pretty straight-forward I think.
 
-Add a new netlink parameter 'HANDSHAKE_A_ACCEPT_KEYRING' to provide
-the serial number of the keyring to use.
-
-Signed-off-by: Hannes Reinecke <hare@kernel.org>
----
- include/uapi/linux/handshake.h | 1 +
- net/handshake/tlshd.c          | 6 ++++++
- 2 files changed, 7 insertions(+)
-
-diff --git a/include/uapi/linux/handshake.h b/include/uapi/linux/handshake.h
-index 3d7ea58778c9..662e7de46c54 100644
---- a/include/uapi/linux/handshake.h
-+++ b/include/uapi/linux/handshake.h
-@@ -45,6 +45,7 @@ enum {
- 	HANDSHAKE_A_ACCEPT_PEER_IDENTITY,
- 	HANDSHAKE_A_ACCEPT_CERTIFICATE,
- 	HANDSHAKE_A_ACCEPT_PEERNAME,
-+	HANDSHAKE_A_ACCEPT_KEYRING,
- 
- 	__HANDSHAKE_A_ACCEPT_MAX,
- 	HANDSHAKE_A_ACCEPT_MAX = (__HANDSHAKE_A_ACCEPT_MAX - 1)
-diff --git a/net/handshake/tlshd.c b/net/handshake/tlshd.c
-index d6f52839827e..081093dfd553 100644
---- a/net/handshake/tlshd.c
-+++ b/net/handshake/tlshd.c
-@@ -230,6 +230,12 @@ static int tls_handshake_accept(struct handshake_req *req,
- 		if (ret < 0)
- 			goto out_cancel;
- 	}
-+	if (treq->th_keyring) {
-+		ret = nla_put_u32(msg, HANDSHAKE_A_ACCEPT_KEYRING,
-+				  treq->th_keyring);
-+		if (ret < 0)
-+			goto out_cancel;
-+	}
- 
- 	ret = nla_put_u32(msg, HANDSHAKE_A_ACCEPT_AUTH_MODE,
- 			  treq->th_auth_mode);
--- 
-2.35.3
-
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>

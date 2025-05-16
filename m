@@ -1,71 +1,82 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22B522259B
-	for <kernel-tls-handshake@lists.linux.dev>; Fri, 16 May 2025 11:47:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389F3259CBD;
+	Fri, 16 May 2025 17:01:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747396043; cv=none; b=j5J6HP5BXgTD8L0Ziia3UbLz3DgswBDkGo+piKoZegvJda2CqFlDnWH0lhdvpmM4QGJXa1QnN0AHs/HQxLRRKPhyEnUYjbsAVLFoRzc8EJ2vMUzOOUOlthy78YnWO5gZTyzuSyC52Hrbh/o/IZYniJ8inZVisddnaZobBtCrp1k=
+	t=1747414866; cv=none; b=C1xvwuJhSPg9R5Pnzn6iM/TA0h7OI4oikB1WjXbZXjsQWFf0lWol16WRHs9nOJmN9BRw83xFTUktusEKqh48oO9pMaFQbaoS+DxjBcrmOwi2IE6HfVMkkMuyogKqv8RQp66lhYmPPFqAct8gd8g5hXXlcdRBYpomszEeRk0didQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747396043; c=relaxed/simple;
-	bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dPurAAuIUrEMWCEuMBx09ZUJLpAzrSfJWDH2L/EYDwcQ4ZnOlaSPC2xsf9Qm3nPKdYeku8XbsvTB4uzGeYycIMPCONDpv2mI6gmAqoCPBIuwEvfoXachc6OVvAx8oIa0YnXFFdxLs53U5mmaYoGzfCpal/xPzW/F9dUAkLnXGcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-442fda876a6so6882785e9.0
-        for <kernel-tls-handshake@lists.linux.dev>; Fri, 16 May 2025 04:47:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747396040; x=1748000840;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=l4LFnYGSLXgEfEu66o8gl3mRVr1xmFmRiNNbErNETc2ljvssqMfUD3LTusYLEmwv4p
-         2e2j14bqydGPOIBxMHztocF1ShKGlnngrkFISoq53rEUOWtt0lU6mQqhhgCt9JrmlEZi
-         ivgkNaIlAWHsadXNGcrE6ZaElOIuoIcOmz/3U6zH9IDF63kRXH7+kHcUDyL+jM1Tfw7s
-         eHuTQpGeUlc1FN3aqu06CKhgPcNyxNQWwhIT79ZA6Cg6FL13OU7alym0nRduvYkEGTBw
-         3kqNcuqLNYOkm0rvfqpcs3HWFl1J2xuobPK1vxX6hZI3YCkaUKa6QWsqukfsocFlLy5M
-         S/1w==
-X-Forwarded-Encrypted: i=1; AJvYcCVN+7BdsoS/pDIjkHlqKvWxOC1t1Knii8V5Gc8M6Woc7NKMm7tlz6NdAV+DpGyIvugf8Ls6jy6W5kyRzBrDKxcnMemYnw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzdxdIbsfLL/KYaotbh8SNSKI+cOgV1j8bRYJEE90rKl/unWyoP
-	9S2tARY1UPmEyA8KIPyPnCUYqhuy8t/5PM4T5SZzH+3QLXnQsIRKAirm
-X-Gm-Gg: ASbGncvoVnJBmcbt/FfUDhOYekpqWwzSzBnIpet9Yo5qiXz+MGuM6nSn/b348x3vSeW
-	6wSdCecdy2vSEpD+0p1gIkgNifWHhykJ3elc8c5LlTqylMIVD6Gys5w/GGIMQgfZDb2lxk/kBNr
-	YlMZEjtnNecZztXF8uwnB+vOXNP3BdeMjH0TeMaBQv2aNvivjaUKYdXL7mvFClgchLpfdvZqVWo
-	pucoWOrQMNNWucTk8LMB1diF2wOB3ae9swW+xl+uxNtcjZu3kRE1jbcHhcCo/LqlHRM+FxUoXbq
-	LQr8Lgu9AJ6d3FYo530sNFeAv1ozdjGpnWg6/Sw134SpD6+hb42Vl4j0O+8OagT4Vj40jTPqfIa
-	w9EACwxkD
-X-Google-Smtp-Source: AGHT+IHg2tHHiKueKs6xvAo7xLj09H6Qy+ABxe4CoeV7u4nYMJWg0MKaXFmFUVLriDrlyx5PEMiYUA==
-X-Received: by 2002:a05:6000:188d:b0:3a0:b294:cceb with SMTP id ffacd0b85a97d-3a35c84f659mr2970619f8f.54.1747396040098;
-        Fri, 16 May 2025 04:47:20 -0700 (PDT)
-Received: from [10.100.102.74] (89-138-68-29.bb.netvision.net.il. [89.138.68.29])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca4d263sm2593376f8f.3.2025.05.16.04.47.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 May 2025 04:47:19 -0700 (PDT)
-Message-ID: <c2044daa-c68e-43bf-8c28-6ce5f5a5c129@grimberg.me>
-Date: Fri, 16 May 2025 14:47:18 +0300
+	s=arc-20240116; t=1747414866; c=relaxed/simple;
+	bh=8Wdcw89gCS8xamushy5PFAMxsBaTvuYpeNAksJu6LJw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oLlYEs8Nz6NXUMczk3Mv14pTHjUWoFyQq0x5QoONLUwDcfEMiY+HjgROiRFJ+6i0M/XLlYmm5S9ZWe4xFkHzli0I8+L/JvtH1CqpSKuxClTVBu04BWKShaUVnDjr/lIqzAyjQt7ACXiXClUYdUZzGqfy6mNvlWfsfXnI97IAYtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fqkH5Xot; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fqkH5Xot"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32259C4CEE4;
+	Fri, 16 May 2025 17:01:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747414865;
+	bh=8Wdcw89gCS8xamushy5PFAMxsBaTvuYpeNAksJu6LJw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fqkH5Xot/Em6lwN13NVRmXgOHpRjMZ9OQ0K1yIZzBJcxZllsT9UWDfkGgE7iJjW5/
+	 dt+oKR5XxYuCDNX8NX0537zkaAaBxI7M7A9T5CnJi+3WSGNnehl5pjZ3uBbLU4vPid
+	 IgYuaB+4U3jubhvDTfOM5kz2TfYWMoDvb8GS+oOYTApOLXNtZkZV8VGObiRms0tXit
+	 rglFcIIhDHpPKQMX9+JSQfrD7rN7XkR4b5lOqvv+8MtTIdZXA5Pvu0TsG3g7YK0n3z
+	 UEnxihrgO0CP2/Q3TAo9IGyDakhYOhO+Z4hYX5rUONCMjNi24KQgd61ensP0edbBTR
+	 8friivyRgygPw==
+Date: Fri, 16 May 2025 20:01:01 +0300
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Christoph Hellwig <hch@lst.de>, Chuck Lever <chuck.lever@oracle.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	David Howells <dhowells@redhat.com>, linux-nfs@vger.kernel.org,
+	kernel-tls-handshake <kernel-tls-handshake@lists.linux.dev>,
+	keyrings@vger.kernel.org
+Subject: Re: [PATCH 1/2] NFS: support the kernel keyring for TLS
+Message-ID: <aCdvTUCNVV7lYJh9@kernel.org>
+References: <20250515115107.33052-1-hch@lst.de>
+ <20250515115107.33052-2-hch@lst.de>
+ <aCXjaDas4aJkoS7-@kernel.org>
+ <cd2444ca-3d92-4c4e-a93c-ed2bfc4d18d5@suse.de>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] nfs: create a kernel keyring
-To: Christoph Hellwig <hch@lst.de>, Chuck Lever <chuck.lever@oracle.com>,
- Trond Myklebust <trondmy@kernel.org>
-Cc: Anna Schumaker <anna@kernel.org>, David Howells <dhowells@redhat.com>,
- Jarkko Sakkinen <jarkko@kernel.org>, linux-nfs@vger.kernel.org,
- kernel-tls-handshake <kernel-tls-handshake@lists.linux.dev>,
- keyrings@vger.kernel.org
-References: <20250515115107.33052-1-hch@lst.de>
- <20250515115107.33052-3-hch@lst.de>
-Content-Language: en-US
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20250515115107.33052-3-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cd2444ca-3d92-4c4e-a93c-ed2bfc4d18d5@suse.de>
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On Thu, May 15, 2025 at 04:46:43PM +0200, Hannes Reinecke wrote:
+> > This is equivalent nvme_tls_key_lookup() so would it be more senseful
+> > to call it nfs_tls_key_lookup()? I'm also a bit puzzled how the code
+> > will associate nfs_keyring to all this (e.g., with keyring_search as
+> > done in nvme_tls_psk_lookup())?
+> > 
+> With this patch the keyring is pretty much immaterial; the interface
+> is passing in a serial number which is unique across all keyrings.
+> Where the keyring comes in when looking up keys on the TLS server,
+> as there the TLS client hello only transports the key description
+> (which are not required to be unique across all keyrings).
+> So there we'll need the keyring to be specified.
+> But for the client we really don't.
+
+I did not see anything that would depend on having 2/2 at all, or
+it getting populated.
+
+> 
+> Cheers,
+> 
+> Hannes
+> -- 
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+> HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+
+BR, Jarkko

@@ -1,98 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897A22868B;
-	Mon, 19 May 2025 23:01:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E921E50B;
+	Tue, 20 May 2025 19:59:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747695665; cv=none; b=ghyooqtDrGZw/a+vnYQc+xoopm+0pLvr/TVIJT1Mqgh32ogAB90In0QIJzqMmgrRoNFJeib+x7Kp22JbkuR3Q0ItSAZdrsruHTprIkGcRc3Ulp5MhbFQpLdvochZr1yvcaNBbt9tRU5oJNN0QzuhcgwEcY4afZbVn7/L+MNsYaA=
+	t=1747771168; cv=none; b=NkaWLC74Rq0EUpK3SFuMT4dJoKHhgaQhqL4hKCHIgs1Eyf0D+/IIpTOv1O9QwTWy29qHrBAl4BGw4I+lwfZY5jriZq53XcwutfhqnfliMbGa4pf00cD1nwmzr3KnKbkj9OWIQMUAYl78wfOBMK34cQ9ZWZZvRDdz8Ia9I+1nLzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747695665; c=relaxed/simple;
-	bh=UOvrAvKttJi122NoVir8gO+DuRbWd7w3i3FaBzW8fek=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qpQ9UdEiy1lCS2W9nqUQIUJdVdA8irG2YZxpeqnZijtWdE/D/yx0o8K/is7j2vWBQ5JRHx4KDeuPy8OQ2PXBBkBTNoFsOdSxqoOdlqmj7t1Q2LncP6syoagagriB54E1YNAPHrUEWZBXBfTh7HL+4jn7FHm3N5X5TZuNus8gQBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kK/xaEUs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747771168; c=relaxed/simple;
+	bh=BOjCEaI2KG1IOPms1pqfpwuRt+5XIWMOyD/QM0CsCU0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=th6km9ioR3s83oX6RR0NB7qsFwnmSkqVkT8Oum4AhmHE9ZO0t8yBWwDbxiQ6tgZQbw0Yfa8a6EnLAW6/gVUwkL9JhKOyAEJgIvQp+pta2PnAfQRxVziZoP2pbKX5MEg74qke9qaXTaWAxg7BkkwLzjQtnfmoorqSfzjW56d3vdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WU0hAitR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kK/xaEUs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB439C4CEE4;
-	Mon, 19 May 2025 23:01:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WU0hAitR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF557C4CEE9;
+	Tue, 20 May 2025 19:59:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747695665;
-	bh=UOvrAvKttJi122NoVir8gO+DuRbWd7w3i3FaBzW8fek=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kK/xaEUsFGOJ90fRVfxI+qrKLLKlE40dpX4FZf7kEwEqbUAQPcRkMDffznWPPMfFn
-	 ob8OuCz8ktKUD745f09Ff9tdh5etqkrMGGDt5NHdYkIdozx1SwI9lMYCWz+EghKH+0
-	 VbDTtcDtzi72/sFDAF3Sa71+SJqKece7glS/OKcY09Ag2ueUd/Y2VZLrfl4hoqIaNr
-	 g5hOyf4x2mdF5B0dAMJfxWm3FhB24OdRShpKniDA/9wOwQ23FIDsNmCFEzlUp+3/TY
-	 mBBQNC4jPbyEjhvEQe7mWRrUV3EPP5H5YMHlq97o9GqCtzX/vcnEGIz0p4tmiS5vnB
-	 wXRHyCDfnUaxw==
-Date: Mon, 19 May 2025 16:01:02 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Chuck Lever <chuck.lever@oracle.com>
-Cc: netdev@vger.kernel.org, Steve Sears <sjs@hammerspace.com>, Thomas Haynes
- <loghyr@hammerspace.com>, kernel-tls-handshake
- <kernel-tls-handshake@lists.linux.dev>, Sabrina Dubroca
- <sd@queasysnail.net>
-Subject: Re: RPC-with-TLS client does not receive traffic
-Message-ID: <20250519160102.26d95e57@kernel.org>
-In-Reply-To: <48aaf181-b7cf-45d1-ba60-bf90ad45d842@oracle.com>
-References: <0288b61b-6a8e-409d-8e4c-3f482526cf46@oracle.com>
-	<20d1d07b-a656-48ab-9e0e-7ba04214aa3f@oracle.com>
-	<62cbd258-11df-4d76-9ab1-8e7b72f01ca4@suse.de>
-	<7014c4fa-fa99-45d4-9c3b-8bf3ff3f7b38@oracle.com>
-	<20250516162716.340fb97c@kernel.org>
-	<8ABF3663-1BDD-4B87-8DA5-AB39774B1B89@oracle.com>
-	<20250516165355.6efb470e@kernel.org>
-	<48aaf181-b7cf-45d1-ba60-bf90ad45d842@oracle.com>
+	s=k20201202; t=1747771167;
+	bh=BOjCEaI2KG1IOPms1pqfpwuRt+5XIWMOyD/QM0CsCU0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WU0hAitREkJOX/9Ds3MCYYkvfOMwui/VgK+/GC8n5t4AhPOWwK55QRjcb2LTtnpu4
+	 DTDUsHT/zEq38qK9NdLOMhPkYHDjigQHEOrXxxH8gVGpUWI5oQzPmN9t9Wgs1+87eC
+	 Z3oCLD2M7mHy0v4vepj7yglBaHu8daAHujLh4Cukpq9X+iZLznGEQqPz49nLQytZpH
+	 UgfKZtLk+k/NROiBEPJitShew3t7Ml6WKH8/6BAcd+eyaLl8k5z2vcIYLMJ4JSMUSJ
+	 xc9hGYTWLrhPz2h7r81mH75uByVz2Fm6fBjiLdzLyWTVr1q/PbWBTKEUhigzqoIfKM
+	 0LmuYG0y2g2Dg==
+From: cel@kernel.org
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: Thomas Haynes <loghyr@hammerspace.com>,
+	<linux-nfs@vger.kernel.org>,
+	<netdev@vger.kernel.org>,
+	<kernel-tls-handshake@lists.linux.dev>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Steve Sears <sjs@hammerspace.com>,
+	Jakub Kacinski <kuba@kernel.org>
+Subject: [PATCH v1] SUNRPC: Prevent hang on NFS mount with xprtsec=[m]tls
+Date: Tue, 20 May 2025 15:59:16 -0400
+Message-ID: <20250520195916.676511-1-cel@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 17 May 2025 12:39:58 -0400 Chuck Lever wrote:
-> > Hm, yes, my intuition would be to add a xs_poll_check_readable() 
-> > after connection set up to check if we raced with data being queued?
-> > 
-> > IIUC sk->sk_user_data is not set up when the first event fires
-> > so xs_data_ready() ignores it?  We can't set user_data sooner?  
-> 
-> I think the answer to this is that sunrpc never sees a data ready event.
-> The value contained in sk->sk_user_data is therefore irrelevant.
-> 
-> Because tls_setsockopt() sets strp->msg_ready, when the underlying
-> socket event arrives tls_data_ready() is a no-op. That terminates the
->  ->data_ready call chain before xs_data_ready can be called.  
-> 
-> The handshake daemon sets the session key by calling tls_setsockopt.
-> When it hangs:
-> 
-> function:             tls_setsockopt
-> function:                do_tls_setsockopt_conf
-> function:                   tls_set_device_offload_rx
-> function:                   tls_set_sw_offload
-> function:                      init_prot_info
-> function:                      tls_strp_init
-> function:                   tls_sw_strparser_arm
-> function:                   tls_strp_check_rcv
-> function:                      tls_strp_read_sock
-> function:                         tls_strp_load_anchor_with_queue
-> function:                         tls_rx_msg_size
-> function:                            tls_device_rx_resync_new_rec
-> function:                         tls_rx_msg_ready    <<<<<
-> 
-> The next call to tls_data_ready sees strp->msg_ready is set, returns
-> without doing anything, and progress stops.
-> 
-> In the successful case, tls_strp_check_rcv() simply returns, leaving
-> strp->msg_ready set to zero. The next call to tls_data_ready can
-> then process the ingress data and call xs_data_ready.
+From: Chuck Lever <chuck.lever@oracle.com>
 
-Is there any data queued on the TLS socket already when it "hangs" ?
-If it's getting into msg_ready state without the data - it's a bug 
-in TLS. If there's a full record queued at the time when handshake
-passes the socket back to the kernel - it's up to the reader to read
-the already queued data out.
+Engineers at Hammerspace noticed that sometimes mounting with
+"xprtsec=tls" hangs for a minute or so, and then times out, even
+when the NFS server is reachable and responsive.
+
+kTLS shuts off data_ready callbacks if strp->msg_ready is set to
+mitigate data_ready callbacks when a full TLS record is not yet
+ready to be read from the socket.
+
+Normally msg_ready is clear when the first TLS record arrives on
+a socket. However, I observed that sometimes tls_setsockopt() sets
+strp->msg_ready, and that prevents forward progress because
+tls_data_ready() becomes a no-op.
+
+Moreover, Jakub says: "If there's a full record queued at the time
+when [tlshd] passes the socket back to the kernel, it's up to the
+reader to read the already queued data out." So SunRPC cannot
+expect a data_ready call when ingress data is already waiting.
+
+Add an explicit poll after SunRPC's upper transport is set up to
+pick up any data that arrived after the TLS handshake but before
+transport set-up is complete.
+
+Reported-by: Steve Sears <sjs@hammerspace.com>
+Suggested-by: Jakub Kacinski <kuba@kernel.org>
+Fixes: 75eb6af7acdf ("SUNRPC: Add a TCP-with-TLS RPC transport class")
+Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+---
+ net/sunrpc/xprtsock.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+Mike, can you try this out?
+
+diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
+index 83cc095846d3..4b10ecf4c265 100644
+--- a/net/sunrpc/xprtsock.c
++++ b/net/sunrpc/xprtsock.c
+@@ -2740,6 +2740,11 @@ static void xs_tcp_tls_setup_socket(struct work_struct *work)
+ 	}
+ 	rpc_shutdown_client(lower_clnt);
+ 
++	/* Check for ingress data that arrived before the socket's
++	 * ->data_ready callback was set up.
++	 */
++	xs_poll_check_readable(upper_transport);
++
+ out_unlock:
+ 	current_restore_flags(pflags, PF_MEMALLOC);
+ 	upper_transport->clnt = NULL;
+-- 
+2.49.0
+

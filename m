@@ -1,101 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E921E50B;
-	Tue, 20 May 2025 19:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C07218EA2;
+	Tue, 20 May 2025 23:34:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747771168; cv=none; b=NkaWLC74Rq0EUpK3SFuMT4dJoKHhgaQhqL4hKCHIgs1Eyf0D+/IIpTOv1O9QwTWy29qHrBAl4BGw4I+lwfZY5jriZq53XcwutfhqnfliMbGa4pf00cD1nwmzr3KnKbkj9OWIQMUAYl78wfOBMK34cQ9ZWZZvRDdz8Ia9I+1nLzQ=
+	t=1747784088; cv=none; b=FLY1na3URfmI9DgwMRXLJk8A/k3myW9JniFYxFinZUyX19WTroicN1aEFFtYLjMqUteONkrk/80hhodh+pM6//a5h8kLkptnCtPwtLFvNeVwAuoS6+98eXaDu6KpiGDlKDL5BCP4cxMXKv8JaBUbgPOmLw6zH03J09/qmAeRGnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747771168; c=relaxed/simple;
-	bh=BOjCEaI2KG1IOPms1pqfpwuRt+5XIWMOyD/QM0CsCU0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=th6km9ioR3s83oX6RR0NB7qsFwnmSkqVkT8Oum4AhmHE9ZO0t8yBWwDbxiQ6tgZQbw0Yfa8a6EnLAW6/gVUwkL9JhKOyAEJgIvQp+pta2PnAfQRxVziZoP2pbKX5MEg74qke9qaXTaWAxg7BkkwLzjQtnfmoorqSfzjW56d3vdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WU0hAitR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747784088; c=relaxed/simple;
+	bh=nk5kiEmG5q6Z6ly3rI2SSY3NQLP58Venst00SAF/F60=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pQSQWaEXNJtCwCmnjx7/+ErlYXG4iIHELhG788Jr4BwetBC7T6/ctVePbyyGYmBPcnwWHpeTjdd/WtMBOkCcdWwcfvuPZzf5i7viPcCMsznO0ReS0gETCI/IhQcvnB73z2URerOE67V218EtmZ7jh0Qy/9pU4WxQrIL2bvC+UUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y5yQRu5L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WU0hAitR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF557C4CEE9;
-	Tue, 20 May 2025 19:59:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y5yQRu5L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED200C4CEE9;
+	Tue, 20 May 2025 23:34:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747771167;
-	bh=BOjCEaI2KG1IOPms1pqfpwuRt+5XIWMOyD/QM0CsCU0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=WU0hAitREkJOX/9Ds3MCYYkvfOMwui/VgK+/GC8n5t4AhPOWwK55QRjcb2LTtnpu4
-	 DTDUsHT/zEq38qK9NdLOMhPkYHDjigQHEOrXxxH8gVGpUWI5oQzPmN9t9Wgs1+87eC
-	 Z3oCLD2M7mHy0v4vepj7yglBaHu8daAHujLh4Cukpq9X+iZLznGEQqPz49nLQytZpH
-	 UgfKZtLk+k/NROiBEPJitShew3t7Ml6WKH8/6BAcd+eyaLl8k5z2vcIYLMJ4JSMUSJ
-	 xc9hGYTWLrhPz2h7r81mH75uByVz2Fm6fBjiLdzLyWTVr1q/PbWBTKEUhigzqoIfKM
-	 0LmuYG0y2g2Dg==
-From: cel@kernel.org
-To: Mike Snitzer <snitzer@kernel.org>
-Cc: Thomas Haynes <loghyr@hammerspace.com>,
-	<linux-nfs@vger.kernel.org>,
-	<netdev@vger.kernel.org>,
-	<kernel-tls-handshake@lists.linux.dev>,
+	s=k20201202; t=1747784088;
+	bh=nk5kiEmG5q6Z6ly3rI2SSY3NQLP58Venst00SAF/F60=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y5yQRu5LByw0qmZ43NOxThhQtuMUYw/+ZdxT7XSL2GD0uPrryMrYvF7hrXlwb+LxR
+	 ZAfYA8jueqxHLuIGfSEGpdB03PxUdHOD91p18u+8CGqSnWfc9/soxQeMhxcRYBBBP+
+	 o41IY6fqHnI7Oi9ai33uTiKQyuy/T7f/w8Q49UeG//f1O73giDmS8Ze/DVf8TBo2Aa
+	 6TPSC1h85fHcC96Hk2lzl8/29drA/WjeXSfevV9r9NApvmOgTavSSP+ow+/oLOE4my
+	 oiGZgeNaci6l6nx2iuJRl+1kBOLp9aHH5LMm4NLiMyC8W4Rd7mV5+Jzq+T7yfudl0m
+	 ihhDCVTGozBlw==
+Date: Tue, 20 May 2025 19:34:46 -0400
+From: Mike Snitzer <snitzer@kernel.org>
+To: cel@kernel.org
+Cc: Thomas Haynes <loghyr@hammerspace.com>, linux-nfs@vger.kernel.org,
+	netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
 	Chuck Lever <chuck.lever@oracle.com>,
-	Steve Sears <sjs@hammerspace.com>,
-	Jakub Kacinski <kuba@kernel.org>
-Subject: [PATCH v1] SUNRPC: Prevent hang on NFS mount with xprtsec=[m]tls
-Date: Tue, 20 May 2025 15:59:16 -0400
-Message-ID: <20250520195916.676511-1-cel@kernel.org>
-X-Mailer: git-send-email 2.49.0
+	Steve Sears <sjs@hammerspace.com>, Jakub Kacinski <kuba@kernel.org>
+Subject: Re: [PATCH v1] SUNRPC: Prevent hang on NFS mount with xprtsec=[m]tls
+Message-ID: <aC0RlqfuilOj51kT@kernel.org>
+References: <20250520195916.676511-1-cel@kernel.org>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250520195916.676511-1-cel@kernel.org>
 
-From: Chuck Lever <chuck.lever@oracle.com>
+On Tue, May 20, 2025 at 03:59:16PM -0400, cel@kernel.org wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
+> 
+> Engineers at Hammerspace noticed that sometimes mounting with
+> "xprtsec=tls" hangs for a minute or so, and then times out, even
+> when the NFS server is reachable and responsive.
+> 
+> kTLS shuts off data_ready callbacks if strp->msg_ready is set to
+> mitigate data_ready callbacks when a full TLS record is not yet
+> ready to be read from the socket.
+> 
+> Normally msg_ready is clear when the first TLS record arrives on
+> a socket. However, I observed that sometimes tls_setsockopt() sets
+> strp->msg_ready, and that prevents forward progress because
+> tls_data_ready() becomes a no-op.
+> 
+> Moreover, Jakub says: "If there's a full record queued at the time
+> when [tlshd] passes the socket back to the kernel, it's up to the
+> reader to read the already queued data out." So SunRPC cannot
+> expect a data_ready call when ingress data is already waiting.
+> 
+> Add an explicit poll after SunRPC's upper transport is set up to
+> pick up any data that arrived after the TLS handshake but before
+> transport set-up is complete.
+> 
+> Reported-by: Steve Sears <sjs@hammerspace.com>
+> Suggested-by: Jakub Kacinski <kuba@kernel.org>
+> Fixes: 75eb6af7acdf ("SUNRPC: Add a TCP-with-TLS RPC transport class")
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> ---
+>  net/sunrpc/xprtsock.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> Mike, can you try this out?
 
-Engineers at Hammerspace noticed that sometimes mounting with
-"xprtsec=tls" hangs for a minute or so, and then times out, even
-when the NFS server is reachable and responsive.
+Works well, thanks to you and Jakub for seeing this through!
 
-kTLS shuts off data_ready callbacks if strp->msg_ready is set to
-mitigate data_ready callbacks when a full TLS record is not yet
-ready to be read from the socket.
+Tested-by: Mike Snitzer <snitzer@kernel.org>
+Reviewed-by: Mike Snitzer <snitzer@kernel.org>
 
-Normally msg_ready is clear when the first TLS record arrives on
-a socket. However, I observed that sometimes tls_setsockopt() sets
-strp->msg_ready, and that prevents forward progress because
-tls_data_ready() becomes a no-op.
-
-Moreover, Jakub says: "If there's a full record queued at the time
-when [tlshd] passes the socket back to the kernel, it's up to the
-reader to read the already queued data out." So SunRPC cannot
-expect a data_ready call when ingress data is already waiting.
-
-Add an explicit poll after SunRPC's upper transport is set up to
-pick up any data that arrived after the TLS handshake but before
-transport set-up is complete.
-
-Reported-by: Steve Sears <sjs@hammerspace.com>
-Suggested-by: Jakub Kacinski <kuba@kernel.org>
-Fixes: 75eb6af7acdf ("SUNRPC: Add a TCP-with-TLS RPC transport class")
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
----
- net/sunrpc/xprtsock.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-Mike, can you try this out?
-
-diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
-index 83cc095846d3..4b10ecf4c265 100644
---- a/net/sunrpc/xprtsock.c
-+++ b/net/sunrpc/xprtsock.c
-@@ -2740,6 +2740,11 @@ static void xs_tcp_tls_setup_socket(struct work_struct *work)
- 	}
- 	rpc_shutdown_client(lower_clnt);
- 
-+	/* Check for ingress data that arrived before the socket's
-+	 * ->data_ready callback was set up.
-+	 */
-+	xs_poll_check_readable(upper_transport);
-+
- out_unlock:
- 	current_restore_flags(pflags, PF_MEMALLOC);
- 	upper_transport->clnt = NULL;
--- 
-2.49.0
-
+> 
+> diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
+> index 83cc095846d3..4b10ecf4c265 100644
+> --- a/net/sunrpc/xprtsock.c
+> +++ b/net/sunrpc/xprtsock.c
+> @@ -2740,6 +2740,11 @@ static void xs_tcp_tls_setup_socket(struct work_struct *work)
+>  	}
+>  	rpc_shutdown_client(lower_clnt);
+>  
+> +	/* Check for ingress data that arrived before the socket's
+> +	 * ->data_ready callback was set up.
+> +	 */
+> +	xs_poll_check_readable(upper_transport);
+> +
+>  out_unlock:
+>  	current_restore_flags(pflags, PF_MEMALLOC);
+>  	upper_transport->clnt = NULL;
+> -- 
+> 2.49.0
+> 

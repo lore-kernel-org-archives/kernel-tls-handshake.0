@@ -1,210 +1,213 @@
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B354270825
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 22 May 2025 04:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747889443; cv=none; b=tfZaNpeKDtjE4fY5O2qjzO2aMlgyEWEf3RDz5PFkUxHBkFhggAfMaXWq9bZD+aarWlp09y7/S8Tcz+v5UiilYeTZ1psVBIFdyrirfr25ZRNjKySzWhskDm7f+dzD7Rkp9fRNN7/ztHW2SPjdA6phf/OdeCYREfB9QOo/O+g6Zyg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747889443; c=relaxed/simple;
-	bh=JgwDAYEdFKsEg/t6PdiaKKXqbEBoaSeQXuVdu8yxZio=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ePi1xssAJjqfSsgKakwKuEbrd83i6ROGxHLbAoBkll0GtU3IS7bgELF5VcDAfWJSNYXtUxXFWriXBKZ6v1NpJO0QhkKNF1/dy9egkyXj01RodQcUTF907q7wPFuf4250MNXXNOxcATTmqv8THGV6LXUdpu4lfInSpMOexu6L+zY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alistair23.me; spf=pass smtp.mailfrom=alistair23.me; dkim=pass (2048-bit key) header.d=alistair23.me header.i=@alistair23.me header.b=VTzrOh1x; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CiFs8LRP; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alistair23.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alistair23.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBA53C465
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 27 May 2025 15:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748359415; cv=fail; b=sfPOd/yplQ5owOnbRddbO6uVpu0LZMSsJOVMsckBTrBovnyCbCErPsS/7H2sTjCvzOqOSyAbPCAZfBV+7oSmJ0DkcLE3AcIIPKLi1d+N4uJlvQNv0WdKMbkY9ZKoGVbYKXrvh51dOO5S7HYvYjP/6w4oWVGiZyBIP2j+usC8hHE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748359415; c=relaxed/simple;
+	bh=i7WLYVnDukxDVHxKaf8+fYJGNxg5/9hc9BXy1/fsDb8=;
+	h=Message-ID:Date:To:From:Subject:Content-Type:MIME-Version; b=D/Ie7lmhb27g0x/0GMHtgmpqVe6kddYHiYrZr6RZbBauTC1MVTpUosRV6Tc5YMWokBijSP66Wm0yA13z5eW3v3/rvieOo2g48Td3QO+Uum64Tuj9hbVyoDH2LoGzfRfOwUcU+xy5jp32BGJI6323qnAfCKhf8Do1MWCOZ3h1xeg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ZadAtKBN; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=rk37CkAy; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alistair23.me header.i=@alistair23.me header.b="VTzrOh1x";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CiFs8LRP"
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
-	by mailfout.phl.internal (Postfix) with ESMTP id 6495B1380460;
-	Thu, 22 May 2025 00:50:39 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Thu, 22 May 2025 00:50:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1747889439; x=1747975839; bh=eI3IdKpLwriNQfjzwfvyhbmtZZT6qcu8
-	E0PT4sK8ozo=; b=VTzrOh1xYyElIp94X2gtCHpxgA899+tRxhw4xUCaJuD3lVLN
-	CkCFkySEuAzN09kUjQ3qCpNsDlqKYoO3BKStNYIfdGad/4cOtTyys3JYf7V1AGWl
-	RQjgqjCKQL8k90WREBEjch2L2i4wvAnRglJmGLC1JYNUAE7lIFJk1HFL8Ns3Tnig
-	52zTN9cLSIW0poyK8zqRwSpuW0P6b9gV5ZJWAQbyya8CfqKWHSuIqEDlAjKaVJae
-	10sinyVOQI+LQXaNcKDKd4AmT1MMLNXgYykDCf15Cg5VvcbcRExU499YFg58TZAd
-	dCq1MK2Kd1qZ5/VhNwcNQxG1DM9Apq5xMzKVJQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1747889439; x=
-	1747975839; bh=eI3IdKpLwriNQfjzwfvyhbmtZZT6qcu8E0PT4sK8ozo=; b=C
-	iFs8LRPoXY0mOjUBE9WKtBI5CiHZTGqf6r4RVig6hy39kPqGPaViJXmIgTWdLhMZ
-	Ntf9P/ziw8qHa2XKEncgmZREYF48yYd5o3CVP6y7CZwFmH6pOuVgsAdofqqXHxD4
-	y0hBcBs+qBW1xTtJozC058MM3SxUKMa8cGTgO91Ttw5c46i3HMqDVm7S3D7eqOV3
-	ISuN2hAF1L5K5lplizcLgC79XTIK4RL2SbGXPF3cU3keAe6VIaMah+QITfWyBEye
-	XO3skh/SgBbVL4FuuYswJEs7saQQuDurU0LHabJy47jHRR+k46VyqN39mD26C2jh
-	hbA5d8u1NLT+8twm8LeZA==
-X-ME-Sender: <xms:Hq0uaAjyCrlyPx_umaVXcyyAkKRNFUAFWFwD-YNjH-h5siQZjiqFXA>
-    <xme:Hq0uaJBZcvZpgyLG1AZbyf9VatlPl5sts9I2bKzBtEAduVtyxwvHuvQ3vzHP2gAf4
-    Tr7D1721vqK68cez70>
-X-ME-Received: <xmr:Hq0uaIHaRxO5ikmcMmQreO8rJBy39q7zyoa-h3Oj2wLQOclVdRYLSvqEn4-Osq02CQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdehtdegucdltddurdegfedvrddttd
-    dmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgf
-    nhhsuhgsshgtrhhisggvpdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttd
-    enucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehf
-    hfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeetlhhishhtrghirhcuoegrlhhishhtrg
-    hirhesrghlihhsthgrihhrvdefrdhmvgeqnecuggftrfgrthhtvghrnhepfffhgeduhedt
-    gfejudehveeitdeikefhteejheffheegvddtudevgfdujeeifedvnecuffhomhgrihhnpe
-    hgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
-    ihhlfhhrohhmpegrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvgdpnhgspghrtg
-    hpthhtohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheptghhuhgtkhdrlhgv
-    vhgvrhesohhrrggtlhgvrdgtohhmpdhrtghpthhtohepsggtohguughinhhgsehrvgguhh
-    grthdrtghomhdprhgtphhtthhopehhrghrvgesshhushgvrdguvgdprhgtphhtthhopehk
-    vghrnhgvlhdqthhlshdqhhgrnhgushhhrghkvgeslhhishhtshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:Hq0uaBRbt1UXysOriduaElKaPiXjY6JJkGACzKzvazGzyBqrMytlxw>
-    <xmx:Hq0uaNyDmcXLjNJAinqzxWzI0qI8_daPEBY5b82UfIRUOuNnjxSJlg>
-    <xmx:Hq0uaP5oi-a5V8YygsbXpzoB3vuGf24BUFRhTIHdvGdImdXxlobnEg>
-    <xmx:Hq0uaKx5der1MNjg9h_VeI0jhcz3l3Jmx_gfjlR7k2hLyr4pu5k9nA>
-    <xmx:H60uaESgi44t1LiUKa4I-Li42WqeLFYrHiccWxldSuXS0KBk8r2Ggqi9>
-Feedback-ID: ifd214418:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 22 May 2025 00:50:36 -0400 (EDT)
-Message-ID: <a1c5c804-c92d-406f-844a-328c1ed0ac5f@alistair23.me>
-Date: Thu, 22 May 2025 14:50:34 +1000
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ZadAtKBN";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="rk37CkAy"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54RCjghu025523
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 27 May 2025 15:23:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=corp-2025-04-25; bh=ouiF7NFbuRd/+5nM
+	ZtlVv9Q3L6OSxgPW2vS7LFwOs/o=; b=ZadAtKBNIz2MpQ+gc2d7jlRHn6Kxa6RI
+	6efjxaYIkMsxkftzp1UgT7ESnUBj3xlmt4/6gUvx9cXbXrOQHrFZD+NLoH0Mujk/
+	1eSQd/zrJJsSDJOmJUJDIwzqul9Wh4/OM7vQwDZ5XPqFQ+1HjEebJ6oy5NDv10Z5
+	YnW13kg8FGn/XcM1DCeMrfUfz4aafbt2oCEqO58kAOhBLhVltkRESuS6FEguri3Z
+	J0wZF8Ld+Wj8IuqT5B2jPQnF1+/OW9RY7W/d4gcZPRLjoIknJnnyN6+8halzrwef
+	MO2vO7Zd+v1rcZOJwsJIJEm7FjAp3OXVQWJibd73cyJZ0yCiEXaSAw==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46v46tue5j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 27 May 2025 15:23:33 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 54RF1WPT035765
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 27 May 2025 15:23:32 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11on2073.outbound.protection.outlook.com [40.107.220.73])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 46u4ja1520-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 27 May 2025 15:23:32 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=u++TEkOKscrwxBPYmMLGMJ7sZHRPNE94a/lcWdVhC5284yMKLeT3bG8CCaIKkpXbtY56Wo8dbMm4mEpwSCgmMlJX/pQVr0gp66ISTfkeqwsZfObBmxz9qcaa4WH4I8fXddnM8b/PiwX+w5huhZcIJwt+vC8nr7ncUZ1TQxVGF1XI9Sra7Efw41rMliMSnkQl1nb03/hZAz3DnASHTM131sEjpu4SVZNu2QJz8rMpvYKwNDD6rq2DqwkMFJhI8qrK/Ci+emxI/s341cmEOl6Nj/5wziY8Erauqw9Fpu4fgEDdB/hYNISICODzMXWhkmYWG7crb60FOQZ13rygWgUzJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ouiF7NFbuRd/+5nMZtlVv9Q3L6OSxgPW2vS7LFwOs/o=;
+ b=Fr1CMvi3IDeJAwo18JCyf5GKYXNn61KD5Mxf5tX5tkLaAgCQjH+5iLiVRaAAw5o6aDXUkh1FzxD3Ahp0gCa+0szYlba7LdlPdjKumJnI4BdynKjLSRcI8F88kMHnpiVdaPvau8JDQMKFfzMb/W3mjgwlz0VJmGzuRuNHZqBa0omTAh3GveVWoTGI4H7Y8pd6IvbHTdhEpZ50nDbDO81Sw4SwkMvSNYLJsKS7sGzOco/C1Y1AD/Ns6HUZwbqMcgLqDV13Y7OXIQXf1VGtgTW5Yn37qdPjzMZmXrcqoLyG2aJKujiTByNu2X2y0IBI3toSgSXyqo+hTayEPsvj8U5Edw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ouiF7NFbuRd/+5nMZtlVv9Q3L6OSxgPW2vS7LFwOs/o=;
+ b=rk37CkAy3kxX0TAGGWt3aYQYZ1ZCAgRyY/kqNtUiS+bEVW9CQtgKbhljXJCW8y/DerMyPh6WNFDVIAwHGIEcwqhrUij6OWbIq1sDGD97MURNEUTfuwwjsfMK5oyZYDIihrk5yLUyhLGjucQogCYfya+loU4Ukmu5Y4/sxD8mzYw=
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
+ by CY8PR10MB6441.namprd10.prod.outlook.com (2603:10b6:930:63::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.28; Tue, 27 May
+ 2025 15:23:28 +0000
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::743a:3154:40da:cf90]) by BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::743a:3154:40da:cf90%5]) with mapi id 15.20.8746.035; Tue, 27 May 2025
+ 15:23:28 +0000
+Message-ID: <acad21c7-a9fe-4ef5-a277-3ab27586b56b@oracle.com>
+Date: Tue, 27 May 2025 11:23:26 -0400
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: kernel-tls-handshake <kernel-tls-handshake@lists.linux.dev>
+From: Chuck Lever <chuck.lever@oracle.com>
+Subject: Further changes to contribution process
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH0PR04CA0117.namprd04.prod.outlook.com
+ (2603:10b6:610:75::32) To BN0PR10MB5128.namprd10.prod.outlook.com
+ (2603:10b6:408:117::24)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: KeyUpdate Support
-To: Chuck Lever <chuck.lever@oracle.com>,
- Benjamin Coddington <bcodding@redhat.com>
-Cc: Hannes Reinecke <hare@suse.de>, kernel-tls-handshake@lists.linux.dev
-References: <ba83aadd-8a2e-4080-a6b5-bef272fea606@app.fastmail.com>
- <a6488280-54af-4127-adbc-65d0cfaad954@suse.de>
- <f18611d8-08cb-4233-948f-ea9fd50c28de@oracle.com>
- <67CAB54F-B40E-4B9A-A769-B3F298ED86A5@redhat.com>
- <2df731e0-f18d-498b-a343-a96e5d47868c@oracle.com>
-Content-Language: en-US
-From: Alistair <alistair@alistair23.me>
-In-Reply-To: <2df731e0-f18d-498b-a343-a96e5d47868c@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN0PR10MB5128:EE_|CY8PR10MB6441:EE_
+X-MS-Office365-Filtering-Correlation-Id: 933d50d0-7869-4576-a213-08dd9d326e9e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?VVNxTmhiS00rNGNqeVBkVHhrQjk5NGtxbHJ4RkN6bWlKam5WckRWbkt3eXFZ?=
+ =?utf-8?B?TGdHNDFEb2hnWVFKNlErd2NSNEpwd0VneWo5VFRDa2w0SHF2a3M0MTBzUll6?=
+ =?utf-8?B?VDJyVFRVNzRNbGVBY0ttbWlhRzZpQXFXV2pxcE13a1VBUFN2OTF3a0pkOTJF?=
+ =?utf-8?B?Yk5lWnh6S1VBNjRIUStuTWVjeTVkWlJ3VEJyZEtBd1dVdFE1Y3FaMGlKUWsr?=
+ =?utf-8?B?ME55UzFVUUJpaGhYeVVkMW5kN0wwMzBmNk9hVHJYem01RkFhdjg0eGVPS0tS?=
+ =?utf-8?B?b0RoaXJYZWdaaUc5Y3VZRjVSZkhUell1VElvUG8vS2lYbDhoWS9FR2hRcklu?=
+ =?utf-8?B?MCtESTUxU0JSZkhucENhRWtoTU9qbFhYNmp0SktjeHBhcURFdFlueVBrWDBw?=
+ =?utf-8?B?M0NpTjFXc2pjak9UM29iaENpaEp1OFVXNUY5QzZodWxRRnREdTMxc1Z4TGFs?=
+ =?utf-8?B?ZmFNQ2srRm5jNHdpUnN6NkJYdEtKVVNHbkhGc2RBc1hVVTFMem5FT1QxU2xp?=
+ =?utf-8?B?bkZ1MWtkU0UzZ2ZMOW1aYU02N0MwRFlKSnJpaVlna3J0WXRLUHI3d3hlSGxO?=
+ =?utf-8?B?VzFDN2xXcjN4RFRWMWFtZktRY2YvcnN6NWh2QWZ6STBOZC9pcVNMRnBTVjhG?=
+ =?utf-8?B?UXdKUERHTkN0Vy9pVWFkMTN6eFIwdkxIeUZpYUh0UHpHaHE0eDhrWnI1cjRM?=
+ =?utf-8?B?OUJ1ZzhWSFZkZE5TUFNuRlZzc0tJMldUbnd0cWJZYmpoQ3Z0ZTJWRGl0S0Jo?=
+ =?utf-8?B?MW5EemNWcXpudHFpSDlEWGZ2VXNYQWUxc0hqdmpHYXNYbG1NZ2Zpc0NiRjBt?=
+ =?utf-8?B?bkJZMC9DL0dUSWxRRW9HV1VrMG9JOFlBYmFUR2djVmF2T3drNW4vMzhtRVZs?=
+ =?utf-8?B?VUVlUkpleDV4Q21uMVFpNXcwU1VHTVBoSW1oSElQdXJ5QUZxa3RKTTJ3Njg0?=
+ =?utf-8?B?ZVVLTGRRd0hhQXdJZzJhdHh1c2V0MmRGWEVEK2pNd3FFc3FmM29VQ3BGdVlO?=
+ =?utf-8?B?RlFtNVlmTTFJbE8rNmd6eXlDZ0RaQ3Qrd2RMS1hrZlRkQlNVRTJWdkg3czNs?=
+ =?utf-8?B?YXFyUUtXRXdZSVZDNFNRTG1vR2xOOG9DMHJVNnNoeHZHWDhFRW9hdWozTGtn?=
+ =?utf-8?B?VXU1SlNCelFwemNNRGY2Nms2bzI3K0xBOExoVUZnQlpydUhYZkt3cUhmWkRN?=
+ =?utf-8?B?TkttN252bmxjdERFK1k5allPdUtaN21RVHhqUjlkajJXdjBLbW1SQy9QWUJa?=
+ =?utf-8?B?eHVBVWlqYXdzMHJ0STA4YTNNRVpnYk1GdmR2WHVXU3RGWlgyby9IR2d6ZDJv?=
+ =?utf-8?B?b0dTNUtoaEtoU29KL3UxN2JXSFF1dVNVV1NRQlZMUTNiU1poalZiMnhHaExU?=
+ =?utf-8?B?SjVjZDA2RG1FQVYxZTFFM1RmUmpxM3FnSkQ5ZERTSEtoUzNZeW5YcDhmMzBw?=
+ =?utf-8?B?eUVHTk9WTE16OExzRHlZMjlYTWdOd3JFR1B6clJ0bzZPb0NHR2d2VzdIeVIr?=
+ =?utf-8?B?anhZSHZzWGhGNHg2ci9EcmJ0c0hSYmo5V2E2c3dXcDMyVjBPa0tGQkU2a3FX?=
+ =?utf-8?B?Q0pqanBNaUhzZXA4U0g0c1I1SVl6emdNOUNXRnJsd2NWV1VFS0JxQUcrOHV4?=
+ =?utf-8?B?VitzUUNuejYycHppL1A0QjBtVmduUnpsY2N0K2ZWOU9RUW5VS3ZFTDNzT2NP?=
+ =?utf-8?B?aWFWOTNpb0JaY3BtcStrcm5ZQnhqclltQWxxV3U1d0VadXM2K21mcmFHUUJk?=
+ =?utf-8?B?S1JPa2Z3THJ2cjBYelZ4MWN2ODdGaENxc3c0d0MrNkw1U2FhZ1NsZ3NvOEFS?=
+ =?utf-8?B?VWpTcTdqcUF6SG15N3JkdjlodHJtcWlacXJqRE1EZWFCeVdrTTNKVEYxVmJX?=
+ =?utf-8?B?TGx4dzNSL0wxOGl0SDFXNHhwWVBhVjh0U2IxeGdmeTJzNkhLYXE2UzlWSUNE?=
+ =?utf-8?Q?3yoWQg2V0Ic=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Z2R2d2xCQThaQ0hkcExEWW5Za0ZpeFVKd0Y1MzVmWkZZYjl1K255azVaWWg3?=
+ =?utf-8?B?MzlNYlUxcnZnNHZUb0prMzF4aU5YRXl4bTdQbE9YM2FtbGZ5cGJyZ3VlbGVQ?=
+ =?utf-8?B?Nlg5N3p2ZjIwZTZlRjFISTMyTGVhWndmZ2ZjZVRNVkI1Q3B5M3IxRlgwZkR6?=
+ =?utf-8?B?YWZOVzEvWjdINW5HMFBkb2NEZ1d2K1psUVhHSkJ3T2dRaGRnN3JwSWhxYVZn?=
+ =?utf-8?B?VG9PWG1qK2pnMnFIOEVZRm5UdDhPQUhmbG8rck54Q0hCQklTWElHdEVXcDVF?=
+ =?utf-8?B?WnVtVmxESUFiY1YrU0I5UERQQjFDYVV2clhmaEV5SE83UG84OUdpZm1udThs?=
+ =?utf-8?B?eWVsK0xKYVhLai9HWjN2UlFuVVVDeXBUQ0RqVnJ1Y3Vhb0w1UnFpbXdub1dz?=
+ =?utf-8?B?Ly9uTUZIeWtGVEIyQTBYaU1rTXJDa0pmc2NxNWhwVWU5clp5Q1VxczlEMnRP?=
+ =?utf-8?B?KysxdUVMZE1uWGJRUGM1b1JrbU9lYmhnZDMwUUJERXY2M1VxUE91dCtKNnhq?=
+ =?utf-8?B?YjZHQWdkS1NpQWlxRitvdS84SURoekE2T2tpNmxXYjlCajNyQ21jcjh5Z3l5?=
+ =?utf-8?B?TkhzZzBLMWk2T0ZTNG9ucGRzK0s4dkVYc3AwRUJsaWNmckRvYVk3Y1R5US9i?=
+ =?utf-8?B?b1lTT3BwdEd2QmJ2bVdpNk85UVRORXIwRFdLaUlCSXNDVW4zU1VwTEtrMThw?=
+ =?utf-8?B?QzJxQmU1eDMzR2xRYVY1NEcrbmJsU25mcGhNU0dvWTNJY1dQRnY2TUpZcVNu?=
+ =?utf-8?B?NVN1SXErdVBrVi91bFYwc1I1aVhQVFZLejBGNXpscS9iZ0lHcFlTV0kxY0tG?=
+ =?utf-8?B?bUpPbkJoKy9WNmJJNlJFVm1EVW5EanpiN2tQQmpCM3Bza2FDdnJObkozbkE4?=
+ =?utf-8?B?d2FlR0tjNTQyZmNzMW1WVmNvMTFSZEFoVVhMWkxoOEdIdTgvdDVrUWhZcGJr?=
+ =?utf-8?B?ci8xMFl0RnEzUm0vcGxDNWpoRnhxbm0vaDdZNnZmQThhMGFiZithbVloNENQ?=
+ =?utf-8?B?bmtUYS9zMVZqVk56U0JBN2JncUFrTC9DZ1I4RDZTdXZFY2x3QWNaNHF3dVFz?=
+ =?utf-8?B?KytQdDdzcGs0a1U5YW01QzZscExVS1BMNlN5aVlPazBWTEFIWWVWUnVmTGxo?=
+ =?utf-8?B?cEhkRHN1OVhkb01tZjlyYUp1MWdENXlYWXBuWUNYZTdPcEc1Z0h1NW50Q05T?=
+ =?utf-8?B?MmRNN3k5NWxoTUlNYVlzS0pNQUpxRG1SSlNHUEw3SFRVYmlLdWt2OFpZV1hi?=
+ =?utf-8?B?c3RQYmRpSnlOWTE0dHJhZDFhanVoYy9tKzVaQytPLzRWbVV5cGp1MWVkektF?=
+ =?utf-8?B?RWFtNDNGOXV6Z3hjK29Mc2QyOGZwMnBOeEozMVlLdmlvNUxMK3Vrb1FWMkQx?=
+ =?utf-8?B?bWE5cnpaS3FzV2tlaHBPMkJrZWl1MDBJdHd4alU0UEFmdStDTlRPSDR5bUFO?=
+ =?utf-8?B?ck1zbjltSGJFTmJsSHJOZlFyRTBkKzN6WmRkMGlFWDAxRVJzUEZ3YTZVQXRh?=
+ =?utf-8?B?cXQ5cjdpdmowOFduYXZVWW9zQkN2V21kZFpBTUI4UmJEemxFcmNQZ0pKUFMv?=
+ =?utf-8?B?N1ZQb3p3ZkRma3F0QWdFVlZVOEU2WEVqTFpXcFlEVTZXTjFmVDNsRGpUNDdM?=
+ =?utf-8?B?ak85NDh6VzZDZnJTS1UxOHRadmNWNHkrNXlCdE1NOGpiUU5JWE5ScXIwTTc2?=
+ =?utf-8?B?NEw1aWtpRm12Q3JsZlNuQUhoU2ZCdHNjWjJ1dUkxZmFvMDdqWWhsd1IycGZn?=
+ =?utf-8?B?Z0RHTGJ2QXl0ZnZJTi96L0ZSY04zeW5OV21NT1VVaCtTSC9BeU5rcC95eDZE?=
+ =?utf-8?B?b1NZTERyOEJrams0Umc1VkhBc21ZUmZ3dGxLYlBReWF6L1FhdkFYMW8veC9G?=
+ =?utf-8?B?bEhxc0xEZXFraWVtVFlLQjU1R0NrWDNBRTd1eTU4MjFYdzU4aEZjbW1SZmVZ?=
+ =?utf-8?B?TC84L0JGb1ZTWXJYOUZ5Qkp0cU0zWWlPV0c5cms5WGUwUk94RkJWa2M0cFRm?=
+ =?utf-8?B?Y3UrVzdIV3V4cTJYQmxzTXFFQmVibk1YeDdlQ2o4aDVXNGUvNkV5OUlrd2Fi?=
+ =?utf-8?B?VTNYVmN5bFBkVlhpN0VsTXNEZXdkb1JrSmZacUhQUEgxOHh5UGR2SXBOYUVo?=
+ =?utf-8?Q?1fNS6pFyFgA+rGWiTRbLy7Npn?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	x0egDenOLgMOAyTTYcjodlNFGIryzTvQcvt1Y04ipcc7jopt4c5LoKO7ZswOHZgyzPPShYHiOzJGjH/7YiOmID8z0jMllgTXd4O/SS20ARycDdEkM2OAS8kzAQf3bfWmmGCfmr5EaxL9UqNhb6+xJ5RtWW4+1wD6Zx1wPJyr1Tbvco/5HnIWCAG+d8pLOGK4DlmpjG9GEmb4JmTciiXKxXt1V4wMJJdojULXdUFI0SVReZ5mKAOPvD7oU7DjIhfXLxkLQt4v1W6O5Q5Bupo2XEiuqLZYqAfB1XMGwFKsJiN57woj+Jj2zEC1vTqYIZlhS8bUD4rTNB4ykO+MDpeIZyYTUEHyPyMUEYn0mnNDdv2CVrS3XnluaUXwis5dxbMwKWZtl9Z5wbK0irYGWFuWOnN0fsBrKuKMFvk4wZ3PIGBwZ2sGL/5wWuGGvFAV4QsmtaxRw/giJIlF2wrm4XUjzlahNCPVoVHW9S053omAyphOJI+7Z2chlul4U7R97b9FOd2+ffE9b4/dfU+kiLZOfEkW7nX4sYbWT/IWyMUgYdAwqf9Vw5pKAhusFB6Uk15/N7+CVNfPhjSd03WATgRfln3x+BAcSPfzXMU+4zPNVrs=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 933d50d0-7869-4576-a213-08dd9d326e9e
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2025 15:23:28.8090
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vXEPc/nDvDJKRrxMNcvUcsbObGnloK0JntpmjTvDetFXPIl7tfz4SMXcuinCczbXXq2yr53HvJJH3oSaXkImYQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB6441
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-27_07,2025-05-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxlogscore=515
+ phishscore=0 malwarescore=0 bulkscore=0 adultscore=0 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2505160000 definitions=main-2505270127
+X-Proofpoint-GUID: EEuss8ullLOKhLvoW-CcHyiMaDPplV5S
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI3MDEyNyBTYWx0ZWRfX8FduGUGrdnJu MIU1VUuWf+lMLUuXgmbZVt9UxIFOWchsLxLtpjMfExJFDAo79L6SvRMsAe84VmJsKmF3Pb9ikR0 0C55Dmej8GlsjCkQlQ59kJ1pA05dRr4i+wFA9WO4tuK7jCv5sf406N2SKDt6S9HASImYobIkJSf
+ 3UD2Wzmclog9TkAIGecOc50XxuCDqHcrsPz9HDcqLgF0iOodFITUFnPcSQz36+uiXnwpoTIeuEY ajviWEOuFwzp7mdfdpMa8i8hUVFDxB4yHQntu1Y+f+MntSN2FYchy2oYlCdja/0xYVE0YASGucN II3Fip3WJ8wChbnuuT+o3HDTqYDGBganw12uE1n/pskVn5uqcZI06A1bjezfC+fYj26ONTKcHPM
+ +MVuR0j9b9mZsxhzXq7GWJ6pnprN92qJtK40UI6oaUg4/atsZ5OfcR/PdAVIEtFVoYjO7SE1
+X-Authority-Analysis: v=2.4 cv=VskjA/2n c=1 sm=1 tr=0 ts=6835d8f5 cx=c_pps a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=GoEa3M9JfhUA:10 a=Ifppi5qsGPkwCB_CmHMA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: EEuss8ullLOKhLvoW-CcHyiMaDPplV5S
 
-On 22/5/25 00:53, Chuck Lever wrote:
-> On 5/21/25 10:50 AM, Benjamin Coddington wrote:
->> On 21 May 2025, at 8:53, Chuck Lever wrote:
->>
->>> On 5/21/25 2:43 AM, Hannes Reinecke wrote:
->>>> On 5/21/25 03:00, Alistair wrote:
->>>>> Currently tlshd uses `fork()` to fork the entire process after the kernel
->>>>> sends a netlink message. tlshd then calls the `tlshd_service_socket()`
->>>>> function from the child process and exits.
->>>>>
->>>>> This provides a high barrier between different handshake requests and
->>>>> ensures everything is freed when a handshake is complete.
->>>>>
->>>>> The problem with the current setup is that it makes it very difficult to
->>>>> share information between `tlshd_service_socket()` and the parent
->>>>> process.
->>>>> For security and system resources that's great, but it has the large down
->>>>> side of not supporting the TLS KeyUpdate.
->>>>>
->>>>> In the future we would like to support the TLS KeyUpdate mechanism, which
->>>>> means we need to maintain the `gnutls_session_t session` information
->>>>> for a
->>>>> connection to allow us to issue a KeyUpdate later on.
->>>>>
->>>>> AFAIK there is no way to re-create the `gnutls_session_t session` so
->>>>> we need
->>>>> to store it somewhere. We could pass it to the kernel and have the kernel
->>>>> pass it back. But `gnutls_session_t session` is gnutls internal state, so
->>>>> it's not fixed size making that tricky to do. Plus it will break if
->>>>> gnutls
->>>>> updates between a handshake and KeyUpdate.
->>>>>
->>>>> The other option is to pass the session data from the child process back
->>>>> to the tlshd parent process. The parent can then store the session data
->>>>> (maybe in a database?) and use it as required.
->>>>>
->>>>> I submitted the first step towards supporting that as a PR [1]. The PR
->>>>> changes the current `fork()` multi-process mechanism to a
->>>>> `g_thread_new()`
->>>>> threading mechanism.
->>>>>
->>>>> In the future this will allow us to maintain the gnutls_session_t session
->>>>> in the parent process, allowing KeyUpdate support. This could also be
->>>>> supported with `fork()` and IPC as well, but that is clunky-ier.
->>>>>
->>>>> My approach [1] hasn't been accepted, so now I'm trying to see what
->>>>> ideas other people have for supporting KeyUpdate?
->>>>>
->>>>> 1: https://github.com/oracle/ktls-utils/pull/95
->>>>>
->>>> Hehe. I knew it would come up.
->>>> The reason we didn't implement it for now is that there's an overlap
->>>> with session reset. In NVMe any error will be causing a session reset,
->>>> which then will trigger a TLS handshake. And, what's more, with secure
->>>> concatenation we even generate a new set of TLS PSKs on every reset.
->>>> All of this is transparent to the upper layers, so they will only see
->>>> a (hopefully short) delay.
->>>> Additionally, with the current in-kernel TLS the connection will be
->>>> reset when the IV values are being changed, which again would trigger
->>>> a reconnect on the NVMe side.
->>>>
->>>> So not that easy.
->>>>
->>>> But if you insist on doing that, why don't you use the keyring to
->>>> store the temporary session key? That is persistent, and required
->>>> to be present for tlshd to work ...
->>> I was about to suggest something similar. Depending on what APIs are
->>> available in (or might be added to) gnuTLS, preserve the session's
->>> metadata in a key ring, and return the key's serial number to the
->>> kernel as part of the handshake result. When requesting a KeyUpdate,
->>> pass that serial number back to tlshd.
+Hi -
+
+Now that first-time contributors no longer have to sign the OCA, they
+have no need to interact with GitHub at all when contributing.
+
+I've heard several requests for ktls-utils to change to an email-only
+contribution and review process, similar to the one that the Linux
+kernel and nfs-utils uses. I've heard no comments in favor of staying
+with the GitHub PR style of review process.
+
+If there are no objections, I can merge a change to CONTRIBUTING.md
+that replaces the "GitHub pull request" process with an email-only
+process, and then as maintainer, I'll eat the steps of pushing
+each contribution to oracle/ktls-utils.
+
+Does that work for everyone?
 
 
-Ok, that seems pretty do-able
+-- 
+Chuck Lever
 
-
-I'm working on some kernel patches now that start to implement the 
-basics of this
-
-
->>>
->>> It would help if someone could review gnuTLS to see what is available
->>> now, and start a discussion with that community if we need a capability
->>> or API that doesn't already exist. (Eg: translate a gnutls_session_t
->>> object into a JSON string; translate a JSON string into a
->>> gnutls_session_t object)
->> I believe gnutls_session_{get,set}_data will serialize the session object.
->> It would be trivial to store in a key.
-> Oh, very cool.
-
-
-I didn't see that previously. That does seem to do exactly what we need
-
-
->
->
->>> The other aspect of this is that tlshd will have to prevent saved
->>> session state from growing without bound. Probably the kernel will have
->>> to notify tlshd when a session is terminated so that associated saved
->>> session state can be discarded.
-> It occurs to me that tlshd doesn't need to be involved in this aspect.
-> The kernel can delete a key by serial number when it notices that a
-> session has been permanently terminated.
-
-
-Oh good point. That will help with freeing memory.
-
-
-Alistair
-
-
->
->

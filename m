@@ -1,64 +1,64 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFCD63FC2
-	for <kernel-tls-handshake@lists.linux.dev>; Sun,  8 Jun 2025 17:43:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB19C3FC2
+	for <kernel-tls-handshake@lists.linux.dev>; Sun,  8 Jun 2025 17:44:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749404621; cv=none; b=M7oUce4tCfii857bZgqysN4vmu9NR5iqEBqnSnURzuzuoCulWbA2H0lYWhYyTtUoRxWGRBz4Dda0beLHiHoVQvs/4Y9gzR7QKMBuUOLfgm4qbarXrKyr84N9XeMLOkPRG2FQ+xCHFwoFG/fnYiFf/OBXRXP4PdeJViWHbo12gSs=
+	t=1749404642; cv=none; b=tXitdCCT2usJ9fFGlK+4xC4ucHhOHUcoMns84jKk0xNexnv56GPY/qGiX/3HbQsnFMglZUSslumF/qMTDSawBKCFKMDIoQ1mXaUrFFkVGVK73bZGUDHzjuzcWS8lrqDG4xS8Ur6zJGN8JF4o4+Fa1RvPSQljZYiMKQCqIxAkyFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749404621; c=relaxed/simple;
-	bh=RlSkbxR37uPkjD2xrq4x2rn+yLmo/7M6jCChVDtmBZY=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=nHL+CzOa8gML6gUemx+UnWKd/4qXEyqnW6rozXQtVhddVZiWHBXuRAPMG3BrBeJrJC2a5cq69ZOr2WoVzCU9bKntJlLIGILH53JVaFh4Bua8DiYc0i6MUDHKePn17tbv+47j8VLvF74m2hMHw4Hokd/knts+Z47p8NP128ULfi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C/b0FrvK; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1749404642; c=relaxed/simple;
+	bh=YqeVprum4gWGXslfh5d0gKHs+wBhLeeXU1eUW80ZrOs=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=N6qsz2T+XiEXpx4z1B9coNDY6M6FM0dPSBmK3sSyRVCrIrElOvznhsWjVqdfXNm1wfEA+bo9i6Yk17ZSl7teb3oX8bUszuZv3WYrMJj9/oCdK08GsXM8EvmmpfNznW3StssN4mvzDkf27WQYoEq3Vl8qZfmxfCo3xQiM4hujc/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RI7UcLbF; arc=none smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C/b0FrvK"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-451d54214adso30671165e9.3
-        for <kernel-tls-handshake@lists.linux.dev>; Sun, 08 Jun 2025 10:43:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RI7UcLbF"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a4f72cba73so3201448f8f.1
+        for <kernel-tls-handshake@lists.linux.dev>; Sun, 08 Jun 2025 10:44:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749404617; x=1750009417; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-language:to:subject:from
+        d=gmail.com; s=20230601; t=1749404639; x=1750009439; darn=lists.linux.dev;
+        h=content-transfer-encoding:to:content-language:subject:from
          :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8Uqlzpj58DHRzjFFq/KAaVdXDbxnOhHHnG9AT7wjRqg=;
-        b=C/b0FrvK21gsSHrlAYkeXfeBci2pb9ULH5H6TZD3zpsdCsRsHfT0joVrWAnllt/vgp
-         9sZNstEjlNwDCosud/Nnt5a8LbXEle26PzsfBJzYwu/XGFZ8qBnqQWJyHkS2wLClnIAz
-         D5clYYE2qoOvwwWQXIZaRfLEseFcGM06Z7RQCFrApYYoCIDUZ8GSqAomxAsfZds9D3HW
-         YlLlu8Rx3M6rvYz/88TPqK23ewdNJaFZcmbTK813deQWleQgsb7ii9aoIP9qw1TiL6QU
-         QxpHah+EkHJ+yv8zRgoWKT4aVjKUns59MkQ9FtvNXNVxHLAlkpFPaYdffjb4nfvl/clD
-         VWsw==
+        bh=jdmeVS0q8eo2MWXWH2hWu2MKzifTKYqnjrGCgfewBKs=;
+        b=RI7UcLbFgkx8gC3fSgwuIHTw197I6YaJCw4J6SSF76JbYqFpHT61odS2m15hGJKzAu
+         Q32O8M2y8xMwvPdiqeNbIAQIT+lHaA6GJuopSFHYHfX9dyrXhxCcQSJP5UGysHYL0enz
+         p+4dJ39batsAUB1ivNd9Y9XfbYUL08jpdOSAFdVwnc8/wq7XZZvp4KEbNa8l7OIDuy88
+         JNx0wecFXT/Gh/1v5NJBP1utSRAa6saXUcIJcWzICKSBMkGR0cgUfHoqiQpyFH9n9xhO
+         jk+2zdQxGFZpXcl/z3Flp5OM2IjjVY4aJPYNqHL5yd78jvfWTBRgQYyUPLO2N15eD4hF
+         go2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749404617; x=1750009417;
-        h=content-transfer-encoding:content-language:to:subject:from
+        d=1e100.net; s=20230601; t=1749404639; x=1750009439;
+        h=content-transfer-encoding:to:content-language:subject:from
          :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=8Uqlzpj58DHRzjFFq/KAaVdXDbxnOhHHnG9AT7wjRqg=;
-        b=SBYqi9M5HPLKcjLWiYkp6uVz0mt+8i5aeDa/KwY/mk3zuzEQYMKhsKFQg3TP+Fdfd7
-         nol2DG28jkkOmgfofAd4ysjKIR4ZeKbfzgxnit28fMH/BZ0z4HIDtP0rolrlfh5rxdfu
-         f2l+ziRYNOLI0Lzs10bDKr/SinWC9ufi0rcQ13eT+GVgN+lwstaJgnQr8A95KpcKyShf
-         eIRzPOkZBTdpyl8/As0huQoPTO2Xz/yzIBHGJP1eMqj49GNylvcTnEuJAhF1g7YIbOxW
-         nOS3YDShj8ymVDAoTgLiErC9NLcSfDWQvsQftVnTawXqCy5vuI1VUqjDb9r18uZ1JEeg
-         kptQ==
-X-Gm-Message-State: AOJu0YzKWzzd5bQTgZCGtEc7wpnTJVpa9FKLlhisg4De6Nt393gpaz8y
-	AkQNKki2TeI6XORRztKLVoBn8eqPCgSaKS7xNQh2TwYEkp5E1xPKLY+ZxMok+A==
-X-Gm-Gg: ASbGnctz1HMcuGVL/bKWfZGJO+Zx2YciNhqxtKQSZPINiXvGnhuGeszby7ZcWu3HoZw
-	S7ZPOdhKWhVpxHFMleUt7PdJP9UWZmGg1zAmsf+VdE6raRl7h6+6Rgx5Bjc+rhB+2Jue4dmw9mu
-	TdF/rOFeOb3Y5ubpVr0lpul6wHFBcCcwTPwhwjElVfw0VYfapF7+6njWZnmhyexjGgPjA3F5hvT
-	WUKBwtxEViaPKxJLEeE1Wh8g5+jnxkk366SUEil+5cec6SFUqzqUvDQiOpk8lZiknYga+rPCfZr
-	S27tieOpGAhdApoCC6zk8C8uzhMmaAUecnqDpuHtzko7vJjvSFYEdfmbVz2NQRzmkezGJ90cMkX
-	OOpZr98j9IOsHcNp/zqI=
-X-Google-Smtp-Source: AGHT+IEymH+DGwaZaOznL6tTaKi64e6cqu4waFSxkXbUD79fkHDqC6JTrq2odnzoGLuMT8YU117Rjg==
-X-Received: by 2002:a05:6000:4282:b0:3a5:42:b17b with SMTP id ffacd0b85a97d-3a531cb33eemr7936446f8f.29.1749404616880;
-        Sun, 08 Jun 2025 10:43:36 -0700 (PDT)
+        bh=jdmeVS0q8eo2MWXWH2hWu2MKzifTKYqnjrGCgfewBKs=;
+        b=O7E+2uIy1v0rlD3X63HR8LKS7xKqXXxRAg+5PbxHzVZzMRKUaHf+yt0ILmshIpVpng
+         piaZjWi6wynbueHXeEsr9UqlUXJzilxOLqU9IVTUWBEIGM95UvpQR0YYh54DbPE1dMyN
+         quDJDR50x3UkQht1K0o710yGHOsoTkrictrgyBlubNQZCU3nC52V6IadNRvhdwv3/Vd7
+         Ifb0P66GjVVunNjBeQfyzjVH4khkcEUTCGvtekDI1lIIJqQH236pT7nV4H9sDriX4Jh7
+         DYIIxvnqA+0zTC01BchA/LsDhKHEcQSTcjuGuhu/qZ28SL3McUs5YE63y8LQwd0V8gBV
+         FFUw==
+X-Gm-Message-State: AOJu0Yyo8fyabpTqWz1ujo9wLyOFjCEMys4evHdlTSJ0eVxJAK7GzJDt
+	0k8xNFzqHOFFBttbQKPPzzNIO74qmPShf642B6MU7v9biCxPvZ7E39+7xFHS6w==
+X-Gm-Gg: ASbGncuaZhIDdshYBlcGYcHwA5ZdweumeRSSABFPZc1Qx5FEqM2UWOeGDIkkp2zNndF
+	pPLDt60ciOxYB15hh4xGC/tqzBzgPRPPeVGwauCER+VJQdczd4BHQKD/iFWmJZPRvhfOfrUB2ow
+	MBwBa5atYW0wg0v6ea7gBI8eqy7X7elqW4R8Wsre68Qgzn3hY7HuvjAPuydgBZthXQmHWUXCpRc
+	5YzP/VIKmYHuiiY2ufpvxxOJy4QQV3KVvb8eMHviv5YodKp+GO7fQJdXZH5S0SgJih3RE/bC6qP
+	D2OMgKWKM8zWdqhYhPBIQ3lOJmQd+I1Gf53nE+dq+TD3/uvDYFtBivOe3zuhDzLryf5WXfEyaI2
+	AqY8Jl3V5Q8kK0QPDiPI=
+X-Google-Smtp-Source: AGHT+IE0Kzaag8xMgq/JIrqI5d4rN1Ui+mxG1W4X7mzN4SFghfKOfyuvMuLHna8J1BjBKLQiRtjwcw==
+X-Received: by 2002:a05:6000:2285:b0:3a4:f7ae:77c9 with SMTP id ffacd0b85a97d-3a531315562mr8886434f8f.5.1749404638957;
+        Sun, 08 Jun 2025 10:43:58 -0700 (PDT)
 Received: from [192.168.1.227] (40.135.90.146.dyn.plus.net. [146.90.135.40])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a53229da18sm7766015f8f.19.2025.06.08.10.43.36
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a532468360sm7542202f8f.100.2025.06.08.10.43.58
         for <kernel-tls-handshake@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Jun 2025 10:43:36 -0700 (PDT)
-Message-ID: <eb6edfbe-ae2e-4824-8853-792c59a103ee@gmail.com>
-Date: Sun, 8 Jun 2025 18:43:36 +0100
+        Sun, 08 Jun 2025 10:43:58 -0700 (PDT)
+Message-ID: <4b17224c-0525-4e30-9ff3-4c0abaacab89@gmail.com>
+Date: Sun, 8 Jun 2025 18:43:58 +0100
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -67,146 +67,207 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Ken Milmore <ken.milmore@gmail.com>
-Subject: [PATCH 4/7] tlshd_handshake_parms: Add a textualised peer address and
- populate it from peeraddr.
-To: kernel-tls-handshake@lists.linux.dev
+Subject: [PATCH 5/7] server: Add boolean config option "verify_peername" under
+ "[authenticate.server]".
 Content-Language: en-GB
+To: kernel-tls-handshake@lists.linux.dev
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Make use of this in the logging instead of calling getnameinfo() on the fly.
-We may also need this later if we want GnuTLS to verify the host address.
+If this option is set to true, then the server will pass the client hostname to GnuTLS to be verified against the client certificate.
+A forward address lookup using getaddrinfo() is first performed to confirm that the client hostname maps to the client network address.
+Should this forward confirmation fail, the client certificate is rejected out of hand.
 
 Signed-off-by: Ken Milmore <ken.milmore@gmail.com>
 ---
- src/tlshd/handshake.c |  5 ++---
- src/tlshd/log.c       | 18 +++++-------------
- src/tlshd/netlink.c   | 12 ++++++++++++
- src/tlshd/tlshd.h     |  7 +++----
- 4 files changed, 22 insertions(+), 20 deletions(-)
+ src/tlshd/config.c |   3 ++
+ src/tlshd/server.c | 124 ++++++++++++++++++++++++++++++++++++++++++++-
+ src/tlshd/tlshd.h  |   1 +
+ 3 files changed, 127 insertions(+), 1 deletion(-)
 
-diff --git a/src/tlshd/handshake.c b/src/tlshd/handshake.c
-index 6d10eaf..ca4e79a 100644
---- a/src/tlshd/handshake.c
-+++ b/src/tlshd/handshake.c
-@@ -186,9 +186,8 @@ out:
- 		keyctl_unlink(parms.keyring, KEY_SPEC_SESSION_KEYRING);
+diff --git a/src/tlshd/config.c b/src/tlshd/config.c
+index be5d472..c647681 100644
+--- a/src/tlshd/config.c
++++ b/src/tlshd/config.c
+@@ -92,6 +92,9 @@ bool tlshd_config_init(const gchar *pathname)
+ 				     "delay_done", NULL);
+ 	tlshd_delay_done = tmp > 0 ? (unsigned int)tmp : 0;
  
- 	if (parms.session_status) {
--		tlshd_log_failure(parms.peername, parms.peeraddr,
--				  parms.peeraddr_len);
-+		tlshd_log_failure(parms.peername, parms.peeraddr_txt);
- 		return;
- 	}
--	tlshd_log_success(parms.peername, parms.peeraddr, parms.peeraddr_len);
-+	tlshd_log_success(parms.peername, parms.peeraddr_txt);
- }
-diff --git a/src/tlshd/log.c b/src/tlshd/log.c
-index 77e2d29..87f3943 100644
---- a/src/tlshd/log.c
-+++ b/src/tlshd/log.c
-@@ -51,16 +51,12 @@ int tlshd_stderr;
-  * @salen: length of IP address
-  *
-  */
--void tlshd_log_success(const char *hostname, const struct sockaddr *sap,
--		       socklen_t salen)
-+void tlshd_log_success(const char *hostname, const char *addr_txt)
- {
--	char buf[NI_MAXHOST];
--
--	getnameinfo(sap, salen, buf, sizeof(buf), NULL, 0, NI_NUMERICHOST);
- 	if (hostname[0] == '\0')
- 		hostname = "<unknown>";
- 	syslog(LOG_INFO, "Handshake with '%s' (%s) was successful\n",
--		hostname, buf);
-+		hostname, addr_txt);
- }
++	tlshd_server_verify_peername = g_key_file_get_string(tlshd_configuration,
++					"authenticate.server", "verify_peername", NULL);
++
+ 	keyrings = g_key_file_get_string_list(tlshd_configuration,
+ 					      "authenticate",
+ 					      "keyrings", &length, NULL);
+diff --git a/src/tlshd/server.c b/src/tlshd/server.c
+index 72ff6f5..4a47fe8 100644
+--- a/src/tlshd/server.c
++++ b/src/tlshd/server.c
+@@ -31,6 +31,7 @@
+ #include <stdio.h>
+ #include <errno.h>
+ #include <keyutils.h>
++#include <netdb.h>
  
- /**
-@@ -70,17 +66,13 @@ void tlshd_log_success(const char *hostname, const struct sockaddr *sap,
-  * @salen: length of IP address
-  *
-  */
--void tlshd_log_failure(const char *hostname, const struct sockaddr *sap,
--		       socklen_t salen)
-+void tlshd_log_failure(const char *hostname, const char *addr_txt)
- {
--	if (salen) {
--		char buf[NI_MAXHOST];
--
--		getnameinfo(sap, salen, buf, sizeof(buf), NULL, 0, NI_NUMERICHOST);
-+	if (addr_txt[0] != '\0') {
- 		if (hostname[0] == '\0')
- 			hostname = "<unknown>";
- 		syslog(LOG_ERR, "Handshake with '%s' (%s) failed\n",
--		       hostname, buf);
-+		       hostname, addr_txt);
- 	} else
- 		syslog(LOG_ERR, "Handshake request failed\n");
- }
-diff --git a/src/tlshd/netlink.c b/src/tlshd/netlink.c
-index 0f4a797..512f30e 100644
---- a/src/tlshd/netlink.c
-+++ b/src/tlshd/netlink.c
-@@ -224,6 +224,7 @@ static void tlshd_parse_certificate(struct tlshd_handshake_parms *parms,
- }
+ #include <gnutls/gnutls.h>
+ #include <gnutls/abstract.h>
+@@ -42,10 +43,127 @@
+ #include "tlshd.h"
+ #include "netlink.h"
  
- static char tlshd_peername[NI_MAXHOST] = "";
-+static char tlshd_peeraddr_txt[NI_MAXHOST] = "";
- static struct sockaddr_storage tlshd_peeraddr = { 0 };
++bool tlshd_server_verify_peername = false;
++
+ static gnutls_privkey_t tlshd_server_privkey;
+ static unsigned int tlshd_server_certs_len = TLSHD_MAX_CERTS;
+ static gnutls_pcert_st tlshd_server_certs[TLSHD_MAX_CERTS];
  
- static int tlshd_genl_valid_handler(struct nl_msg *msg, void *arg)
-@@ -281,6 +282,16 @@ static int tlshd_genl_valid_handler(struct nl_msg *msg, void *arg)
- 	tlshd_parse_peer_identity(parms, tb[HANDSHAKE_A_ACCEPT_PEER_IDENTITY]);
- 	tlshd_parse_certificate(parms, tb[HANDSHAKE_A_ACCEPT_CERTIFICATE]);
- 
-+	/* Textualize the peer address */
-+	err = getnameinfo(parms->peeraddr, parms->peeraddr_len,
-+			  tlshd_peeraddr_txt, sizeof(tlshd_peeraddr_txt),
-+			  NULL, 0, NI_NUMERICHOST);
-+	if (err) {
-+		tlshd_log_gai_error(err);
-+		tlshd_peeraddr_txt[0] = '\0';
-+		return NL_STOP;
++/**
++ * tlshd_forward_confirm_hostname - Confirm that the given host name can be
++ * mapped to the given socket address by forward address lookup.
++ *
++ * Return values:
++ * %true: Forward lookup successfully mapped @hostname to @hostaddr.
++ * %false: No such mapping was found, or an error occurred.
++ */
++static bool tlshd_forward_confirm_hostname(const char *hostname,
++					   const struct sockaddr *hostaddr,
++					   socklen_t hostaddr_len)
++{
++	const struct sockaddr_in *ha4, *ai4;
++	const struct sockaddr_in6 *ha6, *ai6;
++	struct addrinfo hints = { 0 };
++	struct addrinfo *res, *ai;
++	bool matched = false;
++	int err;
++
++	/* Refuse to confirm an empty host name. */
++	if (hostname[0] == '\0')
++		return false;
++
++	/* Check that the supplied address is reasonable. */
++	if (hostaddr_len < sizeof(struct sockaddr_in))
++		return false;
++	if (hostaddr->sa_family == AF_INET6) {
++		if (hostaddr_len < sizeof(struct sockaddr_in6))
++			return false;
++		ha6 = (const struct sockaddr_in6 *)hostaddr;
++		/* Refuse to confirm a link-local address. */
++		if (IN6_IS_ADDR_LINKLOCAL(&ha6->sin6_addr))
++			return false;
++		if (IN6_IS_ADDR_MC_LINKLOCAL(&ha6->sin6_addr))
++			return false;
 +	}
 +
- 	if (peername)
- 		strncpy(tlshd_peername, peername, sizeof(tlshd_peername) - 1);
- 	else {
-@@ -299,6 +310,7 @@ static int tlshd_genl_valid_handler(struct nl_msg *msg, void *arg)
++	hints.ai_family = hostaddr->sa_family;
++	hints.ai_socktype = SOCK_RAW; /* To avoid duplicate results. */
++
++	/* Fetch a list of addresses matching the host name. */
++	err = getaddrinfo(hostname, NULL, &hints, &res);
++	if (err) {
++		tlshd_log_gai_error(err);
++		return false;
++	}
++
++	/* Search the returned addresses for a match against the supplied address. */
++	switch(hostaddr->sa_family) {
++	case AF_INET:
++		ha4 = (const struct sockaddr_in *)hostaddr;
++		for (ai = res; ai && !matched; ai = res->ai_next) {
++			if (ai->ai_family != AF_INET)
++				continue;
++			if (ai->ai_addrlen < sizeof(struct sockaddr_in))
++				continue;
++			ai4 = (const struct sockaddr_in *)ai->ai_addr;
++			if (ha4->sin_addr.s_addr == ai4->sin_addr.s_addr)
++				matched = true;
++		}
++		break;
++
++	case AF_INET6:
++		ha6 = (const struct sockaddr_in6 *)hostaddr;
++		for (ai = res; ai && !matched; ai = res->ai_next) {
++			if (ai->ai_family != AF_INET6)
++				continue;
++			if (ai->ai_addrlen < sizeof(struct sockaddr_in6))
++				continue;
++			ai6 = (const struct sockaddr_in6 *)ai->ai_addr;
++			if (IN6_ARE_ADDR_EQUAL(&ha6->sin6_addr, &ai6->sin6_addr))
++				matched = true;
++		}
++		break;
++	}
++
++	freeaddrinfo(res);
++	return matched;
++}
++
++/**
++ * tlshd_server_get_verify_hostname - Determine the client host name which will
++ * be passed to GnuTLS for client certificate verification.
++ *
++ * @parms: handshake parameters
++ * @hostname_p: Receives a pointer to the host name to use, which may be NULL.
++ *
++ * Return values:
++ * %true: Proceed with certificate verification.
++ * %false: Force a certificate error.
++ */
++static bool tlshd_server_get_verify_hostname(struct tlshd_handshake_parms *parms,
++					     const char **hostname_p)
++{
++	const char *hostname = NULL;
++	bool verify_hostname = true;
++
++	if (tlshd_server_verify_peername) {
++		tlshd_log_debug("server: Forward-confirm peer name '%s' against address '%s'",
++				parms->peername, parms->peeraddr_txt);
++		if (tlshd_forward_confirm_hostname(parms->peername, parms->peeraddr,
++						   parms->peeraddr_len)) {
++			tlshd_log_debug("server: Verify forward-confirmed peer name '%s'",
++					parms->peername);
++			hostname = parms->peername;
++		} else {
++			tlshd_log_debug("server: Peer name unconfirmed: Forcing error.");
++			verify_hostname = false;
++		}
++	}
++
++	*hostname_p = hostname;
++	return verify_hostname;
++}
++
+ /*
+  * XXX: After this point, tlshd_server_certs should be deinited on error.
+  */
+@@ -146,11 +264,15 @@ static int tlshd_server_x509_verify_function(gnutls_session_t session,
+ {
+ 	const gnutls_datum_t *peercerts;
+ 	gnutls_certificate_type_t type;
++	const char *hostname = NULL;
+ 	unsigned int i, status;
+ 	gnutls_datum_t out;
+ 	int ret;
  
- static const struct tlshd_handshake_parms tlshd_default_handshake_parms = {
- 	.peername		= tlshd_peername,
-+	.peeraddr_txt		= tlshd_peeraddr_txt,
- 	.peeraddr		= (struct sockaddr *)&tlshd_peeraddr,
- 	.peeraddr_len		= 0,
- 	.sockfd			= -1,
+-	ret = gnutls_certificate_verify_peers3(session, NULL, &status);
++	if (!tlshd_server_get_verify_hostname(parms, &hostname))
++		goto certificate_error;
++
++	ret = gnutls_certificate_verify_peers3(session, hostname, &status);
+ 	switch (ret) {
+ 	case GNUTLS_E_SUCCESS:
+ 		break;
 diff --git a/src/tlshd/tlshd.h b/src/tlshd/tlshd.h
-index f058a1a..29b0715 100644
+index 29b0715..9e5b221 100644
 --- a/src/tlshd/tlshd.h
 +++ b/src/tlshd/tlshd.h
-@@ -29,6 +29,7 @@ struct nl_sock;
+@@ -24,6 +24,7 @@ extern int tlshd_debug;
+ extern int tlshd_tls_debug;
+ extern unsigned int tlshd_delay_done;
+ extern int tlshd_stderr;
++extern bool tlshd_server_verify_peername;
  
- struct tlshd_handshake_parms {
- 	char		*peername;
-+	char		*peeraddr_txt;
- 	struct sockaddr *peeraddr;
- 	socklen_t	peeraddr_len;
- 	int		sockfd;
-@@ -96,10 +97,8 @@ extern void tlshd_log_init(const char *progname);
- extern void tlshd_log_shutdown(void);
- extern void tlshd_log_close(void);
+ struct nl_sock;
  
--extern void tlshd_log_success(const char *hostname,
--			      const struct sockaddr *sap, socklen_t salen);
--extern void tlshd_log_failure(const char *hostname,
--			      const struct sockaddr *sap, socklen_t salen);
-+extern void tlshd_log_success(const char *hostname, const char *addr_txt);
-+extern void tlshd_log_failure(const char *hostname, const char *addr_txt);
- 
- extern void tlshd_log_debug(const char *fmt, ...);
- extern void tlshd_log_notice(const char *fmt, ...);
 -- 
 2.47.2
 

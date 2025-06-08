@@ -1,64 +1,64 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8663554673
-	for <kernel-tls-handshake@lists.linux.dev>; Sun,  8 Jun 2025 17:43:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD4E3FC2
+	for <kernel-tls-handshake@lists.linux.dev>; Sun,  8 Jun 2025 17:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749404589; cv=none; b=VMQwN2NVYnHbjpIuf5gigQT31wuKVYX8NgaCS8q80DoZH5XgcmM0LPtcznfWrOExlo11aF8rRi5XApO2k74TSl8AUynKDiIKki0uRUy9Fr+wcgiAHSGcrMkTNsWYsmmZe0TG1QNklsHHqlTo1kszObQouBvRCnkRxFbMtLLtj4k=
+	t=1749404606; cv=none; b=II34Z50AB8bGH972l4PoRvqGaDpK9PkgQeRg6UJc24xFWGcwqd8G5hzlxnQJ2NCR1xdFqayQ7Ws76dGwmHrAhBQjSytvErW+TcLu31RyXrpNQWZWRmXM6xamkE14bXeHw8cvAu/FpBAZpy/JvIDal+IMtUbsH++n5G+ScPnJTq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749404589; c=relaxed/simple;
-	bh=qDPIj+tsoEidO+NNSIG9ionOVB70ePKtLOmIiB51qKg=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=A4QmvaxZNpBeFZoIi6socMa4Uq7deklayOoKoi/aOtt9oRyKAz6nnpwH5HRmC+lEzQTyH7vh0D/7N2txixrq97BQU8eDL6HPl5sdGS7ljvpgCWxaLF2y+SYrhiQPqUIZuxrRLFUhzEdobkwTiagJ/JY3efGd191MTvfhSGfpG0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y1aCXnY9; arc=none smtp.client-ip=209.85.221.50
+	s=arc-20240116; t=1749404606; c=relaxed/simple;
+	bh=h3RpbVTwZpmWYrHuWmg6zWWdD41vnZ2t42Z++v+Bm3g=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=K+pK+DfkwBdH6IXgFgesf8UkjMeSw9jKgeqFSIMghoag5/pABLtSPmR/Wxuo5NXwUswXHYsn1MQDVB3j7cJn+zu0RMaBwzzFrEP+HDz0C0R2+s6nskM/oEgn2IoQSn3xuifBeGXpiAjKqulrFnfdeGJZudu3HGwO2CI3sH0unKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bs/+XO5m; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y1aCXnY9"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a503d9ef59so3027845f8f.3
-        for <kernel-tls-handshake@lists.linux.dev>; Sun, 08 Jun 2025 10:43:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bs/+XO5m"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-453066fad06so5618125e9.2
+        for <kernel-tls-handshake@lists.linux.dev>; Sun, 08 Jun 2025 10:43:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749404586; x=1750009386; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1749404603; x=1750009403; darn=lists.linux.dev;
         h=content-transfer-encoding:content-language:to:subject:from
          :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=btwRM/XgY5BWERKitaFsM+DOAqNrXsUqO91/s6wBBXw=;
-        b=Y1aCXnY9kFgLYJ3doad/GfIwp4BwGKQ5ONbg6olSzQEWBl0Xune4oamJJwhZ8lS+gm
-         XobTFsakJyhN9OXM3aWbmilnQDzC1rkrlSCEqY0MUnczh6YmcYk7QSRVGHQUrl6qMPAT
-         +7SHXKv0F2r4p1BSGDQX7WqicEr62OKzT089FKNPxsaqcAkHID4ZAK8HYQoYl4hKPEdh
-         QZyZvvduVEqgZESEyBF4OwqRzWtFlcsW20IKiMWShrz05kxb3Ev0A3TeT6l4qR0ykRPM
-         KlVKTIjFWAjsJ9tts3W+KGWVYI9K5g55fXGLi1yTjY6H3s22BCutiAtUx7hbUAgiraV2
-         oOcg==
+        bh=ejPIG+IVpmgWG1J/JH/igqTNSJr1Ic4dSrfrSYYkDxk=;
+        b=Bs/+XO5mPsgEkRzOfnfxH3SGG0JElOtywjHsBf/kSPs0SnPiE4sKgRW5Pz6nyZ1D9k
+         gzRHKVZwacnVCMrmR+N/F/LAi/pIRYCS6xNsh8J4z8yeQL35xBnWxGbwP1Nae376t054
+         ZYWRFrX2u7KoQkpWcm+8oYMxL1nlPXz2gUjwE4IduoIHswtVOLtvi5s3H4E3AayvYuFM
+         AgwrYagcz9bprEIqI0moUFQtY0wb1vhIZ9kmsdLJqSFlcal+JNhn3BVB1kvZg4nk1i4J
+         qFYW8OeipMkHPW+gawM55+wx/7cyU920CafZQuO9YZDuTocoLB8I606haMgHKgwyU7iU
+         oQXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749404586; x=1750009386;
+        d=1e100.net; s=20230601; t=1749404603; x=1750009403;
         h=content-transfer-encoding:content-language:to:subject:from
          :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=btwRM/XgY5BWERKitaFsM+DOAqNrXsUqO91/s6wBBXw=;
-        b=FTYyOHnMXCr3qEjX+BIEFGRl7lRXvv8/E5iz/lYzJBCiRVb127wWD1jK+O4XcPpVOD
-         hC2ajjntR61E0srIlSZYx9AEjdUCN6enjvHJJiErGUgeb72k/eJnFM1m3PcN0ByfAfJr
-         6xTFwyyLwQBkTU4S79Kn5jppsTMAQ7ErHC6u5T7ngIATNsO7Wcu47nUkgC7jYOkT/6WI
-         d+5BFQ+6NhY7e9TUgjGwkGEEq8alRkPKC2hUPt9aoeahaQLQvKQpbmqQyFNgm7VfLsGF
-         IVFX6n4I19FUWy5qwvUF1H3oV4nzUBJ2LLU5JVOlDadWvIzjhrpMkLjrJykt2L/C3lWZ
-         m+eA==
-X-Gm-Message-State: AOJu0YyBEGHEg/3cdocqBJlBD9+XK96m+U4NXUfgDpd6bOTe44UMfM+C
-	ITy+LaDBdYfubMdS9JNy2iSgX6VDryAsDldpHScCS2SGEb9u9JOepKQn+IWRNQ==
-X-Gm-Gg: ASbGnctCrtjL/2IkLgSniEvTyXEP+0UmhdeIEzrRSFsPdd6GEowBTgChwPvjhHGzqEE
-	mW3bjx9OPSjNGoY/rygzgiTFW35+TGQ5Qrm/In8Vq3G82OzC6B+OAQJYWuKUMDg7FbHqnods+AC
-	cZhxm/CNtqMj+GEyYpKttEZzZqScXk7vT61dQh2GNC57wYwNi2S48QDtr9C+7h0e0qd6gAb5j2U
-	/0fXHdaUuz6ExQbkFiuXES20FWm2ju1/VClZ4Q0CAm90Zo/YeLA6+3AAfqxzSGyP2PKDXsWMHHp
-	go/gK1G7HciH09we/+ZkTJdIVY0ROH6vCLt1YZ5t7BqrZWef5rpPU/sZzhFY4qxQgmpYJdp9lPW
-	Io5nK/MmU
-X-Google-Smtp-Source: AGHT+IFLz5JHONxGagcO8Zmuh1W996/IULKEDCuhZkC13JZI3uFTFXNf6rP9V5ZdJiibWxibkUj1Tg==
-X-Received: by 2002:a5d:5c84:0:b0:3a4:fc37:70f5 with SMTP id ffacd0b85a97d-3a531cf1c12mr8429178f8f.58.1749404585799;
-        Sun, 08 Jun 2025 10:43:05 -0700 (PDT)
+        bh=ejPIG+IVpmgWG1J/JH/igqTNSJr1Ic4dSrfrSYYkDxk=;
+        b=s4vFOwcrkZUtlbiAZ6sQXyuBhb4uS+pMI0G1Y5SPR0T7T+FhHBZ9BH0naix3dG/vuw
+         SjGRoGWRXXQnJsKgl8KsPidwv0Wra1UMpR93nrxewQI1lajxnSA3+RA+QYcLBBLOEHY5
+         G7WdaBM3S6WfSYWtd9mPZSSyTAJRieciNF9r2LKTYktbYdtBqP8iQKE98tsaOSjIDUD6
+         +R4HU+wOMHbwvEEx+Iz1W0qgZrQ1vksfuFYgW4P6LCzpCahvZUKFtMC2GBOIn1nLK9bH
+         pU+F9H/lBtBIINkF8N0FsYIZ1BCiATo92HngEckLfIF6szTXRjAek2JnzztaoVNkIWi7
+         XMng==
+X-Gm-Message-State: AOJu0YzpXRGH8CmPQmiUkaTrJgVutOkye5UVCXzoDBGupqNGr1GxQ44Z
+	rchvBKT6slItdf49u9Bolyz6onB/Ficfdk6Hx4nVAnc9Av57nbtNJaqVZlwjNA==
+X-Gm-Gg: ASbGncuEvI5AwQkb/FJBWQbBUhm1yq/M5H/gs0IenEOIG8Rou2tTD5fM+H2+EmSyVDw
+	+ifz1RkKNOsheKnq1GFJrdJhcAw1G6MnuJFnjUDxuw+sPXKxXfeefbSBiiBri+Ac4kgGWCBLBke
+	cVrFZibIv7gI63mXF9Btb0wvFpyQs3LzWvAvuQquiHD89HiOCcowWg5O1ifJ3d+xncojX+9RBlL
+	2/KMTAa9ngKHvW1gLgM/VCEIu5Pq/n3iWWF566h6GebTrhCRiDpYFaoEm4DBpSRP/P5ac7MS+yY
+	Uiy7+IpF6eIUhY9Q5dAInj0ZmmfvPOAPt9LWu7EqX/1EZ63+qwURdXLl+AhYasBuOKFctiJodiQ
+	SzHwEc5JV/M6wrbem7HY=
+X-Google-Smtp-Source: AGHT+IH47c/z4g+TGgBcxF0dX9wgyA0fIUtuCYcV5EOh+MrMkNdz8oEnTuwddh4CO4lxbkgGumI4hA==
+X-Received: by 2002:a05:600c:a08d:b0:442:d5dd:5b4b with SMTP id 5b1f17b1804b1-452014d4449mr107367815e9.31.1749404602993;
+        Sun, 08 Jun 2025 10:43:22 -0700 (PDT)
 Received: from [192.168.1.227] (40.135.90.146.dyn.plus.net. [146.90.135.40])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a5323b653dsm7694736f8f.39.2025.06.08.10.43.05
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-452730d161csm86039305e9.37.2025.06.08.10.43.22
         for <kernel-tls-handshake@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Jun 2025 10:43:05 -0700 (PDT)
-Message-ID: <bca6320c-2bb4-4727-8ad0-0e3a0207897c@gmail.com>
-Date: Sun, 8 Jun 2025 18:43:05 +0100
+        Sun, 08 Jun 2025 10:43:22 -0700 (PDT)
+Message-ID: <1f1e31ce-84fd-4db8-8873-68ba69019f67@gmail.com>
+Date: Sun, 8 Jun 2025 18:43:22 +0100
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -67,43 +67,66 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Ken Milmore <ken.milmore@gmail.com>
-Subject: [PATCH 2/7] tlshd_handshake_parms: Ensure peeraddr_len == 0 until
- peeraddr contains a valid address.
+Subject: [PATCH 3/7] tlshd_handshake_parms: Use an empty string, instead of
+ "unknown", for the default value of peername.
 To: kernel-tls-handshake@lists.linux.dev
 Content-Language: en-GB
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+"unknown" could conceivably be a valid hostname.
+
 Signed-off-by: Ken Milmore <ken.milmore@gmail.com>
 ---
- src/tlshd/netlink.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ src/tlshd/log.c     | 6 +++++-
+ src/tlshd/netlink.c | 3 ++-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
+diff --git a/src/tlshd/log.c b/src/tlshd/log.c
+index 3594d52..77e2d29 100644
+--- a/src/tlshd/log.c
++++ b/src/tlshd/log.c
+@@ -57,7 +57,9 @@ void tlshd_log_success(const char *hostname, const struct sockaddr *sap,
+ 	char buf[NI_MAXHOST];
+ 
+ 	getnameinfo(sap, salen, buf, sizeof(buf), NULL, 0, NI_NUMERICHOST);
+-	syslog(LOG_INFO, "Handshake with %s (%s) was successful\n",
++	if (hostname[0] == '\0')
++		hostname = "<unknown>";
++	syslog(LOG_INFO, "Handshake with '%s' (%s) was successful\n",
+ 		hostname, buf);
+ }
+ 
+@@ -75,6 +77,8 @@ void tlshd_log_failure(const char *hostname, const struct sockaddr *sap,
+ 		char buf[NI_MAXHOST];
+ 
+ 		getnameinfo(sap, salen, buf, sizeof(buf), NULL, 0, NI_NUMERICHOST);
++		if (hostname[0] == '\0')
++			hostname = "<unknown>";
+ 		syslog(LOG_ERR, "Handshake with '%s' (%s) failed\n",
+ 		       hostname, buf);
+ 	} else
 diff --git a/src/tlshd/netlink.c b/src/tlshd/netlink.c
-index 34a1f47..ce8e981 100644
+index ce8e981..0f4a797 100644
 --- a/src/tlshd/netlink.c
 +++ b/src/tlshd/netlink.c
-@@ -245,9 +245,11 @@ static int tlshd_genl_valid_handler(struct nl_msg *msg, void *arg)
+@@ -223,7 +223,7 @@ static void tlshd_parse_certificate(struct tlshd_handshake_parms *parms,
+ 		parms->x509_privkey = nla_get_s32(tb[HANDSHAKE_A_X509_PRIVKEY]);
+ }
  
- 	if (tb[HANDSHAKE_A_ACCEPT_SOCKFD]) {
- 		parms->sockfd = nla_get_s32(tb[HANDSHAKE_A_ACCEPT_SOCKFD]);
-+		parms->peeraddr_len = sizeof(tlshd_peeraddr);
- 		if (getpeername(parms->sockfd, parms->peeraddr,
- 				&parms->peeraddr_len) == -1) {
- 			tlshd_log_perror("getpeername");
-+			parms->peeraddr_len = 0;
+-static char tlshd_peername[NI_MAXHOST] = "unknown";
++static char tlshd_peername[NI_MAXHOST] = "";
+ static struct sockaddr_storage tlshd_peeraddr = { 0 };
+ 
+ static int tlshd_genl_valid_handler(struct nl_msg *msg, void *arg)
+@@ -289,6 +289,7 @@ static int tlshd_genl_valid_handler(struct nl_msg *msg, void *arg)
+ 				  NULL, 0, NI_NAMEREQD);
+ 		if (err) {
+ 			tlshd_log_gai_error(err);
++			tlshd_peername[0] = '\0';
  			return NL_STOP;
  		}
- 		optlen = sizeof(parms->ip_proto);
-@@ -297,7 +299,7 @@ static int tlshd_genl_valid_handler(struct nl_msg *msg, void *arg)
- static const struct tlshd_handshake_parms tlshd_default_handshake_parms = {
- 	.peername		= tlshd_peername,
- 	.peeraddr		= (struct sockaddr *)&tlshd_peeraddr,
--	.peeraddr_len		= sizeof(tlshd_peeraddr),
-+	.peeraddr_len		= 0,
- 	.sockfd			= -1,
- 	.ip_proto		= -1,
- 	.handshake_type		= HANDSHAKE_MSG_TYPE_UNSPEC,
+ 	}
 -- 
 2.47.2
 

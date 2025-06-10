@@ -1,37 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9754246BAC
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 10 Jun 2025 13:25:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71EB8246BBD
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 10 Jun 2025 13:25:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749561954; cv=none; b=jbjh9aIIpAIvL61X3Z7tBC+QDPHuJ/2uDfdfo2DxcW2KowAJGfC2/mwDCZalGor6VKDY2jtfj32D3b2XapUkBuJzHVNRIT/r20wyHyu15m8kDWt3wO9KtQUCcAcotJ7D8n8ctYGrytUIacB4PNTMV5OMMpwOb5j3qIbM/H8tn7k=
+	t=1749561954; cv=none; b=BusFKtLBFTPpkRjlvUcNIytDsMoO4qH/AbVVG1dgT3vEBtYEeIy+ELQsr4HwzfYYK9m3vMBlUBjXXtGRzdg9RBkzaXppjjt26E4XqGYJ4xlN25gD7rLNyY203KAutkdojT2fNLd+FiMn3vubWIQswWjQlcEnhK6SQfRAmUYPwnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1749561954; c=relaxed/simple;
-	bh=ME1bqChF5vCUBPtO4GXeN/VVTPypzU/OJVlvqsEYXis=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Qm9BwGic4Wbp0xY535L9Ik3975L7NlD3X/eQUK9hnD6YNkNG2+XG9T41c9UkBuoGQ2XIWTTieR5Qnc0QVBFyScG4TXKIf4hSjl5SuRiWSQBjHbLb6PXT5N2yFtnI1aMztu/j7fEDQAfQ6Q3xAN6JJKy1Zx4lw6MAKfz7TZBoXh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TUyiQn/L; arc=none smtp.client-ip=10.30.226.201
+	bh=d4xRNwXKZvyQOwa1wU7bYyHPQbUMHI8EwCXvUueQ5sU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=J/Fjikl22CFDxAbBy4Y18RBLeg4BSEHeNMGdYHVMGUAba/rEA06PDLwcjs6JISIbv0qVIyRfefc8wqdftn3irfSZBry7QfEauCZ4ULsbvYMSBRWNcGOIRr2byFDu/g4PQk+TL5+MUtf9FZs4qqOmF5n/5+aKVBUC4lbMdYIZFeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=me9yUQG/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TUyiQn/L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CA27C4CEED;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="me9yUQG/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7194C4CEF1;
 	Tue, 10 Jun 2025 13:25:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749561953;
-	bh=ME1bqChF5vCUBPtO4GXeN/VVTPypzU/OJVlvqsEYXis=;
-	h=From:To:Cc:Subject:Date:From;
-	b=TUyiQn/LiuPtcDWIrEfrBEnF6NRWJrAHzhkq1R/eJ1hysdz7fJIRo6AHPFMFWHZF5
-	 Hi0Emjjrh5XoYNdE54TEqH7gOL6Sb1h4ptSpFbVgUl/LAnmlXDCSdUgaqD5tX1Lag6
-	 MtEWoP08TJhD+5IGIau7zsC8eEZpZOoPPDZ/6XFgzkqkkDSDAxsfupMdRSSic4WA5u
-	 +1J4enLMeKA24A/kg5KT3IKa02U59LQbQM1rLd4YxLA9fEu+PFx3lS2S3/mrkWzJ+i
-	 LFcbXgCfTuL8CssFtexVy3WrO81e2cP6FSBdx2wxZn6ZvtxD8T/TqU/l6K93S+5r8z
-	 3Q17Mg7M8gNzg==
+	s=k20201202; t=1749561954;
+	bh=d4xRNwXKZvyQOwa1wU7bYyHPQbUMHI8EwCXvUueQ5sU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=me9yUQG/UAoQH3nvqWCqLTiAT+Jen1F1+D2Cgu6yz+2WhuOjgKx9xCo2hZqXmWAX4
+	 UrnETxZPAQ9+N+oUnt4v1IzajZiGlUh7M/JZt17V+haufTT41f1gKjfpt9MzyYNML6
+	 rJoqPRZcSskbByjE94KiLEcuVZ/i59owsEQ7GrrOtNVzaQGLhcegP5e5ft8nOvWnVE
+	 JaZlbeGJaZ7PoXgs8X4BW34zcopVHdyIm1V3aOVtTkm0q2iyeE1CzlkLsbjof8ixE1
+	 jco3hISzr7PbQs09RbbOE8N4N8XJZMFF5IhwcmYWdSGBj0bAjNYEBk4UhG1dpKAaSM
+	 bAzmzUGianE+Q==
 From: Chuck Lever <cel@kernel.org>
 To: <kernel-tls-handshake@lists.linux.dev>
 Cc: Chuck Lever <chuck.lever@oracle.com>
-Subject: [PATCH 0/5] Kick off ktls-utils 1.2 development
-Date: Tue, 10 Jun 2025 09:25:45 -0400
-Message-ID: <20250610132550.39715-1-cel@kernel.org>
+Subject: [PATCH 1/5] tlshd: Fix a minor race
+Date: Tue, 10 Jun 2025 09:25:46 -0400
+Message-ID: <20250610132550.39715-2-cel@kernel.org>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250610132550.39715-1-cel@kernel.org>
+References: <20250610132550.39715-1-cel@kernel.org>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -42,27 +45,95 @@ Content-Transfer-Encoding: 8bit
 
 From: Chuck Lever <chuck.lever@oracle.com>
 
-This is a small series collects a few recently discussed code
-changes and other clean-ups. These have been pushed to
-oracle/ktls-utils in a ktls-utils-1.2-dev branch.
+Parfait complains about using a pathname to perform an access(2)
+and then passing the same pathname to open(2). Between the access(2)
+and the open(2) calls, the permissions can change. I think this is
+harmless for tlshd, but all the same, let's clean this up.
 
-By the way, I recently enabled CodeQL on chucklever/ktls-utils and
-that's where patch 3/5 comes from. If anyone knows of sensible
-static analysis that can be easily enabled via GitHub Action, let me
-know and I can try to set that up.
+Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+---
+ src/tlshd/config.c | 26 +++++++-------------------
+ 1 file changed, 7 insertions(+), 19 deletions(-)
 
-Chuck Lever (5):
-  tlshd: Fix a minor race
-  tlshd: Remove unneeded variable "error"
-  workflows: Limit permission of the makefile.yml action
-  tlshd: Add default keyrings for NFS
-  tlshd: Relocate TLSHD_ALLPERMS
-
- .github/workflows/makefile.yml |  1 +
- src/tlshd/config.c             | 93 +++++++++++++---------------------
- src/tlshd/tlshd.conf.man       |  8 ++-
- 3 files changed, 42 insertions(+), 60 deletions(-)
-
+diff --git a/src/tlshd/config.c b/src/tlshd/config.c
+index be5d472c466a..f4907ebb1a54 100644
+--- a/src/tlshd/config.c
++++ b/src/tlshd/config.c
+@@ -140,7 +140,11 @@ static bool tlshd_config_read_datum(const char *pathname, gnutls_datum_t *data,
+ 
+ 	fd = open(pathname, O_RDONLY);
+ 	if (fd == -1) {
+-		tlshd_log_perror("open");
++		if (access(pathname, F_OK))
++			tlshd_log_debug("tlshd cannot access \"%s\"",
++					pathname);
++		else
++			tlshd_log_perror("open");
+ 		goto out;
+ 	}
+ 	if (fstat(fd, &statbuf)) {
+@@ -198,7 +202,7 @@ bool tlshd_config_get_client_truststore(char **bundle)
+ 		g_error_free(error);
+ 		return false;
+ 	} else if (access(pathname, F_OK)) {
+-		tlshd_log_debug("client x509.truststore pathname \"%s\" is not accessible", pathname);
++		tlshd_log_debug("tlshd cannot access \"%s\"", pathname);
+ 		g_free(pathname);
+ 		return false;
+ 	}
+@@ -234,10 +238,6 @@ bool tlshd_config_get_client_certs(gnutls_pcert_st *certs,
+ 	if (!pathname) {
+ 		g_error_free(error);
+ 		return false;
+-	} else if (access(pathname, F_OK)) {
+-		tlshd_log_debug("client x509.certificate pathname \"%s\" is not accessible", pathname);
+-		g_free(pathname);
+-		return false;
+ 	}
+ 
+ 	if (!tlshd_config_read_datum(pathname, &data, TLSHD_OWNER,
+@@ -282,10 +282,6 @@ bool tlshd_config_get_client_privkey(gnutls_privkey_t *privkey)
+ 	if (!pathname) {
+ 		g_error_free(error);
+ 		return false;
+-	} else if (access(pathname, F_OK)) {
+-		tlshd_log_debug("client x509.private_key pathname \"%s\" is not accessible", pathname);
+-		g_free(pathname);
+-		return false;
+ 	}
+ 
+ 	if (!tlshd_config_read_datum(pathname, &data, TLSHD_OWNER,
+@@ -336,7 +332,7 @@ bool tlshd_config_get_server_truststore(char **bundle)
+ 		g_error_free(error);
+ 		return false;
+ 	} else if (access(pathname, F_OK)) {
+-		tlshd_log_debug("server x509.truststore pathname \"%s\" is not accessible", pathname);
++		tlshd_log_debug("tlshd cannot access \"%s\"", pathname);
+ 		g_free(pathname);
+ 		return false;
+ 	}
+@@ -372,10 +368,6 @@ bool tlshd_config_get_server_certs(gnutls_pcert_st *certs,
+ 	if (!pathname) {
+ 		g_error_free(error);
+ 		return false;
+-	} else if (access(pathname, F_OK)) {
+-		tlshd_log_debug("server x509.certificate pathname \"%s\" is not accessible", pathname);
+-		g_free(pathname);
+-		return false;
+ 	}
+ 
+ 	if (!tlshd_config_read_datum(pathname, &data, TLSHD_OWNER,
+@@ -420,10 +412,6 @@ bool tlshd_config_get_server_privkey(gnutls_privkey_t *privkey)
+ 	if (!pathname) {
+ 		g_error_free(error);
+ 		return false;
+-	} else if (access(pathname, F_OK)) {
+-		tlshd_log_debug("server x509.privkey pathname \"%s\" is not accessible", pathname);
+-		g_free(pathname);
+-		return false;
+ 	}
+ 
+ 	if (!tlshd_config_read_datum(pathname, &data, TLSHD_OWNER,
 -- 
 2.49.0
 

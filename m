@@ -1,68 +1,72 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CDEB1FA178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1824A1FCD1F
 	for <kernel-tls-handshake@lists.linux.dev>; Wed, 18 Jun 2025 09:01:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750237300; cv=none; b=ZMUe2EN5EuPCNKPa8KjaUVBvv1ecdR0Z+eP80JSzHH6QAKE0GJPgsbevDehB4/VhR73SEkf6FHVnRcxOJkkNzeUFDhOeekvArUvv+3ZUBlj1HDQ3fIQI4UgQ6WLeU9M3lenOGgAwrUHJZunxWPygVneVUzTR6qTXvjBOp9zu2+4=
+	t=1750237300; cv=none; b=mNSqzpO+FJ47P0wXPHtWtRHgOIIk6Jta0d0UI9OqLLJfz8oIMs7rhbCdELnV7l2VMwp4wh6U2QJ9mCGd4RUlquAG+MamwwQZl8cbijLC94/t3yWL5ngaWh1JnyMYgnECUaU2hRaCKktaIaUGSmdPeAZMMo40Ko9Hj7tyJyx2L1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1750237300; c=relaxed/simple;
-	bh=vCLQJ+t8CP73Xdm9Z/97X0Kj2ntQPLTqDSYHnPehQlE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JXmujLg+ouX2ICMTnn1L85YtV1DU0syHQoa/X5s4KKVtDCZ+r4VA+la2YekD9klTw2Q7dvTixBXmZY+dRgBMUWZVFN6VW8LHIKT4ygLOJ/j1t0qQjVYn40E4WvscWrFz1qWP4nxWOBz+gfUQl3HBB/4cNAoyv1Bs8NpGG0edgy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WI/JseGy; arc=none smtp.client-ip=209.85.128.42
+	bh=zF1Im3NvQRK261iwmq/+HOHD6ss5RU6Jc87K6b+9q/U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qehr4qAu1QZdLbk5Z17KvNfQ1tBfHK8Y/8md+tKkultZaEHzEGTHWzcAmR4ZQJnztD94UWoyC3zI8On47Db0DIUawNCeTn0noiRrdJf/BkkQlaZcPO79/ve5a421As9nRta9kqbFlconVHPpmq+Ijfq0fcPwPjDAlFZ9lCyPBB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mVmPLJq+; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WI/JseGy"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45348bff79fso40755375e9.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mVmPLJq+"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45300c82c1cso21820955e9.3
         for <kernel-tls-handshake@lists.linux.dev>; Wed, 18 Jun 2025 02:01:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1750237297; x=1750842097; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zp4hfstk+1K+73YubfXaWyH+9J7sEJfH3oDkcma8i4s=;
-        b=WI/JseGyYBgej3ClxgSYUAaD3/JT3xjzMj9eXL0p/jDKovd5Kb4rIq1DA3uNt1y7Gn
-         2sc6UnlJgukUrFGjDDyrzeyZ1XZNUxWwJXj4XQ//Crr0TlwLzZnhZ1ruae0XS2/R9FTN
-         fl8dU6/cgEeZZ/81XnGIFmnU5tQEonJ6dwRwaaTTExgPzV7kSz3EOLEvN/RNte58k/MB
-         Y9/RXmok+WljIiw9phwSXuOBXTAxXvVaKPiROOOQERZbON12jdCAXFWPe68k9u29FOkc
-         OH0SKfe3vuImDWle9GkUhb37fv7oZZ3DV1/8pWoYENhL7vqc9RFMCkHaLJRi2JLVSiVp
-         XulQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O5r19hH9t8OpwYvJGD7OUSqlPQok6CKITUcDUaBv4Zo=;
+        b=mVmPLJq+c+zTwQ5qnRLPbjaLVjgKczkz5e4DFSpnB5NkoniSc6wiC5xWpHeR2IDnT/
+         6se9w6fmks115OBKSqKekl84MLGCreW9GNEEp1mkxFRxKfl02sEA2JqF13+be8uPpAcd
+         +57vv2SbqL3endHOEDCL5OY8KsyzLxB6q3PkD05EPBIyjx71RhksM9ImF5UtaXkLrNq1
+         8qGcq8KgfX3r6gBTkgGW6dsXWCcSeKbRmAgrjyy0nSRyP+Pt8U8AiUdd3dAqBkw3fJxD
+         RmQrIM4wventlzrKJCmg43BYZbnWDRXD8vVzOf57REbVSvtfg9pVrlik0iGGx8gWJJKx
+         YV/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1750237297; x=1750842097;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zp4hfstk+1K+73YubfXaWyH+9J7sEJfH3oDkcma8i4s=;
-        b=vKcdaa/MuoxEYTAPdsIdcGvzESZ2vPO2ySgEgsMYYBvt1ZAtW968kV3ffkFGHNYNv4
-         1DCsEf8fkBZRf+EHmJjkU1Ejz8vgWod9Kv0wx16R0gWBKhXwO9IP5HzezdkvhetuDo7R
-         8kuCrV0kgJOh+64iHfYvuSgKFGkcfeoVxGeBWZAYwmAqqyWEAKHA/LPSRWQ5NWFxmjue
-         DcxtlncZJMA4thOAbo3P1vKoNzCdc3MZsPQcGMvq346bCcg7tiZ4VXudwYDFSgM6PIgm
-         L0vX43AInkRGrpvofsw+d2z1vs6vNMELZ+1sKvMLCt8jMlgnb9Uwzq9eXbZpuKb3P0B5
-         D1zw==
-X-Gm-Message-State: AOJu0YxlK64y6IrsayPeXC/NC+RwxAM24Xs7gvi1I3TCoaOTDOxBddJ9
-	NHs2WykKSW9/TyQwvL16d+acTB+/KUUoPSlWwgk4wIDUse8cNusxQlBnu2OFM5qU
-X-Gm-Gg: ASbGncsoVhxzQ7bZub6EdfvmQNA5Iu85YK46Y7ubctb5aePJ29Kn7C0HZ5Yl5OviPCs
-	nAx2fOzrpGmqTjJJW9GO3/h/ICGSp8uth+mpZ1Xu6SZz1xH8p2SSCddNUpO/JedoIxMBckifItS
-	G0e3+DdaWzDyM1453A1iyvDVIeAWWU4hFpLNtHRperfKhnfiyyAdJX3/T2yqZmEYp3L7cEBE17C
-	aMREsp23aQsgLdx5uwNnkmwy6EyZCu20YEn5q5niXNVqTqafTtCY4ezf2ziegSf22xcKIfiWJw+
-	58gbKEH13jYZ6J4fSr1Atkdz/Ar10s9wMD8bcpZHKSfSzPbeOiuAa9yCYXleNeWNqI5Oyo4bokX
-	S7SRpg2zu9KG4VYZI79uwjE9BymVeL6/x8Z4xiw==
-X-Google-Smtp-Source: AGHT+IFYDnnpX0I9IYuRSmZlNobmGNuG+eXse1yPkyZVs4qbpPXM5qa39IzjHf+88AqLDcLtNtZQug==
-X-Received: by 2002:a05:600c:1c90:b0:443:48:66d2 with SMTP id 5b1f17b1804b1-4533caf5cc0mr147822465e9.16.1750237296546;
-        Wed, 18 Jun 2025 02:01:36 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O5r19hH9t8OpwYvJGD7OUSqlPQok6CKITUcDUaBv4Zo=;
+        b=Rm2aojj1r3mtJ0qtjcaviJOc9cMnaVbEWzA7jXkP1m16cXlorrbAikiE4rX+4oyHYz
+         F/6qkRwVVPxjBlgr6LaJYZDGWnaOC8t0BJCiXBb5gylDDGz6KrwFXm6Hije708FDIibB
+         8VuSW1eM91mC9Cn5+SZEiYAkbfKAX0Ha4LgG4bGf9SzXMBCXF9AgzHStW9o5ZdPhzd/u
+         dwfri4bPBBraXOWZkNstA5lKh/N9TN2WGmOTijMH5CYHttAjRaulKdejPm4K1aCNFVlT
+         oLRegYq4mbOrA9rESaA9/77n1du7UQNSnWcXvk9lHBoOgPkH/euTYbY7+areEYs7eSLX
+         mrBQ==
+X-Gm-Message-State: AOJu0YzC1+qKHZiZvFdl/5HRp6+54yLtksiRCX99kudov6Ir3vr5Ky/P
+	JVtMvJAbynsQzb+xCR5WhsMeFpE55dSX/hz8sNutarvu5z297r3ajgo/5H6DLedr
+X-Gm-Gg: ASbGnct/8yIzdbeBDFgrOWnDOcuho0fB0nszdbGSlFVTAUjVn++x9ya/zseYawh42+2
+	md393Ht8goMGXmENTmM4w+KKmMaYuuwJWo5WU/KPIzQ4LRGSVqiSY2WSnBDoxayzDF/4QYXBbzA
+	261Mk7FN4gZQv2J/hd1S1bfXLOjrtSf5zE/0X9tg3gt5L0S/LpwSjHIUhUGijPbbK9zkP62oYn8
+	rHMhEL/uoV0K8dBpXMshO8kHL5aDohPtQdS6pHPgO/81Vlr1RZlfb2kxpMS9RHEaa5BxV/CncPC
+	E2IGOke58M3SVVO62elOYOnqvBnOpPOLrZmkw/FHC3MyhnDVsvFIQHKLj1G7O+bEn+E4KyUm/rK
+	Djm1L2gWGdetzBG71xa+eRf48xQJ/Dx8fEwMeTw==
+X-Google-Smtp-Source: AGHT+IHbdnKSuqFJilJUmZV02hbS9cF2yCdW2O3h8nkjSc8ICVRxISg1yuujXhuninmU6mvoMwYjWw==
+X-Received: by 2002:a05:6000:2385:b0:3a4:c9d4:2fb2 with SMTP id ffacd0b85a97d-3a572e8e0e4mr15506797f8f.46.1750237297239;
+        Wed, 18 Jun 2025 02:01:37 -0700 (PDT)
 Received: from uranus.home.lan (ptr-4yvyxu9ibhltaxz47ht.18120a2.ip6.access.telenet.be. [2a02:1810:a59b:eff1::5f1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a5780c5004sm12774737f8f.56.2025.06.18.02.01.35
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a5780c5004sm12774737f8f.56.2025.06.18.02.01.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 18 Jun 2025 02:01:36 -0700 (PDT)
 From: Rik Theys <rik.theys@gmail.com>
 X-Google-Original-From: Rik Theys <Rik.Theys@gmail.com>
 To: kernel-tls-handshake@lists.linux.dev
 Cc: Rik Theys <Rik.Theys@gmail.com>
-Subject: [PATCH 0/3] Add CRL checking to server and client (v2)
-Date: Wed, 18 Jun 2025 11:00:35 +0200
-Message-ID: <20250618090040.566838-1-Rik.Theys@gmail.com>
+Subject: [PATCH 1/5] Add server-side CRL checking
+Date: Wed, 18 Jun 2025 11:00:36 +0200
+Message-ID: <20250618090040.566838-2-Rik.Theys@gmail.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250618090040.566838-1-Rik.Theys@gmail.com>
+References: <20250618090040.566838-1-Rik.Theys@gmail.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -71,33 +75,105 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These patches add CRL checking to the TLS client and server code.
+If an x509.crl option is specified in the authenticate.server
+section of the configuration file, use it as a certificate
+revocation list.
 
-It introduces an x509.crl configuration option that specifies the
-location of a CRL in PEM format.
+Signed-off-by: Rik Theys <Rik.Theys@gmail.com>
+---
+ src/tlshd/config.c | 33 +++++++++++++++++++++++++++++++++
+ src/tlshd/server.c | 14 ++++++++++++++
+ src/tlshd/tlshd.h  |  1 +
+ 3 files changed, 48 insertions(+)
 
-The CRL (certificate revocation list) can be used by an administrator
-to block access to certificates that should no longer be trusted
-for some reason.
-
-See https://github.com/oracle/ktls-utils/issues/103
-
-The last two patches implement the suggestion from Long Xin.
-
-Rik Theys (5):
-  Add server-side CRL checking
-  Add client-side CRL checking
-  Add x509.crl option to man page.
-  Move server-side CRL code to common function
-  Move client-side CRL code to common function
-
- src/tlshd/client.c       | 68 ++++++++++++++++++++++++----------------
- src/tlshd/config.c       | 66 ++++++++++++++++++++++++++++++++++++++
- src/tlshd/server.c       | 63 ++++++++++++++++++++++++-------------
- src/tlshd/tlshd.conf.man |  9 +++++-
- src/tlshd/tlshd.h        |  2 ++
- 5 files changed, 158 insertions(+), 50 deletions(-)
-
+diff --git a/src/tlshd/config.c b/src/tlshd/config.c
+index be5d472..1963116 100644
+--- a/src/tlshd/config.c
++++ b/src/tlshd/config.c
+@@ -350,6 +350,39 @@ bool tlshd_config_get_server_truststore(char **bundle)
+ 	return true;
+ }
+ 
++/**
++ * tlshd_config_get_server_crl - Get CRL for ServerHello from .conf
++ * @bundle: OUT: pathname to CRL
++ *
++ * Return values:
++ *   %false: pathname not retrieved
++ *   %true: pathname retrieved successfully; caller must free @bundle using free(3)
++ */
++bool tlshd_config_get_server_crl(char **bundle)
++{
++	GError *error = NULL;
++	gchar *pathname;
++
++	pathname = g_key_file_get_string(tlshd_configuration, "authenticate.server",
++					 "x509.crl", &error);
++	if (!pathname) {
++		g_error_free(error);
++		return false;
++	} else if (access(pathname, F_OK)) {
++		tlshd_log_debug("server x509.crl pathname \"%s\" is not accessible", pathname);
++		g_free(pathname);
++		return false;
++	}
++
++	*bundle = strdup(pathname);
++	g_free(pathname);
++	if (!*bundle)
++		return false;
++
++	tlshd_log_debug("Server x.509 crl is %s", *bundle);
++	return true;
++}
++
+ /**
+  * tlshd_config_get_server_certs - Get certs for ServerHello from .conf
+  * @certs: OUT: in-memory certificates
+diff --git a/src/tlshd/server.c b/src/tlshd/server.c
+index 72ff6f5..bf4b740 100644
+--- a/src/tlshd/server.c
++++ b/src/tlshd/server.c
+@@ -219,6 +219,7 @@ static void tlshd_tls13_server_x509_handshake(struct tlshd_handshake_parms *parm
+ 	gnutls_certificate_credentials_t xcred;
+ 	gnutls_session_t session;
+ 	char *cafile;
++	char *crlfile;
+ 	int ret;
+ 
+ 	ret = gnutls_certificate_allocate_credentials(&xcred);
+@@ -239,6 +240,19 @@ static void tlshd_tls13_server_x509_handshake(struct tlshd_handshake_parms *parm
+ 	}
+ 	tlshd_log_debug("System trust: Loaded %d certificate(s).", ret);
+ 
++	if (tlshd_config_get_server_crl(&crlfile)) {
++		ret = gnutls_certificate_set_x509_crl_file(xcred, crlfile,
++							   GNUTLS_X509_FMT_PEM);
++		free(crlfile);
++		if (ret < 0 ) {
++			tlshd_log_gnutls_error(ret);
++			goto out_free_creds;
++		}
++		tlshd_log_debug("System CRL: Loaded %d CRL(s).", ret);
++	} else {
++		tlshd_log_debug("System CRL: No CRL file configured.");
++	}
++
+ 	if (!tlshd_x509_server_get_certs(parms)) {
+ 		goto out_free_creds;
+ 	}
+diff --git a/src/tlshd/tlshd.h b/src/tlshd/tlshd.h
+index 135e1e0..617d1c6 100644
+--- a/src/tlshd/tlshd.h
++++ b/src/tlshd/tlshd.h
+@@ -61,6 +61,7 @@ bool tlshd_config_get_client_certs(gnutls_pcert_st *certs,
+ 				   unsigned int *certs_len);
+ bool tlshd_config_get_client_privkey(gnutls_privkey_t *privkey);
+ bool tlshd_config_get_server_truststore(char **bundle);
++bool tlshd_config_get_server_crl(char **bundle);
+ bool tlshd_config_get_server_certs(gnutls_pcert_st *certs,
+ 				   unsigned int *certs_len);
+ bool tlshd_config_get_server_privkey(gnutls_privkey_t *privkey);
 -- 
 2.49.0
 

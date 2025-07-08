@@ -1,77 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE5C25B1EA;
-	Tue,  8 Jul 2025 13:39:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A6F2AF07;
+	Tue,  8 Jul 2025 14:34:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751981983; cv=none; b=Lor5CYJL1kT/6nR0sR+z0xXWPinPxoWODxNSRQkxiT9A+NVVyPHyVDRh9J3nE7O4sM0gfLWHIGWB8h5fX62QTtWdaG48YDqQ2XKnYZR4iEvxDTviUMUyzd358TEf4bOLiXAN/iYvXF7s21ZOCQccEK8A31fbLUf8IQqQTGxUrZU=
+	t=1751985270; cv=none; b=frInH9mz17eyDgm93FsanGLGQyM1ZsIkp1HAJEaOzwcjtaZAes4LbwYFr5gf/e7NjOMCMw2Q+xmZPeEXVq6lEkE8LFJ1DP4FhB50vvt3rZxmQau5gQzYGRZoGbTe3irtNR6Xug5KnOgwYcn5YkyNfYhs1n4oZZTAeDGVFNnKUc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751981983; c=relaxed/simple;
-	bh=xUYeTqdgGuIPtzhnkxyjtlIMKo+gWD0tDCSakGRaIV8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=FZlqMQdFNagcxQgUmF3WMNcJAugY+LXuQMBoXFYclkTppfFQrwGk/VxBz2vH9iMlutpm0lFqylOBT6+PWFJ/qYJdxWBtv1MWn5qVywWRqANdBW/yN6fxN6y9yDXi4cpZZeNqE1Gw3Z/YLDkjT5InmkimYpS+tbr3hFvZgMZ0M2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Stgx8gBQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751985270; c=relaxed/simple;
+	bh=5tduTloL7o58Qv0JYfn4WgvECx8dhVTHJ7cQroK1ivM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tnKPdKD4Uo3E9pEb+tsFqR23s/akbDATIL3deWh7cEzGOxEP+oMTsGiIHlwgKWwXAUnCJhx1p9xKVGCVsmvN9EukswozQbKioRhHda9+/XLTYjsAtqYiKv1grVsGIiJ6HV8wDdFbrK3LkhdFY5ZVJn5HrkUOdCvTPPw4AS3odsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dw3TnR2j; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Stgx8gBQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DADBBC4CEED;
-	Tue,  8 Jul 2025 13:39:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dw3TnR2j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0213AC4CEED;
+	Tue,  8 Jul 2025 14:34:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751981982;
-	bh=xUYeTqdgGuIPtzhnkxyjtlIMKo+gWD0tDCSakGRaIV8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Stgx8gBQcWOqgEFtTRWF6iePu7WjE8GvPlJCnDO39uXBQNf+nMNqQllJzHbvJdYNU
-	 707dQc+2uwo2r3QS3A2xhyxKQjNvQGxzPCCbjdUP/t/EDKd/7urJ+C6t6NlUdHLkXn
-	 3s8DwDuaNa0MQUryMmWqBHPq8ja6UA+S9YkwAdUyS839QZieU9ShNBR3pUGRSb8xdf
-	 DOI72LbDNEgNEsNv7ThIAJ0UdRfMizmA6sRgaWPqfmEZ0/I2c2PFE4Z0ZSl8SxDJWA
-	 JuewIrP3IuPIQrHwWKe0TGZuAjcI6JkMxxb906iS/k6lj9Q0bC5UwI4ef8w14XzPVG
-	 Bp18n2zOBRVew==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB171380DBEE;
-	Tue,  8 Jul 2025 13:40:06 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1751985269;
+	bh=5tduTloL7o58Qv0JYfn4WgvECx8dhVTHJ7cQroK1ivM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=dw3TnR2jP3B6YiC5TeCFZdBjn23BoGVjN3kr1F4Th88b0dzAkmpsZ/2LGzaltUSxQ
+	 PH/r9NVuiAO4cVEuUtFCMBDn4TskePd802dJ9xaDyBb8QtwuiF8YRUWUidGSWsx24y
+	 Jprt3uoD+s8hJFCmD6y98PRpBhUNuMVp8vnq1N/idi/NrEdlytnOteNUZqzhDsucWj
+	 MkuO1p6Y0/A19x0K3tOuihyJC5esIcvbLGv8Nj6XVEZ8DzY+e4JIt8Bkx0OqNvr2pF
+	 ycf8i5sColU+22mFEHv/1FtyV1RHkuiYMUzWCX3hhd7hvw0WE6Gz6AIw6FqW577CwQ
+	 kOf9RJa252zAA==
+Date: Tue, 8 Jul 2025 07:34:27 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Xin Long <lucien.xin@gmail.com>
+Cc: network dev <netdev@vger.kernel.org>, davem@davemloft.net, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Stefan Metzmacher <metze@samba.org>, Moritz Buhl
+ <mbuhl@openbsd.org>, Tyler Fanelli <tfanelli@redhat.com>, Pengtao He
+ <hepengtao@xiaomi.com>, linux-cifs@vger.kernel.org, Steve French
+ <smfrench@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>, Paulo Alcantara
+ <pc@manguebit.com>, Tom Talpey <tom@talpey.com>,
+ kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>,
+ Jeff Layton <jlayton@kernel.org>, Benjamin Coddington
+ <bcodding@redhat.com>, Steve Dickson <steved@redhat.com>, Hannes Reinecke
+ <hare@suse.de>, Alexander Aring <aahringo@redhat.com>, Cong Wang
+ <xiyou.wangcong@gmail.com>, "D . Wythe" <alibuda@linux.alibaba.com>, Jason
+ Baron <jbaron@akamai.com>, illiliti <illiliti@protonmail.com>, Sabrina
+ Dubroca <sd@queasysnail.net>, Marcelo Ricardo Leitner
+ <marcelo.leitner@gmail.com>, Daniel Stenberg <daniel@haxx.se>, Andy
+ Gospodarek <andrew.gospodarek@broadcom.com>
+Subject: Re: [PATCH net-next 05/15] quic: provide quic.h header files for
+ kernel and userspace
+Message-ID: <20250708073427.6ba38b45@kernel.org>
+In-Reply-To: <74b62316e4a265bf2e5c0b3cf7061b4a6fde68b1.1751743914.git.lucien.xin@gmail.com>
+References: <cover.1751743914.git.lucien.xin@gmail.com>
+	<74b62316e4a265bf2e5c0b3cf7061b4a6fde68b1.1751743914.git.lucien.xin@gmail.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] net/handshake: Add new parameter
- 'HANDSHAKE_A_ACCEPT_KEYRING'
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175198200581.4069866.2862653090267173213.git-patchwork-notify@kernel.org>
-Date: Tue, 08 Jul 2025 13:40:05 +0000
-References: <20250701144657.104401-1-hare@kernel.org>
-In-Reply-To: <20250701144657.104401-1-hare@kernel.org>
-To: Hannes Reinecke <hare@kernel.org>
-Cc: chuck.lever@oracle.com, kernel-tls-handshake@lists.linux.dev,
- kuba@kernel.org, netdev@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello:
-
-This patch was applied to netdev/net-next.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Tue,  1 Jul 2025 16:46:57 +0200 you wrote:
-> Add a new netlink parameter 'HANDSHAKE_A_ACCEPT_KEYRING' to provide
-> the serial number of the keyring to use.
+On Sat,  5 Jul 2025 15:31:44 -0400 Xin Long wrote:
+> This commit adds quic.h to include/uapi/linux, providing the necessary
+> definitions for the QUIC socket API. Exporting this header allows both
+> user space applications and kernel subsystems to access QUIC-related
+> control messages, socket options, and event/notification interfaces.
 > 
-> Signed-off-by: Hannes Reinecke <hare@kernel.org>
-> ---
->  Documentation/netlink/specs/handshake.yaml | 4 ++++
->  include/uapi/linux/handshake.h             | 1 +
->  net/handshake/tlshd.c                      | 6 ++++++
->  3 files changed, 11 insertions(+)
+> Since kernel_get/setsockopt() is no longer available to kernel consumers,
+> a corresponding internal header, include/linux/quic.h, is added. This
+> provides kernel subsystems with the necessary declarations to handle
+> QUIC socket options directly.
+> 
+> Detailed descriptions of these structures are available in [1], and will
+> be also provided when adding corresponding socket interfaces in the
+> later patches.
 
-Here is the summary with links:
-  - net/handshake: Add new parameter 'HANDSHAKE_A_ACCEPT_KEYRING'
-    https://git.kernel.org/netdev/net-next/c/e22da4685013
-
-You are awesome, thank you!
+Warning: net/quic/socket.c:142 No description found for return value of 'quic_kernel_setsockopt'
+Warning: net/quic/socket.c:175 No description found for return value of 'quic_kernel_getsockopt'
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+pw-bot: cr

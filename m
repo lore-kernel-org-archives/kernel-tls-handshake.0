@@ -1,162 +1,183 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BF42144C7
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 29 Jul 2025 02:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6811990B7;
+	Tue, 29 Jul 2025 08:07:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753757042; cv=none; b=AVCP8YbVKe5DYb+rdkRZdV6xOR2PFSWEUSxkDajRVXv3knDdd8E5aq3yVR4AQ7rmy7iH+lhs4Quvws2RXTqZ+L8yRD9nKjgp4LWP+Z434g4BxSLgj2vG+cVq6pAe8652B6S9Dz/8SZ47N4qLWRSmZwg9T1/dp93EITAqbXxR0dA=
+	t=1753776480; cv=none; b=FuixOy2sry35RcT+C5mdyJQJa1Fv1o/08GVlV9MXQ2tOnrnx8ezgUJcWxcI7Aj7Xx4a0y33j//cuN5jfZ8GBBNX2EHIxiGvW6DxeXPzp76IyEqQRweEnIZIN/DE8SED1l4LF/9N5Rk9i7/XhRYaO+GUJV1Ec+TIHUT0FE43roQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753757042; c=relaxed/simple;
-	bh=EvYmYWtgKd8mjhgilzaDMPo8Q/bubDoA5KPliFrUEW8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GTxZv/w+mP7fqIQj8ut0D08b8/xNn/0ySyAeJJFjRoqqX/lL2UFn0sWPvqClILVifKFtMbkZOK9xCk6yKHnSiLZp06wBLu1cxDSL2TqiYxV9Txs/dRQAJ+8a/3iCLoMu9FevcNEiGcNc38kz12Xt/Fl1bvcHdO72MTYd3Dw5E1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jKXGWGzI; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753776480; c=relaxed/simple;
+	bh=LVJKkN36qjkh4TnMJiHplxyR9I2VwOGyfMGru+KsKTo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=m8EMFickttn6o7fM24D/HM/eTk8Ep2CeD6/65mD0AdNp5RiuwhQto7FiF1jVwiXuo4MS2B0gNz14ibanrvKaSVJGHtZst9uBKGuSi6io1DlsmdWxtkvGDHPpYt/a6F7uFAP0isnNaEN5BJFpSJK6nqTc0lMjPt+DtmRfaz9VO3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LooOaRcD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jKXGWGzI"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-23fe9a5e5e8so18090315ad.0
-        for <kernel-tls-handshake@lists.linux.dev>; Mon, 28 Jul 2025 19:44:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753757040; x=1754361840; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zgt0RW1ytIxlMXzvFaCd3u+wuWOkXNFg3PALHarFCkw=;
-        b=jKXGWGzIWC4GLxZs058HBv6nO7DKW6utQ6vBWdNbjXGo1xMow9x4quUcCJ4AtHpD9Y
-         5lcZKBIvb8KGzISg6HCTYClIkiMRwGLdRgWumD7Fe8K5/1rsTG1TMYp5vhhyeVUxhd66
-         1Av1qg0ucQD9GiQzuYEbw8An80L/jNhvm/06WXivPYXd1GOplx/r+k5fMu4rx8fVmyd/
-         MCpa4K3I4b1MVpiu+raYolYTQwpgoVK0nSN//uPZHoGt8E/h69HII7q711lEWT76HETq
-         cCGuRO8oXK1x8KHlGHvCgqFVMniRMQeRXRLYGrpEt4ZZLbxAIjrfcSaOGsC/u+Sy8nI8
-         Bcbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753757040; x=1754361840;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zgt0RW1ytIxlMXzvFaCd3u+wuWOkXNFg3PALHarFCkw=;
-        b=YQ7dgUjzIIRRG0dtCAWMw8RyflQHff+BrxzLfzkMfEb20Vfhqh6OK4dF1UWZS3tv1s
-         YXlyd3aZk3YZZeSoBZLHBtUYzph6CzOLjv6cTVczVflsgBHKFgjgMsyGXBINIOQFGDZv
-         48tdNIg9O4U27eVh4PA6yga/eYKznRIFw116uMXEzvDalFDJon5gAsOPVj9ZjsFGPDh3
-         zDO+E60H19dW3Xoich6aYt6xieuAPZBR5t1amliRzGOJ1uyRBgaDdu+vAnFnkj7gb5do
-         6k1qmUTySUt1RjtDe3ZvAOUZ79h2pJLSF+DzpbMWBG/OpngrsOG3S7UA3ZYpRgQml++O
-         2dkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUeCkd+8VH772gUKln+wVLxOQpzdfya82G6aOqvv5K10RvBM4OghtaxztBQqGjwkLphrKPJ5qvHfhuaH645ZUBbJf+o2w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz4wdkFRdxkz3qUFuso49akhPxsXD5t36dyvblv2rMUlfdMPe0B
-	XfkeCGQrEfZwR0fNv3PPzWGfXh8Ay1WkWkLwKmB7lSTx9ubtTUvZGcV7
-X-Gm-Gg: ASbGnctck9p6TcZBZzPBbiebX0uZh61PoC7kVt1mRXgyjTLnzWi2dDkFNQVieMfy4jb
-	I59ceq5SxCltXwg57OZGNJkLlHSnbMuoB+xTWF6siJ4jLjchpc6ILjhiBeZADjdpwrSp6buNWoo
-	aicQlhrXxKuIRi8UqDTEWSCaj2rtG5T08uCso2p74p5qrVDfwI9Zpm9MIHTtFft7abWwnQFdv7j
-	Cekbmp9aUECSBNsM5W5fCKvb/qpa57pBYvWhohWkkXEy2jxnRDmbW5KEtBkxoBSAXR1Mo3HYz1l
-	96Zqd09CCPDdthYZrVYavz85gSIWMEPlVg/Zpx360vR+xDRoZmxYYs9e6kFWZPGp7lGeJSRsyfS
-	Srk26iCoacVOOmCg/9WAkFdAf9g==
-X-Google-Smtp-Source: AGHT+IHoH2RqRBEpNTQOrmGzch5WJntLLn2XCTRa7EVmeo/2jrFb47DkbxUEJrAbw3CNGKSshrbO6A==
-X-Received: by 2002:a17:903:98d:b0:240:44aa:7f3a with SMTP id d9443c01a7336-24044aa8419mr55052065ad.31.1753757040472;
-        Mon, 28 Jul 2025 19:44:00 -0700 (PDT)
-Received: from fedora ([159.196.5.243])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23fecd9ed12sm51327855ad.8.2025.07.28.19.43.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Jul 2025 19:43:59 -0700 (PDT)
-From: Wilfred Mallawa <wilfred.opensource@gmail.com>
-To: alistair.francis@wdc.com,
-	dlemoal@kernel.org,
-	chuck.lever@oracle.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	donald.hunter@gmail.com,
-	corbet@lwn.net,
-	kbusch@kernel.org,
-	axboe@kernel.dk,
-	hch@lst.de,
-	sagi@grimberg.me,
-	kch@nvidia.com,
-	borisp@nvidia.com,
-	john.fastabend@gmail.com,
-	jlayton@kernel.org,
-	neil@brown.name,
-	okorniev@redhat.com,
-	Dai.Ngo@oracle.com,
-	tom@talpey.com,
-	trondmy@kernel.org,
-	anna@kernel.org,
-	kernel-tls-handshake@lists.linux.dev,
-	netdev@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-nvme@lists.infradead.org,
-	linux-nfs@vger.kernel.org,
-	Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Subject: [RFC 4/4] nvme/target/tcp: set max record size in the tls context
-Date: Tue, 29 Jul 2025 12:41:52 +1000
-Message-ID: <20250729024150.222513-7-wilfred.opensource@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250729024150.222513-2-wilfred.opensource@gmail.com>
-References: <20250729024150.222513-2-wilfred.opensource@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LooOaRcD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61926C4CEEF;
+	Tue, 29 Jul 2025 08:07:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753776479;
+	bh=LVJKkN36qjkh4TnMJiHplxyR9I2VwOGyfMGru+KsKTo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=LooOaRcDqVFj6TYPVM4bElH0sal8d+yU3vpj7mh7Po0EyZu3w+oLX5+/zt7nQCzdz
+	 +vAFMS5zL9RlCAWEhdqbuoOM+E5IA5rfCGvgDbvUNJOwIMrsT3cEZGBlnK2qbS4y+7
+	 pA3IYoFMvrwEorSeqRqxmIIDGWzwRDlpEF2aWQGrAe9BDg9PdI3mXGGdTAFlXaWii9
+	 sUzxzVgnR9vETwweQNlTaJk28YK8dGPUWCzcY47eJL3yxe7h5pVNMqHXwH3bhyLSBT
+	 l2JvI4VShASNpPFfvNiAgOg3lfZ8/2jhFBWlA2kuS+yKa4xwC2ZBqGpo3XfIjZPjU3
+	 XXuGk0mW/8JxQ==
+Message-ID: <624296dc-69d6-4bdd-bed1-ffcb747fb96d@kernel.org>
+Date: Tue, 29 Jul 2025 17:07:54 +0900
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 1/4] net/handshake: get negotiated tls record size limit
+To: Wilfred Mallawa <wilfred.opensource@gmail.com>, alistair.francis@wdc.com,
+ chuck.lever@oracle.com, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ donald.hunter@gmail.com, corbet@lwn.net, kbusch@kernel.org, axboe@kernel.dk,
+ hch@lst.de, sagi@grimberg.me, kch@nvidia.com, borisp@nvidia.com,
+ john.fastabend@gmail.com, jlayton@kernel.org, neil@brown.name,
+ okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+ anna@kernel.org, kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>
+References: <20250729024150.222513-2-wilfred.opensource@gmail.com>
+ <20250729024150.222513-4-wilfred.opensource@gmail.com>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20250729024150.222513-4-wilfred.opensource@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+On 7/29/25 11:41, Wilfred Mallawa wrote:
+> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+> 
+> During a handshake, an endpoint may specify a maximum record size limit.
+> Currently, this limit is not visble to the kernel particularly in the case
+> where userspace handles the handshake (tlshd/gnutls). This patch adds
+> support for retrieving the record size limit.
+> 
+> This is the first step in ensuring that the kernel can respect the record
+> size limit imposed by the endpoint.
+> 
+> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+> ---
+>  Documentation/netlink/specs/handshake.yaml |  3 +++
+>  Documentation/networking/tls-handshake.rst |  8 +++++++-
+>  drivers/nvme/host/tcp.c                    |  3 ++-
+>  drivers/nvme/target/tcp.c                  |  3 ++-
+>  include/net/handshake.h                    |  4 +++-
+>  include/uapi/linux/handshake.h             |  1 +
+>  net/handshake/genl.c                       |  5 +++--
+>  net/handshake/tlshd.c                      | 15 +++++++++++++--
+>  net/sunrpc/svcsock.c                       |  4 +++-
+>  net/sunrpc/xprtsock.c                      |  4 +++-
+>  10 files changed, 40 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/netlink/specs/handshake.yaml b/Documentation/netlink/specs/handshake.yaml
+> index b934cc513e3d..35d5eb91a3f9 100644
+> --- a/Documentation/netlink/specs/handshake.yaml
+> +++ b/Documentation/netlink/specs/handshake.yaml
+> @@ -84,6 +84,9 @@ attribute-sets:
+>          name: remote-auth
+>          type: u32
+>          multi-attr: true
+> +      -
+> +        name: record-size-limit
+> +        type: u32
+>  
+>  operations:
+>    list:
+> diff --git a/Documentation/networking/tls-handshake.rst b/Documentation/networking/tls-handshake.rst
+> index 6f5ea1646a47..cd984a137779 100644
+> --- a/Documentation/networking/tls-handshake.rst
+> +++ b/Documentation/networking/tls-handshake.rst
+> @@ -169,7 +169,8 @@ The synopsis of this function is:
+>  .. code-block:: c
+>  
+>    typedef void	(*tls_done_func_t)(void *data, int status,
+> -                                   key_serial_t peerid);
+> +                                   key_serial_t peerid,
+> +                                   size_t tls_record_size_limit);
+>  
+>  The consumer provides a cookie in the @ta_data field of the
+>  tls_handshake_args structure that is returned in the @data parameter of
+> @@ -200,6 +201,11 @@ The @peerid parameter contains the serial number of a key containing the
+>  remote peer's identity or the value TLS_NO_PEERID if the session is not
+>  authenticated.
+>  
+> +The @tls_record_size_limit parameter, if non-zero, exposes the tls max
+> +record size advertised by the endpoint. Record size must not exceed this amount.
+> +A negative value shall indicate that the endpoint did not advertise the
+> +maximum record size limit.
 
-During a tls handshake, a host may specify the tls record size limit
-using the tls "record_size_limit" extension. Currently, the NVMe target
-driver does not specify this value to the tls layer.
+size_t cannot be negative... Did you mean:
+"A value of 0 (TLS_NO_RECORD_SIZE_LIMIT)..."
 
-This patch adds support for setting the tls record size limit into the
-tls context, such that outgoing records may not exceed this limit
-specified by the endpoint.
+Also note that even if the endpoint does not advertize a record sie limit, we
+still have one (16K was it ?). So I think that the name TLS_NO_RECORD_SIZE_LIMIT
+is a little misleading.
 
-Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
----
- drivers/nvme/target/tcp.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+> +
+>  A best practice is to close and destroy the socket immediately if the
+>  handshake failed.
 
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 60e308401a54..f2ab473ea5de 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1784,6 +1784,7 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
- 					size_t tls_record_size_limit)
- {
- 	struct nvmet_tcp_queue *queue = data;
-+	struct tls_context *tls_ctx = tls_get_ctx(queue->sock->sk);
- 
- 	pr_debug("queue %d: TLS handshake done, key %x, status %d\n",
- 		 queue->idx, peerid, status);
-@@ -1795,6 +1796,17 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
- 	if (!status) {
- 		queue->tls_pskid = peerid;
- 		queue->state = NVMET_TCP_Q_CONNECTING;
-+
-+		/* Endpoint has specified a maximum tls record size limit */
-+		if (tls_record_size_limit > TLS_MAX_PAYLOAD_SIZE) {
-+			pr_err("queue %d: invalid tls max record size limit: %zu\n",
-+			       queue->idx, tls_record_size_limit);
-+			queue->state = NVMET_TCP_Q_FAILED;
-+		} else if (tls_record_size_limit > 0) {
-+			tls_ctx->tls_record_size_limit = (u32)tls_record_size_limit;
-+			pr_debug("queue %d: host specified tls max record size %u\n",
-+				 queue->idx, tls_ctx->tls_record_size_limit);
-+		}
- 	} else
- 		queue->state = NVMET_TCP_Q_FAILED;
- 	spin_unlock_bh(&queue->state_lock);
-@@ -1808,6 +1820,7 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
- 		nvmet_tcp_schedule_release_queue(queue);
- 	else
- 		nvmet_tcp_set_queue_sock(queue);
-+
- 	kref_put(&queue->kref, nvmet_tcp_release_queue);
- }
- 
+[...]
+
+> diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
+> index e1c85123b445..2014d906ff06 100644
+> --- a/net/sunrpc/svcsock.c
+> +++ b/net/sunrpc/svcsock.c
+> @@ -417,13 +417,15 @@ static void svc_tcp_kill_temp_xprt(struct svc_xprt *xprt)
+>   * @data: address of xprt to wake
+>   * @status: status of handshake
+>   * @peerid: serial number of key containing the remote peer's identity
+> + * @tls_record_size_limit: Max tls_record_size_limit of the endpoint
+
+Please make a proper sentence to describe tls_record_size_limit instead of
+repeating that argument name.
+
+>   *
+>   * If a security policy is specified as an export option, we don't
+>   * have a specific export here to check. So we set a "TLS session
+>   * is present" flag on the xprt and let an upper layer enforce local
+>   * security policy.
+>   */
+> -static void svc_tcp_handshake_done(void *data, int status, key_serial_t peerid)
+> +static void svc_tcp_handshake_done(void *data, int status, key_serial_t peerid,
+> +				   size_t tls_record_size_limit)
+>  {
+>  	struct svc_xprt *xprt = data;
+>  	struct svc_sock *svsk = container_of(xprt, struct svc_sock, sk_xprt);
+> diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
+> index 04ff66758fc3..509aa6269b0a 100644
+> --- a/net/sunrpc/xprtsock.c
+> +++ b/net/sunrpc/xprtsock.c
+> @@ -2569,9 +2569,11 @@ static int xs_tcp_tls_finish_connecting(struct rpc_xprt *lower_xprt,
+>   * @data: address of xprt to wake
+>   * @status: status of handshake
+>   * @peerid: serial number of key containing the remote's identity
+> + * @tls_record_size_limit: Max tls_record_size_limit of the endpoint
+
+Same here.
+
+>   *
+>   */
+> -static void xs_tls_handshake_done(void *data, int status, key_serial_t peerid)
+> +static void xs_tls_handshake_done(void *data, int status, key_serial_t peerid,
+> +				  size_t tls_record_size_limit)
+>  {
+>  	struct rpc_xprt *lower_xprt = data;
+>  	struct sock_xprt *lower_transport =
+
+
 -- 
-2.50.1
-
+Damien Le Moal
+Western Digital Research

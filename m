@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B4C1DDA3E
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 31 Jul 2025 18:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B0C1DDA3E
+	for <kernel-tls-handshake@lists.linux.dev>; Thu, 31 Jul 2025 18:01:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753984885; cv=none; b=Jd1JhmYZUt95k1S/mAG6zatPuEtVQCqVJ9Bc2um5/aZry/Lan7BOJGp5OXQ3WceBkXM8IoVu29JKzgxh2VRIzKkuQAW1BlBODbfGhZX6LJKu72LnzVLdALexVOdVbxbW3oD5xLj0TSFrREROFGTw5oL7Dq16Ip84gvQniho+aG8=
+	t=1753984886; cv=none; b=PFniVVSjdAn81KiSPrT2s5pbK5dh96SMxFbTlPle8FbEy8Em1jYpkH7gD3ybS4/nrxlU23125lNEPAOp9OrjhXvOx1AgJ2S7ELVi7IzE4KYprD5Lq1tRZpyVeu4BymnTkhLQUinDrQ/ngs/cCfMw1kfY7B0AHQ/FexZJqsg/blQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753984885; c=relaxed/simple;
-	bh=msGAgYHjg3EqrsS8JGYBSQeolb+jpdrcAKm9OfF0gJA=;
+	s=arc-20240116; t=1753984886; c=relaxed/simple;
+	bh=/Hd4R6FSkO6xhm9GGqVVaFKiw77GL8T3XDPl24uotFw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Cgxt0JnejyB7wYiSRxNlR2a4nwQ9O0NFzCyxajr4TV5avOsGIqKd1LEL7Hu+eEst+5bcSz96/4FW3s3udskz/VINaTEH+5qbLv5J+oSCs8X/vsxx9eRcORsMVWjmQb2JILEeOXTfM9nqMRmEMeahRu7aqrWZn8GBlJHfDMNG9X8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IhU2zoZA; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=Nql7lZFVZwnTMVP5NvAhNMytcKrUshHiJNuz0xZlByUp8LBmJ4KQw2PYicBqii1z2g20z6hFhH1VsmO6VuE3m5U3GuUmHzZmqVAP1DYy9qnKiPaAs6BEsOP1Tcb9UbWQ3hoCAaDASBHQrVhCOboa9g8O5WCZLv6FGizvr4GYYBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YrfEMnaA; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IhU2zoZA"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YrfEMnaA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1753984882;
+	s=mimecast20190719; t=1753984884;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DIOMBxTocdtOcHALdwqkdwvZOSdxmaAj5WjkXd5GOVY=;
-	b=IhU2zoZAAdDTQcno8wftNGetQ6Uv5WPk+2RduQK/YVZuVYAhFCnIZ8rf027G/v+9PRB2VP
-	B72QFtKfAPvdQ8XgPNn1F6pXUecDBXlPYXczw0aWuM/7bcYg5WL3hxGgBvP2BQRBzut8ZO
-	Z88EyLe88CPhK4Xi4nY547/28mZmEy4=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=rKMfoBw5WjFUVFeC4YBqI6PXNmxYVkoWOnY4zuBg4iA=;
+	b=YrfEMnaA5P5aDIk7wR+xjqMc5UEKhMKlLkJLqy7ZroX5lLrDp8T67qQoXjbrvY8VW+nC59
+	PldJGH3F92Kv9BVb9EX/XEcwgI4vmr7hm4BHMNM4px2N8dW3ippFOFsouCXMxw+TSg6p5D
+	uK7SwDyiZmu4SL8A8oOySRntIpa9sRQ=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-691-MKm73DMRPTSiS4xvpo6iVw-1; Thu,
- 31 Jul 2025 14:01:19 -0400
-X-MC-Unique: MKm73DMRPTSiS4xvpo6iVw-1
-X-Mimecast-MFC-AGG-ID: MKm73DMRPTSiS4xvpo6iVw_1753984876
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-348-78G6qf82NPmfJIdPKA-j7w-1; Thu,
+ 31 Jul 2025 14:01:18 -0400
+X-MC-Unique: 78G6qf82NPmfJIdPKA-j7w-1
+X-Mimecast-MFC-AGG-ID: 78G6qf82NPmfJIdPKA-j7w_1753984875
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AEEEB196E073;
-	Thu, 31 Jul 2025 18:01:14 +0000 (UTC)
-Received: from okorniev-mac.redhat.com (unknown [10.22.82.42])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CCB0F30001B3;
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7DB35180035F;
 	Thu, 31 Jul 2025 18:01:09 +0000 (UTC)
+Received: from okorniev-mac.redhat.com (unknown [10.22.82.42])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C20933000199;
+	Thu, 31 Jul 2025 18:01:04 +0000 (UTC)
 From: Olga Kornievskaia <okorniev@redhat.com>
 To: chuck.lever@oracle.com,
 	jlayton@kernel.org,
@@ -64,9 +64,9 @@ Cc: linux-nfs@vger.kernel.org,
 	hare@suse.de,
 	horms@kernel.org,
 	kbusch@kernel.org
-Subject: [PATCH v2 2/4] sunrpc: fix client side handling of tls alerts
-Date: Thu, 31 Jul 2025 14:00:56 -0400
-Message-Id: <20250731180058.4669-3-okorniev@redhat.com>
+Subject: [PATCH v2 1/4] sunrpc: fix handling of server side tls alerts
+Date: Thu, 31 Jul 2025 14:00:55 -0400
+Message-Id: <20250731180058.4669-2-okorniev@redhat.com>
 In-Reply-To: <20250731180058.4669-1-okorniev@redhat.com>
 References: <20250731180058.4669-1-okorniev@redhat.com>
 Precedence: bulk
@@ -78,62 +78,51 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-A security exploit was discovered in NFS over TLS in tls_alert_recv
-due to its assumption that there is valid data in the msghdr's
-iterator's kvec.
+Scott Mayhew discovered a security exploit in NFS over TLS in
+tls_alert_recv() due to its assumption it can read data from
+the msg iterator's kvec..
 
-Instead, this patch proposes the rework how control messages are
-setup and used by sock_recvmsg().
+kTLS implementation splits TLS non-data record payload between
+the control message buffer (which includes the type such as TLS
+aler or TLS cipher change) and the rest of the payload (say TLS
+alert's level/description) which goes into the msg payload buffer.
+
+This patch proposes to rework how control messages are setup and
+used by sock_recvmsg().
 
 If no control message structure is setup, kTLS layer will read and
 process TLS data record types. As soon as it encounters a TLS control
-message, it would return an error. At that point, NFS can setup a kvec
-backed control buffer and read in the control message such as a TLS
-alert. Scott found that a msg iterator can advance the kvec pointer
-as a part of the copy process thus we need to revert the iterator
-before calling into the tls_alert_recv.
+message, it would return an error. At that point, NFS can setup a
+kvec backed msg buffer and read in the control message such as a
+TLS alert. Scott found that msg iterator can advance the kvec
+pointer as a part of the copy process thus we need to revert the
+iterator before calling into the tls_alert_recv.
 
-Fixes: dea034b963c8 ("SUNRPC: Capture CMSG metadata on client-side receive")
+Reported-by: Scott Mayhew <smayhew@redhat.com>
+Fixes: 5e052dda121e ("SUNRPC: Recognize control messages in server-side TCP socket code")
 Suggested-by: Trond Myklebust <trondmy@hammerspace.com>
 Suggested-by: Scott Mayhew <smayhew@redhat.com>
 Signed-off-by: Olga Kornievskaia <okorniev@redhat.com>
 ---
- net/sunrpc/xprtsock.c | 40 ++++++++++++++++++++++++++++++----------
- 1 file changed, 30 insertions(+), 10 deletions(-)
+ net/sunrpc/svcsock.c | 43 +++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 35 insertions(+), 8 deletions(-)
 
-diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
-index 04ff66758fc3..c5f7bbf5775f 100644
---- a/net/sunrpc/xprtsock.c
-+++ b/net/sunrpc/xprtsock.c
-@@ -358,7 +358,7 @@ xs_alloc_sparse_pages(struct xdr_buf *buf, size_t want, gfp_t gfp)
- 
- static int
- xs_sock_process_cmsg(struct socket *sock, struct msghdr *msg,
--		     struct cmsghdr *cmsg, int ret)
-+		     unsigned int *msg_flags, struct cmsghdr *cmsg, int ret)
- {
- 	u8 content_type = tls_get_record_type(sock->sk, cmsg);
- 	u8 level, description;
-@@ -371,7 +371,7 @@ xs_sock_process_cmsg(struct socket *sock, struct msghdr *msg,
- 		 * record, even though there might be more frames
- 		 * waiting to be decrypted.
- 		 */
--		msg->msg_flags &= ~MSG_EOR;
-+		*msg_flags &= ~MSG_EOR;
- 		break;
- 	case TLS_RECORD_TYPE_ALERT:
- 		tls_alert_recv(sock->sk, msg, &level, &description);
-@@ -386,19 +386,33 @@ xs_sock_process_cmsg(struct socket *sock, struct msghdr *msg,
+diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
+index 46c156b121db..e2c5e0e626f9 100644
+--- a/net/sunrpc/svcsock.c
++++ b/net/sunrpc/svcsock.c
+@@ -257,20 +257,47 @@ svc_tcp_sock_process_cmsg(struct socket *sock, struct msghdr *msg,
  }
  
  static int
--xs_sock_recv_cmsg(struct socket *sock, struct msghdr *msg, int flags)
-+xs_sock_recv_cmsg(struct socket *sock, unsigned int *msg_flags, int flags)
+-svc_tcp_sock_recv_cmsg(struct svc_sock *svsk, struct msghdr *msg)
++svc_tcp_sock_recv_cmsg(struct socket *sock, unsigned int *msg_flags)
  {
  	union {
  		struct cmsghdr	cmsg;
  		u8		buf[CMSG_SPACE(sizeof(u8))];
  	} u;
+-	struct socket *sock = svsk->sk_sock;
 +	u8 alert[2];
 +	struct kvec alert_kvec = {
 +		.iov_base = alert,
@@ -144,49 +133,56 @@ index 04ff66758fc3..c5f7bbf5775f 100644
 +		.msg_control = &u,
 +		.msg_controllen = sizeof(u),
 +	};
- 	int ret;
- 
--	msg->msg_control = &u;
--	msg->msg_controllen = sizeof(u);
--	ret = sock_recvmsg(sock, msg, flags);
--	if (msg->msg_controllen != sizeof(u))
--		ret = xs_sock_process_cmsg(sock, msg, &u.cmsg, ret);
++	int ret;
++
 +	iov_iter_kvec(&msg.msg_iter, ITER_DEST, &alert_kvec, 1,
 +		      alert_kvec.iov_len);
-+	ret = sock_recvmsg(sock, &msg, flags);
++	ret = sock_recvmsg(sock, &msg, MSG_DONTWAIT);
 +	if (ret > 0 &&
 +	    tls_get_record_type(sock->sk, &u.cmsg) == TLS_RECORD_TYPE_ALERT) {
 +		iov_iter_revert(&msg.msg_iter, ret);
-+		ret = xs_sock_process_cmsg(sock, &msg, msg_flags, &u.cmsg,
-+					   -EAGAIN);
++		ret = svc_tcp_sock_process_cmsg(sock, &msg, &u.cmsg, -EAGAIN);
++	}
++	return ret;
++}
++
++static int
++svc_tcp_sock_recvmsg(struct svc_sock *svsk, struct msghdr *msg)
++{
+ 	int ret;
++	struct socket *sock = svsk->sk_sock;
+ 
+-	msg->msg_control = &u;
+-	msg->msg_controllen = sizeof(u);
+ 	ret = sock_recvmsg(sock, msg, MSG_DONTWAIT);
+-	if (unlikely(msg->msg_controllen != sizeof(u)))
+-		ret = svc_tcp_sock_process_cmsg(sock, msg, &u.cmsg, ret);
++	if (msg->msg_flags & MSG_CTRUNC) {
++		msg->msg_flags &= ~(MSG_CTRUNC | MSG_EOR);
++		if (ret == 0 || ret == -EIO)
++			ret = svc_tcp_sock_recv_cmsg(sock, &msg->msg_flags);
 +	}
  	return ret;
  }
  
-@@ -408,7 +422,13 @@ xs_sock_recvmsg(struct socket *sock, struct msghdr *msg, int flags, size_t seek)
- 	ssize_t ret;
- 	if (seek != 0)
- 		iov_iter_advance(&msg->msg_iter, seek);
--	ret = xs_sock_recv_cmsg(sock, msg, flags);
-+	ret = sock_recvmsg(sock, msg, flags);
-+	/* Handle TLS inband control message lazily */
-+	if (msg->msg_flags & MSG_CTRUNC) {
-+		msg->msg_flags &= ~(MSG_CTRUNC | MSG_EOR);
-+		if (ret == 0 || ret == -EIO)
-+			ret = xs_sock_recv_cmsg(sock, &msg->msg_flags, flags);
-+	}
- 	return ret > 0 ? ret + seek : ret;
- }
+@@ -321,7 +348,7 @@ static ssize_t svc_tcp_read_msg(struct svc_rqst *rqstp, size_t buflen,
+ 		iov_iter_advance(&msg.msg_iter, seek);
+ 		buflen -= seek;
+ 	}
+-	len = svc_tcp_sock_recv_cmsg(svsk, &msg);
++	len = svc_tcp_sock_recvmsg(svsk, &msg);
+ 	if (len > 0)
+ 		svc_flush_bvec(bvec, len, seek);
  
-@@ -434,7 +454,7 @@ xs_read_discard(struct socket *sock, struct msghdr *msg, int flags,
- 		size_t count)
- {
- 	iov_iter_discard(&msg->msg_iter, ITER_DEST, count);
--	return xs_sock_recv_cmsg(sock, msg, flags);
-+	return xs_sock_recvmsg(sock, msg, flags, 0);
- }
- 
- #if ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE
+@@ -1018,7 +1045,7 @@ static ssize_t svc_tcp_read_marker(struct svc_sock *svsk,
+ 		iov.iov_base = ((char *)&svsk->sk_marker) + svsk->sk_tcplen;
+ 		iov.iov_len  = want;
+ 		iov_iter_kvec(&msg.msg_iter, ITER_DEST, &iov, 1, want);
+-		len = svc_tcp_sock_recv_cmsg(svsk, &msg);
++		len = svc_tcp_sock_recvmsg(svsk, &msg);
+ 		if (len < 0)
+ 			return len;
+ 		svsk->sk_tcplen += len;
 -- 
 2.47.1
 

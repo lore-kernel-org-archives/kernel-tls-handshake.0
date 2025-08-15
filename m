@@ -1,64 +1,64 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA482571CD
-	for <kernel-tls-handshake@lists.linux.dev>; Fri, 15 Aug 2025 05:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A137256C88
+	for <kernel-tls-handshake@lists.linux.dev>; Fri, 15 Aug 2025 05:02:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755234171; cv=none; b=JGImJdr8kwLgu7Qnt9us2zBK4OaMxF9YDNKGtb725uGw2t3K0Oaub8Es0ygwV2TBz5DA7hGh5cWl5ko3JDqUwtR/P28zegaB/FxPAE/50eFPhfJ2ietlztqXtjuw/BCT/wraYCxxlNecKW5Urb7G3yREcy2AIowOYCFTCEgVBxg=
+	t=1755234176; cv=none; b=M0w/CaNeanzFf84+Fd4udxNv1PUTvUSdpj0Ls1s6HHLeCVI2oGtsnkha8uF8FvRu6UBGjpxHXdsan56KVBYqiBmjhOBHX3SaktPr7WvtcoXA8bszswr0kd1LGObMl+JH82Ofwyxj7kbJYVvUVB1ZZH+9PttufcqzRxrU4fjhxUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755234171; c=relaxed/simple;
-	bh=uc9YZwdTu6vjMHyC1DDyDPSVOBUSC6MVMTV9ezoWOD0=;
+	s=arc-20240116; t=1755234176; c=relaxed/simple;
+	bh=YXGFLVw6nrmtEUTY7T4USYOqb/CEvYKMmsg3TPj1WY4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lSfXtWtHS87ZL3eHdgedIlHuv4bugs2cJQI0SZw+WxHFEY/gTL6X9eq/AQ0spyD56clgIqoHL1fEpYtFe63EgE8do90XxRsaR6zlxSyuROSQ9rbAjJ0fOg8B4qh7Q3TrkzvSghZhRJIVM/qNf7NBc5/UKj+ICe81FxRaHoM3qf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KRjafjXk; arc=none smtp.client-ip=209.85.215.173
+	 MIME-Version; b=Bs5kjGIZbWeuXdznW8+9sSfjgKbMGlx8k+n6sM9Xw5JvQWQj+BKCk/n9uy6dMQrR8yV7v3AyHmIuR89ePpim5WtOZOJBsca2x1PQRyjdJfBYcRpQSzELXzRxJnUq1yNQvFxQogCHnvkjCHS6HIXdb+tRjEj/c/WXUxI74JPV0uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k7osyA2b; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KRjafjXk"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b47174beb13so1114334a12.2
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 14 Aug 2025 22:02:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k7osyA2b"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-244580536efso12142215ad.1
+        for <kernel-tls-handshake@lists.linux.dev>; Thu, 14 Aug 2025 22:02:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755234169; x=1755838969; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1755234174; x=1755838974; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7d7zGS9Yv26ZPzVs4PTbVzcVRRnuE09pH1oWJaHcRro=;
-        b=KRjafjXkGekIa/6v7JbOzkCOuaz0xVEB7iE+0mlr7Srw+zYd/v6BMM0q9j1GcD70gP
-         YHHEx9WBsc/LBHgaViJ04FUP4lcVJIyewH/MAgQowV3m3G1i8+ViVV+lK16Ftvf5cAv7
-         f75n2GBHI0ordkZRo+5cfsKrDyV+n1ySbe1r1DFHwcMZwhfkvXa/6kzVo9GL6dgXdfCq
-         +0bvuG+FE/YP7S0bAd8HASBW324h/Uqu/JBQyTzVgR8ASvHoPvK2G72XkJGicbaopR2R
-         OfcqXibH2yjnsGdpwpq/gnOsWQ+2XBOsZYbeN5z50gX0Jtc66A0vj+WCJrGdaRV0fn9Q
-         gZ7w==
+        bh=neDuK8ZnEoxPuomsrzouDeck0u2jESUqvyfxmr3mZPY=;
+        b=k7osyA2bGsTagzowr8N/htzwFpoB43PfAvLZhF6neCU5Pzmq0np5LYsRPakoKKSXqx
+         A0bGeNtH0IiECGt54KKMuDRkB8+LU8dfOOC21ykE//1BAmU/Gv7rOacOJ5SbA7VrZ61U
+         6KAnuqqTnhGuI+O+7qPe5maT13mOmbFsBSf9w9qZEMac1mX9R8On62oFRgTs704dZfCZ
+         vUi4go8QZELAcIoD88M2DP+epO9f4kNvg3QJZBi8I4U23HDU5V+WqI6l8UyHsbg3ujFR
+         r5NzlmrBM7vTuTJ7HwFy3oBpNBkFhEV0sMst//4zi96y7fJyXJ3xdpz5KQ4oe5C3PIUY
+         HkSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755234169; x=1755838969;
+        d=1e100.net; s=20230601; t=1755234174; x=1755838974;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7d7zGS9Yv26ZPzVs4PTbVzcVRRnuE09pH1oWJaHcRro=;
-        b=vO9uTfg8vqeTGjN/9sL4AIwaNzDW2neH/cAgekyTGeLQAkVYdLgUQP1vQZl8RAYGIs
-         Aa6BL5IrVbdRhglkvqzf5LUbAe6NRZM+pP5tPgVvMLqRFh7P0XvaJ3frMS5maLHSFRpW
-         L54NJAA7GJ6EVay4KUyEohzLWp5P8sjxYJehZyQY9I7/6Dm4umw5hu8gYJum0r4IWCKJ
-         AkhgbmgBMuzPY4R5q+rnZCqnny7V2kpZxfuxO9nMbCie98e85eLksiYsvE4YSygzpovl
-         3JPn0CfVq5d6n1/GiaNoO5pDmYECgc+4HSDwqbg8WGHfdek7gUDVcpDQYs+xzA/+Ai+H
-         Ro4w==
-X-Forwarded-Encrypted: i=1; AJvYcCUooWGlN+/m6f/eRkKrJcjklN+Q7h/I6XMbyI0ltZ37C6mZIj4LmyuRv9OBFUrp9z9SZqJokJU4DGNpXMD4J4seo5NWqA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YztlZcSwgrhTPXKWhKzz77jBobfi15PDr6H65MInnSxcP62q58n
-	j/J7ri23adCkPpmnogV84Q8StGNxCjH36SxApTcuQ42uum12VRtinsZT
-X-Gm-Gg: ASbGncsdBWP1cN+4VDJ1CbCriztqu3jFu0OPgY/L9+OiLTe191PEGfeRqx1Z0IOp4v3
-	MuYxL3aa3iLbSiR/H91qV/YkB34RO2mXjrpHnZjGNldxfQM3MhDBCaJtnK2qyqKQTAldOGbB3qh
-	CgehoLUv5n0HJm6wmOUQ2d1KjjMWD1L36eoYHNXtH/erGj98sAhiue2xgwpXhFUSZhI9NgVZc2Q
-	2o3bGmuocm05hDc+4il2v2NIPc1t4nlZgOTTveAQBySz08FODspThfrQOGQPmwAedHjYWDJ/q+x
-	sv3wyB9kMbJVlIOCq03H0t08F9RQvhvuYmucxx4NTLANeKWG3DGnhOY1h734f0oGB4pQyHygKnh
-	TgOzU6ymQw5HHeMbqJCZo2UN86uoxJmgHqjFMXyd1z6A5xnmHtSLJH2BiSkDLzVetnWGp5LTfiq
-	qZaCxE5MRXiwQ+TEz3izfrB7RBhlQ=
-X-Google-Smtp-Source: AGHT+IFTGcov0+aWkKYCnNTsUBtDo1QWOO20Fpd9BJJ7unGopC+vkw10J9LX6yAJ5mZ4E7jFPDrOZg==
-X-Received: by 2002:a17:903:8c5:b0:242:b315:dda7 with SMTP id d9443c01a7336-2446d6eef09mr10803535ad.3.1755234168765;
-        Thu, 14 Aug 2025 22:02:48 -0700 (PDT)
+        bh=neDuK8ZnEoxPuomsrzouDeck0u2jESUqvyfxmr3mZPY=;
+        b=Mj58mQVtocpVCLN1Yu4ol0yOLtHth1Rnkyxyw+XC4TGkKzIk1RuOvaRR+s8epLlPUM
+         EbwLbWdmzsgW4+6ovrcJZ4sK1xl3eg8FRx3WEuaLjPI3eMH6yJ2vKPTSkokVCu5prpXK
+         JYYpQY/+DqcJLAaksUR5w1LmZWQMQait2nS+nOz3S2mZZ7Q4GqpKDFs0Iy3RHlaRkR8B
+         rJUANqRIiF894lVPj2X8huzmXuUZRzDGucP6S7eq4xIlwsg7ozUd9siCSMn3kum3Q2nl
+         YR3DzmxmL2ccUb3eQDZdaWCBRG9KTF7YJhND/RluFJSEDdB/DHeTl4OJ8chvyHuH1Tc2
+         VWhg==
+X-Forwarded-Encrypted: i=1; AJvYcCU4Df1EHlu3WliDC7Rpwlf4xhvvKQHvSAffNAi5dl9q4ZawqmGptlI3rS+RildqMt9MPGK+XK7jbAD/Ricay6ujboYSkA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxOOYMoAxslBjll5vnQByfwuLOMl1ekjFynjqkvgk0r2ZueOLCA
+	SOEWCH1szXLPqYodzpsS4Y9ITmJV2S0o1sHPSdIXMjthmq/8GHqdemf1
+X-Gm-Gg: ASbGncscruY47roDUPc8/TxWLlPmm8vJ5iURwa3LSRhgDNSNSnTjMBCIkcvVLd5c554
+	MKModCEONvjBSiVeQs2HioSQRJVzDkYiAca4JpFAb+Bg6wKl6WdnZzqH4HuqzKiBIqNEkZErGiS
+	4DSN+CjNN7YY2fDMJwYu7c8KoNCutiNvkdvx/FmB1B0EY/dx1Vvlrd/fL6HLu54ZbW/WWcGqHLV
+	4zdJeLIs1Yd0ZERY6RSjdi+ToqYMCZTe4or5qnCwUpb0hjedSb38D8w/r1SoczbRS1pUGdvEL7s
+	LHqGwSYqlNxLRbcl6FwNCv0Khjn1H9pE+t7kkhLHl0nBFCIIaKviPYBrO27UO+Jc5RdXB3dNivj
+	JCdVu3y23uS+hSIxSrwWBU1fV678HZ9Z6gm8fFpdZDsVKAzcV6FFeExcsAgPqMvuynNo9GHtV5c
+	rBJSdBCZ/k6cj3JIDmL4Q0GsyHQH0=
+X-Google-Smtp-Source: AGHT+IG8imeIhOp6Kh+mvcy3i3tVkeltm9bQmEjxAgXG7n6od8szlHMMpip15QOuUZGKPgir+jkAGg==
+X-Received: by 2002:a17:902:e74b:b0:240:70d4:85d9 with SMTP id d9443c01a7336-2446cba36cbmr13771535ad.0.1755234174437;
+        Thu, 14 Aug 2025 22:02:54 -0700 (PDT)
 Received: from toolbx.alistair23.me (2403-580b-97e8-0-82ce-f179-8a79-69f4.ip6.aussiebb.net. [2403:580b:97e8:0:82ce:f179:8a79:69f4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446d53c6e1sm5128645ad.115.2025.08.14.22.02.43
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2446d53c6e1sm5128645ad.115.2025.08.14.22.02.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Aug 2025 22:02:48 -0700 (PDT)
+        Thu, 14 Aug 2025 22:02:54 -0700 (PDT)
 From: alistair23@gmail.com
 X-Google-Original-From: alistair.francis@wdc.com
 To: chuck.lever@oracle.com,
@@ -76,9 +76,9 @@ Cc: kbusch@kernel.org,
 	kch@nvidia.com,
 	alistair23@gmail.com,
 	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH 5/8] net/handshake: Support KeyUpdate message types
-Date: Fri, 15 Aug 2025 15:02:07 +1000
-Message-ID: <20250815050210.1518439-6-alistair.francis@wdc.com>
+Subject: [PATCH 6/8] nvme-tcp: Support KeyUpdate
+Date: Fri, 15 Aug 2025 15:02:08 +1000
+Message-ID: <20250815050210.1518439-7-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250815050210.1518439-1-alistair.francis@wdc.com>
 References: <20250815050210.1518439-1-alistair.francis@wdc.com>
@@ -92,341 +92,150 @@ Content-Transfer-Encoding: 8bit
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-When reporting the msg-type to userspace let's also support reporting
-KeyUpdate events. This supports reporting a client/server event and if
-the other side requested a KeyUpdateRequest.
+If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
+EKEYEXPIRED then the underlying TLS keys need to be updated. This occurs
+on an KeyUpdate event.
+
+If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
+allow the NVMe layer to process the KeyUpdate request and forward the
+request to userspace. Userspace must then update the key to keep the
+connection alive.
+
+This patch allows us to handle the NVMe target sending a KeyUpdate
+request without aborting the connection. At this time we don't support
+initiating a KeyUpdate.
 
 Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- Documentation/netlink/specs/handshake.yaml | 15 +++++++++-
- Documentation/networking/tls-handshake.rst |  4 +--
- drivers/nvme/host/tcp.c                    | 12 ++++++--
- drivers/nvme/target/tcp.c                  | 11 ++++++--
- include/net/handshake.h                    | 11 ++++++--
- include/uapi/linux/handshake.h             | 13 +++++++++
- net/handshake/tlshd.c                      | 33 ++++++++++++++++++----
- 7 files changed, 83 insertions(+), 16 deletions(-)
+ drivers/nvme/host/tcp.c | 63 ++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 62 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/netlink/specs/handshake.yaml b/Documentation/netlink/specs/handshake.yaml
-index e76b10ef62f2..8e6275af1ff8 100644
---- a/Documentation/netlink/specs/handshake.yaml
-+++ b/Documentation/netlink/specs/handshake.yaml
-@@ -21,12 +21,17 @@ definitions:
-     type: enum
-     name: msg-type
-     value-start: 0
--    entries: [unspec, clienthello, serverhello]
-+    entries: [unspec, clienthello, serverhello, clientkeyupdate, clientkeyupdaterequest, serverkeyupdate, serverkeyupdaterequest]
-   -
-     type: enum
-     name: auth
-     value-start: 0
-     entries: [unspec, unauth, psk, x509]
-+  -
-+    type: enum
-+    name: key-update-type
-+    value-start: 0
-+    entries: [unspec, send, received, received_request_update]
- 
- attribute-sets:
-   -
-@@ -74,6 +79,13 @@ attribute-sets:
-       -
-         name: keyring
-         type: u32
-+      -
-+        name: key-update-request
-+        type: u32
-+        enum: key-update-type
-+      -
-+        name: key-serial
-+        type: u32
-   -
-     name: done
-     attributes:
-@@ -116,6 +128,7 @@ operations:
-             - certificate
-             - peername
-             - keyring
-+            - key-serial
-     -
-       name: done
-       doc: Handler reports handshake completion
-diff --git a/Documentation/networking/tls-handshake.rst b/Documentation/networking/tls-handshake.rst
-index 6f5ea1646a47..64a70847bd8b 100644
---- a/Documentation/networking/tls-handshake.rst
-+++ b/Documentation/networking/tls-handshake.rst
-@@ -108,7 +108,7 @@ To initiate a client-side TLS handshake with a pre-shared key, use:
- 
- .. code-block:: c
- 
--  ret = tls_client_hello_psk(args, gfp_flags);
-+  ret = tls_client_hello_psk(args, gfp_flags, handshake_key_update_type);
- 
- However, in this case, the consumer fills in the @ta_my_peerids array
- with serial numbers of keys containing the peer identities it wishes
-@@ -138,7 +138,7 @@ or
- 
- .. code-block:: c
- 
--  ret = tls_server_hello_psk(args, gfp_flags);
-+  ret = tls_server_hello_psk(args, gfp_flags, handshake_key_update_type);
- 
- The argument structure is filled in as above.
- 
 diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index bb7317a3f1a9..cc3332529355 100644
+index cc3332529355..0c14d3ad58af 100644
 --- a/drivers/nvme/host/tcp.c
 +++ b/drivers/nvme/host/tcp.c
-@@ -19,6 +19,7 @@
- #include <linux/blk-mq.h>
- #include <net/busy_poll.h>
- #include <trace/events/sock.h>
-+#include <uapi/linux/handshake.h>
+@@ -171,6 +171,7 @@ struct nvme_tcp_queue {
+ 	bool			tls_enabled;
+ 	u32			rcv_crc;
+ 	u32			snd_crc;
++	key_serial_t		user_key_serial;
+ 	__le32			exp_ddgst;
+ 	__le32			recv_ddgst;
+ 	struct completion       tls_complete;
+@@ -1313,6 +1314,7 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
+ 	struct nvme_tcp_request *req;
+ 	unsigned int noreclaim_flag;
+ 	int ret = 1;
++	enum nvme_ctrl_state state = nvme_ctrl_state(&(queue->ctrl->ctrl));
  
- #include "nvme.h"
- #include "fabrics.h"
-@@ -205,6 +206,10 @@ static struct workqueue_struct *nvme_tcp_wq;
- static const struct blk_mq_ops nvme_tcp_mq_ops;
- static const struct blk_mq_ops nvme_tcp_admin_mq_ops;
- static int nvme_tcp_try_send(struct nvme_tcp_queue *queue);
-+static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
-+			      struct nvme_tcp_queue *queue,
-+			      key_serial_t pskid,
-+			      handshake_key_update_type keyupdate);
+ 	if (!queue->request) {
+ 		queue->request = nvme_tcp_fetch_request(queue);
+@@ -1347,6 +1349,29 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
+ done:
+ 	if (ret == -EAGAIN) {
+ 		ret = 0;
++	} else if (ret == -EKEYEXPIRED &&
++		state != NVME_CTRL_CONNECTING &&
++		state != NVME_CTRL_RESETTING) {
++		int qid = nvme_tcp_queue_id(queue);
++
++		dev_dbg(queue->ctrl->ctrl.device,
++			"updating key for queue %d\n", qid);
++
++		nvme_change_ctrl_state(&(queue->ctrl->ctrl), NVME_CTRL_RESETTING);
++		tls_clear_err(queue->sock->sk);
++		handshake_req_cancel(queue->sock->sk);
++		handshake_sk_destruct_req(queue->sock->sk);
++
++		ret = nvme_tcp_start_tls(&(queue->ctrl->ctrl),
++					 queue, queue->ctrl->ctrl.tls_pskid,
++					 HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
++
++		if (ret < 0) {
++			dev_err(queue->ctrl->ctrl.device,
++				"failed to update the keys %d\n", ret);
++			nvme_tcp_fail_request(queue->request);
++			nvme_tcp_done_send_req(queue);
++		}
+ 	} else if (ret < 0) {
+ 		dev_err(queue->ctrl->ctrl.device,
+ 			"failed to send request %d\n", ret);
+@@ -1383,6 +1408,7 @@ static void nvme_tcp_io_work(struct work_struct *w)
+ 	do {
+ 		bool pending = false;
+ 		int result;
++		enum nvme_ctrl_state state = nvme_ctrl_state(&(queue->ctrl->ctrl));
  
- static inline struct nvme_tcp_ctrl *to_tcp_ctrl(struct nvme_ctrl *ctrl)
- {
-@@ -1708,7 +1713,8 @@ static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid,
+ 		if (mutex_trylock(&queue->send_mutex)) {
+ 			result = nvme_tcp_try_send(queue);
+@@ -1396,8 +1422,34 @@ static void nvme_tcp_io_work(struct work_struct *w)
+ 		result = nvme_tcp_try_recv(queue);
+ 		if (result > 0)
+ 			pending = true;
+-		else if (unlikely(result < 0))
++		else if (unlikely(result < 0)) {
++			if (result == -EKEYEXPIRED &&
++				state != NVME_CTRL_CONNECTING &&
++				state != NVME_CTRL_RESETTING) {
++				int qid = nvme_tcp_queue_id(queue);
++
++				dev_dbg(queue->ctrl->ctrl.device,
++					"updating key for queue %d\n", qid);
++
++				nvme_change_ctrl_state(&(queue->ctrl->ctrl), NVME_CTRL_RESETTING);
++				tls_clear_err(queue->sock->sk);
++				handshake_req_cancel(queue->sock->sk);
++				handshake_sk_destruct_req(queue->sock->sk);
++
++				result = nvme_tcp_start_tls(&(queue->ctrl->ctrl),
++							queue, queue->ctrl->ctrl.tls_pskid,
++							HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
++
++				if (result < 0) {
++					dev_err(queue->ctrl->ctrl.device,
++						"failed to update the keys %d\n", result);
++					nvme_tcp_fail_request(queue->request);
++					nvme_tcp_done_send_req(queue);
++				}
++			}
++
+ 			return;
++		}
  
- static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
- 			      struct nvme_tcp_queue *queue,
--			      key_serial_t pskid)
-+			      key_serial_t pskid,
-+			      handshake_key_update_type keyupdate)
- {
- 	int qid = nvme_tcp_queue_id(queue);
- 	int ret;
-@@ -1730,7 +1736,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
+ 		/* did we get some space after spending time in recv? */
+ 		if (nvme_tcp_queue_has_pending(queue) &&
+@@ -1705,6 +1757,7 @@ static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid,
+ 			ctrl->ctrl.tls_pskid = key_serial(tls_key);
+ 		key_put(tls_key);
+ 		queue->tls_err = 0;
++		queue->user_key_serial = user_key_serial;
+ 	}
+ 
+ out_complete:
+@@ -1734,6 +1787,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
+ 		keyring = key_serial(nctrl->opts->keyring);
+ 	args.ta_keyring = keyring;
  	args.ta_timeout_ms = tls_handshake_timeout * 1000;
++	args.user_key_serial = queue->user_key_serial;
  	queue->tls_err = -EOPNOTSUPP;
  	init_completion(&queue->tls_complete);
--	ret = tls_client_hello_psk(&args, GFP_KERNEL);
-+	ret = tls_client_hello_psk(&args, GFP_KERNEL, keyupdate);
- 	if (ret) {
- 		dev_err(nctrl->device, "queue %d: failed to start TLS: %d\n",
+ 	ret = tls_client_hello_psk(&args, GFP_KERNEL, keyupdate);
+@@ -1742,7 +1796,14 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
  			qid, ret);
-@@ -1880,7 +1886,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl, int qid,
- 
- 	/* If PSKs are configured try to start TLS */
- 	if (nvme_tcp_tls_configured(nctrl) && pskid) {
--		ret = nvme_tcp_start_tls(nctrl, queue, pskid);
-+		ret = nvme_tcp_start_tls(nctrl, queue, pskid, HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC);
- 		if (ret)
- 			goto err_init_connect;
+ 		return ret;
  	}
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 93fce316267d..5eaab9c858be 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -214,6 +214,10 @@ static struct workqueue_struct *nvmet_tcp_wq;
- static const struct nvmet_fabrics_ops nvmet_tcp_ops;
- static void nvmet_tcp_free_cmd(struct nvmet_tcp_cmd *c);
- static void nvmet_tcp_free_cmd_buffers(struct nvmet_tcp_cmd *cmd);
-+#ifdef CONFIG_NVME_TARGET_TCP_TLS
-+static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue,
-+				   handshake_key_update_type keyupdate);
-+#endif
- 
- static inline u16 nvmet_tcp_cmd_tag(struct nvmet_tcp_queue *queue,
- 		struct nvmet_tcp_cmd *cmd)
-@@ -1833,7 +1837,8 @@ static void nvmet_tcp_tls_handshake_timeout(struct work_struct *w)
- 	kref_put(&queue->kref, nvmet_tcp_release_queue);
- }
- 
--static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue)
-+static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue,
-+	handshake_key_update_type keyupdate)
- {
- 	int ret = -EOPNOTSUPP;
- 	struct tls_handshake_args args;
-@@ -1852,7 +1857,7 @@ static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue)
- 	args.ta_keyring = key_serial(queue->port->nport->keyring);
- 	args.ta_timeout_ms = tls_handshake_timeout * 1000;
- 
--	ret = tls_server_hello_psk(&args, GFP_KERNEL);
-+	ret = tls_server_hello_psk(&args, GFP_KERNEL, keyupdate);
- 	if (ret) {
- 		kref_put(&queue->kref, nvmet_tcp_release_queue);
- 		pr_err("failed to start TLS, err=%d\n", ret);
-@@ -1934,7 +1939,7 @@ static void nvmet_tcp_alloc_queue(struct nvmet_tcp_port *port,
- 		sk->sk_data_ready = port->data_ready;
- 		write_unlock_bh(&sk->sk_callback_lock);
- 		if (!nvmet_tcp_try_peek_pdu(queue)) {
--			if (!nvmet_tcp_tls_handshake(queue))
-+			if (!nvmet_tcp_tls_handshake(queue, HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC))
- 				return;
- 			/* TLS handshake failed, terminate the connection */
- 			goto out_destroy_sq;
-diff --git a/include/net/handshake.h b/include/net/handshake.h
-index fab4760049c6..8f791c55edc9 100644
---- a/include/net/handshake.h
-+++ b/include/net/handshake.h
-@@ -10,6 +10,10 @@
- #ifndef _NET_HANDSHAKE_H
- #define _NET_HANDSHAKE_H
- 
-+#include <uapi/linux/handshake.h>
++	if (keyupdate) {
++		dev_dbg(nctrl->device,
++			"queue %d: TLS keyupdate complete\n", qid);
++		return 0;
++	}
 +
-+#define handshake_key_update_type u32
+ 	ret = wait_for_completion_interruptible_timeout(&queue->tls_complete, tmo);
 +
- enum {
- 	TLS_NO_KEYRING = 0,
- 	TLS_NO_PEERID = 0,
-@@ -32,13 +36,16 @@ struct tls_handshake_args {
- 	key_serial_t		ta_my_privkey;
- 	unsigned int		ta_num_peerids;
- 	key_serial_t		ta_my_peerids[5];
-+	key_serial_t		user_key_serial;
- };
- 
- int tls_client_hello_anon(const struct tls_handshake_args *args, gfp_t flags);
- int tls_client_hello_x509(const struct tls_handshake_args *args, gfp_t flags);
--int tls_client_hello_psk(const struct tls_handshake_args *args, gfp_t flags);
-+int tls_client_hello_psk(const struct tls_handshake_args *args, gfp_t flags,
-+			 handshake_key_update_type keyupdate);
- int tls_server_hello_x509(const struct tls_handshake_args *args, gfp_t flags);
--int tls_server_hello_psk(const struct tls_handshake_args *args, gfp_t flags);
-+int tls_server_hello_psk(const struct tls_handshake_args *args, gfp_t flags,
-+			 handshake_key_update_type keyupdate);
- 
- bool tls_handshake_cancel(struct sock *sk);
- void tls_handshake_close(struct socket *sock);
-diff --git a/include/uapi/linux/handshake.h b/include/uapi/linux/handshake.h
-index 46753116ba43..f615b8226dba 100644
---- a/include/uapi/linux/handshake.h
-+++ b/include/uapi/linux/handshake.h
-@@ -19,6 +19,10 @@ enum handshake_msg_type {
- 	HANDSHAKE_MSG_TYPE_UNSPEC,
- 	HANDSHAKE_MSG_TYPE_CLIENTHELLO,
- 	HANDSHAKE_MSG_TYPE_SERVERHELLO,
-+	HANDSHAKE_MSG_TYPE_CLIENTKEYUPDATE,
-+	HANDSHAKE_MSG_TYPE_CLIENTKEYUPDATEREQUEST,
-+	HANDSHAKE_MSG_TYPE_SERVERKEYUPDATE,
-+	HANDSHAKE_MSG_TYPE_SERVERKEYUPDATEREQUEST,
- };
- 
- enum handshake_auth {
-@@ -28,6 +32,13 @@ enum handshake_auth {
- 	HANDSHAKE_AUTH_X509,
- };
- 
-+enum handshake_key_update_type {
-+	HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC,
-+	HANDSHAKE_KEY_UPDATE_TYPE_SEND,
-+	HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED,
-+	HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED_REQUEST_UPDATE,
-+};
-+
- enum {
- 	HANDSHAKE_A_X509_CERT = 1,
- 	HANDSHAKE_A_X509_PRIVKEY,
-@@ -46,6 +57,8 @@ enum {
- 	HANDSHAKE_A_ACCEPT_CERTIFICATE,
- 	HANDSHAKE_A_ACCEPT_PEERNAME,
- 	HANDSHAKE_A_ACCEPT_KEYRING,
-+	HANDSHAKE_A_ACCEPT_KEY_UPDATE_REQUEST,
-+	HANDSHAKE_A_ACCEPT_KEY_SERIAL,
- 
- 	__HANDSHAKE_A_ACCEPT_MAX,
- 	HANDSHAKE_A_ACCEPT_MAX = (__HANDSHAKE_A_ACCEPT_MAX - 1)
-diff --git a/net/handshake/tlshd.c b/net/handshake/tlshd.c
-index cb1ee8ebf2ea..ceedb2e78697 100644
---- a/net/handshake/tlshd.c
-+++ b/net/handshake/tlshd.c
-@@ -41,6 +41,8 @@ struct tls_handshake_req {
- 	unsigned int		th_num_peerids;
- 	key_serial_t		th_peerid[5];
- 
-+	int			th_key_update_request;
-+
- 	key_serial_t		user_key_serial;
- };
- 
-@@ -58,7 +60,8 @@ tls_handshake_req_init(struct handshake_req *req,
- 	treq->th_num_peerids = 0;
- 	treq->th_certificate = TLS_NO_CERT;
- 	treq->th_privkey = TLS_NO_PRIVKEY;
--	treq->user_key_serial = TLS_NO_PRIVKEY;
-+	treq->user_key_serial = args->user_key_serial;
-+
- 	return treq;
- }
- 
-@@ -265,6 +268,16 @@ static int tls_handshake_accept(struct handshake_req *req,
- 		break;
- 	}
- 
-+	ret = nla_put_u32(msg, HANDSHAKE_A_ACCEPT_KEY_SERIAL,
-+			  treq->user_key_serial);
-+	if (ret < 0)
-+		goto out_cancel;
-+
-+	ret = nla_put_u32(msg, HANDSHAKE_A_ACCEPT_KEY_UPDATE_REQUEST,
-+			  treq->th_key_update_request);
-+	if (ret < 0)
-+		goto out_cancel;
-+
- 	genlmsg_end(msg, hdr);
- 	return genlmsg_reply(msg, info);
- 
-@@ -348,7 +361,8 @@ EXPORT_SYMBOL(tls_client_hello_x509);
-  *   %-ESRCH: No user agent is available
-  *   %-ENOMEM: Memory allocation failed
-  */
--int tls_client_hello_psk(const struct tls_handshake_args *args, gfp_t flags)
-+int tls_client_hello_psk(const struct tls_handshake_args *args, gfp_t flags,
-+			 handshake_key_update_type keyupdate)
- {
- 	struct tls_handshake_req *treq;
- 	struct handshake_req *req;
-@@ -362,7 +376,11 @@ int tls_client_hello_psk(const struct tls_handshake_args *args, gfp_t flags)
- 	if (!req)
- 		return -ENOMEM;
- 	treq = tls_handshake_req_init(req, args);
--	treq->th_type = HANDSHAKE_MSG_TYPE_CLIENTHELLO;
-+	if (keyupdate != HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC)
-+		treq->th_type = HANDSHAKE_MSG_TYPE_CLIENTKEYUPDATE;
-+	else
-+		treq->th_type = HANDSHAKE_MSG_TYPE_CLIENTHELLO;
-+	treq->th_key_update_request = keyupdate;
- 	treq->th_auth_mode = HANDSHAKE_AUTH_PSK;
- 	treq->th_num_peerids = args->ta_num_peerids;
- 	for (i = 0; i < args->ta_num_peerids; i++)
-@@ -410,7 +428,8 @@ EXPORT_SYMBOL(tls_server_hello_x509);
-  *   %-ESRCH: No user agent is available
-  *   %-ENOMEM: Memory allocation failed
-  */
--int tls_server_hello_psk(const struct tls_handshake_args *args, gfp_t flags)
-+int tls_server_hello_psk(const struct tls_handshake_args *args, gfp_t flags,
-+			 handshake_key_update_type keyupdate)
- {
- 	struct tls_handshake_req *treq;
- 	struct handshake_req *req;
-@@ -419,7 +438,11 @@ int tls_server_hello_psk(const struct tls_handshake_args *args, gfp_t flags)
- 	if (!req)
- 		return -ENOMEM;
- 	treq = tls_handshake_req_init(req, args);
--	treq->th_type = HANDSHAKE_MSG_TYPE_SERVERHELLO;
-+	if (keyupdate != HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC)
-+		treq->th_type = HANDSHAKE_MSG_TYPE_SERVERKEYUPDATE;
-+	else
-+		treq->th_type = HANDSHAKE_MSG_TYPE_SERVERHELLO;
-+	treq->th_key_update_request = keyupdate;
- 	treq->th_auth_mode = HANDSHAKE_AUTH_PSK;
- 	treq->th_num_peerids = 1;
- 	treq->th_peerid[0] = args->ta_my_peerids[0];
+ 	if (ret <= 0) {
+ 		if (ret == 0)
+ 			ret = -ETIMEDOUT;
 -- 
 2.50.1
 

@@ -1,254 +1,532 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3F921FF4B
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 18 Aug 2025 13:43:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755524638; cv=fail; b=dFMdndVIPq2f0tHIN0l9ZQTgo+SKFsxy7CzLupusHZVEmpvh7L2MODApPOBFxPBBRtdy3ChJxQ+jVJhTaNtf2CJTaJVENMrB/lL/ZNNVnIB0nkDRXVekaF+d1DO4VTAWXc8XMIfdsK9RLChHBsbIMVSPVVR4PBgi7ZZUJUIKLDE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755524638; c=relaxed/simple;
-	bh=wjQTgU5TKbKlUCc1ODRecUOCM02Atp/txmPVz2n1ydU=;
-	h=Message-ID:Date:Subject:To:References:Cc:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=jsM9Z4ywW9lP9k5w744N0hI0jEXV/rmddgrHJ5jOxbP6hj2tSNYezogDcUsj0X2UEW8SkGnGP6ZvYSevYDh6cE6OWbCnvEi2h+PxwnycitpAapB+FBpZZPw9C50JRQUwTj6AEypUXBv+/I25OklGOcTfi0uKO9IenQle8xpTJgI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=PPhF6b+u; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=iZv727FO; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63A6322A23
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 18 Aug 2025 14:12:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755526341; cv=none; b=Uap61fbogUcOSNho04mbcIHkb2FC6mjQZlXW2eUJt3BGUysSVsxOpQYJmlZQZoQdarmKIIPSR7rWW35b7nG8Ff2mYtwBGjdqyjKCWt0kIKQ+WOhEaLmF4mcR8S4juV9pv3X33xEzNYvcR2TVCUgsqVwGSn/CIoswR/W/+SGKzy4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755526341; c=relaxed/simple;
+	bh=cqHiKOq8Z1bUAHdglJJuEmFh34PQMeEBZfgGsF7E0I0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jGpqIVmrxIOWI3K19vJtIccAgDJFMc5N61hvlUqtymdSK2nUpcYj76+48+MAcGDm6k7OTJOHQNdSoXNhSCsx8LbfuTU8UA9XMsLyXJoQFMeIaoIlc3bQIJNnctwS68AgvWr9856PjkmKQEAMmQNKYLsi7Bozn7EksDFaaWBYD4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cjWql4NA; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="PPhF6b+u";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="iZv727FO"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57I9f0uY016531;
-	Mon, 18 Aug 2025 13:43:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=+xXa9jaGF9WMq9hr7+sShYD+n4YvvJotUXyQAkA68HU=; b=
-	PPhF6b+uapscNPMm4RuEGp2dNgIHUnRb0J/6wUIhwhRUrX7aNV9wxONH86lnZSBR
-	lyW7fNcgve0AD9k6JFBRpPm4CjC6T5kB9/oYjjf3Bb+TN1YakihiWbVJp476Q/Gn
-	BqKFFtHaeTgPLz/TG3ccqCkonjgyfT9TsSqneXvjlMOkOSQACYMKbN8gYvocbd1N
-	4aulU4uHh+kqip8Wj1fmgH8XmaP9HNv3dXFNUWIHh7iW/Fmp0URJ/Y2IEq0AQkNM
-	9xEHTXNEpPdsEA86nOwCmMtXMHlo8uOzRKtHUrgPgQb6ZvW169cVE9kIyFTm4RNU
-	HKoUzJzsHunrB084rBts4A==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48jjhwu2xk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 18 Aug 2025 13:43:55 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 57IDLrZR003576;
-	Mon, 18 Aug 2025 13:43:55 GMT
-Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02on2081.outbound.protection.outlook.com [40.107.95.81])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 48jge90uh6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 18 Aug 2025 13:43:55 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Xfb5ESTxVhvxuCSKAK1C6DgMmvqzaII9MbnMhjW+NMgcLVJxLPiLkCBfwnRFec4X7K/Lf9AybeCfzrilgLznICFX0+P5ofrwc+CJwC9k+vOI+I5Z0wKyGsqhNMGwvWRqwLXC1xNJvqQO+1Izb8oaAopY1WNlCdnI6EJQImxkazaN5VXanPAn8rZYRw7Pdgf+A6/qIb2okRYFER+x63l6semIahPq11tuj6lbklM6h4sGcZYqSIYwX/qb5DkZnhPPI8YCeXZY2ZG8RjZ+dZGiijRc+gqegdm/mDINieh8V6/qQfw/sSae1ZDFlxhf/nC/bDSze3lA5nh72j2WqoUcJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+xXa9jaGF9WMq9hr7+sShYD+n4YvvJotUXyQAkA68HU=;
- b=Ik6d0+IjvBQyKE10X96iPsvyegrogAAqdGaKADAjXUpT2d+iKCHK255ILTa8DOI65SDG9duQc3MqD3l5lvBZaXw8i/AmVe43xhijoVgIjBGBEsbTpEk9gq5pQ7aJ460HyFgaEcW0FVFxN3Gu6Sj9UKkhWyqFqMF6x55gTbjEgxb3E7RQyUf0+FL6wq/BAgFS4/TvHsAAmY1ifJGAht4SxHbpR3VDtB0p7fN/4k4bzCI4hk54WLScAL5aj11fJWV4YxzrnsOBuiBNwUVg+IvB+mp//W8fAFz6da+Xb1h7anNNH3f4cxdo1ln3nuW8jV20bCQLESqtW7aoJx2LwDYTkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cjWql4NA"
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e933de38868so1433120276.0
+        for <kernel-tls-handshake@lists.linux.dev>; Mon, 18 Aug 2025 07:12:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+xXa9jaGF9WMq9hr7+sShYD+n4YvvJotUXyQAkA68HU=;
- b=iZv727FOkdYDX/x4TvxQSZlSbwRJk0u5J0EUU92YN2BCN5+/tSAlzS9Me+K4iS54WWQw/tEbSs4Qg79UrcVlxEY0NDHv9Wf14alDPjTXQZRG/oNU6WIbRsnmYrXgiaeI4NwOGzXs6263hOkaISzyyj0Naxi7TNoJsqnFNSpM9Xk=
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
- by PH7PR10MB6129.namprd10.prod.outlook.com (2603:10b6:510:1f7::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Mon, 18 Aug
- 2025 13:43:52 +0000
-Received: from BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::743a:3154:40da:cf90]) by BN0PR10MB5128.namprd10.prod.outlook.com
- ([fe80::743a:3154:40da:cf90%3]) with mapi id 15.20.9031.023; Mon, 18 Aug 2025
- 13:43:52 +0000
-Message-ID: <a793b1b0-18d6-4714-9879-31c686003c00@oracle.com>
-Date: Mon, 18 Aug 2025 09:43:50 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: TLS session tags support for tlshd (rough draft)
-To: Hannes Reinecke <hare@suse.de>
-References: <6c65b9cb-82cc-466e-ac48-3efea7258fe9@oracle.com>
- <98e1f182-4f5b-4eef-ad9b-697c846ff07e@suse.de>
-Content-Language: en-US
-Cc: kernel-tls-handshake <kernel-tls-handshake@lists.linux.dev>
-From: Chuck Lever <chuck.lever@oracle.com>
-In-Reply-To: <98e1f182-4f5b-4eef-ad9b-697c846ff07e@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH2PR07CA0029.namprd07.prod.outlook.com
- (2603:10b6:610:20::42) To BN0PR10MB5128.namprd10.prod.outlook.com
- (2603:10b6:408:117::24)
+        d=gmail.com; s=20230601; t=1755526338; x=1756131138; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=69VuWJPXtmF2SfyvEIupKxGOjg8zp/LCreDDXU2KJpU=;
+        b=cjWql4NAmVmUfnrW3WPXJ6HhlNSPpLFBt4lsZqDnuc9bYGoilkGLmlG8JUzWeoHzxS
+         C87Tg2YIFFO9/8pf7u2IbgKR2Jwe5X53Tdxmao3aNoiO9OUgmnEWwiG7VqlRN+BXiGBB
+         6xpUvXRvZJfyt4T17e/jOeu9j0eeK0Dkcg9jkkAdxa8rHJCBw+8cWDWaoR+ng72LhGAd
+         yczjeb5/0TAdzXVrOLoWqa6LbJMQeaAwSAAJ0L6qIxtzZSYiRbaFqsQYx0V1isggjjgJ
+         IFP1fGDT8N0pj2ZdXn5FFMHwaamPxVPMEZoY948Ru2kVt1g90iCukMmcXY2fyzgHPT7W
+         geSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755526338; x=1756131138;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=69VuWJPXtmF2SfyvEIupKxGOjg8zp/LCreDDXU2KJpU=;
+        b=RKdLRmVI61e4OThtkvsyOhkTI9z4kbYlHhz3mU+NLY7LOn09JjaLNRRzkqk6Xp5Vxb
+         7rf0R0Aczdgqz2X/VUr1jIXWjZT0svNFe5rgVuOu5RS7tAchhIveodyOFL39rXYsj66a
+         wOqfuJdDUWhEHFcRu/lqAh3PlCM67nMdh8oM/noba9EXXexs7W6oit9kPhnbIS4dDuv/
+         eZiz/rRUXHP+gsxiPADDqxz6j6WfobZ1B3q90VywVEtxPFWib0xX956KEMGBF38Sk5rT
+         tXF9HcYPz02U2CPt1YRmwfH5X6avZbITCbsbBFiKNaf58h8Sp12WRlaCbNfjHLcAKUuh
+         nDxA==
+X-Forwarded-Encrypted: i=1; AJvYcCUnLJrEE+Z5BeKOSRKr5Pwbc6IVluOUBuxbbEVTLi3nCwJ8Kcei7XqzSoOd3jdMDxGhbTntaEIDDleUxN2WjTzOUDwpQA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxgEHy4fuZEpoNRFCMm28R9jG5pwUVbbSkFg4R/z8nRfKspqvfq
+	Z1C1op6Xmyp21SHZua0rD5OF10FEWo+ClFAZVZx/Rq9wLmLzTaREnFt4
+X-Gm-Gg: ASbGncvVaX/msBCWvI28bZCoqGLngxISpeEXwd9LNjUNrzufLOJoNSpiwTzA4NVONUg
+	Dy8rR1h/rgS2SZGTGnBITxTrwQTT55N+fDD+roQnfU4qxLfkndPPbK1H/X969iGz9CK25XowOGZ
+	6OWRxqKlgXM1lc1QIExoLTa715LmrCjHdZ4CQf8sHyMb8lBrOjYDsQoGGdlOnD8HY3mYxFipJSO
+	krGsCuVJa80apDmIEnGsFBeP9Yr4OPj2wG0S3VA7r6VK3tKsTGpCz6gkRa6off3N5Lt+VujjMC1
+	nl2YgbAZvf+h4zVJnMCLMIS8nX8Gv42PC53nPKs1nDLqLCoYjLiOyxC/fLSNvzMpYikVhTMuZYP
+	W3bCqk3jITqCOfVnvUUgT42XZaHJDCminePmslfcEPqpj54XoMwcRouZ/QoXc1BrB60lBV6ZPaw
+	==
+X-Google-Smtp-Source: AGHT+IHebU1Pd1QE9zSENt8E6w5UiX89C3q4irE9dQFI4S2ekaWnC4Ci02+qahaEMWBnCpAVyiSe4Q==
+X-Received: by 2002:a05:6902:1025:b0:e94:d144:d464 with SMTP id 3f1490d57ef6-e94d144d5a4mr3563894276.0.1755526336082;
+        Mon, 18 Aug 2025 07:12:16 -0700 (PDT)
+Received: from wsfd-netdev58.anl.eng.rdu2.dc.redhat.com ([66.187.232.140])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e933261c40bsm3157451276.8.2025.08.18.07.12.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Aug 2025 07:12:15 -0700 (PDT)
+From: Xin Long <lucien.xin@gmail.com>
+To: network dev <netdev@vger.kernel.org>
+Cc: davem@davemloft.net,
+	kuba@kernel.org,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Stefan Metzmacher <metze@samba.org>,
+	Moritz Buhl <mbuhl@openbsd.org>,
+	Tyler Fanelli <tfanelli@redhat.com>,
+	Pengtao He <hepengtao@xiaomi.com>,
+	linux-cifs@vger.kernel.org,
+	Steve French <smfrench@gmail.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Paulo Alcantara <pc@manguebit.com>,
+	Tom Talpey <tom@talpey.com>,
+	kernel-tls-handshake@lists.linux.dev,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Benjamin Coddington <bcodding@redhat.com>,
+	Steve Dickson <steved@redhat.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Alexander Aring <aahringo@redhat.com>,
+	David Howells <dhowells@redhat.com>,
+	Cong Wang <xiyou.wangcong@gmail.com>,
+	"D . Wythe" <alibuda@linux.alibaba.com>,
+	Jason Baron <jbaron@akamai.com>,
+	illiliti <illiliti@protonmail.com>,
+	Sabrina Dubroca <sd@queasysnail.net>,
+	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+	Daniel Stenberg <daniel@haxx.se>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>
+Subject: [PATCH net-next v2 00/15] net: introduce QUIC infrastructure and core subcomponents
+Date: Mon, 18 Aug 2025 10:04:23 -0400
+Message-ID: <cover.1755525878.git.lucien.xin@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN0PR10MB5128:EE_|PH7PR10MB6129:EE_
-X-MS-Office365-Filtering-Correlation-Id: 79277f47-b3c1-46c2-b4c3-08ddde5d448e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?N2dQZHc1N0pLRkFXdEU3ZFhMdE1CVTdNVVVUUFpmcDFtMEtTSmdXZzhZM1pi?=
- =?utf-8?B?aWJnM2hJbFlkdmU4ZU45NHM5c3N5OVhxNFYxdlNWeWF5R01SU1RFZm56eENV?=
- =?utf-8?B?WnNCcWhUVGFPdnJYNVgrZG1PaC9IQ0R6YUpRdnFJRHV4NFpPaGExQm1Ib3Jl?=
- =?utf-8?B?Zklsd1lSVit6UjJtQStvenBQQ3lsby84Nm13Rm1yZ0djL3NSZWVJS1V5M1dK?=
- =?utf-8?B?aUNOaHFkMEpGQWJJa0d2bGR2MnNRcVRvLzZhTWhyVndGaGVYU2EyU3pESkNK?=
- =?utf-8?B?WVZTODlIOGsrN3ExK1pJYWZySEpYN1FaZCtDdFpmZ0J4UjBIWkJsOGdSL215?=
- =?utf-8?B?U29FbE1PYTlrQ2xiZFozdWdvdzlwUzBEV3lsSFJaVDBMaDVCc2MvSk91S2o1?=
- =?utf-8?B?WWZqTHVwQmFWcnB3LysyS0NoRU5sZDhvU0JpWDRML1lnRU55RjdNby9Ub1JJ?=
- =?utf-8?B?Sk9kdEl2UDRZUXlqdVpJWmtIckxhRERQamJsTExCcThUK0JnTXFodnNreDlr?=
- =?utf-8?B?SlkvaEd6aytxVUVYTzhFb1h1V2R3ellhNldSNC9LNEw3MFhCV2ZrWW5TSnAr?=
- =?utf-8?B?VnVtajVRQXRDTFdmajE5UFkvT2xadCtuTllWWlJVMFVjMUVWVWE3ZHVCelll?=
- =?utf-8?B?V1lyeXRvSExRenh6YXQ3K3M4dHhuZkR0YlEwdzI3bzN6c0VyR3Qyem1sRitE?=
- =?utf-8?B?K0VicGQwUDV5U0w4OW00TGExM1czaSthbmxRS1B4bmZOUTZ1RVZYZE4wa2Jw?=
- =?utf-8?B?WUVndWlxY2U2cy8rTEZtc1dmd1dNa2x1YmVVSnJLenkxUzVYdWF1aWwvc1ds?=
- =?utf-8?B?RnI5NlZ0SlpVSjdBbFFxeDBQQXcydEphSkVjaVpXNjl5cUd1dFZEQWIrSVp2?=
- =?utf-8?B?bjZIeDZrbkdITVJjOEFSaDZuVDkvM2d0S0F3NWdGYjhEbjNETHAzWk1xaW9q?=
- =?utf-8?B?NXYrYkNzYkx4SDNmT0F1bkN6KytHUndETDlsYWVHYkUrWm5JM1JLVTl3MkNN?=
- =?utf-8?B?UzJYa1JES29LQkt3aE9RNXd6QkR1Y2Iva2F6T2psQ2h3dXRqYVd2ZHBJVGE5?=
- =?utf-8?B?Tm1KaUZOY053RHJaU0NnLzE0ckJkMHoxZGx0V1JIbmhkbXBUUmg4NnQ0QmhD?=
- =?utf-8?B?UDUvZDUvNHJrdmVlU2wvTVRjMnBVNU92ajN6Z0tRTVBOWSsxSHlXak1GbStY?=
- =?utf-8?B?Mlp3Z2JJSHVYYVJrd2F4bDcwenU3ZEVxQzRTV0xhVnVPU3NIYm9vS24vWVdH?=
- =?utf-8?B?bjNwUGJMRk12T0luOXF5T0YvY0tUTnp2Sm9GRjlINTZqTUNqVDljU29kMFdY?=
- =?utf-8?B?dEJ1N2cwcElJOUZKMUpQbDZuZHNaZ1lJY2lxMWxUS0VkVnp2M0lxdkEzMjV2?=
- =?utf-8?B?WXV6bm5NbElMTkRFSXROZGlkb0lsM2QwM1BLYkZXbnRkWmkxZzhrNE1NTy8v?=
- =?utf-8?B?Tmo2QWxQRXUxK1ZqRmZGR1pNQ2xVdHh6cS9rdTQxM21WdGt5VnBIaUp6eEJX?=
- =?utf-8?B?ZkJ2OEJzaUZoL0JTWHQ5c1l1UWxZck8wT2hhbG54b0lBbUEvcmM0VEtOY21a?=
- =?utf-8?B?NXhnRDdrMFhMSjVYZDdnYmJkZExJUXUweVlxUmNqSkt5c2lvOGtYemZ5TGMw?=
- =?utf-8?B?SXlhbWRzVGJCRXFGSDhTZ1M0WENxZkk1enNFcHJJNVFTWUpFdHZrYXYxbFJX?=
- =?utf-8?B?WjFscmVNRWdEVXJzMU1jVC8vMlZTT2phbzNGYnVxNVZBSDhjWlFmUHFVazZB?=
- =?utf-8?B?R0JvZGpzNkRPYTVJNytXd2ptNzVTVG82TzNSRzFnK25XR3I5TjBvdGcvRjRZ?=
- =?utf-8?B?NGdPd1ZZV3hkZGpLeHZoQW5hVFBUWWdJaGFtK0RtZlE4Y1FyTzY0NDhqN0NW?=
- =?utf-8?Q?XVEAwsNaolkje?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QVRPNjBER3M5SXZPRjdNdE1jUFpzeE9xdXpmc3BYaGp1R3JwTTdTYjB1Z3NE?=
- =?utf-8?B?Vm4yVzRnMWxwWmVkYm9SVzd0Vk4vVTVSdHJ2eW9rdlJ0bmhSYXAyKzRqemMw?=
- =?utf-8?B?bTVkekg1RGRxclBxQ3pabEJTZGlGV09MajZudHBKYjdjdmxIb1hNZ1dJWW5N?=
- =?utf-8?B?ZVhJN21rQVA0RTZwdkREaTR6VnVmWktaMXhxM1JJRDkweTMvcHp2bmREdStn?=
- =?utf-8?B?VWU0ektCU3ZTb0c5dW9GdXd5TGFkVHd5RnBBNnIxL011VzVKdkp3Wk5pV0Q0?=
- =?utf-8?B?ZU1CSlNpMTFHb2R2Wi83cE9ISFFXUnVHdGMwT1dMRHl1Nk1XdTVlRHdoUEJV?=
- =?utf-8?B?QUhOVFgyZWRWRWE2WU5YV0huaGxPUFJqbC9DTlBIekpDYUU1cTlmSG01T1FG?=
- =?utf-8?B?bzN3UXcwTGtDOTdRN2NVNnNpYlBtMHdMSEo1UGx4ckNvcjBDRCttblJXS3dt?=
- =?utf-8?B?NDcrYU9TWkt6Myt0Q1NCRndYQnFHZTFzUnB2UWY2RHBKRkpRU2xld2xEOGJ1?=
- =?utf-8?B?ZVNjS3daR1BkS0Z2VStLakh0Qy80TXpYTXV2SjFzOWNNY1BoWUo1aVlFUEdi?=
- =?utf-8?B?VmJzV1ZacTYvbWdKN2dQV3RNYTdMM0ZYUTRqcUhFbGxhdERheUtvMDhjTmYx?=
- =?utf-8?B?NVdSa20zWjdBUm1vODVaTnVmNzRld0ZXeGdDaURMbytySTM5dkJIL1orQTdQ?=
- =?utf-8?B?MklMYXh6MFV6MzM2VXNQTzFJMzNkQzF3UW9OelRMTFh1REdvOWFYQ1FTRHM4?=
- =?utf-8?B?em8vN1JDaXIzRnduZjc5aFI0S0RReFBaVnd5SkFxQ2paOGlYNzNSZmZNVk40?=
- =?utf-8?B?aTVtQ1dDMHVqN2l0M1R3RWJnN2hXaXJMS2VpYlRNRnk3NWhLMnVjWlh1OTZW?=
- =?utf-8?B?K2lHR01XZmFkTzI5azN4YnRFZzZHdGZYTDZZc2xHb1RNSVp1dGJVQzNTMENl?=
- =?utf-8?B?ckRsTko0ajVlM0s4OFJCaEJHZ0RVYnpDZHV1UUtuNUs4NC9QSDJlZkpsenVJ?=
- =?utf-8?B?Rzg3Y1A2YXBqR00vMDdXVS85OUFRLy9yWkVKTmxPZTduYk0wNURFbzRpK0Yx?=
- =?utf-8?B?WERoYnRPU001clN6bVNpYUw1azRFM2d0eFhKR1FNZW9mRTNuN0xUT2pycGdW?=
- =?utf-8?B?ZlRySUtuWGtoY1hlTGxmTHhjSVE3QWhCT1lnUGl1RURRdjJMcUQ2Rm81dTFH?=
- =?utf-8?B?V2lOUGFTbVlDRlc2bkE5WjlHK05BQU1tZkhhT1lVMURuai9ISDlIVlF6cDFD?=
- =?utf-8?B?NXdHcEk5N3pBbjdtRXAxdFB6b0NpUXZwVUZ5dTNCQkI0b3BYOXZ5M0E1U1ll?=
- =?utf-8?B?U3psQ3UrVG5Gdkxhb1U0UzBwR0VCUUNMVThid1BGSFA2dEVTazJSeU9sZ1JL?=
- =?utf-8?B?UDdwa0k0bk1ZeFRhT0R5SzdocUlIWXE4bG5JdkZXaGhLcU1iZWlidmVIR2R2?=
- =?utf-8?B?bVBEMVJYR1pNTS9xWFBPWENsbE82ZXAwYi9ldmEwdncrRko0M1dQdVNvUFZz?=
- =?utf-8?B?bHlMTktZUUlYc3VTQk4zbmZjZGg2NHBQa2JYNmNzUGwvRjlUVUJXdUlCZHZ3?=
- =?utf-8?B?T1M2TnlWWmdQRXlzOUJhWDZUVHpxV2ZUTmVVdlgrd292SnFaNWdlR2ZrLzQ5?=
- =?utf-8?B?b3VlQS9UMzBoaVpCUXNLUFIrdGxpbjh0S3JRQjJIbGc1SHdKNnJxUC9jQ2Ir?=
- =?utf-8?B?bG5pbmJFN05Oa3pkM2lhdURRRlZpWGNuRjhSbDZRNWRIZnBNVWZwT2dwS3J3?=
- =?utf-8?B?dk9mR2ZZOE8yOWtSdk5Lb016MUVzZXJENlhlYWZkMVBid21WMkYxQmwwSUZI?=
- =?utf-8?B?QXZBZ2M3UmFaTGlBa0VBZy9HZDBGWGtrMVhGRTdXZytRV0dLdklLYTJDTXJO?=
- =?utf-8?B?U3BUSHRkbWZYNGhSQzlkVVlHekJhQ0k4MHM0QVdBRHp6bXhPZTV6U2V5N1Bk?=
- =?utf-8?B?cWp2eGpsSm1qL01IdDF5eGR6aGJRSThELzBIZGpRMDhWMkdKUk1DRXdUMWhJ?=
- =?utf-8?B?bVlKZVVOdm9DYlR4U2M5cXd6SHVmWnFNL1VKRzNVeUFyLzh2aG1XbklzSGY5?=
- =?utf-8?B?SFV2aWN5bmRSV3hMVk9DTGY0bmx3dk5aM1FUeWVZVi85bTVBeXBudVhMVElL?=
- =?utf-8?B?RjBjZmNneXZBamZRdGpka1Z6cG5YR3U1NFM0L3NsK0xZYWJ3RisrK0VZMW9G?=
- =?utf-8?B?RVE9PQ==?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	D51LAMbCwzzEDsbmYdShDEHBTgravDEU7oMgjWPXFcgsu/nxFgvU+8cGCcoocWDW2bENly9UNRVIt7PiSPcBGKLbCtg883tWvbJWOxV8AXCLdfbv0hJfKCYURwUcoWAoFEuxCND9at7+U0bZr/CP1eKDtqg3sWCrTWTNYssbyR83EIbjuvEn0ENxa5Imd772PrFue5VRTwZM5wp/i+nGjOz9knp6icuDm5+CfBa7Wp+Nr52hqXLwpTMMN2aG3EM4ULUgbFfjHD1hXpstYBmDx7Ze9sJjM2J0WeI52NfJTeZV27wdrOzsO8ZZEzfmLwmqsqDlgbhFMFf6IaG+C0m8GYnz1BlSrInqbQtxq1V4WeC2bUcdjKDlnk1OUsh16HdAhWOhUwL8FciC4QtQ7pBp8yoX83Zyq51bZEJOnrtu/+esjgqWbOPykdZlnTFSjerPM8yZ4Ly+RuAnU8rkvqHBcWA8UtqPgCZnVnxkrGRB59mDfjecrKogMKD0Ly8NGBtCcYdQOUMUtIBE0KpgDUIWQwZ8l/s0/V3lTqBM23kZ+OG6B4Vf7ZUd30EV9r9yAIAhWq1AHH9sXmBy0wan1M2xFo00D573wv1Kv2620gsM6GI=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79277f47-b3c1-46c2-b4c3-08ddde5d448e
-X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2025 13:43:52.1247
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5l1t5nuQ0e/hjUbdoVZk0ATQMevJ8Dsr6l1sPmt43LmH6vC7HMDaT9GCMqjXe3YayWP+kHdoN30wnz7LLkgdZA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB6129
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-18_05,2025-08-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0 spamscore=0
- bulkscore=0 mlxlogscore=999 adultscore=0 suspectscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2507300000
- definitions=main-2508180132
-X-Proofpoint-GUID: KxAIjVlrJCg7AEmUS-J29oaGr1-WOaK8
-X-Proofpoint-ORIG-GUID: KxAIjVlrJCg7AEmUS-J29oaGr1-WOaK8
-X-Authority-Analysis: v=2.4 cv=G4wcE8k5 c=1 sm=1 tr=0 ts=68a32e1c cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=2OwXVqhp2XgA:10 a=GoEa3M9JfhUA:10 a=NEAV23lmAAAA:8 a=kebO5z2UxBZ-2LZbfokA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE4MDEzMSBTYWx0ZWRfXwb/qzJFDzfEs
- Xwzg39HbHBzXmQSktO4e7e4Ut68niZfNpGuTkef/orMiAqbhIxhTv80ol3BM59fHxwNnlI8tr39
- 0bnRNnbdUqihrLmIbWx73zib3ZomVkTrl7zX0UNkvST3eekS/NnqHVzufz5/s6b25pdEMbpaF3W
- m16RQMq6HPbccVj+rsJvPgFZ9rXGvUGEVMVwXwNfXzWCTBKcBWM9oEMaycMat2FBd5lWpXvUSmy
- 6jy/jCJjpXlp8e9YZYp0cyRUWRHKy/a9MqHmaX1WcCwhOCNsGqZoKYezrayP2ak/aS684j0Ffdr
- MjJRjsnEGGHbKr17noKMoSScSjNRl8kAxNMtbBQvI9vyCbV9Sam3SCwf00AMormMbsRd0MEcaw4
- wRrKbXFTuWVdqDcGbUGfpbrGjtyEFLKEjeH89ulx9HKfddFgbT00DbhsHzbG+fgE3sxSUzB/
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 8/18/25 4:52 AM, Hannes Reinecke wrote:
-> On 8/6/25 19:51, Chuck Lever wrote:
->> I pushed my WIP branch that starts to implement TLS session tags
->> to this branch:
->>
->>    https://github.com/oracle/ktls-utils/tree/tls-session-tags
->>
->> One of these patches has a man page tls-session-tags(7), that
->> explains things at a high level. An example set of tags is
->> defined in /etc/tlshd/tags.d/tags.example (added in one of
->> the commits).
->>
->> A lot of it is working, some isn't. But these patches serve to
->> demonstrate some of the usability and coding issues that have
->> come up while developing.
->>
-> Ach, well, I don't know.
-> Yet another certificate validation mechanism.
+Introduction
+============
 
-Thanks for having a look.
+The QUIC protocol, defined in RFC 9000, is a secure, multiplexed transport
+built on top of UDP. It enables low-latency connection establishment,
+stream-based communication with flow control, and supports connection
+migration across network paths, while ensuring confidentiality, integrity,
+and availability.
 
-To be clear, this is not a certificate validation mechanism. The
-library already validates/verifies incoming certificates.
+This implementation introduces QUIC support in Linux Kernel, offering
+several key advantages:
 
-What this new mechanism does is examine an already-trusted and
--verified certificate, and adds tags based on the contents of the
-certificate's fields.
+- In-Kernel QUIC Support for Subsystems: Enables kernel subsystems
+  such as SMB and NFS to operate over QUIC with minimal changes. Once the
+  handshake is complete via the net/handshake APIs, data exchange proceeds
+  over standard in-kernel transport interfaces.
 
-Kernel consumers can then use the tags to make authorization decisions.
-It avoids the need for these consumers to have any understanding of
-x.509 or ASN.1 -- the tagging is handled by tlshd.
+- Standard Socket API Semantics: Implements core socket operations
+  (listen(), accept(), connect(), sendmsg(), recvmsg(), close(),
+  getsockopt(), setsockopt(), getsockname(), and getpeername()),
+  allowing user space to interact with QUIC sockets in a familiar,
+  POSIX-compliant way.
 
+- ALPN-Based Connection Dispatching: Supports in-kernel ALPN
+  (Application-Layer Protocol Negotiation) routing, allowing demultiplexing
+  of QUIC connections across different user-space processes based
+  on the ALPN identifiers.
 
-> I would have hoped that we have enough validation methods already...
-> At the same time I do see the need for a selection mechanism
-> on the server.
-> 
-> But it's for X.509, so I'm not that concerned.
-> (For now ...). If it works for you, fine.
+- Performance Enhancements: Handles all control messages in-kernel
+  to reduce syscall overhead, incorporates zero-copy mechanisms such as
+  sendfile() minimize data movement, and is also structured to support
+  future crypto hardware offloads.
 
-In the next version, the filter types explicitly mention x.509 to make
-it possible to extend this mechanism to other handshake flavors (like
-PSK) if we want.
+This implementation offers fundamental support for the following RFCs:
 
+- RFC9000 - QUIC: A UDP-Based Multiplexed and Secure Transport
+- RFC9001 - Using TLS to Secure QUIC
+- RFC9002 - QUIC Loss Detection and Congestion Control
+- RFC9221 - An Unreliable Datagram Extension to QUIC
+- RFC9287 - Greasing the QUIC Bit
+- RFC9368 - Compatible Version Negotiation for QUIC
+- RFC9369 - QUIC Version 2
+
+The socket APIs for QUIC follow the RFC draft [1]:
+
+- The Sockets API Extensions for In-kernel QUIC Implementations
+
+Implementation
+==============
+
+The central design is to implement QUIC within the kernel while delegating
+the handshake to userspace.
+
+Only the processing and creation of raw TLS Handshake Messages are handled
+in userspace, facilitated by a TLS library like GnuTLS. These messages are
+exchanged between kernel and userspace via sendmsg() and recvmsg(), with
+cryptographic details conveyed through control messages (cmsg).
+
+The entire QUIC protocol, aside from the TLS Handshake Messages processing
+and creation, is managed within the kernel. Rather than using a Upper Layer
+Protocol (ULP) layer, this implementation establishes a socket of type
+IPPROTO_QUIC (similar to IPPROTO_MPTCP), operating over UDP tunnels.
+
+For kernel consumers, they can initiate a handshake request from the kernel
+to userspace using the existing net/handshake netlink. The userspace
+component, such as tlshd service [2], then manages the processing
+of the QUIC handshake request.
+
+- Handshake Architecture:
+
+  ┌──────┐  ┌──────┐
+  │ APP1 │  │ APP2 │ ...
+  └──────┘  └──────┘
+  ┌──────────────────────────────────────────┐
+  │     {quic_client/server_handshake()}     │<─────────────┐
+  └──────────────────────────────────────────┘       ┌─────────────┐
+   {send/recvmsg()}      {set/getsockopt()}          │    tlshd    │
+   [CMSG handshake_info] [SOCKOPT_CRYPTO_SECRET]     └─────────────┘
+                         [SOCKOPT_TRANSPORT_PARAM_EXT]    │   ^
+                │ ^                  │ ^                  │   │
+  Userspace     │ │                  │ │                  │   │
+  ──────────────│─│──────────────────│─│──────────────────│───│───────
+  Kernel        │ │                  │ │                  │   │
+                v │                  v │                  v   │
+  ┌──────────────────┬───────────────────────┐       ┌─────────────┐
+  │ protocol, timer, │ socket (IPPROTO_QUIC) │<──┐   │ handshake   │
+  │                  ├───────────────────────┤   │   │netlink APIs │
+  │ common, family,  │ outqueue  |  inqueue  │   │   └─────────────┘
+  │                  ├───────────────────────┤   │      │       │
+  │ stream, connid,  │         frame         │   │   ┌─────┐ ┌─────┐
+  │                  ├───────────────────────┤   │   │     │ │     │
+  │ path, pnspace,   │         packet        │   │───│ SMB │ │ NFS │...
+  │                  ├───────────────────────┤   │   │     │ │     │
+  │ cong, crypto     │       UDP tunnels     │   │   └─────┘ └─────┘
+  └──────────────────┴───────────────────────┘   └──────┴───────┘
+
+- User Data Architecture:
+
+  ┌──────┐  ┌──────┐
+  │ APP1 │  │ APP2 │ ...
+  └──────┘  └──────┘
+   {send/recvmsg()}   {set/getsockopt()}              {recvmsg()}
+   [CMSG stream_info] [SOCKOPT_KEY_UPDATE]            [EVENT conn update]
+                      [SOCKOPT_CONNECTION_MIGRATION]  [EVENT stream update]
+                      [SOCKOPT_STREAM_OPEN/RESET/STOP]
+                │ ^               │ ^                     ^
+  Userspace     │ │               │ │                     │
+  ──────────────│─│───────────────│─│─────────────────────│───────────
+  Kernel        │ │               │ │                     │
+                v │               v │  ┌──────────────────┘
+  ┌──────────────────┬───────────────────────┐
+  │ protocol, timer, │ socket (IPPROTO_QUIC) │<──┐{kernel_send/recvmsg()}
+  │                  ├───────────────────────┤   │{kernel_set/getsockopt()}
+  │ common, family,  │ outqueue  |  inqueue  │   │{kernel_recvmsg()}
+  │                  ├───────────────────────┤   │
+  │ stream, connid,  │         frame         │   │   ┌─────┐ ┌─────┐
+  │                  ├───────────────────────┤   │   │     │ │     │
+  │ path, pnspace,   │         packet        │   │───│ SMB │ │ NFS │...
+  │                  ├───────────────────────┤   │   │     │ │     │
+  │ cong, crypto     │       UDP tunnels     │   │   └─────┘ └─────┘
+  └──────────────────┴───────────────────────┘   └──────┴───────┘
+
+Interface
+=========
+
+This implementation supports a mapping of QUIC into sockets APIs. Similar
+to TCP and SCTP, a typical Server and Client use the following system call
+sequence to communicate:
+
+    Client                             Server
+  ──────────────────────────────────────────────────────────────────────
+  sockfd = socket(IPPROTO_QUIC)      listenfd = socket(IPPROTO_QUIC)
+  bind(sockfd)                       bind(listenfd)
+                                     listen(listenfd)
+  connect(sockfd)
+  quic_client_handshake(sockfd)
+                                     sockfd = accept(listenfd)
+                                     quic_server_handshake(sockfd, cert)
+
+  sendmsg(sockfd)                    recvmsg(sockfd)
+  close(sockfd)                      close(sockfd)
+                                     close(listenfd)
+
+Please note that quic_client_handshake() and quic_server_handshake()
+functions are currently sourced from libquic [3]. These functions are
+responsible for receiving and processing the raw TLS handshake messages
+until the completion of the handshake process.
+
+For utilization by kernel consumers, it is essential to have tlshd
+service [2] installed and running in userspace. This service receives
+and manages kernel handshake requests for kernel sockets. In the kernel,
+the APIs closely resemble those used in userspace:
+
+    Client                             Server
+  ────────────────────────────────────────────────────────────────────────
+  __sock_create(IPPROTO_QUIC, &sock)  __sock_create(IPPROTO_QUIC, &sock)
+  kernel_bind(sock)                   kernel_bind(sock)
+                                      kernel_listen(sock)
+  kernel_connect(sock)
+  tls_client_hello_x509(args:{sock})
+                                      kernel_accept(sock, &newsock)
+                                      tls_server_hello_x509(args:{newsock})
+
+  kernel_sendmsg(sock)                kernel_recvmsg(newsock)
+  sock_release(sock)                  sock_release(newsock)
+                                      sock_release(sock)
+
+Please be aware that tls_client_hello_x509() and tls_server_hello_x509()
+are APIs from net/handshake/. They are used to dispatch the handshake
+request to the userspace tlshd service and subsequently block until the
+handshake process is completed.
+
+Use Cases
+=========
+
+- Samba
+
+  Stefan Metzmacher has integrated Linux QUIC into Samba for both client
+  and server roles [4].
+
+- tlshd
+
+  The tlshd daemon [2] facilitates Linux QUIC handshake requests from
+  kernel sockets. This is essential for enabling protocols like SMB
+  and NFS over QUIC.
+
+- curl
+
+  Linux QUIC is being integrated into curl [5] for HTTP/3. Example usage:
+
+  # curl --http3-only https://nghttp2.org:4433/
+  # curl --http3-only https://www.google.com/
+  # curl --http3-only https://facebook.com/
+  # curl --http3-only https://outlook.office.com/
+  # curl --http3-only https://cloudflare-quic.com/
+
+- httpd-portable
+
+  Moritz Buhl has deployed an HTTP/3 server over Linux QUIC [6] that is
+  accessible via Firefox and curl:
+
+  https://d.moritzbuhl.de/pub
+
+Test Coverage
+=============
+
+The Coverage (gcov) of Functional and Interop Tests:
+
+https://d.moritzbuhl.de/lcov
+
+- Functional Tests
+
+  The libquic self-tests (make check) pass on all major architectures:
+  x86_64, i386, s390x, aarch64, ppc64le.
+
+- Interop tests
+
+  Interoperability was validated using the QUIC Interop Runner [7] against
+  all major userland QUIC stacks. Results are available at:
+
+  https://d.moritzbuhl.de/
+
+- Fuzzing via Syzkaller
+
+  Syzkaller has been running kernel fuzzing with QUIC for weeks using
+  tests/syzkaller/ in libquic [3]..
+
+- Performance Testing
+
+  Performance was benchmarked using iperf [8] over a 100G NIC with
+  using various MTUs and packet sizes:
+  
+  - QUIC vs. kTLS:
+  
+    UNIT        size:1024      size:4096      size:16384     size:65536
+    Gbits/sec   QUIC | kTLS    QUIC | kTLS    QUIC | kTLS    QUIC | kTLS
+    ────────────────────────────────────────────────────────────────────
+    mtu:1500    2.27 | 3.26    3.02 | 6.97    3.36 | 9.74    3.48 | 10.8
+    ────────────────────────────────────────────────────────────────────
+    mtu:9000    3.66 | 3.72    5.87 | 8.92    7.03 | 11.2    8.04 | 11.4
+  
+  - QUIC(disable_1rtt_encryption) vs. TCP:
+  
+    UNIT        size:1024      size:4096      size:16384     size:65536
+    Gbits/sec   QUIC | TCP     QUIC | TCP     QUIC | TCP     QUIC | TCP
+    ────────────────────────────────────────────────────────────────────
+    mtu:1500    3.09 | 4.59    4.46 | 14.2    5.07 | 21.3    5.18 | 23.9
+    ────────────────────────────────────────────────────────────────────
+    mtu:9000    4.60 | 4.65    8.41 | 14.0    11.3 | 28.9    13.5 | 39.2
+  
+  
+  The performance gap between QUIC and kTLS may be attributed to:
+
+  - The absence of Generic Segmentation Offload (GSO) for QUIC.
+  - An additional data copy on the transmission (TX) path.
+  - Extra encryption required for header protection in QUIC.
+  - A longer header length for the stream data in QUIC.
+
+Patches
+=======
+
+Note: This implementation is organized into five parts and submitted across
+two patchsets for review. This patchset includes Parts 1–2, while Parts 3–5
+will be submitted in a subsequent patchset. For complete series, see [9].
+
+1. Infrastructure (2):
+
+  net: define IPPROTO_QUIC and SOL_QUIC constants
+  net: build socket infrastructure for QUIC protocol
+
+2. Subcomponents (13):
+
+  quic: provide common utilities and data structures
+  quic: provide family ops for address and protocol
+  quic: provide quic.h header files for kernel and userspace
+  quic: add stream management
+  quic: add connection id management
+  quic: add path management
+  quic: add congestion control
+  quic: add packet number space
+  quic: add crypto key derivation and installation
+  quic: add crypto packet encryption and decryption
+  quic: add timer management
+  quic: add frame encoder and decoder base
+  quic: add packet builder and parser base
+
+3. Data Processing (7):
+
+  quic: implement outqueue transmission and flow control
+  quic: implement outqueue sack and retransmission
+  quic: implement inqueue receiving and flow control
+  quic: implement frame creation functions
+  quic: implement frame processing functions
+  quic: implement packet creation functions
+  quic: implement packet processing functions
+
+4. Socket APIs (6):
+
+  quic: support bind/listen/connect/accept/close()
+  quic: support sendmsg() and recvmsg()
+  quic: support socket options related to interaction after handshake
+  quic: support socket options related to settings prior to handshake
+  quic: support socket options related to setup during handshake
+  quic: support socket ioctls and socket dump via procfs
+
+5. Example and Documentation (2):
+
+  quic: create sample test using handshake APIs for kernel consumers
+  Documentation: describe QUIC protocol interface in quic.rst
+
+Notice: The QUIC module is currently labeled as "EXPERIMENTAL".
+
+All contributors are recognized in the respective patches with the tag of
+'Signed-off-by:'. Special thanks to Moritz Buhl and Stefan Metzmacher whose
+practical use cases and insightful feedback, which have been instrumental
+in shaping the design and advancing the development.
+
+References
+==========
+
+[1] https://datatracker.ietf.org/doc/html/draft-lxin-quic-socket-apis
+[2] https://github.com/oracle/ktls-utils
+[3] https://github.com/lxin/quic
+[4] https://gitlab.com/samba-team/samba/-/merge_requests/4019
+[5] https://github.com/moritzbuhl/curl/tree/linux_curl
+[6] https://github.com/moritzbuhl/httpd-portable
+[7] https://github.com/quic-interop/quic-interop-runner
+[8] https://github.com/lxin/iperf
+[9] https://github.com/lxin/net-next/commits/quic/
+
+v2:
+- Fix a kernel API description warning found by Jakub in patch 5/15.
+- Replace uintN_t with __uN, capitalize _UAPI_LINUX_QUIC_H, and
+  assign explicit values for QUIC_TRANSPORT_ERROR_ enum in UAPI
+  quic.h suggested by David Howells in in patch 5/15.
+- Add more checks for addrs in .get_user_addr() and .get_pref_addr()
+  in patch 4/15.
+- Consider sk_bound_dev_if in .udp_conf_init() and .flow_route() to
+  support vrf in patch 4/15.
+- Clarify the use of offset field with a union type in struct frame
+  in patch 14/15.
+
+Xin Long (15):
+  net: define IPPROTO_QUIC and SOL_QUIC constants
+  net: build socket infrastructure for QUIC protocol
+  quic: provide common utilities and data structures
+  quic: provide family ops for address and protocol
+  quic: provide quic.h header files for kernel and userspace
+  quic: add stream management
+  quic: add connection id management
+  quic: add path management
+  quic: add congestion control
+  quic: add packet number space
+  quic: add crypto key derivation and installation
+  quic: add crypto packet encryption and decryption
+  quic: add timer management
+  quic: add frame encoder and decoder base
+  quic: add packet builder and parser base
+
+ include/linux/quic.h      |   19 +
+ include/linux/socket.h    |    1 +
+ include/uapi/linux/in.h   |    2 +
+ include/uapi/linux/quic.h |  236 ++++++++
+ net/Kconfig               |    1 +
+ net/Makefile              |    1 +
+ net/quic/Kconfig          |   35 ++
+ net/quic/Makefile         |    9 +
+ net/quic/common.c         |  482 +++++++++++++++
+ net/quic/common.h         |  219 +++++++
+ net/quic/cong.c           |  700 ++++++++++++++++++++++
+ net/quic/cong.h           |  120 ++++
+ net/quic/connid.c         |  222 +++++++
+ net/quic/connid.h         |  162 +++++
+ net/quic/crypto.c         | 1200 +++++++++++++++++++++++++++++++++++++
+ net/quic/crypto.h         |   83 +++
+ net/quic/family.c         |  686 +++++++++++++++++++++
+ net/quic/family.h         |   41 ++
+ net/quic/frame.c          |  558 +++++++++++++++++
+ net/quic/frame.h          |  195 ++++++
+ net/quic/packet.c         |  892 +++++++++++++++++++++++++++
+ net/quic/packet.h         |  129 ++++
+ net/quic/path.c           |  512 ++++++++++++++++
+ net/quic/path.h           |  168 ++++++
+ net/quic/pnspace.c        |  224 +++++++
+ net/quic/pnspace.h        |  150 +++++
+ net/quic/protocol.c       |  404 +++++++++++++
+ net/quic/protocol.h       |   58 ++
+ net/quic/socket.c         |  431 +++++++++++++
+ net/quic/socket.h         |  214 +++++++
+ net/quic/stream.c         |  549 +++++++++++++++++
+ net/quic/stream.h         |  135 +++++
+ net/quic/timer.c          |  196 ++++++
+ net/quic/timer.h          |   47 ++
+ 34 files changed, 9081 insertions(+)
+ create mode 100644 include/linux/quic.h
+ create mode 100644 include/uapi/linux/quic.h
+ create mode 100644 net/quic/Kconfig
+ create mode 100644 net/quic/Makefile
+ create mode 100644 net/quic/common.c
+ create mode 100644 net/quic/common.h
+ create mode 100644 net/quic/cong.c
+ create mode 100644 net/quic/cong.h
+ create mode 100644 net/quic/connid.c
+ create mode 100644 net/quic/connid.h
+ create mode 100644 net/quic/crypto.c
+ create mode 100644 net/quic/crypto.h
+ create mode 100644 net/quic/family.c
+ create mode 100644 net/quic/family.h
+ create mode 100644 net/quic/frame.c
+ create mode 100644 net/quic/frame.h
+ create mode 100644 net/quic/packet.c
+ create mode 100644 net/quic/packet.h
+ create mode 100644 net/quic/path.c
+ create mode 100644 net/quic/path.h
+ create mode 100644 net/quic/pnspace.c
+ create mode 100644 net/quic/pnspace.h
+ create mode 100644 net/quic/protocol.c
+ create mode 100644 net/quic/protocol.h
+ create mode 100644 net/quic/socket.c
+ create mode 100644 net/quic/socket.h
+ create mode 100644 net/quic/stream.c
+ create mode 100644 net/quic/stream.h
+ create mode 100644 net/quic/timer.c
+ create mode 100644 net/quic/timer.h
 
 -- 
-Chuck Lever
+2.47.1
+

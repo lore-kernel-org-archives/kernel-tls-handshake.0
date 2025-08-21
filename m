@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5A73277B9
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 21 Aug 2025 13:17:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B3F345741
+	for <kernel-tls-handshake@lists.linux.dev>; Thu, 21 Aug 2025 13:43:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755782265; cv=none; b=edkh9sxHETsGUh369yxTUUY2UbOFjFbmL6d06lnYYZuR47sRLVeIBsKoZ4Xs1ZPZ0Yod8dmY2sdF+t+nfO6KDupe+lu9dPUlwfAAvN526vb7L25olviwKqjzjZCQ/vIoOUvfkhlEQz5GR4VThNEsqP83+N2C1qvXvWZervZN190=
+	t=1755783838; cv=none; b=CZngNO3il7IKQSuAXTvq5kyhMpiNro1heaY0JJhMLDF/jtYbQRsNo9I/SAPBa5r57JwnnTUBJO0pVysdZoww79d897+XEh+K5QdahfhBJLWPcITyUqobE5PepVJzdi+JEnQ1HdaTvhfmYO9TULgd0Qmx3KBw8d4eADEtUJY+ZrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755782265; c=relaxed/simple;
-	bh=bwFAOQRH2KQYfE+CAuwfRyBLCaRld0/730EcCpxmlXE=;
+	s=arc-20240116; t=1755783838; c=relaxed/simple;
+	bh=BGibils0ixKTkveWPcD3R9qfmRHuchZdAypt/Z4Xoac=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BzVUdMs4ydazl19Acxsn1D9VZTjIkpRYJtf7enU8xyxtS19w+APxTcrYb+x3s65dxdDJt8Bf6fPemxXHjbMc/24+Y5ITmVVAtlG6D1WgebIrMPQQJ6TW8bE/T6bNxhKY7qPNsj9yjG6Jj42D4bPCuf4yZVAzmPMqT7KmGwrutwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Embb5ciC; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=KxyiGSQa6i2MjutNk3A7m7gSCSYx2RTER1mKMlyDcOU0fjIKLg+HY/eAsWZAHpHDQ2f6B9HOuKMZdi5W3DfGKZTrg3xNF/8xerIJswXmSKt7WmE6YbQ4er5WVhQBXEIOEE/Rb1Qv8dDBvZ4wtoTWGjKVGlQo5InHAjCzCMwPgp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FLn22agM; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Embb5ciC"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FLn22agM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755782263;
+	s=mimecast20190719; t=1755783835;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Afy5XNBwcOSovwamEVwVUrdjuD01YmpHvgt60RHlLnE=;
-	b=Embb5ciC1t/rOl6awtAyYDUxpUJ8zL035GV5QpbL6Ct41pc71uBIQhcvcTqmyxJlGgytii
-	XqJ8lJUU7+fQz3Am+shQvWtCAUWHkx2jO2Dn5U3lAR7YP95m1rJVu0WzrNZtwNY+WtS0pG
-	POfg24PcmwX5AzGmY7n8fk+Iz1BL+T0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=NEnox1MXYpI6nlTWn+1oQsX5BYXD1Viik97oVd+ziwk=;
+	b=FLn22agMGDpehd/vAYGM1fDn691d103GXvMdPcQxt10NC8vMXtJKUSWZX+wyiThcHp4FXM
+	KG2w3maOWmP5+NcvzsFOlebjO1+3nXx1evBPMTzFmlZi76wmh6S6ZI9V5BESxAtMeZvbLV
+	B9jwM2jsNUMs6Xf3D71EeuW+B/mGYDw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-323-N8z_jRBrPgWq553r2uMBFA-1; Thu, 21 Aug 2025 09:17:41 -0400
-X-MC-Unique: N8z_jRBrPgWq553r2uMBFA-1
-X-Mimecast-MFC-AGG-ID: N8z_jRBrPgWq553r2uMBFA_1755782260
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-45a1ad21752so4356205e9.1
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 21 Aug 2025 06:17:41 -0700 (PDT)
+ us-mta-575-6MuDCkMeOpOHTsg8X5MVPQ-1; Thu, 21 Aug 2025 09:43:52 -0400
+X-MC-Unique: 6MuDCkMeOpOHTsg8X5MVPQ-1
+X-Mimecast-MFC-AGG-ID: 6MuDCkMeOpOHTsg8X5MVPQ_1755783831
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-45a1b0d221aso5057515e9.3
+        for <kernel-tls-handshake@lists.linux.dev>; Thu, 21 Aug 2025 06:43:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755782260; x=1756387060;
+        d=1e100.net; s=20230601; t=1755783831; x=1756388631;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Afy5XNBwcOSovwamEVwVUrdjuD01YmpHvgt60RHlLnE=;
-        b=lKWj4gY+7XA8r4u/FDfWEsDnksbkF4WA+Ov1JfLl2U3o9h6H7otA7v4ClS0xRjAxJT
-         OGRz2Yi0IcqrBcbNLVGOASOo8Ai4hNKH6+6vm5qqG1164RDfyr0pU1Z5QZc+AiSs5TPD
-         k9Ub6uHoARY0RWHe8gS6QAlQs84DpDHIEM8CdakzX+leVHvRbu2qGfUNGe8xlNf2clAC
-         6e5fKWgdYIFWmQVNRKmRbP2gQDnerK6r1q3eH5ifh7E/o4rcJCziwicW/okgZ8S5lc92
-         uZm+tWkx874GRdvWvMELq0gVRJTrzCWspF8g7EuV2EG24UaPlP6Dwf1SwHNdxpKXvfqO
-         4v2w==
-X-Forwarded-Encrypted: i=1; AJvYcCXBGrwdac28R24pYcXMRMIm3hGJQOWDU702LyX4MVNLDFci7A0QmfeT4BFoZVqx0xm70WuNBOOhaSwrmOeBCOPCdBQJyQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YySfDSDJIYbuRfoz7cukQUmHidHaPI+lV1XiFAx56bjOxKs8IZP
-	r7KIFAtE3oW1GxE9Fw5tCUqeWAwPRfipI4c3nVrPZs2A3xAG3Zw6kGseY3mXvAuBl+r10rsE5tE
-	uEqe28kYbxHqiSix1XwWLIWTvbNf7GGU4pIVDHq+tVbGgAzMhIjNWFSqFPOLmjXc8QY5SsyIDxl
-	Q/
-X-Gm-Gg: ASbGnctTHtVYoJhd5Yt0wgDKtDL5C8iJbC/foiGLL3zRU2cFGfgqtLVXJTtxYnnJuEm
-	GuDkj9QHzITEWcA5fRfWcFMZl2dJdvn4qHeyYfyFZ5hVI8Wpe31NLV7YyaE75JLEJxnnq6r3Poc
-	AIkwuaa66ZrqBjB2gFOqRqVIxvuSwoE+Gz5ZvM13ceBg281tYktE/VmSgLN2OkLf8F684SHmtoh
-	xmwQlH6U1p7Ivjqrs/NHRfyTWQZh4bgJj6BVneyNqLBmR9gKwQOX6/hjG4ga0FhCXn9DNiviMWG
-	sli5aHWEWbibcLQMbX5U63i2SBpq8YooG7PTu4/iawn6M2llIPCMx7YcByDvfa+mnSegconGwu3
-	GNvQCdWRRep0=
-X-Received: by 2002:a05:600c:1d01:b0:455:f7d5:1224 with SMTP id 5b1f17b1804b1-45b4d9e900amr21733195e9.9.1755782259988;
-        Thu, 21 Aug 2025 06:17:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEKup3Bv+uTuJGCC0dd8vM3UgErwkB4o60xSOsgAT0YbFG9UXZs/zd4wk8y+8JlORfOl0DGxA==
-X-Received: by 2002:a05:600c:1d01:b0:455:f7d5:1224 with SMTP id 5b1f17b1804b1-45b4d9e900amr21732515e9.9.1755782259493;
-        Thu, 21 Aug 2025 06:17:39 -0700 (PDT)
+        bh=NEnox1MXYpI6nlTWn+1oQsX5BYXD1Viik97oVd+ziwk=;
+        b=iXimNZrqWTQ72xCLqmP4BIE/PzVSGs2wQnRikOrH3A1CN4ozJiPJBNwxV5cRtuU9Gl
+         Cyl+6+1fSCjSeXjrjtsjha8R0UYOrm1wrHQ0HCD2pCwUPXEZAenzFZxvJW6rnnvkj2jA
+         FByxEiz9fXZYYhn5IAOhGRedeADjtEtQrM81BoniI4XY05IJU+ZzMV95eBI8UjVmvl78
+         xI57ZWDMowy40OnIJujOfMD3xGeth2pwgEfE33t36bZ9Fp+Y7Sek8ZDou9W2GGurOOmZ
+         QVBmJyBme3Pqpod8njMzXMOcn+v08q/BvVyN0ilWmgQcIOQjW2GT/J3gX2FkjCZtVPKF
+         x4RQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVD8P0lSpHfrBALhS4ySLNax83BpY6Zhhw4ARdxhQdg1UFK0xRoMK3wTyMEMyX2EoYT6mhyEPAqvoDjrnZ2PtfJkY78pA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyn2j+EMmZo+S5vrX7C5xOZY/9BdLEbLEjTc+5z6Ml2rEMBFp6S
+	Jkj2aKZlPQkN8vgY0w3JTUxqCMGpy9oI6B4Vd/6jOdUPNMpgYB92oO2/ipqBbdDyjyaICkV28By
+	wh3yv9wA0Iqc/fDxjGp/GrOfuZ/IP4tFpbuzimzAUfZO87CyP6Yhxow6/5LMjJhsExfAO8ryV5h
+	YN
+X-Gm-Gg: ASbGncuWoKLFXZphu13fJAQh/WDf8zAnfzagMcIi3/yRmVQgdiMaZlvg0dyYSWEl8k0
+	xDf8zV18GcOif2rQYOuRazcmkv6TStOC+ca1+zxRpiknDdxYKixHAAXb55WSIQ99m8LDtifGna2
+	FZR9va4quOuDyHfrLkFApYH8IKsgUDQTlN3Q/Dfc74TrsqM5qWQIMipsC2TZfQmvWJmfFv8cxUC
+	w+dMN1zT4Dx2uFC0tKoyXvLuhXNhXnXWEUvq97yWH9CUJ68Q8qocY3A8WXueytWtcvJArsw8KY3
+	5SU0NnsYM+js8g6ypdXfBxG1tqSvptp8JtEPfe4LVFq/QT4/Kgja+A9PO2AXL0lOoNHzG+aCAjR
+	bCmr2h8Rf+jA=
+X-Received: by 2002:a05:600c:1f1a:b0:459:db7b:988e with SMTP id 5b1f17b1804b1-45b4d7dbb07mr19594175e9.13.1755783831008;
+        Thu, 21 Aug 2025 06:43:51 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEZRt0wLkKXdgUciFt7chGmSCzwh+L3c2yXfl6KumtYihELiZUeyXIBw0a4KRluTs9is/eX7g==
+X-Received: by 2002:a05:600c:1f1a:b0:459:db7b:988e with SMTP id 5b1f17b1804b1-45b4d7dbb07mr19593805e9.13.1755783830507;
+        Thu, 21 Aug 2025 06:43:50 -0700 (PDT)
 Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c3fab22726sm4908227f8f.37.2025.08.21.06.17.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c4568499ecsm3634615f8f.43.2025.08.21.06.43.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Aug 2025 06:17:39 -0700 (PDT)
-Message-ID: <7cfc62a6-b988-400d-829a-306211e1a156@redhat.com>
-Date: Thu, 21 Aug 2025 15:17:36 +0200
+        Thu, 21 Aug 2025 06:43:50 -0700 (PDT)
+Message-ID: <a79bfa8b-657f-4358-99f3-2774eb65d49f@redhat.com>
+Date: Thu, 21 Aug 2025 15:43:47 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -75,8 +75,7 @@ List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 04/15] quic: provide family ops for address
- and protocol
+Subject: Re: [PATCH net-next v2 06/15] quic: add stream management
 To: Xin Long <lucien.xin@gmail.com>, network dev <netdev@vger.kernel.org>
 Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
  Simon Horman <horms@kernel.org>, Stefan Metzmacher <metze@samba.org>,
@@ -95,61 +94,161 @@ Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
  Daniel Stenberg <daniel@haxx.se>,
  Andy Gospodarek <andrew.gospodarek@broadcom.com>
 References: <cover.1755525878.git.lucien.xin@gmail.com>
- <d208163af2fdd4c6ca5375e1305774e632676e5b.1755525878.git.lucien.xin@gmail.com>
+ <a2cd3192c7f301a7370c223d23c9deefecda8a22.1755525878.git.lucien.xin@gmail.com>
 From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <d208163af2fdd4c6ca5375e1305774e632676e5b.1755525878.git.lucien.xin@gmail.com>
+In-Reply-To: <a2cd3192c7f301a7370c223d23c9deefecda8a22.1755525878.git.lucien.xin@gmail.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: H-ljGWAg98Eh58nNi9HmQC93STBmt11lRkyrVJshKMg_1755782260
+X-Mimecast-MFC-PROC-ID: vQ6ifySp4l0SnC7z30s_lzsGch8zsPf7HNpMWyrlTVc_1755783831
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 8/18/25 4:04 PM, Xin Long wrote:
-> This patch introduces two new abstraction structures to simplify handling
-> of IPv4 and IPv6 differences across the QUIC stack:
-> 
-> - quic_addr_family_ops: for address comparison, flow routing,
->   UDP config, MTU lookup, formatted output, etc.
-> 
-> - quic_proto_family_ops: for socket address helpers and preference.
-> 
-> With these additions, the QUIC core logic can remain agnostic of the
-> address family and socket type, improving modularity and reducing
-> repetitive checks throughout the codebase.
+> +/* Check if a stream ID is valid for sending. */
+> +static bool quic_stream_id_send(s64 stream_id, bool is_serv)
+> +{
+> +	u8 type = (stream_id & QUIC_STREAM_TYPE_MASK);
+> +
+> +	if (is_serv) {
+> +		if (type == QUIC_STREAM_TYPE_CLIENT_UNI)
+> +			return false;
+> +	} else if (type == QUIC_STREAM_TYPE_SERVER_UNI) {
+> +		return false;
+> +	}
+> +	return true;
+> +}
+> +
+> +/* Check if a stream ID is valid for receiving. */
+> +static bool quic_stream_id_recv(s64 stream_id, bool is_serv)
+> +{
+> +	u8 type = (stream_id & QUIC_STREAM_TYPE_MASK);
+> +
+> +	if (is_serv) {
+> +		if (type == QUIC_STREAM_TYPE_SERVER_UNI)
+> +			return false;
+> +	} else if (type == QUIC_STREAM_TYPE_CLIENT_UNI) {
+> +		return false;
+> +	}
+> +	return true;
+> +}
 
-Given that you wrap the ops call in quick_<op>() helper, I'm wondering
-if such abstraction is necessary/useful? 'if' statements in the quick
-helper will likely reduce the code size, and will the indirect function
-call overhead.
+The above two functions could be implemented using a common helper
+saving some code duplication.
+
+> +/* Create and register new streams for sending. */
+> +static struct quic_stream *quic_stream_send_create(struct quic_stream_table *streams,
+> +						   s64 max_stream_id, u8 is_serv)
+> +{
+> +	struct quic_stream *stream;
+> +	s64 stream_id;
+> +
+> +	stream_id = streams->send.next_bidi_stream_id;
+> +	if (quic_stream_id_uni(max_stream_id))
+> +		stream_id = streams->send.next_uni_stream_id;
+> +
+> +	/* rfc9000#section-2.1: A stream ID that is used out of order results in all streams
+> +	 * of that type with lower-numbered stream IDs also being opened.
+> +	 */
+> +	while (stream_id <= max_stream_id) {
+
+Is wrap around thererically possible?
+Who provided `max_stream_id`, the user-space? or a remote pear? what if
+max_stream_id - stream_id is say 1M ?
 
 [...]
-> +static void quic_v6_set_sk_addr(struct sock *sk, union quic_addr *a, bool src)
+> +/* Check if a receive stream ID is already closed. */
+> +static bool quic_stream_id_recv_closed(struct quic_stream_table *streams, s64 stream_id)
 > +{
-> +	if (src) {
-> +		inet_sk(sk)->inet_sport = a->v4.sin_port;
-> +		if (a->sa.sa_family == AF_INET) {
-> +			sk->sk_v6_rcv_saddr.s6_addr32[0] = 0;
-> +			sk->sk_v6_rcv_saddr.s6_addr32[1] = 0;
-> +			sk->sk_v6_rcv_saddr.s6_addr32[2] = htonl(0x0000ffff);
-> +			sk->sk_v6_rcv_saddr.s6_addr32[3] = a->v4.sin_addr.s_addr;
-> +		} else {
-> +			sk->sk_v6_rcv_saddr = a->v6.sin6_addr;
-> +		}
+> +	if (quic_stream_id_uni(stream_id)) {
+> +		if (stream_id < streams->recv.next_uni_stream_id)
+> +			return true;
 > +	} else {
-> +		inet_sk(sk)->inet_dport = a->v4.sin_port;
-> +		if (a->sa.sa_family == AF_INET) {
-> +			sk->sk_v6_daddr.s6_addr32[0] = 0;
-> +			sk->sk_v6_daddr.s6_addr32[1] = 0;
-> +			sk->sk_v6_daddr.s6_addr32[2] = htonl(0x0000ffff);
-> +			sk->sk_v6_daddr.s6_addr32[3] = a->v4.sin_addr.s_addr;
-> +		} else {
-> +			sk->sk_v6_daddr = a->v6.sin6_addr;
-> +		}
+> +		if (stream_id < streams->recv.next_bidi_stream_id)
+> +			return true;
 > +	}
+> +	return false;
+> +}
 
-You could factor the addr assignment in an helper and avoid some code
-duplication.
+I guess the above answer my previous questions, but I think that memory
+accounting for stream allocation is still deserverd.
+
+> +
+> +/* Check if a receive stream ID exceeds would exceed local's limits. */
+> +static bool quic_stream_id_recv_exceeds(struct quic_stream_table *streams, s64 stream_id)
+> +{
+> +	if (quic_stream_id_uni(stream_id)) {
+> +		if (stream_id > streams->recv.max_uni_stream_id)
+> +			return true;
+> +	} else {
+> +		if (stream_id > streams->recv.max_bidi_stream_id)
+> +			return true;
+> +	}
+> +	return false;
+> +}
+> +
+> +/* Check if a send stream ID would exceed peer's limits. */
+> +bool quic_stream_id_send_exceeds(struct quic_stream_table *streams, s64 stream_id)
+> +{
+> +	u64 nstreams;
+> +
+> +	if (quic_stream_id_uni(stream_id)) {
+> +		if (stream_id > streams->send.max_uni_stream_id)
+> +			return true;
+> +	} else {
+> +		if (stream_id > streams->send.max_bidi_stream_id)
+> +			return true;
+> +	}
+> +
+> +	if (quic_stream_id_uni(stream_id)) {
+> +		stream_id -= streams->send.next_uni_stream_id;
+> +		nstreams = quic_stream_id_to_streams(stream_id);
+> +		if (nstreams + streams->send.streams_uni > streams->send.max_streams_uni)
+> +			return true;
+> +	} else {
+> +		stream_id -= streams->send.next_bidi_stream_id;
+> +		nstreams = quic_stream_id_to_streams(stream_id);
+> +		if (nstreams + streams->send.streams_bidi > streams->send.max_streams_bidi)
+> +			return true;
+> +	}
+> +	return false;
+> +}
+> +
+> +/* Get or create a send stream by ID. */
+> +struct quic_stream *quic_stream_send_get(struct quic_stream_table *streams, s64 stream_id,
+> +					 u32 flags, bool is_serv)
+> +{
+> +	struct quic_stream *stream;
+> +
+> +	if (!quic_stream_id_send(stream_id, is_serv))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	stream = quic_stream_find(streams, stream_id);
+> +	if (stream) {
+> +		if ((flags & MSG_STREAM_NEW) &&
+> +		    stream->send.state != QUIC_STREAM_SEND_STATE_READY)
+> +			return ERR_PTR(-EINVAL);
+> +		return stream;
+> +	}
+> +
+> +	if (quic_stream_id_send_closed(streams, stream_id))
+> +		return ERR_PTR(-ENOSTR);
+> +
+> +	if (!(flags & MSG_STREAM_NEW))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	if (quic_stream_id_send_exceeds(streams, stream_id))
+> +		return ERR_PTR(-EAGAIN);
+> +
+> +	stream = quic_stream_send_create(streams, stream_id, is_serv);
+> +	if (!stream)
+> +		return ERR_PTR(-ENOSTR);
+> +	streams->send.active_stream_id = stream_id;
+> +	return stream;
+
+There is no locking at all in lookup/add/remove. Lacking the caller of
+such functions is hard to say if that is safe. You should add some info
+about that in the commit message (or lock here ;)
 
 /P
 

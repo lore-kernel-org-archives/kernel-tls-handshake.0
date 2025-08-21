@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B3F345741
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 21 Aug 2025 13:43:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD9F1E7C05
+	for <kernel-tls-handshake@lists.linux.dev>; Thu, 21 Aug 2025 13:55:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755783838; cv=none; b=CZngNO3il7IKQSuAXTvq5kyhMpiNro1heaY0JJhMLDF/jtYbQRsNo9I/SAPBa5r57JwnnTUBJO0pVysdZoww79d897+XEh+K5QdahfhBJLWPcITyUqobE5PepVJzdi+JEnQ1HdaTvhfmYO9TULgd0Qmx3KBw8d4eADEtUJY+ZrQ=
+	t=1755784513; cv=none; b=oQ12X0OwsdeTnCUxLkKiqHhTPjeIc17c3qYUUBhiQ7AytkFTsCS8yZDCidrabHMzRpSTE9AC3IEpmM0E8edbi5N6SoDPkILDBF3ZEr4mqNccur4Md49xAA9r191+F0BrP2l9edxneckejPaNjvh6Z+7vT2d4jgx2IHHPAqO2a7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755783838; c=relaxed/simple;
-	bh=BGibils0ixKTkveWPcD3R9qfmRHuchZdAypt/Z4Xoac=;
+	s=arc-20240116; t=1755784513; c=relaxed/simple;
+	bh=ZviIfSbh0VhjgD45Fn9oFgsDkrDTP6rt7QaE5xDyGGU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KxyiGSQa6i2MjutNk3A7m7gSCSYx2RTER1mKMlyDcOU0fjIKLg+HY/eAsWZAHpHDQ2f6B9HOuKMZdi5W3DfGKZTrg3xNF/8xerIJswXmSKt7WmE6YbQ4er5WVhQBXEIOEE/Rb1Qv8dDBvZ4wtoTWGjKVGlQo5InHAjCzCMwPgp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FLn22agM; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=NJlr0v/1debMZEuhsfbBel9VPsl55PnrKsdnL2gT/XUgad+FtSAWYytpOg9wjSCgOA399BMlVRknL7Ld5QA2e9DpDnruJ9QLIHIe9zbThhJxTKqxO0cbyVjlvC/MDYT1Lt12Py9k2GSVtdNBlA7WT/q6oKxv8E0/Ko1jo/J8l1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=J8S5g0+f; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FLn22agM"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="J8S5g0+f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755783835;
+	s=mimecast20190719; t=1755784511;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NEnox1MXYpI6nlTWn+1oQsX5BYXD1Viik97oVd+ziwk=;
-	b=FLn22agMGDpehd/vAYGM1fDn691d103GXvMdPcQxt10NC8vMXtJKUSWZX+wyiThcHp4FXM
-	KG2w3maOWmP5+NcvzsFOlebjO1+3nXx1evBPMTzFmlZi76wmh6S6ZI9V5BESxAtMeZvbLV
-	B9jwM2jsNUMs6Xf3D71EeuW+B/mGYDw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=vqpCFdTzBLh9g0B1TnAyisbVI0QorOaFpispw1JN7Gc=;
+	b=J8S5g0+f2PiAybLCt6WOQpicHF54hvBMyA5eXKVYsNIVGO/CDB9NIwxfaDRenSRmp7eNuB
+	U1rwyw2EFr/9ziPegDzYjSm6jT6n8qTez5D/erNa9guXOQT3GAMEA+fSyZ2y3cTrumnpPZ
+	SFg2PbXP6YGeevD+B9T217GQFXJrpLA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-575-6MuDCkMeOpOHTsg8X5MVPQ-1; Thu, 21 Aug 2025 09:43:52 -0400
-X-MC-Unique: 6MuDCkMeOpOHTsg8X5MVPQ-1
-X-Mimecast-MFC-AGG-ID: 6MuDCkMeOpOHTsg8X5MVPQ_1755783831
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-45a1b0d221aso5057515e9.3
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 21 Aug 2025 06:43:52 -0700 (PDT)
+ us-mta-537-cERb_EcOOCWklf7t0w4gIg-1; Thu, 21 Aug 2025 09:55:09 -0400
+X-MC-Unique: cERb_EcOOCWklf7t0w4gIg-1
+X-Mimecast-MFC-AGG-ID: cERb_EcOOCWklf7t0w4gIg_1755784509
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3b9e743736dso631064f8f.3
+        for <kernel-tls-handshake@lists.linux.dev>; Thu, 21 Aug 2025 06:55:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755783831; x=1756388631;
+        d=1e100.net; s=20230601; t=1755784508; x=1756389308;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NEnox1MXYpI6nlTWn+1oQsX5BYXD1Viik97oVd+ziwk=;
-        b=iXimNZrqWTQ72xCLqmP4BIE/PzVSGs2wQnRikOrH3A1CN4ozJiPJBNwxV5cRtuU9Gl
-         Cyl+6+1fSCjSeXjrjtsjha8R0UYOrm1wrHQ0HCD2pCwUPXEZAenzFZxvJW6rnnvkj2jA
-         FByxEiz9fXZYYhn5IAOhGRedeADjtEtQrM81BoniI4XY05IJU+ZzMV95eBI8UjVmvl78
-         xI57ZWDMowy40OnIJujOfMD3xGeth2pwgEfE33t36bZ9Fp+Y7Sek8ZDou9W2GGurOOmZ
-         QVBmJyBme3Pqpod8njMzXMOcn+v08q/BvVyN0ilWmgQcIOQjW2GT/J3gX2FkjCZtVPKF
-         x4RQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVD8P0lSpHfrBALhS4ySLNax83BpY6Zhhw4ARdxhQdg1UFK0xRoMK3wTyMEMyX2EoYT6mhyEPAqvoDjrnZ2PtfJkY78pA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyn2j+EMmZo+S5vrX7C5xOZY/9BdLEbLEjTc+5z6Ml2rEMBFp6S
-	Jkj2aKZlPQkN8vgY0w3JTUxqCMGpy9oI6B4Vd/6jOdUPNMpgYB92oO2/ipqBbdDyjyaICkV28By
-	wh3yv9wA0Iqc/fDxjGp/GrOfuZ/IP4tFpbuzimzAUfZO87CyP6Yhxow6/5LMjJhsExfAO8ryV5h
-	YN
-X-Gm-Gg: ASbGncuWoKLFXZphu13fJAQh/WDf8zAnfzagMcIi3/yRmVQgdiMaZlvg0dyYSWEl8k0
-	xDf8zV18GcOif2rQYOuRazcmkv6TStOC+ca1+zxRpiknDdxYKixHAAXb55WSIQ99m8LDtifGna2
-	FZR9va4quOuDyHfrLkFApYH8IKsgUDQTlN3Q/Dfc74TrsqM5qWQIMipsC2TZfQmvWJmfFv8cxUC
-	w+dMN1zT4Dx2uFC0tKoyXvLuhXNhXnXWEUvq97yWH9CUJ68Q8qocY3A8WXueytWtcvJArsw8KY3
-	5SU0NnsYM+js8g6ypdXfBxG1tqSvptp8JtEPfe4LVFq/QT4/Kgja+A9PO2AXL0lOoNHzG+aCAjR
-	bCmr2h8Rf+jA=
-X-Received: by 2002:a05:600c:1f1a:b0:459:db7b:988e with SMTP id 5b1f17b1804b1-45b4d7dbb07mr19594175e9.13.1755783831008;
-        Thu, 21 Aug 2025 06:43:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEZRt0wLkKXdgUciFt7chGmSCzwh+L3c2yXfl6KumtYihELiZUeyXIBw0a4KRluTs9is/eX7g==
-X-Received: by 2002:a05:600c:1f1a:b0:459:db7b:988e with SMTP id 5b1f17b1804b1-45b4d7dbb07mr19593805e9.13.1755783830507;
-        Thu, 21 Aug 2025 06:43:50 -0700 (PDT)
+        bh=vqpCFdTzBLh9g0B1TnAyisbVI0QorOaFpispw1JN7Gc=;
+        b=Caoy+yk98wQ9NP70o6WfgCFZNPj8Ux5eSU8VO8GqRADRJ4O422cfR8j6fW0XtF+M9i
+         6KSrfdAafgaZLQ7Rid+kUr04G50fuRRuzzr7FNhKxliGA6JDUxBCXq0SPqHO3vrtrJ+B
+         xaWPqph/FaXdgGOR4j+NV48NPX9Okkc22AHPB1EDxzV+m6bwYIvsvk2zPvK9LPC1X4vB
+         bN0c+zn2AdXc/f8iPJ7VvThAS2nazregFoewVlNMISk4qGse7KUWfU8mO2A7QHxqbVIL
+         0Rr8rT+kV1GTQFYJSgkwO/d7urOgw+liGSWoAphujRgRAAFSYwg8A7NeEdILBBlBIEbL
+         3rYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWTkZaH+QleoQ1yd3UN7R+8HlFBqH/T39tkYpCq4Taizyb4TPlAyLfx+4fe6ax8d9Eddjr+JBvfzriSlRBWWMgAYZXN7g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzwIrAZMjqcWQgxk6dBVUHlCzaEf5ajl4uanW42GrXlkeLvrwxK
+	BFTI8cNPLFjDWyJnRY/+jbukQjRzlhSCMaGnxtWp/dP102fHbtUf07oXUOZmDJjrHmFGznenBK5
+	IJ9OffT35Mb1OCs0SYZ8fitXWIvbZhFeUaXpaJedAoOSrjuzlkPhbKRMYP1QzAkfQTMDNaiu0zo
+	yV
+X-Gm-Gg: ASbGncuHHTfphvgcwtR+dSOnggfiUVVkZ3zycjaoTdzUDPTxeAeGjRfC76Q5FisDMzH
+	w24z2EtuKjhsoamYC9AvDeQ+zLEMHMz3iH0xrgqFKlfuP2B7zfFO9RFPdqxdpnMq5JA/ndZu/Ww
+	kjxdPH/Vr7MTE8TS9P/zuWq4o3Xl/W1ea+XGXE5g6HD0sl0k318cLSjENIcv2Rfg5mWvAQDZmeW
+	gU1cJ81G7vN0UP4ZYbgEUi6bRyGNBmB+9BUOcS9bOBfouNiNL4OrpEKthuzxQhweld3wOvtD9Iz
+	MUIzjJpkuYGnFQLkxUrZ1cgUmXmcbov6S7lt1BfI+/TyGuTKo7K+qF/l7Y1EAfAvgMBvmpufeGs
+	ra2SBR1Fi3ZQ=
+X-Received: by 2002:a05:6000:2f82:b0:3b7:926f:894c with SMTP id ffacd0b85a97d-3c49549d32emr2167550f8f.23.1755784508488;
+        Thu, 21 Aug 2025 06:55:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEIy5n1DLX30C0ab+YmzKYVMr4r0vuN7yISHYHRZ6gAfhK+7oL5iHJc2LHbMR17R330Ik8K6w==
+X-Received: by 2002:a05:6000:2f82:b0:3b7:926f:894c with SMTP id ffacd0b85a97d-3c49549d32emr2167519f8f.23.1755784507860;
+        Thu, 21 Aug 2025 06:55:07 -0700 (PDT)
 Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c4568499ecsm3634615f8f.43.2025.08.21.06.43.48
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c3da114eabsm5262534f8f.8.2025.08.21.06.55.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Aug 2025 06:43:50 -0700 (PDT)
-Message-ID: <a79bfa8b-657f-4358-99f3-2774eb65d49f@redhat.com>
-Date: Thu, 21 Aug 2025 15:43:47 +0200
+        Thu, 21 Aug 2025 06:55:07 -0700 (PDT)
+Message-ID: <1cf31726-bfb9-4909-a077-6c2c45e0720a@redhat.com>
+Date: Thu, 21 Aug 2025 15:55:04 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -75,7 +75,7 @@ List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 06/15] quic: add stream management
+Subject: Re: [PATCH net-next v2 07/15] quic: add connection id management
 To: Xin Long <lucien.xin@gmail.com>, network dev <netdev@vger.kernel.org>
 Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
  Simon Horman <horms@kernel.org>, Stefan Metzmacher <metze@samba.org>,
@@ -94,161 +94,115 @@ Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
  Daniel Stenberg <daniel@haxx.se>,
  Andy Gospodarek <andrew.gospodarek@broadcom.com>
 References: <cover.1755525878.git.lucien.xin@gmail.com>
- <a2cd3192c7f301a7370c223d23c9deefecda8a22.1755525878.git.lucien.xin@gmail.com>
+ <e7d5e3954c0d779e999dc50a9b03d9f7ed94dbd2.1755525878.git.lucien.xin@gmail.com>
 From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <a2cd3192c7f301a7370c223d23c9deefecda8a22.1755525878.git.lucien.xin@gmail.com>
+In-Reply-To: <e7d5e3954c0d779e999dc50a9b03d9f7ed94dbd2.1755525878.git.lucien.xin@gmail.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: vQ6ifySp4l0SnC7z30s_lzsGch8zsPf7HNpMWyrlTVc_1755783831
+X-Mimecast-MFC-PROC-ID: m41Mg9HBGF93xJil4ozgx7An1JiXQXa8wmtf1uF7xvs_1755784509
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 8/18/25 4:04 PM, Xin Long wrote:
-> +/* Check if a stream ID is valid for sending. */
-> +static bool quic_stream_id_send(s64 stream_id, bool is_serv)
-> +{
-> +	u8 type = (stream_id & QUIC_STREAM_TYPE_MASK);
-> +
-> +	if (is_serv) {
-> +		if (type == QUIC_STREAM_TYPE_CLIENT_UNI)
-> +			return false;
-> +	} else if (type == QUIC_STREAM_TYPE_SERVER_UNI) {
-> +		return false;
-> +	}
-> +	return true;
-> +}
-> +
-> +/* Check if a stream ID is valid for receiving. */
-> +static bool quic_stream_id_recv(s64 stream_id, bool is_serv)
-> +{
-> +	u8 type = (stream_id & QUIC_STREAM_TYPE_MASK);
-> +
-> +	if (is_serv) {
-> +		if (type == QUIC_STREAM_TYPE_SERVER_UNI)
-> +			return false;
-> +	} else if (type == QUIC_STREAM_TYPE_CLIENT_UNI) {
-> +		return false;
-> +	}
-> +	return true;
-> +}
+> This patch introduces 'struct quic_conn_id_set' for managing Connection
+> IDs (CIDs), which are represented by 'struct quic_source_conn_id'
+> and 'struct quic_dest_conn_id'.
+> 
+> It provides helpers to add and remove CIDs from the set, and handles
+> insertion of source CIDs into the global connection ID hash table
+> when necessary.
+> 
+> - quic_conn_id_add(): Add a new Connection ID to the set, and inserts
+>   it to conn_id hash table if it is a source conn_id.
+> 
+> - quic_conn_id_remove(): Remove connection IDs the set with sequence
+>   numbers less than or equal to a number.
 
-The above two functions could be implemented using a common helper
-saving some code duplication.
-
-> +/* Create and register new streams for sending. */
-> +static struct quic_stream *quic_stream_send_create(struct quic_stream_table *streams,
-> +						   s64 max_stream_id, u8 is_serv)
-> +{
-> +	struct quic_stream *stream;
-> +	s64 stream_id;
-> +
-> +	stream_id = streams->send.next_bidi_stream_id;
-> +	if (quic_stream_id_uni(max_stream_id))
-> +		stream_id = streams->send.next_uni_stream_id;
-> +
-> +	/* rfc9000#section-2.1: A stream ID that is used out of order results in all streams
-> +	 * of that type with lower-numbered stream IDs also being opened.
-> +	 */
-> +	while (stream_id <= max_stream_id) {
-
-Is wrap around thererically possible?
-Who provided `max_stream_id`, the user-space? or a remote pear? what if
-max_stream_id - stream_id is say 1M ?
+It's unclear how many connections are expected to be contained in each
+set. If more than an handful you should consider using RB-tree instead
+of lists.
 
 [...]
-> +/* Check if a receive stream ID is already closed. */
-> +static bool quic_stream_id_recv_closed(struct quic_stream_table *streams, s64 stream_id)
+> +static void quic_source_conn_id_free(struct quic_source_conn_id *s_conn_id)
 > +{
-> +	if (quic_stream_id_uni(stream_id)) {
-> +		if (stream_id < streams->recv.next_uni_stream_id)
-> +			return true;
-> +	} else {
-> +		if (stream_id < streams->recv.next_bidi_stream_id)
-> +			return true;
-> +	}
-> +	return false;
-> +}
-
-I guess the above answer my previous questions, but I think that memory
-accounting for stream allocation is still deserverd.
-
+> +	u8 *data = s_conn_id->common.id.data;
+> +	struct quic_hash_head *head;
 > +
-> +/* Check if a receive stream ID exceeds would exceed local's limits. */
-> +static bool quic_stream_id_recv_exceeds(struct quic_stream_table *streams, s64 stream_id)
-> +{
-> +	if (quic_stream_id_uni(stream_id)) {
-> +		if (stream_id > streams->recv.max_uni_stream_id)
-> +			return true;
-> +	} else {
-> +		if (stream_id > streams->recv.max_bidi_stream_id)
-> +			return true;
+> +	if (!hlist_unhashed(&s_conn_id->node)) {
+> +		head = quic_source_conn_id_head(sock_net(s_conn_id->sk), data);
+> +		spin_lock_bh(&head->s_lock);
+> +		hlist_del_init(&s_conn_id->node);
+> +		spin_unlock_bh(&head->s_lock);
 > +	}
-> +	return false;
+> +
+> +	/* Freeing is deferred via RCU to avoid use-after-free during concurrent lookups. */
+> +	call_rcu(&s_conn_id->rcu, quic_source_conn_id_free_rcu);
 > +}
 > +
-> +/* Check if a send stream ID would exceed peer's limits. */
-> +bool quic_stream_id_send_exceeds(struct quic_stream_table *streams, s64 stream_id)
+> +static void quic_conn_id_del(struct quic_common_conn_id *common)
 > +{
-> +	u64 nstreams;
-> +
-> +	if (quic_stream_id_uni(stream_id)) {
-> +		if (stream_id > streams->send.max_uni_stream_id)
-> +			return true;
-> +	} else {
-> +		if (stream_id > streams->send.max_bidi_stream_id)
-> +			return true;
+> +	list_del(&common->list);
+> +	if (!common->hashed) {
+> +		kfree(common);
+> +		return;
 > +	}
-> +
-> +	if (quic_stream_id_uni(stream_id)) {
-> +		stream_id -= streams->send.next_uni_stream_id;
-> +		nstreams = quic_stream_id_to_streams(stream_id);
-> +		if (nstreams + streams->send.streams_uni > streams->send.max_streams_uni)
-> +			return true;
-> +	} else {
-> +		stream_id -= streams->send.next_bidi_stream_id;
-> +		nstreams = quic_stream_id_to_streams(stream_id);
-> +		if (nstreams + streams->send.streams_bidi > streams->send.max_streams_bidi)
-> +			return true;
-> +	}
-> +	return false;
+> +	quic_source_conn_id_free((struct quic_source_conn_id *)common);
+
+It looks like the above cast is not needed.
+
 > +}
 > +
-> +/* Get or create a send stream by ID. */
-> +struct quic_stream *quic_stream_send_get(struct quic_stream_table *streams, s64 stream_id,
-> +					 u32 flags, bool is_serv)
+> +/* Add a connection ID with sequence number and associated private data to the connection ID set. */
+> +int quic_conn_id_add(struct quic_conn_id_set *id_set,
+> +		     struct quic_conn_id *conn_id, u32 number, void *data)
 > +{
-> +	struct quic_stream *stream;
+> +	struct quic_source_conn_id *s_conn_id;
+> +	struct quic_dest_conn_id *d_conn_id;
+> +	struct quic_common_conn_id *common;
+> +	struct quic_hash_head *head;
+> +	struct list_head *list;
 > +
-> +	if (!quic_stream_id_send(stream_id, is_serv))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	stream = quic_stream_find(streams, stream_id);
-> +	if (stream) {
-> +		if ((flags & MSG_STREAM_NEW) &&
-> +		    stream->send.state != QUIC_STREAM_SEND_STATE_READY)
-> +			return ERR_PTR(-EINVAL);
-> +		return stream;
+> +	/* Locate insertion point to keep list ordered by number. */
+> +	list = &id_set->head;
+> +	list_for_each_entry(common, list, list) {
+> +		if (number == common->number)
+> +			return 0; /* Ignore if it is already exists on the list. */
+> +		if (number < common->number) {
+> +			list = &common->list;
+> +			break;
+> +		}
 > +	}
 > +
-> +	if (quic_stream_id_send_closed(streams, stream_id))
-> +		return ERR_PTR(-ENOSTR);
+> +	if (conn_id->len > QUIC_CONN_ID_MAX_LEN)
+> +		return -EINVAL;
+> +	common = kzalloc(id_set->entry_size, GFP_ATOMIC);
+> +	if (!common)
+> +		return -ENOMEM;
+> +	common->id = *conn_id;
+> +	common->number = number;
+> +	if (id_set->entry_size == sizeof(struct quic_dest_conn_id)) {
+> +		/* For destination connection IDs, copy the stateless reset token if available. */
+> +		if (data) {
+> +			d_conn_id = (struct quic_dest_conn_id *)common;
+> +			memcpy(d_conn_id->token, data, QUIC_CONN_ID_TOKEN_LEN);
+> +		}
+> +	} else {
+> +		/* For source connection IDs, mark as hashed and insert into the global source
+> +		 * connection ID hashtable.
+> +		 */
+> +		common->hashed = 1;
+> +		s_conn_id = (struct quic_source_conn_id *)common;
+> +		s_conn_id->sk = data;
 > +
-> +	if (!(flags & MSG_STREAM_NEW))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	if (quic_stream_id_send_exceeds(streams, stream_id))
-> +		return ERR_PTR(-EAGAIN);
-> +
-> +	stream = quic_stream_send_create(streams, stream_id, is_serv);
-> +	if (!stream)
-> +		return ERR_PTR(-ENOSTR);
-> +	streams->send.active_stream_id = stream_id;
-> +	return stream;
+> +		head = quic_source_conn_id_head(sock_net(s_conn_id->sk), common->id.data);
+> +		spin_lock_bh(&head->s_lock);
+> +		hlist_add_head(&s_conn_id->node, &head->head);
+> +		spin_unlock_bh(&head->s_lock);
+> +	}
+> +	list_add_tail(&common->list, list);
 
-There is no locking at all in lookup/add/remove. Lacking the caller of
-such functions is hard to say if that is safe. You should add some info
-about that in the commit message (or lock here ;)
+It's unclear if/how id_set->list is protected vs concurrent accesses.
 
 /P
 

@@ -1,81 +1,38 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from hr2.samba.org (hr2.samba.org [144.76.82.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 138EC2E88B5
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 21 Aug 2025 06:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FFE8F49
+	for <kernel-tls-handshake@lists.linux.dev>; Thu, 21 Aug 2025 08:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.82.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755758836; cv=none; b=UR3rYqVK8B6T/8IFotn9sF6J92oqlXTjXpfKe/pou91FccnN/FCjU7Q4QxfwwFwkin3cq79EFV4sDA5budFG8JKFzOU5Ef/fx1CfI30KtoQq88PNmZJ3bpdR8WyKvLUuL6bUL/EjkFbXoFJD/eMnVp5JqxJQuHglN7oXbJsNrrQ=
+	t=1755764682; cv=none; b=Ca92cQK3CGLbdKgFXhlo+/f36mX5PH+6zAWfkuH+RHESt7eIVO6LG8VBWbBrTcR9orNd+utucpo4OeQk1D9o+PO64hMJyy0VD0G5ephcF4k+i4vo/FISRL/U1LNGcssak9p/6K8fHHWvDuelHvNid54A75nCCs7CqjO2R6n17mY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755758836; c=relaxed/simple;
-	bh=TjXWvJKB+2qBJCYpvpMyHm9kWT+TXRQtLMuQMwKQW/E=;
+	s=arc-20240116; t=1755764682; c=relaxed/simple;
+	bh=scHGrOC8eE1WmWFXS9WzmAtynz/lWXfDXS5O62Lq58U=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PpTnAE/Aq/yzKxZHD9mNRYhhmy1gIgc9wR0VUyPxNmTq7RHmdJauw4dVU+Kw3p0KS5fz3G4HsGQnAfAECCQjDJGzKIDffNImE/HwpxLRsDm5lhDPI8sBo18t2kNqF107zNakWSAuWIxbbvJpnum8ziOBUoV8/PD2esOU0iqrXA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JbydOtTb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3zNQ49Rl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JbydOtTb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3zNQ49Rl; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 In-Reply-To:Content-Type; b=VgnDB7QDl93lHv/6I5nhDXoVFwJ1q2pbRdnGOM4uimRTnCZpxBpBV+qB4hJEXwGR7wDYPdgwjB5HJSJe62C3nO46Lz9TI9ISY5H1IY6aebzONuYhBQH1iDs9KzqNTR9MijQPj3ZglQUVM3/oNUIKkJ9xfGQ6pEjYIt/CvpU81N0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org; spf=pass smtp.mailfrom=samba.org; dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b=JaLclXCl; arc=none smtp.client-ip=144.76.82.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=samba.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samba.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JbydOtTb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3zNQ49Rl";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JbydOtTb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3zNQ49Rl"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 169561F7C7;
-	Thu, 21 Aug 2025 06:47:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755758833; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fLRhyqFm8SiIehFhfynIEPF7Ujw9moFt7tZyPdJKd68=;
-	b=JbydOtTbDFmLuEqIpOQfYA/bUuMS4guyS0mz4Hsasw+nERRNzfwZbcbAVOXqkL7ChoqqUS
-	EQNp3OC42Ei2hyJ/uVSVwuMuEnxinulyvfn6Kf5/44gIEO8HcRSB8i+I9/4MGH2Jns0ek7
-	owYjlyDgZQdOoyR+XBffD5f2Zpey18s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755758833;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fLRhyqFm8SiIehFhfynIEPF7Ujw9moFt7tZyPdJKd68=;
-	b=3zNQ49Rlga5TKHqwFMLXoy11oYEGWjJI3FtYxtYdbHf6eAp6m1ZHy2Hf55baNfXDzJait/
-	2kKWkOR9TBXtDqCg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=JbydOtTb;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3zNQ49Rl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755758833; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fLRhyqFm8SiIehFhfynIEPF7Ujw9moFt7tZyPdJKd68=;
-	b=JbydOtTbDFmLuEqIpOQfYA/bUuMS4guyS0mz4Hsasw+nERRNzfwZbcbAVOXqkL7ChoqqUS
-	EQNp3OC42Ei2hyJ/uVSVwuMuEnxinulyvfn6Kf5/44gIEO8HcRSB8i+I9/4MGH2Jns0ek7
-	owYjlyDgZQdOoyR+XBffD5f2Zpey18s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755758833;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fLRhyqFm8SiIehFhfynIEPF7Ujw9moFt7tZyPdJKd68=;
-	b=3zNQ49Rlga5TKHqwFMLXoy11oYEGWjJI3FtYxtYdbHf6eAp6m1ZHy2Hf55baNfXDzJait/
-	2kKWkOR9TBXtDqCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8841913867;
-	Thu, 21 Aug 2025 06:47:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id tiZDH/DApmg0dwAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 21 Aug 2025 06:47:12 +0000
-Message-ID: <1bc0eb81-3ccf-479e-924d-f0672daf5fab@suse.de>
-Date: Thu, 21 Aug 2025 08:47:12 +0200
+	dkim=pass (3072-bit key) header.d=samba.org header.i=@samba.org header.b="JaLclXCl"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=samba.org;
+	s=42; h=From:Cc:To:Date:Message-ID;
+	bh=a9NwOEZ9E0uWkOujSpLzh89ug+qWlu/+wzfesTRczEI=; b=JaLclXCl25bBTMGj/D8BHmqVtH
+	VH0qmicgBBqjFi8uUH3YApkvWnvx1EEJOSz31ttFGERSKZl2R7PqyoXgtAi9nBmMgPkUrmqvJtdr7
+	5oBPPD9WXzQBI93K6P1YiSL8NylQ73gyZ4KWMnHj3c/thSApsAWpUnfShWD1riCpnm1qHR6aw0xw2
+	e8sQ2D6B97nZEXNT2OIsQC0Ph15HIHJHDPSvX0dZVnJ9xuCLOAtd02Lwurp/CnjXSAq7ExsCtUUrg
+	LYSMyDOPgNYrAdxHJKWYbHQAXrGmgEv6G+nSc0UuUUBB564k86BJWETjupNlTpDTp6feQHC7Hi6UO
+	xtdO5GcGuUTu+o1iRLCwGmSWc0AHkrOalq0lWAJm+Ux0y9STp90kWmGBbCAFhdVBlignScX5XzzFS
+	dG6JSK6XGlMd3Vz3xMLmihfV61fsiblTMCq2atNfqSiQV9lzbs/pGAiIZ3ggNTuG1VTUSj1X+z/5v
+	zQR3NcZtxgc9vkuUkKs3EXqI;
+Received: from [127.0.0.2] (localhost [127.0.0.1])
+	by hr2.samba.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__CHACHA20_POLY1305:256)
+	(Exim)
+	id 1up0b1-0002Ee-2a;
+	Thu, 21 Aug 2025 08:24:31 +0000
+Message-ID: <c604d959-61f6-4d6e-97fb-2c74ef07334a@samba.org>
+Date: Thu, 21 Aug 2025 10:24:31 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -83,127 +40,96 @@ List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v2 1/1] net/tls: allow limiting maximum record size
-To: Wilfred Mallawa <wilfred.opensource@gmail.com>, chuck.lever@oracle.com,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, donald.hunter@gmail.com, borisp@nvidia.com,
- john.fastabend@gmail.com
-Cc: alistair.francis@wdc.com, dlemoal@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250808072358.254478-3-wilfred.opensource@gmail.com>
- <20250808072358.254478-5-wilfred.opensource@gmail.com>
- <a9ea0abf-1f11-4760-80b8-6a688e020093@suse.de>
- <90cc9b71e356a94e593b66614bbb28a542ca204c.camel@gmail.com>
+Subject: Re: [PATCH net-next v2 01/15] net: define IPPROTO_QUIC and SOL_QUIC
+ constants
+To: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Xin Long <lucien.xin@gmail.com>, network dev <netdev@vger.kernel.org>,
+ davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Moritz Buhl <mbuhl@openbsd.org>, Tyler Fanelli <tfanelli@redhat.com>,
+ Pengtao He <hepengtao@xiaomi.com>, linux-cifs@vger.kernel.org,
+ Steve French <smfrench@gmail.com>, Paulo Alcantara <pc@manguebit.com>,
+ Tom Talpey <tom@talpey.com>, kernel-tls-handshake@lists.linux.dev,
+ Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>,
+ Benjamin Coddington <bcodding@redhat.com>, Steve Dickson
+ <steved@redhat.com>, Hannes Reinecke <hare@suse.de>,
+ Alexander Aring <aahringo@redhat.com>, David Howells <dhowells@redhat.com>,
+ Cong Wang <xiyou.wangcong@gmail.com>, "D . Wythe"
+ <alibuda@linux.alibaba.com>, Jason Baron <jbaron@akamai.com>,
+ illiliti <illiliti@protonmail.com>, Sabrina Dubroca <sd@queasysnail.net>,
+ Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+ Daniel Stenberg <daniel@haxx.se>,
+ Andy Gospodarek <andrew.gospodarek@broadcom.com>
+References: <cover.1755525878.git.lucien.xin@gmail.com>
+ <50eb7a8c7f567f0a87b6e11d2ad835cdbb9546b4.1755525878.git.lucien.xin@gmail.com>
+ <5d5ac074-1790-410e-acf9-0e559cb7eacb@samba.org>
+ <CAKYAXd-L12tTQyMtTG9+8=XjWY0NDKbYybGXUjPrGin5yYtx3A@mail.gmail.com>
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <90cc9b71e356a94e593b66614bbb28a542ca204c.camel@gmail.com>
+From: Stefan Metzmacher <metze@samba.org>
+In-Reply-To: <CAKYAXd-L12tTQyMtTG9+8=XjWY0NDKbYybGXUjPrGin5yYtx3A@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 169561F7C7
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com,oracle.com,davemloft.net,google.com,kernel.org,redhat.com,nvidia.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.01
+Content-Transfer-Encoding: 7bit
 
-On 8/21/25 08:18, Wilfred Mallawa wrote:
-> On Mon, 2025-08-18 at 08:31 +0200, Hannes Reinecke wrote:
->>
-> [snip]
->>> --- a/include/uapi/linux/handshake.h
->>> +++ b/include/uapi/linux/handshake.h
->>> @@ -54,6 +54,7 @@ enum {
->>>    	HANDSHAKE_A_DONE_STATUS = 1,
->>>    	HANDSHAKE_A_DONE_SOCKFD,
->>>    	HANDSHAKE_A_DONE_REMOTE_AUTH,
->>> +	HANDSHAKE_A_DONE_RECORD_SIZE_LIMIT,
->>>    
->>>    	__HANDSHAKE_A_DONE_MAX,
->>>    	HANDSHAKE_A_DONE_MAX = (__HANDSHAKE_A_DONE_MAX - 1)
->>> diff --git a/net/handshake/genl.c b/net/handshake/genl.c
->>> index f55d14d7b726..44c43ce18361 100644
->>> --- a/net/handshake/genl.c
->>> +++ b/net/handshake/genl.c
->>> @@ -16,10 +16,11 @@ static const struct nla_policy
->>> handshake_accept_nl_policy[HANDSHAKE_A_ACCEPT_HAN
->>>    };
->>>    
->>>    /* HANDSHAKE_CMD_DONE - do */
->>> -static const struct nla_policy
->>> handshake_done_nl_policy[HANDSHAKE_A_DONE_REMOTE_AUTH + 1] = {
->>> +static const struct nla_policy
->>> handshake_done_nl_policy[HANDSHAKE_A_DONE_RECORD_SIZE_LIMIT + 1] =
->>> {
->>
-> Hey Hannes,
-> 
-> I did consider using HANDSHAKE_A_DONE_MAX, but wasn't sure if the
-> existing convention is there for some reason. But I can switch over if
-> you think that is best.
-> 
-I guess, no reason, just an oversight.
+Hi Namjae,
 
->> Shouldn't that be 'HANDSHAKE_A_DONE_MAX'?
+>>> diff --git a/include/linux/socket.h b/include/linux/socket.h
+>>> index 3b262487ec06..a7c05b064583 100644
+>>> --- a/include/linux/socket.h
+>>> +++ b/include/linux/socket.h
+>>> @@ -386,6 +386,7 @@ struct ucred {
+>>>    #define SOL_MCTP    285
+>>>    #define SOL_SMC             286
+>>>    #define SOL_VSOCK   287
+>>> +#define SOL_QUIC     288
+>>>
+>>>    /* IPX options */
+>>>    #define IPX_TYPE    1
+>>> diff --git a/include/uapi/linux/in.h b/include/uapi/linux/in.h
+>>> index ced0fc3c3aa5..34becd90d3a6 100644
+>>> --- a/include/uapi/linux/in.h
+>>> +++ b/include/uapi/linux/in.h
+>>> @@ -85,6 +85,8 @@ enum {
+>>>    #define IPPROTO_RAW         IPPROTO_RAW
+>>>      IPPROTO_SMC = 256,                /* Shared Memory Communications         */
+>>>    #define IPPROTO_SMC         IPPROTO_SMC
+>>> +  IPPROTO_QUIC = 261,                /* A UDP-Based Multiplexed and Secure Transport */
+>>> +#define IPPROTO_QUIC         IPPROTO_QUIC
+>>>      IPPROTO_MPTCP = 262,              /* Multipath TCP connection             */
+>>>    #define IPPROTO_MPTCP               IPPROTO_MPTCP
+>>>      IPPROTO_MAX
 >>
->>>    	[HANDSHAKE_A_DONE_STATUS] = { .type = NLA_U32, },
->>>    	[HANDSHAKE_A_DONE_SOCKFD] = { .type = NLA_S32, },
->>>    	[HANDSHAKE_A_DONE_REMOTE_AUTH] = { .type = NLA_U32, },
->>> +	[HANDSHAKE_A_DONE_RECORD_SIZE_LIMIT] = { .type = NLA_U32,
->>> },
->>>    };
->>>    
->>>    /* Ops table for handshake */
->>> @@ -35,7 +36,7 @@ static const struct genl_split_ops
->>> handshake_nl_ops[] = {
->>>    		.cmd		= HANDSHAKE_CMD_DONE,
->>>    		.doit		= handshake_nl_done_doit,
->>>    		.policy		=
->>> handshake_done_nl_policy,
->>> -		.maxattr	= HANDSHAKE_A_DONE_REMOTE_AUTH,
->>> +		.maxattr	=
->>> HANDSHAKE_A_DONE_RECORD_SIZE_LIMIT,
+>> Can these constants be accepted, soon?
 >>
->> HANDSHAKE_A_DONE_MAX - 1?
-> 
-> Shouldn't it be `HANDSHAKE_A_DONE_MAX`? Unless the existing
-> `HANDSHAKE_A_DONE_REMOTE_AUTH` is incorrect?
-> 
-Yes, you are right.
+>> Samba 4.23.0 to be released early September will ship userspace code to
+>> use them. It would be good to have them correct when kernel's start to
+>> support this...
+> I'd like to test ksmbd with smbclient of samba, which includes quic support.
+> Which Samba branch should I use? How do I enable quic in Samba?
+> Do I need to update smb.conf?
 
-Cheers,
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+With master or 4.23 the simplest way would be
+
+smbclient //ksmbd-server/share \
+    -Uuser%Passw0rd \
+    --option='client smb transports = quic' \
+    --option='tls verify peer = no_check' \
+    -I 10.0.0.1
+
+Note it only works with a name in the unc otherwise
+quic can't work.
+
+For development you may want to use
+SSLKEYLOGFILE=/dev/shm/sslkeylogfile.txt smbclient ...
+
+And point wireshark to /dev/shm/sslkeylogfile.txt with
+
+wireshark -o tls.keylog_file:/dev/shm/sslkeylogfile.txt
+
+Or you merge it into a pcapng file like this:
+
+editcap --inject-secrets tls,/dev/shm/sslkeylogfile.txt capture.pcap.gz capture.pcapng.gz
+
+Then 'wireshark capture.pcapng.gz' will have everything to decrypt.
+
+metze
+

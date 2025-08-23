@@ -1,74 +1,73 @@
 Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2017519C569
-	for <kernel-tls-handshake@lists.linux.dev>; Sat, 23 Aug 2025 17:23:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD72A74C14
+	for <kernel-tls-handshake@lists.linux.dev>; Sat, 23 Aug 2025 18:16:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755969783; cv=none; b=TekWAyM9PeGktmHdLIY3kkr5ejx8wY3L22PAZd19Pi5wO3fbeiKb+3AvvRUJY7ObYdy9aPTUpFIh4+EBKXJBbj9B3bidOApf6yNEVxQwUbkJ45KDAvGeDsJPLq7Z2xt8Z59zTvI44enw6H1pBeQOEvqgiDDANQGWOWGm1Z+bSek=
+	t=1755972973; cv=none; b=CG4fdg/hHOnDXJr3Z1NhCQSJrkQpJ+0h14uB4gQYTr4yb1D2KafkYYks6KOf2BXXZNcAlhOyToC7CMJ62Y5kIsEIwUUKwiCaPQucBCNinax3bfEv6MCEbEu5uikjBgDYgKGMh4YyHNheeupsju6hdCjBHuU7xesO+N7covdM47c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755969783; c=relaxed/simple;
-	bh=y4CJ7pNPLS1ZJkKwumtvhMv6UuLq5y7tWRpXPjkKtcg=;
+	s=arc-20240116; t=1755972973; c=relaxed/simple;
+	bh=njSLvwIt8LiAq10rNFQp6mYMq/wOxOCeSrjPbSwxDqc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kcGip52b0KFlKHxd4GvQMrteoFcXNAEGJnghyBx+J638rz718Lgy7IA+KYajSh6atmnDK+hfqlX+zGBwsWnTxPsuaW6a++TROaKg4mMrh/3kpWHTk53cs9C+Er+o8V5jhuoFpMw/nMzy+gxnRSyelcIkhsqQCUug84PzuyA9WWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZckDz3sh; arc=none smtp.client-ip=209.85.166.170
+	 To:Cc:Content-Type; b=DRpT5nvZofCvJYlQv7ftXhaX8U5S9czfRZZU1g/hKBrZNwdiwowlmD8hi1QeBa1Jb0t3yAbD2PuYMudzI2Mgwpj7RiE/oE2G5qLgzZAQoikb46SkCnpHmL/8NAB3IllU/7r8pDLCVP23hmv4NJh8x0nqcBM+wNeknW9RMOjyflA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kYZ8R6cz; arc=none smtp.client-ip=209.85.166.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZckDz3sh"
-Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3ea8b3a6454so4615995ab.1
-        for <kernel-tls-handshake@lists.linux.dev>; Sat, 23 Aug 2025 10:23:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kYZ8R6cz"
+Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3e67e6a1cc8so18129865ab.1
+        for <kernel-tls-handshake@lists.linux.dev>; Sat, 23 Aug 2025 11:16:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755969781; x=1756574581; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1755972970; x=1756577770; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wgTr60nA3z5wWgqDNNxThiGUeORtD2/iVsCPnp7jsKg=;
-        b=ZckDz3shNssn7nFnidmzarKkM5Ga81f5Ak6xrxDIBqDDHkcTYFzSqPGzaBPTFPTfxb
-         9i43CN6VHWnfR4oKd/ZGKSXrR4ueHohgnSF6gcNhPYhwjqIcZQBeVKJScIMWhEnoiCGh
-         lWFzdWWHj4Kwrq6raF5CdzB0h7fQ43Z+rgVcg+ah55Y7bsildFNmHoP1mRQ8b1/WBQwW
-         Poj1h+7NxpXCtRbhL/NzZ1fgVC/ldYXTxsZlalyys+13LV86Kc1EU8V1SbuLigUL1vYC
-         2tfVPKj+IIZKNJq7MDOi073VNP3y8HHmtbGLF6DJWeSF5gcUV6gXrSijZTRFAydFPCMV
-         PvCg==
+        bh=Sg2L8ubuEXpnhwtGksuVh66eJv1X6jJCQin96Spl1OI=;
+        b=kYZ8R6czyW9KDg3V2qqQ99py2kUi5Ic9LoR08RRxSQxSKd0re3UKzpQ0t/cPfDHByC
+         FZ5q4ce7cHAaY0vZ+hBDi7y635fip2Y+hgxsITTn+vTKBtXyMNZJb7x0TUJGhpa/JfF+
+         qjTlKvCYnQ48MY/OvpOpuSHT5C8LHUgHC54Pfp+nOImBASIYM0ZnKm3UDTv9TxDQ1ocQ
+         FjldC5im1YM2aEqY6lzJtcjFEyGQs4381RCVUYnZrkiz0CbiqbwjNJSoYe0SFNljCvu5
+         zywIzS+PdcBh8O+gvyHJStj+pwjmIdOv8uCr3Fx203GC4WTefkU5NgMLK5z0kREY8wtd
+         KL1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755969781; x=1756574581;
+        d=1e100.net; s=20230601; t=1755972970; x=1756577770;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wgTr60nA3z5wWgqDNNxThiGUeORtD2/iVsCPnp7jsKg=;
-        b=GMjQzouiD6p0rHLJZxc0wYmLKNagoQsn8Xp3OhErts0hafKLG9DytoFhP1tVOIm4qO
-         L5xzQMDwUapoJCICihrwnLQ0LBVQpsCRXV/VyC9+GBMowQr5z3VB5DrNz17BJBxL3tN5
-         SZpdTEyyXGOjl31hGwDdCi0Yt6KRPloKt0L8dtpwJouoJiJmVy9WgXs7ADAh0bcAB2PL
-         mTitAu2x6+GHTRCbLrHalFZ5o9Bbx2YYjLLFyBEQKt2blUKvFIGQywtWyG6DFSdLUhmU
-         i4L+2c86uSeJpS5QSRGWex5fd6040BmveOLByNCQ5DC+7P/tm0WsguW8TKccB2ikweX3
-         6nMw==
-X-Forwarded-Encrypted: i=1; AJvYcCWUfmS72xWrCXdLCxB7LIsg78Nu8jjjKvSdfGgkFFWR13GQ+hTHhhNr1yFSWrkMXoijDrAs/pIiPhdqc6rLzRbcCeM/9Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwMRMRlN3ad3c5cOw8rrlgLA27u/XAF/+86WUyw8tRcO93Sk7ss
-	uXHxMk08mNWX1wa0Fi0UhAW7M4Tc3r4mRLwdb5PPe5ztREuw+oNtO4kGKzMEFqHN97w0yaXEsfN
-	RLZTxPhw9Oy3CBQHnxGp6OTPacgZrJFg=
-X-Gm-Gg: ASbGncu4PbVVnK745iR3LUkneLnXWE0zDUAHqMlI69ABsEHxWJcpGQXMJMLkL0Uqu8X
-	CF6b4OYQIQUe3KijIG0oZaU/jGcQOKEfTP6U2V7LW7QEhvnaHlVyIatsa+uNN7WGglMyzDwwn3A
-	IoSh3E48EZQ5BKfDaS8K8exQxiOWNpKyniY+bdLyygSOn6a9zpyqjJvTbWWrWVu3MbQ6fRCMS8R
-	vXYGCcOgg==
-X-Google-Smtp-Source: AGHT+IGDgzVnlVzscvJnBG9FDE4WcKIMgwBQ1Jf4FgB0cD44iHYsBoMuVfqjxn2nGhLnAXbFA3c3w6iRsS6DBkXvPJM=
-X-Received: by 2002:a05:6e02:4801:b0:3e5:8113:35e1 with SMTP id
- e9e14a558f8ab-3e6d6db51ddmr154390015ab.4.1755969781042; Sat, 23 Aug 2025
- 10:23:01 -0700 (PDT)
+        bh=Sg2L8ubuEXpnhwtGksuVh66eJv1X6jJCQin96Spl1OI=;
+        b=gsRAHY8kYD4aJKq5yZGkucUswNbiNfSXZah/ObK+ZRFwvFC/dqfB3o9ylTJaPH2ghT
+         B5ccLwkc0QPQdVPpPGEebtVC2BBJQ3PTpUMUrlBp+xYs8S/vNnXgARwfmx/i1PeQ7POv
+         P+hYoK8LWL54MuqMzOh5fAZ2kKns3gld2avPJAficyaJ40K44Id55qTtfBZYjHDC4Qcg
+         oLcTwi8mB4Hvm9oDshkKEG82o9KUkuCVCSzVNwOvvG1FtEVv7lycmyE61yP3EUrzt4Yf
+         WkCPk03xWEvgjcvWtyKkX2c1L9k7JTjfSHE8vhbb1bnY4jyxk3N6vjx6MDLhUQB2gTBD
+         yJ0w==
+X-Forwarded-Encrypted: i=1; AJvYcCXClAAw4ulK7X8ZTYxpHdYa855bVzKu6DFI2nalQicpXL1eMwvk+aWwhIJDMrPbHMWyExJtZWaQFNSWjdREQsxlLt478w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxiPj4dRSy/SOU9Fqp2ThqqxemUnSzHexsI2adk2I6heh5Z37xX
+	AR3LqCAqaGL8sC/3OgQwZ0bQ7OHzDmWHfoTof+zbWoc8Mf0xIIQIsiXr0tKA0Q3L1by+2hV4N+/
+	gJOnMW7z8cII9BtyxdUTqSqa4mEtVS+o=
+X-Gm-Gg: ASbGncv1E425AEt4IcPN7Us8xAcvV2G2H7shAmyFnzy2v9x/i5l6zTzHvIJVA5xCQwX
+	R3bfpCX+D8wqOac5mUO8M0CHqQkCU9EYlduZrIwBWC5B+5p125iEQavE18cZm8WIhqek/4LfgFs
+	fAQTCY3fo//GEqMmtIECymLqV71T3YZp5sBX8diRR0x4k36d2lNViXLsVcZEb2ZE8dNZ0wqZFNV
+	b8FmqOm4z2SoO/53wUi
+X-Google-Smtp-Source: AGHT+IEsgK/H0gyqBtqG9vpi3Iq1De6iE9KkdVlqWS5KyCYd33nd2HrGTegNdtikqERSb7XLsM7bvadHfWDP7iqnBCY=
+X-Received: by 2002:a05:6e02:1709:b0:3e6:7151:a895 with SMTP id
+ e9e14a558f8ab-3e91d393a49mr102597415ab.0.1755972969699; Sat, 23 Aug 2025
+ 11:16:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1755525878.git.lucien.xin@gmail.com> <d208163af2fdd4c6ca5375e1305774e632676e5b.1755525878.git.lucien.xin@gmail.com>
- <7cfc62a6-b988-400d-829a-306211e1a156@redhat.com>
-In-Reply-To: <7cfc62a6-b988-400d-829a-306211e1a156@redhat.com>
+References: <cover.1755525878.git.lucien.xin@gmail.com> <7788ed89d491aa40183572a444b91dfdb28f20c4.1755525878.git.lucien.xin@gmail.com>
+ <c06ff3eb-f69d-4bd8-b81a-a28b8b69ba52@redhat.com>
+In-Reply-To: <c06ff3eb-f69d-4bd8-b81a-a28b8b69ba52@redhat.com>
 From: Xin Long <lucien.xin@gmail.com>
-Date: Sat, 23 Aug 2025 13:22:50 -0400
-X-Gm-Features: Ac12FXyjyvvegt8T5QIUSsiqZo6sbk8kkevKDzpi0oloLzoWFmErRK2Y5unTX94
-Message-ID: <CADvbK_cMDaSXcDC-iR_5dqPaz4O8o0mzYvNC+akQJyMzXnGq5Q@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 04/15] quic: provide family ops for address
- and protocol
+Date: Sat, 23 Aug 2025 14:15:58 -0400
+X-Gm-Features: Ac12FXwqN5JfN3XpNwS7ROWPGnRJsuMytXn7hIk2yr-_xDtZWIh6E6fyFkzoCKE
+Message-ID: <CADvbK_e4=-JjYiVFWN-Uuroog-+AxCzgDsFg5OQqHND+RPw1Ow@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 03/15] quic: provide common utilities and data structures
 To: Paolo Abeni <pabeni@redhat.com>
 Cc: network dev <netdev@vger.kernel.org>, davem@davemloft.net, kuba@kernel.org, 
 	Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>, 
@@ -86,71 +85,122 @@ Cc: network dev <netdev@vger.kernel.org>, davem@davemloft.net, kuba@kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 21, 2025 at 9:17=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wro=
+On Thu, Aug 21, 2025 at 8:58=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wro=
 te:
 >
 > On 8/18/25 4:04 PM, Xin Long wrote:
-> > This patch introduces two new abstraction structures to simplify handli=
-ng
-> > of IPv4 and IPv6 differences across the QUIC stack:
-> >
-> > - quic_addr_family_ops: for address comparison, flow routing,
-> >   UDP config, MTU lookup, formatted output, etc.
-> >
-> > - quic_proto_family_ops: for socket address helpers and preference.
-> >
-> > With these additions, the QUIC core logic can remain agnostic of the
-> > address family and socket type, improving modularity and reducing
-> > repetitive checks throughout the codebase.
+> [...]
+> > +void quic_hash_tables_destroy(void)
+> > +{
+> > +     struct quic_hash_table *ht;
+> > +     int table;
+> > +
+> > +     for (table =3D 0; table < QUIC_HT_MAX_TABLES; table++) {
+> > +             ht =3D &quic_hash_tables[table];
+> > +             ht->size =3D QUIC_HT_SIZE;
 >
-> Given that you wrap the ops call in quick_<op>() helper, I'm wondering
-> if such abstraction is necessary/useful? 'if' statements in the quick
-> helper will likely reduce the code size, and will the indirect function
-> call overhead.
-I'm completely fine to change things to be like:
+> Why?
+>
+> > +             kfree(ht->hash);
+> > +     }
+> > +}
+> > +
+> > +int quic_hash_tables_init(void)
+> > +{
+> > +     struct quic_hash_head *head;
+> > +     struct quic_hash_table *ht;
+> > +     int table, i;
+> > +
+> > +     for (table =3D 0; table < QUIC_HT_MAX_TABLES; table++) {
+> > +             ht =3D &quic_hash_tables[table];
+> > +             ht->size =3D QUIC_HT_SIZE;
+>
+> AFAICS the hash table size is always QUIC_HT_SIZE, which feels like too
+> small for connection and possibly quick sockets.
+indeed.
 
-int quic_flow_route(struct sock *sk, union quic_addr *da, union
-quic_addr *sa, struct flowi *fl)
-{
-        return da->sa.sa_family =3D=3D AF_INET ? quic_v4_flow_route(sk,
-da, sa, fl) :
-                quic_v6_flow_route(sk, da, sa, fl);
-}
+>
+> Do yoi need to differentiate the size among the different hash types?
+Yes, I will change to use alloc_large_system_hash() for these
+hashtables, align with TCP:
+
+- source connection IDs hashtable -> tcp_hashinfo.ehash
+For Data receiving
+- QUIC listening sockets hashtable -> tcp_hashinfo.lhash2
+For New connections
+- UDP tunnel sockets hashtable -> tcp_hashinfo.bhash
+For binding
+- QUIC sockets hashtable -> tcp_hashinfo.bhash
+For some rare special cases, like receiving a stateless reset.
+
+>
+> > +             head =3D kmalloc_array(ht->size, sizeof(*head), GFP_KERNE=
+L);
+>
+> If so, possibly you should resort to kvmalloc_array here.
+>
+> > +             if (!head) {
+> > +                     quic_hash_tables_destroy();
+> > +                     return -ENOMEM;
+> > +             }
+> > +             for (i =3D 0; i < ht->size; i++) {
+> > +                     INIT_HLIST_HEAD(&head[i].head);
+> > +                     if (table =3D=3D QUIC_HT_UDP_SOCK) {
+> > +                             mutex_init(&head[i].m_lock);
+> > +                             continue;
+> > +                     }
+> > +                     spin_lock_init(&head[i].s_lock);
+>
+> Doh, I missed the union mutex/spinlock. IMHO it would be cleaner to use
+> separate hash types.
+Yeah, I will separate them. :D
 
 >
 > [...]
-> > +static void quic_v6_set_sk_addr(struct sock *sk, union quic_addr *a, b=
-ool src)
+> > +/* Parse a comma-separated string into a 'quic_data' list format.
+> > + *
+> > + * Each comma-separated token is turned into a length-prefixed element=
+. The
+> > + * first byte of each element stores the length (minus one). Elements =
+are
+> > + * stored in 'to->data', and 'to->len' is updated.
+> > + */
+> > +void quic_data_from_string(struct quic_data *to, u8 *from, u32 len)
 > > +{
-> > +     if (src) {
-> > +             inet_sk(sk)->inet_sport =3D a->v4.sin_port;
-> > +             if (a->sa.sa_family =3D=3D AF_INET) {
-> > +                     sk->sk_v6_rcv_saddr.s6_addr32[0] =3D 0;
-> > +                     sk->sk_v6_rcv_saddr.s6_addr32[1] =3D 0;
-> > +                     sk->sk_v6_rcv_saddr.s6_addr32[2] =3D htonl(0x0000=
-ffff);
-> > +                     sk->sk_v6_rcv_saddr.s6_addr32[3] =3D a->v4.sin_ad=
-dr.s_addr;
-> > +             } else {
-> > +                     sk->sk_v6_rcv_saddr =3D a->v6.sin6_addr;
+> > +     struct quic_data d;
+> > +     u8 *p =3D to->data;
+> > +
+> > +     to->len =3D 0;
+> > +     while (len) {
+> > +             d.data =3D p++;
+> > +             d.len  =3D 1;
+> > +             while (len && *from =3D=3D ' ') {
+> > +                     from++;
+> > +                     len--;
 > > +             }
-> > +     } else {
-> > +             inet_sk(sk)->inet_dport =3D a->v4.sin_port;
-> > +             if (a->sa.sa_family =3D=3D AF_INET) {
-> > +                     sk->sk_v6_daddr.s6_addr32[0] =3D 0;
-> > +                     sk->sk_v6_daddr.s6_addr32[1] =3D 0;
-> > +                     sk->sk_v6_daddr.s6_addr32[2] =3D htonl(0x0000ffff=
-);
-> > +                     sk->sk_v6_daddr.s6_addr32[3] =3D a->v4.sin_addr.s=
-_addr;
-> > +             } else {
-> > +                     sk->sk_v6_daddr =3D a->v6.sin6_addr;
+> > +             while (len) {
+> > +                     if (*from =3D=3D ',') {
+> > +                             from++;
+> > +                             len--;
+> > +                             break;
+> > +                     }
+> > +                     *p++ =3D *from++;
+> > +                     len--;
+> > +                     d.len++;
 > > +             }
+> > +             *d.data =3D (u8)(d.len - 1);
+> > +             to->len +=3D d.len;
 > > +     }
 >
-> You could factor the addr assignment in an helper and avoid some code
-> duplication.
+> The above does not perform any bound checking vs the destination buffer,
+> it feels fragile.
 >
-Right, I will add a helper.
+ This function needs two checks:
+
+1. len < U8_MAX
+2. to->data memory len >=3D len + 1.
+
+Although the caller like quic_sock_set_alpn() ensures that, I guess they
+should still be done in this function as a common helper.
 
 Thanks.

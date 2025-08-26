@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49ED262FDC
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 26 Aug 2025 15:38:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C817A2727FC
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 26 Aug 2025 15:38:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756222702; cv=none; b=Q1W1dMDUPzhCsX+oiZ3HRyn/0dTonm3F1tR0BhHNEn1/GfrpoclScZ2LLIw55+GyCdpi1CFl7RYoAXC4ag/fXhdd09bR3CYc+QMXfp53zITCL1Xfk25THUzDCHGDhz0P6HKUKwwtYTWZNgbaQhDNylJaDZkpY4maFSLD4eLR/x8=
+	t=1756222708; cv=none; b=lFFw9ZgfRn/IJ9vh8TV4kIdwe9hGQNTv6KHlgIxeayTL+ujZMJgI2UNfQo0m8jHiBN2hfAl5InbO/Zadejh6tuIimul2Wj3DIRcqaa2oCVZhmx5wLHq1/SxyKjWKfdNGfTkTubODWT80Yt/0WsPXUmgzz3CKwOI5UigucAAL/08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756222702; c=relaxed/simple;
-	bh=RQc2wv+cP201/GwClQ5OuzMW37HTYgOf/JJSGrCA1mY=;
+	s=arc-20240116; t=1756222708; c=relaxed/simple;
+	bh=B0klFe6Ha4NtqQu0YDicSW/hlnquqrd3sAB65o/BroA=;
 	h=Subject:From:To:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mgDCMNLVp5wRKzMYpAwGPDRAONyiu0HdT7idl1K2Y+igpGygUSxum8GULzO3uzdB7PPrJmr4KU9WvQkjR1kYC9OF8dIWWKAnDTfewtsBXMTm156UbaM0flekjrJDQaIdvzF+2mD/Adyk2OQlkMYYqgeezvVvg2xei1VkJNmmvjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W5f8nQqx; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=qPGwixmML1u6MYtvPSP9nfoBLGy9qvm02THTpjkvD2q0eonuAoYXx4vYHBXrmEWjPrq1UQfLRXlRwtZs2jYOr1a7zzZhJ6/3PLFtwu219Kw5k0SgIxQ5nfwl3VMiuF1lgGdvVueF05c6VrtuiU+7FNXxGEABxrnHokCTf5z1TeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ujz8CjTC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W5f8nQqx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31234C4CEF1
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 26 Aug 2025 15:38:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ujz8CjTC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B749C4CEF1
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 26 Aug 2025 15:38:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756222702;
-	bh=RQc2wv+cP201/GwClQ5OuzMW37HTYgOf/JJSGrCA1mY=;
+	s=k20201202; t=1756222708;
+	bh=B0klFe6Ha4NtqQu0YDicSW/hlnquqrd3sAB65o/BroA=;
 	h=Subject:From:To:Date:In-Reply-To:References:From;
-	b=W5f8nQqx8R2R6kliQB581Wp3fQ57wjaEXHEDiE7xPHRCD6Sb7o+YOf5yr5Qr0fvJK
-	 vxkGrh9Omm6FWK+5DbaQeeSlMIMxEgOtZIWHkVUzgpylebUuvseIIB3spmXPxv+OW5
-	 QTp46TmSOrrdS9/14nX/3AmcLQKPbDBQ0VnExXXisPdBedDmXQnUpJ5//BC6ihSR/q
-	 fiHRdAVYjAOwl51iPP7VQRY4fVNzK1ElLwz17PK4W65UJSrXYgXYqWOVYCOFh/UE2Q
-	 o5UWAuA2riQYHA8XEnQZwzmvyOFiuuuxKBVUA9yHGMBbc+y0n+8LXO+coNSdZ04IKb
-	 t2LmF9zyldG3Q==
-Subject: [PATCH v2 05/11] tlshd: Add tag filter types
+	b=Ujz8CjTCPVjGMejoqT51FjAhrti/Z5MEm7kxVisa9+l5hfxa//lA3ZCJx276hi9Jw
+	 9vYoz4jHZOIP1Kr6iOdaHOZ8adIKxOCMyr5nhb3eW+TdkrdX2KSu/cCIZzT0Qu4yvG
+	 wCF4PXzJaFnbVwiftgfIAbeyDQsfxQKiL2aNg7LWRGe8C8iZp17AoE9V8/+2cJX69Y
+	 h8BSIWjDqikvBhIGKJakvIj71VRk7Qut3AcKTwnTTvTHHnoyrKrhrtdJ4JhDvIW+Ou
+	 1I5jJIXVwhHI+MpAtQ+LXV9IL5F5xsrwH4+SZt81CpolrgA/9cUSkHFNEmZ+/AiBLC
+	 47ZKt4pXKmvFQ==
+Subject: [PATCH v2 06/11] tlshd: Add a YAML parser
 From: Chuck Lever <cel@kernel.org>
 To: kernel-tls-handshake@lists.linux.dev
-Date: Tue, 26 Aug 2025 11:38:21 -0400
+Date: Tue, 26 Aug 2025 11:38:27 -0400
 Message-ID: 
- <175622270143.6197.4955935053738478046.stgit@91.116.238.104.host.secureserver.net>
+ <175622270750.6197.7682761717310146864.stgit@91.116.238.104.host.secureserver.net>
 In-Reply-To: 
  <175622197574.6197.17170424685161235821.stgit@91.116.238.104.host.secureserver.net>
 References: 
@@ -48,291 +48,297 @@ Content-Transfer-Encoding: 7bit
 
 From: Chuck Lever <chuck.lever@oracle.com>
 
-To start, define a filter type for each x.509 certificate field that
-someone might want to match. These are defined in a table for easy
-extensibility, and read into a hash table at start-up so they can be
-looked up quickly by filter type name. (The filter type names will
-eventually be exposed to users).
-
-The filter types are introduced separately to give a sense of what
-kind of matching can be done.
+The TLS session tag definitions are to be specified using YAML.
 
 Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 ---
- src/tlshd/etc/tls-session-tags.man |  123 ++++++++++++++++++++++++++++++++++++
- src/tlshd/tags.c                   |  114 +++++++++++++++++++++++++++++++++
- 2 files changed, 237 insertions(+)
+ src/tlshd/tags.c |  254 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 253 insertions(+), 1 deletion(-)
 
-diff --git a/src/tlshd/etc/tls-session-tags.man b/src/tlshd/etc/tls-session-tags.man
-index 5ee58f6d2289..c5a73d881773 100644
---- a/src/tlshd/etc/tls-session-tags.man
-+++ b/src/tlshd/etc/tls-session-tags.man
-@@ -99,6 +99,129 @@ Each tag is a list of one or more filters (defined in the
- dictionary)
- that all must be matched in order for the tag to be assigned to a
- new TLS session.
-+.SS Filter types
-+A filter's
-+.I type
-+determines the part of the incoming authentication material that the
-+.B tlshd
-+program examines to determine if ther is a match.
-+For example, for the
-+.I x509.tbs.subject
-+filter type, a string argument specifies a simple wildcard pattern
-+that is matched against an incoming x.509 certificate's subject field.
-+A complete list of filter types appears in the
-+.B FILTER TYPE REFERENCE
-+section below.
-+
-+.SH FILTER TYPE REFERENCE
-+The
-+.B tlshd
-+program currently implements the following filter types:
-+.TP
-+.B x509.cert.signatureAlgorithm
-+Filters of this type examine an incoming x.509 certificate's
-+signatureAlgorithm field,
-+as defined in RFC 5280, Section 4.1.1.2.
-+The filter takes an additional string wildcard pattern that
-+can be an algorithm name or an algorithm OID.
-+.TP
-+.B x509.tbs.version
-+Filters of this type examine an incoming x.509 certificate's
-+version field,
-+part of the To-Be-Signed section of the certificate,
-+as defined in RFC 5280, Section 4.1.2.1.
-+The filter takes an additional numeric value that is matched
-+against the certificate's version.
-+.TP
-+.B x509.tbs.serialNumber
-+Filters of this type examine an incoming x.509 certificate's
-+serialNumber field,
-+part of the To-Be-Signed section of the certificate,
-+as defined in RFC 5280, Section 4.1.2.2.
-+The filter takes an additional string wildcard pattern that
-+matches a hexadecimal number.
-+.TP
-+.B x509.tbs.signature
-+Filters of this type examine an incoming x.509 certificate's
-+signature field,
-+part of the To-Be-Signed section of the certificate,
-+as defined in RFC 5280, Section 4.1.2.3.
-+The filter takes an additional string wildcard pattern that
-+matches, well, something.
-+.TP
-+.B x509.tbs.issuer
-+Filters of this type examine an incoming x.509 certificate's
-+issuer field,
-+part of the To-Be-Signed section of the certificate,
-+as defined in RFC 5280, Section 4.1.2.4.
-+The filter takes an additional string wildcard pattern that
-+matches the distinguished name part of the certificate's
-+issuer field.
-+.TP
-+.B x509.tbs.validity.notBefore
-+Filters of this type examine an incoming x.509 certificate's
-+activation time field,
-+part of the To-Be-Signed section of the certificate,
-+as defined in RFC 5280, Section 4.1.2.5.
-+The filter takes an additional string that
-+contains a date and time. If the certificate's activation
-+timestamp is earlier than the date and time specified in
-+this filter, the filter does not match.
-+.TP
-+.B x509.tbs.validity.notAfter
-+Filters of this type examine an incoming x.509 certificate's
-+expiration time field,
-+part of the To-Be-Signed section of the certificate,
-+as defined in RFC 5280, Section 4.1.2.5.
-+The filter takes an additional string that
-+contains a date and time. If the certificate's expiry
-+timestamp is later than the date and time specified in
-+this filter, the filter does not match.
-+.TP
-+.B x509.tbs.subject
-+Filters of this type examine an incoming x.509 certificate's
-+subject field,
-+part of the To-Be-Signed section of the certificate,
-+as defined in RFC 5280, Section 4.1.2.6.
-+The filter takes an additional string wildcard pattern that
-+matches the distinguished name part of the certificate's
-+subject field.
-+
-+.TP
-+.B x509.extension.keyUsage
-+Filters of this type examine an incoming x.509 certificate's
-+keyUsage field,
-+one of the standard certificate extensions.
-+The filter takes a list of bit names that must be set in the
-+field in order for the filter to match.
-+This list contains zero or one of the following bit names:
-+.IR digitalSignature ,
-+.IR nonRepudiation ,
-+.IR keyEncipherment ,
-+.IR dataEncipherment ,
-+.IR keyAgreement ,
-+.IR keyCertSign ,
-+.IR cRLSign ,
-+.IR encipherOnly ", or"
-+.IR decipherOnly .
-+.TP
-+.B x509.extension.extendedKeyUsage
-+Filters of this type examine an incoming x.509 certificate's
-+extendedKeyUsage field,
-+one of the standard certificate extensions.
-+This filter type is not yet implemented.
-+.TP
-+.B x509.derived.fingerprint
-+Filters of this type locally compute an incoming x.509 certificate's
-+SHA1 and SHA256 fingerprint.
-+The filter takes an additional string wildcard pattern that
-+matches the hexadecimal value of either the derived SHA1 or
-+derived SHA256 fingerrint.
-+.TP
-+.B x509.derived.selfSigned
-+Filters of this type match when an incoming x.509 certificate's
-+issuer and subject distinguished names are exactly equal.
-+This filter type is not yet implemented.
- .SH STANDARDS
- x.509
- .BR
 diff --git a/src/tlshd/tags.c b/src/tlshd/tags.c
-index 3f8631240281..2d2f72f036f4 100644
+index 2d2f72f036f4..12d8f6ca00b1 100644
 --- a/src/tlshd/tags.c
 +++ b/src/tlshd/tags.c
-@@ -30,6 +30,117 @@
+@@ -27,9 +27,47 @@
+ #include <gnutls/abstract.h>
+ 
+ #include <glib.h>
++#include <yaml.h>
  
  #include "tlshd.h"
  
-+struct tlshd_tags_filter;
++/* --- libyaml helpers --- */
 +
-+struct tlshd_tags_filter_type {
-+	gchar				*ft_name;
-+	bool				(*ft_validate)(struct tlshd_tags_filter *filter);
-+	bool				(*ft_match)(struct tlshd_tags_filter *filter,
-+						    gnutls_session_t session);
-+};
-+
-+static GHashTable *tlshd_tags_filter_type_hash;
-+
-+/* --- Filter Types --- */
-+
-+static const struct tlshd_tags_filter_type tlshd_tags_static_filter_types[] = {
-+
-+	/* Certificate fields, RFC 5280, Section 4.1.1 */
-+
-+	{
-+		/* RFC 5280, Section 4.1.1.2 */
-+		.ft_name		= "x509.cert.signatureAlgorithm",
-+	},
-+
-+	/* To-Be-Signed fields, RFC 5280, Section 4.1.2 */
-+
-+	{
-+		/* RFC 5280, Section 4.1.2.1 */
-+		.ft_name		= "x509.tbs.version",
-+	},
-+	{
-+		/* RFC 5280, Section 4.1.2.2 */
-+		.ft_name		= "x509.tbs.serialNumber",
-+	},
-+	{
-+		/* RFC 5280, Section 4.1.2.3 */
-+		.ft_name		= "x509.tbs.signature",
-+	},
-+	{
-+		/* RFC 5280, Section 4.1.2.4 */
-+		.ft_name		= "x509.tbs.issuer",
-+	},
-+	{
-+		/* RFC 5280, Section 4.1.2.5 */
-+		.ft_name		= "x509.tbs.validity.notBefore",
-+	},
-+	{
-+		/* RFC 5280, Section 4.1.2.5 */
-+		.ft_name		= "x509.tbs.validity.notAfter",
-+	},
-+	{
-+		/* RFC 5280, Section 4.1.2.6 */
-+		.ft_name		= "x509.tbs.subject",
-+	},
-+
-+	/* Standard certificate extensions, RFC 5280, Section 4.2.1 */
-+
-+	{
-+		/* RFC 5280, Section 4.2.1.3 */
-+		.ft_name		= "x509.extension.keyUsage",
-+	},
-+	{
-+		/* RFC 5280, Secttion 4.2.1.12 */
-+		.ft_name		= "x509.extension.extendedKeyUsage",
-+	},
-+
-+	/* Derived fields */
-+
-+	{
-+		/* Locally implemented */
-+		.ft_name		= "x509.derived.fingerprint",
-+	},
-+	{
-+		/* Locally implemented */
-+		.ft_name		= "x509.derived.selfSigned",
-+	},
-+};
-+
-+static void tlshd_tags_filter_type_hash_destroy(void)
++/* This depends on the yaml_event_type_t enum being densely packed */
++static const char *show_yaml_event_type(const yaml_event_t *event)
 +{
-+	if (!tlshd_tags_filter_type_hash)
-+		return;
++	static const char *labels[] = {
++		[YAML_NO_EVENT]			= "YAML_NO_EVENT",
++		[YAML_STREAM_START_EVENT]	= "YAML_STREAM_START_EVENT",
++		[YAML_STREAM_END_EVENT]		= "YAML_STREAM_END_EVENT",
++		[YAML_DOCUMENT_START_EVENT]	= "YAML_DOCUMENT_START_EVENT",
++		[YAML_DOCUMENT_END_EVENT]	= "YAML_DOCUMENT_END_EVENT",
++		[YAML_ALIAS_EVENT]		= "YAML_ALIAS_EVENT",
++		[YAML_SCALAR_EVENT]		= "YAML_SCALAR_EVENT",
++		[YAML_SEQUENCE_START_EVENT]	= "YAML_SEQUENCE_START_EVENT",
++		[YAML_SEQUENCE_END_EVENT]	= "YAML_SEQUENCE_END_EVENT",
++		[YAML_MAPPING_START_EVENT]	= "YAML_MAPPING_START_EVENT",
++		[YAML_MAPPING_END_EVENT]	= "YAML_MAPPING_END_EVENT",
++	};
 +
-+	g_hash_table_destroy(tlshd_tags_filter_type_hash);
-+	tlshd_tags_filter_type_hash = NULL;
++	if (event->type > YAML_MAPPING_END_EVENT)
++		return "invalid YAML event";
++	return labels[event->type];
 +}
 +
-+/*
-+ * Add the internally-implemented filter types to a hash table for
-+ * fast lookup by name.
-+ */
-+static bool tlshd_tags_filter_type_hash_init(void)
++/* --- Tag configuration file parsing --- */
++
++enum tlshd_tags_fsm_state_index {
++	PS_STOP,
++	PS_START,
++	PS_STREAM,
++	PS_DOCUMENT,
++	PS_TOP_LEVEL,
++
++	PS_UNEXPECTED_INPUT_TOKEN,
++	PS_FAILURE,
++};
++
+ struct tlshd_tags_filter;
+ 
+ struct tlshd_tags_filter_type {
+@@ -41,6 +79,212 @@ struct tlshd_tags_filter_type {
+ 
+ static GHashTable *tlshd_tags_filter_type_hash;
+ 
++struct tlshd_tags_parser_state {
++	yaml_event_t			ps_yaml_event;
++
++	enum tlshd_tags_fsm_state_index	ps_fsm_state;
++};
++
++static enum tlshd_tags_fsm_state_index
++tlshd_tags_top_level(struct tlshd_tags_parser_state *current)
 +{
++	const yaml_event_t *event = &current->ps_yaml_event;
++	const char *mapping = (const char *)event->data.scalar.value;
++
++	tlshd_log_error("Unexpected mapping name: %s\n", mapping);
++	return PS_UNEXPECTED_INPUT_TOKEN;
++}
++
++/* --- FSM states --- */
++
++typedef enum tlshd_tags_fsm_state_index
++	(*tlshd_tags_action_fn)(struct tlshd_tags_parser_state *current);
++
++struct tlshd_tags_fsm_transition {
++	yaml_event_type_t		pt_yaml_event;
++	enum tlshd_tags_fsm_state_index	pt_next_state;
++	tlshd_tags_action_fn		pt_action;
++};
++
++#define NEXT_STATE(event, state) \
++	{ \
++		.pt_yaml_event		= event, \
++		.pt_next_state		= state, \
++	}
++
++#define NEXT_ACTION(event, action) \
++	{ \
++		.pt_yaml_event		= event, \
++		.pt_action		= action, \
++	}
++
++static const struct tlshd_tags_fsm_transition tlshd_tags_transitions_start[] = {
++	NEXT_STATE(YAML_STREAM_START_EVENT, PS_STREAM),
++};
++
++static const struct tlshd_tags_fsm_transition tlshd_tags_transitions_stream[] = {
++	NEXT_STATE(YAML_DOCUMENT_START_EVENT, PS_DOCUMENT),
++	NEXT_STATE(YAML_STREAM_END_EVENT, PS_STOP),
++};
++
++static const struct tlshd_tags_fsm_transition tlshd_tags_transitions_document[] = {
++	NEXT_STATE(YAML_MAPPING_START_EVENT, PS_TOP_LEVEL),
++	NEXT_STATE(YAML_DOCUMENT_END_EVENT, PS_STREAM),
++};
++
++static const struct tlshd_tags_fsm_transition tlshd_tags_transitions_top_level[] = {
++	NEXT_ACTION(YAML_SCALAR_EVENT, tlshd_tags_top_level),
++	NEXT_STATE(YAML_MAPPING_END_EVENT, PS_DOCUMENT),
++};
++
++struct tlshd_tags_fsm_state {
++	const char			*ts_name;
++	const struct tlshd_tags_fsm_transition *ts_transitions;
++	size_t				ts_transition_count;
++};
++
++#define FSM_STATE(name, array) \
++	[name] = { \
++		.ts_name		= #name, \
++		.ts_transitions		= array, \
++		.ts_transition_count	= ARRAY_SIZE(array), \
++	}
++
++#define TERMINAL_STATE(name) \
++	[name] = { \
++		.ts_name		= #name, \
++		.ts_transition_count	= 0, \
++	}
++
++static const struct tlshd_tags_fsm_state tlshd_tags_fsm_state_table[] = {
++	TERMINAL_STATE(PS_STOP),
++	FSM_STATE(PS_START, tlshd_tags_transitions_start),
++	FSM_STATE(PS_STREAM, tlshd_tags_transitions_stream),
++	FSM_STATE(PS_DOCUMENT, tlshd_tags_transitions_document),
++	FSM_STATE(PS_TOP_LEVEL, tlshd_tags_transitions_top_level),
++	TERMINAL_STATE(PS_UNEXPECTED_INPUT_TOKEN),
++	TERMINAL_STATE(PS_FAILURE),
++};
++
++/*
++ * Each libyaml event produces zero or one input tokens.
++ *
++ * tlshd_tags_process_yaml_event() evaluates the event token based on
++ * the current parser state, then advances to the next FSM state.
++ */
++static void
++tlshd_tags_process_yaml_event(struct tlshd_tags_parser_state *current)
++{
++	const struct tlshd_tags_fsm_state *fsm_state =
++		&tlshd_tags_fsm_state_table[current->ps_fsm_state];
++	const yaml_event_t *event = &current->ps_yaml_event;
++	const struct tlshd_tags_fsm_transition *transition;
 +	size_t i;
 +
-+	tlshd_tags_filter_type_hash = g_hash_table_new(g_str_hash, g_str_equal);
-+	if (!tlshd_tags_filter_type_hash) {
-+		tlshd_log_error("Failed to allocate 'filter type' hash table\n");
-+		tlshd_tags_filter_type_hash = NULL;
++	if (fsm_state->ts_transition_count == 0)
++		return;
++
++	transition = NULL;
++	for (i = 0; i < fsm_state->ts_transition_count; ++i) {
++		if (fsm_state->ts_transitions[i].pt_yaml_event == event->type) {
++			transition = &fsm_state->ts_transitions[i];
++			break;
++		}
++	}
++	if (transition == NULL) {
++		tlshd_log_debug("ps_state=%s, unexpected event: %s\n",
++			fsm_state->ts_name,
++			show_yaml_event_type(event));
++		current->ps_fsm_state = PS_FAILURE;
++		return;
++	}
++
++	if (tlshd_debug > 3)
++		tlshd_log_debug("ps_state=%s yaml event=%s",
++			fsm_state->ts_name,
++			show_yaml_event_type(event));
++
++	if (transition->pt_action)
++		current->ps_fsm_state = transition->pt_action(current);
++	else
++		current->ps_fsm_state = transition->pt_next_state;
++}
++
++static void tlshd_tags_parse_file(const char *filename)
++{
++	struct tlshd_tags_parser_state current;
++	yaml_parser_t parser;
++	FILE *fh;
++
++	if (!yaml_parser_initialize(&parser)) {
++		tlshd_log_error("Failed to initialize parser!\n");
++		return;
++	}
++
++	fh = fopen(filename, "r");
++	if (!fh) {
++		tlshd_log_perror("fopen");
++		yaml_parser_delete(&parser);
++		return;
++	}
++	yaml_parser_set_input_file(&parser, fh);
++
++	tlshd_log_debug("Parsing tags config file '%s'", filename);
++
++	current.ps_fsm_state = PS_START;
++	do {
++		if (!yaml_parser_parse(&parser, &current.ps_yaml_event)) {
++			tlshd_log_error("Parser error %d\n",
++					parser.error);
++			break;
++		}
++		tlshd_tags_process_yaml_event(&current);
++		yaml_event_delete(&current.ps_yaml_event);
++
++		if (current.ps_fsm_state == PS_FAILURE ||
++		    current.ps_fsm_state == PS_UNEXPECTED_INPUT_TOKEN) {
++			tlshd_log_error("Tag parsing failed, line: %zu column: %zu file: %s\n",
++					parser.mark.line + 1,
++					parser.mark.column,
++					filename);
++			break;
++		}
++	} while (current.ps_fsm_state != PS_STOP);
++
++	yaml_parser_delete(&parser);
++	fclose(fh);
++}
++
++static bool tlshd_tags_read_directory(const char *tagsdir)
++{
++	const gchar *filename;
++	GError *error;
++	GDir *dir;
++
++	error = NULL;
++	dir = g_dir_open(tagsdir, 0, &error);
++	if (!dir) {
++		tlshd_log_gerror("Failed to open the tags directory", error);
++		g_error_free(error);
 +		return false;
 +	}
 +
-+	for (i = 0; i < ARRAY_SIZE(tlshd_tags_static_filter_types); ++i) {
-+		const struct tlshd_tags_filter_type *filter_type;
++	while ((filename = g_dir_read_name(dir)) != NULL) {
++		gchar *pathname;
 +
-+		filter_type = &tlshd_tags_static_filter_types[i];
-+		g_hash_table_insert(tlshd_tags_filter_type_hash,
-+				    filter_type->ft_name,
-+				    (gpointer)filter_type);
++		if (!g_str_has_suffix(filename, ".yml") &&
++		    !g_str_has_suffix(filename, ".yaml"))
++			continue;
++		pathname = g_build_filename(tagsdir, filename, NULL);
++
++		tlshd_tags_parse_file(pathname);
++		g_free(pathname);
 +	}
++
++	g_dir_close(dir);
 +	return true;
 +}
 +
- /* --- Subsystem start-up / shutdown APIs --- */
+ /* --- Filter Types --- */
  
- /**
-@@ -39,6 +150,8 @@
+ static const struct tlshd_tags_filter_type tlshd_tags_static_filter_types[] = {
+@@ -148,10 +392,18 @@ static bool tlshd_tags_filter_type_hash_init(void)
+  * @tagsdir: pathname of directory containing files that define tags
+  *
   */
- void tlshd_tags_config_init(__attribute__ ((unused)) const char *tagsdir)
+-void tlshd_tags_config_init(__attribute__ ((unused)) const char *tagsdir)
++void tlshd_tags_config_init(const char *tagsdir)
  {
-+	if (!tlshd_tags_filter_type_hash_init())
-+		return;
- }
- 
- /**
-@@ -47,4 +160,5 @@ void tlshd_tags_config_init(__attribute__ ((unused)) const char *tagsdir)
-  */
- void tlshd_tags_config_shutdown(void)
- {
+ 	if (!tlshd_tags_filter_type_hash_init())
+ 		return;
++
++	if (!tlshd_tags_read_directory(tagsdir))
++		goto filter_type_hash;
++
++	return;
++
++filter_type_hash:
 +	tlshd_tags_filter_type_hash_destroy();
  }
+ 
+ /**
 
 

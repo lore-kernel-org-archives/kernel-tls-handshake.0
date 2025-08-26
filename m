@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E6126D4DD
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 26 Aug 2025 15:38:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A518A242D9A
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 26 Aug 2025 15:38:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756222691; cv=none; b=tNHDt6zzkoB+ii7ditd53TtQe5tSMv4Ev1ilSqqYwvusC8+9SCsiAflGWPm6mY/8moud4LflKcN2VTZBWABOWiZ234aIv9jWIT6G6nFfHDmWY3BjsdA11bHYjJIEw2RFTdMaTglQD4CJCTdwa8YuhCxwd2GQDinJyecFCd9C5/8=
+	t=1756222696; cv=none; b=RZy+jc9l4CfDDevQQeYC3HWvp00cC191mZs/QewM4YG7M3rGslzT6Od+AAvlBZu3l27/6E1ivMuwZ39N6x5qdvH0szdQuOkbk40QPfpN6M5hqS6WYnf69awkJDMatyojC0eJmVJIdj5n83zuxcZKMRowrJZZ7ZZvDwsz2aBvpCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756222691; c=relaxed/simple;
-	bh=zViGg/D4eyV6yDSwiqLvS4CPQy95AKURSC3bt8t6fGE=;
+	s=arc-20240116; t=1756222696; c=relaxed/simple;
+	bh=8sFW7kTHTy66Wm1J4Di7qo/mOPu90If9OyZpTVXwpxg=;
 	h=Subject:From:To:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MihXfo+EQ/ErytckSwstxSd1GpvxHjuH0+aw96J5Bc2sdZKUuRKJ7xpyRL82VDR+X0Tx/ZuJgDhmAzNjVZ30CpTA7bNtXxlEh6CmgM3efeVdWUjZ4PEyV39sKkRVwMRXxpi6j+yhGv2+IeO1EP2JXncmpCFAfdiFUWyzKpZ+FMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R1jc0oek; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=bL5IYcqeU7aYj1MCpNaYZqH72IX10Jl2Ny0H76BGd7UcVGlkm0XXHmQFahIgSEriMBkvryqbU65FKnIlhDrKmcnP6I4y1LUz8JCZiJKqis7YE/Xb5ml4XUgisU2DZLLnAep/gTwz30sewextMmYsGttcJnkoC95nP/rWOzjt7ZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t1572PxA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R1jc0oek"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAE0EC4CEF1
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 26 Aug 2025 15:38:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t1572PxA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E8A7C4CEF1
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 26 Aug 2025 15:38:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756222690;
-	bh=zViGg/D4eyV6yDSwiqLvS4CPQy95AKURSC3bt8t6fGE=;
+	s=k20201202; t=1756222696;
+	bh=8sFW7kTHTy66Wm1J4Di7qo/mOPu90If9OyZpTVXwpxg=;
 	h=Subject:From:To:Date:In-Reply-To:References:From;
-	b=R1jc0oek9X9Emry0y1yZ9OW9xgmu2AE7GrzbztdvcXX+6DWVEYr5/x20QfbygOWRz
-	 s2iZ+RBCEuer9N1tPOqbsTJFbNYUF2YVufSDwkW3Ow+FEWyptthQJ5y37poBqYtAOU
-	 n9+NllFGNTF6gFutuX+oBLTnGA0q9eoHbarUulnC0zJwNsvyHHbtMoe5Oc6tGXcx0F
-	 TOQlzWhQP/oufughFCeBiRUO2qh/fOa84PqDkXmAnP+bRTRpWn3v18AT83gPGQui91
-	 t4QkwUT9GJnlKQH3AP2UQaxYL/jt+Cr87SixfJl+IVZuK4MuDulD6+tf7pNq+I6mjG
-	 v9u1F5f5iD/Sw==
-Subject: [PATCH v2 03/11] tlshd: Add init/shutdown hooks for the session
- tagging subsystem
+	b=t1572PxADAFu7yyuKT7hZl41Bo3enp7OyDF9PgHM0Y9PpdddLUm+sFzlxSQ1+oACI
+	 NQCr3R1s3fp/K0kKtvS7lz7E7XfWqqlKoxU63IaU3+aqnJwpRlZfuepbvsyCifPHJC
+	 VQ6lzcKRUVHRNy1pQzBWanIBdnyuMOYgDG6jdWT9E16MR8nxwBUhM7ZXwGpk9MKD+U
+	 yeC7AQH2f37YUbKI6FPBCEOwINPlCP7CzI9awSZgt0chEZ9Qmo4kS3SvjhW+l0dQIE
+	 AXUzEZsN9siBj2SYtBzGSUQViyyl2kc5P8WzGhqoA1g4j3fvqMIkcY9f4KnKZB12nh
+	 Wr5UhRca4d/wQ==
+Subject: [PATCH v2 04/11] tlshd: man update for TLS session tags
 From: Chuck Lever <cel@kernel.org>
 To: kernel-tls-handshake@lists.linux.dev
-Date: Tue, 26 Aug 2025 11:38:09 -0400
+Date: Tue, 26 Aug 2025 11:38:15 -0400
 Message-ID: 
- <175622268919.6197.13581951492126274128.stgit@91.116.238.104.host.secureserver.net>
+ <175622269528.6197.11279886690680930671.stgit@91.116.238.104.host.secureserver.net>
 In-Reply-To: 
  <175622197574.6197.17170424685161235821.stgit@91.116.238.104.host.secureserver.net>
 References: 
@@ -49,123 +48,164 @@ Content-Transfer-Encoding: 7bit
 
 From: Chuck Lever <chuck.lever@oracle.com>
 
-TLS session tags will be managed in functions contained in a new
-source file, tags.c.
+Set up a man page that describes how to configure the session
+tagging mechanism.
+
+For now, the man page contains just an overview of the facility. The
+man page will be populated with details in subsequent patches.
 
 Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 ---
- src/tlshd/Makefile.am |    5 +++--
- src/tlshd/config.c    |    3 +++
- src/tlshd/tags.c      |   50 +++++++++++++++++++++++++++++++++++++++++++++++++
- src/tlshd/tlshd.h     |    4 ++++
- 4 files changed, 60 insertions(+), 2 deletions(-)
- create mode 100644 src/tlshd/tags.c
+ src/tlshd/etc/Makefile.am          |    3 +
+ src/tlshd/etc/tls-session-tags.man |  112 ++++++++++++++++++++++++++++++++++++
+ src/tlshd/etc/tlshd.conf.man       |    3 +
+ 3 files changed, 116 insertions(+), 2 deletions(-)
+ create mode 100644 src/tlshd/etc/tls-session-tags.man
 
-diff --git a/src/tlshd/Makefile.am b/src/tlshd/Makefile.am
-index 1150c168e62f..288aec89c59f 100644
---- a/src/tlshd/Makefile.am
-+++ b/src/tlshd/Makefile.am
-@@ -23,8 +23,9 @@ sbin_PROGRAMS		= tlshd
- tlshd_CFLAGS		= -Werror -Wall -Wextra $(LIBGNUTLS_CFLAGS) \
- 			  $(LIBKEYUTILS_CFLAGS) $(GLIB_CFLAGS) $(LIBNL3_CFLAGS) \
- 			  $(LIBNL_GENL3_CFLAGS) $(LIBYAML_CFLAGS)
--tlshd_SOURCES		= client.c config.c handshake.c keyring.c ktls.c log.c \
--			  main.c netlink.c netlink.h server.c tlshd.h quic.c
-+tlshd_SOURCES		= client.c config.c handshake.c keyring.c ktls.c \
-+			  log.c main.c netlink.c netlink.h quic.c server.c \
-+			  tags.c tlshd.h
- tlshd_LDADD		= $(LIBGNUTLS_LIBS) $(LIBKEYUTILS_LIBS) $(GLIB_LIBS) \
- 			  $(LIBNL3_LIBS) $(LIBNL_GENL3_LIBS) $(LIBYAML_LIBS)
+diff --git a/src/tlshd/etc/Makefile.am b/src/tlshd/etc/Makefile.am
+index d067c9e3e776..9a1f4249eb76 100644
+--- a/src/tlshd/etc/Makefile.am
++++ b/src/tlshd/etc/Makefile.am
+@@ -21,7 +21,8 @@ tlshdconfigdir		= $(sysconfdir)/tlshd
+ dist_tlshdconfig_DATA	= config
  
-diff --git a/src/tlshd/config.c b/src/tlshd/config.c
-index 19b37035b1a4..edfbe39387a7 100644
---- a/src/tlshd/config.c
-+++ b/src/tlshd/config.c
-@@ -108,11 +108,14 @@ bool tlshd_config_init(const gchar *pathname, bool legacy)
- 	tlshd_keyring_link_session(".nfs");
- 	tlshd_keyring_link_session(".nfsd");
+ man5_MANS		= tlshd.conf.man
+-EXTRA_DIST		= $(man5_MANS)
++man7_MANS		= tls-session-tags.man
++EXTRA_DIST		= $(man5_MANS) $(man7_MANS)
  
-+	/* Eventually the tags directory might become a tlshd config option */
-+	tlshd_tags_config_init("/etc/tlshd/tags.d");
- 	return true;
- }
+ MAINTAINERCLEANFILES	= Makefile.in
  
- void tlshd_config_shutdown(void)
- {
-+	tlshd_tags_config_shutdown();
- 	g_key_file_free(tlshd_configuration);
- }
- 
-diff --git a/src/tlshd/tags.c b/src/tlshd/tags.c
+diff --git a/src/tlshd/etc/tls-session-tags.man b/src/tlshd/etc/tls-session-tags.man
 new file mode 100644
-index 000000000000..3f8631240281
+index 000000000000..5ee58f6d2289
 --- /dev/null
-+++ b/src/tlshd/tags.c
-@@ -0,0 +1,50 @@
-+/*
-+ * TLS session tagging
-+ *
-+ * Copyright (c) 2025 Oracle and/or its affiliates.
-+ *
-+ * ktls-utils is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU General Public License as
-+ * published by the Free Software Foundation; version 2.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+ * General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, write to the Free Software
-+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-+ * 02110-1301, USA.
-+ */
-+
-+#include "config.h"
-+
-+#include <stdbool.h>
-+#include <keyutils.h>
-+
-+#include <gnutls/gnutls.h>
-+#include <gnutls/abstract.h>
-+
-+#include <glib.h>
-+
-+#include "tlshd.h"
-+
-+/* --- Subsystem start-up / shutdown APIs --- */
-+
-+/**
-+ * tlshd_tags_config_init - Initialize the TLS session tags configuration
-+ * @tagsdir: pathname of directory containing files that define tags
-+ *
-+ */
-+void tlshd_tags_config_init(__attribute__ ((unused)) const char *tagsdir)
-+{
-+}
-+
-+/**
-+ * tlshd_tags_config_shutdown - Release all tag-related resources
-+ *
-+ */
-+void tlshd_tags_config_shutdown(void)
-+{
-+}
-diff --git a/src/tlshd/tlshd.h b/src/tlshd/tlshd.h
-index b98f77d7328a..816b85f63291 100644
---- a/src/tlshd/tlshd.h
-+++ b/src/tlshd/tlshd.h
-@@ -119,6 +119,10 @@ extern void tlshd_genl_done(struct tlshd_handshake_parms *parms);
- extern void tlshd_tls13_serverhello_handshake(struct tlshd_handshake_parms *parms);
- extern void tlshd_quic_serverhello_handshake(struct tlshd_handshake_parms *parms);
- 
-+/* tags.c */
-+extern void tlshd_tags_config_init(const char *tagsdir);
-+extern void tlshd_tags_config_shutdown(void);
-+
- #ifdef HAVE_GNUTLS_QUIC
- #include <linux/quic.h>
- 
++++ b/src/tlshd/etc/tls-session-tags.man
+@@ -0,0 +1,112 @@
++.\"
++.\" Copyright (c) 2025 Oracle and/or its affiliates.
++.\"
++.\" ktls-utils is free software; you can redistribute it and/or
++.\" modify it under the terms of the GNU General Public License as
++.\" published by the Free Software Foundation; version 2.
++.\"
++.\" This program is distributed in the hope that it will be useful,
++.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
++.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++.\" General Public License for more details.
++.\"
++.\" You should have received a copy of the GNU General Public License
++.\" along with this program; if not, write to the Free Software
++.\" Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
++.\" 02110-1301, USA.
++.\"
++.\" tls-session-tags(7)
++.\"
++.TH tls-session-tags 7 "25 Aug 2025"
++.SH NAME
++tls-session-tags \- TLS session tags
++.SH SYNOPSIS
++.B /etc/tlsd/tags.d/
++.SH DESCRIPTION
++The
++.B tlshd
++program implements a user agent that services TLS handshake requests
++on behalf of kernel TLS consumers.
++Its configuration files, found under the
++.I /etc/tlshd
++directory, contain information that the
++.B tlshd
++program reads when it starts up.
++The configuration files direct the
++.B tlshd
++program to information about which trust store and signing
++and encryption algorithms are to be used.
++The configuration files are considered a trusted source of information.
++.P
++When a remote presents an x.509 certificate during a TLS handshake, the
++.B tlshd
++program is responsible for verifying that the certificate was
++issued by a certificate authority that the receiver recognizes and
++trusts.
++Once that verification is successful, the receiver can trust
++the content of that certificate, including information about
++the peer identity presented in that certificate (eg. a DNS hostname
++or IP address, and so on).
++.P
++Once a peer's certificate is trusted,
++the
++.B tlshd
++program can be configured to scan the fields in the peer's certificate.
++Based on the scan,
++the
++.B tlshd
++program can assign tags to the new TLS session that
++indicate that the server recognizes the peer's identity.
++For example,
++the
++.B tlshd
++program can be configured to look for a specific string in
++.I subject
++fields, and assign tags to TLS sessions where the peer presented
++a certificate with matching content in that field.
++Kernel consumers can use those tags to authorize or deny access
++to resources based on the identity presented in peer certificates.
++.P
++The following sections describe how to configure this facility.
++.SH FORMAT
++TLS session tag definitions are YAML documents stored in files in the
++.I /etc/tlshd/tags.d
++directory.
++When it launches, the
++.B tlshd
++program reads all files in that directory with either the
++.I .yml
++or
++.I .yaml
++extension.
++Modifications to the content of these files take effect only when the
++.B tlshd
++program is restarted.
++.P
++The
++.B tlshd
++program
++populates two dictionaries from the contents of these files:
++.TP
++.B filters
++Each filter defined in this dictionary specifies the name of a
++field in an x.509 certificate, and the conditions under which the
++contents of that field are to be considered a match.
++.TP
++.B tags
++Each tag is a list of one or more filters (defined in the
++.B filters
++dictionary)
++that all must be matched in order for the tag to be assigned to a
++new TLS session.
++.SH STANDARDS
++x.509
++.BR
++RFC 5280
++.BR
++RFC 6125
++.SH SEE ALSO
++.BR tlshd (8),
++.BR tlshd.conf (5)
++.SH AUTHOR
++Chuck Lever
+diff --git a/src/tlshd/etc/tlshd.conf.man b/src/tlshd/etc/tlshd.conf.man
+index 80bb1ba6b341..f1151e2e94bc 100644
+--- a/src/tlshd/etc/tlshd.conf.man
++++ b/src/tlshd/etc/tlshd.conf.man
+@@ -126,6 +126,7 @@ a handshake request when no other certificate is available.
+ This option specifies the pathname of a file containing
+ a PEM-encoded private key associated with the above certificate.
+ .SH SEE ALSO
+-.BR tlshd (8)
++.BR tlshd (8),
++.BR tls-session-tags (7)
+ .SH AUTHOR
+ Chuck Lever
 
 

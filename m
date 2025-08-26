@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A518A242D9A
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 26 Aug 2025 15:38:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49ED262FDC
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 26 Aug 2025 15:38:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756222696; cv=none; b=RZy+jc9l4CfDDevQQeYC3HWvp00cC191mZs/QewM4YG7M3rGslzT6Od+AAvlBZu3l27/6E1ivMuwZ39N6x5qdvH0szdQuOkbk40QPfpN6M5hqS6WYnf69awkJDMatyojC0eJmVJIdj5n83zuxcZKMRowrJZZ7ZZvDwsz2aBvpCo=
+	t=1756222702; cv=none; b=Q1W1dMDUPzhCsX+oiZ3HRyn/0dTonm3F1tR0BhHNEn1/GfrpoclScZ2LLIw55+GyCdpi1CFl7RYoAXC4ag/fXhdd09bR3CYc+QMXfp53zITCL1Xfk25THUzDCHGDhz0P6HKUKwwtYTWZNgbaQhDNylJaDZkpY4maFSLD4eLR/x8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756222696; c=relaxed/simple;
-	bh=8sFW7kTHTy66Wm1J4Di7qo/mOPu90If9OyZpTVXwpxg=;
+	s=arc-20240116; t=1756222702; c=relaxed/simple;
+	bh=RQc2wv+cP201/GwClQ5OuzMW37HTYgOf/JJSGrCA1mY=;
 	h=Subject:From:To:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bL5IYcqeU7aYj1MCpNaYZqH72IX10Jl2Ny0H76BGd7UcVGlkm0XXHmQFahIgSEriMBkvryqbU65FKnIlhDrKmcnP6I4y1LUz8JCZiJKqis7YE/Xb5ml4XUgisU2DZLLnAep/gTwz30sewextMmYsGttcJnkoC95nP/rWOzjt7ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t1572PxA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=mgDCMNLVp5wRKzMYpAwGPDRAONyiu0HdT7idl1K2Y+igpGygUSxum8GULzO3uzdB7PPrJmr4KU9WvQkjR1kYC9OF8dIWWKAnDTfewtsBXMTm156UbaM0flekjrJDQaIdvzF+2mD/Adyk2OQlkMYYqgeezvVvg2xei1VkJNmmvjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W5f8nQqx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t1572PxA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E8A7C4CEF1
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 26 Aug 2025 15:38:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W5f8nQqx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31234C4CEF1
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 26 Aug 2025 15:38:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756222696;
-	bh=8sFW7kTHTy66Wm1J4Di7qo/mOPu90If9OyZpTVXwpxg=;
+	s=k20201202; t=1756222702;
+	bh=RQc2wv+cP201/GwClQ5OuzMW37HTYgOf/JJSGrCA1mY=;
 	h=Subject:From:To:Date:In-Reply-To:References:From;
-	b=t1572PxADAFu7yyuKT7hZl41Bo3enp7OyDF9PgHM0Y9PpdddLUm+sFzlxSQ1+oACI
-	 NQCr3R1s3fp/K0kKtvS7lz7E7XfWqqlKoxU63IaU3+aqnJwpRlZfuepbvsyCifPHJC
-	 VQ6lzcKRUVHRNy1pQzBWanIBdnyuMOYgDG6jdWT9E16MR8nxwBUhM7ZXwGpk9MKD+U
-	 yeC7AQH2f37YUbKI6FPBCEOwINPlCP7CzI9awSZgt0chEZ9Qmo4kS3SvjhW+l0dQIE
-	 AXUzEZsN9siBj2SYtBzGSUQViyyl2kc5P8WzGhqoA1g4j3fvqMIkcY9f4KnKZB12nh
-	 Wr5UhRca4d/wQ==
-Subject: [PATCH v2 04/11] tlshd: man update for TLS session tags
+	b=W5f8nQqx8R2R6kliQB581Wp3fQ57wjaEXHEDiE7xPHRCD6Sb7o+YOf5yr5Qr0fvJK
+	 vxkGrh9Omm6FWK+5DbaQeeSlMIMxEgOtZIWHkVUzgpylebUuvseIIB3spmXPxv+OW5
+	 QTp46TmSOrrdS9/14nX/3AmcLQKPbDBQ0VnExXXisPdBedDmXQnUpJ5//BC6ihSR/q
+	 fiHRdAVYjAOwl51iPP7VQRY4fVNzK1ElLwz17PK4W65UJSrXYgXYqWOVYCOFh/UE2Q
+	 o5UWAuA2riQYHA8XEnQZwzmvyOFiuuuxKBVUA9yHGMBbc+y0n+8LXO+coNSdZ04IKb
+	 t2LmF9zyldG3Q==
+Subject: [PATCH v2 05/11] tlshd: Add tag filter types
 From: Chuck Lever <cel@kernel.org>
 To: kernel-tls-handshake@lists.linux.dev
-Date: Tue, 26 Aug 2025 11:38:15 -0400
+Date: Tue, 26 Aug 2025 11:38:21 -0400
 Message-ID: 
- <175622269528.6197.11279886690680930671.stgit@91.116.238.104.host.secureserver.net>
+ <175622270143.6197.4955935053738478046.stgit@91.116.238.104.host.secureserver.net>
 In-Reply-To: 
  <175622197574.6197.17170424685161235821.stgit@91.116.238.104.host.secureserver.net>
 References: 
@@ -48,164 +48,291 @@ Content-Transfer-Encoding: 7bit
 
 From: Chuck Lever <chuck.lever@oracle.com>
 
-Set up a man page that describes how to configure the session
-tagging mechanism.
+To start, define a filter type for each x.509 certificate field that
+someone might want to match. These are defined in a table for easy
+extensibility, and read into a hash table at start-up so they can be
+looked up quickly by filter type name. (The filter type names will
+eventually be exposed to users).
 
-For now, the man page contains just an overview of the facility. The
-man page will be populated with details in subsequent patches.
+The filter types are introduced separately to give a sense of what
+kind of matching can be done.
 
 Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 ---
- src/tlshd/etc/Makefile.am          |    3 +
- src/tlshd/etc/tls-session-tags.man |  112 ++++++++++++++++++++++++++++++++++++
- src/tlshd/etc/tlshd.conf.man       |    3 +
- 3 files changed, 116 insertions(+), 2 deletions(-)
- create mode 100644 src/tlshd/etc/tls-session-tags.man
+ src/tlshd/etc/tls-session-tags.man |  123 ++++++++++++++++++++++++++++++++++++
+ src/tlshd/tags.c                   |  114 +++++++++++++++++++++++++++++++++
+ 2 files changed, 237 insertions(+)
 
-diff --git a/src/tlshd/etc/Makefile.am b/src/tlshd/etc/Makefile.am
-index d067c9e3e776..9a1f4249eb76 100644
---- a/src/tlshd/etc/Makefile.am
-+++ b/src/tlshd/etc/Makefile.am
-@@ -21,7 +21,8 @@ tlshdconfigdir		= $(sysconfdir)/tlshd
- dist_tlshdconfig_DATA	= config
- 
- man5_MANS		= tlshd.conf.man
--EXTRA_DIST		= $(man5_MANS)
-+man7_MANS		= tls-session-tags.man
-+EXTRA_DIST		= $(man5_MANS) $(man7_MANS)
- 
- MAINTAINERCLEANFILES	= Makefile.in
- 
 diff --git a/src/tlshd/etc/tls-session-tags.man b/src/tlshd/etc/tls-session-tags.man
-new file mode 100644
-index 000000000000..5ee58f6d2289
---- /dev/null
+index 5ee58f6d2289..c5a73d881773 100644
+--- a/src/tlshd/etc/tls-session-tags.man
 +++ b/src/tlshd/etc/tls-session-tags.man
-@@ -0,0 +1,112 @@
-+.\"
-+.\" Copyright (c) 2025 Oracle and/or its affiliates.
-+.\"
-+.\" ktls-utils is free software; you can redistribute it and/or
-+.\" modify it under the terms of the GNU General Public License as
-+.\" published by the Free Software Foundation; version 2.
-+.\"
-+.\" This program is distributed in the hope that it will be useful,
-+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
-+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-+.\" General Public License for more details.
-+.\"
-+.\" You should have received a copy of the GNU General Public License
-+.\" along with this program; if not, write to the Free Software
-+.\" Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-+.\" 02110-1301, USA.
-+.\"
-+.\" tls-session-tags(7)
-+.\"
-+.TH tls-session-tags 7 "25 Aug 2025"
-+.SH NAME
-+tls-session-tags \- TLS session tags
-+.SH SYNOPSIS
-+.B /etc/tlsd/tags.d/
-+.SH DESCRIPTION
+@@ -99,6 +99,129 @@ Each tag is a list of one or more filters (defined in the
+ dictionary)
+ that all must be matched in order for the tag to be assigned to a
+ new TLS session.
++.SS Filter types
++A filter's
++.I type
++determines the part of the incoming authentication material that the
++.B tlshd
++program examines to determine if ther is a match.
++For example, for the
++.I x509.tbs.subject
++filter type, a string argument specifies a simple wildcard pattern
++that is matched against an incoming x.509 certificate's subject field.
++A complete list of filter types appears in the
++.B FILTER TYPE REFERENCE
++section below.
++
++.SH FILTER TYPE REFERENCE
 +The
 +.B tlshd
-+program implements a user agent that services TLS handshake requests
-+on behalf of kernel TLS consumers.
-+Its configuration files, found under the
-+.I /etc/tlshd
-+directory, contain information that the
-+.B tlshd
-+program reads when it starts up.
-+The configuration files direct the
-+.B tlshd
-+program to information about which trust store and signing
-+and encryption algorithms are to be used.
-+The configuration files are considered a trusted source of information.
-+.P
-+When a remote presents an x.509 certificate during a TLS handshake, the
-+.B tlshd
-+program is responsible for verifying that the certificate was
-+issued by a certificate authority that the receiver recognizes and
-+trusts.
-+Once that verification is successful, the receiver can trust
-+the content of that certificate, including information about
-+the peer identity presented in that certificate (eg. a DNS hostname
-+or IP address, and so on).
-+.P
-+Once a peer's certificate is trusted,
-+the
-+.B tlshd
-+program can be configured to scan the fields in the peer's certificate.
-+Based on the scan,
-+the
-+.B tlshd
-+program can assign tags to the new TLS session that
-+indicate that the server recognizes the peer's identity.
-+For example,
-+the
-+.B tlshd
-+program can be configured to look for a specific string in
-+.I subject
-+fields, and assign tags to TLS sessions where the peer presented
-+a certificate with matching content in that field.
-+Kernel consumers can use those tags to authorize or deny access
-+to resources based on the identity presented in peer certificates.
-+.P
-+The following sections describe how to configure this facility.
-+.SH FORMAT
-+TLS session tag definitions are YAML documents stored in files in the
-+.I /etc/tlshd/tags.d
-+directory.
-+When it launches, the
-+.B tlshd
-+program reads all files in that directory with either the
-+.I .yml
-+or
-+.I .yaml
-+extension.
-+Modifications to the content of these files take effect only when the
-+.B tlshd
-+program is restarted.
-+.P
-+The
-+.B tlshd
-+program
-+populates two dictionaries from the contents of these files:
++program currently implements the following filter types:
 +.TP
-+.B filters
-+Each filter defined in this dictionary specifies the name of a
-+field in an x.509 certificate, and the conditions under which the
-+contents of that field are to be considered a match.
++.B x509.cert.signatureAlgorithm
++Filters of this type examine an incoming x.509 certificate's
++signatureAlgorithm field,
++as defined in RFC 5280, Section 4.1.1.2.
++The filter takes an additional string wildcard pattern that
++can be an algorithm name or an algorithm OID.
 +.TP
-+.B tags
-+Each tag is a list of one or more filters (defined in the
-+.B filters
-+dictionary)
-+that all must be matched in order for the tag to be assigned to a
-+new TLS session.
-+.SH STANDARDS
-+x.509
-+.BR
-+RFC 5280
-+.BR
-+RFC 6125
-+.SH SEE ALSO
-+.BR tlshd (8),
-+.BR tlshd.conf (5)
-+.SH AUTHOR
-+Chuck Lever
-diff --git a/src/tlshd/etc/tlshd.conf.man b/src/tlshd/etc/tlshd.conf.man
-index 80bb1ba6b341..f1151e2e94bc 100644
---- a/src/tlshd/etc/tlshd.conf.man
-+++ b/src/tlshd/etc/tlshd.conf.man
-@@ -126,6 +126,7 @@ a handshake request when no other certificate is available.
- This option specifies the pathname of a file containing
- a PEM-encoded private key associated with the above certificate.
- .SH SEE ALSO
--.BR tlshd (8)
-+.BR tlshd (8),
-+.BR tls-session-tags (7)
- .SH AUTHOR
- Chuck Lever
++.B x509.tbs.version
++Filters of this type examine an incoming x.509 certificate's
++version field,
++part of the To-Be-Signed section of the certificate,
++as defined in RFC 5280, Section 4.1.2.1.
++The filter takes an additional numeric value that is matched
++against the certificate's version.
++.TP
++.B x509.tbs.serialNumber
++Filters of this type examine an incoming x.509 certificate's
++serialNumber field,
++part of the To-Be-Signed section of the certificate,
++as defined in RFC 5280, Section 4.1.2.2.
++The filter takes an additional string wildcard pattern that
++matches a hexadecimal number.
++.TP
++.B x509.tbs.signature
++Filters of this type examine an incoming x.509 certificate's
++signature field,
++part of the To-Be-Signed section of the certificate,
++as defined in RFC 5280, Section 4.1.2.3.
++The filter takes an additional string wildcard pattern that
++matches, well, something.
++.TP
++.B x509.tbs.issuer
++Filters of this type examine an incoming x.509 certificate's
++issuer field,
++part of the To-Be-Signed section of the certificate,
++as defined in RFC 5280, Section 4.1.2.4.
++The filter takes an additional string wildcard pattern that
++matches the distinguished name part of the certificate's
++issuer field.
++.TP
++.B x509.tbs.validity.notBefore
++Filters of this type examine an incoming x.509 certificate's
++activation time field,
++part of the To-Be-Signed section of the certificate,
++as defined in RFC 5280, Section 4.1.2.5.
++The filter takes an additional string that
++contains a date and time. If the certificate's activation
++timestamp is earlier than the date and time specified in
++this filter, the filter does not match.
++.TP
++.B x509.tbs.validity.notAfter
++Filters of this type examine an incoming x.509 certificate's
++expiration time field,
++part of the To-Be-Signed section of the certificate,
++as defined in RFC 5280, Section 4.1.2.5.
++The filter takes an additional string that
++contains a date and time. If the certificate's expiry
++timestamp is later than the date and time specified in
++this filter, the filter does not match.
++.TP
++.B x509.tbs.subject
++Filters of this type examine an incoming x.509 certificate's
++subject field,
++part of the To-Be-Signed section of the certificate,
++as defined in RFC 5280, Section 4.1.2.6.
++The filter takes an additional string wildcard pattern that
++matches the distinguished name part of the certificate's
++subject field.
++
++.TP
++.B x509.extension.keyUsage
++Filters of this type examine an incoming x.509 certificate's
++keyUsage field,
++one of the standard certificate extensions.
++The filter takes a list of bit names that must be set in the
++field in order for the filter to match.
++This list contains zero or one of the following bit names:
++.IR digitalSignature ,
++.IR nonRepudiation ,
++.IR keyEncipherment ,
++.IR dataEncipherment ,
++.IR keyAgreement ,
++.IR keyCertSign ,
++.IR cRLSign ,
++.IR encipherOnly ", or"
++.IR decipherOnly .
++.TP
++.B x509.extension.extendedKeyUsage
++Filters of this type examine an incoming x.509 certificate's
++extendedKeyUsage field,
++one of the standard certificate extensions.
++This filter type is not yet implemented.
++.TP
++.B x509.derived.fingerprint
++Filters of this type locally compute an incoming x.509 certificate's
++SHA1 and SHA256 fingerprint.
++The filter takes an additional string wildcard pattern that
++matches the hexadecimal value of either the derived SHA1 or
++derived SHA256 fingerrint.
++.TP
++.B x509.derived.selfSigned
++Filters of this type match when an incoming x.509 certificate's
++issuer and subject distinguished names are exactly equal.
++This filter type is not yet implemented.
+ .SH STANDARDS
+ x.509
+ .BR
+diff --git a/src/tlshd/tags.c b/src/tlshd/tags.c
+index 3f8631240281..2d2f72f036f4 100644
+--- a/src/tlshd/tags.c
++++ b/src/tlshd/tags.c
+@@ -30,6 +30,117 @@
+ 
+ #include "tlshd.h"
+ 
++struct tlshd_tags_filter;
++
++struct tlshd_tags_filter_type {
++	gchar				*ft_name;
++	bool				(*ft_validate)(struct tlshd_tags_filter *filter);
++	bool				(*ft_match)(struct tlshd_tags_filter *filter,
++						    gnutls_session_t session);
++};
++
++static GHashTable *tlshd_tags_filter_type_hash;
++
++/* --- Filter Types --- */
++
++static const struct tlshd_tags_filter_type tlshd_tags_static_filter_types[] = {
++
++	/* Certificate fields, RFC 5280, Section 4.1.1 */
++
++	{
++		/* RFC 5280, Section 4.1.1.2 */
++		.ft_name		= "x509.cert.signatureAlgorithm",
++	},
++
++	/* To-Be-Signed fields, RFC 5280, Section 4.1.2 */
++
++	{
++		/* RFC 5280, Section 4.1.2.1 */
++		.ft_name		= "x509.tbs.version",
++	},
++	{
++		/* RFC 5280, Section 4.1.2.2 */
++		.ft_name		= "x509.tbs.serialNumber",
++	},
++	{
++		/* RFC 5280, Section 4.1.2.3 */
++		.ft_name		= "x509.tbs.signature",
++	},
++	{
++		/* RFC 5280, Section 4.1.2.4 */
++		.ft_name		= "x509.tbs.issuer",
++	},
++	{
++		/* RFC 5280, Section 4.1.2.5 */
++		.ft_name		= "x509.tbs.validity.notBefore",
++	},
++	{
++		/* RFC 5280, Section 4.1.2.5 */
++		.ft_name		= "x509.tbs.validity.notAfter",
++	},
++	{
++		/* RFC 5280, Section 4.1.2.6 */
++		.ft_name		= "x509.tbs.subject",
++	},
++
++	/* Standard certificate extensions, RFC 5280, Section 4.2.1 */
++
++	{
++		/* RFC 5280, Section 4.2.1.3 */
++		.ft_name		= "x509.extension.keyUsage",
++	},
++	{
++		/* RFC 5280, Secttion 4.2.1.12 */
++		.ft_name		= "x509.extension.extendedKeyUsage",
++	},
++
++	/* Derived fields */
++
++	{
++		/* Locally implemented */
++		.ft_name		= "x509.derived.fingerprint",
++	},
++	{
++		/* Locally implemented */
++		.ft_name		= "x509.derived.selfSigned",
++	},
++};
++
++static void tlshd_tags_filter_type_hash_destroy(void)
++{
++	if (!tlshd_tags_filter_type_hash)
++		return;
++
++	g_hash_table_destroy(tlshd_tags_filter_type_hash);
++	tlshd_tags_filter_type_hash = NULL;
++}
++
++/*
++ * Add the internally-implemented filter types to a hash table for
++ * fast lookup by name.
++ */
++static bool tlshd_tags_filter_type_hash_init(void)
++{
++	size_t i;
++
++	tlshd_tags_filter_type_hash = g_hash_table_new(g_str_hash, g_str_equal);
++	if (!tlshd_tags_filter_type_hash) {
++		tlshd_log_error("Failed to allocate 'filter type' hash table\n");
++		tlshd_tags_filter_type_hash = NULL;
++		return false;
++	}
++
++	for (i = 0; i < ARRAY_SIZE(tlshd_tags_static_filter_types); ++i) {
++		const struct tlshd_tags_filter_type *filter_type;
++
++		filter_type = &tlshd_tags_static_filter_types[i];
++		g_hash_table_insert(tlshd_tags_filter_type_hash,
++				    filter_type->ft_name,
++				    (gpointer)filter_type);
++	}
++	return true;
++}
++
+ /* --- Subsystem start-up / shutdown APIs --- */
+ 
+ /**
+@@ -39,6 +150,8 @@
+  */
+ void tlshd_tags_config_init(__attribute__ ((unused)) const char *tagsdir)
+ {
++	if (!tlshd_tags_filter_type_hash_init())
++		return;
+ }
+ 
+ /**
+@@ -47,4 +160,5 @@ void tlshd_tags_config_init(__attribute__ ((unused)) const char *tagsdir)
+  */
+ void tlshd_tags_config_shutdown(void)
+ {
++	tlshd_tags_filter_type_hash_destroy();
+ }
 
 

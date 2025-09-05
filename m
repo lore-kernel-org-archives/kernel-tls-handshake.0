@@ -1,145 +1,203 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B154017597;
-	Fri,  5 Sep 2025 14:12:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C01E2FB09F
+	for <kernel-tls-handshake@lists.linux.dev>; Fri,  5 Sep 2025 16:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757081548; cv=none; b=cOpIyu5yY5amXZ80unqaHEfXuvp4QUHnkRJ/U6TCRJeTTyydgXQS/3bo/RJF86+Osn0cmuqUtmUzRh8e9oCliX3imG17fSEFa1DfN1uVhiQMcJx+BxyIxOw/yGGRRRq+veFHS9j/Ew7N8CLEJR1MdOA8dfIoMQtnzQ0bqMS/7QA=
+	t=1757088638; cv=none; b=twi4PWhlJ1M8I8FzRyFenjh+hmCxl/PInEO0LILdbizqVO0s4MJ3MgaL10Ku6daQOOGRsKyF5IfRORj2Y+CLVm9P5HFDvNZ9NmULkbiuUnEhVSWKjgu6RqjxKkMNwEpYzrv3W6+Zsv/bN64y23IM3UiDb0GgFb5Di6kVkdjB6bM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757081548; c=relaxed/simple;
-	bh=d623E1liTi60iAjibtCqAAj0iSP9kDrLBmukVMoZ1bw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bjM9X/Ime8juQdzb/0xNyQRxJOj67G7dKvIjV+bG8nzXXsD+3WBn9N92CSp7+y84YC1QWMZR5v9rU3VM5e5JkIXCUVCPUZzhvDkz1+rI+HIjF+dH7Pk9YoBNyxamRjDnKex2QK7RLIxDnzb5WBBmuvcWOOolBHy0i3XxJvVJotQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SjinW2AM; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757088638; c=relaxed/simple;
+	bh=ur5JMIMfJCcNnsAEuLEJhGLcooBQ1GgahWDjs8G8Eg4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Bg0jzbjp2PjPKIqZE4AiHRF3e7h3gCYJr+MIdxoAU+q0lPrpymNM2TJAZeKlDkeioWt8nF0fPHXzvU/CZRkzyx655Lc4NE1a2rCHbaNaAO+bxzadgEV+olz+1NsEQuNgoBHxKXhBYnXBuYbkFMVJCh0Bodwa3UA7Rs0kK+bskrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=umich.edu; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=umich.edu header.i=@umich.edu header.b=EdEpp31+; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=umich.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SjinW2AM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757081547; x=1788617547;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=d623E1liTi60iAjibtCqAAj0iSP9kDrLBmukVMoZ1bw=;
-  b=SjinW2AMkl6n+hWtGWiJfjLUszTi95scFPJuHB6xC4N9NMhYIppFTEOD
-   3QH+oUBAVvTaiTPNJOla4TARj+rCpgzwKPa83ZQwvIoyDNJbWvwOdoVRq
-   RdVMHJReSCymw7NyRSyfntY4i3TGSf3xDfr+z9Z8cVDX6b6K4FcmyDiMX
-   mt3tu+Fi1JrRDlIR0dzAnihx5yayBszH9aEi7zLlEvAqxhiZqKlzKwEX7
-   dxA1thkRgsFs2sCuNwmLv1dBKlw0UO/Vu8UYadQ9XDzIu6zFyhobF6xRu
-   QcUhJnAH1VD//86vmwnOuO4XkWorgX59aQAK7pOE7qriz4wTDcNWFjW1E
-   A==;
-X-CSE-ConnectionGUID: JvpKaNFYSsmIYB4VaTYQHQ==
-X-CSE-MsgGUID: SiRBQMaaS3msccqXqiW+Pw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11544"; a="62065759"
-X-IronPort-AV: E=Sophos;i="6.18,241,1751266800"; 
-   d="scan'208";a="62065759"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 07:12:26 -0700
-X-CSE-ConnectionGUID: 9mM/JCghRqKBgJuUXE6PAQ==
-X-CSE-MsgGUID: X78LcsnRTRWksMka9TIijg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,241,1751266800"; 
-   d="scan'208";a="176511026"
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Sep 2025 07:12:22 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uuXAq-0000UZ-1Z;
-	Fri, 05 Sep 2025 14:12:20 +0000
-Date: Fri, 5 Sep 2025 22:11:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kbusch@kernel.org, axboe@kernel.dk,
-	hch@lst.de, sagi@grimberg.me, kch@nvidia.com, alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: Re: [PATCH v2 2/7] net/handshake: Make handshake_req_cancel public
-Message-ID: <202509052149.ChcoGfkh-lkp@intel.com>
-References: <20250905024659.811386-3-alistair.francis@wdc.com>
+	dkim=pass (2048-bit key) header.d=umich.edu header.i=@umich.edu header.b="EdEpp31+"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-55f76277413so2805336e87.3
+        for <kernel-tls-handshake@lists.linux.dev>; Fri, 05 Sep 2025 09:10:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=umich.edu; s=google-2016-06-03; t=1757088634; x=1757693434; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FQ5lKT8MWq9BlErADmClzSG7/N/nbcrdEgrcT5yeDiw=;
+        b=EdEpp31+IsgArRBITXrp2tb2hNyjuPa0KQniufzufsnuU4IRvBTEui1apLpE6eJt3p
+         dcvtGme48eGD4KNcgDq1jr/KkepJ3+LNEQG2/0Eg0T52L8J8UTdAg7BFU4tdlpH8QYll
+         j4S6CZaITWUkB11LH3zEYX0zCHKG76w7DXTJIWaTdqtthYp1ROHQZuQHGhgp/CEvfHh0
+         H0eFBGwn9xmj9Z/kyzS624fS9mVCp/INcdh4dB82DuSRk82pstF+MTyth/jkT53pC5Um
+         xq7yDdMi5t1EJpyYwekm8gVAgGXfRRV/Sed8pFxWNOS3LZlmb6VEEYqgLXYAv3CV9td3
+         cDuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757088634; x=1757693434;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FQ5lKT8MWq9BlErADmClzSG7/N/nbcrdEgrcT5yeDiw=;
+        b=fMPIsPufbzMqvpBn5j4tB8fY8WU9Ck8ZdldqaMuxYkHAccJ4jZkoy5Eksg7h+R7VA/
+         I8iJbJlfLg3nyTcK1t5YQsnxT+OCPvQMfyLrOwIU2i4SSR82/IWIepMfMPaseHSQ76yk
+         6ORxi5W+zsuN5j+A5AJNmSQY3C4yppgywdfkcCLj6WV3nPJuknOlUU/FwujLdnvVN94V
+         6SOubRxqesykmXPGmHd8LShWn8qLQG/lxxz1HgXoi5ko6J/WRxO+tIQPpiQHRGPTYyzw
+         pNmtQX9iM+gbqz4vPtg6TSxiq0pBmZYQmbUPdHMNscqQ3THDrtYiBwXjgV1hqxvOTo9i
+         dN9w==
+X-Forwarded-Encrypted: i=1; AJvYcCUEYFj7ysYkXmHuDcFBLsaKCdAjLLnNWDrZMMIifpivALrr4Y+okCUsvoFSeoRCUMJycTQwoiC6yZrsbgAPF2qiMsvMyQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxLpkMaqmZibDwLTfqIMD8AwuAh11cwx7K+F/NnDuzhI9CNj0Fl
+	jFA+Dy91f5zw945FNqcuhPbvxlcV5AbZkp7/6Gat3TM010rczbMFifpN7q5W+vaLh4tVr4SHJi6
+	vgmtXnj8vrTkkIE7YtOKS4/h+zXHm5no=
+X-Gm-Gg: ASbGncvYDtJoWFIgVU4xf2yd1DRc+WXscyOEbIPj0GSUpE4vRiM9Lp1dX6V4m5FwSGw
+	mMAme8wpsgBhVmTRCOC3uilHzoYs0JQoqpUHVYTnRQKtSFzRtO8YIc+w1IBFxjPMQ/JQNvcM9A2
+	nmkivf9cjQQj7q0Rj/KITiWcQ0Roh4Inj/pF11SJtEzfJTpDTU0xk1vhve42ISeo3iZ1xZBkS0Y
+	XnTcjyMwLA77tmHSKU3wO4LkrutFjlSp+IdCb8q1Q==
+X-Google-Smtp-Source: AGHT+IH4XATrInTUDVReB90YvO/+WxFS3HmfZqUUGXwXcEnfrW4wwIz+ykUEAEhK5InYJjqbQmozqhPkoS3eqY6kZqE=
+X-Received: by 2002:a05:651c:1b12:b0:332:2235:911c with SMTP id
+ 38308e7fff4ca-336caf71358mr68599551fa.37.1757088634191; Fri, 05 Sep 2025
+ 09:10:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250905024659.811386-3-alistair.francis@wdc.com>
+References: <20250731180058.4669-1-okorniev@redhat.com> <20250731180058.4669-4-okorniev@redhat.com>
+In-Reply-To: <20250731180058.4669-4-okorniev@redhat.com>
+From: Olga Kornievskaia <aglo@umich.edu>
+Date: Fri, 5 Sep 2025 12:10:21 -0400
+X-Gm-Features: Ac12FXzBiQ30iKKbP0zzoq1oKAENaPAn2hm04QJoePVvv8Y4CUwCe8BkLoQZJ38
+Message-ID: <CAN-5tyF=5oQLyy7ikbbhFW10OrUfHh0Sr3D=G1nHN+pEsfiSzw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] nvmet-tcp: fix handling of tls alerts
+To: Olga Kornievskaia <okorniev@redhat.com>
+Cc: chuck.lever@oracle.com, jlayton@kernel.org, trondmy@hammerspace.com, 
+	anna.schumaker@oracle.com, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+	linux-nfs@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, neil@brown.name, 
+	Dai.Ngo@oracle.com, tom@talpey.com, hare@suse.de, horms@kernel.org, 
+	kbusch@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Dear NvME maintainers,
 
-kernel test robot noticed the following build errors:
+Are there objections to this patch? What's the path forward to
+including it in the nvme code.
 
-[auto build test ERROR on trondmy-nfs/linux-next]
-[also build test ERROR on net/main net-next/main linus/master linux-nvme/for-next v6.17-rc4 next-20250905]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thank you.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/alistair23-gmail-com/net-handshake-Store-the-key-serial-number-on-completion/20250905-105201
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20250905024659.811386-3-alistair.francis%40wdc.com
-patch subject: [PATCH v2 2/7] net/handshake: Make handshake_req_cancel public
-config: x86_64-randconfig-001-20250905 (https://download.01.org/0day-ci/archive/20250905/202509052149.ChcoGfkh-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250905/202509052149.ChcoGfkh-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509052149.ChcoGfkh-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   net/handshake/handshake-test.c: In function 'handshake_req_submit_test4':
->> net/handshake/handshake-test.c:237:9: error: implicit declaration of function 'handshake_req_cancel'; did you mean 'handshake_req_next'? [-Werror=implicit-function-declaration]
-     237 |         handshake_req_cancel(sock->sk);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         handshake_req_next
-   cc1: some warnings being treated as errors
-
-
-vim +237 net/handshake/handshake-test.c
-
-88232ec1ec5ecf Chuck Lever 2023-04-17  207  
-88232ec1ec5ecf Chuck Lever 2023-04-17  208  static void handshake_req_submit_test4(struct kunit *test)
-88232ec1ec5ecf Chuck Lever 2023-04-17  209  {
-88232ec1ec5ecf Chuck Lever 2023-04-17  210  	struct handshake_req *req, *result;
-88232ec1ec5ecf Chuck Lever 2023-04-17  211  	struct socket *sock;
-18c40a1cc1d990 Chuck Lever 2023-05-19  212  	struct file *filp;
-88232ec1ec5ecf Chuck Lever 2023-04-17  213  	int err;
-88232ec1ec5ecf Chuck Lever 2023-04-17  214  
-88232ec1ec5ecf Chuck Lever 2023-04-17  215  	/* Arrange */
-88232ec1ec5ecf Chuck Lever 2023-04-17  216  	req = handshake_req_alloc(&handshake_req_alloc_proto_good, GFP_KERNEL);
-88232ec1ec5ecf Chuck Lever 2023-04-17  217  	KUNIT_ASSERT_NOT_NULL(test, req);
-88232ec1ec5ecf Chuck Lever 2023-04-17  218  
-88232ec1ec5ecf Chuck Lever 2023-04-17  219  	err = __sock_create(&init_net, PF_INET, SOCK_STREAM, IPPROTO_TCP,
-88232ec1ec5ecf Chuck Lever 2023-04-17  220  			    &sock, 1);
-88232ec1ec5ecf Chuck Lever 2023-04-17  221  	KUNIT_ASSERT_EQ(test, err, 0);
-18c40a1cc1d990 Chuck Lever 2023-05-19  222  	filp = sock_alloc_file(sock, O_NONBLOCK, NULL);
-18c40a1cc1d990 Chuck Lever 2023-05-19  223  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
-88232ec1ec5ecf Chuck Lever 2023-04-17  224  	KUNIT_ASSERT_NOT_NULL(test, sock->sk);
-18c40a1cc1d990 Chuck Lever 2023-05-19  225  	sock->file = filp;
-88232ec1ec5ecf Chuck Lever 2023-04-17  226  
-88232ec1ec5ecf Chuck Lever 2023-04-17  227  	err = handshake_req_submit(sock, req, GFP_KERNEL);
-88232ec1ec5ecf Chuck Lever 2023-04-17  228  	KUNIT_ASSERT_EQ(test, err, 0);
-88232ec1ec5ecf Chuck Lever 2023-04-17  229  
-88232ec1ec5ecf Chuck Lever 2023-04-17  230  	/* Act */
-88232ec1ec5ecf Chuck Lever 2023-04-17  231  	result = handshake_req_hash_lookup(sock->sk);
-88232ec1ec5ecf Chuck Lever 2023-04-17  232  
-88232ec1ec5ecf Chuck Lever 2023-04-17  233  	/* Assert */
-88232ec1ec5ecf Chuck Lever 2023-04-17  234  	KUNIT_EXPECT_NOT_NULL(test, result);
-88232ec1ec5ecf Chuck Lever 2023-04-17  235  	KUNIT_EXPECT_PTR_EQ(test, req, result);
-88232ec1ec5ecf Chuck Lever 2023-04-17  236  
-88232ec1ec5ecf Chuck Lever 2023-04-17 @237  	handshake_req_cancel(sock->sk);
-4a0f07d71b0483 Jinjie Ruan 2023-09-19  238  	fput(filp);
-88232ec1ec5ecf Chuck Lever 2023-04-17  239  }
-88232ec1ec5ecf Chuck Lever 2023-04-17  240  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Thu, Jul 31, 2025 at 2:01=E2=80=AFPM Olga Kornievskaia <okorniev@redhat.=
+com> wrote:
+>
+> Revert kvec msg iterator before trying to process a TLS alert
+> when possible.
+>
+> In nvmet_tcp_try_recv_data(), it's assumed that no msg control
+> message buffer is set prior to sock_recvmsg(). Hannes suggested
+> that upon detecting that TLS control message is received log a
+> message and error out. Left comments in the code for the future
+> improvements.
+>
+> Fixes: a1c5dd8355b1 ("nvmet-tcp: control messages for recvmsg()")
+> Suggested-by: Hannes Reinecke <hare@suse.de>
+> Reviewed-by: Hannes Reinecky <hare@susu.de>
+> Signed-off-by: Olga Kornievskaia <okorniev@redhat.com>
+> ---
+>  drivers/nvme/target/tcp.c | 31 +++++++++++++++++++------------
+>  1 file changed, 19 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
+> index 688033b88d38..98cee10de713 100644
+> --- a/drivers/nvme/target/tcp.c
+> +++ b/drivers/nvme/target/tcp.c
+> @@ -120,7 +120,6 @@ struct nvmet_tcp_cmd {
+>         u32                             pdu_len;
+>         u32                             pdu_recv;
+>         int                             sg_idx;
+> -       char                            recv_cbuf[CMSG_LEN(sizeof(char))]=
+;
+>         struct msghdr                   recv_msg;
+>         struct bio_vec                  *iov;
+>         u32                             flags;
+> @@ -1161,6 +1160,7 @@ static int nvmet_tcp_try_recv_pdu(struct nvmet_tcp_=
+queue *queue)
+>         if (unlikely(len < 0))
+>                 return len;
+>         if (queue->tls_pskid) {
+> +               iov_iter_revert(&msg.msg_iter, len);
+>                 ret =3D nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
+>                 if (ret < 0)
+>                         return ret;
+> @@ -1217,19 +1217,28 @@ static void nvmet_tcp_prep_recv_ddgst(struct nvme=
+t_tcp_cmd *cmd)
+>  static int nvmet_tcp_try_recv_data(struct nvmet_tcp_queue *queue)
+>  {
+>         struct nvmet_tcp_cmd  *cmd =3D queue->cmd;
+> -       int len, ret;
+> +       int len;
+>
+>         while (msg_data_left(&cmd->recv_msg)) {
+> +               /* to detect that we received a TlS alert, we assumed tha=
+t
+> +                * cmg->recv_msg's control buffer is not setup. kTLS will
+> +                * return an error when no control buffer is set and
+> +                * non-tls-data payload is received.
+> +                */
+>                 len =3D sock_recvmsg(cmd->queue->sock, &cmd->recv_msg,
+>                         cmd->recv_msg.msg_flags);
+> +               if (cmd->recv_msg.msg_flags & MSG_CTRUNC) {
+> +                       if (len =3D=3D 0 || len =3D=3D -EIO) {
+> +                               pr_err("queue %d: unhandled control messa=
+ge\n",
+> +                                      queue->idx);
+> +                               /* note that unconsumed TLS control messa=
+ge such
+> +                                * as TLS alert is still on the socket.
+> +                                */
+> +                               return -EAGAIN;
+> +                       }
+> +               }
+>                 if (len <=3D 0)
+>                         return len;
+> -               if (queue->tls_pskid) {
+> -                       ret =3D nvmet_tcp_tls_record_ok(cmd->queue,
+> -                                       &cmd->recv_msg, cmd->recv_cbuf);
+> -                       if (ret < 0)
+> -                               return ret;
+> -               }
+>
+>                 cmd->pdu_recv +=3D len;
+>                 cmd->rbytes_done +=3D len;
+> @@ -1267,6 +1276,7 @@ static int nvmet_tcp_try_recv_ddgst(struct nvmet_tc=
+p_queue *queue)
+>         if (unlikely(len < 0))
+>                 return len;
+>         if (queue->tls_pskid) {
+> +               iov_iter_revert(&msg.msg_iter, len);
+>                 ret =3D nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
+>                 if (ret < 0)
+>                         return ret;
+> @@ -1453,10 +1463,6 @@ static int nvmet_tcp_alloc_cmd(struct nvmet_tcp_qu=
+eue *queue,
+>         if (!c->r2t_pdu)
+>                 goto out_free_data;
+>
+> -       if (queue->state =3D=3D NVMET_TCP_Q_TLS_HANDSHAKE) {
+> -               c->recv_msg.msg_control =3D c->recv_cbuf;
+> -               c->recv_msg.msg_controllen =3D sizeof(c->recv_cbuf);
+> -       }
+>         c->recv_msg.msg_flags =3D MSG_DONTWAIT | MSG_NOSIGNAL;
+>
+>         list_add_tail(&c->entry, &queue->free_list);
+> @@ -1736,6 +1742,7 @@ static int nvmet_tcp_try_peek_pdu(struct nvmet_tcp_=
+queue *queue)
+>                 return len;
+>         }
+>
+> +       iov_iter_revert(&msg.msg_iter, len);
+>         ret =3D nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
+>         if (ret < 0)
+>                 return ret;
+> --
+> 2.47.1
+>
+>

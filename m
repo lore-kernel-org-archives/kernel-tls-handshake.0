@@ -1,508 +1,289 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32EB2DEA6B
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 11 Sep 2025 21:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757626172; cv=none; b=SXj5q+VPzTcQKBzqDIoD4LPBu7UpKwCl+LH8MKUn6BTKfxEYkWHW+XbzNOxxrT4aBKsknlE7dQteJ2UxxVppvNmnSf1Or+cJKI9WjWPr1NVhm3hNpJ73F8n0NkDNkTH/Otp94A0UWS/n+98YAqBakz2ZFwWYH1oDfB35+aom4eM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757626172; c=relaxed/simple;
-	bh=HG+rnJ3n1zIw7i2FhD5PwPGpafi/Jttzm3YMye0MUK0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=jeNepQZCmIDbyR/4TsNJkvpLhavazL59QfrL4WmaGgfuZV17/LPMxwCx/ovUvtbrk++J2O3dyED8E9dQBYQEcSUof65VWTOZR8KPxbiYOdTXnzPXMlf91NJjbHx9epX/ntrn8PQVAfmJ3/chqA/k2WuBwcUzx1vmdJMdZSeBFs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PlDLE6RE; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9039A1B043A
+	for <kernel-tls-handshake@lists.linux.dev>; Fri, 12 Sep 2025 14:35:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757687711; cv=fail; b=T47H+WBEdl/nh6EK8uJyP3dtRq+ZnHYJPmfEKUARLyEoaEjdjSDTGyyw350CCLTniG+JWGYBx3SNhHpY0nx72MR0IuXW9V+Qd3URLeL8bs+Zty5MJPCWYIzcrL2l2iEF9xnnDD8GDOcqejQvJqErLrbM7aH3a4EgpWFSdaOrFGE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757687711; c=relaxed/simple;
+	bh=o9LezjRIBQrt8Idl87yMHoMQGRsVUcKuKpuiHOcPRoE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=TY5dINuolIEVwd+Z+fqFlO75AkwRDcWGpy4p0rewtcWF+gBtjFn8iaiSiYIa4Wl3LoRbROeLe/DMLO2W+EE1Et1aDCRlbE7J4q7/5TUqrNXJX7V05uLcgCbgDxR0kS3WmpnMLf4A5xoBivkcaKXc++hjdS+fLZON+5e+4ejF8cE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=k8JT3s6S; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=Aua49Czs; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PlDLE6RE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757626169;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AWRCtFUxOWj0yc7lkW/HpZxTo1OELvQvW9B/Jn4NwDk=;
-	b=PlDLE6REx4JxXiKa6xLFKkj39MLBfwCxijgNEmiqBMalD26/w9MYAha7BM5RvCPo7ZvXRu
-	IdnRxd2LDsAG7gluwIJNzrOdmrJ0z1RQmTZ47sGtLQRFyci4wtJGp4cKQ8FMAuZYUv2D2+
-	uoxGPFF+YsrtYwToVMze40itkRSBsrQ=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-507-8Z9ROzRIMQ6gXSDWmV6v_Q-1; Thu,
- 11 Sep 2025 17:28:18 -0400
-X-MC-Unique: 8Z9ROzRIMQ6gXSDWmV6v_Q-1
-X-Mimecast-MFC-AGG-ID: 8Z9ROzRIMQ6gXSDWmV6v_Q_1757626097
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 56DE71800371;
-	Thu, 11 Sep 2025 21:28:17 +0000 (UTC)
-Received: from aion.redhat.com (unknown [10.22.88.97])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F26DB300021A;
-	Thu, 11 Sep 2025 21:28:16 +0000 (UTC)
-Received: from aion.redhat.com (localhost [IPv6:::1])
-	by aion.redhat.com (Postfix) with ESMTP id 27897430200;
-	Thu, 11 Sep 2025 17:28:15 -0400 (EDT)
-From: Scott Mayhew <smayhew@redhat.com>
-To: chuck.lever@oracle.com
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="k8JT3s6S";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Aua49Czs"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58C1u4Ap030915;
+	Fri, 12 Sep 2025 14:35:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=Kmhm0iXYF5/SOy6FNs0VU26O1A35iP3Cu433NrU1QDM=; b=
+	k8JT3s6SbMKhaGBZu5tOse2P4glTjs211alE65NqMkj4TvW9kZCj/GfrIZPim4k2
+	rCGSM1cnuJz6QYNApq+HJ2jma3NNRz2Xs/yZ1DDUWo7RLT/ehCa3K1kL2u+hjHbz
+	iGMUxomwyeaMPiy7pb4jsCaegNL3uazNYTn8iaY9jsmkhaepmnX8EMB8uOEfhTb4
+	8/Cdk9z0djLDbAzB+/JAspmfkq8buMY4jF0jNA9b6QUr5v3nVY8S2gYXwWDwaMvA
+	Yd8SYRiud3jaMPzKo9+yaISV0Z0VCDj38ewfW0a50YECTEsukbcdxQomHC4o9X8p
+	JpBqcNLafQ6rOUQ7ml9RNw==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4922x98a6p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 12 Sep 2025 14:35:08 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 58CDB2Hm002770;
+	Fri, 12 Sep 2025 14:35:07 GMT
+Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010061.outbound.protection.outlook.com [52.101.56.61])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 490bdmg3jy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 12 Sep 2025 14:35:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tQo8NxodoJsGkFqzMRmNULApUsmni9noIwg1g4er34v2HUOCc0iHg29glhI/rtNlIaTe3i9nCNj55sdGwUzeeDXUN/9Tl+5SHi3OoRWGgvr+BFNQmsuABQOrb/DqNzZL3qVBROc1TJfcaIYlr7p0YrmQzlTxnQhPynVz6ys3mRn4ktzICwbvlF/jrR+E6ec0xPe8/TqbLWGlcHJ+nXqEB58zgc0KCYdm7I2yyvi3Gtf/I9FDmk16nDbSuJDwfTX0UXe87LC5aG60Z24/2/AWMZZP+Oz/HH8iF1TPchvqsJKq3ZHXDDlT2DnbPoBFn1+sAQfs4EiODoXv3wXTTMZWig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Kmhm0iXYF5/SOy6FNs0VU26O1A35iP3Cu433NrU1QDM=;
+ b=ShF7L7sZ9/0J486N7qo8a8wmeon2ZS96Q5f0fkhLGR0clQCPIsK047nc0bR2xfOTQTla0CTbm/KFS75r1KGJQSu97mNEkpAE6mdjL2L8TzVffgGvfcDCocp4GfenP53YGDpp7w2liBvRFEBvh/MG5jtpH1men8iD+Luph31EEJZPUw7rkFWbKWfPaFwQPUtI+KQLJcSk5IA/4za1V6jbW6qIoFyZ4SmCv8bPIl6ic5MsS2avRX1qhevya9fiz0se3jGjNWsUDumy01+DU+3HFM4xFrlp4wo/1t6keSAOErhe2vM3Fixs929jbrD/dT1RO5SiPPpY+Xh4289KwzR1/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Kmhm0iXYF5/SOy6FNs0VU26O1A35iP3Cu433NrU1QDM=;
+ b=Aua49CzsHHXdBVhNjY6zLb2Qsbj/XWYfVxkeW3XgYHoq/4W/3vgkTBJDOeV51NKqDr/4RPjWwokJTbJIWNFr5nmhlv5SHLU79PZJy+2FJ8BZxuKggkkWgMbyRxZUiNvDXvx8bnZieG7murMH1CL2RVkf7cFCcPeSHc7boo9qGd0=
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
+ by DS7PR10MB7153.namprd10.prod.outlook.com (2603:10b6:8:eb::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Fri, 12 Sep
+ 2025 14:35:05 +0000
+Received: from BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::743a:3154:40da:cf90]) by BN0PR10MB5128.namprd10.prod.outlook.com
+ ([fe80::743a:3154:40da:cf90%3]) with mapi id 15.20.9115.017; Fri, 12 Sep 2025
+ 14:35:04 +0000
+Message-ID: <626814b1-ab29-406a-a5ff-2255c6dae26f@oracle.com>
+Date: Fri, 12 Sep 2025 10:35:02 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] tlshd: Allow the use of post-quantum cryptography
+To: Scott Mayhew <smayhew@redhat.com>
 Cc: kernel-tls-handshake@lists.linux.dev
-Subject: [PATCH v2 1/4] tlshd: deduplicate client and server config functions
-Date: Thu, 11 Sep 2025 17:28:12 -0400
-Message-ID: <20250911212815.1414784-2-smayhew@redhat.com>
-In-Reply-To: <20250911212815.1414784-1-smayhew@redhat.com>
 References: <20250911212815.1414784-1-smayhew@redhat.com>
+Content-Language: en-US
+From: Chuck Lever <chuck.lever@oracle.com>
+In-Reply-To: <20250911212815.1414784-1-smayhew@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH0PR04CA0060.namprd04.prod.outlook.com
+ (2603:10b6:610:77::35) To BN0PR10MB5128.namprd10.prod.outlook.com
+ (2603:10b6:408:117::24)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: AA7431PDSDB0w_KBcadBYvgl2DpZELiM4XSA7Dfmy5s_1757626097
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN0PR10MB5128:EE_|DS7PR10MB7153:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3a34f8d8-bef5-4852-0d1f-08ddf2099037
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?cGRJc2FBbXJod010WmloU29CV2lCTW0wZzFsRkEzRDRXdzVhOUdKQWZhb0J1?=
+ =?utf-8?B?NVMrMjA3TzdPQ0RYMXVtWlh5ZHRES00yM3VSNHJQMXpQTWkzdHlHTHJ6YVVO?=
+ =?utf-8?B?ZnhoQVY5YXh4OGltQnExK3g3N2pKdTFEL3lxUHFPMGVLQW10RnN1VkgyTklR?=
+ =?utf-8?B?QnVyRmpmOXVoMXp2RFM3N1AyRTcwTHVmWFRHcno0c0VVTks3TTFnb3BOMUpQ?=
+ =?utf-8?B?dUk0MEtzM09Ba09UUk4xVFloWHdJcUN0ZUZGSnBmLzlDWUc3M1Nua3cyUkFK?=
+ =?utf-8?B?WjByem1VY1Z1WEJ4WWNvZWpXdUFYcWk5WStLQlJKLzJSaHpFSExPYWkxdUFJ?=
+ =?utf-8?B?dXZnaWFzT0NWeHJQeE5ub040bk53QVNGSWR6ZEl4dGE0NW84dXVhUGZnUTgv?=
+ =?utf-8?B?MGlrelUybzEvY0dsQi9rZjBMYWF6bThFQmVrQVJPaUpVcm9zdVREbnNKUFJK?=
+ =?utf-8?B?dHVqZDhWVzg5UEk5L2VvcXROOVB4aTBOQmJGRll0eitWSnhiQUFhNDFENTZu?=
+ =?utf-8?B?UW5nQW94UitvN0lNVzRFeTljSlFCeWMvYUFYK0xaS3U2ZHZjOThhYi9vdVdY?=
+ =?utf-8?B?akwydytUMkNiOUhDbUZWZno1dHRsVHlCQlN1V3hpbHlxQVZsSUxRTlVCaU1s?=
+ =?utf-8?B?WThPSkl1V0U2QUN0YUtCTWxnU2cyU0lvZjNidVZTd2tjWG9MSWpVU1I3OWt5?=
+ =?utf-8?B?ZDdRclNUU3FqUzlJVDVEWnBERjk3cVhsQXROSXlISFNkQjJTclZnYmRFbWZ0?=
+ =?utf-8?B?U3BiSnM2dGVnUGZRcy9VdnBLN05TR3Q0WUcyb2dWK2M4Zk9Sek1NNWR6NU1K?=
+ =?utf-8?B?SFZOcGxaMGZmNW9QVzNIOUlUUko5RVZoRTlZZU9KZkxPUndYSnlpYlRDblp0?=
+ =?utf-8?B?bGIrTTZ1RmRLN2RFRXFON0JhV2RGMWMveHk0d1RselIwUkM1M3d5YWxTQXZt?=
+ =?utf-8?B?UWhCMEtqcEhKSlVWZWY2MWFqa0RQbkNGeDFNUWZyajhtKzdVUmx3TUJhLzdV?=
+ =?utf-8?B?UUMxUEVYT1owK3lMenhDaVBuTTVuVVdIbFpZWXdrUVgyVU5zeVdoWm1iRW1M?=
+ =?utf-8?B?bUVjbi9TTFdCNzVISEsxU2ZsbWdJc2VITDcrN1RqWkowcE9SRXRkcy9EOTdN?=
+ =?utf-8?B?aGp5MWZLQ095d1ZRWXRrOEljWUtqdktLdGNTL1J6Y25tcHRoM2F5bkZ1STFH?=
+ =?utf-8?B?ak9CbG56ZEUyRTNxRERreVRLbVhPVmxEbDY5L0VubEdSYTRQTTBaSTA0TU1n?=
+ =?utf-8?B?dFRJdkx0VE9tMWFlOXZqYUJNRC9ZL3RwRU5FOHcxMjVpaVdSQU0xcXFlSEJ0?=
+ =?utf-8?B?WnJIcGRCR2U2UERjUjJ4WnA5ZW04SmpvdHFyS29UN3h6TTlDc2V6d2V1d0pr?=
+ =?utf-8?B?K3pwcSs0OUN6SjJ5WWVOd2gwY0dmMDNNQ0VOQ2doNUI4OHV3MVJwc01ESEY5?=
+ =?utf-8?B?Wks0a0xRWE5PekRFOUtiLzlXVTg1WXZCcWtjejNXR2o4NHY5Wk1zYndtVHdx?=
+ =?utf-8?B?UmpmamU4STdNVi9VNmVPNVR5YWlISWpETCswRCtSbUlhUHRCYUlkb25USTNE?=
+ =?utf-8?B?WkJYS0FqRTE4NEI2cjEzWkJaY1J2Wm1QMElxSmtISkV6RmhEeXFkMjZZT0lW?=
+ =?utf-8?B?R3l5N1ZwaWpkUW5vQThIdmdZWU5GK1p0bHY2N3dtZHZkUnJlaUc5YXhTTUxV?=
+ =?utf-8?B?QzQ5LzliODNEcVhZUTJYeEozNnhKODl0Q25hUDhHZHA1YWFrc2E4OHdwcEdL?=
+ =?utf-8?B?cnBOTzVJOUVYT2loUUwyRmM5V3NzVkNwYjFCcjhlRU1FblE1Tnl5TmJqeEFv?=
+ =?utf-8?B?NG5hMzY3QjBNRGc5Ky9nRUZQNHRqNmNZcWhmcWVTUU44RGFYSGRQYit1RVhs?=
+ =?utf-8?B?a3NkQmpnSjl4MUQ0bERQMjZmRzYreEZweS9RaldFTldIU0N0K1hPa0xVQTBE?=
+ =?utf-8?Q?DihK1BJLmM8=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QUxCUDNSWVM0dHNELzgzWVhTWW5UYjlCamRWOG1DRHFBcEdhYVRmYVpEc2Zl?=
+ =?utf-8?B?VEV6Rm9mQ1ZWeFFMNWVUalp6aDRsTGNDcm43ZWxlNlNvUDlUc0c1N2N6TzdG?=
+ =?utf-8?B?NXN6bWtGL1hkTEJLbkxEdEJCeDVMOWxNYloxb0Z0SVhvbnlkbkxYMlJKRG9q?=
+ =?utf-8?B?VExMYldFWTZoaUwxNjZYeWhodGgxYjBJeW01SnRuOHZoTTdoVVVDemxwd3Fj?=
+ =?utf-8?B?YnJQTXozMFFpT1hzSnhzZWRXK1FsMy9QUUt2cklBamVvenlWbVVKbnZEQXZE?=
+ =?utf-8?B?bUt4TGplWlVIMGRVczlraUVhV3hqeFVzdzNqQmZTU2M2bm1udTduUXl5M25B?=
+ =?utf-8?B?aWdzWWRuM3V3aUNWOU9mdEIvR0FJRkM5MTRJSFlheUsrQVJtc3ZTbGQ0Zlgv?=
+ =?utf-8?B?VUVSczhMcitqd2h2OFYwc1lvdXV5Q2RCRk1QT1E5MXVDM01uWG5nWG1EVE9x?=
+ =?utf-8?B?ZHRWWlFLUi9SNXBSVWhMeEp3dFBsejBTaFg2UmVYRWVZSVVvam1kNVJFZzVk?=
+ =?utf-8?B?b1VqZ1pvc2NkenJPa0F0c25rTGdWVFdqT3NYNjk2MlJUTU5OMjcwZXVaQVdw?=
+ =?utf-8?B?K2hoUk1XUFVDZEJlaWVtOTBKQU9LMStKVmZKWlltMys1SVowZTczbG1ldFoy?=
+ =?utf-8?B?RzRaQnhuRFhxbllyTVJBVlFoTFI3ZUNzMDBHRlF4VnhUYmovUy96VVJvSzFK?=
+ =?utf-8?B?amw1NmsvQXNXaWp1MDFqK1BXaXViVW9aLzlkS2VyWE5xcTJTdVh5a1dIWTVo?=
+ =?utf-8?B?QzJxa3pVVldLc1hHZi9PWVU1T2JqekE1QlFUZTY2Z0tYdUJmR0lmOThWUGc4?=
+ =?utf-8?B?ZFAxY3VMQkNMQnpvWHpBbFF4Q0dtcjBoK2Z1YytLUFFwKzZBeGtBNEI2WWZP?=
+ =?utf-8?B?UFBxZmRtTzhZYUhhcFRlM0hMakYvbURrdzExaVJ4Uk9NcDR6OWx0QVR2MVpx?=
+ =?utf-8?B?NkdaeFRpTDY2ZVJQK3VnVTltdG9qYVB2VXFKSU1nT0FjSTE1RG95LzQrUWkx?=
+ =?utf-8?B?d2FtQldnVE1xYmFWWS9GOHhLNTRpZlhHcHFnZ0JtT3JQaStDYm5LeGNDbUtM?=
+ =?utf-8?B?Q09naG5IZmZuT3BBaCt2TG1aZ0UyQkpPNmJ4VHMxRmdQaVg3c1EyUDk4Zmxp?=
+ =?utf-8?B?WVEvNWxvYzEwUC9FejdjU2pIZll6alU4S2UvYnJ2dFhuNXNnaTNTcDN1VlBD?=
+ =?utf-8?B?aWdjekZCVzZHZVYzYzcybkMxbHpzbENpMER1VTNVL3pRZ3Y0L0VpNHhrNENS?=
+ =?utf-8?B?aUF0Z29KU0JSUnVNK2hNUVlPZVZnMUZISTRzOVVHYTRrUm9sNkovUGdPellM?=
+ =?utf-8?B?aHBBcmoyUDRJRDJ5VGtyek0vQUtBdzl3SXZXdkFDWFlHSFl6bFRDYStHcmwz?=
+ =?utf-8?B?a2Vwc2dLK21vd3REUmRMNkg0WnZTSTE3ZHl3K3Y5TjFsMktqKzR0NHBwRVdB?=
+ =?utf-8?B?U1EwRUd6Mm9ra1o3UnhJMWN1MkU3Z3BxczhzdXBra1hFVFk5bk1uUzhQWTVE?=
+ =?utf-8?B?dXRZcXhnSUE3bHQ5VzNCOHBEVVVQUk94Y1E3YjZ4ZkxDd0pmcUZaV21RcXV5?=
+ =?utf-8?B?Q1A3Qk93WGcwT0JIR1FSdllDZEt5d2sxeUlSaGp4K1UxSXNkZm43L3p5Zi9J?=
+ =?utf-8?B?S0x1eFFDbUUzcHUzQzRZR0U4RDVnQ0IxWTFlalBMUkpBSHhqOWVaRXRiZGM5?=
+ =?utf-8?B?ekh2SnViSmJMbWh5emhFVXBFZ3crU3pNUjVxVC8vUFhjVC9GQnRVWFNqY3Np?=
+ =?utf-8?B?dTZTM29vTHZBR2syTjVjMmZuK2t3R2ZnU2dMZGk1YjVKOHpveWltaml0ZHBs?=
+ =?utf-8?B?REE5Vm0zT3NtRmV0ZUx5MnZtSVNtcm5qY2dlSDVzV1NzamkyODM1SUJCbmlp?=
+ =?utf-8?B?WiswekZMZXpHYmkxVUhxQU82TGhETEJNK1RKb1liTytrR29nOUV4VTZoeEpj?=
+ =?utf-8?B?U1phdks0VDRPTy9oYWhGMUJ3U3hQQmptcXlSZHc1WEtld1AzMGVBOHVndDdY?=
+ =?utf-8?B?OWVjUkl4MWNTVTlQdDg5dHhRNk04YnFyczVjMmtGZVkrWUIvOENHQURvUFVN?=
+ =?utf-8?B?NHRoQUxFRTBaK3VETEdJMlgzaWVycmtaeTFaVEI0OEp3OG1XTlNmYTJwd0FL?=
+ =?utf-8?Q?VqKiqSGefGIhpVvKbmTonq6MS?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	eaAed3WDJkNZ+cb50OKbz6/tMID9bZq/xv4Qdw0aeIGxNZ/Vh3026WjcRi712AIjKn0hqepQJsGPDrjK+Xa9dpCbolLLYkygQEd8ncb9awO4G5cmlhAd/lqtRVwbGsh2f1uVgMI+q1JF+5Eu0f9z2ZsxsiFDJ3ilPskzno7ONcULPoORsBGXrPI4NxxiPJjySXxAVtARJM24e9nITJvemp1fO5FAJWANb30aUHAs3M8lqLNoCfsB3cJoZsHPkXwrzASUyKsG+q6ncd/xBsU8jzcgqsW6keisRgiUsrJYQ0OtKYgCA2BU9G3QbkqZ0hq/8mVXDqPV8VpPQsnAQ3sMeHQcQ+csH5Pl5pBah81ueIxugv4xa0l1pwOh/uxPuS6mSIgMq9JjxwM8eGxEUofRrhiP8dWx8W7DOuv/d93dEs7un4emGDiIGdnFx7qhIKK5EdEXX0wsbB4aggr0OvNoA479oXjr5FCEIqUTn+Y16br0Bn3eSuN/+V3A98cO/DyGpyCSXHx8QrDlGv6UekPuOIYGtidKM6TLYifYJ15T1va6efYztq0I8sFTV5+zAlq59R4eGgIOSWd3Wu23Csz584T4YXODq2JTm/cf2e1r5II=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a34f8d8-bef5-4852-0d1f-08ddf2099037
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2025 14:35:04.8942
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nnT/gyVRjntKcz6nC4HaMNOJEUMphp9eW3nuAqiFCUjqdtpJtQVN1gvSBTaMPp+CwKwDu/oPwboZiocVjoG+FQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB7153
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-12_05,2025-09-11_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 suspectscore=0
+ bulkscore=0 mlxscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
+ definitions=main-2509120135
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDE2NiBTYWx0ZWRfX0HHGBWaohDAP
+ QmIjWNSreSKPBwHy1+kg5NFmrON5wGqDr1VOJ7+DoIgTAc1jCrrGygbCEl0c/ZNEQBu1Fk2e5sX
+ BdcgdH9RvIN5gfGD2x/69uYX1Yb8FzGnpyJhKEQ/baUmLgaK8GI2yX8w/ITPAK44Qw8h8ZVqzpO
+ zI44IVHTXn6lF3+b7xsbks8lBBYyLjIqqSn4v60E3oup+OddhORtlGk90P67Wq9GZRUDXOco3Fw
+ rXcHgXAE6j4tFlxL69bQjqzBqV034qgJzpSh8ChqwdmqcqZ94txMFc1S9pDb5NREvHszzs8pqa4
+ UTKyGIbjHmBt+o3MPWI3RgT+BgMzztC8E6ji/RvNNKPhSqJsIR2z7hgeP6vF9sW0U57Y/V+T7bc
+ GAqrNgzLXcmja3ulC3GSQqlnUxW67A==
+X-Proofpoint-GUID: CdpBuuMhPx41RRQk05tIU5i2U-aCXIAC
+X-Proofpoint-ORIG-GUID: CdpBuuMhPx41RRQk05tIU5i2U-aCXIAC
+X-Authority-Analysis: v=2.4 cv=LYY86ifi c=1 sm=1 tr=0 ts=68c42f9c b=1 cx=c_pps
+ a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=yJojWOMRYYMA:10 a=GoEa3M9JfhUA:10 a=NEAV23lmAAAA:8 a=YLbBYSbf1L6RZvk2NsEA:9
+ a=QEXdDO2ut3YA:10 cc=ntf awl=host:12084
 
-The client and server variants of tlshd_config_get_* are identical
-except for
-1) the stanza they're looking at in the config file, and
-2) whether the word "client" or "server" gets written in a log message
+On 9/11/25 5:28 PM, Scott Mayhew wrote:
+> These patches allow tlshd to use post-quantum cryptography.  The first
+> patch does a bit of refactoring to reduce some code duplication.  The 
+> second fixes the priority string and allows the PQ algorithms to be
+> used.  The other two implement dual certificate support.  Dual
+> certificates are necessary to enable a smooth transition period,
+> allowing servers to work with both clients that are PQ-enabled and
+> clients that are not.  The server will prefer the ML-DSA certificate but
+> will fall back to the traditional certificate for clients that do not
+> support ML-DSA.
+> 
+> Changes since v1:
+> - Refactoring to allow the client and server code to use the same
+>   tlshd_config_get_* functions
+> - Removed a lot of "#ifdef HAVE_GNUTLS_MLDSA" statements (I'm pretty
+>   sure the handful that are left are necessary)
+> - Store both the PQ and RSA certs in the same array.  The PQ certs (if
+>   present) will be first, followed by the RSA certs.  Note that I didn't
+>   increase TLSHD_MAX_CERTS though.
+> 
+> For those who prefer a web UI, these patches are also available in this
+> branch:
+> https://github.com/scottmayhew/ktls-utils/tree/pqc
 
-Add new parameter 'peer_type' to each of these functions so we can use
-the same function for both the client and server code.
+Hi Scott, these look close enough to merge IMO. Please open a pull
+request against oracle/ktls-utils.
 
-Signed-off-by: Scott Mayhew <smayhew@redhat.com>
----
- src/tlshd/client.c |   9 +-
- src/tlshd/config.c | 213 +++++++++------------------------------------
- src/tlshd/server.c |  11 +--
- src/tlshd/tlshd.h  |  20 ++---
- 4 files changed, 62 insertions(+), 191 deletions(-)
 
-diff --git a/src/tlshd/client.c b/src/tlshd/client.c
-index 8acb0aa..c07ae29 100644
---- a/src/tlshd/client.c
-+++ b/src/tlshd/client.c
-@@ -48,7 +48,7 @@ static int tlshd_client_get_truststore(gnutls_certificate_credentials_t cred)
- 	char *pathname;
- 	int ret;
- 
--	if (tlshd_config_get_client_truststore(&pathname)) {
-+	if (tlshd_config_get_truststore(PEER_TYPE_CLIENT, &pathname)) {
- 		ret = gnutls_certificate_set_x509_trust_file(cred, pathname,
- 							     GNUTLS_X509_FMT_PEM);
- 		free(pathname);
-@@ -60,7 +60,7 @@ static int tlshd_client_get_truststore(gnutls_certificate_credentials_t cred)
- 	}
- 	tlshd_log_debug("System trust: Loaded %d certificate(s).", ret);
- 
--	if (tlshd_config_get_client_crl(&pathname)) {
-+	if (tlshd_config_get_crl(PEER_TYPE_CLIENT, &pathname)) {
- 		ret = gnutls_certificate_set_x509_crl_file(cred, pathname,
- 							   GNUTLS_X509_FMT_PEM);
- 		free(pathname);
-@@ -143,7 +143,8 @@ static bool tlshd_x509_client_get_certs(struct tlshd_handshake_parms *parms)
- 	if (parms->x509_cert != TLS_NO_CERT)
- 		return tlshd_keyring_get_certs(parms->x509_cert, tlshd_certs,
- 					       &tlshd_certs_len);
--	return tlshd_config_get_client_certs(tlshd_certs, &tlshd_certs_len);
-+	return tlshd_config_get_certs(PEER_TYPE_CLIENT, tlshd_certs,
-+				      &tlshd_certs_len);
- }
- 
- static void tlshd_x509_client_put_certs(void)
-@@ -159,7 +160,7 @@ static bool tlshd_x509_client_get_privkey(struct tlshd_handshake_parms *parms)
- 	if (parms->x509_privkey != TLS_NO_PRIVKEY)
- 		return tlshd_keyring_get_privkey(parms->x509_privkey,
- 						 &tlshd_privkey);
--	return tlshd_config_get_client_privkey(&tlshd_privkey);
-+	return tlshd_config_get_privkey(PEER_TYPE_CLIENT, &tlshd_privkey);
- }
- 
- static void tlshd_x509_client_put_privkey(void)
-diff --git a/src/tlshd/config.c b/src/tlshd/config.c
-index 029dbcc..ff1f2a5 100644
---- a/src/tlshd/config.c
-+++ b/src/tlshd/config.c
-@@ -187,18 +187,22 @@ out:
- }
- 
- /**
-- * tlshd_config_get_client_truststore - Get truststore for ClientHello from .conf
-+ * tlshd_config_get_truststore - Get truststore for {Client,Server}Hello from .conf
-+ * @peer_type: IN: peer type
-  * @bundle: OUT: pathname to truststore
-  *
-  * Return values:
-  *   %false: pathname not retrieved
-  *   %true: pathname retrieved successfully; caller must free @bundle using free(3)
-  */
--bool tlshd_config_get_client_truststore(char **bundle)
-+bool tlshd_config_get_truststore(int peer_type, char **bundle)
- {
- 	gchar *pathname;
- 
--	pathname = g_key_file_get_string(tlshd_configuration, "authenticate.client",
-+	pathname = g_key_file_get_string(tlshd_configuration,
-+					 peer_type == PEER_TYPE_CLIENT ?
-+					 "authenticate.client" :
-+					 "authenticate.server",
- 					 "x509.truststore", NULL);
- 	if (!pathname)
- 		return false;
-@@ -213,23 +217,29 @@ bool tlshd_config_get_client_truststore(char **bundle)
- 	if (!*bundle)
- 		return false;
- 
--	tlshd_log_debug("Client x.509 truststore is %s", *bundle);
-+	tlshd_log_debug("%s x.509 truststore is %s",
-+		        peer_type == PEER_TYPE_CLIENT ? "Client" : "Server",
-+			*bundle);
- 	return true;
- }
- 
- /**
-- * tlshd_config_get_client_crl - Get CRL for ClientHello from .conf
-+ * tlshd_config_get_crl - Get CRL for {Client,Server}Hello from .conf
-+ * @peer_type: IN: peer type
-  * @result: OUT: pathname to CRL
-  *
-  * Return values:
-  *   %false: pathname not retrieved
-  *   %true: pathname retrieved successfully; caller must free @result using free(3)
-  */
--bool tlshd_config_get_client_crl(char **result)
-+bool tlshd_config_get_crl(int peer_type, char **result)
- {
- 	gchar *pathname;
- 
--	pathname = g_key_file_get_string(tlshd_configuration, "authenticate.client",
-+	pathname = g_key_file_get_string(tlshd_configuration,
-+					 peer_type == PEER_TYPE_CLIENT ?
-+					 "authenticate.client" :
-+					 "authenticate.server",
- 					 "x509.crl", NULL);
- 	if (!pathname)
- 		return false;
-@@ -244,12 +254,15 @@ bool tlshd_config_get_client_crl(char **result)
- 	if (!*result)
- 		return false;
- 
--	tlshd_log_debug("Client x.509 crl is %s", *result);
-+	tlshd_log_debug("%s x.509 crl is %s",
-+			peer_type == PEER_TYPE_CLIENT ? "Client" : "Server",
-+			*result);
- 	return true;
- }
- 
- /**
-- * tlshd_config_get_client_certs - Get certs for ClientHello from .conf
-+ * tlshd_config_get_certs - Get certs for {Client,Server} Hello from .conf
-+ * @peer_type: IN: peer type
-  * @certs: OUT: in-memory certificates
-  * @certs_len: IN: maximum number of certs to get, OUT: number of certs found
-  *
-@@ -257,15 +270,18 @@ bool tlshd_config_get_client_crl(char **result)
-  *   %true: certificate retrieved successfully
-  *   %false: certificate not retrieved
-  */
--bool tlshd_config_get_client_certs(gnutls_pcert_st *certs,
--				   unsigned int *certs_len)
-+bool tlshd_config_get_certs(int peer_type, gnutls_pcert_st *certs,
-+			    unsigned int *certs_len)
- {
- 	gnutls_datum_t data;
- 	gchar *pathname;
- 	int ret;
- 
--	pathname = g_key_file_get_string(tlshd_configuration, "authenticate.client",
--					"x509.certificate", NULL);
-+	pathname = g_key_file_get_string(tlshd_configuration,
-+					 peer_type == PEER_TYPE_CLIENT ?
-+					 "authenticate.client" :
-+					 "authenticate.server",
-+					 "x509.certificate", NULL);
- 	if (!pathname)
- 		return false;
- 
-@@ -285,181 +301,34 @@ bool tlshd_config_get_client_certs(gnutls_pcert_st *certs,
- 		return false;
- 	}
- 
--	tlshd_log_debug("Retrieved %u x.509 client certificate(s) from %s",
--			*certs_len, pathname);
-+	tlshd_log_debug("Retrieved %u x.509 %s certificate(s) from %s",
-+			*certs_len,
-+			peer_type == PEER_TYPE_CLIENT ? "client" : "server",
-+			pathname);
- 	g_free(pathname);
- 	return true;
- }
- 
- /**
-- * tlshd_config_get_client_privkey - Get private key for ClientHello from .conf
-+ * tlshd_config_get_privkey - Get private key for {Client,Server}Hello from .conf
-+ * @peer_type: IN: peer type
-  * @privkey: OUT: in-memory private key
-  *
-  * Return values:
-  *   %true: private key retrieved successfully
-  *   %false: private key not retrieved
-  */
--bool tlshd_config_get_client_privkey(gnutls_privkey_t *privkey)
-+bool tlshd_config_get_privkey(int peer_type, gnutls_privkey_t *privkey)
- {
- 	gnutls_datum_t data;
- 	gchar *pathname;
- 	int ret;
- 
--	pathname = g_key_file_get_string(tlshd_configuration, "authenticate.client",
--					"x509.private_key", NULL);
--	if (!pathname)
--		return false;
--
--	if (!tlshd_config_read_datum(pathname, &data, TLSHD_OWNER,
--				     TLSHD_PRIVKEY_MODE)) {
--		g_free(pathname);
--		return false;
--	}
--
--	ret = gnutls_privkey_init(privkey);
--	if (ret != GNUTLS_E_SUCCESS) {
--		tlshd_log_gnutls_error(ret);
--		free(data.data);
--		g_free(pathname);
--		return false;
--	}
--
--	/* Config file supports only PEM-encoded keys */
--	ret = gnutls_privkey_import_x509_raw(*privkey, &data,
--					     GNUTLS_X509_FMT_PEM, NULL, 0);
--	free(data.data);
--	if (ret != GNUTLS_E_SUCCESS) {
--		tlshd_log_gnutls_error(ret);
--		g_free(pathname);
--		return false;
--	}
--
--	tlshd_log_debug("Retrieved private key from %s", pathname);
--	g_free(pathname);
--	return true;
--}
--
--/**
-- * tlshd_config_get_server_truststore - Get truststore for ServerHello from .conf
-- * @bundle: OUT: pathname to truststore
-- *
-- * Return values:
-- *   %false: pathname not retrieved
-- *   %true: pathname retrieved successfully; caller must free @bundle using free(3)
-- */
--bool tlshd_config_get_server_truststore(char **bundle)
--{
--	gchar *pathname;
--
--	pathname = g_key_file_get_string(tlshd_configuration, "authenticate.server",
--					 "x509.truststore", NULL);
--	if (!pathname)
--		return false;
--	if (access(pathname, F_OK)) {
--		tlshd_log_debug("tlshd cannot access \"%s\"", pathname);
--		g_free(pathname);
--		return false;
--	}
--
--	*bundle = strdup(pathname);
--	g_free(pathname);
--	if (!*bundle)
--		return false;
--
--	tlshd_log_debug("Server x.509 truststore is %s", *bundle);
--	return true;
--}
--
--/**
-- * tlshd_config_get_server_crl - Get CRL for ServerHello from .conf
-- * @result: OUT: pathname to CRL
-- *
-- * Return values:
-- *   %false: pathname not retrieved
-- *   %true: pathname retrieved successfully; caller must free @result using free(3)
-- */
--bool tlshd_config_get_server_crl(char **result)
--{
--	gchar *pathname;
--
--	pathname = g_key_file_get_string(tlshd_configuration, "authenticate.server",
--					 "x509.crl", NULL);
--	if (!pathname)
--		return false;
--	if (access(pathname, F_OK)) {
--		tlshd_log_debug("tlshd cannot access \"%s\"", pathname);
--		g_free(pathname);
--		return false;
--	}
--
--	*result = strdup(pathname);
--	g_free(pathname);
--	if (!*result)
--		return false;
--
--	tlshd_log_debug("Server x.509 crl is %s", *result);
--	return true;
--}
--
--/**
-- * tlshd_config_get_server_certs - Get certs for ServerHello from .conf
-- * @certs: OUT: in-memory certificates
-- * @certs_len: IN: maximum number of certs to get, OUT: number of certs found
-- *
-- * Return values:
-- *   %true: certificate retrieved successfully
-- *   %false: certificate not retrieved
-- */
--bool tlshd_config_get_server_certs(gnutls_pcert_st *certs,
--				   unsigned int *certs_len)
--{
--	gnutls_datum_t data;
--	gchar *pathname;
--	int ret;
--
--	pathname = g_key_file_get_string(tlshd_configuration, "authenticate.server",
--					"x509.certificate", NULL);
--	if (!pathname)
--		return false;
--
--	if (!tlshd_config_read_datum(pathname, &data, TLSHD_OWNER,
--				     TLSHD_CERT_MODE)) {
--		g_free(pathname);
--		return false;
--	}
--
--	/* Config file supports only PEM-encoded certificates */
--	ret = gnutls_pcert_list_import_x509_raw(certs, certs_len, &data,
--						GNUTLS_X509_FMT_PEM, 0);
--	free(data.data);
--	if (ret != GNUTLS_E_SUCCESS) {
--		tlshd_log_gnutls_error(ret);
--		g_free(pathname);
--		return false;
--	}
--
--	tlshd_log_debug("Retrieved %u x.509 server certificate(s) from %s",
--			*certs_len, pathname);
--	g_free(pathname);
--	return true;
--}
--
--/**
-- * tlshd_config_get_server_privkey - Get private key for ServerHello from .conf
-- * @privkey: OUT: in-memory private key
-- *
-- * Return values:
-- *   %true: private key retrieved successfully
-- *   %false: private key not retrieved
-- */
--bool tlshd_config_get_server_privkey(gnutls_privkey_t *privkey)
--{
--	gnutls_datum_t data;
--	gchar *pathname;
--	int ret;
--
--	pathname = g_key_file_get_string(tlshd_configuration, "authenticate.server",
--					"x509.private_key", NULL);
-+	pathname = g_key_file_get_string(tlshd_configuration,
-+					 peer_type == PEER_TYPE_CLIENT ?
-+					 "authenticate.client" :
-+					 "authenticate.server",
-+					 "x509.private_key", NULL);
- 	if (!pathname)
- 		return false;
- 
-diff --git a/src/tlshd/server.c b/src/tlshd/server.c
-index 44a91c4..efea387 100644
---- a/src/tlshd/server.c
-+++ b/src/tlshd/server.c
-@@ -52,8 +52,8 @@ static bool tlshd_x509_server_get_certs(struct tlshd_handshake_parms *parms)
- 		return tlshd_keyring_get_certs(parms->x509_cert,
- 					       tlshd_server_certs,
- 					       &tlshd_server_certs_len);
--	return tlshd_config_get_server_certs(tlshd_server_certs,
--					     &tlshd_server_certs_len);
-+	return tlshd_config_get_certs(PEER_TYPE_SERVER, tlshd_server_certs,
-+				      &tlshd_server_certs_len);
- }
- 
- static void tlshd_x509_server_put_certs(void)
-@@ -69,7 +69,8 @@ static bool tlshd_x509_server_get_privkey(struct tlshd_handshake_parms *parms)
- 	if (parms->x509_privkey != TLS_NO_PRIVKEY)
- 		return tlshd_keyring_get_privkey(parms->x509_privkey,
- 						 &tlshd_server_privkey);
--	return tlshd_config_get_server_privkey(&tlshd_server_privkey);
-+	return tlshd_config_get_privkey(PEER_TYPE_SERVER,
-+					&tlshd_server_privkey);
- }
- 
- static void tlshd_x509_server_put_privkey(void)
-@@ -140,7 +141,7 @@ static int tlshd_server_get_truststore(gnutls_certificate_credentials_t cred)
- 	char *pathname;
- 	int ret;
- 
--	if (tlshd_config_get_server_truststore(&pathname)) {
-+	if (tlshd_config_get_truststore(PEER_TYPE_SERVER, &pathname)) {
- 		ret = gnutls_certificate_set_x509_trust_file(cred, pathname,
- 							     GNUTLS_X509_FMT_PEM);
- 		free(pathname);
-@@ -150,7 +151,7 @@ static int tlshd_server_get_truststore(gnutls_certificate_credentials_t cred)
- 		return ret;
- 	tlshd_log_debug("System trust: Loaded %d certificate(s).", ret);
- 
--	if (tlshd_config_get_server_crl(&pathname)) {
-+	if (tlshd_config_get_crl(PEER_TYPE_SERVER, &pathname)) {
- 		ret = gnutls_certificate_set_x509_crl_file(cred, pathname,
- 							   GNUTLS_X509_FMT_PEM);
- 		free(pathname);
-diff --git a/src/tlshd/tlshd.h b/src/tlshd/tlshd.h
-index 2857804..6ba45ac 100644
---- a/src/tlshd/tlshd.h
-+++ b/src/tlshd/tlshd.h
-@@ -45,6 +45,11 @@ struct tlshd_handshake_parms {
- 	unsigned int	session_status;
- };
- 
-+enum peer_type {
-+	PEER_TYPE_CLIENT,
-+	PEER_TYPE_SERVER,
-+};
-+
- /* client.c */
- extern void tlshd_tls13_clienthello_handshake(struct tlshd_handshake_parms *parms);
- extern void tlshd_quic_clienthello_handshake(struct tlshd_handshake_parms *parms);
-@@ -52,16 +57,11 @@ extern void tlshd_quic_clienthello_handshake(struct tlshd_handshake_parms *parms
- /* config.c */
- bool tlshd_config_init(const gchar *pathname);
- void tlshd_config_shutdown(void);
--bool tlshd_config_get_client_truststore(char **bundle);
--bool tlshd_config_get_client_crl(char **result);
--bool tlshd_config_get_client_certs(gnutls_pcert_st *certs,
--				   unsigned int *certs_len);
--bool tlshd_config_get_client_privkey(gnutls_privkey_t *privkey);
--bool tlshd_config_get_server_truststore(char **bundle);
--bool tlshd_config_get_server_crl(char **result);
--bool tlshd_config_get_server_certs(gnutls_pcert_st *certs,
--				   unsigned int *certs_len);
--bool tlshd_config_get_server_privkey(gnutls_privkey_t *privkey);
-+bool tlshd_config_get_truststore(int peer_type, char **bundle);
-+bool tlshd_config_get_crl(int peer_type, char **result);
-+bool tlshd_config_get_certs(int peer_type, gnutls_pcert_st *certs,
-+			    unsigned int *certs_len);
-+bool tlshd_config_get_privkey(int peer_type, gnutls_privkey_t *privkey);
- 
- /* handshake.c */
- extern void tlshd_start_tls_handshake(gnutls_session_t session,
+> To use these patches, you need a recent version of gnutls as well as
+> crypto-policies (if used by your distro).  These commands will help you
+> determine if your gnutls has the necessary stuff:
+> 
+> $ gnutls-cli -l | grep ML-DSA
+> $ gnutls-cli -l | grep MLKEM
+> 
+> You'll need to generate a cert using ML-DSA-44/ML-DSA-65/ML-DSA-87.  For
+> example, here's how I generate a self-signed cert using ML-DSA-65:
+> 
+> $ openssl req -new -x509 -newkey mldsa65 -days 365 \
+> 	-keyout /etc/pki/tls/private/rhel10.smayhew.test.mldsa65.key \
+> 	-out /etc/pki/tls/certs/rhel10.smayhew.test.mldsa65.pem \
+> 	-subj "/CN=rhel10.smayhew.test" \
+> 	-addext "subjectAltName=DNS:rhel10.smayhew.test,IP:192.168.124.69" \
+> 	-noenc -quiet
+> 
+> Obviously if you're using openssl to generate your certs, you'll need a
+> recent openssl too.  Or you can use certtool if you prefer the gnutls
+> utilities.
+> 
+> You'll need to add the cert and key to the relevant sections of
+> tlshd.conf and you should be good to go.
+> 
+> If you have debug logging turned on, you should see this if you perform a
+> handshake with a PQ-enabled peer you should see something like this:
+> 
+> Aug 28 17:58:25 rhel10.smayhew.test tlshd[3291]: Session description: (TLS1.3)-(HYBRID-X25519-MLKEM768)-(ML-DSA-65)-(AES-256-GCM)
+> 
+> and if you perform a handshake with a non-PQ-enabled peer:
+> 
+> Aug 28 18:04:21 rhel10.smayhew.test tlshd[3352]: Session description: (TLS1.3)-(ECDHE-X25519)-(RSA-PSS-RSAE-SHA256)-(AES-256-GCM)
+> 
+> -Scott
+> 
+> Scott Mayhew (4):
+>   tlshd: deduplicate client and server config functions
+>   tlshd: Fix priority string to allow PQC
+>   tlshd: Server-side dual certificate support
+>   tlshd: Client-side dual certificate support
+> 
+>  configure.ac             |  12 ++
+>  src/tlshd/client.c       |  48 +++++--
+>  src/tlshd/config.c       | 281 +++++++++++++++++++--------------------
+>  src/tlshd/ktls.c         |   2 +-
+>  src/tlshd/server.c       |  74 ++++++++++-
+>  src/tlshd/tlshd.conf     |   4 +
+>  src/tlshd/tlshd.conf.man |  15 +++
+>  src/tlshd/tlshd.h        |  23 ++--
+>  8 files changed, 286 insertions(+), 173 deletions(-)
+> 
+
+
 -- 
-2.50.1
-
+Chuck Lever

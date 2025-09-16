@@ -1,256 +1,169 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699801DD0EF
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 16 Sep 2025 00:51:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7252D7391
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 16 Sep 2025 11:28:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757983889; cv=none; b=Kt1uy3MDjwEfWWTYf3Fc2xOCX+eTkDxsbX7hXkCUlthjr3HQSBCEaeW+/5uGftt5Pt/Be0+RiodV1gmtLwz4H0zgQgFiNRSMwh9yodRc1Jg7driHBhepFmvt0AiRopcexDJ83DNPt+FjEeV2VglUZZJ7WSHt6DfFxI35DSKO6Bo=
+	t=1758022117; cv=none; b=cNvGlpcnqEu433g58rxazZ9B03jeTbTX+iuPoLCV6rYUm7cSiLbfKn9w2Dg3WCPhmYyeCwsAeHwrKFYhj9dQbmYsERdCe0LYVgI2jP/oA3gBrqSgT3wA9Xv83NNh/GuzX3ETQ4G5MYwXw2w4SWPrPmkejktoK5x/gpWjb7yt1iI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757983889; c=relaxed/simple;
-	bh=YLCihjsyYiQD+cNgW9fZK+mXNOGLMd4fjRAzjU1EsjQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=snLRC0PGuhGVsdRZ0Y4WQwQsbTS8mwbGD6sOUP4tka8mAoBT7tnezKNA97fyJGbqKI4Qt0kOF129fPLpy/lRkdrBoNHQ0aBRs7MGSVioo1XO1J4Cwy55xjJ316iOeAZFRZ2zRFhlpiWb+r62DuABqYsa9QVCfGqHYzUcLGR7Z00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VcVlD4Px; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758022117; c=relaxed/simple;
+	bh=SqVgP+GfGAadYcUao5GJvrjWwnaMdU9RUmqq01HfK7Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DFdyteRP8Ryz5QwfNfA8Q90qJZEZRxnPqDgvfwRyC8VOqj0g9cST4NIqtnJu45tEZ2ITuJwjzuNsPMxMkps2GhBSQNkdNpjG05e9Qz58qHHXHFrQ481bYma6HT4hMCc34aYyW49St+KcB9rOFS5btQgqHkJHgo3F90jQgY2ONkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iRsl15wP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QVJuz3Oz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iRsl15wP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QVJuz3Oz; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VcVlD4Px"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b0787fdb137so714522266b.0
-        for <kernel-tls-handshake@lists.linux.dev>; Mon, 15 Sep 2025 17:51:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757983886; x=1758588686; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1OpZgX9tytLoNm6IprJcc0k2pObmzkvGtIN3dOD3Knw=;
-        b=VcVlD4PxcILrc3rqTV5ORIV2ogHQVjWXUVZqJYqDRWZve/HIzExt8MjO5f3m7Ugxcy
-         NpfLEJAv732oriIkE0yjDcR/uzeYKo4veo76pSMNu6Sc2YQKXZm707MPlG2OScQb7Y/9
-         qu2hrDIeZ5mp4O8QVj0vkKxEhvw7VkEHG5j4sSrjUpcWoCMs9DTZOSb2OQfLK+UxcRiR
-         Fm+BVgoSaK0wDhyuAhv8kyohy61OaIYxGjYq0EQeVp1x0gxEdlPZE1+5PLw7rxWNdmaP
-         +Xu0GPz5usy4HxgI/PhcFfDkzhDqjS2iFdjbsDTKZXRkJ1/K8fE+gH4H8s7qvNnsz4Ac
-         AyZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757983886; x=1758588686;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1OpZgX9tytLoNm6IprJcc0k2pObmzkvGtIN3dOD3Knw=;
-        b=twTSjJLOwWXm5OGH8txLa54NG5RA8j1i27tDBGt2t4yTaEpqm6Z/V/XMJ30jhVPCqA
-         kwXQZpS1TE4iqY4+HDelokjB1vNVBiDvVBluYIlOVb2J8e376GBIGASoBjg/tmTNZOnY
-         WCp4Zmq511YI3o/ZZaUNQ+1igtMvZcRLZKZoYWsLjL6hS7L1wkdNMnrN+raWGTE/lua8
-         S0gZO5p3cjSZxBluS5UoNj9mG2BpXi/9JELSWc5hrjqIHbfqlxF3SSc2bDUm2LzyBHwq
-         +IOWvAjyLvsOUbPjMaSTHPdQt3LyyTbery3upn04kVetU6b48f8fJezy9cP1YHMsoWfC
-         eUKw==
-X-Forwarded-Encrypted: i=1; AJvYcCWEIP5wdN/hiDIJeH43B57oF1GJNxEAyXxp5U50HFh4a7XU6+pIPrYPd9k5GIO0lOHkBls/T5H8lsNyINnx0hF5Lx9gkg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxSXU/nZ/9XJAEpDIevci5I9gLD6iXGdyBesurJ+86Qt4Wr+f7w
-	DPfgGmiTuWVVSGTbQo22Nsce/B3ew0bcTc5v3FR+o2WpPTP3x+JcM6Fk1MIxd2L1/A/e8MVO4g6
-	jc3kGP1om2zI8MDKfJMy+CPOkF9Dk7m8=
-X-Gm-Gg: ASbGncvKSqn99u0qha0hc5hVWpOBlhakFSw0QWjA+l6WoEu1jEvCEFAwHJ1nxfmHiBi
-	ktjQX/WssxEbaumr8LNKD6DiHpEoRri3UM8laaCYtmuHShg5GkHnuzNhRgM1V9PR0eBY8B6op/L
-	SortiupoGXfi++/5XpXqH+3Qt/pSsUiOsnLCIm/iPtdxvvoVQQhr0zzcmBijEYKvSaTswjR07U+
-	oi2T02rqcpmYlT1UIjixFDsXWiTUu4sp2Jwrw==
-X-Google-Smtp-Source: AGHT+IHPJv+bTBNTeL/MVnMWVNgygry+A18f2/vKjgIuOgWGXPTmc9yHqTETAd2lHq94TaKCPdNN9pZ7qI2l7kdueMA=
-X-Received: by 2002:a17:907:2d2c:b0:b07:9c13:153e with SMTP id
- a640c23a62f3a-b07c353e3f8mr1471142666b.2.1757983885391; Mon, 15 Sep 2025
- 17:51:25 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iRsl15wP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QVJuz3Oz";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iRsl15wP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QVJuz3Oz"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0CE0221E2A;
+	Tue, 16 Sep 2025 11:28:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758022112; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q9oCpgqurBom31W/n+RHNghX4/6UcJ4QSLsIdYBaQMw=;
+	b=iRsl15wPBs+dpd5s3bWELQcCCYZvA4kVggDx5MyyLfYHvMUo8/E2nULZx4lM5y0ZBuXSyU
+	6ldC+EHot2bA+mh1u6AXEJtFQJk8Xb5rBSt79e+uJ4xw8c12XJTbo1uVjwBCTA3DbYZyBM
+	FdEnK3a44FLYoX5QVd/5BwThhZvurYQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758022112;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q9oCpgqurBom31W/n+RHNghX4/6UcJ4QSLsIdYBaQMw=;
+	b=QVJuz3Oz116B1y/b/5jqbhtvr1Mu3RUlMpdnnaKv+thZTJrM4Oq7iUxsXCeiKcQe6nvIM7
+	Kukzafq15n4Cc5Bg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iRsl15wP;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QVJuz3Oz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1758022112; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q9oCpgqurBom31W/n+RHNghX4/6UcJ4QSLsIdYBaQMw=;
+	b=iRsl15wPBs+dpd5s3bWELQcCCYZvA4kVggDx5MyyLfYHvMUo8/E2nULZx4lM5y0ZBuXSyU
+	6ldC+EHot2bA+mh1u6AXEJtFQJk8Xb5rBSt79e+uJ4xw8c12XJTbo1uVjwBCTA3DbYZyBM
+	FdEnK3a44FLYoX5QVd/5BwThhZvurYQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1758022112;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q9oCpgqurBom31W/n+RHNghX4/6UcJ4QSLsIdYBaQMw=;
+	b=QVJuz3Oz116B1y/b/5jqbhtvr1Mu3RUlMpdnnaKv+thZTJrM4Oq7iUxsXCeiKcQe6nvIM7
+	Kukzafq15n4Cc5Bg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CB93513ACD;
+	Tue, 16 Sep 2025 11:28:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0+4DMd9JyWgTZAAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 16 Sep 2025 11:28:31 +0000
+Message-ID: <40c707d6-db49-40a8-8372-7c3a91c2ff5f@suse.de>
+Date: Tue, 16 Sep 2025 13:28:31 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250905024659.811386-1-alistair.francis@wdc.com>
- <68e45231-8344-447d-95cc-4b95a13df353@suse.de> <CAN-5tyFpuEieD8x83vFGgHy8KZBCsAsm7LiZmzpc6OpWPHVFgA@mail.gmail.com>
-In-Reply-To: <CAN-5tyFpuEieD8x83vFGgHy8KZBCsAsm7LiZmzpc6OpWPHVFgA@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 16 Sep 2025 10:50:59 +1000
-X-Gm-Features: AS18NWBZ9XgG75BX61NTXxYXdSD62EA-LC37QqP65E-mYxfkmPX6bvhZKH0LJnQ
-Message-ID: <CAKmqyKPajmBva5n1qfQ-iQKCtOyD7CsFAdhEiwP8BXV98_OSiw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] nvme-tcp: Support receiving KeyUpdate requests
-To: Olga Kornievskaia <aglo@umich.edu>
-Cc: Hannes Reinecke <hare@suse.de>, chuck.lever@oracle.com, hare@kernel.org, 
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] nvmet-tcp: fix handling of tls alerts
+To: Jakub Kicinski <kuba@kernel.org>, Keith Busch <kbusch@kernel.org>
+Cc: Olga Kornievskaia <aglo@umich.edu>,
+ Olga Kornievskaia <okorniev@redhat.com>, chuck.lever@oracle.com,
+ jlayton@kernel.org, trondmy@hammerspace.com, anna.schumaker@oracle.com,
+ hch@lst.de, sagi@grimberg.me, kch@nvidia.com, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, linux-nfs@vger.kernel.org,
+ linux-nvme@lists.infradead.org, netdev@vger.kernel.org,
+ kernel-tls-handshake@lists.linux.dev, neil@brown.name, Dai.Ngo@oracle.com,
+ tom@talpey.com, horms@kernel.org
+References: <20250731180058.4669-1-okorniev@redhat.com>
+ <20250731180058.4669-4-okorniev@redhat.com>
+ <CAN-5tyF=5oQLyy7ikbbhFW10OrUfHh0Sr3D=G1nHN+pEsfiSzw@mail.gmail.com>
+ <aMg0jDkXOd8E7Ihj@kbusch-mbp> <20250915144651.7bec7ad4@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20250915144651.7bec7ad4@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 0CE0221E2A
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
 
-On Tue, Sep 16, 2025 at 2:31=E2=80=AFAM Olga Kornievskaia <aglo@umich.edu> =
-wrote:
->
-> On Mon, Sep 15, 2025 at 7:46=E2=80=AFAM Hannes Reinecke <hare@suse.de> wr=
-ote:
-> >
-> > On 9/5/25 04:46, alistair23@gmail.com wrote:
-> > > From: Alistair Francis <alistair.francis@wdc.com>
-> > >
-> > > The TLS 1.3 specification allows the TLS client or server to send a
-> > > KeyUpdate. This is generally used when the sequence is about to
-> > > overflow or after a certain amount of bytes have been encrypted.
-> > >
-> > > The TLS spec doesn't mandate the conditions though, so a KeyUpdate
-> > > can be sent by the TLS client or server at any time. This includes
-> > > when running NVMe-OF over a TLS 1.3 connection.
-> > >
-> > > As such Linux should be able to handle a KeyUpdate event, as the
-> > > other NVMe side could initiate a KeyUpdate.
-> > >
-> > > Upcoming WD NVMe-TCP hardware controllers implement TLS support
-> > > and send KeyUpdate requests.
-> > >
-> > > This series builds on top of the existing TLS EKEYEXPIRED work,
-> > > which already detects a KeyUpdate request. We can now pass that
-> > > information up to the NVMe layer (target and host) and then pass
-> > > it up to userspace.
-> > >
-> > > Userspace (ktls-utils) will need to save the connection state
-> > > in the keyring during the initial handshake. The kernel then
-> > > provides the key serial back to userspace when handling a
-> > > KeyUpdate. Userspace can use this to restore the connection
-> > > information and then update the keys, this final process
-> > > is similar to the initial handshake.
-> > >
-> > > Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
-> > >
-> > > v2:
-> > >   - Change "key-serial" to "session-id"
-> > >   - Fix reported build failures
-> > >   - Drop tls_clear_err() function
-> > >   - Stop keep alive timer during KeyUpdate
-> > >   - Drop handshake message decoding in the NVMe layer
-> > >
-> > > Alistair Francis (7):
-> > >    net/handshake: Store the key serial number on completion
-> > >    net/handshake: Make handshake_req_cancel public
-> > >    net/handshake: Expose handshake_sk_destruct_req publically
-> > >    nvmet: Expose nvmet_stop_keep_alive_timer publically
-> > >    net/handshake: Support KeyUpdate message types
-> > >    nvme-tcp: Support KeyUpdate
-> > >    nvmet-tcp: Support KeyUpdate
-> > >
-> > >   Documentation/netlink/specs/handshake.yaml |  19 +++-
-> > >   Documentation/networking/tls-handshake.rst |   4 +-
-> > >   drivers/nvme/host/tcp.c                    |  88 +++++++++++++++--
-> > >   drivers/nvme/target/core.c                 |   1 +
-> > >   drivers/nvme/target/tcp.c                  | 104 ++++++++++++++++++=
-+--
-> > >   include/net/handshake.h                    |  17 +++-
-> > >   include/uapi/linux/handshake.h             |  14 +++
-> > >   net/handshake/genl.c                       |   5 +-
-> > >   net/handshake/handshake.h                  |   1 -
-> > >   net/handshake/request.c                    |  18 ++++
-> > >   net/handshake/tlshd.c                      |  46 +++++++--
-> > >   net/sunrpc/svcsock.c                       |   3 +-
-> > >   net/sunrpc/xprtsock.c                      |   3 +-
-> > >   13 files changed, 289 insertions(+), 34 deletions(-)
-> > >
-> >
-> > Hey Alistair,
-> > thanks for doing this. While the patchset itself looks okay-ish, there
-> > are some general ideas/concerns for it:
-> >
-> > - I have posted a patch for replacing the current 'read_sock()'
-> > interface with a recvmsg() base workflow. That should give us
-> > access to the 'real' control message, so it would be good if you
-> > could fold it in.
+On 9/15/25 23:46, Jakub Kicinski wrote:
+> On Mon, 15 Sep 2025 09:45:16 -0600 Keith Busch wrote:
+>> On Fri, Sep 05, 2025 at 12:10:21PM -0400, Olga Kornievskaia wrote:
+>>> Dear NvME maintainers,
+>>>
+>>> Are there objections to this patch? What's the path forward to
+>>> including it in the nvme code.
+>>
+>> Sorry for the delay here. This series is mostly outside the nvme driver,
+>> so we need at least need an Ack from the networking folks if we're going
+>> to take this through the nvme tree.
+> 
+> In case you decide to take it, LGTM:
+> 
+> Acked-by: Jakub Kicinski <kuba@kernel.org>
+> 
+> Thanks!
+> 
+Okay, after further thinking I would vote for the
+NVMe tree after all. There are more patches queued
+up which will require these changes, and life will
+be easier if we had just one branch where we could
+base them on.
 
-Thanks for sending that. I'll rebase my changes on top of the patch
-and update it all.
+Cheers,
 
-> > - Olga has send a patchset fixing a security issue with control
-> > messages; the gist is that the network code expects a 'kvec' based
-> > msg buffer when receiving a control message. So essentially one
-> > has to receive a message _without_ a control buffer, check for
-> > MSG_CTRUNC, and then read the control message via kvec.
-
-Oh interesting. I'll see if I can find the patchset and update my
-series to follow that.
-
-> > Can you ensure that your patchset follows these guidelines?
-> > - There is no method to trigger a KeyUpdate, making it really hard
-> > to test this feature (eg by writin a blktest for it). Ideally we
-
-I have some patches that do send a KeyUpdate [1] which is what I'm
-using to test. It allows me to send a KeyUpdate from either side.
-
-> > should be able to trigger it from both directions, but having just
-> > one (eg on the target side) should be enough for starters.
-> > A possible interface would be to implement write support to the
-> > 'tls_key' debugfs attribute; when writing the same key ID as
-> > the one currently in use the KeyUpdate mechanism could be started.
-
-That's a good point about allowing userspace and blktest to initiate a
-KeyUpdate. I'll look at adding support for a debugfs attribute
-
-> >
-> > But thanks for doing the work!
->
-> Hi Alistart,
->
-> I would like to pingy-pack on this message and ask a few questions as
-> I'm a bit confused about this implemenation.
->
-> NFS is also interested in being able to handle KeyUpdate functionality
-> of TLS and having NvME doing it serves as an example. But the general
-> approach confuses me.
->
-> All messages go thru a TLS (kernel) layer portion of sock_recvmsg
-> (kernel_recvmsg). When the TLS kernel layer detects that it's
-> non-TLS-data payload, it does various things depending on whether or
-> not control buffer was set up prior to the call to sock_recvmsg.
-> KeyUpdate message is a type of HANDSHAKE message and thus non-TLS-data
-> payload. While I was doing my changes to NvME code I noticed that
-> there are multiple places NvME (target) calls into kernel_recvmsg()
-> and thus those places would need to handle receiving non-TLS-data
-> payloads. Previously there was a TLS alert which is non-data but now
-> there is Handshake (specifically Keyupdate, but not others).
->
-> I guess where I'm going is I don't see how NvMe is connecting
-> receiving KeyUpdate (ie, identifying that it received specifically
-> that and not other handshake type) and its handling of KeyUpdate from
-> kernel_recvmsg the when NvME is just normally receiving data.
-
-The kernel TLS layer is handling the KeyUpdate [2]. The current
-upstream Linux TLS layer will decode a KeyUpdate and mark a
-`key_update_pending`. Note that upstream doesn't actually do a
-KeyUpdate, hence this series.
-
->
-> This patch series reads to me as it is expecting KeyUpdate to be a
-> part of the Handshake process (ie., there is a patch to "cancel" an
-> ongoing handshake, there is an upcall to tlshd with the KeyUpdate?).
-
-No, KeyUpdate can't be part of the handshake process
-
-> This doesn't make sense to me. KeyUpdate, while a type of Handshake
-> message, is not done during the handshake -- it is done after sending
-> the Finished message which concludes the handshake flow (and
-> involvement of tlshd) and can happen at any time during normal TLS
-> encrypted message exchange after the handshake. Here's a snippet from
-> the TLS spec:
-
-Exactly, KeyUpdate can happen at any time after the handshake.
-
-The general idea is that the TLS layer will detect a KeyUpdate [2],
-then report EKEYEXPIRED to the NVMe layer which then asks
-ktls-utils/gnutls in user space to update the keys. Does that make
-more sense?
-
->
-> The KeyUpdate handshake message is used to indicate that the sender
->    is updating its sending cryptographic keys.  This message can be sent
->    by either peer after it has sent a Finished message.  Implementations
->    that receive a KeyUpdate message prior to receiving a Finished
->    message MUST terminate the connection with an "unexpected_message"
->    alert.
->
-
-1: https://github.com/alistair23/linux/commit/714d58a0aed5d49fb24ea22497024=
-c3d958a60b8
-2: https://github.com/torvalds/linux/blob/46a51f4f5edade43ba66b3c151f0e25ec=
-8b69cb6/net/tls/tls_sw.c#L1775
-
-Alistair
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich

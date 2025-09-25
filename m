@@ -1,153 +1,93 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA382E1747
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 25 Sep 2025 16:03:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71534307ADA
+	for <kernel-tls-handshake@lists.linux.dev>; Thu, 25 Sep 2025 16:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758816217; cv=none; b=bJVYUOpVFsPKeJIBl41j5c9Ode3kBkXKPtZOPWHg1UXspleEP1f/4C6dKJwD0CaarTfbqdLyW9XZPi2jmYspqNowNju5tf9WfYI7THswSRqmbZMY2A6kXi/tYilmKaBdWM63dzDqWCUJhDEOG6qiBmCzoiSZUTZyNb2lea327RA=
+	t=1758818338; cv=none; b=K98ZnOSZgwHX8BIbiT+aOTGMrSltu7vuqB+KCStDJTaeLPE+vJDXDyHdVu4gk4FT9JbyuPPIrw2JoUWd3o1eyIALgmRXFyo0b0acUxof8bHPs7eWHW2x/YvCmz5STqlVnB/9TxsvOeo/nmZdkrXGuzbHz8XqxlsezQ65PcZyP5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758816217; c=relaxed/simple;
-	bh=HnJd+NrxTuygtcASib599tdU6VkNGVSgK79JCOZW6fM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pQsjX1mzCb6nLb4Jibo5NTXRdwAnJMA8njr8As3P9bSTFIs/Ns4dK39XhqJAuZSoY79An0LPjkBs5JcCRi2mx4WA06Gm30pSJGn6Py2LvlbfIFG3XRMXAlceOdZ2unidZg9hN3GztoYC+D3GFNWHnc7Wrr6am+vtT2CBQekBT10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gnlmm1cS; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1758818338; c=relaxed/simple;
+	bh=FJjz7t6tLSkTLgZ2gUMWir8kvJx4+tL++L0qW0xEH4Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aVJvMSM+KxQ4fW8EMRMim+GsrR7mMmv5sqck+UHpEmaKFTwUttbsfmpdUNDWkCCpOVXJZ78frB3NIsXpatbSem54iuecrGYqEW9+5a7bCJ1g6PcWwv4cG3GWpk7j/S+005DGwSVfcEIWpxEWEwEx0BUe5EsOgiDorT4ynFgMEow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WEGaIV2y; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gnlmm1cS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758816214;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lAAu2rvXua1onNC9vVWcLt9JR4YNW3IhkSLkwQw3+yc=;
-	b=gnlmm1cSQBqMqIBpnkIJgchJNvQpM293H2fW45i86W6I6RsK3Qgd71BJ4a3L8w4CFDxruc
-	4ZnfPmgYwZGweQ5KPY1Qv+qj0uXkVtQQDycCEp2UjiR8krt7/BTNqFbcFIpmZoWGOAeGgW
-	iT+Xe4kfyG4v3jhBCMV5JuwctMHPI78=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-404-PkN8MP22P9SsVFyhK9T-tg-1; Thu, 25 Sep 2025 12:03:31 -0400
-X-MC-Unique: PkN8MP22P9SsVFyhK9T-tg-1
-X-Mimecast-MFC-AGG-ID: PkN8MP22P9SsVFyhK9T-tg_1758816210
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3ef21d77d2eso716986f8f.1
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 25 Sep 2025 09:03:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WEGaIV2y"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4b7a8ceaad3so11149231cf.2
+        for <kernel-tls-handshake@lists.linux.dev>; Thu, 25 Sep 2025 09:38:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758818334; x=1759423134; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xGHj13vLu5VtrLsuXYIMwQB56n+78nLpd4rQyIrByvc=;
+        b=WEGaIV2yPPkM1xYM2cEuQJKd8LjMyZYaB4gKxncfxA3vddiWxdoc1VxiR2BN8Perlt
+         SLXDXuc66Fk4z0RYHqW8qUnRxUyup4axUzkxgrveCZ9fzG+MryjKbFynl0IIDEFoa4WS
+         cYJhC/ro1/UlxXne1iWYsE/tn9ERyLeYVK6l75mky3awgQWEwT3zBnD9fhh9P19CMMSf
+         E7704iEIAenUL7qPpHQOVqzYf0K852bkUbCEvSG7jQZE6QCobyyW7Hple3szPJK+jgU9
+         QzcvuXzNZ+TcenWs49UeEb/p0DWvqLU0b98b2VHHL43Um26Nb/jlqtY8oB5a4ENz94aH
+         IdCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758816210; x=1759421010;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lAAu2rvXua1onNC9vVWcLt9JR4YNW3IhkSLkwQw3+yc=;
-        b=oFVJn7x0Ri1bKytTfav4u9yxL8m0o/nzh+vBqaPLNiF3Wzl3VW/L1TBlDZNE75HFne
-         DJTZQ+M98LPdylwbi5Ti3BWcB/A5FyOe4ZTGn4AeF0Mwaw/zUFxnuWRwngD9Zw9NIBkc
-         Cv7fkFj71Sjx9hgjunSRWUJmOZnLBGtmQ10+B/4SaIjOXzfM05CNH2J8Y6bD05pJDono
-         zwgnd5h0A7q4hSo+efaS1Jv9yC5JucLLkGKvE+E7yF0E6E62sCz7hSqS5wWgNLT2xEXT
-         7LWEftOwCI0mQG4HMG48t8W4irhFQGJzVn0TCOxa4Qv+XcCvglbocopXCGUvKp6zDEX6
-         8k5w==
-X-Forwarded-Encrypted: i=1; AJvYcCUg8AJoUgXAYvBQTN0dil3T0d6pNnh9SUQYc8cjJy1lq4JcyKuAvGetO8FsHADp5y5Z9ATfYTRDRR1k2tUQ3DX537rClQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw4mCGHcTxB6U9fv7PXd8QIHq5deu6sDGmVKYXhfZ102EQiDbow
-	NxyFdbTVkNw+NIoTmRoJKRD9yux8kpGlG0jVpa7ktpPVtvBAY7i9T1Kxg6UC6uVviz9UThIvyPC
-	dMeW2kMw2Utox/Mr+Ct9a0BkpBAbul4mlPg6FLaaURkCY/nfibgczMhqJNXGeVeF47H3ZPHy+HD
-	1t
-X-Gm-Gg: ASbGnctamzZZ4X/W5LmyKv33TJr10YHqiBo2BNTiB7U3oNXVIAKR720bHQeMM7vEbGt
-	kvmDIIwkcp3t8n7o7aefXQcVzKrq0qHDD8+rAu2H2lnE/of8A5TPtQ/4nup+KaJRJnRWfCQSX/7
-	rKsqPVrhxOZutfJjPYID4xEzVIfB0G+RsUvoSZqbtAWNwCtjl4Apf3G2biRHOFqg7vYBE4wohEw
-	kS/P97zVibC5CwOWmd77EFMNAAw/9tOWWRGBlx7iBNxPUAo88H41HDXQ7HB09xY8F60+NKcqSY3
-	vH1J5Xfj83wEdH3yDVIaXU5iDYFeWsbpOOMvkaUb405AazanlntbWVMTPMa4e37lmLexS/wuviX
-	jVHxatkWu+4f9
-X-Received: by 2002:a05:6000:1866:b0:3eb:6c82:bb27 with SMTP id ffacd0b85a97d-40e4accc83dmr3283218f8f.61.1758816210044;
-        Thu, 25 Sep 2025 09:03:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEolKtk07hzt/nAdhndezZGEyI0DNBNdQSNglyCE4zJD/NsrvHDr7kmZq4QCjzgvNjUhL530Q==
-X-Received: by 2002:a05:6000:1866:b0:3eb:6c82:bb27 with SMTP id ffacd0b85a97d-40e4accc83dmr3283173f8f.61.1758816209543;
-        Thu, 25 Sep 2025 09:03:29 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:2712:7e10:4d59:d956:544f:d65c? ([2a0d:3344:2712:7e10:4d59:d956:544f:d65c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e2a9ac55esm91746695e9.6.2025.09.25.09.03.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Sep 2025 09:03:28 -0700 (PDT)
-Message-ID: <f89701ce-839e-4032-bb1d-40fb1b67cb70@redhat.com>
-Date: Thu, 25 Sep 2025 18:03:26 +0200
+        d=1e100.net; s=20230601; t=1758818334; x=1759423134;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xGHj13vLu5VtrLsuXYIMwQB56n+78nLpd4rQyIrByvc=;
+        b=O4gV3wdgWmzla8rcDWaYw2Owl1ySJahGkILlJFkJ1VXSRa+H3RJrgr0CWKsR/oMDLE
+         eqa4nuRBYbk/cjF6hVfOE9k1SFii8mb2Ir6g26vMzeqWsaqBxXoX4KLJiCbDPPMRmWdB
+         8EVY8kuzcaLv6q2/ByTNalDXgP4dcg3hd7rC8RkYe+aFs2o+BO19aY/zE22Pcu5SKFKw
+         v87LU+wpj1dUK05TDHoi1/hEzR310IkLy89/YNELSGYdGBDbpwQhF5GN6HC8EcbP3QJU
+         zN6uLAv9fJHSFpe6mxyBiCNWQyPkyAW0o8deya6e8m8vGRDk/tslc5eaTVhGXCvy8W2D
+         Ucjg==
+X-Gm-Message-State: AOJu0YwWMfS6DTrwOYQipkbgtOZyGvFSjOtZ4aA+z4PAhacxknfxfqON
+	ZXyCPUzmJiLFn/ckQBWDQqBiTf5T/Ahm0bip60BlWZylSLHdCrCh3Qs11B/n0Q==
+X-Gm-Gg: ASbGnctOAzNPBnPY9waZ25tD24sF5uuggYXALJzyLT8fsygLJY19S6rdeVtKmH1ZoAR
+	alzCYF1je2i8lwE+80jOl9Gv3ZScaUvRIcREeA06rV0kfbXQP/RFpds6u2xGoi8x9blae4XQRJK
+	prAu7lj/zSM2XqCVTcB+2IQJzkk3/PFu0ruWvp35gG5BTO1XngNnWYKIwhO62TiJ9lPa5fvhjIY
+	2HWU+Ge77B40ccbKBeBJOzjgSjsnHNBuXmfI7z7H5Db4MM8n2u+9aoFEVl2vrpps3r3tgaKyFAe
+	t4crcMcbkvr66XcGG02rGm4It/UUtNLrNeedwurwm52YRwCNNnHXhOf6gPfljWARU6a/K6q2FAg
+	YLecQriqoJ1a235FWrpY90tFbw32cUs5oB2kI7se6oNN9nGtHAt6IsSwKFPyBtG4=
+X-Google-Smtp-Source: AGHT+IFG8axKOT0+sTrMr2PKq6JX+xGo8wuRQhcvQG105gqO+yNrvkYylxCLyWfn+7XTe49aGYsAFA==
+X-Received: by 2002:a05:622a:14d3:b0:4b7:aa00:1e6d with SMTP id d75a77b69052e-4da4deaf5f3mr59286921cf.76.1758818333946;
+        Thu, 25 Sep 2025 09:38:53 -0700 (PDT)
+Received: from wsfd-netdev64.anl.eng.rdu2.dc.redhat.com ([66.187.232.140])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4db108726a2sm12764951cf.34.2025.09.25.09.38.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Sep 2025 09:38:52 -0700 (PDT)
+From: Xin Long <lucien.xin@gmail.com>
+To: kernel-tls-handshake@lists.linux.dev
+Cc: Chuck Lever <chuck.lever@oracle.com>
+Subject: [PATCH 0/2] tlshd: do not set conn errcode to GnuTLS errors in QUIC handshake
+Date: Thu, 25 Sep 2025 12:38:04 -0400
+Message-ID: <cover.1758818286.git.lucien.xin@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 06/15] quic: add stream management
-To: Xin Long <lucien.xin@gmail.com>
-Cc: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev,
- davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
- Simon Horman <horms@kernel.org>, Stefan Metzmacher <metze@samba.org>,
- Moritz Buhl <mbuhl@openbsd.org>, Tyler Fanelli <tfanelli@redhat.com>,
- Pengtao He <hepengtao@xiaomi.com>, linux-cifs@vger.kernel.org,
- Steve French <smfrench@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>,
- Paulo Alcantara <pc@manguebit.com>, Tom Talpey <tom@talpey.com>,
- kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>,
- Jeff Layton <jlayton@kernel.org>, Benjamin Coddington <bcodding@redhat.com>,
- Steve Dickson <steved@redhat.com>, Hannes Reinecke <hare@suse.de>,
- Alexander Aring <aahringo@redhat.com>, David Howells <dhowells@redhat.com>,
- Matthieu Baerts <matttbe@kernel.org>, John Ericson <mail@johnericson.me>,
- Cong Wang <xiyou.wangcong@gmail.com>, "D . Wythe"
- <alibuda@linux.alibaba.com>, Jason Baron <jbaron@akamai.com>,
- illiliti <illiliti@protonmail.com>, Sabrina Dubroca <sd@queasysnail.net>,
- Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
- Daniel Stenberg <daniel@haxx.se>,
- Andy Gospodarek <andrew.gospodarek@broadcom.com>
-References: <cover.1758234904.git.lucien.xin@gmail.com>
- <5d71a793a5f6e85160748ed30539b98d2629c5ac.1758234904.git.lucien.xin@gmail.com>
- <2ef635de-7282-4ffe-bdfc-eceafa73857e@redhat.com>
- <CADvbK_fE1KHbgtZV4zY1xXo94avimgxBcoakyoAYPOsb-U3rSw@mail.gmail.com>
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <CADvbK_fE1KHbgtZV4zY1xXo94avimgxBcoakyoAYPOsb-U3rSw@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: NuiwB5j4vvoNUxQ4QQiosYlVBFU_y59P2NB9CY0TdZc_1758816210
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 9/23/25 7:57 PM, Xin Long wrote:
-> On Tue, Sep 23, 2025 at 9:39 AM Paolo Abeni <pabeni@redhat.com> wrote:
->> On 9/19/25 12:34 AM, Xin Long wrote:
->>> +/* Create and register new streams for sending. */
->>> +static struct quic_stream *quic_stream_send_create(struct quic_stream_table *streams,
->>> +                                                s64 max_stream_id, u8 is_serv)
->>> +{
->>> +     struct quic_stream *stream;
->>> +     s64 stream_id;
->>> +
->>> +     stream_id = streams->send.next_bidi_stream_id;
->>> +     if (quic_stream_id_uni(max_stream_id))
->>> +             stream_id = streams->send.next_uni_stream_id;
->>> +
->>> +     /* rfc9000#section-2.1: A stream ID that is used out of order results in all streams
->>> +      * of that type with lower-numbered stream IDs also being opened.
->>> +      */
->>> +     while (stream_id <= max_stream_id) {
->>> +             stream = kzalloc(sizeof(*stream), GFP_KERNEL);
->>> +             if (!stream)
->>> +                     return NULL;
->>
->> How many streams and connections ID do you foresee per socket? Could
->> such number grow significantly (possibly under misuse/attack)? If so you
->> you likely use GFP_KERNEL_ACCOUNT here (and in conn_id allocation).
-> connections ID: 8 (QUIC_CONN_ID_LIMIT) at most per socket.
-> streams: 4096 (QUIC_MAX_STREAMS) at most per socket.
+This series aligns QUIC error handling in tlshd with the TLS 1.3 code.
 
-Will such limit fit a (very) busy server? I guess it's more a question
-those who already run quic workload at scale...
+- On GnuTLS failure during session setup, log the error and leave
+  parms session_status = EIO.
 
-> I can switch to GFP_KERNEL_ACCOUNT in quic_stream_send_create().
-> 
-> For quic_stream_recv_create(), it’s typically invoked in atomic context.
-> Since there’s no predefined GFP_ATOMIC_ACCOUNT, I assume using
-> (GFP_ATOMIC | __GFP_ACCOUNT) should be acceptable.
+- On GnuTLS failure during handshake, log the error and set conn
+  errcode = EACCES.
 
-I see there are already a few other allocations using such flags, and I
-could not find any explicit limitation/drawback for it. I hope it's not
-just cargo cult programming :-P
+Xin Long (2):
+  tlshd: leave session_status as EIO on GnuTLS failure in QUIC session
+    setup
+  tlshd: set conn errcode to EACCES on GnuTLS failure in QUIC handshake
 
-/P
+ src/tlshd/client.c | 42 ++++++++++++++---------------
+ src/tlshd/quic.c   | 66 ++++++++++++++++++++++++++--------------------
+ src/tlshd/server.c | 29 +++++++++-----------
+ 3 files changed, 70 insertions(+), 67 deletions(-)
+
+-- 
+2.47.1
 

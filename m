@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779DA186294
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F865186294
 	for <kernel-tls-handshake@lists.linux.dev>; Fri, 26 Sep 2025 01:22:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758849731; cv=none; b=mGLTXw8BePSsarHoIug5HFV0psrCP5iwmQ0FANl15/2EhNZlAGT1R3Qdl6SrJiG4+fqsBR7fH4/eOe0AsY36o8ohufZovXm4/NaZ6jjV6q6geyiqLPb4ULOaN70nZAslh8qiThnJSj86Rk+zK9P5Qp+2tZHRJiAstfq+eitf5ps=
+	t=1758849732; cv=none; b=Ky1qVlqzyz46/Ru7EBCEe8ar9u6Pg7i0yG0GMcSK1n1kfXe2vw546BtPlU4DEgwMazXEdbkjhmG/KJJFmU9QI9ZL2AaKSGU7Jk3CqxDP0trLxZoa7tN2AyCLBFZaUKYLEmlS36PwO5twDIt+nOkarJAROxlWZi7w6e6YtIdPxHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758849731; c=relaxed/simple;
-	bh=pn0h2F7L0J/kGetlUZxfoM7uHsWzuSjuo5Dl6/tahts=;
+	s=arc-20240116; t=1758849732; c=relaxed/simple;
+	bh=SOXzZrkyJawHC6hr/w4BSJBGiXmI3slY5qRi7F1skm0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fSTlJwdgnYIMMew03PuRrxwAc24+fOEU7TVCqjDYO5gzZsr8AvlvTkapEcvtZulqaj380fpEAq6mo6/FMZ8jKi24I42O2hSe6emsvwgQHyqHUgUkyO3GnDTmG2TOKF8G/ECBD9IDrfJeZlq7nihuYcog9cvqJRXmDtbEiGLiA70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rPi9M8nH; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=QhRcSDH2/gMJLIE/9ThmjbU6noRuGLSHO88LAuEwix9n8Wn7XrQloNOtATwLw9XSff/zR6l9FFKQwcwRfYlml4PMX+8rF8J0vRnIwlAw8Hbguhlz7T/L6gYEbDjAHgeT7DrhUIRG2BhY90JQ17CCU8TIp7uKyWB0H6r5BgB7ImA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GO5rlJZA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rPi9M8nH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5692C113CF;
-	Fri, 26 Sep 2025 01:22:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GO5rlJZA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4985CC4CEF0;
+	Fri, 26 Sep 2025 01:22:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1758849731;
-	bh=pn0h2F7L0J/kGetlUZxfoM7uHsWzuSjuo5Dl6/tahts=;
+	bh=SOXzZrkyJawHC6hr/w4BSJBGiXmI3slY5qRi7F1skm0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rPi9M8nHI5jfEbykdsvk7Aq0FmcSLn0gofwBtY3THnvoXV5EbLTKVz+6vWx9o9D7i
-	 5NN16JOZbIkov4LdWvTLqcbt9SThjV6QkjJ7gF1F5rHPkyymCc9u6ITN7pT2qA3lKe
-	 CvJDHiUolj5seE6CCExh1qfzeMc94B9DVsu8nQaOKWUHq1323m6/bm5kiYWwXmJTAs
-	 OmzOsWoBFv6sk73mpGGK87hxvxhU7r5U3Y3K0uUnjMgr/wfUPZ9bnjmQi7heODuhW+
-	 2E33KCHp6A6BBP6IxchHu+MambeF4a+etwQTELffPePPkHlmgn42q0eDl7MSNBB4Jy
-	 47IYhsMmUuPOQ==
+	b=GO5rlJZAIkyi0SeMX56bbhsxgMkOZVz2nB35DZE7DjuINCBa2kwcZWPTF16/mXC7R
+	 RLsLG9LAI3gx0CK/CoHtjXG/Ig/KWwHJlc4WS+qcZrQrFwW6trHhrq9cgIamal9/fs
+	 BLShx5uc0YVl0N1QStkDk7c/6p/9g2FbPn96paelnyGetl6eNPeMHtpwbJY0A+2t6l
+	 nwg47Z7dvalfTiAyV1KPnOwZxEnFH9f/GAqaONRNVP287B9y7UmuTazEt5kKatpcVC
+	 OurJftXisaSE8YV1a9LVRZZQog8rD24kwO8TNmCvnVPsapvbBNW2zVj4yIk5ekx8rU
+	 CbAIwL66wNPQA==
 From: Chuck Lever <cel@kernel.org>
 To: <kernel-tls-handshake@lists.linux.dev>
 Cc: Xin Long <lucien.xin@gmail.com>
-Subject: [PATCH v1 02/16] tlshd: leave session_status as EIO on GnuTLS failure in QUIC session setup
-Date: Thu, 25 Sep 2025 21:21:51 -0400
-Message-ID: <20250926012207.3642990-3-cel@kernel.org>
+Subject: [PATCH v1 03/16] tlshd: set conn errcode to EACCES on GnuTLS failure in QUIC handshake
+Date: Thu, 25 Sep 2025 21:21:52 -0400
+Message-ID: <20250926012207.3642990-4-cel@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250926012207.3642990-1-cel@kernel.org>
 References: <20250926012207.3642990-1-cel@kernel.org>
@@ -45,246 +45,186 @@ Content-Transfer-Encoding: 8bit
 
 From: Xin Long <lucien.xin@gmail.com>
 
-Align the QUIC session setup error handling with the TLS 1.3 code paths:
+Align QUIC handshake error handling with the TLS 1.3 path in
+tlshd_start_tls_handshake(). In tlshd_quic_start_handshake(), any error
+returned from the GnuTLS API is now logged and mapped to conn->errcode =
+EACCES (session_status).
 
-- tlshd_tls13_client_x509_handshake()
-- tlshd_tls13_client_psk_handshake()
-- tlshd_tls13_server_x509_handshake()
-- tlshd_tls13_server_psk_handshake()
-
-The QUIC session setup functions:
-
-- tlshd_quic_client_set_x509_session()
-- tlshd_quic_client_set_psk_session()
-- tlshd_quic_server_set_x509_session()
-- tlshd_quic_server_set_psk_session()
-
-will no longer return an error directly. Instead, if a GnuTLS API call
-fails, session_status is left as EIO after logging the Gnutls errors.
+Note: unlike TLS 1.3, the QUIC handshake manages its own packet send/recv.
+Timeouts are handled separately, with conn->errcode set to ETIMEDOUT
+by quic_timer_handler().
 
 Signed-off-by: Xin Long <lucien.xin@gmail.com>
 Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 ---
- src/tlshd/client.c | 42 ++++++++++++++++++++----------------------
- src/tlshd/server.c | 29 +++++++++++++----------------
- 2 files changed, 33 insertions(+), 38 deletions(-)
+ src/tlshd/quic.c | 66 +++++++++++++++++++++++++++---------------------
+ 1 file changed, 37 insertions(+), 29 deletions(-)
 
-diff --git a/src/tlshd/client.c b/src/tlshd/client.c
-index ad9a7931a6cd..3415fddfa0c4 100644
---- a/src/tlshd/client.c
-+++ b/src/tlshd/client.c
-@@ -530,17 +530,17 @@ static int tlshd_quic_client_x509_verify_function(gnutls_session_t session)
- 
- #define TLSHD_QUIC_NO_CERT_AUTH	3
- 
--static int tlshd_quic_client_set_x509_session(struct tlshd_quic_conn *conn)
-+static void tlshd_quic_client_set_x509_session(struct tlshd_quic_conn *conn)
- {
- 	struct tlshd_handshake_parms *parms = conn->parms;
- 	gnutls_certificate_credentials_t cred;
- 	gnutls_session_t session;
--	int ret = -EINVAL;
-+	int ret;
- 
- 	if (conn->cert_req != TLSHD_QUIC_NO_CERT_AUTH) {
- 		if (!tlshd_x509_client_get_certs(parms) || !tlshd_x509_client_get_privkey(parms)) {
--			tlshd_log_error("cert/privkey get error %d", -ret);
--			return ret;
-+			tlshd_log_error("Failed to get cert or privkey");
-+			return;
- 		}
- 	}
- 	ret = gnutls_certificate_allocate_credentials(&cred);
-@@ -581,7 +581,8 @@ static int tlshd_quic_client_set_x509_session(struct tlshd_quic_conn *conn)
- 			goto err_session;
- 	}
- 	conn->session = session;
--	return 0;
-+	return;
-+
- err_session:
- 	gnutls_deinit(session);
- err_cred:
-@@ -590,29 +591,28 @@ err:
- 	tlshd_x509_client_put_privkey();
- 	tlshd_x509_client_put_certs();
- 	tlshd_log_gnutls_error(ret);
--	return ret;
- }
- 
--static int tlshd_quic_client_set_anon_session(struct tlshd_quic_conn *conn)
-+static void tlshd_quic_client_set_anon_session(struct tlshd_quic_conn *conn)
- {
- 	conn->cert_req = TLSHD_QUIC_NO_CERT_AUTH;
--	return tlshd_quic_client_set_x509_session(conn);
-+	tlshd_quic_client_set_x509_session(conn);
- }
- 
--static int tlshd_quic_client_set_psk_session(struct tlshd_quic_conn *conn)
-+static void tlshd_quic_client_set_psk_session(struct tlshd_quic_conn *conn)
- {
- 	key_serial_t peerid = g_array_index(conn->parms->peerids, key_serial_t, 0);
- 	gnutls_psk_client_credentials_t cred;
- 	gnutls_session_t session;
- 	char *identity = NULL;
- 	gnutls_datum_t key;
--	int ret = -EINVAL;
-+	int ret;
- 
- 	if (!tlshd_keyring_get_psk_username(peerid, &identity) ||
- 	    !tlshd_keyring_get_psk_key(peerid, &key)) {
- 		free(identity);
--		tlshd_log_error("identity/key get error %d", -ret);
+diff --git a/src/tlshd/quic.c b/src/tlshd/quic.c
+index f19e1db6a164..0e0852e8fa55 100644
+--- a/src/tlshd/quic.c
++++ b/src/tlshd/quic.c
+@@ -188,7 +188,7 @@ static int quic_tp_send_func(gnutls_session_t session, gnutls_buffer_t extdata)
+ 	ret = gnutls_buffer_append_data(extdata, buf, len);
+ 	if (ret) {
+ 		tlshd_log_gnutls_error(ret);
 -		return ret;
-+		tlshd_log_error("Failed to get key identity or read key");
-+		return;
++		return -1;
  	}
  
- 	ret = gnutls_psk_allocate_client_credentials(&cred);
-@@ -630,7 +630,8 @@ static int tlshd_quic_client_set_psk_session(struct tlshd_quic_conn *conn)
- 	if (ret)
- 		goto err_session;
- 	conn->session = session;
--	return 0;
-+	return;
-+
- err_session:
- 	gnutls_deinit(session);
- err_cred:
-@@ -638,7 +639,6 @@ err_cred:
- err:
- 	free(identity);
- 	tlshd_log_gnutls_error(ret);
--	return ret;
- }
- 
- /**
-@@ -659,26 +659,24 @@ void tlshd_quic_clienthello_handshake(struct tlshd_handshake_parms *parms)
- 
- 	switch (parms->auth_mode) {
- 	case HANDSHAKE_AUTH_UNAUTH:
--		ret = tlshd_quic_client_set_anon_session(conn);
-+		tlshd_quic_client_set_anon_session(conn);
- 		break;
- 	case HANDSHAKE_AUTH_X509:
--		ret = tlshd_quic_client_set_x509_session(conn);
-+		tlshd_quic_client_set_x509_session(conn);
- 		break;
- 	case HANDSHAKE_AUTH_PSK:
--		ret = tlshd_quic_client_set_psk_session(conn);
-+		tlshd_quic_client_set_psk_session(conn);
- 		break;
- 	default:
--		ret = -EINVAL;
- 		tlshd_log_debug("Unrecognized auth mode (%d)", parms->auth_mode);
- 	}
--	if (ret) {
--		conn->errcode = -ret;
-+
-+	if (!conn->session)
- 		goto out;
--	}
- 
- 	tlshd_quic_start_handshake(conn);
--out:
- 	parms->session_status = conn->errcode;
-+out:
- 	tlshd_quic_conn_destroy(conn);
- }
- #else
-diff --git a/src/tlshd/server.c b/src/tlshd/server.c
-index 6531f0819d2b..8bb769ff9f74 100644
---- a/src/tlshd/server.c
-+++ b/src/tlshd/server.c
-@@ -562,17 +562,17 @@ found:
  	return 0;
- }
- 
--static int tlshd_quic_server_set_x509_session(struct tlshd_quic_conn *conn)
-+static void tlshd_quic_server_set_x509_session(struct tlshd_quic_conn *conn)
+@@ -230,6 +230,7 @@ static char quic_priority[] =
+ static int quic_session_set_priority(gnutls_session_t session, uint32_t cipher)
  {
- 	struct tlshd_handshake_parms *parms = conn->parms;
- 	gnutls_certificate_credentials_t cred;
- 	gnutls_datum_t ticket_key;
- 	gnutls_session_t session;
--	int ret = -EINVAL;
+ 	char p[136] = {};
 +	int ret;
  
- 	if (!tlshd_x509_server_get_certs(parms) || !tlshd_x509_server_get_privkey(parms)) {
--		tlshd_log_error("cert/privkey get error %d", -ret);
--		return ret;
-+		tlshd_log_error("Failed to get cert or privkey");
-+		return;
+ 	memcpy(p, quic_priority, strlen(quic_priority));
+ 	switch (cipher) {
+@@ -249,14 +250,19 @@ static int quic_session_set_priority(gnutls_session_t session, uint32_t cipher)
+ 		strcat(p, "AES-128-GCM:+AES-256-GCM:+AES-128-CCM:+CHACHA20-POLY1305");
  	}
  
- 	ret = gnutls_certificate_allocate_credentials(&cred);
-@@ -619,7 +619,8 @@ static int tlshd_quic_server_set_x509_session(struct tlshd_quic_conn *conn)
- 
- 	conn->is_serv = 1;
- 	conn->session = session;
--	return 0;
-+	return;
-+
- err_session:
- 	gnutls_deinit(session);
- err_cred:
-@@ -628,10 +629,9 @@ err:
- 	tlshd_x509_server_put_privkey();
- 	tlshd_x509_server_put_certs();
- 	tlshd_log_gnutls_error(ret);
--	return ret;
+-	return gnutls_priority_set_direct(session, p, NULL);
++	ret = gnutls_priority_set_direct(session, p, NULL);
++	if (ret) {
++		tlshd_log_gnutls_error(ret);
++		return -1;
++	}
++	return 0;
  }
  
--static int tlshd_quic_server_set_psk_session(struct tlshd_quic_conn *conn)
-+static void tlshd_quic_server_set_psk_session(struct tlshd_quic_conn *conn)
+ static int quic_session_set_alpns(gnutls_session_t session, char *alpn_data)
  {
- 	gnutls_psk_server_credentials_t cred;
- 	gnutls_session_t session;
-@@ -654,14 +654,14 @@ static int tlshd_quic_server_set_psk_session(struct tlshd_quic_conn *conn)
+ 	gnutls_datum_t alpns[TLSHD_QUIC_MAX_ALPNS_LEN / 2];
+ 	char *alpn = strtok(alpn_data, ",");
+-	int count = 0;
++	int count = 0, ret;
  
- 	conn->is_serv = 1;
- 	conn->session = session;
--	return 0;
-+	return;
-+
- err_session:
- 	gnutls_deinit(session);
- err_cred:
- 	gnutls_psk_free_server_credentials(cred);
+ 	while (alpn) {
+ 		while (*alpn == ' ')
+@@ -267,7 +273,12 @@ static int quic_session_set_alpns(gnutls_session_t session, char *alpn_data)
+ 		alpn = strtok(NULL, ",");
+ 	}
+ 
+-	return gnutls_alpn_set_protocols(session, alpns, count, GNUTLS_ALPN_MANDATORY);
++	ret = gnutls_alpn_set_protocols(session, alpns, count, GNUTLS_ALPN_MANDATORY);
++	if (ret) {
++		tlshd_log_gnutls_error(ret);
++		return -1;
++	}
++	return 0;
+ }
+ 
+ static gnutls_record_encryption_level_t quic_get_encryption_level(uint8_t level)
+@@ -401,7 +412,7 @@ static int quic_handshake_crypto_data(const struct tlshd_quic_conn *conn,
+ 	level = quic_get_encryption_level(level);
+ 	if (datalen > 0) {
+ 		ret = gnutls_handshake_write(session, level, data, datalen);
+-		if (ret != 0) {
++		if (ret) {
+ 			if (!gnutls_error_is_fatal(ret))
+ 				return 0;
+ 			goto err;
+@@ -418,7 +429,7 @@ static int quic_handshake_crypto_data(const struct tlshd_quic_conn *conn,
  err:
+ 	gnutls_alert_send_appropriate(session, ret);
  	tlshd_log_gnutls_error(ret);
 -	return ret;
++	return -1;
  }
  
  /**
-@@ -682,23 +682,20 @@ void tlshd_quic_serverhello_handshake(struct tlshd_handshake_parms *parms)
+@@ -486,24 +497,25 @@ static int tlshd_quic_session_configure(struct tlshd_quic_conn *conn)
+ 	gnutls_session_t session = conn->session;
+ 	int ret;
  
- 	switch (parms->auth_mode) {
- 	case HANDSHAKE_AUTH_X509:
--		ret = tlshd_quic_server_set_x509_session(conn);
-+		tlshd_quic_server_set_x509_session(conn);
- 		break;
- 	case HANDSHAKE_AUTH_PSK:
--		ret = tlshd_quic_server_set_psk_session(conn);
-+		tlshd_quic_server_set_psk_session(conn);
- 		break;
- 	default:
--		ret = -EINVAL;
- 		tlshd_log_debug("Unrecognized auth mode (%d)", parms->auth_mode);
- 	}
+-	ret = quic_session_set_priority(session, conn->cipher);
+-	if (ret)
+-		return ret;
++	if (quic_session_set_priority(session, conn->cipher))
++		return -1;
+ 
+-	if (conn->alpns[0]) {
+-		ret = quic_session_set_alpns(session, conn->alpns);
+-		if (ret)
+-			return ret;
+-	}
++	if (conn->alpns[0] && quic_session_set_alpns(session, conn->alpns))
++		return -1;
+ 
+ 	gnutls_handshake_set_secret_function(session, quic_secret_func);
+ 	gnutls_handshake_set_read_function(session, quic_read_func);
+ 	gnutls_alert_set_read_function(session, quic_alert_read_func);
+ 
+-	return gnutls_session_ext_register(
++	ret = gnutls_session_ext_register(
+ 		session, "QUIC Transport Parameters", QUIC_TLSEXT_TP_PARAM,
+ 		GNUTLS_EXT_TLS, quic_tp_recv_func, quic_tp_send_func, NULL, NULL, NULL,
+ 		GNUTLS_EXT_FLAG_TLS | GNUTLS_EXT_FLAG_CLIENT_HELLO | GNUTLS_EXT_FLAG_EE);
++	if (ret) {
++		tlshd_log_gnutls_error(ret);
++		return -1;
++	}
++	return 0;
+ }
+ 
+ static void tlshd_quic_recv_session_ticket(struct tlshd_quic_conn *conn)
+@@ -532,16 +544,16 @@ static void tlshd_quic_recv_session_ticket(struct tlshd_quic_conn *conn)
+ 		return;
+ 
+ 	/* process new session ticket msg and get the generated session data */
+-	ret = quic_handshake_crypto_data(conn, QUIC_CRYPTO_APP, conn->ticket, len);
 -	if (ret) {
 -		conn->errcode = -ret;
-+	if (!conn->session)
- 		goto out;
--	}
++	if (quic_handshake_crypto_data(conn, QUIC_CRYPTO_APP, conn->ticket, len)) {
++		conn->errcode = EACCES;
+ 		return;
+ 	}
++
+ 	size = sizeof(conn->ticket);
+ 	ret = gnutls_session_get_data(session, conn->ticket, &size);
+ 	if (ret) {
+ 		tlshd_log_gnutls_error(ret);
+-		conn->errcode = -ret;
++		conn->errcode = EACCES;
+ 		return;
+ 	}
  
- 	tlshd_quic_start_handshake(conn);
--out:
- 	parms->session_status = conn->errcode;
-+out:
- 	tlshd_quic_conn_destroy(conn);
- }
- #else
+@@ -569,17 +581,14 @@ void tlshd_quic_start_handshake(struct tlshd_quic_conn *conn)
+ 	FD_ZERO(&readfds);
+ 	FD_SET(sockfd, &readfds);
+ 
+-	ret = tlshd_quic_session_configure(conn);
+-	if (ret) {
+-		tlshd_log_gnutls_error(ret);
+-		conn->errcode = -ret;
++	if (tlshd_quic_session_configure(conn)) {
++		conn->errcode = EACCES;
+ 		return;
+ 	}
+ 
+ 	if (!conn->is_serv) {
+-		ret = quic_handshake_crypto_data(conn, QUIC_CRYPTO_INITIAL, NULL, 0);
+-		if (ret) {
+-			conn->errcode = -ret;
++		if (quic_handshake_crypto_data(conn, QUIC_CRYPTO_INITIAL, NULL, 0)) {
++			conn->errcode = EACCES;
+ 			return;
+ 		}
+ 
+@@ -614,9 +623,8 @@ void tlshd_quic_start_handshake(struct tlshd_quic_conn *conn)
+ 				return tlshd_log_error("socket recvmsg error %d", errno);
+ 			}
+ 			tlshd_log_debug("> Handshake RECV: %u %u", msg->len, msg->level);
+-			ret = quic_handshake_crypto_data(conn, msg->level, msg->data, msg->len);
+-			if (ret) {
+-				conn->errcode = -ret;
++			if (quic_handshake_crypto_data(conn, msg->level, msg->data, msg->len)) {
++				conn->errcode = EACCES;
+ 				return;
+ 			}
+ 		}
 -- 
 2.51.0
 

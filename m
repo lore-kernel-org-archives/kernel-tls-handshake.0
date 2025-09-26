@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CEC186294
-	for <kernel-tls-handshake@lists.linux.dev>; Fri, 26 Sep 2025 01:22:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F591186294
+	for <kernel-tls-handshake@lists.linux.dev>; Fri, 26 Sep 2025 01:22:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758849733; cv=none; b=InjnZIIty7PAtZwVZwUubRODjvMAmRdPNUqKxBOkqyISi4dpwz1owliQFmdLFskay+qJCnIS46w+2Cko59I6lAsMLEP7q15W5/7qd91cuRhtiWTnGIrARq2xL7lxivdam69473VJuMjrItfC8IWXNw/XcYq4qGjO/grNgB2tyRI=
+	t=1758849734; cv=none; b=Isz+j85pRKovbvOYAa5TsaJpE5DnJvX4hRZw8fokDYp7B8fWZr2TJc7RnZNoU/uIM+aNQE13/d07eFqT6VznI/4U2x2C8FJZs6PnXBUQ8T33nlfhCHqc4cI7x94Yxfpn5ptYVeEm5fCuRRkP6sQq8JsbF+sXpz6Yvo/fCWfi2no=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758849733; c=relaxed/simple;
-	bh=oC2FpcPXLTDq/XHTdtx6HRANVd+Rt/HpOeYq92ifYAc=;
+	s=arc-20240116; t=1758849734; c=relaxed/simple;
+	bh=pG577NTVmtwep6o2/7/EPXV2Fly/lCCdwCaYChJE0fw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hvQxDiCKYuVACGPD4lsnD7Gg0Tv/dLtKWbE2gpwKRn8LyEgeRNjFyUn3YDCNCmwVpm95uqsvYK5C3F0UHR47JPQJdqoPpBE6bqXusCFJauy+mLLnhLSI6+lnKyOqNKeTlfpA8rkA2xhDKw+73FcdIfWfTj7A1TuxGv1177dT/CA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bPiHC9z1; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=uE6hhcNiS4urF6gHV1pXLHb7j5fIBwoxnImYSSVhr3QPAabBBAvtJEJ4Tq9tB3/WGh4u1W6RFgxhl7C0tRvLaRYvWCXWw1dKqu67xgS8o1Dt91vDJCMmelp+Id2yjQfpdMJkmh7hL67q0lk2JE4QBQm3t8VbgSMSZwynbz6Bj2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RP2pzc91; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bPiHC9z1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3226CC4CEF4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RP2pzc91"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD880C4CEF0;
 	Fri, 26 Sep 2025 01:22:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758849733;
-	bh=oC2FpcPXLTDq/XHTdtx6HRANVd+Rt/HpOeYq92ifYAc=;
+	s=k20201202; t=1758849734;
+	bh=pG577NTVmtwep6o2/7/EPXV2Fly/lCCdwCaYChJE0fw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bPiHC9z1w8mR9txmYZkctRWu+JRhEv9syQKd4JQuIPzPlriUpgBZepFSaMdgP+dVH
-	 Aumhv8vlzucPPIVXXOWupyvmwlopzzGGXEfboaBn9nIzowpABo4aFWBAN4slyypqWx
-	 ML59ZdN3QtXlPB8BOGaQA/IKOppooVy7RlgJWUWTSuw5T7LkBcQX/76jOtpTNuiX3q
-	 6G/fOZJKfOKZaokM3gNPatccwEFnpuoyN3ktIM/HgkRWiIdAmdkgXmFPCyii8Bhpkd
-	 buN3IP5kX61ydmjO7lRfOc03GCcfC+1be1ObSFgQYtp0OwubqipmF/fh8ZDbGwvMzj
-	 Mm8bNyENNNRXA==
+	b=RP2pzc91No2KxXDsGIehHBJO7APxI1j8jLR5nANheqnJ9RhjPI5F5fX2J3g3RljWx
+	 DydIiCbeysDClmQs84EqjvXLXex5xGuZyLzYWzG/jvjScEUjLiuM8tRqujsXVklwyy
+	 HfMLoUnUuLhJPj05B53G5Jh9kLI3VqYY51YDDVK7faXQqevj0VzOkP0Zq4aJSD4aIR
+	 cyLus7nsMAH102MSoTUHkfovcIBZMx5H5JkHSC0nxMo6YOh0icSPsDOBq5nQZk3kAB
+	 2R5QmDgmjSqjQWCdWVVkTEj+luQLl3xEgPtc/74pzfeo09g3TuwiQALKNCZH4295hu
+	 ZQHNsQ2RoaL6g==
 From: Chuck Lever <cel@kernel.org>
 To: <kernel-tls-handshake@lists.linux.dev>
 Cc: Xin Long <lucien.xin@gmail.com>,
 	Chuck Lever <chuck.lever@oracle.com>
-Subject: [PATCH v1 07/16] tlshd: Translate kernel-style Doxygen comments in src/tlshd/keyring.c
-Date: Thu, 25 Sep 2025 21:21:56 -0400
-Message-ID: <20250926012207.3642990-8-cel@kernel.org>
+Subject: [PATCH v1 08/16] tlshd: Translate kernel-style Doxygen comments in src/tlshd/ktls.c
+Date: Thu, 25 Sep 2025 21:21:57 -0400
+Message-ID: <20250926012207.3642990-9-cel@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250926012207.3642990-1-cel@kernel.org>
 References: <20250926012207.3642990-1-cel@kernel.org>
@@ -50,25 +50,27 @@ I started the ktls-utils project using the Linux kernel flavor of
 Doxygen commenting which user-space Doxygen does not recognize by
 default.
 
-Convert existing comments in keyring.c to what a normal user space
+Convert existing comments in ktls.c to what a normal user space
 Doxygen run expects to see. This will enable deployment of an
 automatically-generated documentation web site.
 
 Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 ---
- src/tlshd/keyring.c | 79 +++++++++++++++++++++++----------------------
- 1 file changed, 40 insertions(+), 39 deletions(-)
+ src/tlshd/ktls.c | 118 ++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 102 insertions(+), 16 deletions(-)
 
-diff --git a/src/tlshd/keyring.c b/src/tlshd/keyring.c
-index 32f2d273a7c1..fb2024cad8a1 100644
---- a/src/tlshd/keyring.c
-+++ b/src/tlshd/keyring.c
-@@ -1,8 +1,12 @@
+diff --git a/src/tlshd/ktls.c b/src/tlshd/ktls.c
+index 50381bf3fd4b..810460ada721 100644
+--- a/src/tlshd/ktls.c
++++ b/src/tlshd/ktls.c
+@@ -1,9 +1,13 @@
 -/*
-- * Scrape authentication information from kernel keyring.
+- * Initialize a kTLS socket. In some cases initialization might
+- * be handled by the TLS library.
 +/**
-+ * @file keyring.c
-+ * @brief Linux keyring management
++ * @file ktls.c
++ * @brief Initialize a kTLS socket. In some cases initialization might
++ *	  be handled by the TLS library
   *
 + * @copyright
   * Copyright (c) 2022 Oracle and/or its affiliates.
@@ -79,126 +81,212 @@ index 32f2d273a7c1..fb2024cad8a1 100644
   * ktls-utils is free software; you can redistribute it and/or
   * modify it under the terms of the GNU General Public License as
   * published by the Free Software Foundation; version 2.
-@@ -40,15 +44,14 @@
+@@ -42,6 +46,13 @@
  #include "tlshd.h"
+ #include "netlink.h"
  
- /**
-- * tlshd_keyring_get_psk_username - Retrieve username for PSK handshake
-- * @serial: Key serial number to look up
-- * @username: On success, filled in with NUL-terminated user name
-+ * @brief Retrieve username for PSK handshake
-+ * @param[in]     serial    Key serial number to look up
-+ * @param[out]    username  Filled in with NUL-terminated user name
-  *
-- * Caller must use gnutls_free() to free @username when finished.
-+ * Caller must use gnutls_free() to free "username" when finished.
-  *
-- * Return values:
-- *   %true: Success; @username has been initialized
-- *   %false: Failure
-+ * @retval true  Success; "username" has been initialized
-+ * @retval false Failure
-  */
- bool tlshd_keyring_get_psk_username(key_serial_t serial, char **username)
++/**
++ * @brief Concatenate two NUL-terminated C strings
++ * @param[in]     str1  left-hand string
++ * @param[in]     str2  right-hand string
++ *
++ * @returns "str1" followed by "str2"
++ */
+ static char *tlshd_string_concat(char *str1, const char *str2)
  {
-@@ -80,15 +83,14 @@ bool tlshd_keyring_get_psk_username(key_serial_t serial, char **username)
+ 	size_t len = 0;
+@@ -69,6 +80,14 @@ static char *tlshd_string_concat(char *str1, const char *str2)
  }
  
- /**
-- * tlshd_keyring_get_psk_key - Retrieve pre-shared key for PSK handshake
-- * @serial: Key serial number to look up
-- * @key: On success, filled in with pre-shared key
-+ * @brief Retrieve pre-shared key for PSK handshake
-+ * @param[in]     serial   Key serial number to look up
-+ * @param[out]    key      Filled in with pre-shared key
-  *
-- * Caller must use free() to free @key->data when finished.
-+ * Caller must use free() to free "key->data" when finished.
-  *
-- * Return values:
-- *   %true: Success; @key has been initialized
-- *   %false: Failure
-+ * @retval true   Success; "key" has been initialized
-+ * @retval false  Failure
-  */
- bool tlshd_keyring_get_psk_key(key_serial_t serial, gnutls_datum_t *key)
+ #ifdef HAVE_GNUTLS_TRANSPORT_IS_KTLS_ENABLED
++/**
++ * @brief Determine if a session is kTLS-enabled
++ * @param[in]     session  An established TLS session
++ * @param[in]     read     Which side of the duplex to check
++ *
++ * @retval  true   The session is prepared to use kTLS
++ * @retval  false  The session is not prepared to use kTLS
++ */
+ static bool tlshd_is_ktls_enabled(gnutls_session_t session, unsigned read)
  {
-@@ -111,15 +113,14 @@ bool tlshd_keyring_get_psk_key(key_serial_t serial, gnutls_datum_t *key)
+ 	int ret;
+@@ -90,6 +109,14 @@ static bool tlshd_is_ktls_enabled(gnutls_session_t session, unsigned read)
  }
  
- /**
-- * tlshd_keyring_get_privkey - Retrieve privkey for x.509 handshake
-- * @serial: Key serial number to look up
-- * @privkey: On success, filled in with a private key
-+ * @brief Retrieve privkey for x.509 handshake
-+ * @param[in]     serial   Key serial number to look up
-+ * @param[out]    privkey  Filled in with a private key
-  *
-- * Caller must use gnutls_privkey_deinit() to free @privkey when finished.
-+ * Caller must use gnutls_privkey_deinit() to free "privkey" when finished.
-  *
-- * Return values:
-- *   %true: Success; @privkey has been initialized
-- *   %false: Failure
-+ * @retval true   Success; "privkey" has been initialized
-+ * @retval false  Failure
-  */
- bool tlshd_keyring_get_privkey(key_serial_t serial, gnutls_privkey_t *privkey)
+ #else
++/**
++ * @brief Determine if a session is kTLS-enabled
++ * @param[in]     session  An established TLS session
++ * @param[in]     read     Which side of the duplex to check
++ *
++ * @retval  true   The session is prepared to use kTLS
++ * @retval  false  The session is not prepared to use kTLS
++ */
+ static bool tlshd_is_ktls_enabled(__attribute__ ((unused)) gnutls_session_t session,
+ 				  __attribute__ ((unused)) unsigned read)
  {
-@@ -157,16 +158,15 @@ bool tlshd_keyring_get_privkey(key_serial_t serial, gnutls_privkey_t *privkey)
+@@ -97,6 +124,16 @@ static bool tlshd_is_ktls_enabled(__attribute__ ((unused)) gnutls_session_t sess
+ }
+ #endif
+ 
++/**
++ * @brief Call setsockopt(3), with error logging
++ * @param[in]     sock     An open socket descriptor
++ * @param[in]     read     Read or write side
++ * @param[in]     info     The value to set
++ * @param[in]     infolen  The size of "info", in bytes
++ *
++ * @retval  true   The option was set successfully
++ * @retval  false  The option was not set
++ */
+ static bool tlshd_setsockopt(int sock, unsigned read, const void *info,
+ 			     socklen_t infolen)
+ {
+@@ -123,6 +160,15 @@ static bool tlshd_setsockopt(int sock, unsigned read, const void *info,
+ }
+ 
+ #if defined(TLS_CIPHER_AES_GCM_128)
++/**
++ * @brief Configure TLS session for AES-GCM-128 encryption
++ * @param[in]     session  An established TLS session
++ * @param[in]     sock     An open socket descriptor
++ * @param[in]     read     Read or write side
++ *
++ * @retval  true   The session was configured successfully
++ * @retval  false  The session was not configured
++ */
+ static bool tlshd_set_aes_gcm128_info(gnutls_session_t session, int sock,
+ 				      unsigned read)
+ {
+@@ -162,6 +208,15 @@ static bool tlshd_set_aes_gcm128_info(gnutls_session_t session, int sock,
+ #endif
+ 
+ #if defined(TLS_CIPHER_AES_GCM_256)
++/**
++ * @brief Configure TLS session for AES-GCM-256 encryption
++ * @param[in]     session  An established TLS session
++ * @param[in]     sock     An open socket descriptor
++ * @param[in]     read     Read or write side
++ *
++ * @retval  true   The session was configured successfully
++ * @retval  false  The session was not configured
++ */
+ static bool tlshd_set_aes_gcm256_info(gnutls_session_t session, int sock,
+ 				      unsigned read)
+ {
+@@ -201,6 +256,15 @@ static bool tlshd_set_aes_gcm256_info(gnutls_session_t session, int sock,
+ #endif
+ 
+ #if defined(TLS_CIPHER_AES_CCM_128)
++/**
++ * @brief Configure TLS session for AES-CCM-128 encryption
++ * @param[in]     session  An established TLS session
++ * @param[in]     sock     An open socket descriptor
++ * @param[in]     read     Read or write side
++ *
++ * @retval  true   The session was configured successfully
++ * @retval  false  The session was not configured
++ */
+ static bool tlshd_set_aes_ccm128_info(gnutls_session_t session, int sock,
+ 				      unsigned read)
+ {
+@@ -240,6 +304,15 @@ static bool tlshd_set_aes_ccm128_info(gnutls_session_t session, int sock,
+ #endif
+ 
+ #if defined(TLS_CIPHER_CHACHA20_POLY1305)
++/**
++ * @brief Configure TLS session for ChaCha-Poly1305 encryption
++ * @param[in]     session  An established TLS session
++ * @param[in]     sock     An open socket descriptor
++ * @param[in]     read     Read or write side
++ *
++ * @retval  true   The session was configured successfully
++ * @retval  false  The session was not configured
++ */
+ static bool tlshd_set_chacha20_poly1305_info(gnutls_session_t session, int sock,
+ 					     unsigned read)
+ {
+@@ -275,10 +348,10 @@ static bool tlshd_set_chacha20_poly1305_info(gnutls_session_t session, int sock,
+ #endif
+ 
+ /**
+- * tlshd_initialize_ktls - Initialize socket for use by kTLS
+- * @session: TLS session descriptor
++ * @brief Initialize a socket for use by kTLS
++ * @param[in]     session  TLS session descriptor
+  *
+- * Returns zero on success, or a positive errno value.
++ * @returns zero on success, or a positive errno value.
+  */
+ unsigned int tlshd_initialize_ktls(gnutls_session_t session)
+ {
+@@ -320,6 +393,13 @@ unsigned int tlshd_initialize_ktls(gnutls_session_t session)
+ 	return EIO;
+ }
+ 
++/**
++ * @brief Concatenate a cipher name to a string
++ * @param[in]     pstring  NUL-terminated C string
++ * @param[in]     cipher   GnuTLS cipher number
++ *
++ * @retval A NUL-terminated C string; caller must free the string with free(3)
++ */
+ static char *tlshd_cipher_string_emit(char *pstring, unsigned int cipher)
+ {
+ 	switch (cipher) {
+@@ -350,6 +430,13 @@ static gnutls_priority_t	tlshd_gnutls_priority_psk;
+ static gnutls_priority_t	tlshd_gnutls_priority_psk_sha256;
+ static gnutls_priority_t	tlshd_gnutls_priority_psk_sha384;
+ 
++/**
++ * @brief Initialize GnuTLS priority caches
++ * @param[in]     ciphers       Array of GnuTLS cipher numbers
++ * @param[in]     cipher_count  count of elements in "ciphers"
++ *
++ * @retval Zero on success; a negative errno if a failure occurred.
++ */
+ static int tlshd_gnutls_priority_init_list(const unsigned int *ciphers,
+ 					   int cipher_count)
+ {
+@@ -498,9 +585,9 @@ static int tlshd_gnutls_priority_init_list(const unsigned int *ciphers,
  }
  
  /**
-- * tlshd_keyring_get_certs - Retrieve certs for x.509 handshake
-- * @serial: Key serial number to look up
-- * @certs: On success, filled in with certificates
-- * @certs_len: IN: maximum number of certs to get, OUT: number of certs found
-+ * @brief Retrieve certs for x.509 handshake
-+ * @param[in]     serial     Key serial number to look up
-+ * @param[out]    certs      On success, filled in with certificates
-+ * @param[in,out] certs_len  Maximum number of certs to get, number of certs found
+- * tlshd_gnutls_priority_init - Initialize GnuTLS priority caches
++ * @brief Initialize GnuTLS priority caches
   *
-- * Caller must use gnutls_pcert_deinit() to free @cert when finished.
-+ * Caller must use gnutls_pcert_deinit() to free "cert" when finished.
-  *
-- * Return values:
-- *   %true: Success; @cert has been initialized
-- *   %false: Failure
-+ * @retval true   Success; "cert" has been initialized
-+ * @retval false  Failure
+- * Returns zero on success, or a negative errno value if a failure
++ * @returns zero on success, or a negative errno value if a failure
+  * occurred.
   */
- bool tlshd_keyring_get_certs(key_serial_t serial, gnutls_pcert_st *certs,
- 			     unsigned int *certs_len)
-@@ -205,11 +205,11 @@ bool tlshd_keyring_get_certs(key_serial_t serial, gnutls_pcert_st *certs,
+ int tlshd_gnutls_priority_init(void)
+@@ -532,12 +619,12 @@ out:
  }
  
  /**
-- * tlshd_keyring_create_cert - Create key containing peer's certificate
-- * @cert: Initialized x.509 certificate
-- * @peername: hostname of the remote peer
-+ * @brief Create key containing peer's certificate
-+ * @param[in]     cert      Initialized x.509 certificate
-+ * @param[in]     peername  Hostname of the remote peer
+- * tlshd_gnutls_priority_set - Initialize priorities per-session
+- * @session: session to initialize
+- * @parms: handshake parameters
+- * @psk_len: size of pre-shared key in bytes, or zero
++ * @brief Select GnuTLS priority cache to use for "session"
++ * @param[in]     session  Session to initialize
++ * @param[in]     parms    Handshake parameters
++ * @param[in]     psk_len  Size of pre-shared key in bytes, or zero
   *
-- * Returns a positive key serial number on success; otherwise
-+ * @returns a positive key serial number on success; otherwise
-  * TLS_NO_PEERID.
+- * Returns GNUTLS_E_SUCCESS on success, otherwise an error code.
++ * @returns GNUTLS_E_SUCCESS on success, otherwise an error code.
   */
- key_serial_t tlshd_keyring_create_cert(gnutls_x509_crt_t cert,
-@@ -246,10 +246,11 @@ out:
+ int tlshd_gnutls_priority_set(gnutls_session_t session,
+ 			      const struct tlshd_handshake_parms *parms,
+@@ -558,8 +645,7 @@ int tlshd_gnutls_priority_set(gnutls_session_t session,
  }
  
  /**
-- * tlshd_keyring_link_session - Link a keyring into the session keyring
-- * @keyring: keyring to be linked
-+ * @brief Link a keyring into the session keyring
-+ * @param[in]     keyring  keyring to be linked
-  *
-- * Returns 0 on success and -1 on error.
-+ * @retval 0   Success
-+ * @retval -1  Failure
+- * tlshd_gnutls_priority_deinit - Free GnuTLS priority caches
+- *
++ * @brief Free GnuTLS priority caches
   */
- int tlshd_keyring_link_session(const char *keyring)
+ void tlshd_gnutls_priority_deinit(void)
  {
 -- 
 2.51.0

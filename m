@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC172186294
-	for <kernel-tls-handshake@lists.linux.dev>; Fri, 26 Sep 2025 01:22:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CEC186294
+	for <kernel-tls-handshake@lists.linux.dev>; Fri, 26 Sep 2025 01:22:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758849732; cv=none; b=PhDaS6fJEB1+QftDq6XzZRrzu1+gG6SM2/nSLpWwtgjiturWCGnB44No+5SEq2fedIY/aPUWArMx9dKjJk5iCJYs85wBMwLr3t4R1FnYxUMGi655RG2DaEMCOSXAQOBGkd2CUCpwnqC4Y3D/+7e/1d+1VE9kRGMJKFlGTdavwrY=
+	t=1758849733; cv=none; b=InjnZIIty7PAtZwVZwUubRODjvMAmRdPNUqKxBOkqyISi4dpwz1owliQFmdLFskay+qJCnIS46w+2Cko59I6lAsMLEP7q15W5/7qd91cuRhtiWTnGIrARq2xL7lxivdam69473VJuMjrItfC8IWXNw/XcYq4qGjO/grNgB2tyRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758849732; c=relaxed/simple;
-	bh=wbcr+jIS8G/PA1+lGPOLvYncxi9/VFElNQXZlkFF+wY=;
+	s=arc-20240116; t=1758849733; c=relaxed/simple;
+	bh=oC2FpcPXLTDq/XHTdtx6HRANVd+Rt/HpOeYq92ifYAc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UAjRwmNazt4TMyV9x/D71kVig2E6S0xWuaLIj9YZU3YjpkQvVEr3pwyYSAPbk7smUxU+E9b+BP+bcOMcWXKDBgQB01cC1cq2cluRwTeBL7W4mVt8AyF3K0RLyiticUkEiQy2MzHemiyJqDoCUwUFhmiey5eMw3CGMWd0vBikfl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WYlC+Gx8; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=hvQxDiCKYuVACGPD4lsnD7Gg0Tv/dLtKWbE2gpwKRn8LyEgeRNjFyUn3YDCNCmwVpm95uqsvYK5C3F0UHR47JPQJdqoPpBE6bqXusCFJauy+mLLnhLSI6+lnKyOqNKeTlfpA8rkA2xhDKw+73FcdIfWfTj7A1TuxGv1177dT/CA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bPiHC9z1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WYlC+Gx8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34214C4CEF4;
-	Fri, 26 Sep 2025 01:22:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bPiHC9z1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3226CC4CEF4;
+	Fri, 26 Sep 2025 01:22:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758849732;
-	bh=wbcr+jIS8G/PA1+lGPOLvYncxi9/VFElNQXZlkFF+wY=;
+	s=k20201202; t=1758849733;
+	bh=oC2FpcPXLTDq/XHTdtx6HRANVd+Rt/HpOeYq92ifYAc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WYlC+Gx8F/DX2nijnYLm5fd88yIwfpdWvAxqwaD3x9aCL2F/AAZXt796XBvgn64KM
-	 9gDwSmJ1KiMsP7UkLFoIQJzHsH5sNVa3EPFdm2kTLn9/HIMVgZeJbZxTzUo0t+Y5lG
-	 5r15uYax2/u8zskWo9v1DDY4n2DmLJxf7Jp8H27QdyktZ8smTQDmg3idz910/GhOpY
-	 XCyHbrmxMelO0UvaEBz3h+vV+PcrK5yhPdwA8HPjP9BEX+3v8LpJb/juVR9pLAcVOr
-	 0eP3vD7OsuP+fRZQeuQ50uwMHdJEEurBeL0KlvN7t78zZ77JLGVWAWU0CmcqFrvU/g
-	 rLLV09DjYAEsg==
+	b=bPiHC9z1w8mR9txmYZkctRWu+JRhEv9syQKd4JQuIPzPlriUpgBZepFSaMdgP+dVH
+	 Aumhv8vlzucPPIVXXOWupyvmwlopzzGGXEfboaBn9nIzowpABo4aFWBAN4slyypqWx
+	 ML59ZdN3QtXlPB8BOGaQA/IKOppooVy7RlgJWUWTSuw5T7LkBcQX/76jOtpTNuiX3q
+	 6G/fOZJKfOKZaokM3gNPatccwEFnpuoyN3ktIM/HgkRWiIdAmdkgXmFPCyii8Bhpkd
+	 buN3IP5kX61ydmjO7lRfOc03GCcfC+1be1ObSFgQYtp0OwubqipmF/fh8ZDbGwvMzj
+	 Mm8bNyENNNRXA==
 From: Chuck Lever <cel@kernel.org>
 To: <kernel-tls-handshake@lists.linux.dev>
 Cc: Xin Long <lucien.xin@gmail.com>,
 	Chuck Lever <chuck.lever@oracle.com>
-Subject: [PATCH v1 05/16] tlshd: Translate kernel-style Doxygen comments in src/tlshd/config.c
-Date: Thu, 25 Sep 2025 21:21:54 -0400
-Message-ID: <20250926012207.3642990-6-cel@kernel.org>
+Subject: [PATCH v1 07/16] tlshd: Translate kernel-style Doxygen comments in src/tlshd/keyring.c
+Date: Thu, 25 Sep 2025 21:21:56 -0400
+Message-ID: <20250926012207.3642990-8-cel@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250926012207.3642990-1-cel@kernel.org>
 References: <20250926012207.3642990-1-cel@kernel.org>
@@ -50,257 +50,156 @@ I started the ktls-utils project using the Linux kernel flavor of
 Doxygen commenting which user-space Doxygen does not recognize by
 default.
 
-Convert existing comments in config.c to what a normal user space
+Convert existing comments in keyring.c to what a normal user space
 Doxygen run expects to see. This will enable deployment of an
 automatically-generated documentation web site.
 
 Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 ---
- src/tlshd/config.c | 152 ++++++++++++++++++++++++++-------------------
- 1 file changed, 88 insertions(+), 64 deletions(-)
+ src/tlshd/keyring.c | 79 +++++++++++++++++++++++----------------------
+ 1 file changed, 40 insertions(+), 39 deletions(-)
 
-diff --git a/src/tlshd/config.c b/src/tlshd/config.c
-index bf57df17f48c..1afe1ff9bca0 100644
---- a/src/tlshd/config.c
-+++ b/src/tlshd/config.c
-@@ -1,6 +1,10 @@
+diff --git a/src/tlshd/keyring.c b/src/tlshd/keyring.c
+index 32f2d273a7c1..fb2024cad8a1 100644
+--- a/src/tlshd/keyring.c
++++ b/src/tlshd/keyring.c
+@@ -1,8 +1,12 @@
+-/*
+- * Scrape authentication information from kernel keyring.
 +/**
-+ * @file config.c
-+ * @brief Parse tlshd's config file
-+ */
-+
- /*
-- * Parse tlshd's config file.
-- *
++ * @file keyring.c
++ * @brief Linux keyring management
+  *
 + * @copyright
   * Copyright (c) 2022 Oracle and/or its affiliates.
-  *
+- *
++ */
++
++/*
   * ktls-utils is free software; you can redistribute it and/or
-@@ -44,16 +48,20 @@
- 
+  * modify it under the terms of the GNU General Public License as
+  * published by the Free Software Foundation; version 2.
+@@ -40,15 +44,14 @@
  #include "tlshd.h"
  
-+/**
-+ * @var GKeyFile *tlshd_configuration
-+ * In-memory parsed config file
-+ */
- static GKeyFile *tlshd_configuration;
- 
  /**
-- * tlshd_config_init - Read tlshd's config file
-- * @pathname: Pathname to config file
-- * @legacy: Don't generate an error if the config file doesn't exist
-+ * @brief Parse tlshd's config file
-+ * @param[in]    pathname  Pathname to config file
-+ * @param[in]    legacy    Don't generate an error if the specified
-+ *			   config file doesn't exist
+- * tlshd_keyring_get_psk_username - Retrieve username for PSK handshake
+- * @serial: Key serial number to look up
+- * @username: On success, filled in with NUL-terminated user name
++ * @brief Retrieve username for PSK handshake
++ * @param[in]     serial    Key serial number to look up
++ * @param[out]    username  Filled in with NUL-terminated user name
+  *
+- * Caller must use gnutls_free() to free @username when finished.
++ * Caller must use gnutls_free() to free "username" when finished.
   *
 - * Return values:
-- *   %true: Config file read successfully
-- *   %false: Unable to read config file
-+ * @retval true   Config file parsed successfully
-+ * @retval false  Unable to read config file
+- *   %true: Success; @username has been initialized
+- *   %false: Failure
++ * @retval true  Success; "username" has been initialized
++ * @retval false Failure
   */
- bool tlshd_config_init(const gchar *pathname, bool legacy)
+ bool tlshd_keyring_get_psk_username(key_serial_t serial, char **username)
  {
-@@ -111,26 +119,49 @@ bool tlshd_config_init(const gchar *pathname, bool legacy)
- 	return true;
- }
- 
-+/**
-+ * @brief Release parsed config file data
-+ */
- void tlshd_config_shutdown(void)
- {
- 	g_key_file_free(tlshd_configuration);
+@@ -80,15 +83,14 @@ bool tlshd_keyring_get_psk_username(key_serial_t serial, char **username)
  }
  
  /**
-- * ALLPERMS exists in glibc, but not on musl, so we manually
-- * define TLSHD_ACCESSPERMS instead of using ALLPERMS.
-+ * @def TLSHD_ACCESSPERMS
-+ * @brief ALLPERMS exists in glibc, but not on musl, so we manually
-+ *	  define TLSHD_ACCESSPERMS instead of using ALLPERMS.
-  */
- #define TLSHD_ACCESSPERMS	(S_IRWXU|S_IRWXG|S_IRWXO)
- 
--/*
-- * Expected file attributes
-+/**
-+ * @def TLSHD_OWNER
-+ * @brief Expected owner of certificate and private key files
-  */
- #define TLSHD_OWNER		0	/* root */
-+
-+/**
-+ * @def TLSHD_CERT_MODE
-+ * @brief Expected mode of certificate files
-+ */
- #define TLSHD_CERT_MODE		(S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)
-+
-+/**
-+ * @def TLSHD_PRIVKEY_MODE
-+ * @brief Expected mode of private key files
-+ */
- #define TLSHD_PRIVKEY_MODE	(S_IRUSR|S_IWUSR)
- 
--/*
-- * On success, caller must release buffer returned in @data by calling free(3)
-+/**
-+ * @brief Read one configuration file
-+ * @param[in]    pathname  Pathname to file that is to be read
-+ * @param[out]   data      Buffer containing all file content
-+ * @param[in]    owner     Expected owner of file
-+ * @param[in]    mode      Expected mode of file
-+ *
-+ * @retval true   File content retrieved successfully. Caller must
-+ *		  release "data->data" by calling free(3)
-+ * @retval false  File content not retrieved
-  */
- static bool tlshd_config_read_datum(const char *pathname, gnutls_datum_t *data,
- 				    uid_t owner, mode_t mode)
-@@ -189,13 +220,13 @@ out:
- }
- 
- /**
-- * tlshd_config_get_truststore - Get truststore for {Client,Server}Hello from .conf
-- * @peer_type: IN: peer type
-- * @bundle: OUT: pathname to truststore
-+ * @brief Get truststore to use for {Client,Server}Hello
-+ * @param[in]     peer_type  peer type
-+ * @param[out]    bundle     pathname to truststore
+- * tlshd_keyring_get_psk_key - Retrieve pre-shared key for PSK handshake
+- * @serial: Key serial number to look up
+- * @key: On success, filled in with pre-shared key
++ * @brief Retrieve pre-shared key for PSK handshake
++ * @param[in]     serial   Key serial number to look up
++ * @param[out]    key      Filled in with pre-shared key
+  *
+- * Caller must use free() to free @key->data when finished.
++ * Caller must use free() to free "key->data" when finished.
   *
 - * Return values:
-- *   %false: pathname not retrieved
-- *   %true: pathname retrieved successfully; caller must free @bundle using free(3)
-+ * @retval true   Trust store retrieved successfully. Caller must free
-+ *		  "*bundle" using free(3)
-+ * @retval false  Trust store not retrieved
+- *   %true: Success; @key has been initialized
+- *   %false: Failure
++ * @retval true   Success; "key" has been initialized
++ * @retval false  Failure
   */
- bool tlshd_config_get_truststore(int peer_type, char **bundle)
+ bool tlshd_keyring_get_psk_key(key_serial_t serial, gnutls_datum_t *key)
  {
-@@ -226,13 +257,13 @@ bool tlshd_config_get_truststore(int peer_type, char **bundle)
+@@ -111,15 +113,14 @@ bool tlshd_keyring_get_psk_key(key_serial_t serial, gnutls_datum_t *key)
  }
  
  /**
-- * tlshd_config_get_crl - Get CRL for {Client,Server}Hello from .conf
-- * @peer_type: IN: peer type
-- * @result: OUT: pathname to CRL
-+ * @brief Get CRL for {Client,Server}Hello from .conf
-+ * @param[in]     peer_type  peer type
-+ * @param[out]    result     pathname to CRL
+- * tlshd_keyring_get_privkey - Retrieve privkey for x.509 handshake
+- * @serial: Key serial number to look up
+- * @privkey: On success, filled in with a private key
++ * @brief Retrieve privkey for x.509 handshake
++ * @param[in]     serial   Key serial number to look up
++ * @param[out]    privkey  Filled in with a private key
+  *
+- * Caller must use gnutls_privkey_deinit() to free @privkey when finished.
++ * Caller must use gnutls_privkey_deinit() to free "privkey" when finished.
   *
 - * Return values:
-- *   %false: pathname not retrieved
-- *   %true: pathname retrieved successfully; caller must free @result using free(3)
-+ * @retval true   CRL retrieved successfully. Caller must free
-+ *		  "*result" using free(3)
-+ * @retval false  CRL not retrieved
+- *   %true: Success; @privkey has been initialized
+- *   %false: Failure
++ * @retval true   Success; "privkey" has been initialized
++ * @retval false  Failure
   */
- bool tlshd_config_get_crl(int peer_type, char **result)
+ bool tlshd_keyring_get_privkey(key_serial_t serial, gnutls_privkey_t *privkey)
  {
-@@ -308,16 +339,14 @@ static bool tlshd_cert_check_pk_alg(__attribute__ ((unused)) gnutls_datum_t *dat
- #endif /* HAVE_GNUTLS_MLDSA */
+@@ -157,16 +158,15 @@ bool tlshd_keyring_get_privkey(key_serial_t serial, gnutls_privkey_t *privkey)
+ }
  
  /**
-- * __tlshd_config_get_certs - Helper for tlshd_config_get_certs()
-- * @peer_type: IN: peer type
-- * @certs: OUT: in-memory certificates
+- * tlshd_keyring_get_certs - Retrieve certs for x.509 handshake
+- * @serial: Key serial number to look up
+- * @certs: On success, filled in with certificates
 - * @certs_len: IN: maximum number of certs to get, OUT: number of certs found
-- * @pkgalg: IN: if non-NULL, indicates we want to retrieve the PQ cert,
-- *	 OUT: if non-NULL, store the PQ public-key alg that was used in the PQ cert
-+ * @brief Helper for tlshd_config_get_certs()
-+ * @param[in]      peer_type  peer type
-+ * @param[out]     certs      in-memory certificates
-+ * @param[in,out]  certs_len  maximum number of certs to get, number of certs found
-+ * @param[out]     pkalg      buffer for returning PQ algorithm
++ * @brief Retrieve certs for x.509 handshake
++ * @param[in]     serial     Key serial number to look up
++ * @param[out]    certs      On success, filled in with certificates
++ * @param[in,out] certs_len  Maximum number of certs to get, number of certs found
+  *
+- * Caller must use gnutls_pcert_deinit() to free @cert when finished.
++ * Caller must use gnutls_pcert_deinit() to free "cert" when finished.
   *
 - * Return values:
-- *   %true: certificate retrieved successfully
-- *   %false: certificate not retrieved
-+ * @retval true   Certificate(s) retrieved successfully
-+ * @retval false  Certificate(s) not retrieved
+- *   %true: Success; @cert has been initialized
+- *   %false: Failure
++ * @retval true   Success; "cert" has been initialized
++ * @retval false  Failure
   */
- static bool __tlshd_config_get_certs(int peer_type, gnutls_pcert_st *certs,
- 				     unsigned int *certs_len,
-@@ -372,21 +401,20 @@ static bool __tlshd_config_get_certs(int peer_type, gnutls_pcert_st *certs,
+ bool tlshd_keyring_get_certs(key_serial_t serial, gnutls_pcert_st *certs,
+ 			     unsigned int *certs_len)
+@@ -205,11 +205,11 @@ bool tlshd_keyring_get_certs(key_serial_t serial, gnutls_pcert_st *certs,
  }
  
  /**
-- * tlshd_config_get_certs - Get certs for {Client,Server} Hello from .conf
-- * @peer_type: IN: peer type
-- * @certs: OUT: in-memory certificates
-- * @pq_certs_len: IN: maximum number of PQ certs to get, OUT: number of PQ certs found
-- * @certs_len: IN: maximum number of certs to get, OUT: number of certs found
-- * @pkgalg: OUT: the PQ public-key alg that was used in the PQ cert
-+ * @brief Get certs for {Client,Server} Hello
-+ * @param[in]      peer_type     peer type
-+ * @param[out]     certs         in-memory certificates
-+ * @param[in,out]  pq_certs_len  maximum number of PQ certs to get, number of PQ certs found
-+ * @param[in,out]  certs_len     maximum number of certs to get, number of certs found
-+ * @param[out]     pkalg         the PQ public-key alg that was used in the PQ cert
+- * tlshd_keyring_create_cert - Create key containing peer's certificate
+- * @cert: Initialized x.509 certificate
+- * @peername: hostname of the remote peer
++ * @brief Create key containing peer's certificate
++ * @param[in]     cert      Initialized x.509 certificate
++ * @param[in]     peername  Hostname of the remote peer
   *
-- * Retrieve the PQ cert(s) first, then the RSA cert(s).  Both are stored in the
-- * same list.  Note that @pq_certs_len is deducted from the available @certs_len
-- * and is also used to determine the offset to store the RSA cert(s) in the
-- * @certs array.
-+ * Retrieve the PQ cert(s) first, then the RSA cert(s).  Both are
-+ * stored in the same list.  Note that "pq_certs_len" is deducted
-+ * from the available "certs_len" and is also used to determine
-+ * the offset to store the RSA cert(s) in the "certs array".
-  *
-- * Return values:
-- *   %true: certificate retrieved successfully
-- *   %false: certificate not retrieved
-+ * @retval true   Certificate(s) retrieved successfully
-+ * @retval false  Certificate(s) not retrieved
+- * Returns a positive key serial number on success; otherwise
++ * @returns a positive key serial number on success; otherwise
+  * TLS_NO_PEERID.
   */
- bool tlshd_config_get_certs(int peer_type, gnutls_pcert_st *certs,
- 			    unsigned int *pq_certs_len,
-@@ -407,14 +435,13 @@ bool tlshd_config_get_certs(int peer_type, gnutls_pcert_st *certs,
+ key_serial_t tlshd_keyring_create_cert(gnutls_x509_crt_t cert,
+@@ -246,10 +246,11 @@ out:
  }
  
  /**
-- * __tlshd_config_get_privkey - Helper for tlshd_config_get_privkey()
-- * @peer_type: IN: peer type
-- * @privkey: OUT: in-memory private key
-- * @pq: IN: if true, retrieve the PQ private key
-+ * @brief Helper for tlshd_config_get_privkey()
-+ * @param[in]      peer_type  peer type
-+ * @param[out]     privkey    in-memory private key
-+ * @param[in]      pq         if true, retrieve the PQ private key
+- * tlshd_keyring_link_session - Link a keyring into the session keyring
+- * @keyring: keyring to be linked
++ * @brief Link a keyring into the session keyring
++ * @param[in]     keyring  keyring to be linked
   *
-- * Return values:
-- *   %true: private key retrieved successfully
-- *   %false: private key not retrieved
-+ * @retval true   Private key retrieved successfully
-+ * @retval false  Private key not retrieved
+- * Returns 0 on success and -1 on error.
++ * @retval 0   Success
++ * @retval -1  Failure
   */
- static bool __tlshd_config_get_privkey(int peer_type, gnutls_privkey_t *privkey, bool pq)
+ int tlshd_keyring_link_session(const char *keyring)
  {
-@@ -463,16 +490,13 @@ static bool __tlshd_config_get_privkey(int peer_type, gnutls_privkey_t *privkey,
- }
- 
- /**
-- * tlshd_config_get_privkey - Get private key for {Client,Server}Hello from .conf
-- * @peer_type: IN: peer type
-- * @pq_privkey: OUT: in-memory PQ private key
-- * @privkey: OUT: in-memory private key
-+ * @brief Get private key for {Client,Server}Hello
-+ * @param[in]      peer_type   peer type
-+ * @param[out]     pq_privkey  in-memory PQ private key
-+ * @param[out]     privkey     in-memory private key
-  *
-- * Retrieve the PQ private key first, then the RSA private key.
-- *
-- * Return values:
-- *   %true: private key retrieved successfully
-- *   %false: private key not retrieved
-+ * @retval true   Private key retrieved successfully
-+ * @retval false  Private key not retrieved
-  */
- bool tlshd_config_get_privkey(int peer_type, gnutls_privkey_t *pq_privkey,
- 			      gnutls_privkey_t *privkey)
 -- 
 2.51.0
 

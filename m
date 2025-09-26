@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A64C1632DD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F0A1991B6
 	for <kernel-tls-handshake@lists.linux.dev>; Fri, 26 Sep 2025 01:22:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758849736; cv=none; b=n2cJB56VrmRbP2DWREIT/zlfhI82Zzi08ApUnYImuHUc7feHn6b9zHirfSB3KLo1lgIx7cZkTLxIJwC2bevz5c0rjv5XrCGoxbM9ZVCFUnHMfHmBd6O2eBoFt58UO0wTKbPiTPUTm2WXJpA68FbREcaTRAKEZqKtwO54cKab1t4=
+	t=1758849736; cv=none; b=IkZlzI8Q1AAl7W+lFK8qXtX7xZatTlqyq6bCvIyJ2DZy+3JDkIeE23jhXld/xduS67UXvzjNzMzSktLng+45z6JVx04RplkjSKn1Z+evN+fIB7lHWLBl7r0hLkK4wGV9kY0rDUBv4wh4AGMsWmyt4j68/8LUBr6CB9Bg83JsU2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758849736; c=relaxed/simple;
-	bh=ejWZNzFzNgDPVGw9wiFPKWs2fMwlsEZiXL4uzv2IiXk=;
+	bh=NmOqyPdYlgxdOlOx0nJWeEdLfu9K+n6AMHB88sjPYKQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s3ciIKPlN644/MxZa6jfk9gMwzwXo8/P1UW1zxckMHedH7WHqLgNBP0rRstmbRRacja6c3rX+ZqZScdhFbVncFY6/RJN1OnphZRnyuC8J/RC8tMe4oj5lmMCQhv88BmbTataHa7P7+wUIiH98RQNSA2xYEbPenwsEB52NgNdl+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k13qm9+G; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=u2O9/608FyeEDvn8Tn6gC6jO1ZWBXmzH7bnihWRGLBFOR6htBSU7Gho6ZOGVhgvEQ09BjvU5B6YDFS3Uv2ZEzJlOF9A06uEdAiMS5i6A3gxlkZa2Z1+1hvxiJFwwJMzMta7yZR7fYpVo7hODy2hghBJL9tWt9vIGEXhH8zLqTIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZEYoFokh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k13qm9+G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A08F0C113CF;
-	Fri, 26 Sep 2025 01:22:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZEYoFokh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23622C4CEF0;
+	Fri, 26 Sep 2025 01:22:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758849735;
-	bh=ejWZNzFzNgDPVGw9wiFPKWs2fMwlsEZiXL4uzv2IiXk=;
+	s=k20201202; t=1758849736;
+	bh=NmOqyPdYlgxdOlOx0nJWeEdLfu9K+n6AMHB88sjPYKQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=k13qm9+Ga5DCoXbTfxog/v5bE+pSPF2LKYmCallOddKIxWUh3Bm7sAfnxiMiDyl7X
-	 +J29xyGaQ8Dwf6RDW65N3YXN/6DlA0duzYuwBbQ5Zsy4Y9tS1S+pjoi6+66YuHdd7y
-	 0FjBhl8kOd4RAJkCDnAPwHjMhwVhU1cLs/5Kua0DSVNAtVxQNcU5FywgtfMBp5Eznu
-	 INDmcGfbc2PbTf6kdVnFlzkeHCGMKR+KQdM5fH6BwcbMObfLIZSYE3bt2tmAr1sFR+
-	 ugqHT/OfFCGoJZEXBuO2DVlZLPp6aVwLqV1u3Lf21qtJqwOPssphtNsR8qu9YOfyyt
-	 W451fZktLcqzQ==
+	b=ZEYoFokhOEQJnr25G89yARXMHGfHix7iTMR6Jir9oXqGgj1SPC7f7W7AdhyEu2HCl
+	 ILyfvurnaUwWpp0poENMRDp0vmsx4rtylcLYYBrhhv++aVaSK4E5bnORqS1YXJfWCa
+	 BOxhilTzmZnEts8HMN5X39ZpNSctEODhDoNMYg3YWiEsavHNGNMsfeIymV/UMupWCu
+	 7AonkTyu/fPcBEKUDsP16vmAPrbFr0dTh/qAwjl6Gl7LaWcL/KyF+UBQ/gkKql85Vb
+	 ENLrvU/r6+vGWnwqEmBHXDDPBQkOoMMfF2h2SOf8Sz1ZSx+8PB5sqB5u9eLEa1nUNy
+	 gIf0yAypopayQ==
 From: Chuck Lever <cel@kernel.org>
 To: <kernel-tls-handshake@lists.linux.dev>
 Cc: Xin Long <lucien.xin@gmail.com>,
 	Chuck Lever <chuck.lever@oracle.com>
-Subject: [PATCH v1 12/16] tlshd: Translate kernel-style Doxygen comments in src/tlshd/quic.c
-Date: Thu, 25 Sep 2025 21:22:01 -0400
-Message-ID: <20250926012207.3642990-13-cel@kernel.org>
+Subject: [PATCH v1 13/16] tlshd: Translate kernel-style Doxygen comments in src/tlshd/server.c
+Date: Thu, 25 Sep 2025 21:22:02 -0400
+Message-ID: <20250926012207.3642990-14-cel@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250926012207.3642990-1-cel@kernel.org>
 References: <20250926012207.3642990-1-cel@kernel.org>
@@ -50,27 +50,28 @@ I started the ktls-utils project using the Linux kernel flavor of
 Doxygen commenting which user-space Doxygen does not recognize by
 default.
 
-Convert existing comments in quic.c to what a normal user space
+Convert existing comments in server.c to what a normal user space
 Doxygen run expects to see. This will enable deployment of an
 automatically-generated documentation web site.
 
 Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 ---
- src/tlshd/quic.c | 180 +++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 166 insertions(+), 14 deletions(-)
+ src/tlshd/server.c | 203 +++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 177 insertions(+), 26 deletions(-)
 
-diff --git a/src/tlshd/quic.c b/src/tlshd/quic.c
-index 0e0852e8fa55..a9b096ad93f4 100644
---- a/src/tlshd/quic.c
-+++ b/src/tlshd/quic.c
-@@ -1,8 +1,12 @@
+diff --git a/src/tlshd/server.c b/src/tlshd/server.c
+index 8bb769ff9f74..ca084a1a754b 100644
+--- a/src/tlshd/server.c
++++ b/src/tlshd/server.c
+@@ -1,9 +1,13 @@
 -/*
-- * Perform a QUIC server or client side handshake.
+- * Perform a TLSv1.3 server-side handshake.
 +/**
-+ * @file quic.c
-+ * @brief Utility functions for QUIC handshakes
++ * @file server.c
++ * @brief Perform a TLSv1.3 server-side handshake
   *
 + * @copyright
+  * Copyright (c) 2023 Oracle and/or its affiliates.
   * Copyright (c) 2024 Red Hat, Inc.
 - *
 + */
@@ -79,336 +80,363 @@ index 0e0852e8fa55..a9b096ad93f4 100644
   * ktls-utils is free software; you can redistribute it and/or
   * modify it under the terms of the GNU General Public License as
   * published by the Free Software Foundation; version 2.
-@@ -31,6 +35,10 @@
+@@ -42,13 +46,50 @@
  #include "tlshd.h"
+ #include "netlink.h"
+ 
++/**
++ * @var gnutls_privkey_t tlshd_server_pq_privkey
++ * Server peer's post-quantum private key
++ */
+ static gnutls_privkey_t tlshd_server_pq_privkey;
++
++/**
++ * @var gnutls_privkey_t tlshd_server_privkey
++ * Server peer's RSA private key
++ */
+ static gnutls_privkey_t tlshd_server_privkey;
++
++/**
++ * @var unsigned int tlshd_server_pq_certs_len
++ * Count of server peer's PQ certificates
++ */
+ static unsigned int tlshd_server_pq_certs_len = TLSHD_MAX_CERTS;
++
++/**
++ * @var unsigned int tlshd_server_certs_len
++ * Count of server peer's certificates
++ */
+ static unsigned int tlshd_server_certs_len = TLSHD_MAX_CERTS;
++
++/**
++ * @var gnutls_pcert_st tlshd_server_certs
++ * Server peer's certificates
++ */
+ static gnutls_pcert_st tlshd_server_certs[TLSHD_MAX_CERTS];
++
++/**
++ * @var gnutls_pk_algorithm_t tlshd_server_pq_pkalg
++ * Server peer certificate's public key algorithms
++ */
+ static gnutls_pk_algorithm_t tlshd_server_pq_pkalg = GNUTLS_PK_UNKNOWN;
+ 
++/**
++ * @brief Retrieve server certificates to be used for ServerHello
++ * @param[in]     parms  Handshake parameters
++ *
++ * @retval true   Server certificates were found. Caller must release
++ *		  the certificates using tlshd_x509_server_put_certs.
++ * @retval false  No usable server certificates were found
++ */
+ static bool tlshd_x509_server_get_certs(struct tlshd_handshake_parms *parms)
+ {
+ 	if (parms->x509_cert != TLS_NO_CERT)
+@@ -61,6 +102,9 @@ static bool tlshd_x509_server_get_certs(struct tlshd_handshake_parms *parms)
+ 				      &tlshd_server_pq_pkalg);
+ }
+ 
++/**
++ * @brief Release server certificates that were used for ServerHello
++ */
+ static void tlshd_x509_server_put_certs(void)
+ {
+ 	unsigned int i;
+@@ -69,6 +113,14 @@ static void tlshd_x509_server_put_certs(void)
+ 		gnutls_pcert_deinit(&tlshd_server_certs[i]);
+ }
+ 
++/**
++ * @brief Retrieve the private key to be used for ServerHello
++ * @param[in]     parms  Handshake parameters
++ *
++ * @retval true   Private key was found. Caller must release the
++ *		  private key using tlshd_x509_server_put_privkey.
++ * @retval false  No usable private key was found
++ */
+ static bool tlshd_x509_server_get_privkey(struct tlshd_handshake_parms *parms)
+ {
+ 	if (parms->x509_privkey != TLS_NO_PRIVKEY)
+@@ -79,12 +131,20 @@ static bool tlshd_x509_server_get_privkey(struct tlshd_handshake_parms *parms)
+ 					&tlshd_server_privkey);
+ }
+ 
++/**
++ * @brief Release the private key that was used for ServerHello
++ */
+ static void tlshd_x509_server_put_privkey(void)
+ {
+ 	gnutls_privkey_deinit(tlshd_server_pq_privkey);
+ 	gnutls_privkey_deinit(tlshd_server_privkey);
+ }
+ 
++/**
++ * @brief Audit trust chain of incoming client certificate
++ * @param[in]     req_ca_rdn
++ * @param[in]     nreqs
++ */
+ static void tlshd_x509_log_issuers(const gnutls_datum_t *req_ca_rdn, int nreqs)
+ {
+ 	char issuer_dn[256];
+@@ -107,7 +167,18 @@ static void tlshd_x509_log_issuers(const gnutls_datum_t *req_ca_rdn, int nreqs)
+ }
+ 
+ /**
+- * tlshd_x509_retrieve_key_cb - Initialize client's x.509 identity
++ * @brief Initialize the server peer's x.509 identity
++ * @param[in]     session  session in the midst of a handshake
++ * @param[in]     req_ca_rdn
++ * @param[in]     nreqs
++ * @param[in]     pk_algos
++ * @param[in]     pk_algos_length
++ * @param[out]    pcert
++ * @param[out]    pcert_length
++ * @param[out]    privkey
++ *
++ * @retval 0   Success; output parameters are set accordingly
++ * @retval -1  Failure
+  *
+  * Callback function is of type gnutls_certificate_retrieve_function2
+  *
+@@ -115,10 +186,6 @@ static void tlshd_x509_log_issuers(const gnutls_datum_t *req_ca_rdn, int nreqs)
+  * gnutls/doc/examples/ex-cert-select.c.
+  *
+  * Sketched-in and untested.
+- *
+- * Return values:
+- *   %0: Success; output parameters are set accordingly
+- *   %-1: Failure
+  */
+ static int
+ tlshd_x509_retrieve_key_cb(gnutls_session_t session,
+@@ -197,6 +264,13 @@ tlshd_x509_retrieve_key_cb(gnutls_session_t session,
+ 	return 0;
+ }
+ 
++/**
++ * @brief Initialize server-side trust store
++ * @param[out]    cred  Trust store to initialize
++ *
++ * @returns a GnuTLS error code. Caller must release credentials
++ * using gnutls_certificate_free_credentials(3).
++ */
+ static int tlshd_server_get_truststore(gnutls_certificate_credentials_t cred)
+ {
+ 	char *pathname;
+@@ -227,9 +301,9 @@ static int tlshd_server_get_truststore(gnutls_certificate_credentials_t cred)
+ }
+ 
+ /**
+- * tlshd_server_x509_verify_function - Verify remote's x.509 certificate
+- * @session: session in the midst of a handshake
+- * @parms: handshake parameters
++ * @brief Verify remote's x.509 certificate
++ * @param[in]     session  Session in the midst of a handshake
++ * @param[in]     parms    Handshake parameters
+  *
+  * A return value of %GNUTLS_E_SUCCESS indicates that the TLS session
+  * has been allowed to continue. tlshd either sets the peerid array if
+@@ -299,6 +373,13 @@ certificate_error:
+ 	return GNUTLS_E_CERTIFICATE_ERROR;
+ }
+ 
++/**
++ * @brief Verify a remote peer's x.509 certificate (TLSv1.3)
++ * @param[in]     session  session in the midst of a handshake
++ *
++ * @retval GNUTLS_E_SUCCESS            Certificate has been successfully verified
++ * @retval GNUTLS_E_CERTIFICATE_ERROR  Certificate verification failed
++ */
+ static int tlshd_tls13_server_x509_verify_function(gnutls_session_t session)
+ {
+ 	struct tlshd_handshake_parms *parms = gnutls_session_get_ptr(session);
+@@ -306,6 +387,10 @@ static int tlshd_tls13_server_x509_verify_function(gnutls_session_t session)
+ 	return tlshd_server_x509_verify_function(session, parms);
+ }
+ 
++/**
++ * @brief Process an x.509-based TLS handshake with a server certificate
++ * @param[in]     parms  Handshake parameters
++ */
+ static void tlshd_tls13_server_x509_handshake(struct tlshd_handshake_parms *parms)
+ {
+ 	gnutls_certificate_credentials_t xcred;
+@@ -386,17 +471,16 @@ out_free_creds:
+ }
+ 
+ /**
+- * tlshd_server_psk_cb - Validate remote's username
+- * @session: session in the midst of a handshake
+- * @username: remote's username
+- * @key: PSK matching @username
++ * @brief Validate the remote peer's username
++ * @param[in]     session   Session in the midst of a handshake
++ * @param[in]     username  Remote peer's username
++ * @param[in]     key       PSK matching "username"
+  *
+- * Searches for a key with description @username in the session
+- * keyring, and stores the PSK data in @key if found.
++ * Searches for a key with description "username" in the session
++ * keyring, and stores the PSK data in "key" if found.
+  *
+- * Return values:
+- *   %0: Matching key has been stored in @key
+- *   %-1: Error during lookup, @key is not updated
++ * @retval 0  Matching key has been stored in "key"
++ * @retval -1 Error during lookup, "key" is not updated
+  */
+ static int tlshd_server_psk_cb(gnutls_session_t session,
+ 			       const char *username, gnutls_datum_t *key)
+@@ -426,6 +510,10 @@ static int tlshd_server_psk_cb(gnutls_session_t session,
+ 	return 0;
+ }
+ 
++/**
++ * @brief Process an PSK-based TLS handshake (TLSv1.3)
++ * @param[in]     parms   Handshake parameters
++ */
+ static void tlshd_tls13_server_psk_handshake(struct tlshd_handshake_parms *parms)
+ {
+ 	gnutls_psk_server_credentials_t psk_cred;
+@@ -471,9 +559,8 @@ out_free_creds:
+ }
+ 
+ /**
+- * tlshd_tls13_serverhello_handshake - send a TLSv1.3 ServerHello
+- * @parms: handshake parameters
+- *
++ * @brief Send a TLSv1.3 ServerHello
++ * @param[in]     parms  Handshake parameters
+  */
+ void tlshd_tls13_serverhello_handshake(struct tlshd_handshake_parms *parms)
+ {
+@@ -491,6 +578,17 @@ void tlshd_tls13_serverhello_handshake(struct tlshd_handshake_parms *parms)
+ }
  
  #ifdef HAVE_GNUTLS_QUIC
 +/**
-+ * @brief Callback to handle a timer expiry
-+ * @param[in,out] arg  user data
-+ */
- static void quic_timer_handler(union sigval arg)
- {
- 	struct tlshd_quic_conn *conn = arg.sival_ptr;
-@@ -39,6 +47,13 @@ static void quic_timer_handler(union sigval arg)
- 	conn->errcode = ETIMEDOUT;
- }
- 
-+/**
-+ * @brief Set a handshake timer
-+ * @param[in,out] conn  QUIC handshake context
++ * @brief Verify the ALPNs presented by a remote peer
++ * @param[in]      session
++ * @param[in]      htype
++ * @param[in]      when
++ * @param[in]      incoming
++ * @param[in]      msg
 + *
-+ * @retval 0   Timer configured successfully
-+ * @retval -1  Failed to configure timer
++ * @retval 0   ALPN verification was successful
++ * @retval -1  ALPN verification failed
 + */
- static int quic_conn_setup_timer(struct tlshd_quic_conn *conn)
- {
- 	uint64_t msec = conn->parms->timeout_ms;
-@@ -62,11 +77,21 @@ static int quic_conn_setup_timer(struct tlshd_quic_conn *conn)
+ static int tlshd_quic_server_alpn_verify(gnutls_session_t session, unsigned int htype,
+ 					 unsigned int when, unsigned int incoming,
+ 					 const gnutls_datum_t *msg)
+@@ -515,6 +613,25 @@ static int tlshd_quic_server_alpn_verify(gnutls_session_t session, unsigned int
  	return 0;
  }
  
 +/**
-+ * @brief Delete a handshake timer
-+ * @param[in,out] conn  QUIC handshake context
-+ */
- static void quic_conn_delete_timer(struct tlshd_quic_conn *conn)
- {
- 	timer_delete(conn->timer);
- }
- 
-+/**
-+ * @brief Convert a GnuTLS cipher number to a kTLS cipher number
-+ * @param[in]     cipher   kTLS cipher number to be converted
++ * @brief Anti-reply protection
++ * @param[in]     dbf
++ * @param[in]     exp_time
++ * @param[in]     key
++ * @param[in]     data
 + *
-+ * @returns a kTLS cipher number.
-+ */
- static uint32_t quic_get_tls_cipher_type(gnutls_cipher_algorithm_t cipher)
- {
- 	switch (cipher) {
-@@ -84,6 +109,12 @@ static uint32_t quic_get_tls_cipher_type(gnutls_cipher_algorithm_t cipher)
- 	}
- }
- 
-+/**
-+ * @brief Convert a GnuTLS encryption level number
-+ * @param[in]     level    GnuTLS encryption level
++ * Currently, tlshd handles each handshake request in a new process
++ * rather than a thread. As a result, it cannot share the
++ * gnutls_anti_replay_t object across processes. This causes 0-RTT
++ * data to be automatically disabled, since
++ * _gnutls_anti_replay_check() fails validation in the absence of a
++ * shared anti-replay context.
 + *
-+ * @returns a QUIC encryption level number.
-+ */
- static enum quic_crypto_level quic_get_crypto_level(gnutls_record_encryption_level_t level)
- {
- 	switch (level) {
-@@ -101,6 +132,17 @@ static enum quic_crypto_level quic_get_crypto_level(gnutls_record_encryption_lev
- 	}
- }
- 
-+/**
-+ * @brief Callback to process a new traffic secret
-+ * @param[in,out] session    GnuTLS session
-+ * @param[in]     level      GnuTLS encryption level
-+ * @param[in]     rx_secret  Receive secret, or NULL
-+ * @param[in]     tx_secret  Transmit secret, or NULL
-+ * @param[in]     secretlen  Length of secrets, in bytes
++ * To properly support 0-RTT data, we need to enable sharing of the
++ * gnutls_anti_replay_t object across processes in some way.
 + *
-+ * @retval 0   Callback completed successfully
-+ * @retval -1  Callback failed
++ * @retval 0  Not a replay
 + */
- static int quic_secret_func(gnutls_session_t session, gnutls_record_encryption_level_t level,
- 			    const void *rx_secret, const void *tx_secret, size_t secretlen)
- {
-@@ -150,6 +192,15 @@ static int quic_secret_func(gnutls_session_t session, gnutls_record_encryption_l
+ static int tlshd_quic_server_anti_replay_db_add_func(void *dbf, time_t exp_time,
+ 						     const gnutls_datum_t *key,
+ 						     const gnutls_datum_t *data)
+@@ -523,8 +640,19 @@ static int tlshd_quic_server_anti_replay_db_add_func(void *dbf, time_t exp_time,
  	return 0;
  }
  
 +/**
-+ * @brief Callback to handle an outgoing alert
-+ * @param[in,out] session      GnuTLS session
-+ * @param[in]     level        GnuTLS encryption level
-+ * @param[in]     alert_level  TLS alert level number
-+ * @param[in]     alert_desc   TLS alert description number
-+ *
-+ * @retval 0   Callback completed successfully
++ * @var gnutls_anti_replay_t tlshd_quic_server_anti_replay
++ * Shared anti-replay context
 + */
- static int quic_alert_read_func(gnutls_session_t session,
- 				gnutls_record_encryption_level_t gtls_level,
- 				gnutls_alert_level_t alert_level,
-@@ -160,6 +211,15 @@ static int quic_alert_read_func(gnutls_session_t session,
- 	return 0;
- }
+ static gnutls_anti_replay_t tlshd_quic_server_anti_replay;
  
 +/**
-+ * @brief Callback to receive handshake data
-+ * @param[in,out] session  GnuTLS session
-+ * @param[in]     buf      Buffer containing received data
-+ * @param[in]     len      Length of content in "buf", in bytes
++ * @brief Verify a remote peer's x.509 certificate (QUIC)
++ * @param[in]     session  session in the midst of a handshake
 + *
-+ * @retval 0   Callback completed successfully
-+ * @retval -1  Callback failed
++ * @retval GNUTLS_E_SUCCESS            Certificate has been successfully verified
++ * @retval GNUTLS_E_CERTIFICATE_ERROR  Certificate verification failed
 + */
- static int quic_tp_recv_func(gnutls_session_t session, const uint8_t *buf, size_t len)
+ static int tlshd_quic_server_x509_verify_function(gnutls_session_t session)
  {
  	struct tlshd_quic_conn *conn = gnutls_session_get_ptr(session);
-@@ -172,6 +232,14 @@ static int quic_tp_recv_func(gnutls_session_t session, const uint8_t *buf, size_
+@@ -532,6 +660,18 @@ static int tlshd_quic_server_x509_verify_function(gnutls_session_t session)
+ 	return tlshd_server_x509_verify_function(session, conn->parms);
+ }
+ 
++/**
++ * @brief Validate the remote peer's username
++ * @param[in]     session   Session in the midst of a handshake
++ * @param[in]     username  Remote peer's username
++ * @param[in]     key       PSK matching "username"
++ *
++ * Searches for a key with description "username" in the session
++ * keyring, and stores the PSK data in "key" if found.
++ *
++ * @retval 0  Matching key has been stored in "key"
++ * @retval -1 Error during lookup, "key" is not updated
++ */
+ static int tlshd_quic_server_psk_cb(gnutls_session_t session, const char *username,
+ 				    gnutls_datum_t *key)
+ {
+@@ -562,6 +702,10 @@ found:
  	return 0;
  }
  
 +/**
-+ * @brief Callback to send handshake data
-+ * @param[in,out] session  GnuTLS session
-+ * @param[in]     buf      Buffer to be filled in with data to send
-+ *
-+ * @retval 0   Callback completed successfully
-+ * @retval -1  Callback failed
++ * @brief Prepare a session for a QUIC server handshake using an x.509 cert
++ * @param[in]     conn
 + */
- static int quic_tp_send_func(gnutls_session_t session, gnutls_buffer_t extdata)
+ static void tlshd_quic_server_set_x509_session(struct tlshd_quic_conn *conn)
  {
- 	struct tlshd_quic_conn *conn = gnutls_session_get_ptr(session);
-@@ -194,6 +262,17 @@ static int quic_tp_send_func(gnutls_session_t session, gnutls_buffer_t extdata)
- 	return 0;
+ 	struct tlshd_handshake_parms *parms = conn->parms;
+@@ -631,6 +775,10 @@ err:
+ 	tlshd_log_gnutls_error(ret);
  }
  
 +/**
-+ * @brief Callback to handle an outgoing handshake message
-+ * @param[in,out] session  GnuTLS session
-+ * @param[in]     level    GnuTLS encryption level
-+ * @param[in]     htype    GnuTLS handshake description
-+ * @param[in]     data     message to be processed
-+ * @param[in]     datalen  length of "data" in bytes
-+ *
-+ * @retval 0   Callback completed successfully
-+ * @retval -1  Callback failed
++ * @brief Prepare a session for a QUIC client handshake using a pre-shared key
++ * @param[in]     conn
 + */
- static int quic_read_func(gnutls_session_t session, gnutls_record_encryption_level_t level,
- 			  gnutls_handshake_description_t htype, const void *data, size_t datalen)
+ static void tlshd_quic_server_set_psk_session(struct tlshd_quic_conn *conn)
  {
-@@ -224,9 +303,21 @@ static int quic_read_func(gnutls_session_t session, gnutls_record_encryption_lev
- 	return 0;
- }
- 
-+/**
-+ * @var char quic_priority
-+ * Default GnuTLS priority string for QUIC connections
-+ */
- static char quic_priority[] =
- 	"%DISABLE_TLS13_COMPAT_MODE:NORMAL:-VERS-ALL:+VERS-TLS1.3:+PSK:-CIPHER-ALL:+";
- 
-+/**
-+ * @brief Set the GnuTLS priority string for a session
-+ * @param[in,out] session  GnuTLS session
-+ * @param[in]     cipher   kTLS cipher number to set
-+ *
-+ * @retval 0   GnuTLS priority string set successfully
-+ * @retval -1  Failed to set GnuTLS priority string
-+ */
- static int quic_session_set_priority(gnutls_session_t session, uint32_t cipher)
- {
- 	char p[136] = {};
-@@ -258,6 +349,14 @@ static int quic_session_set_priority(gnutls_session_t session, uint32_t cipher)
- 	return 0;
- }
- 
-+/**
-+ * @brief Set the ALPN information on a session
-+ * @param[in,out] session    GnuTLS session
-+ * @param[in]     alpn_data  ALPN string to set
-+ *
-+ * @retval 0   ALPN string set successfully
-+ * @retval -1  Failed to set ALPN string
-+ */
- static int quic_session_set_alpns(gnutls_session_t session, char *alpn_data)
- {
- 	gnutls_datum_t alpns[TLSHD_QUIC_MAX_ALPNS_LEN / 2];
-@@ -281,6 +380,12 @@ static int quic_session_set_alpns(gnutls_session_t session, char *alpn_data)
- 	return 0;
- }
- 
-+/**
-+ * @brief Translate the encryption level value
-+ * @param[in]     level  QUIC encryption level
-+ *
-+ * @returns an equivalent GNUTLS_ENCRYPTION value
-+ */
- static gnutls_record_encryption_level_t quic_get_encryption_level(uint8_t level)
- {
- 	switch (level) {
-@@ -298,6 +403,13 @@ static gnutls_record_encryption_level_t quic_get_encryption_level(uint8_t level)
- 	}
- }
- 
-+/**
-+ * @brief Retrieve QUIC connection configuration
-+ * @param[in]     conn  QUIC handshake context
-+ *
-+ * @retval 0   Connection configuration retrieved successfully
-+ * @retval -1  Failed to retrieve configuration
-+ */
- static int quic_conn_get_config(struct tlshd_quic_conn *conn)
- {
- 	int sockfd = conn->parms->sockfd;
-@@ -326,6 +438,13 @@ static int quic_conn_get_config(struct tlshd_quic_conn *conn)
- 	return 0;
- }
- 
-+/**
-+ * @brief Send one QUIC handshake message on a socket
-+ * @param[in]     sockfd  Socket on which to send
-+ * @param[in]     msg     Buffer containing message to send
-+ *
-+ * @returns the number of bytes sent, or -1 if an error occurred.
-+ */
- static int quic_handshake_sendmsg(int sockfd, struct tlshd_quic_msg *msg)
- {
- 	char outcmsg[CMSG_SPACE(sizeof(struct quic_handshake_info))];
-@@ -359,6 +478,13 @@ static int quic_handshake_sendmsg(int sockfd, struct tlshd_quic_msg *msg)
- 	return sendmsg(sockfd, &outmsg, flags);
- }
- 
-+/**
-+ * @brief Receive one QUIC handshake message on a socket
-+ * @param[in]     sockfd  Socket on which to receive
-+ * @param[in,out] msg     Buffer in which to receive a message
-+ *
-+ * @returns the number of bytes received, or -1 if an error occurred.
-+ */
- static int quic_handshake_recvmsg(int sockfd, struct tlshd_quic_msg *msg)
- {
- 	char incmsg[CMSG_SPACE(sizeof(struct quic_handshake_info))];
-@@ -397,11 +523,28 @@ static int quic_handshake_recvmsg(int sockfd, struct tlshd_quic_msg *msg)
- 	return ret;
- }
- 
--static int quic_handshake_completed(const struct tlshd_quic_conn *conn)
-+/**
-+ * @brief Predicate: Has the QUIC handshake completed
-+ * @param[in]     conn     QUIC handshake context
-+ *
-+ * @retval true   The handshake completed
-+ * @retval false  The handshake has not completed
-+ */
-+static bool quic_handshake_completed(const struct tlshd_quic_conn *conn)
- {
- 	return conn->completed || conn->errcode;
- }
- 
-+/**
-+ * @brief Get the generated session data
-+ * @param[in]     conn     QUIC handshake context
-+ * @param[in]     level    Encryption level
-+ * @param[in]     data     Ticket blob
-+ * @param[in]     datalen  length of "data" in bytes
-+ *
-+ * @retval 0   Session data retrieved successfully
-+ * @retval -1  Session data is not available
-+ */
- static int quic_handshake_crypto_data(const struct tlshd_quic_conn *conn,
- 				      uint8_t level, const uint8_t *data,
- 				      size_t datalen)
-@@ -433,11 +576,11 @@ err:
+ 	gnutls_psk_server_credentials_t cred;
+@@ -665,9 +813,8 @@ err:
  }
  
  /**
-- * tlshd_quic_conn_create - Create a context for QUIC handshake
-- * @conn_p: pointer to accept the QUIC handshake context created
+- * tlshd_quic_serverhello_handshake - send a QUIC Server Initial
 - * @parms: handshake parameters
-+ * @brief Create a context for QUIC handshake
-+ * @param[out]    conn_p  Pointer to accept the QUIC handshake context created
-+ * @param[in]     parms   Handshake parameters
-  *
-- * Returns: %0 on success, or a negative error code
-+ * @returns 0 on success, or a negative error code
-  */
- int tlshd_quic_conn_create(struct tlshd_quic_conn **conn_p, struct tlshd_handshake_parms *parms)
- {
-@@ -471,9 +614,8 @@ err:
- }
- 
- /**
-- * tlshd_quic_conn_destroy - Destroy a context for QUIC handshake
-- * @conn: QUIC handshake context to destroy
 - *
-+ * @brief Destroy a context for QUIC handshake
-+ * @param[in]     conn  QUIC handshake context to destroy
++ * @brief Send a QUIC Server Initial
++ * @param[in]     parms  Handshake parameters
   */
- void tlshd_quic_conn_destroy(struct tlshd_quic_conn *conn)
+ void tlshd_quic_serverhello_handshake(struct tlshd_handshake_parms *parms)
  {
-@@ -492,6 +634,13 @@ void tlshd_quic_conn_destroy(struct tlshd_quic_conn *conn)
- 
- #define QUIC_TLSEXT_TP_PARAM	0x39u
- 
-+/**
-+ * @brief Configure a tlshd_quic_conn
-+ * @param[in,out] conn  QUIC handshake context
-+ *
-+ * @retval 0   Connection configured successfully
-+ * @retval -1  Failed to configure the connection
-+ */
- static int tlshd_quic_session_configure(struct tlshd_quic_conn *conn)
- {
- 	gnutls_session_t session = conn->session;
-@@ -518,6 +667,10 @@ static int tlshd_quic_session_configure(struct tlshd_quic_conn *conn)
- 	return 0;
+@@ -699,6 +846,10 @@ out:
+ 	tlshd_quic_conn_destroy(conn);
  }
- 
+ #else
 +/**
-+ * @brief Set up a QUIC receive session ticket
-+ * @param[in,out] conn  QUIC handshake context
++ * @brief Send a QUIC Server Initial
++ * @param[in]     parms  Handshake parameters
 + */
- static void tlshd_quic_recv_session_ticket(struct tlshd_quic_conn *conn)
+ void tlshd_quic_serverhello_handshake(struct tlshd_handshake_parms *parms)
  {
- 	gnutls_session_t session = conn->session;
-@@ -567,9 +720,8 @@ static void tlshd_quic_recv_session_ticket(struct tlshd_quic_conn *conn)
- }
- 
- /**
-- * tlshd_quic_start_handshake - Drive the handshake interaction
-- * @conn: QUIC handshake context
-- *
-+ * @brief Drive a QUIC handshake interaction
-+ * @param[in,out] conn  QUIC handshake context
-  */
- void tlshd_quic_start_handshake(struct tlshd_quic_conn *conn)
- {
+ 	tlshd_log_debug("QUIC handshake is not enabled (%d)", parms->auth_mode);
 -- 
 2.51.0
 

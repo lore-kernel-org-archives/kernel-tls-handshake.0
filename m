@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885741632DD
-	for <kernel-tls-handshake@lists.linux.dev>; Fri, 26 Sep 2025 01:22:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A64C1632DD
+	for <kernel-tls-handshake@lists.linux.dev>; Fri, 26 Sep 2025 01:22:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758849735; cv=none; b=BHbYc8fMZ/++o96TDmfbjejq2Mmi2mwxynR7OSS2SACECRXBlbohzfM/YrXNydXq05bh2rZ8xrd+HffalDZgdjs9O/boaasY5FK2aCM1IzrtV5mqkSlZzh4Qq+7Ftx2cgcyyLov1j23M1rZaSkb6L5BNIALgIX3hFCHXfBaGB7Y=
+	t=1758849736; cv=none; b=n2cJB56VrmRbP2DWREIT/zlfhI82Zzi08ApUnYImuHUc7feHn6b9zHirfSB3KLo1lgIx7cZkTLxIJwC2bevz5c0rjv5XrCGoxbM9ZVCFUnHMfHmBd6O2eBoFt58UO0wTKbPiTPUTm2WXJpA68FbREcaTRAKEZqKtwO54cKab1t4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758849735; c=relaxed/simple;
-	bh=/HDjx5lrmnkkASlzPbCMLHaqvL3ERXqxG8aQyeruWgo=;
+	s=arc-20240116; t=1758849736; c=relaxed/simple;
+	bh=ejWZNzFzNgDPVGw9wiFPKWs2fMwlsEZiXL4uzv2IiXk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BMRffs8XhjuXuwxsKiZiIi5zzWvC++NhJEaBf+NRqYeFCJ8kYfwYp/7A6K5niEcics8xrRzrKcwL3ubWMAs1MZ2DuRh+1LjcOKoVoPYFViis5UFuJfJbyzQgCS6A+TXC32K7YMRBeO0sqSE7RKqWOTiOP5Fg/F7DX6qim5OgQ30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MQjNYe0T; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=s3ciIKPlN644/MxZa6jfk9gMwzwXo8/P1UW1zxckMHedH7WHqLgNBP0rRstmbRRacja6c3rX+ZqZScdhFbVncFY6/RJN1OnphZRnyuC8J/RC8tMe4oj5lmMCQhv88BmbTataHa7P7+wUIiH98RQNSA2xYEbPenwsEB52NgNdl+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k13qm9+G; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MQjNYe0T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C1F1C4CEF0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k13qm9+G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A08F0C113CF;
 	Fri, 26 Sep 2025 01:22:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1758849735;
-	bh=/HDjx5lrmnkkASlzPbCMLHaqvL3ERXqxG8aQyeruWgo=;
+	bh=ejWZNzFzNgDPVGw9wiFPKWs2fMwlsEZiXL4uzv2IiXk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MQjNYe0T7Q0zNrs1mLMwY5549wnicJFOUtob5/cZIm6BKNqQ88YgpQM9CMF9ddp/Q
-	 XN2COA5wteblE0QsCN8zHoWUd8MqqwgoE1dA+4MxA3oBhPdaio/djg/R4oowE4V19M
-	 oqnHiW1LoCKDf4Xbo9zIwDuSR5L72LBCf0zIi2ZT5AlJIlh5PAT9dGs+7U/W7pj00d
-	 qsj8l6Bf54wko3CXjKceNgDee2UbpKKp5T2Oy6m9p7kAfwmsesDcIJHaIqzaHyQ8uq
-	 jDq1dn6t2bMEtGR+r0xFyRG5amuT0Ldc5uTKtN8aczUS3pKZQU+f/AAJfgqKhWBeI9
-	 vby2Tw2kobjJw==
+	b=k13qm9+Ga5DCoXbTfxog/v5bE+pSPF2LKYmCallOddKIxWUh3Bm7sAfnxiMiDyl7X
+	 +J29xyGaQ8Dwf6RDW65N3YXN/6DlA0duzYuwBbQ5Zsy4Y9tS1S+pjoi6+66YuHdd7y
+	 0FjBhl8kOd4RAJkCDnAPwHjMhwVhU1cLs/5Kua0DSVNAtVxQNcU5FywgtfMBp5Eznu
+	 INDmcGfbc2PbTf6kdVnFlzkeHCGMKR+KQdM5fH6BwcbMObfLIZSYE3bt2tmAr1sFR+
+	 ugqHT/OfFCGoJZEXBuO2DVlZLPp6aVwLqV1u3Lf21qtJqwOPssphtNsR8qu9YOfyyt
+	 W451fZktLcqzQ==
 From: Chuck Lever <cel@kernel.org>
 To: <kernel-tls-handshake@lists.linux.dev>
 Cc: Xin Long <lucien.xin@gmail.com>,
 	Chuck Lever <chuck.lever@oracle.com>
-Subject: [PATCH v1 11/16] tlshd: Translate kernel-style Doxygen comments in src/tlshd/netlink.c
-Date: Thu, 25 Sep 2025 21:22:00 -0400
-Message-ID: <20250926012207.3642990-12-cel@kernel.org>
+Subject: [PATCH v1 12/16] tlshd: Translate kernel-style Doxygen comments in src/tlshd/quic.c
+Date: Thu, 25 Sep 2025 21:22:01 -0400
+Message-ID: <20250926012207.3642990-13-cel@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250926012207.3642990-1-cel@kernel.org>
 References: <20250926012207.3642990-1-cel@kernel.org>
@@ -50,28 +50,28 @@ I started the ktls-utils project using the Linux kernel flavor of
 Doxygen commenting which user-space Doxygen does not recognize by
 default.
 
-Convert existing comments in netlink.c to what a normal user space
+Convert existing comments in quic.c to what a normal user space
 Doxygen run expects to see. This will enable deployment of an
 automatically-generated documentation web site.
 
 Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 ---
- src/tlshd/netlink.c | 110 ++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 95 insertions(+), 15 deletions(-)
+ src/tlshd/quic.c | 180 +++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 166 insertions(+), 14 deletions(-)
 
-diff --git a/src/tlshd/netlink.c b/src/tlshd/netlink.c
-index e59c94581494..25ade9482a8b 100644
---- a/src/tlshd/netlink.c
-+++ b/src/tlshd/netlink.c
+diff --git a/src/tlshd/quic.c b/src/tlshd/quic.c
+index 0e0852e8fa55..a9b096ad93f4 100644
+--- a/src/tlshd/quic.c
++++ b/src/tlshd/quic.c
 @@ -1,8 +1,12 @@
 -/*
-- * Netlink operations for tlshd
+- * Perform a QUIC server or client side handshake.
 +/**
-+ * @file netlink.c
-+ * @brief Handle communication with the kernel via netlink
++ * @file quic.c
++ * @brief Utility functions for QUIC handshakes
   *
 + * @copyright
-  * Copyright (c) 2023 Oracle and/or its affiliates.
+  * Copyright (c) 2024 Red Hat, Inc.
 - *
 + */
 +
@@ -79,213 +79,335 @@ index e59c94581494..25ade9482a8b 100644
   * ktls-utils is free software; you can redistribute it and/or
   * modify it under the terms of the GNU General Public License as
   * published by the Free Software Foundation; version 2.
-@@ -51,8 +55,20 @@
+@@ -31,6 +35,10 @@
  #include "tlshd.h"
- #include "netlink.h"
  
+ #ifdef HAVE_GNUTLS_QUIC
 +/**
-+ * @var unsigned int tlshd_delay_done
-+ * Global number of seconds to delay each handshake completion
++ * @brief Callback to handle a timer expiry
++ * @param[in,out] arg  user data
 + */
- unsigned int tlshd_delay_done;
- 
-+/**
-+ * @brief Open a netlink socket
-+ * @param [out]    sock  A netlink socket descriptor
-+ *
-+ * @retval  0        Success; caller must close "sock" with tlshd_genl_sock_close
-+ * @retval  ENOMEM   Failed to allocate the socket
-+ * @retval  ENOLINK  Failed to connect to the netlink service
-+ */
- static int tlshd_genl_sock_open(struct nl_sock **sock)
+ static void quic_timer_handler(union sigval arg)
  {
- 	struct nl_sock *nls;
-@@ -79,6 +95,10 @@ out:
+ 	struct tlshd_quic_conn *conn = arg.sival_ptr;
+@@ -39,6 +47,13 @@ static void quic_timer_handler(union sigval arg)
+ 	conn->errcode = ETIMEDOUT;
+ }
+ 
++/**
++ * @brief Set a handshake timer
++ * @param[in,out] conn  QUIC handshake context
++ *
++ * @retval 0   Timer configured successfully
++ * @retval -1  Failed to configure timer
++ */
+ static int quic_conn_setup_timer(struct tlshd_quic_conn *conn)
+ {
+ 	uint64_t msec = conn->parms->timeout_ms;
+@@ -62,11 +77,21 @@ static int quic_conn_setup_timer(struct tlshd_quic_conn *conn)
+ 	return 0;
+ }
+ 
++/**
++ * @brief Delete a handshake timer
++ * @param[in,out] conn  QUIC handshake context
++ */
+ static void quic_conn_delete_timer(struct tlshd_quic_conn *conn)
+ {
+ 	timer_delete(conn->timer);
+ }
+ 
++/**
++ * @brief Convert a GnuTLS cipher number to a kTLS cipher number
++ * @param[in]     cipher   kTLS cipher number to be converted
++ *
++ * @returns a kTLS cipher number.
++ */
+ static uint32_t quic_get_tls_cipher_type(gnutls_cipher_algorithm_t cipher)
+ {
+ 	switch (cipher) {
+@@ -84,6 +109,12 @@ static uint32_t quic_get_tls_cipher_type(gnutls_cipher_algorithm_t cipher)
+ 	}
+ }
+ 
++/**
++ * @brief Convert a GnuTLS encryption level number
++ * @param[in]     level    GnuTLS encryption level
++ *
++ * @returns a QUIC encryption level number.
++ */
+ static enum quic_crypto_level quic_get_crypto_level(gnutls_record_encryption_level_t level)
+ {
+ 	switch (level) {
+@@ -101,6 +132,17 @@ static enum quic_crypto_level quic_get_crypto_level(gnutls_record_encryption_lev
+ 	}
+ }
+ 
++/**
++ * @brief Callback to process a new traffic secret
++ * @param[in,out] session    GnuTLS session
++ * @param[in]     level      GnuTLS encryption level
++ * @param[in]     rx_secret  Receive secret, or NULL
++ * @param[in]     tx_secret  Transmit secret, or NULL
++ * @param[in]     secretlen  Length of secrets, in bytes
++ *
++ * @retval 0   Callback completed successfully
++ * @retval -1  Callback failed
++ */
+ static int quic_secret_func(gnutls_session_t session, gnutls_record_encryption_level_t level,
+ 			    const void *rx_secret, const void *tx_secret, size_t secretlen)
+ {
+@@ -150,6 +192,15 @@ static int quic_secret_func(gnutls_session_t session, gnutls_record_encryption_l
+ 	return 0;
+ }
+ 
++/**
++ * @brief Callback to handle an outgoing alert
++ * @param[in,out] session      GnuTLS session
++ * @param[in]     level        GnuTLS encryption level
++ * @param[in]     alert_level  TLS alert level number
++ * @param[in]     alert_desc   TLS alert description number
++ *
++ * @retval 0   Callback completed successfully
++ */
+ static int quic_alert_read_func(gnutls_session_t session,
+ 				gnutls_record_encryption_level_t gtls_level,
+ 				gnutls_alert_level_t alert_level,
+@@ -160,6 +211,15 @@ static int quic_alert_read_func(gnutls_session_t session,
+ 	return 0;
+ }
+ 
++/**
++ * @brief Callback to receive handshake data
++ * @param[in,out] session  GnuTLS session
++ * @param[in]     buf      Buffer containing received data
++ * @param[in]     len      Length of content in "buf", in bytes
++ *
++ * @retval 0   Callback completed successfully
++ * @retval -1  Callback failed
++ */
+ static int quic_tp_recv_func(gnutls_session_t session, const uint8_t *buf, size_t len)
+ {
+ 	struct tlshd_quic_conn *conn = gnutls_session_get_ptr(session);
+@@ -172,6 +232,14 @@ static int quic_tp_recv_func(gnutls_session_t session, const uint8_t *buf, size_
+ 	return 0;
+ }
+ 
++/**
++ * @brief Callback to send handshake data
++ * @param[in,out] session  GnuTLS session
++ * @param[in]     buf      Buffer to be filled in with data to send
++ *
++ * @retval 0   Callback completed successfully
++ * @retval -1  Callback failed
++ */
+ static int quic_tp_send_func(gnutls_session_t session, gnutls_buffer_t extdata)
+ {
+ 	struct tlshd_quic_conn *conn = gnutls_session_get_ptr(session);
+@@ -194,6 +262,17 @@ static int quic_tp_send_func(gnutls_session_t session, gnutls_buffer_t extdata)
+ 	return 0;
+ }
+ 
++/**
++ * @brief Callback to handle an outgoing handshake message
++ * @param[in,out] session  GnuTLS session
++ * @param[in]     level    GnuTLS encryption level
++ * @param[in]     htype    GnuTLS handshake description
++ * @param[in]     data     message to be processed
++ * @param[in]     datalen  length of "data" in bytes
++ *
++ * @retval 0   Callback completed successfully
++ * @retval -1  Callback failed
++ */
+ static int quic_read_func(gnutls_session_t session, gnutls_record_encryption_level_t level,
+ 			  gnutls_handshake_description_t htype, const void *data, size_t datalen)
+ {
+@@ -224,9 +303,21 @@ static int quic_read_func(gnutls_session_t session, gnutls_record_encryption_lev
+ 	return 0;
+ }
+ 
++/**
++ * @var char quic_priority
++ * Default GnuTLS priority string for QUIC connections
++ */
+ static char quic_priority[] =
+ 	"%DISABLE_TLS13_COMPAT_MODE:NORMAL:-VERS-ALL:+VERS-TLS1.3:+PSK:-CIPHER-ALL:+";
+ 
++/**
++ * @brief Set the GnuTLS priority string for a session
++ * @param[in,out] session  GnuTLS session
++ * @param[in]     cipher   kTLS cipher number to set
++ *
++ * @retval 0   GnuTLS priority string set successfully
++ * @retval -1  Failed to set GnuTLS priority string
++ */
+ static int quic_session_set_priority(gnutls_session_t session, uint32_t cipher)
+ {
+ 	char p[136] = {};
+@@ -258,6 +349,14 @@ static int quic_session_set_priority(gnutls_session_t session, uint32_t cipher)
+ 	return 0;
+ }
+ 
++/**
++ * @brief Set the ALPN information on a session
++ * @param[in,out] session    GnuTLS session
++ * @param[in]     alpn_data  ALPN string to set
++ *
++ * @retval 0   ALPN string set successfully
++ * @retval -1  Failed to set ALPN string
++ */
+ static int quic_session_set_alpns(gnutls_session_t session, char *alpn_data)
+ {
+ 	gnutls_datum_t alpns[TLSHD_QUIC_MAX_ALPNS_LEN / 2];
+@@ -281,6 +380,12 @@ static int quic_session_set_alpns(gnutls_session_t session, char *alpn_data)
+ 	return 0;
+ }
+ 
++/**
++ * @brief Translate the encryption level value
++ * @param[in]     level  QUIC encryption level
++ *
++ * @returns an equivalent GNUTLS_ENCRYPTION value
++ */
+ static gnutls_record_encryption_level_t quic_get_encryption_level(uint8_t level)
+ {
+ 	switch (level) {
+@@ -298,6 +403,13 @@ static gnutls_record_encryption_level_t quic_get_encryption_level(uint8_t level)
+ 	}
+ }
+ 
++/**
++ * @brief Retrieve QUIC connection configuration
++ * @param[in]     conn  QUIC handshake context
++ *
++ * @retval 0   Connection configuration retrieved successfully
++ * @retval -1  Failed to retrieve configuration
++ */
+ static int quic_conn_get_config(struct tlshd_quic_conn *conn)
+ {
+ 	int sockfd = conn->parms->sockfd;
+@@ -326,6 +438,13 @@ static int quic_conn_get_config(struct tlshd_quic_conn *conn)
+ 	return 0;
+ }
+ 
++/**
++ * @brief Send one QUIC handshake message on a socket
++ * @param[in]     sockfd  Socket on which to send
++ * @param[in]     msg     Buffer containing message to send
++ *
++ * @returns the number of bytes sent, or -1 if an error occurred.
++ */
+ static int quic_handshake_sendmsg(int sockfd, struct tlshd_quic_msg *msg)
+ {
+ 	char outcmsg[CMSG_SPACE(sizeof(struct quic_handshake_info))];
+@@ -359,6 +478,13 @@ static int quic_handshake_sendmsg(int sockfd, struct tlshd_quic_msg *msg)
+ 	return sendmsg(sockfd, &outmsg, flags);
+ }
+ 
++/**
++ * @brief Receive one QUIC handshake message on a socket
++ * @param[in]     sockfd  Socket on which to receive
++ * @param[in,out] msg     Buffer in which to receive a message
++ *
++ * @returns the number of bytes received, or -1 if an error occurred.
++ */
+ static int quic_handshake_recvmsg(int sockfd, struct tlshd_quic_msg *msg)
+ {
+ 	char incmsg[CMSG_SPACE(sizeof(struct quic_handshake_info))];
+@@ -397,11 +523,28 @@ static int quic_handshake_recvmsg(int sockfd, struct tlshd_quic_msg *msg)
  	return ret;
  }
  
+-static int quic_handshake_completed(const struct tlshd_quic_conn *conn)
 +/**
-+ * @brief Close a netlink socket
-+ * @param[in]     nls  A netlink socket descriptor
++ * @brief Predicate: Has the QUIC handshake completed
++ * @param[in]     conn     QUIC handshake context
++ *
++ * @retval true   The handshake completed
++ * @retval false  The handshake has not completed
 + */
- static void tlshd_genl_sock_close(struct nl_sock *nls)
++static bool quic_handshake_completed(const struct tlshd_quic_conn *conn)
  {
- 	if (!nls)
-@@ -88,6 +108,10 @@ static void tlshd_genl_sock_close(struct nl_sock *nls)
- 	nl_socket_free(nls);
+ 	return conn->completed || conn->errcode;
  }
  
 +/**
-+ * @var struct nla_policy tlshd_accept_nl_policy
-+ * Netlink policies for ACCEPT arguments
-+ */
- #if LIBNL_VER_NUM >= LIBNL_VER(3,5)
- static const struct nla_policy
- #else
-@@ -105,11 +129,33 @@ tlshd_accept_nl_policy[HANDSHAKE_A_ACCEPT_MAX + 1] = {
- 	[HANDSHAKE_A_ACCEPT_KEYRING]		= { .type = NLA_U32, },
- };
- 
-+/**
-+ * @var struct nl_sock *tlshd_notification_nls
-+ * Netlink socket on which notification events arrive
-+ */
- static struct nl_sock *tlshd_notification_nls;
- 
-+/**
-+ * @var sigset_t tlshd_sig_poll_mask
-+ * Daemon's signal poll mask
-+ */
- static sigset_t tlshd_sig_poll_mask;
-+
-+/**
-+ * @var int tlshd_sig_poll_fd
-+ * Daemon's signal poll file descriptor
-+ */
- static int tlshd_sig_poll_fd;
- 
-+/**
-+ * @brief Process one netlink notification event
-+ * @param[in]     msg  A netlink event to be handled
-+ * @param[in]     arg  Additional arguments
++ * @brief Get the generated session data
++ * @param[in]     conn     QUIC handshake context
++ * @param[in]     level    Encryption level
++ * @param[in]     data     Ticket blob
++ * @param[in]     datalen  length of "data" in bytes
 + *
-+ * @retval NL_OK    Proceed with the next message
-+ * @retval NL_SKIP  Skip this message.
-+ * @retval NL_STOP  Stop and discard remaining messages.
++ * @retval 0   Session data retrieved successfully
++ * @retval -1  Session data is not available
 + */
- static int tlshd_genl_event_handler(struct nl_msg *msg,
- 				    __attribute__ ((unused)) void *arg)
- {
-@@ -148,8 +194,7 @@ static int tlshd_genl_event_handler(struct nl_msg *msg,
+ static int quic_handshake_crypto_data(const struct tlshd_quic_conn *conn,
+ 				      uint8_t level, const uint8_t *data,
+ 				      size_t datalen)
+@@ -433,11 +576,11 @@ err:
  }
  
  /**
-- * tlshd_genl_dispatch - handle notification events
-- *
-+ * @brief Handle notification events
-  */
- void tlshd_genl_dispatch(void)
- {
-@@ -231,6 +276,11 @@ out_close:
- 	tlshd_genl_sock_close(tlshd_notification_nls);
- }
- 
-+/**
-+ * @brief Extract the key serial number of the key with the remote peerid
-+ * @param[in]     parms  Handshake parameters
-+ * @param[in]     head   List of nlattrs to parse
-+ */
- static void tlshd_parse_peer_identity(struct tlshd_handshake_parms *parms,
- 				      struct nlattr *head)
- {
-@@ -245,6 +295,10 @@ static void tlshd_parse_peer_identity(struct tlshd_handshake_parms *parms,
- 	g_array_append_val(parms->peerids, peerid);
- }
- 
-+/**
-+ * @var struct nla_policy tlshd_x509_nl_policy
-+ * Netlink policies for x.509 key serial numbers
-+ */
- #if LIBNL_VER_NUM >= LIBNL_VER(3,5)
- static const struct nla_policy
- #else
-@@ -255,6 +309,11 @@ tlshd_x509_nl_policy[HANDSHAKE_A_X509_MAX + 1] = {
- 	[HANDSHAKE_A_X509_PRIVKEY]	= { .type = NLA_U32, },
- };
- 
-+/**
-+ * @brief Extract the key serial number of the key with the cert / privkey
-+ * @param[in]     parms  Handshake parameters
-+ * @param[in]     head   List of nlattrs to parse
-+ */
- static void tlshd_parse_certificate(struct tlshd_handshake_parms *parms,
- 				     struct nlattr *head)
- {
-@@ -277,6 +336,15 @@ static void tlshd_parse_certificate(struct tlshd_handshake_parms *parms,
- 		parms->x509_privkey = nla_get_s32(tb[HANDSHAKE_A_X509_PRIVKEY]);
- }
- 
-+/**
-+ * @brief Process an ACCESS argument
-+ * @param[in]     msg  Message to be processed
-+ * @param[out]    arg  Handshake parms to be filled in
-+ *
-+ * @retval NL_OK    Proceed with the next message
-+ * @retval NL_SKIP  Skip this message.
-+ * @retval NL_STOP  Stop and discard remaining messages.
-+ */
- static int tlshd_genl_valid_handler(struct nl_msg *msg, void *arg)
- {
- 	struct nlattr *tb[HANDSHAKE_A_ACCEPT_MAX + 1];
-@@ -363,6 +431,10 @@ static int tlshd_genl_valid_handler(struct nl_msg *msg, void *arg)
- 	return NL_SKIP;
- }
- 
-+/**
-+ * @var struct tlshd_handshake_parms tlshd_default_handshake_parms
-+ * Starting parameter values for each handshake
-+ */
- static const struct tlshd_handshake_parms tlshd_default_handshake_parms = {
- 	.peername		= NULL,
- 	.peeraddr		= NULL,
-@@ -379,13 +451,15 @@ static const struct tlshd_handshake_parms tlshd_default_handshake_parms = {
- };
- 
- /**
-- * tlshd_genl_get_handshake_parms - Retrieve handshake parameters
-- * @parms: buffer to fill in with parameters
-+ * @brief Retrieve handshake parameters
-+ * @param[in]     parms  Buffer to fill in with parameters
+- * tlshd_quic_conn_create - Create a context for QUIC handshake
+- * @conn_p: pointer to accept the QUIC handshake context created
+- * @parms: handshake parameters
++ * @brief Create a context for QUIC handshake
++ * @param[out]    conn_p  Pointer to accept the QUIC handshake context created
++ * @param[in]     parms   Handshake parameters
   *
-- * Returns 0 if handshake parameters were retrieved successfully.
-+ * Caller must release handshake resources by calling
-+ * tlshd_genl_put_handshake_parms when finished.
-  *
-+ * @returns 0 if handshake parameters were retrieved successfully.
-  * Otherwise a positive errno is returned, and the content of
-- * @parms is indeterminant.
-+ * "parms" is indeterminant.
+- * Returns: %0 on success, or a negative error code
++ * @returns 0 on success, or a negative error code
   */
- int tlshd_genl_get_handshake_parms(struct tlshd_handshake_parms *parms)
+ int tlshd_quic_conn_create(struct tlshd_quic_conn **conn_p, struct tlshd_handshake_parms *parms)
  {
-@@ -460,9 +534,8 @@ out_close:
+@@ -471,9 +614,8 @@ err:
  }
  
  /**
-- * tlshd_genl_put_handshake_parms - Release handshake resources
-- * @parms: handshake parameters to be released
+- * tlshd_quic_conn_destroy - Destroy a context for QUIC handshake
+- * @conn: QUIC handshake context to destroy
 - *
-+ * @brief Release handshake resources
-+ * @param[in]     parms  Handshake parameters to be released
++ * @brief Destroy a context for QUIC handshake
++ * @param[in]     conn  QUIC handshake context to destroy
   */
- void tlshd_genl_put_handshake_parms(struct tlshd_handshake_parms *parms)
+ void tlshd_quic_conn_destroy(struct tlshd_quic_conn *conn)
  {
-@@ -474,6 +547,14 @@ void tlshd_genl_put_handshake_parms(struct tlshd_handshake_parms *parms)
- 	free(parms->peeraddr);
+@@ -492,6 +634,13 @@ void tlshd_quic_conn_destroy(struct tlshd_quic_conn *conn)
+ 
+ #define QUIC_TLSEXT_TP_PARAM	0x39u
+ 
++/**
++ * @brief Configure a tlshd_quic_conn
++ * @param[in,out] conn  QUIC handshake context
++ *
++ * @retval 0   Connection configured successfully
++ * @retval -1  Failed to configure the connection
++ */
+ static int tlshd_quic_session_configure(struct tlshd_quic_conn *conn)
+ {
+ 	gnutls_session_t session = conn->session;
+@@ -518,6 +667,10 @@ static int tlshd_quic_session_configure(struct tlshd_quic_conn *conn)
+ 	return 0;
  }
  
 +/**
-+ * @brief Format all remote peerid arguments
-+ * @param[in]     msg
-+ * @param[in]     parms  Handshake parameters
-+ *
-+ * retval 0   Formatted all remote peerid arguments successfully
-+ * retval -1  Failed to format
++ * @brief Set up a QUIC receive session ticket
++ * @param[in,out] conn  QUIC handshake context
 + */
- static int tlshd_genl_put_remote_peerids(struct nl_msg *msg,
- 					 struct tlshd_handshake_parms *parms)
+ static void tlshd_quic_recv_session_ticket(struct tlshd_quic_conn *conn)
  {
-@@ -494,9 +575,8 @@ static int tlshd_genl_put_remote_peerids(struct nl_msg *msg,
+ 	gnutls_session_t session = conn->session;
+@@ -567,9 +720,8 @@ static void tlshd_quic_recv_session_ticket(struct tlshd_quic_conn *conn)
  }
  
  /**
-- * tlshd_genl_done - Indicate handshake has completed successfully
-- * @parms: buffer filled in with parameters
+- * tlshd_quic_start_handshake - Drive the handshake interaction
+- * @conn: QUIC handshake context
 - *
-+ * @brief Indicate handshake has completed successfully
-+ * @param[in]     parms  Buffer filled in with parameters
++ * @brief Drive a QUIC handshake interaction
++ * @param[in,out] conn  QUIC handshake context
   */
- void tlshd_genl_done(struct tlshd_handshake_parms *parms)
+ void tlshd_quic_start_handshake(struct tlshd_quic_conn *conn)
  {
 -- 
 2.51.0

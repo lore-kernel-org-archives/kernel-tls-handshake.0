@@ -1,148 +1,203 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351A03594A
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  1 Oct 2025 23:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41AF54918
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  1 Oct 2025 23:47:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759361761; cv=none; b=ZUSjF0AFiHvmuJ587m0JPwlnFFLj+Xa1MYHU0vAoRbymextdbxbPyxk5UghUoOHbbhFsQLdLybSaLRBxh0g3atLa0C6pRoEhg097SRPIk3qQFdz6FfbDL+KgbRTXODQgdncbbcClfUBi7pN99aY8bpgVm1X4VPOIlmACjELVn3I=
+	t=1759362451; cv=none; b=e3ApZEklb+E11fA8X6aIaGWBRvqn0fMvldJ/euO7EPLQxcnoMYYDQH2udfw+4DBBsSywvd3lb4QLBQXv24LdniROGqqgHVpS6lja7ROorP1P2ni4HAOR77gq4OlTAijQtwRfvXTVvtQq1gIyLInsiVe1RhxnkeJiergONP+JwcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759361761; c=relaxed/simple;
-	bh=RHsOA242mB3W9u1Erfoqt4yILiVp9f+u4himC9a3+kU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=JbL4mGjqqcLAzO/F8SwtGaexkbGVD3cdKxRlAXOIkGNTKjZOErRtoGSU3qOwJEd9OXJ7a4fDe8ONsml0yVamtuFA0thnIvDBxRq33RWP3yJcvTs2e1msqtlkLaTmfrk8v59gpyn1ZQcGVOMl4hen8WdP/H8bIOtbfDPYKvryCFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dKUxRDmj; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1759362451; c=relaxed/simple;
+	bh=Q5OV0iHNvwPfgjAjSDngXVbSmStA2FOxoQkhjA9BcEI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IM0p8wiY5wX++cYSQnpYQsGVYIMEu7ht56mOe8l5iq0ChRpwH1wguGW5fzWJMY8PjmMrzOTPNl1blT7HiKiRWGE5s+sUL80MxcxxLadYtH0TzR4ExWKYf5MlcFKLJMtZLB+B0/l/1QDyCTv9z8uL1JkZhMOpF6OujtOeuqpGpFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iRm/OsPk; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dKUxRDmj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1759361758;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jq+PgLkdXkPl/QkfFHV+2F/bgVpi56UGeUAUTm1+go8=;
-	b=dKUxRDmjvp5MQoza9I0TgOe4co82qS5r9cX891l7dsh4gSefiqsr7+QqssWJsIa/y6MRLA
-	70KbssyZC0Pt5/wsO9Ij7sHpGuqvxSfHhdS/pLpIj/XWe0pSEWxwtiTCLzqSLIeQGHBgLa
-	0pnGGJKXP2SffVTmcTCgrobEn5PvbzM=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-182-NbX5GjelNXGgISYF69-DKQ-1; Wed,
- 01 Oct 2025 19:35:52 -0400
-X-MC-Unique: NbX5GjelNXGgISYF69-DKQ-1
-X-Mimecast-MFC-AGG-ID: NbX5GjelNXGgISYF69-DKQ_1759361752
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A1B31180034D;
-	Wed,  1 Oct 2025 23:35:51 +0000 (UTC)
-Received: from aion.redhat.com (unknown [10.22.64.123])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3DD03180035E;
-	Wed,  1 Oct 2025 23:35:51 +0000 (UTC)
-Received: from aion.redhat.com (localhost [IPv6:::1])
-	by aion.redhat.com (Postfix) with ESMTP id 5E4D0483403;
-	Wed, 01 Oct 2025 19:35:49 -0400 (EDT)
-From: Scott Mayhew <smayhew@redhat.com>
-To: alistair@alistair23.me
-Cc: chuck.lever@oracle.com,
-	kernel-tls-handshake@lists.linux.dev
-Subject: [PATCH] tlshd: fix priority cache initialization
-Date: Wed,  1 Oct 2025 19:35:49 -0400
-Message-ID: <20251001233549.436746-1-smayhew@redhat.com>
-In-Reply-To: <0c65e986-77d1-44b4-a4cb-c1a9c2213ba3@app.fastmail.com>
-References: <0c65e986-77d1-44b4-a4cb-c1a9c2213ba3@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iRm/OsPk"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6366b7fd337so840333a12.0
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 01 Oct 2025 16:47:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759362448; x=1759967248; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Zu6/YggQt+LeqPOCyVdiXLO15FORLYOiCKcXMkHLwjU=;
+        b=iRm/OsPk9yItZGjpOLqjYc6NXHGj8P5/bfkzL1BqwSpFv4fYqfBZtoAW9bWuWm1VW7
+         nFBGMThtXl8wqB8Zh1JbXYB9hPg4H6GiYjQSepE54v+qVi8dsMsL3UCNkxKZdhVFcJI+
+         V7QB5b1xzJtNbj2pnbZtafyko2Jb1owD/tdrK4uBP+m/onX2NFjJeZNLgGsobgWFHBtK
+         hdfhV1ovojGJZ2UPfKpYuCgWeygRInKHQV/3y4PeDm1jsLLDEuSCNUolwJU+F6qyopMn
+         iizQbf9J3DTwaZAaVU+4PyjV0etqifWEzlElKhHwbr59TjpnxfBbb+7o5ChkVpowY29o
+         ZboA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759362448; x=1759967248;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Zu6/YggQt+LeqPOCyVdiXLO15FORLYOiCKcXMkHLwjU=;
+        b=hSXbTD/nX2gh2oC68bqF0buVocfpI7n8wGs/laFFocTRuWNGVMG/Nx55KqH5p6h4Mg
+         yXHjXyxB5snBZ0iC1LD5pb+bnU7Wwmg1SnMrErpLXDy3eVeqay3lYp0037JA7f/6M61t
+         4iMoP7zWVNTWqu0U6K7urfzH5RtXUxeJSRYeroQZs62+IFYHVzgCbVrxkbSqES68ZPKX
+         X7VbJX+GNNAmNwdRUInYyE3Y1cWY+XaD/qJPUdpplwb4AjMfb3e0j6L4g5sibfreyG1M
+         /03pc/ysg3zl6FpzCJuyLtDKUAGhlHimDdrviPjrZiHvg8yQ6D1tbDthkg9c/6LIiPma
+         RqCQ==
+X-Gm-Message-State: AOJu0Yx/Szjf63QVFGPSKgIfiSV/jUqaep6x/WGwx2HIAUrlHyY9lxN7
+	JEo4/G7WcCgU4QU/LOv/VwWWUmTVpVGAVlYBoBSh/3XHdMgdimKEO1//BU63JSI4Ni7FmpzxcQu
+	rSQ9W0lZB7qiBdtugwau/lwWU9vPGKlw=
+X-Gm-Gg: ASbGncvg8UWbgvk5UjUQ4jCGDF+daRZ0aH2n5CY/Shzzd/mCB9EaPXFsZQQ31rYPv/d
+	gQNploDEnI9oFiAHtrv7CB7PMnSb1C2O9IpTXR/LbhLx/ds7TXNsvcGUs7q2+mHsEyFI7IU6u1T
+	cBCVvcmtaiTEoA5nDqYRxXpeOkHeVxpr2Htgii3kVV/onnOkMzFWA76rdV6yWlGJLuJ28VSU21h
+	8WihgyqS3jzeYSn8c6wPuvMukS81HlDv7UrCsiIXzSOYCNLl2tzSRS+mDvZvA==
+X-Google-Smtp-Source: AGHT+IFFe/M1H84rn8UM0uNP2wzEEP0b8NSsYPWPtS3OprUMgmvLfm7r+CIvHDXnQQ1bQW0+fCdQRA08iiHmfgN2ed0=
+X-Received: by 2002:a17:906:c146:b0:b46:1db9:cb7c with SMTP id
+ a640c23a62f3a-b46e4791038mr570706666b.33.1759362448073; Wed, 01 Oct 2025
+ 16:47:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: ddkWJLmjyjA4sTwQh7BpZ8NMrRasphVZc20k5aL0NQE_1759361752
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+References: <20251001042734.17307-1-alistair.francis@wdc.com> <9ca1828f-49a2-45e6-b8c4-dc64be71b33f@suse.de>
+In-Reply-To: <9ca1828f-49a2-45e6-b8c4-dc64be71b33f@suse.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 2 Oct 2025 09:47:01 +1000
+X-Gm-Features: AS18NWCOfD1CjTkufYX8T-lfvnvf3QSB_8jsYSoXAdFH9uNlnM074VOLGuFh02Y
+Message-ID: <CAKmqyKNpFhPtM8HAkgRMKQA8_N7AgoeqaSTe2=0spPnb+Oz2ng@mail.gmail.com>
+Subject: Re: [PATCH 0/8] Support KeyUpdate
+To: Hannes Reinecke <hare@suse.de>
+Cc: kernel-tls-handshake@lists.linux.dev, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Commit 9253f9d added the use of the @SYSTEM keyword as the initial
-keyword in the priority string used by tlshd.  Unfortunately @SYSTEM
-doesn't appear to work on systems that do not have a system-wide
-library configuration set up.
+On Thu, Oct 2, 2025 at 1:27=E2=80=AFAM Hannes Reinecke <hare@suse.de> wrote=
+:
+>
+> On 10/1/25 06:27, alistair23@gmail.com wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > The TLS 1.3 specification allows the TLS client or server to send a
+> > KeyUpdate. This is generally used when the sequence is about to
+> > overflow or after a certain amount of bytes have been encrypted.
+> >
+> > Work is on going to add KeyUpdate support to Linux:
+> > https://lkml.org/lkml/2025/9/5/137
+> >
+> > This series updates ktls-utils to handle the KeyUpdate request and
+> > update the keys.
+> >
+> > As part of supporting KeyUpdate ktls-utils will need to save the
+> > connection state in the kernel keyring during the initial handshake.
+> > The kernel then provides the key serial back to userspace when handling=
+ a
+> > KeyUpdate. ktls-utils can use this to restore the gnutls session (using
+> > the patches mentioned below) and then update the keys.
+> >
+> > This requires the following gnutls patches that aren't yet upstream:
+> >   - https://gitlab.com/gnutls/gnutls/-/merge_requests/2021
+> >   - https://gitlab.com/gnutls/gnutls/-/merge_requests/1968
+> >
+> > and kernel support, which is added by: https://lkml.org/lkml/2025/9/5/1=
+37
+> >
+> > Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
+>
+> Right. I've been too slow. Actually I have been working on a different
+> approach, as this approach has some pitfalls which I'm not that
+> comfortable with:
+> - gnutls session restore is _actually_ tied to the 'NewTicket'
+>    TLS mechanism. While it _might_ work without having tickets enabled,
+>    I'm not sure if we don't run into unforeseen issues.
 
-Instead of trying to pick an initial keyword that will work on all
-systems, let's instead use gnutls_priority_init2() with the
-GNUTLS_PRIORITY_INIT_DEF_APPEND flag instead.  That will *append* our
-priority string to the default options.
+Yeah, the session save/restore in gnutls isn't exactly designed to support =
+this.
 
-Fixes: 9253f9d ("tlshd: Fix priority string to allow PQC")
-Signed-off-by: Scott Mayhew <smayhew@redhat.com>
----
+I have changes submitted upstream that make this work [1]. If they
+aren't accepted then my approach doesn't work. If they are accepted
+though then we can rely on the gnutls unit tests (included in [1]) to
+test that the save/restore works for KeyUpdate. So I do think that
+alleviates a lot of the issues.
 
-Alistair, can you try this patch and see if it fixes your issue?
+> - From what I've seen, the gnutls 'key update' function will always
+>    update _both_ vectors, for TX _and_ RX. That works for the receiver
 
- src/tlshd/ktls.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+That is no longer the case in the latest gnutls. So any version of
+gnutls that works with this series won't have this problem.
 
-diff --git a/src/tlshd/ktls.c b/src/tlshd/ktls.c
-index 50381bf..bc75313 100644
---- a/src/tlshd/ktls.c
-+++ b/src/tlshd/ktls.c
-@@ -357,7 +357,7 @@ static int tlshd_gnutls_priority_init_list(const unsigned int *ciphers,
- 	const char *errpos;
- 	int ret, i;
- 
--	pstring = strdup("@SYSTEM:-COMP-ALL");
-+	pstring = strdup("-COMP-ALL");
- 	if (!pstring)
- 		return -ENOMEM;
- 
-@@ -425,7 +425,8 @@ static int tlshd_gnutls_priority_init_list(const unsigned int *ciphers,
- 	}
- 
- 	tlshd_log_debug("x.509 priority string: %s\n", pstring);
--	ret = gnutls_priority_init(&tlshd_gnutls_priority_x509, pstring, &errpos);
-+	ret = gnutls_priority_init2(&tlshd_gnutls_priority_x509, pstring, &errpos,
-+				    GNUTLS_PRIORITY_INIT_DEF_APPEND);
- 	if (ret != GNUTLS_E_SUCCESS) {
- 		free(pstring_sha256);
- 		free(pstring_sha384);
-@@ -442,7 +443,8 @@ static int tlshd_gnutls_priority_init_list(const unsigned int *ciphers,
- 	}
- 
- 	tlshd_log_debug("PSK priority string: %s\n", pstring);
--	ret = gnutls_priority_init(&tlshd_gnutls_priority_psk, pstring, &errpos);
-+	ret = gnutls_priority_init2(&tlshd_gnutls_priority_psk, pstring, &errpos,
-+				    GNUTLS_PRIORITY_INIT_DEF_APPEND);
- 	if (ret != GNUTLS_E_SUCCESS) {
- 		free(pstring_sha256);
- 		free(pstring_sha384);
-@@ -461,8 +463,9 @@ static int tlshd_gnutls_priority_init_list(const unsigned int *ciphers,
- 	}
- 
- 	tlshd_log_debug("PSK SHA256 priority string: %s\n", pstring);
--	ret = gnutls_priority_init(&tlshd_gnutls_priority_psk_sha256,
--				   pstring, &errpos);
-+	ret = gnutls_priority_init2(&tlshd_gnutls_priority_psk_sha256,
-+				   pstring, &errpos,
-+				   GNUTLS_PRIORITY_INIT_DEF_APPEND);
- 	if (ret != GNUTLS_E_SUCCESS) {
- 		free(pstring);
- 		free(pstring_sha384);
-@@ -482,8 +485,9 @@ static int tlshd_gnutls_priority_init_list(const unsigned int *ciphers,
- 	}
- 
- 	tlshd_log_debug("PSK SHA384 priority string: %s\n", pstring);
--	ret = gnutls_priority_init(&tlshd_gnutls_priority_psk_sha384,
--				   pstring, &errpos);
-+	ret = gnutls_priority_init2(&tlshd_gnutls_priority_psk_sha384,
-+				   pstring, &errpos,
-+				   GNUTLS_PRIORITY_INIT_DEF_APPEND);
- 	if (ret != GNUTLS_E_SUCCESS) {
- 		free(pstring);
- 		gnutls_priority_deinit(tlshd_gnutls_priority_psk_sha256);
--- 
-2.51.0
+>    side (as this side receives the TLS Keyupdate message, updates
+>    the RX keys, sends the TLS KeyUpdate, and updates the TX keys).
+>    But for the sender side we need to send the Keyupdate, update
+>    TX keys, _wait_ for the Keyupdate message, and then update the
+>    RX keys.
+>    And I haven't found a way how I could instruct gnutls to do that.
+> - The actual key update really just means to derive a new set of
+>    TX and RX keys from the traffic secrets. And the code for doing
+>    that already exists (in some form) in tlshd.
+>
+> So my approach is slightly different: having tlshd handling the
+> keyupdate directly without invoking gnutls.
+> In order to do so we 'just' need to export the hkdf_expand_label()
+> function from gnutls. Once we have that we use a gnutls callback
+> to retrieve the resulting traffic application key from the handshake
+> and store that key in the keyring.
+> The key will then be passed with the 'session_id' setting in the
+> accept response, and stored in the kernel structure.
 
+Ok, so this sounds like it is using my submitted kernel patches. You
+are just taking a different approach with the tlshd implementation.
+
+> Then upon KeyUpdate we have this workflow:
+> Sender:
+>   - Call into tlshd to start KeyUpdate on the TX side with setting
+>     'session_id' in the 'accept' request.
+>   - tlshd sends KeyUpdate message with 'update' bit set
+>   - tlshd reads the key from 'session_id', derives a new traffic
+>     application key, stores it in the keyring, updates the
+>    'session_id' setting.
+>   - tlshd derives a new TX keys from the traffic application key
+>     and updates the ktls vectors.
+> Receiver:
+>    - kernel receives the KeyUpdate message
+>    - kernel calls into tlshd to start KeyUpdate on the RX side
+>      with setting 'session_id' in the 'accept' request
+>    - tlshd reads the key from 'session_id', derives a new traffic
+>      application key, stores it in the keyring, updates the
+>      'session_id' setting.
+>    - calling 'done' to return the the kernel
+>
+> And then the receiver switches roles (and becomes the sender),
+> and starts the above process but without the 'update' bit
+> set in the KeyUpdate message.
+>
+> The good thing here is that we don't need to modify tlshd
+> too much, and we have full control over the handling of the
+> KeyUpdate message.
+
+I would counter that the advantage with my implementation is that
+gnutls handles all of the crypto operations and generating the actual
+KeyUpdate message. gnutls is battle tested code so it's handy to have
+gnutls handle as much as possible.
+
+>
+> Will see to send the patchset next week.
+
+I look forward to seeing them!
+
+I'm open to other tlshd implementations and I can test your patches
+once you submit them.
+
+1: https://gitlab.com/gnutls/gnutls/-/merge_requests/2021
+
+Alistair
+
+>
+> Cheers,
+>
+> Hannes
+> --
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich

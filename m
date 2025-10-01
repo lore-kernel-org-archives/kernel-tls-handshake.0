@@ -1,255 +1,124 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9832F4AEE2
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  1 Oct 2025 04:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB7E2C11CC
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  1 Oct 2025 10:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759292928; cv=none; b=AEYoGrgtfBf2yHkk0lFA4yBYBDQ2G6sfLNbGJQM9J/pN7Ynet73l2KEWKAQNYkUQ1eXVtMBLo8i0Dd720CauPMvADceAAQB8Bhm+AAI54Cy3Hj13EiND8wI4OKnWm5xq71fc8SW2uIX4Za6YP4/M48SW7eR/B/0geuvB4Rv50rs=
+	t=1759316295; cv=none; b=du1rBTr8MF7MR0aEhKFmEHdRJbCbzGm/6pMrMcWdWrb5DPnjll7v6CnTk+cBDu/WCb3n5S87gz18cxu3G7pYeRcauq4rUFONe1rnsoHgC8ROdgrVXPKRnFRSp/HwSCmRBfyUfgZ2tWS9j2NEOGDZLeIAp8wEXGM5s7yBWDyoMDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759292928; c=relaxed/simple;
-	bh=Cna+0dqka+jB2P0JQIx8kKssuaGfyMyxjkx12CUMcaQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Xl9jKST7Xgl3X7qpfFq5cxeQ1fhDx2l+KNOB1yW9dTktgBt+5XF593VzgbPHJqyOIiAZbu0qbCkKL25KNnigCXyUQ3HTQl2vcNJ+/EJ1RvI0iSTneeS+Odryr5z9PjXwITA8eu9Mao9XRz/AguLa5pHW0G5WXdwLCvIjLtqGGqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y2JyQd+P; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759316295; c=relaxed/simple;
+	bh=z6rkWVo3JrefYWEz1jL5OoTUYDYc1KL9+Xqzjw+UVcA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=s/7eErn7G0VD970cnsCYuU+tHPy+vEFx1ffsl8fJu+6g6jW+vRfJ2j5WUmURgWz2VkUU6lpecJd5j8K0GaiQP5ng4zajIBKCrI3RBjmDxjIJ9nIAP90FtyMuEjHzRC/4V/u2YE4/uBlNjhUWYkQjeK9HzKb1StIA3OWsq+3FLAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=an6lJtOE; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y2JyQd+P"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b5579235200so4854537a12.3
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 30 Sep 2025 21:28:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759292925; x=1759897725; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SOejNDQWiBYXheqDhgv+ggSUkR3tZO/lrLus1vGF5Fg=;
-        b=Y2JyQd+PHDluVwLmJa0KK9Tc5Yv5yHyThVqvimfd98n3Rw5ihR29c+Cn1al4LlXcZB
-         RsWlMK+17WG8efpd2HqC1j42GHm+DKbvKVzhfXz4/1sG1h3CVR6UR8oR6jNWcmIaoxZi
-         R+h2KI6ywPjfUKcNk8WV2D90QBbUL+Uk/4yK3xufWY5YXzNuwSR0lOtLRn/puEaZxoqT
-         7hDroZPcxfqACl+xT8ljIjLIyxJdhj8AfP9dKj5JGHvCs1R/q1A3Mz1V0CJqtbu/ea6w
-         9pX1zNZx0n0LXHoaDhgQicDyYkdMAhSjMmruVHAHVbJu5DON1gaXkk3fplF1m1pqYlR6
-         fa0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759292925; x=1759897725;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SOejNDQWiBYXheqDhgv+ggSUkR3tZO/lrLus1vGF5Fg=;
-        b=pjESg92y4WXwvQohRoIKQlCWdxy0tu/XuVqwHqI+lLEXrKoC/74VSuG+OIi/j/r2eO
-         peM1yqNtOf0Q9qRXrKF/qYlMUU5vgtt6xgByZ0BMCQY+kvx8Phcae13JzRz24IEuX2Ua
-         ZSr5ct8Gt5CyZ8o+tOy7VlZxckFbSsbtdorHu+UqBuQSzo65eeTX6/nl3squD52EWLBv
-         BYyi7CkOgLW4flFEfy3ifRPebjSDiEI4/FXqij6byWnRK24eS4qgnTeJdyGcRD1+kCzx
-         g2bEch/1Ad1ySdeictlGQOiK06I2GWZPLOHV42lLsVl1NGys3VWuBmpYsXhcilPatjF6
-         KdGQ==
-X-Gm-Message-State: AOJu0YzNozxeoQb9wSXf+TR0gEheAwQU4X8tTMo2NBZlJcwSNajBjPll
-	oGl6xRXnlu/pBythDnHJGk4D4zM7R40AHGT0euzb3qiyDRESxiYhbvhffrz5pg==
-X-Gm-Gg: ASbGncssMotokyukjvV0kJwzVE78T3QVs5QdOA7ncMO9JKQhbMRCPCKwDGsShWdH2PZ
-	5wz8XuyDyBE1u64KQz3X4EEV2pT/PPRDHAjtKXlue+99H9OKiYztbIrs/0OnW7eX4Ot9VP9a9DS
-	BaptxwZ/QVgmQ6kfVQxw2v/r8155tH7imC0Sp4PmGYXJp8Kk/iHFgGnLcvg1T5pMkKcYFo+A1Ow
-	ZuVXpSr1eVJyID8EupqOIyp93G/ZGJnpRR0rI64CdBte2yLeAORnXc3v8DaHcs9S8mswwSyn5ls
-	2YNOcw6uE/iAr5TR+IFAHDJYU7wa2ij1c/aoKsz117WEFw0rxEJK3GxlAWhDFW/07u6kI2T4vQt
-	duzC5FyN6MHrF80zril9L2sIQnSNwyeHdMV/yYdf9dIfug4f/SjZkNHyyBOM2ueSDE5a5JQMzeZ
-	Ntwe25wTl/ouBQ0/7GPmLpga4UHiCy+JGX2j+O+Zv2Nk5y1xCrB1Oh
-X-Google-Smtp-Source: AGHT+IHFgoMfuiYUphB2QDBCnWcx5pZGX6I0mXj4F34pvAxjXJEJ0rLDtvqugIHt0SR6yqJYR2GjPQ==
-X-Received: by 2002:a17:903:2392:b0:24b:11c8:2d05 with SMTP id d9443c01a7336-28e7f4a1ce0mr26105565ad.45.1759292925503;
-        Tue, 30 Sep 2025 21:28:45 -0700 (PDT)
-Received: from toolbx.alistair23.me (2403-580b-97e8-0-82ce-f179-8a79-69f4.ip6.aussiebb.net. [2403:580b:97e8:0:82ce:f179:8a79:69f4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6aca043sm172434385ad.138.2025.09.30.21.28.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Sep 2025 21:28:45 -0700 (PDT)
-From: alistair23@gmail.com
-X-Google-Original-From: alistair.francis@wdc.com
-To: kernel-tls-handshake@lists.linux.dev
-Cc: hare@suse.de,
-	alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH 8/8] tlshd/handshake: Support KeyUpdate
-Date: Wed,  1 Oct 2025 14:27:34 +1000
-Message-ID: <20251001042734.17307-9-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251001042734.17307-1-alistair.francis@wdc.com>
-References: <20251001042734.17307-1-alistair.francis@wdc.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="an6lJtOE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1759316293;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dh5rJvbppA0tDith4Ih0Q1hNwIcSsa5fTKm9xJonerE=;
+	b=an6lJtOE/itnZDMf2doIIOdTNRp2yhVl275RoRIvvW1H4JaAn8ViRijE3/i93XiBs8s48f
+	e1bhHTOa17S/TvCkx7DkViEkUUMto9WS1C12RwEBB1drLChOMc2yfvpj7FjPl4HOh/S8+6
+	see9RQWl/17/SwUwdQurHzrMezdhyOw=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-338-a6R8VL-NMZ-gmn1hAzymfg-1; Wed,
+ 01 Oct 2025 06:58:11 -0400
+X-MC-Unique: a6R8VL-NMZ-gmn1hAzymfg-1
+X-Mimecast-MFC-AGG-ID: a6R8VL-NMZ-gmn1hAzymfg_1759316291
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CCCC61977533;
+	Wed,  1 Oct 2025 10:58:10 +0000 (UTC)
+Received: from aion.redhat.com (unknown [10.22.64.123])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6B398195608E;
+	Wed,  1 Oct 2025 10:58:10 +0000 (UTC)
+Received: by aion.redhat.com (Postfix, from userid 1000)
+	id DFB8047FF3A; Wed, 01 Oct 2025 06:58:08 -0400 (EDT)
+Date: Wed, 1 Oct 2025 06:58:08 -0400
+From: Scott Mayhew <smayhew@redhat.com>
+To: Alistair <alistair@alistair23.me>
+Cc: Chuck Lever <chuck.lever@oracle.com>,
+	kernel-tls-handshake@lists.linux.dev
+Subject: Re: [PATCH v2 2/4] tlshd: Fix priority string to allow PQC
+Message-ID: <aN0JQCyV-M5ljTf8@aion>
+References: <20250911212815.1414784-1-smayhew@redhat.com>
+ <20250911212815.1414784-3-smayhew@redhat.com>
+ <0c65e986-77d1-44b4-a4cb-c1a9c2213ba3@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <0c65e986-77d1-44b4-a4cb-c1a9c2213ba3@app.fastmail.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: KU7oJEDyRHRWjZvzEtQ8Rmg-4iDktWFZUfNXrLWZXHU_1759316291
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Alistair Francis <alistair.francis@wdc.com>
+On Wed, 01 Oct 2025, Alistair wrote:
 
-Support KeyUpdate handshakes from the kernel, updating the keys and then
-reporting the new keys to the kernel.
+> On Fri, 12 Sep 2025, at 7:28 AM, Scott Mayhew wrote:
+> > Specifying either of the SECURE256 or SECURE128 keywords in the priority
+> > string results in the ML-DSA algorithms being disabled because the
+> > post-quantum algorithms do not map nicely to the security
+> > classifications based on "bits of security" used for traditional
+> > algorithms [1].
+> > 
+> > Use @SYSTEM instead, which will allow PQC on systems with newer versions
+> > of GnuTLS.  It will also allow users to disable PQC via a policy module
+> > (on systems with the crypto-policies package).
+> > 
+> > [1] https://csrc.nist.gov/CSRC/media/Projects/Post-Quantum-Cryptography/documents/call-for-proposals-final-dec-2016.pdf#page=15
+> > 
+> > Link: https://github.com/oracle/ktls-utils/issues/113
+> > Signed-off-by: Scott Mayhew <smayhew@redhat.com>
+> > ---
+> > src/tlshd/ktls.c | 2 +-
+> > 1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/src/tlshd/ktls.c b/src/tlshd/ktls.c
+> > index 883256a..50381bf 100644
+> > --- a/src/tlshd/ktls.c
+> > +++ b/src/tlshd/ktls.c
+> > @@ -357,7 +357,7 @@ static int tlshd_gnutls_priority_init_list(const unsigned int *ciphers,
+> > const char *errpos;
+> > int ret, i;
+> >  
+> > - pstring = strdup("SECURE256:+SECURE128:-COMP-ALL");
+> > + pstring = strdup("@SYSTEM:-COMP-ALL");
+> 
+> This change is breaking traditional handshakes for me as _gnutls_resolve_priorities() fails to resolve a priority.
+> 
+> I'm not sure if it's a system config issue though, is anyone else seeing this?
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- src/tlshd/handshake.c | 124 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 124 insertions(+)
+What output do you get when you run these commands?
 
-diff --git a/src/tlshd/handshake.c b/src/tlshd/handshake.c
-index 398d58a..464b323 100644
---- a/src/tlshd/handshake.c
-+++ b/src/tlshd/handshake.c
-@@ -200,6 +200,8 @@ void tlshd_start_tls_handshake(gnutls_session_t session,
- 	gnutls_free(desc);
- 
- 	parms->session_status = tlshd_initialize_ktls(session, READ_WRITE);
-+
-+	parms->key_serial = tlshd_keyring_put_session(session);
- }
- 
- /**
-@@ -208,6 +210,7 @@ void tlshd_start_tls_handshake(gnutls_session_t session,
-  */
- void tlshd_service_socket(void)
- {
-+	gnutls_session_t session;
- 	struct tlshd_handshake_parms parms;
- 	int ret;
- 
-@@ -245,6 +248,66 @@ void tlshd_service_socket(void)
- 			tlshd_log_debug("Unsupported ip_proto (%d)", parms.ip_proto);
- 			parms.session_status = EOPNOTSUPP;
- 		}
-+		break;
-+	case HANDSHAKE_MSG_TYPE_CLIENTKEYUPDATE:
-+		gnutls_init(&session, GNUTLS_CLIENT);
-+
-+		gnutls_handshake_set_read_function(
-+			session, _gnutls_ktls_send_handshake_msg);
-+
-+		gnutls_transport_set_int(session, parms.sockfd);
-+		gnutls_session_set_ptr(session, &parms);
-+
-+		if (!tlshd_keyring_get_session(parms.key_serial, session))
-+			goto deinit;
-+
-+		if (tlshd_restore_ktls(session))
-+			goto deinit;
-+
-+		gnutls_record_set_max_size(session, 16384);
-+
-+		switch (parms.key_update_type) {
-+		case HANDSHAKE_KEY_UPDATE_TYPE_SEND:
-+			/* We don't expect a KeyUpdate response */
-+			if (gnutls_session_key_update(session, 0))
-+				goto deinit;
-+
-+			parms.session_status = tlshd_initialize_ktls(session, WRITE);
-+			break;
-+		case HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED:
-+			/* We received a KeyUpdate and the peer doesn't
-+			 * expect a response
-+			 */
-+			if (gnutls_handshake_update_receiving_key(session))
-+				goto deinit;
-+
-+			parms.session_status = tlshd_initialize_ktls(session, READ);
-+			break;
-+		case HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED_REQUEST_UPDATE:
-+			/* We received a KeyUpdate and the peer does
-+			 * expect a response
-+			 */
-+			if (gnutls_session_key_update(session, GNUTLS_KU_PEER))
-+				goto deinit;
-+
-+			/* Only update our sending keys, we expect to update our
-+			 * receive keys when the server triggers a KeyUpdate
-+			 */
-+			parms.session_status = tlshd_initialize_ktls(session, WRITE);
-+			break;
-+		default:
-+			tlshd_log_debug("Unrecognized KeyUpdate type (%d)",
-+				parms.key_update_type);
-+		}
-+
-+		if (!parms.session_status) {
-+			key_serial_t peerid = g_array_index(parms.peerids, key_serial_t, 0);
-+
-+			g_array_append_val(parms.remote_peerids, peerid);
-+		}
-+
-+		parms.key_serial = tlshd_keyring_put_session(session);
-+
- 		break;
- 	case HANDSHAKE_MSG_TYPE_SERVERHELLO:
- 		switch (parms.ip_proto) {
-@@ -260,12 +323,73 @@ void tlshd_service_socket(void)
- 			tlshd_log_debug("Unsupported ip_proto (%d)", parms.ip_proto);
- 			parms.session_status = EOPNOTSUPP;
- 		}
-+		break;
-+	case HANDSHAKE_MSG_TYPE_SERVERKEYUPDATE:
-+		gnutls_datum_t username, psk_key;
-+
-+		gnutls_init(&session, GNUTLS_SERVER);
-+
-+		gnutls_handshake_set_read_function(
-+			session, _gnutls_ktls_send_handshake_msg);
-+
-+		gnutls_transport_set_int(session, parms.sockfd);
-+		gnutls_session_set_ptr(session, &parms);
-+
-+		if (!tlshd_keyring_get_session(parms.key_serial, session))
-+			goto deinit;
-+
-+		if (tlshd_restore_ktls(session))
-+			goto deinit;
-+
-+		gnutls_record_set_max_size(session, 16384);
-+
-+		switch (parms.key_update_type) {
-+		case HANDSHAKE_KEY_UPDATE_TYPE_SEND:
-+			/* We don't expect a KeyUpdate response */
-+			if (gnutls_session_key_update(session, 0))
-+				goto deinit;
-+
-+			parms.session_status = tlshd_initialize_ktls(session, WRITE);
-+			break;
-+		case HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED:
-+			/* We received a KeyUpdate and the peer doesn't
-+			 * expect a response
-+			 */
-+			if (gnutls_handshake_update_receiving_key(session))
-+				goto deinit;
-+
-+			parms.session_status = tlshd_initialize_ktls(session, READ);
-+			break;
-+		case HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED_REQUEST_UPDATE:
-+			/* We received a KeyUpdate and the peer does
-+			 * expect a response
-+			 */
-+			if (gnutls_session_key_update(session, 0))
-+				goto deinit;
-+
-+			/* Only update our sending keys, we expect to update our
-+			 * receive keys when the client triggers a KeyUpdate
-+			 */
-+			parms.session_status = tlshd_initialize_ktls(session, WRITE);
-+			break;
-+		default:
-+			tlshd_log_debug("Unrecognized KeyUpdate type (%d)",
-+				parms.key_update_type);
-+		}
-+
-+		gnutls_psk_server_get_username2(session, &username);
-+
-+		tlshd_server_psk_cb(session, (const char *)username.data, &psk_key);
-+
-+		parms.key_serial = tlshd_keyring_put_session(session);
-+
- 		break;
- 	default:
- 		tlshd_log_debug("Unrecognized handshake type (%d)",
- 				parms.handshake_type);
- 	}
- 
-+deinit:
- 	gnutls_global_deinit();
- 
- out:
--- 
-2.51.0
+gnutls-cli --priority @SYSTEM -l
+gnutls-cli --list-config
+
+-Scott
+> 
+> Alistair
+> 
+> > if (!pstring)
+> > return -ENOMEM;
+> >  
+> > -- 
+> > 2.50.1
+> > 
+> > 
+> > 
+> 
 

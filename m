@@ -1,72 +1,72 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901773E47B
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  1 Oct 2025 04:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6503B4AEE2
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  1 Oct 2025 04:28:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759292909; cv=none; b=fS9sgI7moB6yzGR317UeJpmuW6UGDRgnH2TCQqhfrIeVLcGN0nT06rvy5aVLxuOWdpRVDkqVnQ06MeeE/BGRVFwpy1Y0CXRuC3+kyoqUF6u4inIRGZKNQTtco+DqQDuVVQrddIHqBpGT+hVSv+Py/KaWgPzSXwAWtqu2Hg4kRZs=
+	t=1759292911; cv=none; b=cPdE+6CF8woWxwCQOOyvjLZ1SydqALq57Casp5jaNCBsKyfPB+qvvTCP7wgkK+iGa3fHwKpMrODrDE9rLEHw8SaRY0OYEwzXl3C5WxTAQhUGydAqg61S64WQ3uBEHWQPnmXu38czVRbG3SoOLxmAKSKz5RBLCk+LC5NKIt39OSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759292909; c=relaxed/simple;
-	bh=KqRAJlJo3dWf6RGEmwOmpfYRljH/jSy8jRL4aOyRYbM=;
+	s=arc-20240116; t=1759292911; c=relaxed/simple;
+	bh=x4JfmuNJUTNa6RrYON/2gY+OjAaks3FLt6BccPPebPs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A9QikmJS8roPasWAp/bX2yx8HPCXgsveMRd21wUr3H14ngGiTk80bEMMy/s9ANOJMyZrFBStDj7tWzgvKchrM1L1S8jUJsyifrOPS2PO/fSDxEAUMDA+/RQ6KpmjhiXuX3mbwEX8/DQ1/lcY3+VCBV4XPsXh6ggSAKn8DN4OVvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nb7zYqLO; arc=none smtp.client-ip=209.85.215.169
+	 MIME-Version; b=NUeItjhbLIZAUqHzhaf9/MBR6gExWP2Tvi5CPOGzVyo7ml2WtH7RhS2VV6ieqYqSmfr0cHpQyPiW/ea9QRYXTi7kSJYXdg+kdy9xR069UkzLMXx8qez7Gyt4ZHwkaZGqQrUGMxT6spsYVQuydWHa3daicj8go5sFd7LLRN6Qrlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AwxWMwh6; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nb7zYqLO"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b593def09e3so3283518a12.2
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 30 Sep 2025 21:28:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AwxWMwh6"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2698d47e776so58272245ad.1
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 30 Sep 2025 21:28:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759292906; x=1759897706; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1759292909; x=1759897709; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zCWH84ZywpxTzQODm1Zl4wy4undctailWt0clcYG9Nc=;
-        b=nb7zYqLOdszFzNWkOo5Nxmj8lyepV6t0qRtrOZwR6SF66U1prj559pcya9Het66jZX
-         5c8ox5isigjqLeafsgQB2qUe8pJeOY9XNOYk0sMh9s5rbmBlWJBaVTdNK0ZvDq1777xP
-         ih4Vi990uGuQtUGtRgwP+4gNeJUUZNtf84lSlFNjAZWK9NGIbBBrK9PVkAurl9nt0/M6
-         Q/WFJj6E/LbuEInknLyt61886iWfCLkogQfkvob82SOhP13inUE6Z7tiewwf8Ai0briR
-         DJUVF6g5Ifi/pHOMv/wfX8Lb2xrYjxLPyYjJAGzBIkIcbsxg4wDYJO8nylGohbEZ/Yim
-         teDg==
+        bh=vl4hVmJc2+S7+NM+wO1ck7T5fr6iETUj96m+xBhoY7s=;
+        b=AwxWMwh6LcnjgPnhOVeWzhnp1jzEacU24CHTvmTy+ZcNThefNqnYrvbZYLJVqCSCbu
+         MprmqIN0qfV6ckiNZBqI5qVbGQ+LqUlDWE2I+rjwI3NZ6PrIk+WMKxQgO9UNDnEvyLKm
+         cXkg0x05gFVFqh0jKijALJW7NU1P65tpwqGWmplm4TC9z/OlRoSfJU5xQfR4ipUdppUY
+         1scg1YJSZ0iyMgPWK5t4RSkvkXHOY++LI20fFX1Co7iHucsN2ONmI/NlBOYoKccWwNyv
+         R8lNFVJgJcRZ9l7E8VAz34+xHcO3122i/dhWBF0+PcDWi+pPZQ0i2KmdvYjDlCOYVyXF
+         F5Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759292906; x=1759897706;
+        d=1e100.net; s=20230601; t=1759292909; x=1759897709;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zCWH84ZywpxTzQODm1Zl4wy4undctailWt0clcYG9Nc=;
-        b=JBDrORCJZMyMxcn23m/s82qItLOUOVmwy55GMuE8obkrkg+cSKz2o4qOt/0lz3GLFG
-         TNjR3cWhAPry1lhNTVkteZjgIWIi7bzythOgd1PCNqXytq1PEFzS8c48fVitET7l6X+n
-         NhAk3tZB+ebUWzJ7sllL9xpo8eWqX4CXk+9mNV/hv3CS0gUaOIIc2A9lnSuHA90Kkmuk
-         2YBHkNY9vXbDjsNuKNFkgjQlOcGdzUX2gyX2uoJ5TMEugk6DUDoc6ilU4mWzv22SHRcM
-         GTDqtvLgt7Kxddrex8QwIjXfPGxRMNmCYsLP3Bn3RJfQNWvaGcjnWB3yleMZJSSH3SdA
-         XM3g==
-X-Gm-Message-State: AOJu0Yyru6mbqcJIa9Mt526jXPbDPbGMKzZvA/+ph13Voqtch67A3G5v
-	/XnehyoFD0NoXGMY5PP38tkN77eQ9bmiuwmeQMN+nxlV2dWZap1oVtZ6Wfg48Q==
-X-Gm-Gg: ASbGncvaO51UP8516ExCkY6vLfnHMsws4QvvH/C1LdZPqxKccVbTKS/38qStH3kfJwa
-	KVBkuw8+yG5dXjj6tbNhdCgCuTcshM1mwCk94iIqElGMSoq/5dUJkScGTiz0f69eezwmjqCxsBh
-	ZLLmIGKVbwcrvEZtzWx/It78VrfD1GNsnRvoZ5L4zy0KW75qOVsGQH1VnRcr+4G6XTlZTY/MfzC
-	xW5nYK6XYOxl9LqfR2jfAaYuF7oOyjYLi6wVOf47oo7lOu6tvLtJRClrlCs7HMvnyK8rkLJ6C1S
-	bgeu9DaPaK2XLccsTJl63H6GOrhsNo6YdaiBI135mAiVqddaxyoJ+T/bxowCm+NtxhB5xMZkXxf
-	Lw4BA6p/SQ0bBoER0PVGBVlaZKsrPoKBfheCnwkyUB0e0s3ovhU27hK4vlkzwGNr8xvU+C0UbQl
-	hTuKErWpUm17tianoba5uj7nat7dKpSKBJQAVCx4aPW/92xneZ8MQm
-X-Google-Smtp-Source: AGHT+IHZVxhR5M32XvQILE8QH3CWo3Hln0zw6MhzvadG9pZ12NGZoSN4BAK9r1y85WjX/4Fs9uJClw==
-X-Received: by 2002:a17:903:298d:b0:269:b65a:cbb2 with SMTP id d9443c01a7336-28e7f32897dmr28413535ad.47.1759292906141;
-        Tue, 30 Sep 2025 21:28:26 -0700 (PDT)
+        bh=vl4hVmJc2+S7+NM+wO1ck7T5fr6iETUj96m+xBhoY7s=;
+        b=o8T1sYz6xGk2pSHTPn8/OMKyzpHtxTiW6FNT+bNrA0gFdArM45bP42+xp/91x+pr+x
+         vucMinU7TQ4xdlV1LWtTOfhyOqSyVHfwnwFCyrQOT9CJkFpOZ+gHPeu960CsYxHfbsBS
+         09p5GgKSKoN+pwfZjJC1en0Do8mGj7eoqEiGD2in35MOifWngzeQBTUDNLL3YkMYYwV9
+         wpFvkHDe/+7xa68BO/TEnnj+B++Hs56uHWX3suAM/loelBZ9SeLijrij2d+yGkpYDKmS
+         zhK8YL7BmLU5OfqmWNN3NdVVnVF38lRZp8LXmuLwPSPrJsT1ZQZLS778Xl9J8pQIiGmA
+         jwRA==
+X-Gm-Message-State: AOJu0Yx3VjJtfLgVQyVzYZjL6uDYfqldrJzPk3exeHnWOc1CwRVZ7f3L
+	1Py0UNCHkbxxzrq/DnjQYPoqMr2qkWN48mycLBWSnpRfYErmh7qNwbSBj5jQcw==
+X-Gm-Gg: ASbGnctwfPd+7dWaFcEqqPVDwpGvCd5dOKLRw7RCSRM8K5x2Uju6ljhRXQ8aHvroXRl
+	dUoaklZ/TWAGJRyThFoS1TWPxBxX+A8smPvOAgL0IGrtrAcixVbVubPBq+Qoj3/9oZRhyoAQw4a
+	697ST//wIrcSEEAlxDQ7f0DOteWITO9zgjA/q6nlBX/q7fu6ktrVP4Dyt+3TxEcuxo9VBfe+Sn4
+	EKzYktEtkf+NMqc+ePafFOwztFCCHFiJtxn3qu62P2qAWT/J1G4pf1InzcSRxEgq8jB9FBfzpDi
+	BE+xu/KZswoQtoVwQNjExpbRgzlte+6ie+dfjw8wZCIbx3mbokwHEMpes7aWqEtfU6TjDwY01hO
+	niJ7IFDIyZeavgV9xN8I1WGEj9OAga55Wc5qmZNQX4z/mxGhsrM9iRw1cj5ClE6hkwfe52LEwm9
+	La7X+32H9wnXnPW3oC0hkZ79GRyi63xESDJdY5fQp4ddgRsSS2v7Y+gfZuJLWBzBc=
+X-Google-Smtp-Source: AGHT+IGmNfddfVhlJ0twAAPHuPuJbVtjRSdT0ar0evBv/m+dipt643nAgfdrTHEjdIvLaU/b/4XqsQ==
+X-Received: by 2002:a17:902:f786:b0:272:f9c3:31fb with SMTP id d9443c01a7336-28e7f44088cmr28347305ad.58.1759292908916;
+        Tue, 30 Sep 2025 21:28:28 -0700 (PDT)
 Received: from toolbx.alistair23.me (2403-580b-97e8-0-82ce-f179-8a79-69f4.ip6.aussiebb.net. [2403:580b:97e8:0:82ce:f179:8a79:69f4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6aca043sm172434385ad.138.2025.09.30.21.28.23
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6aca043sm172434385ad.138.2025.09.30.21.28.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Sep 2025 21:28:25 -0700 (PDT)
+        Tue, 30 Sep 2025 21:28:28 -0700 (PDT)
 From: alistair23@gmail.com
 X-Google-Original-From: alistair.francis@wdc.com
 To: kernel-tls-handshake@lists.linux.dev
 Cc: hare@suse.de,
 	alistair23@gmail.com,
 	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH 1/8] tlshd/ktls: Don't abort on EEXIST TLS_ULP errors
-Date: Wed,  1 Oct 2025 14:27:27 +1000
-Message-ID: <20251001042734.17307-2-alistair.francis@wdc.com>
+Subject: [PATCH 2/8] tlshd/ktls: Allow specifying the sock direction to set
+Date: Wed,  1 Oct 2025 14:27:28 +1000
+Message-ID: <20251001042734.17307-3-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251001042734.17307-1-alistair.francis@wdc.com>
 References: <20251001042734.17307-1-alistair.francis@wdc.com>
@@ -80,31 +80,130 @@ Content-Transfer-Encoding: 8bit
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-When performing a KeyUpdate the session socket will already exist so
-let's not abort on a EEXIST error.
+After the initial handshake we will want to call tlshd_initialize_ktls()
+again on KeyUpdat events, but there is no need to update both in and out
+keys. So let's add an enum to tlshd_initialize_ktls() allowing us to
+specify which keys to update.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- src/tlshd/ktls.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ src/tlshd/handshake.c |  2 +-
+ src/tlshd/ktls.c      | 46 ++++++++++++++++++++++++++++++++++---------
+ src/tlshd/tlshd.h     |  8 +++++++-
+ 3 files changed, 45 insertions(+), 11 deletions(-)
 
+diff --git a/src/tlshd/handshake.c b/src/tlshd/handshake.c
+index f688932..1e5a622 100644
+--- a/src/tlshd/handshake.c
++++ b/src/tlshd/handshake.c
+@@ -111,7 +111,7 @@ void tlshd_start_tls_handshake(gnutls_session_t session,
+ 	tlshd_log_debug("Session description: %s", desc);
+ 	gnutls_free(desc);
+ 
+-	parms->session_status = tlshd_initialize_ktls(session);
++	parms->session_status = tlshd_initialize_ktls(session, READ_WRITE);
+ }
+ 
+ /**
 diff --git a/src/tlshd/ktls.c b/src/tlshd/ktls.c
-index 50381bf..49187d0 100644
+index 49187d0..a090e27 100644
 --- a/src/tlshd/ktls.c
 +++ b/src/tlshd/ktls.c
-@@ -286,8 +286,10 @@ unsigned int tlshd_initialize_ktls(gnutls_session_t session)
+@@ -280,7 +280,7 @@ static bool tlshd_set_chacha20_poly1305_info(gnutls_session_t session, int sock,
+  *
+  * Returns zero on success, or a positive errno value.
+  */
+-unsigned int tlshd_initialize_ktls(gnutls_session_t session)
++unsigned int tlshd_initialize_ktls(gnutls_session_t session, enum sock_direction direction)
+ {
+ 	int sockin, sockout;
  
- 	if (setsockopt(gnutls_transport_get_int(session), SOL_TCP, TCP_ULP,
- 		       "tls", sizeof("tls")) == -1) {
--		tlshd_log_perror("setsockopt(TLS_ULP)");
--		return EIO;
-+		if (errno != EEXIST) {
-+			tlshd_log_perror("setsockopt(TLS_ULP)");
-+			return EIO;
+@@ -297,23 +297,51 @@ unsigned int tlshd_initialize_ktls(gnutls_session_t session)
+ 	switch (gnutls_cipher_get(session)) {
+ #if defined(TLS_CIPHER_AES_GCM_128)
+ 	case GNUTLS_CIPHER_AES_128_GCM:
+-		return tlshd_set_aes_gcm128_info(session, sockout, 0) &&
+-			tlshd_set_aes_gcm128_info(session, sockin, 1) ? 0 : EIO;
++		if (direction == WRITE || direction == READ_WRITE) {
++			if (!tlshd_set_aes_gcm128_info(session, sockout, 0))
++				return EIO;
 +		}
- 	}
++		if (direction == READ || direction == READ_WRITE) {
++			if (!tlshd_set_aes_gcm128_info(session, sockin, 1))
++				return EIO;
++		}
++		return 0;
+ #endif
+ #if defined(TLS_CIPHER_AES_GCM_256)
+ 	case GNUTLS_CIPHER_AES_256_GCM:
+-		return tlshd_set_aes_gcm256_info(session, sockout, 0) &&
+-			tlshd_set_aes_gcm256_info(session, sockin, 1) ? 0 : EIO;
++		if (direction == WRITE || direction == READ_WRITE) {
++			if (!tlshd_set_aes_gcm256_info(session, sockout, 0))
++				return EIO;
++		}
++		if (direction == READ || direction == READ_WRITE) {
++			if (!tlshd_set_aes_gcm256_info(session, sockin, 1))
++				return EIO;
++		}
++		return 0;
+ #endif
+ #if defined(TLS_CIPHER_AES_CCM_128)
+ 	case GNUTLS_CIPHER_AES_128_CCM:
+-		return tlshd_set_aes_ccm128_info(session, sockout, 0) &&
+-			tlshd_set_aes_ccm128_info(session, sockin, 1) ? 0 : EIO;
++		if (direction == WRITE || direction == READ_WRITE) {
++			if (!tlshd_set_aes_ccm128_info(session, sockout, 0))
++				return EIO;
++		}
++		if (direction == READ || direction == READ_WRITE) {
++			if (!tlshd_set_aes_ccm128_info(session, sockin, 1))
++				return EIO;
++		}
++		return 0;
+ #endif
+ #if defined(TLS_CIPHER_CHACHA20_POLY1305)
+ 	case GNUTLS_CIPHER_CHACHA20_POLY1305:
+-		return tlshd_set_chacha20_poly1305_info(session, sockout, 0) &&
+-			tlshd_set_chacha20_poly1305_info(session, sockin, 1) ? 0 : EIO;
++		if (direction == WRITE || direction == READ_WRITE) {
++			if (!tlshd_set_chacha20_poly1305_info(session, sockout, 0))
++				return EIO;
++		}
++		if (direction == READ || direction == READ_WRITE) {
++			if (!tlshd_set_chacha20_poly1305_info(session, sockin, 1))
++				return EIO;
++		}
++		return 0;
+ #endif
+ 	default:
+ 		tlshd_log_error("tlshd does not support the requested cipher.");
+diff --git a/src/tlshd/tlshd.h b/src/tlshd/tlshd.h
+index 6ee950d..42900bf 100644
+--- a/src/tlshd/tlshd.h
++++ b/src/tlshd/tlshd.h
+@@ -49,6 +49,12 @@ enum peer_type {
+ 	PEER_TYPE_SERVER,
+ };
  
- 	gnutls_transport_get_int2(session, &sockin, &sockout);
++enum sock_direction {
++	READ,
++	WRITE,
++	READ_WRITE
++};
++
+ /* client.c */
+ extern void tlshd_tls13_clienthello_handshake(struct tlshd_handshake_parms *parms);
+ extern void tlshd_quic_clienthello_handshake(struct tlshd_handshake_parms *parms);
+@@ -84,7 +90,7 @@ extern key_serial_t tlshd_keyring_create_cert(gnutls_x509_crt_t cert,
+ extern int tlshd_keyring_link_session(const char *keyring);
+ 
+ /* ktls.c */
+-extern unsigned int tlshd_initialize_ktls(gnutls_session_t session);
++extern unsigned int tlshd_initialize_ktls(gnutls_session_t session, enum sock_direction direction);
+ extern int tlshd_gnutls_priority_init(void);
+ extern int tlshd_gnutls_priority_set(gnutls_session_t session,
+ 				     const struct tlshd_handshake_parms *parms,
 -- 
 2.51.0
 

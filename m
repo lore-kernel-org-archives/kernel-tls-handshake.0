@@ -1,72 +1,72 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9783E47B
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  1 Oct 2025 04:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F2F3E47B
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  1 Oct 2025 04:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759292917; cv=none; b=S1gXk/7lNSg4Ex5mLhwlY8Oz4uB5IO+XLutQVx90h039gZaomRnPw3Y+p0wGWfzN49tgzTHRCgL2jbPEDX2XwXpjaY5K6S8ZdyV/FZoQNhUwx6FUI7IVcqBnQoZKXPveTnV1fY4/8r+fmZ57WIli8pLF4qR9qRPuG4s+CHR501s=
+	t=1759292920; cv=none; b=s6+wzDq4Ob4hME7uEReLDsrwNjvwFNRf81gXyc33HFcIiBtJ8lpC10Ir//AxYPb6P9yR7y1PimNy7r6j3cF9VoqMXBGKPTCsiNqQ7mSKZMdrNmIJozUvt8sdfWHrSbDhQLxt4sd04RsYou1TgnPAXocukGkyWEKWh/mJkfOhw/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759292917; c=relaxed/simple;
-	bh=qXEXCSZFKb14tsLfiwvXvc7ukwmo9MJdKIkKbDjz+5I=;
+	s=arc-20240116; t=1759292920; c=relaxed/simple;
+	bh=EFhj2ua7jw0bdbwQttzGia/1kpPtFt/8evnXs7Vp/TI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Il4mqHIEhwlw8Usw58r2fPtPhO/dvnyMvFQnCbG2nuKdfrtZM3kghk6fjB+0c4CaBxJY72gxMM6x5Zc0eH2w3KMwiAlLP2ha/bhA/WjzCHcNsXznndlmTzEcAe5smkCOts+0SZOYxPwzkoSGnt1vVsuhTtGi2XOc5g+rfJPytfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KaZrzg7H; arc=none smtp.client-ip=209.85.214.176
+	 MIME-Version; b=SQQmQg3M3shaS2H1a3+NwZen4wZhG337EAQJ9dfRVcEFy0i/y1ZiPFTwuLe6nB8zSGk/u1QcU+zn5J7F1gvRiGlZjlAUlgcuK3KUnpOzcfnZlQl4y2y89uxtWO5UMj2zumvo/vewvGlo4GYrX9kccz7n4PgblzC0CU7RNVc7014=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BAAAMBn6; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KaZrzg7H"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-27c369f8986so65508455ad.3
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 30 Sep 2025 21:28:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BAAAMBn6"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-26983b5411aso45692835ad.1
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 30 Sep 2025 21:28:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759292914; x=1759897714; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1759292917; x=1759897717; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rbMKgRDwrvma0Z+CDR5SVLFEf/NiRs1dScGoLmc0rOg=;
-        b=KaZrzg7HiC5kpVjF35X+4Ex/KsvsBRvhZWRqzcfNbDLBdNdkMFhL3lEE1AiWX4/1Ol
-         38xVsYnW0OizLXomcqwmBcKutVVzq2X+2avQ6a+B22bQnjtlLfcADljxeX8C42kg3Mfq
-         VuY5MTFADI+hyJpwngSxPGn/HGId0fl8akv0zBFVpEicPd2Vacpv5CZP5PGBUzGNYiNM
-         tTkMAMrJkyHmSr1EHXcnqVhMQs3tpoztPGjYERyLTvgLL3+Ee8t9tXzN4FPj8SdXdBEL
-         cgnFBZ9cfj0rDrj7e4b8emA0LYyc3R/p8HZRJGvUorMfAAr3yECbdA7iZHoRd405sxnS
-         2TVA==
+        bh=3qxL08ZEorsVdS07KOg7kvDSbMYhuWWO8+ZuvjZMNp8=;
+        b=BAAAMBn6RdDWUMMnJee9uPYrf+mDuW/SzO4pJFPuv5PNJzEZJpebmmG843cLeMF1y6
+         lOIhMi8JZS6x/8oBasSyHUTd1Ch7hP2G5RXWV/y9u7D2RpUq9ufGo+MggeKTVLOZtXax
+         BeP9KP7RYF3Iyy67NG3zKO0bqG1oBmgSfU8pl4Yc7/dGLBrRGH1MIxxcOc7R6smWsyS8
+         g0QbiC/CE1sT16m5AVN8/SccFRPx3gJNogC96ZFRwg4IZGRPgAOnSlP/s68z4joM4qXn
+         M79RetKmGGXrSD5kLU6n8/Mbo3BJI5ewmyMSMnFmilRCpIJfGHY6fyKbuC4ElM1lAgU5
+         PqNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759292914; x=1759897714;
+        d=1e100.net; s=20230601; t=1759292917; x=1759897717;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rbMKgRDwrvma0Z+CDR5SVLFEf/NiRs1dScGoLmc0rOg=;
-        b=AqoiAcai6syvRIcG2Xrq5K9jRPAB53ly2dkGB7MGM9M+BH+P4Mytpx+/8v0aK7E34X
-         BXV6QW02jgqpUDbeJI+Fa02zli8GbhMVTEFowoievmDBL1Qc+JpgF/bNpPe1FNnERKua
-         xTcgwM8fXcPJQFYfnwZDMXCLEwLUev6+D4YngQckgFTf8ocmBL+Cq0+ewKf3txauyHdM
-         2eWKvDK+ijPPQ565DS1vVadlHZFAXcwDCNZUbrFrllPDAzeG496TZQ9BIRj4wRLl8e6+
-         FzvzUfcsqOOcn5HLAlir7B+4Hw6nJZMvibskvMjcft08ZEJX0W7VhO5cyj+XP1xIuQSt
-         u+ew==
-X-Gm-Message-State: AOJu0YxxXf0SVbOd5yM97bku94w98Ej4+7L+b0Uzt73o7PWGXhlzR5BD
-	zukxMV9Islj8WvWAgqy+FYapJzabAsjbNxAm0NU/lIzb04KP3KD1e2tNx7q1fg==
-X-Gm-Gg: ASbGncsfXbe/accIkCGBOHi3qOPhP13+15aVDX2Nexlv1oZCDuyliVjuNybG5l4n2XW
-	OkeusYZbM//BBxD+KLfCEAhgSK3zIn/51syHTjowy7Cnywa2iEekV4PYjAnvdw3bEgG/w6w32XO
-	77iGA/aCtOXhf70UUyfD3gW0sq6kYuqEHRM+GU6imFq5QpaKmi2w0Yzh0GOJ+L7Zla5x4x7Z/D7
-	WpFh/cG1LTf0a7sadUA/x6JBQjNmMsccCY30+3H//ZO9hOStMtaVZRi0gR3/0hHhEnQ2ShCXs/f
-	3EvGgsW8/kvmPAk36d8jRP6RSAd37mPsGD2v9EN3rUmqQ0bZ+FYkzZKYtwcokTZ05x58brbJ59A
-	LZ+G/hJeEb55PkmEID9VbHYuRDgS5DlMPM8526KE2A/XP8Npb/8eL6if81amYVRxinCiV6688X9
-	o7DLsBBXc4wRCNLMpfdsG6Bo5KNFyJNuiw+FaLw+iQVGfUKBF1mbGJI/KVDWnTz68=
-X-Google-Smtp-Source: AGHT+IGsVqy4xPj6Am9R8mHh2anV/rll3tDgUx+hk9MhiX9KqeBn3ox/ijgODQM3XHJ4bNX913afOw==
-X-Received: by 2002:a17:903:3807:b0:28d:1939:f9c8 with SMTP id d9443c01a7336-28e7f2c5774mr25741675ad.26.1759292914403;
-        Tue, 30 Sep 2025 21:28:34 -0700 (PDT)
+        bh=3qxL08ZEorsVdS07KOg7kvDSbMYhuWWO8+ZuvjZMNp8=;
+        b=N+D6M6/QqvC9wr0jTOepeWToxB4W0XSjjoGGB72bIS4MrK4H2bqS0Kt7SC0D8jjl9V
+         MXGKKIO+u4eO5XkmXnvIzjHerjpPQwSE8jrsemI5a9H2N2yhpWSjl3AJRGus7lhPbZD3
+         NH3Kx2GDnmHj5xmsbj/XcXZyZtgrBN/fpbMtPBYKuvdC/wnjPZSagGOy4grr/d2YsyUL
+         BAC+mY9b+ORY88soKdNx6A1YyrFHzD5La1K0jkoopfAtofcKnTOVazarShk2W8xIF8K+
+         AkzHVvdBEK+ckEI8jja5fETfiwC7zLZTIult2hA0bppQKWX8S6DYo9UW+aS2oRrC07O/
+         Xccw==
+X-Gm-Message-State: AOJu0YzJnttU670bfmgB15Ge+TOOWMKx2o/V3Tv8YsAWNvQwmepkbO1e
+	z51B1TtD4dl28Y5hnE74kGbyU3jBnSfudzGGKh0YoAj5Q+XhxN9GkRFi8Arypg==
+X-Gm-Gg: ASbGncsecAQzl34gEZ2oVEga+cSuwZJlrLQchryEHa+1i6rFSV8tloXuXXkxIUjR99t
+	xSahICvtMsjzJh7GMMSI10Kd4X2z4dYn6Yo9ADTiaK1P695LEdJsGndK5e88sA83F2tc+n9FqDL
+	ONl+XJkAYW4UKEr97QOUblM3bRomeVBhKODZFYeICZMVYUgMAAl1eCcUIcFYWNIeHusMTrTH6Dt
+	Z9oUDXN/jAv5aNkfL1na+jBKziT2TJPHXHVn5tI/x5XpN8svJZHF8cUKHQkiuLKwiMWm/Xs69tq
+	JOrowrAXIVqYUpJvj+GF5AftyOTrURMOxmTcC8R08pyaetUr/LpzG2E2jdNfaLznf3FwISeHU7Z
+	Ijofi2rHd91r7/T4yTdBwnaUPP2ucd0xhPM0ImQ6mT67vm6Kwxri7+VQsxThLb/GbgQsHceBMuy
+	YqTZGqFrmmCduoklApaCpiLMH2S4Hr5i5TmBmSRvmj2R9aDXWa9Luy
+X-Google-Smtp-Source: AGHT+IH2VWqplhhTrUIYvVwhHD4hx4v8JEmWVfdiJ63qyVY7KhVNlsf04u2oTaSpj83ktdJtDCJ70w==
+X-Received: by 2002:a17:902:d48d:b0:26e:d0aa:7690 with SMTP id d9443c01a7336-28e7f3155d7mr24776325ad.41.1759292917265;
+        Tue, 30 Sep 2025 21:28:37 -0700 (PDT)
 Received: from toolbx.alistair23.me (2403-580b-97e8-0-82ce-f179-8a79-69f4.ip6.aussiebb.net. [2403:580b:97e8:0:82ce:f179:8a79:69f4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6aca043sm172434385ad.138.2025.09.30.21.28.32
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6aca043sm172434385ad.138.2025.09.30.21.28.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Sep 2025 21:28:33 -0700 (PDT)
+        Tue, 30 Sep 2025 21:28:36 -0700 (PDT)
 From: alistair23@gmail.com
 X-Google-Original-From: alistair.francis@wdc.com
 To: kernel-tls-handshake@lists.linux.dev
 Cc: hare@suse.de,
 	alistair23@gmail.com,
 	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH 4/8] tlshd/keyring: Allow session save/restore to kernel keyring
-Date: Wed,  1 Oct 2025 14:27:30 +1000
-Message-ID: <20251001042734.17307-5-alistair.francis@wdc.com>
+Subject: [PATCH 5/8] tlshd/ktls: Allow restoring the TLS state from the kernel
+Date: Wed,  1 Oct 2025 14:27:31 +1000
+Message-ID: <20251001042734.17307-6-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251001042734.17307-1-alistair.francis@wdc.com>
 References: <20251001042734.17307-1-alistair.francis@wdc.com>
@@ -80,115 +80,353 @@ Content-Transfer-Encoding: 8bit
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-Support saving and restoring the gnutls session to the
-kernel keyring. This way we can save the session after a handshake and
-then restore it when a KeyUpdate occurs.
+Allow restoring the keys and sequence number from the kernel in
+preperation for supporting a KeyUpdate.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- src/tlshd/keyring.c | 74 +++++++++++++++++++++++++++++++++++++++++++++
- src/tlshd/tlshd.h   |  3 ++
- 2 files changed, 77 insertions(+)
+ src/tlshd/ktls.c  | 280 ++++++++++++++++++++++++++++++++++++++++++++++
+ src/tlshd/tlshd.h |   1 +
+ 2 files changed, 281 insertions(+)
 
-diff --git a/src/tlshd/keyring.c b/src/tlshd/keyring.c
-index 32f2d27..02cc5f1 100644
---- a/src/tlshd/keyring.c
-+++ b/src/tlshd/keyring.c
-@@ -79,6 +79,80 @@ bool tlshd_keyring_get_psk_username(key_serial_t serial, char **username)
- 	return true;
+diff --git a/src/tlshd/ktls.c b/src/tlshd/ktls.c
+index a090e27..1bad6df 100644
+--- a/src/tlshd/ktls.c
++++ b/src/tlshd/ktls.c
+@@ -97,6 +97,31 @@ static bool tlshd_is_ktls_enabled(__attribute__ ((unused)) gnutls_session_t sess
  }
+ #endif
  
-+/**
-+ * tlshd_keyring_put_session - Retrieve a previous gnutls session
-+ * @serial: Key serial number to look up
-+ * @session: On success, filled in with a gnutls_session_t
-+ *
-+ * Caller must use gnutls_deinit() to free the session when finished.
-+ *
-+ * Return values:
-+ *   %true: Success; @session has been initialized
-+ *   %false: Failure
-+ */
-+key_serial_t tlshd_keyring_put_session(gnutls_session_t session)
++static bool tlshd_getsockopt(int sock, unsigned read, void *info,
++			     socklen_t *infolen)
 +{
-+	key_serial_t serial;
 +	int ret;
-+	gnutls_datum_t data;
 +
-+	ret = gnutls_session_force_get_data(session, &data);
++	ret = getsockopt(sock, SOL_TLS, read ? TLS_RX : TLS_TX, info, infolen);
++	if (!ret)
++		return true;
 +
-+	if (ret < 0) {
-+		tlshd_log_error("Failed to get gnutls session.");
-+		return -1;
++	switch (errno) {
++	case EBADF:
++	case ENOTSOCK:
++		tlshd_log_error("The kernel's socket file descriptor is no longer valid.");
++		break;
++	case EINVAL:
++	case ENOENT:
++	case ENOPROTOOPT:
++		tlshd_log_error("The kernel does not support the requested algorithm.");
++		break;
++	default:
++		tlshd_log_perror("getsockopt");
 +	}
-+
-+	GRand* rand = g_rand_new();
-+	gchar* key_name = g_strdup_printf("ktls:gnutls-session-%d", g_rand_int(rand));
-+	g_rand_free(rand);
-+
-+	serial = add_key("user", key_name, data.data, data.size,
-+			 KEY_SPEC_SESSION_KEYRING);
-+
-+	g_free(key_name);
-+
-+	if (serial < 0) {
-+		tlshd_log_error("Failed to save gnutls session.");
-+		return -1;
-+	}
-+
-+	return serial;
++	return false;
 +}
 +
-+/**
-+ * tlshd_keyring_get_session - Retrieve a previous gnutls session
-+ * @serial: Key serial number to look up
-+ * @session: On success, filled in with a gnutls_session_t
-+ *
-+ * Caller must use gnutls_deinit() to free the session when finished.
-+ *
-+ * Return values:
-+ *   %true: Success; @session has been initialized
-+ *   %false: Failure
-+ */
-+bool tlshd_keyring_get_session(key_serial_t serial, gnutls_session_t session)
+ static bool tlshd_setsockopt(int sock, unsigned read, const void *info,
+ 			     socklen_t infolen)
+ {
+@@ -122,6 +147,62 @@ static bool tlshd_setsockopt(int sock, unsigned read, const void *info,
+ 	return false;
+ }
+ 
++#if defined(TLS_CIPHER_AES_GCM_128)
++static bool tlshd_get_aes_gcm128_info(gnutls_session_t session, int sock,
++				      unsigned read)
 +{
++	struct tls12_crypto_info_aes_gcm_128 info = {
++		.info.version		= TLS_1_3_VERSION,
++		.info.cipher_type	= TLS_CIPHER_AES_GCM_128,
++	};
++	unsigned char seq_number[8];
++	gnutls_datum_t cipher_key;
++	gnutls_datum_t iv;
++	socklen_t infolen = sizeof(info);
 +	int ret;
-+	void *data;
 +
-+	ret = keyctl_read_alloc(serial, &data);
-+	if (ret < 0) {
-+		tlshd_log_error("Failed to read gnutls session.");
++	if (tlshd_is_ktls_enabled(session, read))
++		return true;
++
++	if (!tlshd_getsockopt(sock, read, &info, &infolen))
 +		return false;
++
++	/* TLSv1.2 generates iv in the kernel */
++	if (gnutls_protocol_get_version(session) == GNUTLS_TLS1_2) {
++		info.info.version = TLS_1_2_VERSION;
++		memcpy(seq_number, info.iv, TLS_CIPHER_AES_GCM_128_IV_SIZE);
++
++		memcpy(iv.data, info.salt, TLS_CIPHER_AES_GCM_128_SALT_SIZE);
++		iv.size = TLS_CIPHER_AES_GCM_128_SALT_SIZE;
++	} else {
++		iv.data = g_malloc0(TLS_CIPHER_AES_GCM_128_SALT_SIZE + TLS_CIPHER_AES_GCM_128_IV_SIZE);
++
++		memcpy(iv.data + TLS_CIPHER_AES_GCM_128_SALT_SIZE, info.iv,
++		       TLS_CIPHER_AES_GCM_128_IV_SIZE);
++
++		memcpy(iv.data, info.salt, TLS_CIPHER_AES_GCM_128_SALT_SIZE);
++		iv.size = TLS_CIPHER_AES_GCM_128_SALT_SIZE + TLS_CIPHER_AES_GCM_128_IV_SIZE;
 +	}
 +
-+	ret = gnutls_session_set_data(session, data, ret);
-+	free(data);
++	cipher_key.data = info.key;
++	cipher_key.size = TLS_CIPHER_AES_GCM_128_KEY_SIZE;
 +
-+	if (ret < 0) {
-+		tlshd_log_error("Failed to restore gnutls session.");
++	memcpy(seq_number, info.rec_seq, TLS_CIPHER_AES_GCM_128_REC_SEQ_SIZE);
++
++	ret = gnutls_record_set_state2(session, read, NULL, &iv,
++				       &cipher_key, seq_number);
++
++	g_free(iv.data);
++
++	if (ret != GNUTLS_E_SUCCESS) {
++		tlshd_log_gnutls_error(ret);
 +		return false;
 +	}
 +
 +	return true;
 +}
++#endif
++
+ #if defined(TLS_CIPHER_AES_GCM_128)
+ static bool tlshd_set_aes_gcm128_info(gnutls_session_t session, int sock,
+ 				      unsigned read)
+@@ -161,6 +242,62 @@ static bool tlshd_set_aes_gcm128_info(gnutls_session_t session, int sock,
+ }
+ #endif
+ 
++#if defined(TLS_CIPHER_AES_GCM_256)
++static bool tlshd_get_aes_gcm256_info(gnutls_session_t session, int sock,
++				      unsigned read)
++{
++	struct tls12_crypto_info_aes_gcm_256 info = {
++		.info.version		= TLS_1_3_VERSION,
++		.info.cipher_type	= TLS_CIPHER_AES_GCM_256,
++	};
++	unsigned char seq_number[8];
++	gnutls_datum_t cipher_key;
++	gnutls_datum_t iv;
++	socklen_t infolen = sizeof(info);
++	int ret;
++
++	if (tlshd_is_ktls_enabled(session, read))
++		return true;
++
++	if (!tlshd_getsockopt(sock, read, &info, &infolen))
++		return false;
++
++	/* TLSv1.2 generates iv in the kernel */
++	if (gnutls_protocol_get_version(session) == GNUTLS_TLS1_2) {
++		info.info.version = TLS_1_2_VERSION;
++		memcpy(seq_number, info.iv, TLS_CIPHER_AES_GCM_256_IV_SIZE);
++
++		memcpy(iv.data, info.salt, TLS_CIPHER_AES_GCM_256_SALT_SIZE);
++		iv.size = TLS_CIPHER_AES_GCM_256_SALT_SIZE;
++	} else {
++		iv.data = g_malloc0(TLS_CIPHER_AES_GCM_256_SALT_SIZE + TLS_CIPHER_AES_GCM_256_IV_SIZE);
++
++		memcpy(iv.data + TLS_CIPHER_AES_GCM_256_SALT_SIZE, info.iv,
++		       TLS_CIPHER_AES_GCM_256_IV_SIZE);
++
++		memcpy(iv.data, info.salt, TLS_CIPHER_AES_GCM_256_SALT_SIZE);
++		iv.size = TLS_CIPHER_AES_GCM_256_SALT_SIZE + TLS_CIPHER_AES_GCM_256_IV_SIZE;
++	}
++
++	cipher_key.data = info.key;
++	cipher_key.size = TLS_CIPHER_AES_GCM_256_KEY_SIZE;
++
++	memcpy(seq_number, info.rec_seq, TLS_CIPHER_AES_GCM_256_REC_SEQ_SIZE);
++
++	ret = gnutls_record_set_state2(session, read, NULL, &iv,
++				       &cipher_key, seq_number);
++
++	g_free(iv.data);
++
++	if (ret != GNUTLS_E_SUCCESS) {
++		tlshd_log_gnutls_error(ret);
++		return false;
++	}
++
++	return true;
++}
++#endif
++
+ #if defined(TLS_CIPHER_AES_GCM_256)
+ static bool tlshd_set_aes_gcm256_info(gnutls_session_t session, int sock,
+ 				      unsigned read)
+@@ -200,6 +337,62 @@ static bool tlshd_set_aes_gcm256_info(gnutls_session_t session, int sock,
+ }
+ #endif
+ 
++#if defined(TLS_CIPHER_AES_CCM_128)
++static bool tlshd_get_aes_ccm128_info(gnutls_session_t session, int sock,
++				      unsigned read)
++{
++	struct tls12_crypto_info_aes_ccm_128 info = {
++		.info.version		= TLS_1_3_VERSION,
++		.info.cipher_type	= TLS_CIPHER_AES_CCM_128,
++	};
++	unsigned char seq_number[8];
++	gnutls_datum_t cipher_key;
++	gnutls_datum_t iv;
++	socklen_t infolen;
++	int ret;
++
++	if (tlshd_is_ktls_enabled(session, read))
++		return true;
++
++	if (!tlshd_getsockopt(sock, read, &info, &infolen)) {
++		return false;
++	}
++
++	/* TLSv1.2 generates iv in the kernel */
++	if (gnutls_protocol_get_version(session) == GNUTLS_TLS1_2) {
++		info.info.version = TLS_1_2_VERSION;
++		memcpy(seq_number, info.iv, TLS_CIPHER_AES_CCM_128_IV_SIZE);
++
++		memcpy(iv.data, info.salt, TLS_CIPHER_AES_CCM_128_SALT_SIZE);
++		iv.size = TLS_CIPHER_AES_CCM_128_SALT_SIZE;
++	} else {
++		memcpy(iv.data + TLS_CIPHER_AES_CCM_128_SALT_SIZE, info.iv,
++		       TLS_CIPHER_AES_CCM_128_IV_SIZE);
++
++		memcpy(iv.data, info.salt, TLS_CIPHER_AES_CCM_128_SALT_SIZE);
++		iv.size = TLS_CIPHER_AES_CCM_128_SALT_SIZE + TLS_CIPHER_AES_CCM_128_IV_SIZE;
++	}
++
++	memcpy(cipher_key.data, info.key, TLS_CIPHER_AES_CCM_128_KEY_SIZE);
++	cipher_key.size = TLS_CIPHER_AES_CCM_128_KEY_SIZE;
++
++	memcpy(seq_number, info.rec_seq, TLS_CIPHER_AES_CCM_128_REC_SEQ_SIZE);
++
++	ret = gnutls_record_set_state2(session, read, NULL, &iv,
++				       &cipher_key, seq_number);
++
++	free(cipher_key.data);
++	free(iv.data);
++
++	if (ret != GNUTLS_E_SUCCESS) {
++		tlshd_log_gnutls_error(ret);
++		return false;
++	}
++
++	return true;
++}
++#endif
++
+ #if defined(TLS_CIPHER_AES_CCM_128)
+ static bool tlshd_set_aes_ccm128_info(gnutls_session_t session, int sock,
+ 				      unsigned read)
+@@ -239,6 +432,53 @@ static bool tlshd_set_aes_ccm128_info(gnutls_session_t session, int sock,
+ }
+ #endif
+ 
++#if defined(TLS_CIPHER_CHACHA20_POLY1305)
++static bool tlshd_get_chacha20_poly1305_info(gnutls_session_t session, int sock,
++					     unsigned read)
++{
++	struct tls12_crypto_info_chacha20_poly1305 info = {
++		.info.version		= TLS_1_3_VERSION,
++		.info.cipher_type	= TLS_CIPHER_CHACHA20_POLY1305,
++	};
++	unsigned char seq_number[8];
++	gnutls_datum_t cipher_key;
++	gnutls_datum_t iv;
++	socklen_t infolen;
++	int ret;
++
++	if (tlshd_is_ktls_enabled(session, read))
++		return true;
++
++	if (!tlshd_getsockopt(sock, read, &info, &infolen)) {
++		return false;
++	}
++
++	if (gnutls_protocol_get_version(session) == GNUTLS_TLS1_2)
++		info.info.version = TLS_1_2_VERSION;
++
++	memcpy(iv.data, info.iv, TLS_CIPHER_CHACHA20_POLY1305_IV_SIZE);
++	iv.size = TLS_CIPHER_CHACHA20_POLY1305_IV_SIZE;
++
++	memcpy(cipher_key.data, info.key, TLS_CIPHER_CHACHA20_POLY1305_KEY_SIZE);
++	cipher_key.size = TLS_CIPHER_CHACHA20_POLY1305_KEY_SIZE;
++
++	memcpy(seq_number, info.rec_seq, TLS_CIPHER_CHACHA20_POLY1305_REC_SEQ_SIZE);
++
++	ret = gnutls_record_set_state2(session, read, NULL, &iv,
++				       &cipher_key, seq_number);
++
++	free(cipher_key.data);
++	free(iv.data);
++
++	if (ret != GNUTLS_E_SUCCESS) {
++		tlshd_log_gnutls_error(ret);
++		return false;
++	}
++
++	return true;
++}
++#endif
++
+ #if defined(TLS_CIPHER_CHACHA20_POLY1305)
+ static bool tlshd_set_chacha20_poly1305_info(gnutls_session_t session, int sock,
+ 					     unsigned read)
+@@ -274,6 +514,46 @@ static bool tlshd_set_chacha20_poly1305_info(gnutls_session_t session, int sock,
+ }
+ #endif
+ 
++/**
++ * tlshd_initialize_ktls - Initialize socket for use by kTLS
++ * @session: TLS session descriptor
++ *
++ * Returns zero on success, or a positive errno value.
++ */
++unsigned int tlshd_restore_ktls(gnutls_session_t session)
++{
++	int sockin, sockout;
++
++	gnutls_transport_get_int2(session, &sockin, &sockout);
++
++	switch (gnutls_cipher_get(session)) {
++#if defined(TLS_CIPHER_AES_GCM_128)
++	case GNUTLS_CIPHER_AES_128_GCM:
++		return tlshd_get_aes_gcm128_info(session, sockout, 0) &&
++			tlshd_get_aes_gcm128_info(session, sockin, 1) ? 0 : EIO;
++#endif
++#if defined(TLS_CIPHER_AES_GCM_256)
++	case GNUTLS_CIPHER_AES_256_GCM:
++		return tlshd_get_aes_gcm256_info(session, sockout, 0) &&
++			tlshd_get_aes_gcm256_info(session, sockin, 1) ? 0 : EIO;
++#endif
++#if defined(TLS_CIPHER_AES_CCM_128)
++	case GNUTLS_CIPHER_AES_128_CCM:
++		return tlshd_get_aes_ccm128_info(session, sockout, 0) &&
++			tlshd_get_aes_ccm128_info(session, sockin, 1) ? 0 : EIO;
++#endif
++#if defined(TLS_CIPHER_CHACHA20_POLY1305)
++	case GNUTLS_CIPHER_CHACHA20_POLY1305:
++		return tlshd_get_chacha20_poly1305_info(session, sockout, 0) &&
++			tlshd_get_chacha20_poly1305_info(session, sockin, 1) ? 0 : EIO;
++#endif
++	default:
++		tlshd_log_error("tlshd does not support the requested cipher: %d", gnutls_cipher_get(session));
++	}
++
++	return EIO;
++}
 +
  /**
-  * tlshd_keyring_get_psk_key - Retrieve pre-shared key for PSK handshake
-  * @serial: Key serial number to look up
+  * tlshd_initialize_ktls - Initialize socket for use by kTLS
+  * @session: TLS session descriptor
 diff --git a/src/tlshd/tlshd.h b/src/tlshd/tlshd.h
-index aad1f0e..663f2c0 100644
+index 663f2c0..9c99a1f 100644
 --- a/src/tlshd/tlshd.h
 +++ b/src/tlshd/tlshd.h
-@@ -79,6 +79,9 @@ extern void tlshd_service_socket(void);
- /* keyring.c */
- extern bool tlshd_keyring_get_psk_username(key_serial_t serial,
- 					   char **username);
-+extern key_serial_t tlshd_keyring_put_session(gnutls_session_t session);
-+extern bool tlshd_keyring_get_session(key_serial_t serial,
-+	gnutls_session_t session);
- extern bool tlshd_keyring_get_psk_key(key_serial_t serial,
- 				      gnutls_datum_t *key);
- extern bool tlshd_keyring_get_privkey(key_serial_t serial,
+@@ -97,6 +97,7 @@ extern int tlshd_server_psk_cb(gnutls_session_t session,
+ 
+ /* ktls.c */
+ extern unsigned int tlshd_initialize_ktls(gnutls_session_t session, enum sock_direction direction);
++extern unsigned int tlshd_restore_ktls(gnutls_session_t session);
+ extern int tlshd_gnutls_priority_init(void);
+ extern int tlshd_gnutls_priority_set(gnutls_session_t session,
+ 				     const struct tlshd_handshake_parms *parms,
 -- 
 2.51.0
 

@@ -1,178 +1,150 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D0DAB640
-	for <kernel-tls-handshake@lists.linux.dev>; Thu,  2 Oct 2025 00:23:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38501248F72
+	for <kernel-tls-handshake@lists.linux.dev>; Thu,  2 Oct 2025 05:28:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759364606; cv=none; b=IbsHc3FFPn6k38sRFZ/sUA5ZZLJmWe2H2hg8GlqOq3iBg/rInWz7Hwo/YEUDndFXMoRENZJLcNcjx3iVs7X57wHN2eomXBIHIMg1DlsUDh7QT18U9f5JmUZIx+kY1Zlpg/DR6a+M3S7f7C3oRAIGeKo3+/BNAu+RY/HSnTgp4VA=
+	t=1759382928; cv=none; b=jYb6cK1BvaKMQZZ7D95MTBn2YK1mg72a8hIaezHEwe0TKHfRIaMOJs/9s4DTrKJ580JVrS3LGD8ii0OgzXb7sc9wiUXqFtPjxaVrgpwIl5MEJHjPD3JYBBwG+Eddcitj5kiRSQhKVQp+jO4U2s7z+dpN2X1wBGrfSu/CuvXt2Lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759364606; c=relaxed/simple;
-	bh=dtJ5R6A3ZLse4s3RrlDnvgvFBAxA6FDusOcrSj7mjmI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BJsgs82C0JgDAstDL7NAbdu7ku2/vFL9KD6pNrQuy72Q+hDTMBqIVkIx/gB+pI4mqlXJCkCPUDBa5wryGwR16JK/Y9ehaO2bvRId7NvE+GEcE6zO12NV1O1bNzdrK9viVLMj3OEnCyx6mzOlNa+mNzTax7yK81DpT5b7kG11zqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c+SNn29J; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759382928; c=relaxed/simple;
+	bh=/K7Uckik+yKNtki56loj4vsM/K+/hVx8DZ1Bjfa3PMI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oVF4gw4xJdvTb9ZXwK6RisfJfcQoP/943MN8W7g5WNdL3RLF72BYsBTrclPlxAinGlmIUnbfufynoDESoNgLDyVdcgeCYukw9muvUi4nMG8uyneRxRPXJ5h0pYTq6C66ZmrN5hMaScS6inPtqkbtdI2W3OMckmtaETgC1XdMNnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=emZnisVo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=o7tg9YQn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=emZnisVo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=o7tg9YQn; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c+SNn29J"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b3dbf11fa9eso88214266b.0
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 01 Oct 2025 17:23:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759364602; x=1759969402; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dP3KlK6HBoqq/H6/SHyIbnppVIsOAShm/Ly+/b5rayI=;
-        b=c+SNn29JOHzsbwteW8bjxCZujcg3iSfxG86ZGVbJyL634qVljEyCf3AHjk89A3YFKG
-         ivTY+Z9A7e7JdyyhRGt3Du1ljPmjDn7QSXL3zoZBhgrc3KNgc05xGdHM1VISpcGdpjLt
-         yMqhxhnSVJElKF8yPRF6dFm7yCiOIKPmowhBGVLcWvNsZdjfgdV0JvjmuM2NIT9DsvNy
-         hxGgpGERFp9VVHyc+8ujj0h7GdGjEcv3npvdLuav42lCegIHWglkbUnjWdtV9tmzT1y0
-         chR4YxX2G41UY/YN6kwNR1Hi3PPK6FGxJdslbdSKyCA/X5Un37t2+zYYE4pEqpB6H7+d
-         cNgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759364602; x=1759969402;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dP3KlK6HBoqq/H6/SHyIbnppVIsOAShm/Ly+/b5rayI=;
-        b=Bb7Nnhf/jeG8ksOCQR/5ud4N2dmtZn/HPHgdqI5zufGBjiHAU5JumtwYSYNqLB0+yK
-         3r/HcpnT3QaDUbkGJrXBrEpl/w8EyOBMlvGQuOXY6yRvivjwgCEujB/Eavxqt3BOdIHj
-         pa+be5zXWZzzECj2hC736q+3nCDOqOdI1Ql8TKmUG0hFOuZajzcbASGeQ1807vZdBnCL
-         WVQDYbJysdTTsQFygrBx033ur8Nqe8dDTW2sjySV3eUuhFODMgPtSsxh+dcsCeAsGCYE
-         lD92awj0ptYaTFOzutegfXQZL0s7SECtbCMjpvKdEsByORQI66mii3hey9KJCd3Omv2O
-         gAhA==
-X-Forwarded-Encrypted: i=1; AJvYcCUUMXjWpVosihAaIA71v0yiReZOJCVF6pn8c6+MZiQZJpSoCKy9XYEjndXOPxeZ5kpv5Ab+AglsL2KkpQPQStneQlx28w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywe7Eg6fJBoXzQtGOQGbkYjl4B6OrRSGEs3FMb7vS6FjvlvIFCz
-	dWbtO0lJn9ZTT86l6D9UE5I5ZMQr8bgLVYRU8V7n5DkYnXWO4zutUQ8eLE8poUY9VG/KFtR5yh4
-	+MgII2e6epvTsRM/SCnLpsKgczPEdxSg=
-X-Gm-Gg: ASbGncvBBLdbR+xCtP5DuW/brh9qhcVPIGAdvAY3L/p0F4o6Fu2bmzi/01DSA4Uw3w3
-	tjNKUxwaLqdpB4+68U1rrqMoYoNAvsnqyvu+oa99E9DwbFuulobOgvXVRulBpP7Ocnlmp0mQFTf
-	id4wWNZrGzF0Z85khfkszeWCnIraIaUJSvczqBdTz2UjIVqqs2H14MUvB3KFEsmvyLUkg5L7pJ2
-	P//YR+fbjTzhqXXRQP2TgAobgDy8NqNcpJGu24nEJTeamaVzjKnpRVLhPLbIA==
-X-Google-Smtp-Source: AGHT+IFfIQRLM+t6S4HhYWvy0aAQVlklgUB3UoA9RaJ1ol9pmT510Ejoko85+0gEtF0Ok2VHDxZg2sAJan6zsM1x2dg=
-X-Received: by 2002:a17:906:c156:b0:b46:31be:e8ea with SMTP id
- a640c23a62f3a-b46dcef7a74mr632456366b.0.1759364602269; Wed, 01 Oct 2025
- 17:23:22 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="emZnisVo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o7tg9YQn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="emZnisVo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o7tg9YQn"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 66848337DA;
+	Thu,  2 Oct 2025 05:28:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759382923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NeMNqIw7y9PJOBfIXYbEdSTLZfj+zDQiOS1qGvm2U/A=;
+	b=emZnisVo8Bom3nsFKlre0OyDnB3llZUMCS0LYYdlKlHZE1BVbhCWzhJXlq+OFM8wqAe0UA
+	9DndgkGVUsVt7+HsHQX0wPW+EV2PGS5kXGGDs2xrbQwITEUYJpLcf9hHcjQc3X+rrvuL3e
+	sVRBTCEvFQGQyYsLXylqK5z3kx5gu+k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759382923;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NeMNqIw7y9PJOBfIXYbEdSTLZfj+zDQiOS1qGvm2U/A=;
+	b=o7tg9YQnz/ZSdQoTgtKTnLTCBoT/vsDLxLCTYbDvJLFKiexftvegOlNC4MtJoWttj0CHen
+	jyEkRVqYJC2J6oCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1759382923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NeMNqIw7y9PJOBfIXYbEdSTLZfj+zDQiOS1qGvm2U/A=;
+	b=emZnisVo8Bom3nsFKlre0OyDnB3llZUMCS0LYYdlKlHZE1BVbhCWzhJXlq+OFM8wqAe0UA
+	9DndgkGVUsVt7+HsHQX0wPW+EV2PGS5kXGGDs2xrbQwITEUYJpLcf9hHcjQc3X+rrvuL3e
+	sVRBTCEvFQGQyYsLXylqK5z3kx5gu+k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1759382923;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NeMNqIw7y9PJOBfIXYbEdSTLZfj+zDQiOS1qGvm2U/A=;
+	b=o7tg9YQnz/ZSdQoTgtKTnLTCBoT/vsDLxLCTYbDvJLFKiexftvegOlNC4MtJoWttj0CHen
+	jyEkRVqYJC2J6oCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 24E4D139B0;
+	Thu,  2 Oct 2025 05:28:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id dELXBYsN3mjDHgAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 02 Oct 2025 05:28:43 +0000
+Message-ID: <768e0842-09cc-47fb-9f66-2443f95094e4@suse.de>
+Date: Thu, 2 Oct 2025 07:28:42 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <0c65e986-77d1-44b4-a4cb-c1a9c2213ba3@app.fastmail.com> <20251001233549.436746-1-smayhew@redhat.com>
-In-Reply-To: <20251001233549.436746-1-smayhew@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 2 Oct 2025 10:22:56 +1000
-X-Gm-Features: AS18NWBuPDeZRlR07BqdT00dKjAmY-_zwrau3FStcvQqAzDGFaG-cft7DiWcXXU
-Message-ID: <CAKmqyKMEJ1VMHHCnUb=hRMZ0V_Vq4x7PD31Ct612Oe08jB9YaQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] tlshd: fix priority cache initialization
-To: Scott Mayhew <smayhew@redhat.com>
-Cc: alistair@alistair23.me, chuck.lever@oracle.com, 
-	kernel-tls-handshake@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Scott Mayhew <smayhew@redhat.com>, alistair@alistair23.me
+Cc: chuck.lever@oracle.com, kernel-tls-handshake@lists.linux.dev
+References: <0c65e986-77d1-44b4-a4cb-c1a9c2213ba3@app.fastmail.com>
+ <20251001233549.436746-1-smayhew@redhat.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20251001233549.436746-1-smayhew@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 
-On Thu, Oct 2, 2025 at 9:38=E2=80=AFAM Scott Mayhew <smayhew@redhat.com> wr=
-ote:
->
+On 10/2/25 01:35, Scott Mayhew wrote:
 > Commit 9253f9d added the use of the @SYSTEM keyword as the initial
 > keyword in the priority string used by tlshd.  Unfortunately @SYSTEM
 > doesn't appear to work on systems that do not have a system-wide
 > library configuration set up.
->
+> 
 > Instead of trying to pick an initial keyword that will work on all
 > systems, let's instead use gnutls_priority_init2() with the
 > GNUTLS_PRIORITY_INIT_DEF_APPEND flag instead.  That will *append* our
 > priority string to the default options.
->
+> 
 > Fixes: 9253f9d ("tlshd: Fix priority string to allow PQC")
 > Signed-off-by: Scott Mayhew <smayhew@redhat.com>
-
-Awesome! Thanks for fixing this
-
-Tested-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
 > ---
->
+> 
 > Alistair, can you try this patch and see if it fixes your issue?
+> 
+>   src/tlshd/ktls.c | 18 +++++++++++-------
+>   1 file changed, 11 insertions(+), 7 deletions(-)
+> 
+Thanks for doing this. Figuring out the init strings had been a major
+pain, so I wasn't that happy with the initial patch.
 
-Yep, fixes my issue
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Alistair
+Cheers,
 
->
->  src/tlshd/ktls.c | 18 +++++++++++-------
->  1 file changed, 11 insertions(+), 7 deletions(-)
->
-> diff --git a/src/tlshd/ktls.c b/src/tlshd/ktls.c
-> index 50381bf..bc75313 100644
-> --- a/src/tlshd/ktls.c
-> +++ b/src/tlshd/ktls.c
-> @@ -357,7 +357,7 @@ static int tlshd_gnutls_priority_init_list(const unsi=
-gned int *ciphers,
->         const char *errpos;
->         int ret, i;
->
-> -       pstring =3D strdup("@SYSTEM:-COMP-ALL");
-> +       pstring =3D strdup("-COMP-ALL");
->         if (!pstring)
->                 return -ENOMEM;
->
-> @@ -425,7 +425,8 @@ static int tlshd_gnutls_priority_init_list(const unsi=
-gned int *ciphers,
->         }
->
->         tlshd_log_debug("x.509 priority string: %s\n", pstring);
-> -       ret =3D gnutls_priority_init(&tlshd_gnutls_priority_x509, pstring=
-, &errpos);
-> +       ret =3D gnutls_priority_init2(&tlshd_gnutls_priority_x509, pstrin=
-g, &errpos,
-> +                                   GNUTLS_PRIORITY_INIT_DEF_APPEND);
->         if (ret !=3D GNUTLS_E_SUCCESS) {
->                 free(pstring_sha256);
->                 free(pstring_sha384);
-> @@ -442,7 +443,8 @@ static int tlshd_gnutls_priority_init_list(const unsi=
-gned int *ciphers,
->         }
->
->         tlshd_log_debug("PSK priority string: %s\n", pstring);
-> -       ret =3D gnutls_priority_init(&tlshd_gnutls_priority_psk, pstring,=
- &errpos);
-> +       ret =3D gnutls_priority_init2(&tlshd_gnutls_priority_psk, pstring=
-, &errpos,
-> +                                   GNUTLS_PRIORITY_INIT_DEF_APPEND);
->         if (ret !=3D GNUTLS_E_SUCCESS) {
->                 free(pstring_sha256);
->                 free(pstring_sha384);
-> @@ -461,8 +463,9 @@ static int tlshd_gnutls_priority_init_list(const unsi=
-gned int *ciphers,
->         }
->
->         tlshd_log_debug("PSK SHA256 priority string: %s\n", pstring);
-> -       ret =3D gnutls_priority_init(&tlshd_gnutls_priority_psk_sha256,
-> -                                  pstring, &errpos);
-> +       ret =3D gnutls_priority_init2(&tlshd_gnutls_priority_psk_sha256,
-> +                                  pstring, &errpos,
-> +                                  GNUTLS_PRIORITY_INIT_DEF_APPEND);
->         if (ret !=3D GNUTLS_E_SUCCESS) {
->                 free(pstring);
->                 free(pstring_sha384);
-> @@ -482,8 +485,9 @@ static int tlshd_gnutls_priority_init_list(const unsi=
-gned int *ciphers,
->         }
->
->         tlshd_log_debug("PSK SHA384 priority string: %s\n", pstring);
-> -       ret =3D gnutls_priority_init(&tlshd_gnutls_priority_psk_sha384,
-> -                                  pstring, &errpos);
-> +       ret =3D gnutls_priority_init2(&tlshd_gnutls_priority_psk_sha384,
-> +                                  pstring, &errpos,
-> +                                  GNUTLS_PRIORITY_INIT_DEF_APPEND);
->         if (ret !=3D GNUTLS_E_SUCCESS) {
->                 free(pstring);
->                 gnutls_priority_deinit(tlshd_gnutls_priority_psk_sha256);
-> --
-> 2.51.0
->
->
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich

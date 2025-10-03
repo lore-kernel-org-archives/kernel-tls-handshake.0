@@ -1,64 +1,64 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 110421F4CBC
-	for <kernel-tls-handshake@lists.linux.dev>; Fri,  3 Oct 2025 04:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFFE719E96D
+	for <kernel-tls-handshake@lists.linux.dev>; Fri,  3 Oct 2025 04:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759465940; cv=none; b=B/z9pxHt0R0awpuLv4eNDH06/j8PUNluZr6SBBBeQRg0myNwV1uhhEpqdV0LKP0SojsAFGPBH9nngoFUMxaOuEmEdpATDkzSuCa+WxrIlOMNJxOrXLLM96sNpHcYXbSUnLKIMZFFaDD1o/7g9eT4Z1D3p7KS2FHjGAA0R7M61UY=
+	t=1759465946; cv=none; b=B6lFi+XZgmlWGBxUwZi9HPIHzbveGV100h/SL8S2j88pwA2+Ezhhg6bkTKXZgeuSjrq0lDwHF0clB0Ly7AZClqOQ3hUX2QEfWSoS69+B0bTJXT+INWMjMiA2wZykH16AcuZE4vhKsRiBFrpfTZHjb/V4muksKelCeS8BmsoM50U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759465940; c=relaxed/simple;
-	bh=Z6w0x3oPOM6C3EiKqL/1mOmpceuMWimWzPhFuNGO/7o=;
+	s=arc-20240116; t=1759465946; c=relaxed/simple;
+	bh=Bl1TRunIta5QQDe3lRPwonbH+J8i9iNM2VxNxK/XmSU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Rnr4xq1Lu6kTjw4At2PCRTfn8bHBTZ6qlAYJEsWJbrvh51/ZZiS2HhFPkW5gob+uVpB3HD6WnKgQ/8CJ+9p1Y6lztin6LUsLbAVGKd+pevH7/oE8HRnokateZt20WB/G9zkYWHfkaZb/8dDG1Prh5bcteFbf8EjwMcFTuoTfEf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hqBnU6YM; arc=none smtp.client-ip=209.85.216.50
+	 MIME-Version; b=Qf7KfD1yGc8ND4Cy+4MVHcftxZlHVuNC0jovSfDUqVdui62QtM4PYS/9JKyL8ymrs6ao2WC5VrW4C3AdkNePhPHmxKqh7vR0q8ibRO1hENjlmurWPU7HMtXtuTh8OswS0rONimlhL2CxjZkuCl7nEWFIIL0bc4dKSd4mWQrBCdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G40/dCJP; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hqBnU6YM"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3327f8ed081so2159216a91.1
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 02 Oct 2025 21:32:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G40/dCJP"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-32ed19ce5a3so1610060a91.0
+        for <kernel-tls-handshake@lists.linux.dev>; Thu, 02 Oct 2025 21:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759465938; x=1760070738; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1759465944; x=1760070744; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9morpPQKu8lXMrpuy/uDVQLBubkYtfu9D8D3JxjNjjM=;
-        b=hqBnU6YM5t4nm4xMDvUoJ06Are5WI/17r9EPFHL33XTroBCpw0jq52C2Bsl4SsKXiw
-         evT5MmwMQStpG27Ar0MhhbVJnJzCu2PywXE3fmvAsEDDl84Bg95RzcOzjx0QVyWm2TjN
-         HFZZ71vk+xcb1kKvSXMfefTP6pd0GEUafqP90qGTRb3gSwMIOQy5tajynM0CcDlyzMf+
-         3+7yKdb/JB7o0GSGblYoRM8Bn49uVn5MrecmWUZ2ZKA0cuoB46czYzJT4LumRBGP/iVL
-         6srhrnWt4FNWC7IF3eJB01Zn+IkKfKUOpmrmgV1CxIVS/fFFplgPDTLmoZCBYRLdYuuJ
-         TX/Q==
+        bh=jOV0qGYLCq+9ZQ//0z9A3z+3aG29/4P327MFfqw2xrc=;
+        b=G40/dCJPKWADIyIaQ5bKNNGFyaPoW20TuW1Cpk6mKhz1jSblaglxD813NSEuvwmdKf
+         YQk+JKUMkokAkzYkawhSYS0jTH1z3e6ZEVkoViZ7UEaXiJIT2Igd9GFWhaHfFaZReuHO
+         V/i7xd5uOwB7Aj1TGLNMh03ILopgq4/KKMb+tytwBT66HXsaA9c3U4zGk3KNDMWZ+J0y
+         tAOTlAYY5bIfOdWNh6gPeaH3XM9NIKabHNi3S//ZgtfUjsR/zQOYEg1vxE0XbTFukz0A
+         JFtz5/IPB5+UIdzvLJ5mRsRsDll0x1S32hhhxl2yLp7/Sv+Pjq0PWMN9NwkY1klq2CPr
+         Qaug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759465938; x=1760070738;
+        d=1e100.net; s=20230601; t=1759465944; x=1760070744;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9morpPQKu8lXMrpuy/uDVQLBubkYtfu9D8D3JxjNjjM=;
-        b=gGFnuV0apR9s9mONA9IhgUqPF1P9xI5PQZcIQ11fhHEjwGn9EtwcSb2wOBCwjdZxK9
-         iVfFwVHKO1niIek8hHPkGFq/DSfZlf5aWso1Td3ay0MQG786Myfqj58H4eCtm+0P5pyC
-         4UqOEZsA5wGPRq1+6SJu/kl9XWN+GbzfxnE9YjAx1jFozOFng8JsnhMuC0SPWswPAyoo
-         G/DltKAj6/WW7J6DnBRtiTXZRTHh/HDmllEQfUG2mTOyj1dWp0ESvGH361j1WFBTVbOX
-         HNF53zYfa/kjkfnRqKzTqFpvziH48brF8bmwEr6leAR2og3j68h45Xaz8hoJzwLd9imu
-         K20A==
-X-Forwarded-Encrypted: i=1; AJvYcCWz+D+7lwGt/Dny0vomoY+pJkTCsB8jk42GDD0IZHfFoPwRS1Iz6a8vMItn18K1ka9gjBTSH0frWcgnc4lqvef5Wwlutg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YytZlM5TbR5on8TzO3SaIWHpkrxBIiYVwRMUAjuRDp7/O+McNPi
-	/F9dYu1jqh4GIxZP23alhSIcumg9zBM25dHuriTSXM3xeyVOakC4Fhdd
-X-Gm-Gg: ASbGnctrVqYadwKL6Tv2K78Y0ikdDhSWcfpFKr8WlaNfgc1JSea4P2Lm9JNDPvvIpoq
-	4itD3r7fjZ00Inqtg67ByLecHOQG41b515vDtFKJHhtpnG0DWYuqASGOKN4fxr33ZYYu3zqu+Z1
-	Jd5dwgtW/jFkHn1jAetBlSCH82mdSDPzHb/bVR2zFJFA3stb8ZmP0iwKKx65lv55HA3NZiCyXPW
-	TXIQQ3Ho6mLCEtA92jRU3MnJDb5izr0uYowd/hFBjRITUuTu76qRWRlDfLBkSTwLMz8i3VmKBfn
-	N9Y6IoSZgml0vbJ+mQvAVbnIBy6cRiXH0Ldk6QEjQj1iyESPs0tBTAsSZ+yA/WkcXUa3dfyAUti
-	FGKmpjiW/ZnNLmmS8C6RAeXb2mMeb2lzXLgObmtGhjk8AShm3aDoCV2qAQ/Rb1pnee9+POM3M2Z
-	su6j7sbWeU+mSd99WLO6KYjF4LSyNBeasTWz8mV6LdIXv4uUwA6sAL
-X-Google-Smtp-Source: AGHT+IHs89hKTsl9/f/m+plS3Ev8/2NixvjRvxCPx92Pgo3FWsBpoEKCKAbX01MgtOEvv1xzIjE2Cw==
-X-Received: by 2002:a17:90b:4b8b:b0:335:28ee:eebe with SMTP id 98e67ed59e1d1-339c279e977mr2022144a91.30.1759465938258;
-        Thu, 02 Oct 2025 21:32:18 -0700 (PDT)
+        bh=jOV0qGYLCq+9ZQ//0z9A3z+3aG29/4P327MFfqw2xrc=;
+        b=DTYo9QuEU7QqmjupgV+6NeF4QlQtob8h+Y9XA1gL3LCgRgO3lEP5Cn5rpyDe8oxHg8
+         oHNtAOeVyucJHrGZgocgXOwEvUtUHpxbIER8u+K1W/GoCGGu8bsVnls8UQagwVG5ziEm
+         uOgoJ9GygRAPPLeLuzNkUF1tKzudhuSHuk626zUIr+TMPbKWP+HZ633tsJ4L5fFsjjSn
+         ErA+/O4GVyuGdMs4kprGnOPj0pZCLmSCupoVxCABQeKY29yd3kTXQN9yX7RXieeL9zwI
+         whBsV3P7mCdMvnKfq0RPH7FRXizOXk8UaiZ0w+jv68ZSawhzSd/RXQw4KAR7cO/S6lXv
+         83dQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVAKqsBhWtaeWAYQ+oqz3UaOECUKnw9WjHqUbkUVLFwjyqrHkX1XAK0bki9vzIB0pksr38CVdpkjIl8xwmgvho9+9RiiQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyD6JYspjSogR3grg+UuQqxfhGNfrbfSgLoJpY8kicTvlwA1pWN
+	vc2BCmXCYQw34facPY3ZDCY9ZnlQh55N49qKzvTKEtDd1WXOXyl91gve
+X-Gm-Gg: ASbGncthxcMYlrTSczJ1ohlqsuXtM/2fg4j48R2U9H7QvoMB9mf6yGOCHEFtO2QWucG
+	ejPtzZS0pguVh8Dhzy681o91vYMyh3D5bnLTXtSCJjqxF9HCXxaFmPis+TkcxpcXKymZ+6bo7sA
+	R9UTbWZBl9ML7bMqZdpVIIyXWRUvnRl4whrgl2m4s8ciedpVw1t+/8WKd5xYeW4bAyy4yGjSZ73
+	xWMtNyF2buAvsRAy/DK3aieUuWzGliEqADr7bh+zihMaXgxESRAHrRQaQDp2w6WZl99Vm/iaE8+
+	50oFUftU4AQpX/DNTwd9Xk51bpho2mCuxSFb9hMyuIg+8PhTfyg5PX7DxW/Kd4jAjJ373J5z6+/
+	SCsroDvFTz54CdbTaG/TJPV3iQ48Wmwi6vWYU3ftQsoxmXCQX3TmFZv3gOPg47h8ppPbEbmL12u
+	JOe+pcflbnYgW3/4qBtcXkxReGmv9NlKYKw8OWNsm80mHGKmoqrHq5tGJodnpH/FY=
+X-Google-Smtp-Source: AGHT+IGCDoUIKtDX/52HGaffkclK+hmjaIJ+Bue+zX3dUNN6Q+cAazG3rbJtO5YII+rQ/2wJMc8/6A==
+X-Received: by 2002:a17:90b:1d92:b0:32e:389b:8762 with SMTP id 98e67ed59e1d1-339c264f452mr2016481a91.0.1759465944489;
+        Thu, 02 Oct 2025 21:32:24 -0700 (PDT)
 Received: from toolbx.alistair23.me (2403-580b-97e8-0-82ce-f179-8a79-69f4.ip6.aussiebb.net. [2403:580b:97e8:0:82ce:f179:8a79:69f4])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a701c457sm6528233a91.23.2025.10.02.21.32.12
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a701c457sm6528233a91.23.2025.10.02.21.32.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 21:32:17 -0700 (PDT)
+        Thu, 02 Oct 2025 21:32:23 -0700 (PDT)
 From: alistair23@gmail.com
 X-Google-Original-From: alistair.francis@wdc.com
 To: chuck.lever@oracle.com,
@@ -77,9 +77,9 @@ Cc: kbusch@kernel.org,
 	hare@suse.de,
 	alistair23@gmail.com,
 	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v3 2/8] net/handshake: Define handshake_sk_destruct_req
-Date: Fri,  3 Oct 2025 14:31:33 +1000
-Message-ID: <20251003043140.1341958-3-alistair.francis@wdc.com>
+Subject: [PATCH v3 3/8] net/handshake: Ensure the request is destructed on completion
+Date: Fri,  3 Oct 2025 14:31:34 +1000
+Message-ID: <20251003043140.1341958-4-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251003043140.1341958-1-alistair.francis@wdc.com>
 References: <20251003043140.1341958-1-alistair.francis@wdc.com>
@@ -93,47 +93,31 @@ Content-Transfer-Encoding: 8bit
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-Define a `handshake_sk_destruct_req()` function to allow the destruction
-of the handshake req.
-
-This is required to avoid hash conflicts when handshake_req_hash_add()
-is called as part of submitting the KeyUpdate request.
+To avoid future handshake_req_hash_add() calls failing with EEXIST when
+performing a KeyUpdate let's make sure the old request is destructed
+as part of the completion.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
 v3:
  - New patch
 
- net/handshake/request.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ net/handshake/request.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/net/handshake/request.c b/net/handshake/request.c
-index 274d2c89b6b2..0d1c91c80478 100644
+index 0d1c91c80478..194725a8aaca 100644
 --- a/net/handshake/request.c
 +++ b/net/handshake/request.c
-@@ -98,6 +98,22 @@ static void handshake_sk_destruct(struct sock *sk)
- 		sk_destruct(sk);
+@@ -311,6 +311,8 @@ void handshake_complete(struct handshake_req *req, unsigned int status,
+ 		/* Handshake request is no longer pending */
+ 		sock_put(sk);
+ 	}
++
++	handshake_sk_destruct_req(sk);
  }
+ EXPORT_SYMBOL_IF_KUNIT(handshake_complete);
  
-+/**
-+ * handshake_sk_destruct_req - destroy an existing request
-+ * @sk: socket on which there is an existing request
-+ */
-+static void handshake_sk_destruct_req(struct sock *sk)
-+{
-+	struct handshake_req *req;
-+
-+	req = handshake_req_hash_lookup(sk);
-+	if (!req)
-+		return;
-+
-+	trace_handshake_destruct(sock_net(sk), req, sk);
-+	handshake_req_destroy(req);
-+}
-+
- /**
-  * handshake_req_alloc - Allocate a handshake request
-  * @proto: security protocol
 -- 
 2.51.0
 

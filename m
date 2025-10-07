@@ -1,373 +1,137 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096CB6FBF
-	for <kernel-tls-handshake@lists.linux.dev>; Mon,  6 Oct 2025 06:48:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8F21A9F91
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  7 Oct 2025 01:22:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759733331; cv=none; b=tFVgkm/Q/0X6IkPAW73X9cu7dSMppWrX2ZT9WW5qrFy8Oj2aTPEvO4TOi8DY6TxXZstQQ1RNKDz/81y7G80mcSQIfwiZwFjYH/sAp7hFvXKxecjKW3LxqYxSw51BhBcCM+eprU3o47R21ta16lOTMbR1nZZBD+LcaIXAdVIcRmI=
+	t=1759800178; cv=none; b=sTIPMU8tH4O9eGrMlKlqwOD3u6TbF+F5kLRW7yd0rnl5/0sAK/hrKBTAGP0ioI0emUY0ECM48djQIlj6xTzc6EBt+A1u/NlKvfPf4v5Aoh/WGgXzuobTJk1icr0ZzrpPhL+/qvBqYtYeN5VcNlET7GN9zh+V9LtDgXsxOQHd1gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759733331; c=relaxed/simple;
-	bh=C0DVUJv0wHExjiFBl2hHkvEbWArEAs3z7PpU5iKqXI8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lQ4teljQXaZ0SKeH7z7RmBYx6RRRPPH8E5P682LqQpNmj8SU+HtKnjLY8N7mR1sYnUA6hyLkBcgahj4VklUVzk+Ajh7FvIAmuD2kVJK9mA/Uoe5PmB82VqZEUB6+RIlaHnDw21gix96a/Vxx35ctEBwHUTRiDVzR7VJmcILMr6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yPVzsExu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vlNwZdof; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TQ3inaQc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J/z3+ZDK; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1759800178; c=relaxed/simple;
+	bh=00hx5O89+8fvzy4PkP6xQKJCZLvcQoPJKp5vdlCLTCE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=riEA9Kb/LPqRc3WmryLeE7y+aHxgEGLdYxBLhITeq7F1wjyzcFzbYeILIVImILGY7Zt4IMIQ0IotmQ+XlnVFSNAe7dekevq2SQJ3VIMsRhOqNkymrGUsOnJNGmknpDRUo+W+MpjKRfh/EB44GyaZBsQcN5qI1fD36G47GHLJNUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W7+rA7SJ; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yPVzsExu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vlNwZdof";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TQ3inaQc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J/z3+ZDK"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E52A73373A;
-	Mon,  6 Oct 2025 06:48:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759733327; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NpUvoeKLIuqMWTPdrpet/and2sXN8W5qIkfOI+cEG2M=;
-	b=yPVzsExuahN6HcqCHykof2acT0mRWibd0R+fEqT16Ko4VhkfC8Oj+QmaykYTVksvqWmJYz
-	SfzCFLr7jcbLlqn6mkTryepghUoihNPvSCeT8bIKxf36uv65+orOvroH9UXpunldb7GO8p
-	9OBn6kTpHDH6+vEP9Tjw4GoxsyOM/Y0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759733327;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NpUvoeKLIuqMWTPdrpet/and2sXN8W5qIkfOI+cEG2M=;
-	b=vlNwZdof4iPR4tYwjduG5C5R9bs07NJuO4ysdxagSGdJFm8JrCip0Uf/MZh7padnIJ64kO
-	tay4fvJQsSYoMEBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TQ3inaQc;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="J/z3+ZDK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1759733325; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NpUvoeKLIuqMWTPdrpet/and2sXN8W5qIkfOI+cEG2M=;
-	b=TQ3inaQc5nz0VhfvuCMo2aWTTXA8u3YO7/xGz4z2IOXMNdyIb95NNz/CNhrjHZI0PIhsIN
-	xEf6jr8E0pGvXyBnT+cLxn8YzMti8FqRhgBaA34lYsDl4DNxXztI32/2CwwEFXngebI+GR
-	pj8tGrjY2bD107nNdKif+CD2RFRguSw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1759733325;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NpUvoeKLIuqMWTPdrpet/and2sXN8W5qIkfOI+cEG2M=;
-	b=J/z3+ZDKo7t3KVOUM6H40w9+izg5ACiN5rdeFjUK5wFio5Iq6Rpo4zHJSmQGiNandlQSzj
-	N9OLfvv+a9sKaxAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6CDEA13995;
-	Mon,  6 Oct 2025 06:48:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UIY7GE1m42jUDgAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 06 Oct 2025 06:48:45 +0000
-Message-ID: <591a7eb8-563c-4368-b868-880ed081a432@suse.de>
-Date: Mon, 6 Oct 2025 08:48:44 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W7+rA7SJ"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6364eb29e74so10825912a12.0
+        for <kernel-tls-handshake@lists.linux.dev>; Mon, 06 Oct 2025 18:22:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759800175; x=1760404975; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t47vpiwRUGgVZgrjR0ubmEzxDtialDVYBK5r+ezzR+E=;
+        b=W7+rA7SJcOvhRbVZMeuq8a61tpive7PpPNWinFu4qUzMlQtVf43SrsJV017P3qPcBQ
+         khYYrONIpwi76RjUqj7I3bewox8iS7jedqXtvBtTgsEqQTFlpi9bsdEvkj3kX/yZAIhT
+         C8/6497vAPCTKP5V/DVYSlYip57a6uzGpNzIhpS/zCTH7/PcSoGqDafpJj3eK3TIF+U4
+         IKnQrCM/7sDqNI8JdU1+BbvJwbIPatQmdlMbg0khNYODDX4FDJQnAY2cG4JFwHsNSYiA
+         dFb40UHM/g4hxVswkxYm6rfCBcs8NH8y5ggGEDVuQ3BvOPnX9Fy8qVN+peKk0+BU0Lxo
+         h0BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759800175; x=1760404975;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t47vpiwRUGgVZgrjR0ubmEzxDtialDVYBK5r+ezzR+E=;
+        b=H8Nd7VuLCSA7Lzfz+weasCTB0phE6cyIgWocx0d7IHvT3I1tKq0T2EkqWgdTD3ODv9
+         CMmHlYL7W0lidOyfTGCHkQYzrQPW9bzVcUaD+qbxyx/4B5RFKaOE9vgNIIhx0iWxcQDZ
+         QGUE1Tz4sEp+pXS6daSdi8dtOyjgaW3yDBrhiM5sHvWLPyDcZT2BGqrW8/HSjab3nE+l
+         1DQ9CQhKU9uAqzbN0dMRRy8j2cWhXF4L3P5yTkXj3FdvSJBNmRyXRQWwDNGt/FTnTrOL
+         PlvnoigQ7r6fIsqE7X1MGoAPNZdzoPnvGgQw3lseUtdkU0jTbPHi3VsfDUPGVWbjPKCV
+         OopA==
+X-Forwarded-Encrypted: i=1; AJvYcCWmyR2fUUvpluBBASXMJKrQUq2B7aOY9nq/DJi+ZnQbV9uSB6QFoYdlfGmIfYX1mnEsP3j4BExGGi+Nun7ZwfJtgyUmHg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx+udjDMYbjwV5Q+b7JSrnuWJCqvzff50dweQ5QdCgsDM8TBuCm
+	Ef9f51tTnWQp8+qmaBUibDUByUKtXZFp8Df46VxXo1hJ2IPlTKx4BDWnhMrBcLENkPB1VGEtSRf
+	8DBYmyVm0890+7UnMNMxuxS+tD3ci/wM=
+X-Gm-Gg: ASbGncs1Q9l4r/NBDPBOw/oqf4x7ykJx9cDlNHBcAadEPsXdG8rALpVZH8b+w87R9L4
+	oakLDYJlbDbju04jkE3P4wOs+ZM2Z8VBTerp0WK8q1Rs22f06oxwwi9Z0jZMoAHxd0vIy/cG1c6
+	PGBLk0zfWHKFbXmaXkTHgvuMa9l++w21HrmbKhv42PaTjYmi9thrH6a0j4+BNz2F5o1iWt0R/Rg
+	Yhfz5zFmp+JyUMU3GKPAdbdirNWFMqHZecLloB2PzbXqY2eEDz/lwGEPnhSvw==
+X-Google-Smtp-Source: AGHT+IEqVioe1S+GxtMPUCva4kG5CmfdDTTGDPNdiniLUblABnKsGagheixLUyeC/Xqdz84Zg3zCalpzx4OwzsmlUYQ=
+X-Received: by 2002:a05:6402:b0a:b0:638:d495:50a7 with SMTP id
+ 4fb4d7f45d1cf-639348fa973mr13226165a12.16.1759800175262; Mon, 06 Oct 2025
+ 18:22:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 7/8] nvmet-tcp: Support KeyUpdate
-To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
 References: <20251003043140.1341958-1-alistair.francis@wdc.com>
- <20251003043140.1341958-8-alistair.francis@wdc.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20251003043140.1341958-8-alistair.francis@wdc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[wdc.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,ietf.org:url,suse.de:mid,suse.de:dkim,suse.de:email];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: E52A73373A
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
+ <20251003043140.1341958-4-alistair.francis@wdc.com> <05d7ba0e-fe39-4f86-9e46-7ba95fccdce9@suse.de>
+In-Reply-To: <05d7ba0e-fe39-4f86-9e46-7ba95fccdce9@suse.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 7 Oct 2025 11:22:29 +1000
+X-Gm-Features: AS18NWA3ErD_gS2cWuFH4B1EU9R8Gp49Hxw1eP3L2D2MX2i73c7hEabcslLmzvQ
+Message-ID: <CAKmqyKMRXKJTQciiqjPXYAFa6UUJ6xkTSdEfU+9HnyNTOx-BxA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/8] net/handshake: Ensure the request is destructed on completion
+To: Hannes Reinecke <hare@suse.de>
+Cc: chuck.lever@oracle.com, hare@kernel.org, 
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/3/25 06:31, alistair23@gmail.com wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
-> 
-> If the nvmet_tcp_try_recv() function return EKEYEXPIRED or if we receive
-> a KeyUpdate handshake type then the underlying TLS keys need to be
-> updated.
-> 
-> If the NVMe Host (TLS client) initiates a KeyUpdate this patch will
-> allow the NVMe layer to process the KeyUpdate request and forward the
-> request to userspace. Userspace must then update the key to keep the
-> connection alive.
-> 
-> This patch allows us to handle the NVMe host sending a KeyUpdate
-> request without aborting the connection. At this time we don't support
-> initiating a KeyUpdate.
-> 
-> Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
-> v3:
->   - Use a write lock for sk_user_data
->   - Fix build with CONFIG_NVME_TARGET_TCP_TLS disabled
->   - Remove unused variable
-> v2:
->   - Use a helper function for KeyUpdates
->   - Ensure keep alive timer is stopped
->   - Wait for TLS KeyUpdate to complete
-> 
->   drivers/nvme/target/tcp.c | 90 ++++++++++++++++++++++++++++++++++++---
->   1 file changed, 85 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index bee0355195f5..fd59dd3ca632 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -175,6 +175,7 @@ struct nvmet_tcp_queue {
->   
->   	/* TLS state */
->   	key_serial_t		tls_pskid;
-> +	key_serial_t		user_session_id;
->   	struct delayed_work	tls_handshake_tmo_work;
->   
->   	unsigned long           poll_end;
-> @@ -186,6 +187,8 @@ struct nvmet_tcp_queue {
->   	struct sockaddr_storage	sockaddr_peer;
->   	struct work_struct	release_work;
->   
-> +	struct completion       tls_complete;
-> +
->   	int			idx;
->   	struct list_head	queue_list;
->   
-> @@ -836,6 +839,11 @@ static int nvmet_tcp_try_send_one(struct nvmet_tcp_queue *queue,
->   	return 1;
->   }
->   
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +static int nvmet_tcp_try_peek_pdu(struct nvmet_tcp_queue *queue);
-> +static void nvmet_tcp_tls_handshake_timeout(struct work_struct *w);
-> +#endif
-> +
->   static int nvmet_tcp_try_send(struct nvmet_tcp_queue *queue,
->   		int budget, int *sends)
->   {
+On Mon, Oct 6, 2025 at 4:16=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrote=
+:
+>
+> On 10/3/25 06:31, alistair23@gmail.com wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > To avoid future handshake_req_hash_add() calls failing with EEXIST when
+> > performing a KeyUpdate let's make sure the old request is destructed
+> > as part of the completion.
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> > v3:
+> >   - New patch
+> >
+> >   net/handshake/request.c | 2 ++
+> >   1 file changed, 2 insertions(+)
+> >
+> > diff --git a/net/handshake/request.c b/net/handshake/request.c
+> > index 0d1c91c80478..194725a8aaca 100644
+> > --- a/net/handshake/request.c
+> > +++ b/net/handshake/request.c
+> > @@ -311,6 +311,8 @@ void handshake_complete(struct handshake_req *req, =
+unsigned int status,
+> >               /* Handshake request is no longer pending */
+> >               sock_put(sk);
+> >       }
+> > +
+> > +     handshake_sk_destruct_req(sk);
+> >   }
+> >   EXPORT_SYMBOL_IF_KUNIT(handshake_complete);
+> >
+> Curious.
+> Why do we need it now? We had been happily using the handshake mechanism
+> for quite some time now, so who had been destroying the request without
+> this patch?
 
-And we need this why?
+Until now a handshake would only be destroyed on a failure or when a
+sock is freed (via the sk_destruct function pointer).
+handshake_complete() is only called on errors, not a successful
+handshake so it doesn't remove the request.
 
-> @@ -844,6 +852,13 @@ static int nvmet_tcp_try_send(struct nvmet_tcp_queue *queue,
->   	for (i = 0; i < budget; i++) {
->   		ret = nvmet_tcp_try_send_one(queue, i == budget - 1);
->   		if (unlikely(ret < 0)) {
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +			if (ret == -EKEYEXPIRED &&
-> +				queue->state != NVMET_TCP_Q_DISCONNECTING &&
-> +				queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
-> +					goto done;
-> +			}
-> +#endif
->   			nvmet_tcp_socket_error(queue, ret);
->   			goto done;
->   		} else if (ret == 0) {
+Note that destroying is mostly just removing the entry from the hash
+table with rhashtable_remove_fast(). Which is what we need to be able
+to submit it again.
 
-See my comment to the host patches. Handling an incoming KeyUpdate is
-vastly different than initiating a KeyUpdate. _and_ the network stack
-will only ever return -EKEYEXPIRED on receive.
-So please split the patches in handling an incoming KeyUpdate and
-initiating a KeyUpdate.
+Alistair
 
-> @@ -1110,6 +1125,45 @@ static inline bool nvmet_tcp_pdu_valid(u8 type)
->   	return false;
->   }
->   
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +static int update_tls_keys(struct nvmet_tcp_queue *queue)
-> +{
-> +	int ret;
-> +
-> +	cancel_work(&queue->io_work);
-> +	queue->state = NVMET_TCP_Q_TLS_HANDSHAKE;
-> +
-> +	/* Restore the default callbacks before starting upcall */
-> +	write_lock_bh(&queue->sock->sk->sk_callback_lock);
-> +	queue->sock->sk->sk_data_ready =  queue->data_ready;
-> +	queue->sock->sk->sk_state_change = queue->state_change;
-> +	queue->sock->sk->sk_write_space = queue->write_space;
-> +	queue->sock->sk->sk_user_data = NULL;
-> +	write_unlock_bh(&queue->sock->sk->sk_callback_lock);
-> +
-We do have a function for this ...
-
-> +	nvmet_stop_keep_alive_timer(queue->nvme_sq.ctrl);
-> +
-> +	INIT_DELAYED_WORK(&queue->tls_handshake_tmo_work,
-> +			  nvmet_tcp_tls_handshake_timeout);
-> +
-> +	ret = nvmet_tcp_tls_handshake(queue, HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
-> +
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = wait_for_completion_interruptible_timeout(&queue->tls_complete, 10 * HZ);
-> +
-> +	if (ret <= 0) {
-> +		tls_handshake_cancel(queue->sock->sk);
-> +		return ret;
-> +	}
-> +
-> +	queue->state = NVMET_TCP_Q_LIVE;
-> +
-> +	return ret;
-> +}
-> +#endif
-> +
->   static int nvmet_tcp_tls_record_ok(struct nvmet_tcp_queue *queue,
->   		struct msghdr *msg, char *cbuf)
->   {
-> @@ -1135,6 +1189,9 @@ static int nvmet_tcp_tls_record_ok(struct nvmet_tcp_queue *queue,
->   			ret = -EAGAIN;
->   		}
->   		break;
-> +	case TLS_RECORD_TYPE_HANDSHAKE:
-> +		ret = -EAGAIN;
-> +		break;
-
-Shouldn't this be rather -EKEYEXPIRED?
-
->   	default:
->   		/* discard this record type */
->   		pr_err("queue %d: TLS record %d unhandled\n",
-> @@ -1344,6 +1401,13 @@ static int nvmet_tcp_try_recv(struct nvmet_tcp_queue *queue,
->   	for (i = 0; i < budget; i++) {
->   		ret = nvmet_tcp_try_recv_one(queue);
->   		if (unlikely(ret < 0)) {
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +			if (ret == -EKEYEXPIRED &&
-> +				queue->state != NVMET_TCP_Q_DISCONNECTING &&
-> +				queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
-> +					goto done;
-> +			}
-> +#endif
->   			nvmet_tcp_socket_error(queue, ret);
->   			goto done;
->   		} else if (ret == 0) {
-> @@ -1408,14 +1472,26 @@ static void nvmet_tcp_io_work(struct work_struct *w)
->   		ret = nvmet_tcp_try_recv(queue, NVMET_TCP_RECV_BUDGET, &ops);
->   		if (ret > 0)
->   			pending = true;
-> -		else if (ret < 0)
-> -			return;
-> +		else if (ret < 0) {
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +			if (ret == -EKEYEXPIRED)
-> +				update_tls_keys(queue);
-> +			else
-> +#endif
-> +				return;
-> +		}
->   
->   		ret = nvmet_tcp_try_send(queue, NVMET_TCP_SEND_BUDGET, &ops);
->   		if (ret > 0)
->   			pending = true;
-> -		else if (ret < 0)
-> -			return;
-> +		else if (ret < 0) {
-> +#ifdef CONFIG_NVME_TARGET_TCP_TLS
-> +			if (ret == -EKEYEXPIRED)
-> +				update_tls_keys(queue);
-> +			else
-> +#endif
-> +				return;
-> +		}
->   
->   	} while (pending && ops < NVMET_TCP_IO_WORK_BUDGET);
->   
-Wouldn't it be better to move the call to 'update_tls_keys()' out of
-the loop and just requeue io_work afterwards?
-> @@ -1798,6 +1874,7 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
->   	}
->   	if (!status) {
->   		queue->tls_pskid = peerid;
-> +		queue->user_session_id = user_session_id;
->   		queue->state = NVMET_TCP_Q_CONNECTING;
->   	} else
->   		queue->state = NVMET_TCP_Q_FAILED;
-> @@ -1813,6 +1890,7 @@ static void nvmet_tcp_tls_handshake_done(void *data, int status,
->   	else
->   		nvmet_tcp_set_queue_sock(queue);
->   	kref_put(&queue->kref, nvmet_tcp_release_queue);
-> +	complete(&queue->tls_complete);
->   }
->   
->   static void nvmet_tcp_tls_handshake_timeout(struct work_struct *w)
-> @@ -1843,7 +1921,7 @@ static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue,
->   	int ret = -EOPNOTSUPP;
->   	struct tls_handshake_args args;
->   
-> -	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE) {
-> +	if (queue->state != NVMET_TCP_Q_TLS_HANDSHAKE && !keyupdate) {
->   		pr_warn("cannot start TLS in state %d\n", queue->state);
->   		return -EINVAL;
-> 
-Why? Shouldn't we always set the HANDSHAKE state?
-
-> @@ -1856,7 +1934,9 @@ static int nvmet_tcp_tls_handshake(struct nvmet_tcp_queue *queue,
->   	args.ta_data = queue;
->   	args.ta_keyring = key_serial(queue->port->nport->keyring);
->   	args.ta_timeout_ms = tls_handshake_timeout * 1000;
-> +	args.user_session_id = queue->user_session_id;
->   
-> +	init_completion(&queue->tls_complete);
->   	ret = tls_server_hello_psk(&args, GFP_KERNEL, keyupdate);
->   	if (ret) {
->   		kref_put(&queue->kref, nvmet_tcp_release_queue)
-
-Cheers,
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+>
+> Cheers,
+>
+> Hannes
+> --
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich

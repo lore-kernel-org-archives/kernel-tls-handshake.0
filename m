@@ -1,207 +1,132 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9E927F16A
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Oct 2025 07:03:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CEE5330B35
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Oct 2025 11:16:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761116603; cv=none; b=g5CiXmo9pegSTtzDIGETovQ2BChDigpIGSUYcBnXkqq4aDYfjREW9Ko5nTK5jEcqOAfKJqDr/+4PsXi5D0INlDLLkzc8kD6EhKi+VRnMDnCxtKc256HxXe4b7PG/1qYtGQnyben1NwLKqSgIlPFAmEv6pDvG19pLXWLbQj517Rg=
+	t=1761131810; cv=none; b=M5oIgKeWaMGQlM2NjUic6JPytqK6osamcxo6lv64rADHdi9F1jFpX6uGgcjlKtO08ObWXPG9lO3pL4wpt97ygz9tmpSq4KXh+6CP3XKVldJez11znlm/ccclzfkBkq8JzdgjYtLSGT7PwD/O/pBu7xgVHOuNsHydVI97KFqbVAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761116603; c=relaxed/simple;
-	bh=0rbDaM68YWnlopO11SkcD7rAYHxOpMyGy/WOhOBQAD0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pS0dsHZJC4KpluTMjGNiSgCw4iEI2UwF5HhKpAauhQJP2LFwFofvCnNpmq+G8EKEEgaCwK9CwWYYGGtk79BslRipzfA20MFgRL9kyS6U8Q4S4uMU9fRT00+bm94kUViaPgkk0grOM8x1Z8QAtEsMxhvSt8U0tgzgRr0jM68cccI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Yqt7Im04; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EpOyLeAN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Vc6/2KJn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nKEBI8Zr; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1761131810; c=relaxed/simple;
+	bh=MkLx2R4aQDQRSte1k6rDu2d4S0+mLWdRZ24YtDib+QU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cUHUBZT69kMTh7jqUxOzMCGm5g7SgtHad97uq1z6F/mnEvBV3LjYLoEKOpFQOFTBe4TknIX42cgbeSxVk9p9M5CLc8DIZqIxtrmh8nTmvYJTkpFaUCNkEsxTnktqOLPphLFcOSWGPUCwzYUByCMVkc5deF534G84mAwoczLQDfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FzvdknwA; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Yqt7Im04";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EpOyLeAN";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Vc6/2KJn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nKEBI8Zr"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 805E31F391;
-	Wed, 22 Oct 2025 07:03:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761116595; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tlxJGX9jmOI/wD5Rfy1iJYXebHEOfbhjGU0gFhwqz/4=;
-	b=Yqt7Im04iuAbx4JPcGFjXhCh26p8TrP2xHtxdlJVXzLFiu/lnu2T6bzQSwPl3lB7DivkMR
-	s0i1WOmkB+AJFcBuINdBFxFjNvvsEfQXhPwQ7MUF/keyxeqL5uObBq3q9n0/eg11AATvDt
-	QnGoOAUEbL/OSLQAvy1/SzleVWitnvA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761116595;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tlxJGX9jmOI/wD5Rfy1iJYXebHEOfbhjGU0gFhwqz/4=;
-	b=EpOyLeANziBPyk4Wmxj/9bm1z/YYBdb0CrHUaofCK4ZS7toeY/r52azhxrIQ3Yo1Yc60Bk
-	6MhTDHZhRxRpC2CQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Vc6/2KJn";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=nKEBI8Zr
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761116591; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tlxJGX9jmOI/wD5Rfy1iJYXebHEOfbhjGU0gFhwqz/4=;
-	b=Vc6/2KJnrJVn5tUpUCliUNHUfjO6I+Kb0WJa/PFhCVYTD3UDqHf6Qb76uSUg+i77R6n9ef
-	Do1/XR325WhiFd5f+sYEeIJ/ae1NtgWvGV8lA7zGQj8zRYxtE9xlx6qxee8tRzLRHd0t5m
-	IafmiwSH2rAcY6CopUE2AEXl93VXuQY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761116591;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tlxJGX9jmOI/wD5Rfy1iJYXebHEOfbhjGU0gFhwqz/4=;
-	b=nKEBI8ZrYU5sgkq5y6xHHHJWxfvkIKD0LvDbUqA1VeFHbeGeF3yHPRQJC9WRfeyZO3D/k3
-	NUOgHMIniLvnpgAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E1D113A29;
-	Wed, 22 Oct 2025 07:03:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pFegI66B+GjcegAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 22 Oct 2025 07:03:10 +0000
-Message-ID: <7afb2fc0-0da5-4539-a1a4-87360186cf65@suse.de>
-Date: Wed, 22 Oct 2025 09:03:06 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FzvdknwA"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-63c4c346bd9so8608826a12.0
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 22 Oct 2025 04:16:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761131807; x=1761736607; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HUpfROanALk009O5ukzxUjqqmJACMBILWAOKJHciC34=;
+        b=FzvdknwA4w7LxXgwrjkjIo1DTBT54hURD19DIWNvoaf55efX1V4vX+K4AWW+sm2IrO
+         oUyWSTGnraLcg+Ol9T7RTuwH6NM6JSQcm6vn1MxZKZXhiqt148p2ypSfaXvADmciqm6A
+         nOU+FgtOzEQ0+cirID0SObskf5D9O8mzZF/eLNYABq4cy73WAEr1m0f6xbFSJoR9SG2u
+         V1AxFObXAvlCmLX1I+zsZMHJs59dvEoOnMMSPgBhQ9LdMNupG4ZwEn007AAUULuYXElg
+         XNUIDUDp38W+uyreXUfjHDInjMWtfnmwIyA/igsAmnGmM31pYYrkn34YN+zQkfSmxDHY
+         6gFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761131807; x=1761736607;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HUpfROanALk009O5ukzxUjqqmJACMBILWAOKJHciC34=;
+        b=sKCcE9/Pj/Bb8H52edwBmFrWsFmCINQccHfJ2hPnIqzrIhRKTqM8T7No32ngUWtGRq
+         mfYIyqZo+oZy9EdIQjEJtOw8RsejV2xjadYKKAwSMkJyfp7kh8DlB0cx49U4ghk1u4Y6
+         zLaq/FCw+BONvXDScF2AH8qRfvbkXTy5KocJrhStVgDitWMkswe0btaP3yw8EF6iSC6k
+         goRFzXTBZhAh8PJj5gO5ixpNp5bbzCFxmCr291pNbWv7o1UXgbgj3wBCQApSCHsd1hDl
+         zSsmKKKAFCgOmeY0twCBVG1+h0zVTCR4IJeT9XnJs0ZxwsHGhSCvkhlTH2nyIiiT1l4E
+         waUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWg3ih3X0u0hYqCxeLfk+05Xl44PzXuKFp/WOeQXDBB8tmWGzNWTT7VMFjxnyexnMkKbyPADxL24f+z6bd68824exEkDw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyZ3akUk1yEeHZGgd9QWKP5C4sAVVCn27w2x8PBtZ6zvsoUJbRV
+	kLD1kTDJLFlmTtHfgZi4uQonMwoGj3QTNrfap86No5r99xh2G87MQRwkVHYoUKzxGZBG0IDHh+a
+	uryZbFKeApwVCIft62TbL5VX4vGL4Nes=
+X-Gm-Gg: ASbGnct19I/HR+B/fDZI2E4JPiKg3S6p34hTNbHbZ9NN7JJ2rrmYBH+AurA9xy6RDZj
+	qy2u2FoXC5GPe3L2LFCRJI7HI7aoF3cvlC/HXBcxoKvzmeu2eqeWan1OYuLIkC/E8muGokiRN8C
+	fCbvOKfyD5M75jj+ugeFgw49i1KsQ5Ib2FFNVaSxKfa9uf6N0T4WJ8tgRcQYKV/RpzqIohDflsc
+	XQQ/LIXKv/kAuNYJtQIIrp395NgIwF2Ud7f3MH7fTaHPATAPGgR63gLNWC6N7j5fDuxnJv9oQSf
+	eiu66bDMayWnFVN5wooOV+KTmw==
+X-Google-Smtp-Source: AGHT+IFeLMsqZpbHAvlJBzKIdahXOOBShjYQZyOY7ATbt5n7WHdXXR/ON08TB4hturxLMLEB0GOq3i/bLAd52DC8p3U=
+X-Received: by 2002:a05:6402:13ca:b0:62f:8274:d6bd with SMTP id
+ 4fb4d7f45d1cf-63c1f626dd4mr21176233a12.8.1761131807215; Wed, 22 Oct 2025
+ 04:16:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/7] net/handshake: Support KeyUpdate message types
-To: Alistair Francis <alistair23@gmail.com>
-Cc: chuck.lever@oracle.com, hare@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
- kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
 References: <20251017042312.1271322-1-alistair.francis@wdc.com>
- <20251017042312.1271322-5-alistair.francis@wdc.com>
- <e7d46c17-5ffd-4816-acd2-2125ca259d20@suse.de>
- <CAKmqyKMsYUPLz9hVmM_rjXKSo52cMEtn8qVwbSs=UknxRWaQUw@mail.gmail.com>
- <CAKmqyKNSV1GdipOrOs3csyoTMKX1+mxTgxnOq9xnb3vmRN0RgA@mail.gmail.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <CAKmqyKNSV1GdipOrOs3csyoTMKX1+mxTgxnOq9xnb3vmRN0RgA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 805E31F391
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:mid,suse.de:dkim];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
+ <20251017042312.1271322-6-alistair.francis@wdc.com> <dc19d073-0266-4143-9c74-08e30a90b875@suse.de>
+ <CAKmqyKNBN7QmpC8Lb=0xKJ7u9Vru2mfTktwKgtyQURGmq4gUtg@mail.gmail.com> <4b2e5998-a646-4f99-8c87-95975ff8fe66@suse.de>
+In-Reply-To: <4b2e5998-a646-4f99-8c87-95975ff8fe66@suse.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 22 Oct 2025 21:16:19 +1000
+X-Gm-Features: AS18NWBDgW-hay2VUeCdIjfUCzoI0NhxABO1jEUfCaPHUmJ8eBnU71SyICyiPWc
+Message-ID: <CAKmqyKM-uX6_a+Ru01RD3-CwoucTN7P_sU+d=MEKSo2pxG_tDA@mail.gmail.com>
+Subject: Re: [PATCH v4 5/7] nvme-tcp: Support KeyUpdate
+To: Hannes Reinecke <hare@suse.de>
+Cc: chuck.lever@oracle.com, hare@kernel.org, 
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/22/25 06:40, Alistair Francis wrote:
-> On Tue, Oct 21, 2025 at 1:19 PM Alistair Francis <alistair23@gmail.com> wrote:
->>
->> On Mon, Oct 20, 2025 at 4:09 PM Hannes Reinecke <hare@suse.de> wrote:
->>>
->>> On 10/17/25 06:23, alistair23@gmail.com wrote:
->>>> From: Alistair Francis <alistair.francis@wdc.com>
->>>>
-[ .. ]>>>> @@ -372,6 +384,44 @@ int tls_client_hello_psk(const struct 
-tls_handshake_args *args, gfp_t flags)
->>>>    }
->>>>    EXPORT_SYMBOL(tls_client_hello_psk);
->>>>
->>>> +/**
->>>> + * tls_client_keyupdate_psk - request a PSK-based TLS handshake on a socket
->>>> + * @args: socket and handshake parameters for this request
->>>> + * @flags: memory allocation control flags
->>>> + * @keyupdate: specifies the type of KeyUpdate operation
->>>> + *
->>>> + * Return values:
->>>> + *   %0: Handshake request enqueue; ->done will be called when complete
->>>> + *   %-EINVAL: Wrong number of local peer IDs
->>>> + *   %-ESRCH: No user agent is available
->>>> + *   %-ENOMEM: Memory allocation failed
->>>> + */
->>>> +int tls_client_keyupdate_psk(const struct tls_handshake_args *args, gfp_t flags,
->>>> +                          handshake_key_update_type keyupdate)
->>>> +{
->>>> +     struct tls_handshake_req *treq;
->>>> +     struct handshake_req *req;
->>>> +     unsigned int i;
->>>> +
->>>> +     if (!args->ta_num_peerids ||
->>>> +         args->ta_num_peerids > ARRAY_SIZE(treq->th_peerid))
->>>> +             return -EINVAL;
->>>> +
->>>> +     req = handshake_req_alloc(&tls_handshake_proto, flags);
->>>> +     if (!req)
->>>> +             return -ENOMEM;
->>>> +     treq = tls_handshake_req_init(req, args);
->>>> +     treq->th_type = HANDSHAKE_MSG_TYPE_CLIENTKEYUPDATE;
->>>> +     treq->th_key_update_request = keyupdate;
->>>> +     treq->th_auth_mode = HANDSHAKE_AUTH_PSK;
->>>> +     treq->th_num_peerids = args->ta_num_peerids;
->>>> +     for (i = 0; i < args->ta_num_peerids; i++)
->>>> +             treq->th_peerid[i] = args->ta_my_peerids[i];
->>> Hmm?
->>> Do we use the 'peerids'?
->>
->> We don't, this is just copied from the
->> tls_client_hello_psk()/tls_server_hello_psk() to provide the same
->> information to keep things more consistent.
->>
->> I can remove setting these
-> 
-> Actually, ktls-utils (tlshd) expects these to be set, so I think we
-> should leave them as is
-> 
+On Wed, Oct 22, 2025 at 4:56=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrot=
+e:
+>
+> On 10/22/25 06:35, Alistair Francis wrote:
+> > On Mon, Oct 20, 2025 at 4:22=E2=80=AFPM Hannes Reinecke <hare@suse.de> =
+wrote:
+> >>
+> >> On 10/17/25 06:23, alistair23@gmail.com wrote:
+> >>> From: Alistair Francis <alistair.francis@wdc.com>
+> >>>
+> [ .. ]>>> @@ -1723,6 +1763,7 @@ static void nvme_tcp_tls_done(void
+> *data, int status, key_serial_t pskid,
+> >>>                        ctrl->ctrl.tls_pskid =3D key_serial(tls_key);
+> >>>                key_put(tls_key);
+> >>>                queue->tls_err =3D 0;
+> >>> +             queue->user_session_id =3D user_session_id;
+> >>
+> >> Hmm. I wonder, do we need to store the generation number somewhere?
+> >> Currently the sysfs interface is completely oblivious that a key updat=
+e
+> >> has happened. I really would like to have _some_ indicator there telli=
+ng
+> >> us that a key update had happened, and the generation number would be
+> >> ideal here.
+> >
+> > I don't follow.
+> >
+> > The TLS layer will report the number of KeyUpdates that have been
+> > received. Userspace also knows that a KeyUpdate happened as we call to
+> > userspace to handle updating the keys.
+> >
+> Oh, the tlshd will know that (somehow). But everyone else will not; the
+> 'tls_pskid' contents will stay the the same.
+> Can we have a sysfs attribute reporting the sequence number of the most
+> recent KeyUpdate?
 
-Can't we rather fix up tlshd?
-It feels really pointless, erroring out on values which are completely
-irrelevant for the operation...
+Why do we want to reveal that to userspace though?
 
-Cheers,
+Realistically it should just be ~2^64 and it'll should remain the same
+number, even after multiple updates
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Alistair
+
+> Cheers,
+> Hannes
+> --
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich

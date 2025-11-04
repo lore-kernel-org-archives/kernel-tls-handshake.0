@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00739308F34
-	for <kernel-tls-handshake@lists.linux.dev>; Tue,  4 Nov 2025 09:38:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBA5314A97
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  4 Nov 2025 09:55:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762249096; cv=none; b=cEDzvFLPZ1bfd6yecih6z10kl0kpTCbtNUCzrUooOFIZ0blrzmiUpO2y70xT3f4b/kcolLs6YngqAEIyrcVq+cob26h60vCjHJOToYKvhf5eM/pLKReHVjnDN5k6+9vRH84E1PTAq7LmCzgoclqJDLG3z/tDdwT5FA/L0T1iSc0=
+	t=1762250110; cv=none; b=gNgxJqfyLNTmXJtfDvrz98GzqfKe/WgvLdOTYaqupnoUdf+KYYZcNe/Hd3dwpZw4FMMn+m5hNZRKWQtCecvx/7Yx2hwlV3Yod1P6P7w5yzCetE/Nvz4NP14Fpca4QLkGeuXYbwiMuXRZSGVzCvxgRJgaiWrqAzed02ld4F265rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762249096; c=relaxed/simple;
-	bh=ArUnwMfmIEzmSnA8EtwjQrV26Mp15GPDfG/Jc+Af2u8=;
+	s=arc-20240116; t=1762250110; c=relaxed/simple;
+	bh=QfSQ5cpqVePGEDeF20Ht8A/SzrjwwOLDakiJXtv47U0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Yq17A+YPYTlVmP4NjOKJpTkAckSqXTNBnaCr7Y7ifkhetrQAFWvg//t8m4D2lzM2768qfpRzlmvbhYBHxDC3Kgbn50VHex1J12wfzY7V+0OtoWnogjNf3lNB7pX3uDZbEauzUrSM2xPCYED91NxZTPafGFyTLSKhI/go5HHtqIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bWoBoyHG; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=hWqyuqKaBZ5i0Im5nasjQyuVhKhImRkFgjRAWgt/n9nZITFn2xSxeS31+Z9GlAOTkFbUlcRSl8Ur0qO6DxGKcQZjYnWEXdmlk14FDH0IPPfsvdu95FznPvp28qTiAQfMpGRiK4oapUUZV5FRdHQZpiG9vcO5EnKdZJHwFnURbWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IQcTEQX8; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bWoBoyHG"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IQcTEQX8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762249094;
+	s=mimecast20190719; t=1762250107;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/pyvHBDgoa9Lgk2kT7iDSPcIKDbs+wNswe6QWBYpGLg=;
-	b=bWoBoyHGu7bGgESBWqxdzEiJC3Bo6UkEGAFpS+/PJC3fh/yqim6s8xMKUtbv8yEtAC73pn
-	5wryZwXZSMt92a4mQKdV6aHYG21sYUkQugtReGvs6t+md7s/iRjBCHKkSjhMPu1R8OdQHJ
-	jDIJPnQy6x1owZNK5GIo5fs2Gl4HPak=
+	bh=VP7vTJNouoan64MmsnztfHu0gZfK42bIBxJmyPWNcv8=;
+	b=IQcTEQX8PW7A2EKkkLPTeicvAX6AybTRM/I63+gtKb1r0BknExu5V0NDKBDFFKj/XVwDzm
+	69tlH6mI7FQQRAeQt2LjomSn2O7GJ9W0sjRuhkXQ6wAjoplEHT7W1VtxzE330RnUkOMtl5
+	GLPCQ/FP9t+SIvhCEcmbRDYcaktJRIU=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-321-qsfHFH9bOROewiLBhDTc_Q-1; Tue, 04 Nov 2025 04:38:10 -0500
-X-MC-Unique: qsfHFH9bOROewiLBhDTc_Q-1
-X-Mimecast-MFC-AGG-ID: qsfHFH9bOROewiLBhDTc_Q_1762249089
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-475de1afec6so18505705e9.1
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 04 Nov 2025 01:38:09 -0800 (PST)
+ us-mta-353-Gc8oAJFkOk20j7DNm77GLQ-1; Tue, 04 Nov 2025 04:55:05 -0500
+X-MC-Unique: Gc8oAJFkOk20j7DNm77GLQ-1
+X-Mimecast-MFC-AGG-ID: Gc8oAJFkOk20j7DNm77GLQ_1762250104
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4770c37331fso38207095e9.3
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 04 Nov 2025 01:55:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762249089; x=1762853889;
+        d=1e100.net; s=20230601; t=1762250104; x=1762854904;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/pyvHBDgoa9Lgk2kT7iDSPcIKDbs+wNswe6QWBYpGLg=;
-        b=ZE4WJrbcfd9zUeSnrZ5IpDOmGtYR62vd+FunXhKaztPAzkWwfjSdcFQpU6xlaSKqDb
-         1cdRCx4+f15T7c73++heV4/8Cmrxl+NTb9JUEaRGYjTfig79FKApBWIZu08aujmGwTkj
-         dChTPJjB2UzjcFqGD3Wgt7HCzlmexDQOCy8FWYXwHbyYF7+UXF0a68Enew390Rr6TqWx
-         4NG8jTecYBlgjdT+BTaB1QxKSAPpaRndGXQMUTQxb7BEfnpem/Rc3CJu44oH4ghxa6YA
-         gCdaYQCPqEDOlpH66e19BOXHmFkhPE9/EUaP/p4OdnGgCXSiRO38nttO68z7y9UvsGUc
-         bAmA==
-X-Forwarded-Encrypted: i=1; AJvYcCUcN37SIvo8n/OGbCGzKIfflxoNY4fajxjVZU7aic8QseRNEOdDcAt+e7YuLreFD6fhqRcwd2xDGpdYA7W3y4N++D5ECg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzVM+1AmDfu6a1MYlBPegoJo9H9jm447Umx1ChTnHCqf1WDlyp4
-	fZCSvodpSLDKzJGBaKxY1qZ4FTieHGuSAYA3ll15Hi1KCtx23N9Ut7d/UWD/Y4JsP4Gv5cWrI5J
-	soIRZpAsAIRKiiC5GNTKS7A2BxIixRZi5Ttk3IYEpI30gW7U5ZDupKfJSd2c7db4fIsiQX4FF6Z
-	YX
-X-Gm-Gg: ASbGnctz8zA6viaC6krHUMDivhbH5ybgpaqEyT6AFJwCm+PREOWydKmCv+xdUJ4EYcJ
-	t3MAHJnk5CD0bW3f6kD777gwo+m+z4OKJUqstCOuTEwdQouzn2EXsk4MhtGRTvG5V4eUXE7wb3C
-	BX1JOnukF8yfcG9f6tWgsPcY8htlpWRi+v4UiEXDBulKr7sD7M/fMPGlUDUYd1kt2YzUXjwpExF
-	H+jAQMP4fig/ndRezfWzHosPA/+Zf+0eKVugL7HG3/9NhRgPwXaR1hT/3Ya5GqKCMyg7hUTUDel
-	aD++jtpbVdM85oENxHLrSIp1KtFCMVjNJd4mg7KYaXPY2zmarJd3DSn2AnlXjY9qpi1tCQyMsVe
-	694MExhNY8zoDGc6shpov/7ejYMs1Xq/Q+XTQx2j3Jagr
-X-Received: by 2002:a05:600c:a4f:b0:46f:b42e:e38f with SMTP id 5b1f17b1804b1-47754c451bcmr27965185e9.19.1762249088939;
-        Tue, 04 Nov 2025 01:38:08 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG80tPo4mrfA3siN/+q+3zHsJR+5U2uhmtdOUUiclztFGU6pmZw6TuGG8AfTCenVCWwmNLdzA==
-X-Received: by 2002:a05:600c:a4f:b0:46f:b42e:e38f with SMTP id 5b1f17b1804b1-47754c451bcmr27964725e9.19.1762249088492;
-        Tue, 04 Nov 2025 01:38:08 -0800 (PST)
+        bh=VP7vTJNouoan64MmsnztfHu0gZfK42bIBxJmyPWNcv8=;
+        b=mtsWd6yLq3+JtZcYiiUkWBDZIC2ogk46KcoFEPkts5OptLhFohyAAWfMu/jgUNj+6U
+         LPLIOI0kwxnOCWF9WkasIO41oD8gn/Sh5D/amlWQs24jyHHrzee/ykRJcXCUo+Trqe+y
+         Eulutf95/aOxerpsj72lN6B9nMIHiX78ovFqXsPjrUwJInMoHJKarc1N6Z4J6bQB1lJf
+         9yyCOT9LRjcVSlgZ4GGHvs+ntZMv3ZK0NFq+ZDraQB/BYZcgylI2dbvq+wwO21SHiUU4
+         2N0iajI09v1y5kdnTPgICd5TMRb/nZGZVyVtF+BWVb2J1teBEXIeVae00hfgbzj6AApj
+         khGA==
+X-Forwarded-Encrypted: i=1; AJvYcCWXbCiEIc4l2orBLDMVlATcYTfgSrI3COVRpIll12JjTSf1sk5YII/9QiPQFmC51BsFjI/nLsp7Nx62U2UqIOfjdNhkwQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyeyZ+rY2iPQbPm16aPWYgck5R017AJK0nLSirvWG7ITdAUKIuC
+	cWNJIs3yzgM/qT5yx70Gk1s1BrFv/lOKrgRB2f0EGbbazqvxulcE3upiZk+dxfkfd4qfrmRXw+R
+	e4cOJdBShhzS1Kg0K88aMKJ6N3yAjyYPa0M5iO0sClO0+XFl7FWxn214D5DzYY8lBMct0C3+LFs
+	Kj
+X-Gm-Gg: ASbGncsAxIJCjiSOO+R7Qlw36hHQkqMnH1XlZvGDrxtjJOfExu3c65UkmGH0UtHmp50
+	Z3jzU/LUG/YLy8jnDkcUr9lvmF8hmfXpZyxZE/AGycdBdokoY6vU+0bTz9G/zB8ZLwzQwoO5o7M
+	tqbGxIPy6YftP+67/A2nBnt8yDhSqI6TX0bwA/a7z6+upEJ/+8cugOk+lOvxQaWVnQ5mt4KnNTn
+	doPE9SQ40AXyF/d3BlLsai2DfK+gGrWHeLISb+96prqXpGyQKXVgGyw4wv3jFmWq7aobcmx3PAo
+	Mi3b63YmKhXC+xrefY0O6JGCrCmL/hRFI4NZAtY5bRXhOMZDM+cCQmUuDY1NPSDQMJopBKRyh3O
+	NVoJf8u6K0IxfDD4pdpCzWpAH6iwBa4YTp3er/pmLtx1m
+X-Received: by 2002:a05:600d:8394:b0:475:d944:2053 with SMTP id 5b1f17b1804b1-47730ef502bmr102634815e9.2.1762250104380;
+        Tue, 04 Nov 2025 01:55:04 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH6j3suXJsdE1W3rADP1TPpeXGC+84lF7jrCGSmoPCopSvWPQsrXeTI2soLtfPTzeuZHI21IQ==
+X-Received: by 2002:a05:600d:8394:b0:475:d944:2053 with SMTP id 5b1f17b1804b1-47730ef502bmr102634195e9.2.1762250103915;
+        Tue, 04 Nov 2025 01:55:03 -0800 (PST)
 Received: from ?IPV6:2a0d:3341:b8a2:8d10:2aab:5fa:9fa0:d7e6? ([2a0d:3341:b8a2:8d10:2aab:5fa:9fa0:d7e6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4773c383b75sm248333615e9.11.2025.11.04.01.38.06
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4775598c2c9sm28545315e9.8.2025.11.04.01.55.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Nov 2025 01:38:07 -0800 (PST)
-Message-ID: <ffe0715b-7a60-49a4-802a-a2bd75c7dac4@redhat.com>
-Date: Tue, 4 Nov 2025 10:38:05 +0100
+        Tue, 04 Nov 2025 01:55:03 -0800 (PST)
+Message-ID: <1fcf4639-4c3e-4c07-9d01-0537cadcff42@redhat.com>
+Date: Tue, 4 Nov 2025 10:55:01 +0100
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -75,8 +75,8 @@ List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v4 02/15] net: build socket infrastructure for
- QUIC protocol
+Subject: Re: [PATCH net-next v4 03/15] quic: provide common utilities and data
+ structures
 To: Xin Long <lucien.xin@gmail.com>, network dev <netdev@vger.kernel.org>,
  quic@lists.linux.dev
 Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
@@ -98,52 +98,29 @@ Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
  Daniel Stenberg <daniel@haxx.se>,
  Andy Gospodarek <andrew.gospodarek@broadcom.com>
 References: <cover.1761748557.git.lucien.xin@gmail.com>
- <91ff36185099cd97626a7a8782d756cf3e963c82.1761748557.git.lucien.xin@gmail.com>
+ <66e48fe865ea67beb2a7f5cf084ea86d93592dff.1761748557.git.lucien.xin@gmail.com>
 From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <91ff36185099cd97626a7a8782d756cf3e963c82.1761748557.git.lucien.xin@gmail.com>
+In-Reply-To: <66e48fe865ea67beb2a7f5cf084ea86d93592dff.1761748557.git.lucien.xin@gmail.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: GzJJhFBeZqJAUWLYR5H0e0iPrPYCkJkNbcX-5L9Hjv8_1762249089
+X-Mimecast-MFC-PROC-ID: Ird1NkHmX3ilvnVnerxye1ridclr8_aOUyavLG0tnEo_1762250104
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 10/29/25 3:35 PM, Xin Long wrote:
-[...]
-> +static struct ctl_table quic_table[] = {
-> +	{
-> +		.procname	= "quic_mem",
-> +		.data		= &sysctl_quic_mem,
-> +		.maxlen		= sizeof(sysctl_quic_mem),
-> +		.mode		= 0644,
-> +		.proc_handler	= proc_doulongvec_minmax
-> +	},
-> +	{
-> +		.procname	= "quic_rmem",
-> +		.data		= &sysctl_quic_rmem,
-> +		.maxlen		= sizeof(sysctl_quic_rmem),
-> +		.mode		= 0644,
-> +		.proc_handler	= proc_dointvec,
-> +	},
-> +	{
-> +		.procname	= "quic_wmem",
-> +		.data		= &sysctl_quic_wmem,
-> +		.maxlen		= sizeof(sysctl_quic_wmem),
-> +		.mode		= 0644,
-> +		.proc_handler	= proc_dointvec,
-> +	},
-> +	{
-> +		.procname	= "alpn_demux",
-> +		.data		= &sysctl_quic_alpn_demux,
-> +		.maxlen		= sizeof(sysctl_quic_alpn_demux),
-> +		.mode		= 0644,
-> +		.proc_handler	= proc_dointvec_minmax,
-> +		.extra1		= SYSCTL_ZERO,
-> +		.extra2		= SYSCTL_ONE,
-> +	},
+> This patch provides foundational data structures and utilities used
+> throughout the QUIC stack.
+> 
+> It introduces packet header types, connection ID support, and address
+> handling. Hash tables are added to manage socket lookup and connection
+> ID mapping.
+> 
+> A flexible binary data type is provided, along with helpers for parsing,
+> matching, and memory management. Helpers for encoding and decoding
+> transport parameters and frames are also included.
+> 
+> Signed-off-by: Xin Long <lucien.xin@gmail.com>
 
-I'm sorry for not nothing this before, but please add a Documentation
-entry for the above sysctl.
-
-/P
+Acked-by: Paolo Abeni <pabeni@redhat.com>
 

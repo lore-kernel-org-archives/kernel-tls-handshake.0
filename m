@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6AF2E7F02
-	for <kernel-tls-handshake@lists.linux.dev>; Tue,  4 Nov 2025 11:50:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B294C2DF13E
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  4 Nov 2025 12:02:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762257008; cv=none; b=amsIVPkggLOm9mMbIdX6bZLb1lpKk+gET/NGFL+qrrPws4koQvahJ4XgWuDRWehzpP3IaBTiH44VaL8JLY9QdFkkPqomgHt1jlmTdFrxx0UabyYr3uH0z5kA6R5oBivQHYuCxrYohKn9Ry7HvX8Kku/ojc1RWlS+W9oulNq2mSk=
+	t=1762257729; cv=none; b=YBGWwn/qUzOotarwYc4gFuXnldGtonl0FBbLB2pZ5RfxJZ1Qtqu2lDKf+IXH/ZOfhAp2la9J/AVlXaVIV7gu57nDF2ynci964a02efIpYDGx56DK2O7h3Xa8FfXMNDDansQB/sMdy8BIes+hmlzVfVqiFnvaS9h+CmUhf8MdHWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762257008; c=relaxed/simple;
-	bh=cZ5gDjz2QbKshZsqDifQYTuFk5BFj4GdybCog3FXEJw=;
+	s=arc-20240116; t=1762257729; c=relaxed/simple;
+	bh=siDD7cjBMuaNTHwQly3VC8x+1gNlvhrCrFOU/ZhsCNM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Kt5lHT0W8tVt7Fi8PuUmVWtIWJeSPMrxkw+SEdzsqIoeOwa54AUhqUPIr+52as7WkiykA2n69nzJkuWOOG68l7zvZBNTS9bqInhWUDhZAnRySJlE3SVW/VXhmMMQakGMPJ17ln3W4FbAr4B7x6Sk6Vm1Zf6Gv3dO+zq+ZqTs/mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XUgJZq4/; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=g8ZB/zxXccLVu9tQXPIenShd2DzIvKemZ98DCZor8sBwQf/meVVN9wsuIuZfr5yTLf7s7i43M96JThVq9osQiIQ/JIYBxO9zpq1dY6e4u/6qgxFNiL9L6KXGFY+dziCdJ8SRuscsRAfl8p2DHp6DLecyY4FtRDsSEQkjN+XRTpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iKUpoTnA; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XUgJZq4/"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iKUpoTnA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762257006;
+	s=mimecast20190719; t=1762257726;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7NKqzRwzFTMUyXUXOrE/y+2M+CzQozAf5NhVcAFiTKA=;
-	b=XUgJZq4/Qr6aB6gfsgi76iGiWacQFkazbKwsaFmQoUmQQzsDhafk/kelJpHB/mh7BbClqp
-	cYEwjylmPur34lka/aacPLBiUIF0S3T8LsqfFfbCwVTUnS69YE4vsSEjztQLbjyYXOpKD+
-	bYs2YKAEI9LFyENqq2i2u1USjv7VSq8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=ssdJLqXoynRieLG0swAQ2kxDsi5M4pN7LUYQOx6mmIg=;
+	b=iKUpoTnAVHxp2KwDPqLSvydsEtzkLge1jncSXoFil7H4ro7iwZtSyY1btoFOpGVEdcrAop
+	fk9YmysQyyetKALG9m/w063i6c7zSYrFH7XEjoRVX+I/6oTA7eIQElXmtV82GfDBiXxyER
+	AINUB2ASqL+NLBZeTdbw+RuxxJZTiIw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-104-gc3kWrlHOr29lRQbCJLs0w-1; Tue, 04 Nov 2025 06:50:05 -0500
-X-MC-Unique: gc3kWrlHOr29lRQbCJLs0w-1
-X-Mimecast-MFC-AGG-ID: gc3kWrlHOr29lRQbCJLs0w_1762257004
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-471168953bdso44102615e9.1
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 04 Nov 2025 03:50:04 -0800 (PST)
+ us-mta-124-aRer03bfMlWAZVB1N2h0iA-1; Tue, 04 Nov 2025 07:02:05 -0500
+X-MC-Unique: aRer03bfMlWAZVB1N2h0iA-1
+X-Mimecast-MFC-AGG-ID: aRer03bfMlWAZVB1N2h0iA_1762257724
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4771e696e76so55012975e9.0
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 04 Nov 2025 04:02:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762257004; x=1762861804;
+        d=1e100.net; s=20230601; t=1762257724; x=1762862524;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7NKqzRwzFTMUyXUXOrE/y+2M+CzQozAf5NhVcAFiTKA=;
-        b=ehSG51lNimXtzh0KHd9EuzsrqPUhSejNYcs2Th5Ss2Wwu+KvON5zEfwts93H9IxN/c
-         XJ5SA/M6s7kSfSTvulB/gdiotkE8f69acCOatvvLxA+uoPs41XEpcW07g+EXnpbvvkPl
-         6CW0nCuEBXvCxr9Ee1lgMMLrVAawj1OWL4lfOzAxMtDC9TD7jJceolt6l3o+2CT+g7YB
-         0k3E6YCUxvVgQ9NIhn+kfi5CJtHd7xRWMezr0WZOImftbyAHXm5/91CwrBcnPFujmR8W
-         mHLYuIWV0g89xTrGIA4dEThR6d9a/nO/opP086B4LbaOF9vAtzO0S2NLrFchIJbEPmUn
-         cfYw==
-X-Forwarded-Encrypted: i=1; AJvYcCWv2Ren/7XPSzvS9XUkgvz0YPCKw9wGO8DlPPqjHvTKA45wuWVz/v8Nlyc3btRmorztGskVStCMgi2SWKBpK1D3x24eqw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwAIZLe3JWtQGG84/oW1kRR3vIzFNTHe9dp9oEVJmbLPZAdJwrP
-	gs07jzQjQHAzZnQo0Y97DubL9y0kmqv09FtUgz2+JndAE3ovmYmWyWy6LxQYEoMge46QS0MUgik
-	ykbxxfatOanKYWo2DZARg+dIkLMP9/EQrZ+upO+REgt8zFxDFd9ipJJbFgTEDjY6JdsJruda3OA
-	Tt
-X-Gm-Gg: ASbGncu0NXq4AszAJfqgpCnv/RsYzv/IZv6n5KtQ7WICNWhtYF9x7eTaS8op8bCo3Su
-	+a8fagYjE2w//1EADNfKv2TWeJek6oiH7OdW0wTV2HdRXgxBCj97DNTfgjRC4Fl2MgNXmvKoDS+
-	Hv2hQRUR8TFUcE7Pb6469E1RAvcHaxSmQLh2z79gZCqfiE7SHSj2EDKygC2P1m3Hw1oN1cSk70B
-	WaxInRR3YGi7SI1CN1eEG/Fy/pxW1huxiNqKNCUPp16ESzlc+D5kYS2zUHV4szHW6/gAbQy7Q2q
-	vEgHPi0hJEYkOjcM3bAaq7RVSBSfiPiJOhyLk0JEz8j0l95duPq/sX1ZZ3HpSSpAaY8cpAa53eM
-	MY8IG708qHSgQDdv6AOQOlV39KzIxQjSkE4JG15QxFNVz
-X-Received: by 2002:a05:6000:2889:b0:401:c55d:2d20 with SMTP id ffacd0b85a97d-429dbd3c7bfmr2751737f8f.26.1762257003777;
-        Tue, 04 Nov 2025 03:50:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHFrHCmmk8I9jZU38ly0GkES+iMhlTFtfqgEF6bGR4ojffkjtcXHlyZQ+AKtVRy8Dar+aGGTw==
-X-Received: by 2002:a05:6000:2889:b0:401:c55d:2d20 with SMTP id ffacd0b85a97d-429dbd3c7bfmr2751707f8f.26.1762257003406;
-        Tue, 04 Nov 2025 03:50:03 -0800 (PST)
+        bh=ssdJLqXoynRieLG0swAQ2kxDsi5M4pN7LUYQOx6mmIg=;
+        b=oRpOxvxmd9H3yA/K41Y48Hf0OZZSkGjwBUR/psLpnci9zMz7+lyGUL9Z7E0l40x0II
+         JrU8FRfkz3ZTmXxr6adriQxKPlg3NNw3pe9H+13yjdKomnfOdQcB+iEd1qwhxFqIIHCR
+         oPsW33nRDiEl5WwPytGUBX3XE7+nHkAYWY1zFWCCSZOeE+/uCzrdsKCRshG8dcBk+p1V
+         SCGkxpzy7k5iwiQaYmQ0kZA+vPZrjC70vdRZI+fQ84QAOhmWxgzzkzr8Q0gaEpZwKJu5
+         dYMyHFToMlHAPEGPBWWTbGAa95M1aXaHJuHLmO+M3pOvNaSrSqVn46bmjxrm0NTMMKEG
+         cyvA==
+X-Forwarded-Encrypted: i=1; AJvYcCXyfKn/Iy42PTP6zPTwgUE9zhoVZLFDSTbu/9clx/TR9VWPoDfPJfMmMGh9WGdntWiQdgdM0Q7RBidTtoYdOSMro2TVaw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwHr68jLeDLlZD71VXG6djWMVeJ9zVgg4Z/BptcLfZuKMe4B3Q7
+	6MHLSn6t2Z713wQTIkmPj2CmFJGS0AMwvpNWQJ6f6WiHrCnqWqBudK8uO262RTvuaxwkwAwYWrY
+	NDOsUPkJ7m/Z9PFQ4XfSud39jix6TsBdo5UfxGSw8fJvs3oG0A0x6ER9CsuT2qVQsrT2jtBhmka
+	8b
+X-Gm-Gg: ASbGncu98FulZH3/IOxEmPYYgq/hlmiwR+EHkSV3t1vd+akrAWSs8CKKqwDqg9gmsUK
+	+F9FcgR9HEkhtKapzDgOS5R8B2Sbef94bxBhdXK0ypmLs01I3kmu036N1ae8l8vPUjnALTkra20
+	YOa8Ek3OJasEIserD2yMzIDTbk7bKojANK9JoyYMAQhIxsnWvs2vktRQ1hEnKvsnT5smU7Pw87n
+	PEl5HPSmlU/HflbA9W9rSQbY7PQzLxM0nOu5VBQSO73gl3U19K0osXj9PXXhYevFrw+jsVWPNSp
+	xTA8TzWR9He6dcny0NOBNll0HCOMKD+5RCmzDKDldubCAC/05Ux/fSqs3E91EDUk6IVbYholln3
+	yl22Ib5WVMU2gusQrCPshkzhrNZU0ZelEhKt0oxqQ+hkf
+X-Received: by 2002:a05:600c:828c:b0:476:651d:27e6 with SMTP id 5b1f17b1804b1-477308a8967mr141057815e9.36.1762257724134;
+        Tue, 04 Nov 2025 04:02:04 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEauK+mynBX5rWHPCWx1RsWJ73mWra6y4dymOB8ucAA4aBwaSotD7FEFCtCpoVpD7tQTjZ43A==
+X-Received: by 2002:a05:600c:828c:b0:476:651d:27e6 with SMTP id 5b1f17b1804b1-477308a8967mr141057435e9.36.1762257723669;
+        Tue, 04 Nov 2025 04:02:03 -0800 (PST)
 Received: from ?IPV6:2a0d:3341:b8a2:8d10:2aab:5fa:9fa0:d7e6? ([2a0d:3341:b8a2:8d10:2aab:5fa:9fa0:d7e6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429dc19227csm4291317f8f.11.2025.11.04.03.50.01
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477564d83e2sm31565865e9.3.2025.11.04.04.02.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Nov 2025 03:50:02 -0800 (PST)
-Message-ID: <914b0331-8fab-4ad6-a6a8-e511a4352cea@redhat.com>
-Date: Tue, 4 Nov 2025 12:50:00 +0100
+        Tue, 04 Nov 2025 04:02:03 -0800 (PST)
+Message-ID: <43ea4062-75a8-4152-bf19-2eca561036bd@redhat.com>
+Date: Tue, 4 Nov 2025 13:02:00 +0100
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -75,7 +75,7 @@ List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v4 08/15] quic: add path management
+Subject: Re: [PATCH net-next v4 09/15] quic: add congestion control
 To: Xin Long <lucien.xin@gmail.com>, network dev <netdev@vger.kernel.org>,
  quic@lists.linux.dev
 Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
@@ -97,37 +97,82 @@ Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
  Daniel Stenberg <daniel@haxx.se>,
  Andy Gospodarek <andrew.gospodarek@broadcom.com>
 References: <cover.1761748557.git.lucien.xin@gmail.com>
- <0ccfc094d8f69e079cc84c96bd86a31e008e1aaf.1761748557.git.lucien.xin@gmail.com>
+ <32c7730d3b0f6e5323d289d5bdfd01fc22d551b5.1761748557.git.lucien.xin@gmail.com>
 From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <0ccfc094d8f69e079cc84c96bd86a31e008e1aaf.1761748557.git.lucien.xin@gmail.com>
+In-Reply-To: <32c7730d3b0f6e5323d289d5bdfd01fc22d551b5.1761748557.git.lucien.xin@gmail.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: g4bHDjNWYPmqehbf20b-LAwOiJ4GNuQXmqLJnNpQNio_1762257004
+X-Mimecast-MFC-PROC-ID: FKNXilvibRk_zcP4RpC9zq8mGL0cTlfQjDAU2wtyIyY_1762257724
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 10/29/25 3:35 PM, Xin Long wrote:
-> This patch introduces 'quic_path_group' for managing paths, represented
-> by 'struct quic_path'. A connection may use two paths simultaneously
-> for connection migration.
-> 
-> Each path is associated with a UDP tunnel socket (sk), and a single
-> UDP tunnel socket can be related to multiple paths from different sockets.
-> These UDP tunnel sockets are wrapped in 'quic_udp_sock' structures and
-> stored in a hash table.
-> 
-> It includes mechanisms to bind and unbind paths, detect alternative paths
-> for migration, and swap paths to support seamless transition between
-> networks.
-> 
-> - quic_path_bind(): Bind a path to a port and associate it with a UDP sk.
-> 
-> - quic_path_free(): Unbind a path from a port and disassociate it from a
->   UDP sk.
+> +/* Compute and update the pacing rate based on congestion window and smoothed RTT. */
+> +static void quic_cong_pace_update(struct quic_cong *cong, u32 bytes, u32 max_rate)
+> +{
+> +	u64 rate;
+> +
+> +	/* rate = N * congestion_window / smoothed_rtt */
+> +	rate = (u64)cong->window * USEC_PER_SEC * 2;
+> +	if (likely(cong->smoothed_rtt))
+> +		rate = div64_ul(rate, cong->smoothed_rtt);
+> +
+> +	WRITE_ONCE(cong->pacing_rate, min_t(u64, rate, max_rate));
+> +	pr_debug("%s: update pacing rate: %u, max rate: %u, srtt: %u\n",
+> +		 __func__, cong->pacing_rate, max_rate, cong->smoothed_rtt);
 
-I find the above name slightly misleading, as I expect such function to
-free the path argument. Possibly quic_path_unbind?
+I think you should skip entirely the pacing_rate update when
+`smoothed_rtt == 0`
 
-/{
+[...]> +/* rfc9002#section-5: Estimating the Round-Trip Time */
+> +void quic_cong_rtt_update(struct quic_cong *cong, u32 time, u32 ack_delay)
+> +{
+> +	u32 adjusted_rtt, rttvar_sample;
+> +
+> +	/* Ignore RTT sample if ACK delay is suspiciously large. */
+> +	if (ack_delay > cong->max_ack_delay * 2)
+> +		return;
+> +
+> +	/* rfc9002#section-5.1: latest_rtt = ack_time - send_time_of_largest_acked */
+> +	cong->latest_rtt = cong->time - time;
+> +
+> +	/* rfc9002#section-5.2: Estimating min_rtt */
+> +	if (!cong->min_rtt_valid) {
+> +		cong->min_rtt = cong->latest_rtt;
+> +		cong->min_rtt_valid = 1;
+> +	}
+> +	if (cong->min_rtt > cong->latest_rtt)
+> +		cong->min_rtt = cong->latest_rtt;
+> +
+> +	if (!cong->is_rtt_set) {
+> +		/* rfc9002#section-5.3:
+> +		 *   smoothed_rtt = latest_rtt
+> +		 *   rttvar = latest_rtt / 2
+> +		 */
+> +		cong->smoothed_rtt = cong->latest_rtt;
+> +		cong->rttvar = cong->smoothed_rtt / 2;
+> +		quic_cong_pto_update(cong);
+> +		cong->is_rtt_set = 1;
+> +		return;
+> +	}
+> +
+> +	/* rfc9002#section-5.3:
+> +	 *   adjusted_rtt = latest_rtt
+> +	 *   if (latest_rtt >= min_rtt + ack_delay):
+> +	 *     adjusted_rtt = latest_rtt - ack_delay
+> +	 *   smoothed_rtt = 7/8 * smoothed_rtt + 1/8 * adjusted_rtt
+> +	 *   rttvar_sample = abs(smoothed_rtt - adjusted_rtt)
+> +	 *   rttvar = 3/4 * rttvar + 1/4 * rttvar_sample
+> +	 */
+> +	adjusted_rtt = cong->latest_rtt;
+> +	if (cong->latest_rtt >= cong->min_rtt + ack_delay)
+> +		adjusted_rtt = cong->latest_rtt - ack_delay;
+> +
+> +	cong->smoothed_rtt = (cong->smoothed_rtt * 7 + adjusted_rtt) / 8;
+
+Out of sheer curiosity, is the compiler smart enough to use a 'srl 3'
+for the above?
+
+/P
 

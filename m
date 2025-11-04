@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C1D2E5B1F
-	for <kernel-tls-handshake@lists.linux.dev>; Tue,  4 Nov 2025 12:17:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DAD191F84
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  4 Nov 2025 12:33:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762258657; cv=none; b=H/EmCabUOGLL10q8+Pywicy/lOljZEWth7yssonGHlnBl2ZbOHlR3L5k8ORQoU9E9vDjZOrMP+GJ/WGcVd3ZdLz5xY1J0BqUYQa6YvPEixNUag5s1eAE9iiw6hQg9ZobFr4nlKeqQNlHwQmnboSfZafLCTAvEl6OO7BoJcnvJ1A=
+	t=1762259608; cv=none; b=a+TxaaspuAb+x0mDWtZXoETyb3z+DsmKgTqlGJRMxJAgzDwWvSrSo6MEpcBwrXHr8upaUmV0qkuH/3VjAwj3zTzEOAcGlnI6IactudU083FLTLwjtfNzq3k30vkq/Osau4/bUzdG3THyBqG1r51Tp+f+Na0rKd18nSk4k8hLyP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762258657; c=relaxed/simple;
-	bh=P0QOjc+Y/i4SUjAz9hyI1Est9kQhNqP0MO2eaNzC2o0=;
+	s=arc-20240116; t=1762259608; c=relaxed/simple;
+	bh=rvu6O0E/7DDQAPj95W4jLS6+wxWIiNJJleMFtELomlU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kshevolZS65AUuFM5EUp4WEISfeWyiFAGqwxYYGfMgpGkLOACPEwcoPin7e90brBZ4DBdVcQtERk6UEXopweD+YTCHzd7nnnUtZdon6OUmtty9S8DUBZ8LMv3d0H+pyOL9e18bPDzKHc/Up1CQCBpTjGDfO2UsP8V75ntq8CIhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GQ+h4T5k; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=UvSQgu01798ky8+Kk4tOq1i0n1OFQlKID/PM+Q1kOy+HnhylyrQV/WYr5bCR8BKwrt2DAGl77TgGcXradWFHHEaXq5rKH5M/VYVhFi3Zq4zcviLSIW8KoHlgxhUFDMgHBAqPA8Ve99Sktma9PQkg8S3mNY1eo5uFhJltKtiAKXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RvkelZuH; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GQ+h4T5k"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RvkelZuH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762258654;
+	s=mimecast20190719; t=1762259605;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SrVv52+Wup10TuV26Al3G9RFtHr2QH+o3/M+H4STBAA=;
-	b=GQ+h4T5k54per9jxyJmDkoSGTzqV4M8fYj5p+eORfmMcHOZz8RCm48h1CUlP6QRao+XLtB
-	8ErEdkSRStBAFjKrvZCpcCI1IXpxTMvyd+0U38cZ6UY6AD2gDLKlvDPyApZ1rcYAWhmjiX
-	hj6QT0gfNxmmVjqqZrc618GfMI1Qtls=
+	bh=0+n3IR+AGm5h5aAEd+ooyhPcJs+3zBjyrD/S6ttEIHg=;
+	b=RvkelZuH+Id7D1p5Br4U28HG+9GDaZkllXUASNn0BVdgIAPXIhDv37rDuhsKRMdUoe0hzz
+	CiXlVuNJ7hLE1dv13jvYzLJBQqacTIz4A1V6fTRBB1RcH3/Yg4+TttA3fr+icYtNqOMzjk
+	Ehr5U83chHlVS4NmD6AHRXXHkh9/8Iw=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-593-aJSq8cXTNfel6CNF-qIMuQ-1; Tue, 04 Nov 2025 07:17:31 -0500
-X-MC-Unique: aJSq8cXTNfel6CNF-qIMuQ-1
-X-Mimecast-MFC-AGG-ID: aJSq8cXTNfel6CNF-qIMuQ_1762258650
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-475de1afec6so19298945e9.1
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 04 Nov 2025 04:17:31 -0800 (PST)
+ us-mta-501-6HZBDbGRO6CA_HgcjmzW5w-1; Tue, 04 Nov 2025 07:33:24 -0500
+X-MC-Unique: 6HZBDbGRO6CA_HgcjmzW5w-1
+X-Mimecast-MFC-AGG-ID: 6HZBDbGRO6CA_HgcjmzW5w_1762259604
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-47740c1442dso22714695e9.1
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 04 Nov 2025 04:33:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762258650; x=1762863450;
+        d=1e100.net; s=20230601; t=1762259603; x=1762864403;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SrVv52+Wup10TuV26Al3G9RFtHr2QH+o3/M+H4STBAA=;
-        b=mpNyYhZzjoQimGHIvE71yn56LPP8+KKhF0esQofm1hfHGxlmVHxaYzM03vfddJ5zTj
-         RFUjtKaZkK/XxC7kROp4kfgldm1y6G6+CNX+RZWKap+q62nzPrZIRVvPGK1z3Nwp7gdZ
-         y/ydgTNSrodxGKNjrnVYMs1CQpuxXcPdFLYC2xeYMZE6+whW7SImTENA24TiDhHbFJcy
-         8bEjATjCMQgXharxoBx3bx1pnXIG1GjiR1M6rew/0D5my+jaKSpb7pAmyKRGDwxEablP
-         oQ3PKr1iCkC7gfPoVW3dhGH4/EdjESD8ZDrjYnw3x1N1wXc8y++SyfYNeI7AqPaeQNkV
-         RyXw==
-X-Forwarded-Encrypted: i=1; AJvYcCWHYm45/l0W5Ps+Ud9C41CG5bzkp+MsJeD9Fj9jJsE9++T/XvxaymBae04da+8XuKo4dvS/9qA/U4ZIZAB/wkCCbkNoUA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyUsrNsqx9MmEKq/2jrpy8LnkAOXTS31cLTZ/ZuPAKFMqZtxw+F
-	P+2GVdySqZAXuUcKwK125AXxodUhB2kZTHTV/KATF8Sh+U9Jbr9FOV9mSnX9XJpNqfOWPj7CmNu
-	489qWR/Yz+l+8JszgTN29EdkaxPIc4k4KaznXr6gyQipu8WmVHUqK4G1foI2oCJk8knV2jujDOy
-	PB
-X-Gm-Gg: ASbGncsYXGaYlUR6lKjuaO4PzHCX/wRgsdba7pbYOjKVlJbbyi9xHCAbzY09LszW/ll
-	/OTNoI4ZWei9FrXbc6Iw8cb3GmcyWVa5n8AyFv1iYQBeW09aTTpx9qtvN8yauzbYvEkVFnBsrps
-	fw5Qqs+hFSbUkNkzZanrhkUfKy3QL1Qjz2urxOtkAW/yNxy8I/LO+Wat/bbZgrw92i29Q2vm17S
-	YavP9eiApUgptL74ztQn77R+tqWgVppyPakXtsQYhgx0e+G6wteOxNlqmivg8NMVon5oQVKCUoW
-	1dUq/rxkSVt62FNMcO2XTcWOh34saiNX6cH8BfqRf2KsnpbtHSy39eh0QhIHb7m+JnWh0+9b+0P
-	J30IMnTtJ9Zderm4fIk3Y/Y2en75W0l4obSnfLn0l92Nw
-X-Received: by 2002:a05:6000:40de:b0:429:d290:22f9 with SMTP id ffacd0b85a97d-429dbcabe53mr2945315f8f.4.1762258650458;
-        Tue, 04 Nov 2025 04:17:30 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IElFwJq3LBE7DNZtfuVK0eheDgsp8L8ZPbTvbUgjo7k2WL6IDip2GsX5myepH9Q0/Tu9JOyzw==
-X-Received: by 2002:a05:6000:40de:b0:429:d290:22f9 with SMTP id ffacd0b85a97d-429dbcabe53mr2945262f8f.4.1762258649949;
-        Tue, 04 Nov 2025 04:17:29 -0800 (PST)
+        bh=0+n3IR+AGm5h5aAEd+ooyhPcJs+3zBjyrD/S6ttEIHg=;
+        b=C8A9vvri7rTsxTbk9gZSXT9cYa5NEhokTJjUCo04UvT4x8U3cbS12gg1JzRCv3gvXg
+         f0PIO5sJe5cLwyO/57QAwrj5xJazVOFjYWj6hfEcYqANjDwkghwRpuB2TgNc4xI2x4WQ
+         nMn96Fr4LmiskDlCXpOTlmlhPsGnsntp0HthsIFqIXMMHzv/zAmE1ENY8pXUyNR/LAKb
+         TStymUTIcpSkgzTQGdKaFmislvvbRbBiLgK0PxjUzqNRnnF9Pb3nfa3Ht9MbSzH4NT6L
+         HJXGb8Q7G0Alhpid6dZAuybxc8ETYucxgeA7Tmflf2HIgO9PXt2ASjWcrKvvqXA5AWmi
+         dwGw==
+X-Forwarded-Encrypted: i=1; AJvYcCWEk48BPcOOgMynAao3x/+xArCuspXwVDNsiTfACWKII5qruRAfZsWxxd2ylnXWDuyeOCuomCqk48K1ODw1aImj+4hPJw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxyaxHTUyzix0m6/0rPNtYVrY7TL6IDYu3YFaQ2Q6OLQMsoYmJq
+	tQHaHpl5qD5m6Yuu7TWZ6Q9rmfEENQnBbufDSD7KWSZk8F5t0KnDGhCoUIdNNUkZ8YKkVxmnntw
+	IR/Ic5V2Hkg8FGL5ZV67URQMj5DAtO5ThY/RdYnMFu0HZH+2XF8NoNpfgmjrU+X/6qTqFgDaZSV
+	T6
+X-Gm-Gg: ASbGnctfDpdJucDqK81L1+eoPEZq1csfSm2M7VTnepIyj6H7ZXs9StKfogMXmhS/QFH
+	q2cezPnebC0Qe6ed5MYuSdJ4pkmNjCREG8rWvGBfccU4+giZ6eLHZ+Qym9c1unZT+cRfttXkSy6
+	TqRQYU7pkTS0Ww/G1V3ONIq13d8tnhGea8uNTXz7ez2/u+nYop5IQJ6jjzQi8lYhceEBD6dY931
+	q0RZLYwO1wTbHGlULgPtUiXmEBkssEsVlF9LjKwAwujRlFI04jG/QXiftMTi4FR7BzeGGDFA/wy
+	H5ostGJnpBzEXTUWfJ/ncqjYjr8Ww55/E1+9jXDAYrfxnX26O5ryLPebFzMoTOoUDw4oGdxdUxK
+	vd4gSansNAmbfdARP1TIBnhlchwIa9qwW2Jk/kai4d8TU
+X-Received: by 2002:a05:600c:a086:b0:477:5582:dee3 with SMTP id 5b1f17b1804b1-4775582e17dmr21786605e9.23.1762259603577;
+        Tue, 04 Nov 2025 04:33:23 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEW7XZAfAI36z3n3gua+YP3lVHEkUX5rYhKEKRSMwAwl/px8xmvwUV2n/8i+Vg7lzMYGCOnZA==
+X-Received: by 2002:a05:600c:a086:b0:477:5582:dee3 with SMTP id 5b1f17b1804b1-4775582e17dmr21786255e9.23.1762259603207;
+        Tue, 04 Nov 2025 04:33:23 -0800 (PST)
 Received: from ?IPV6:2a0d:3341:b8a2:8d10:2aab:5fa:9fa0:d7e6? ([2a0d:3341:b8a2:8d10:2aab:5fa:9fa0:d7e6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429dc1f5a7fsm4316521f8f.24.2025.11.04.04.17.27
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477558e695esm17324625e9.2.2025.11.04.04.33.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Nov 2025 04:17:29 -0800 (PST)
-Message-ID: <635b0dad-98bf-41e9-b7b6-1f28da48fc00@redhat.com>
-Date: Tue, 4 Nov 2025 13:17:26 +0100
+        Tue, 04 Nov 2025 04:33:22 -0800 (PST)
+Message-ID: <3618948d-8372-4f8d-9a0e-97a059bbf6eb@redhat.com>
+Date: Tue, 4 Nov 2025 13:33:20 +0100
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -75,7 +75,7 @@ List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v4 10/15] quic: add packet number space
+Subject: Re: [PATCH net-next v4 13/15] quic: add timer management
 To: Xin Long <lucien.xin@gmail.com>, network dev <netdev@vger.kernel.org>,
  quic@lists.linux.dev
 Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
@@ -97,37 +97,29 @@ Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
  Daniel Stenberg <daniel@haxx.se>,
  Andy Gospodarek <andrew.gospodarek@broadcom.com>
 References: <cover.1761748557.git.lucien.xin@gmail.com>
- <a1df61880c9f424b49b2d4933e0d6ea0bf6da268.1761748557.git.lucien.xin@gmail.com>
+ <cc874b85134ba00f8d1d334e93633fbfa04b5a9a.1761748557.git.lucien.xin@gmail.com>
 From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <a1df61880c9f424b49b2d4933e0d6ea0bf6da268.1761748557.git.lucien.xin@gmail.com>
+In-Reply-To: <cc874b85134ba00f8d1d334e93633fbfa04b5a9a.1761748557.git.lucien.xin@gmail.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 1ckbk3pUl0ACDQdR6sId1CAtJoQIA7616JiezEmgkCQ_1762258650
+X-Mimecast-MFC-PROC-ID: 4HBj-FGk69-NxSO3bgAQEDj4oGEP-jtg7mQRaP5uTb0_1762259604
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 10/29/25 3:35 PM, Xin Long wrote:
-> +struct quic_pnspace {
-> +	/* ECN counters indexed by direction (TX/RX) and ECN codepoint (ECT1, ECT0, CE) */
-> +	u64 ecn_count[QUIC_ECN_DIR_MAX][QUIC_ECN_MAX];
-> +	unsigned long *pn_map;	/* Bit map tracking received packet numbers for ACK generation */
-> +	u16 pn_map_len;		/* Length of the packet number bit map (in bits) */
-> +	u8  need_sack:1;	/* Flag indicating a SACK frame should be sent for this space */
-> +	u8  sack_path:1;	/* Path used for sending the SACK frame */
-> +
-> +	s64 last_max_pn_seen;	/* Highest packet number seen before pn_map advanced */
-> +	u32 last_max_pn_time;	/* Timestamp when last_max_pn_seen was received */
-> +	u32 max_time_limit;	/* Time threshold to trigger pn_map advancement on packet receipt */
-> +	s64 min_pn_seen;	/* Smallest packet number received in this space */
-> +	s64 max_pn_seen;	/* Largest packet number received in this space */
-> +	u32 max_pn_time;	/* Time at which max_pn_seen was received */
-> +	s64 base_pn;		/* Packet number corresponding to the start of the pn_map */
-> +	u32 time;		/* Cached current time, or time accept a socket (listen socket) */
+> +void quic_timer_stop(struct sock *sk, u8 type)
+> +{
+> +	if (type == QUIC_TIMER_PACE) {
+> +		if (hrtimer_try_to_cancel(quic_timer(sk, type)) == 1)
+> +			sock_put(sk);
+> +		return;
+> +	}
+> +	if (timer_delete(quic_timer(sk, type)))
 
-There are a few 32 bits holes above you could avoid reordering the fields.
+timer_shutdown()
 
-Otherwise LGTM,
+Other than that:
 
 Acked-by: Paolo Abeni <pabeni@redhat.com>
 

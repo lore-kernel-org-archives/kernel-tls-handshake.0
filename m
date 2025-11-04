@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBA5314A97
-	for <kernel-tls-handshake@lists.linux.dev>; Tue,  4 Nov 2025 09:55:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B00308F34
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  4 Nov 2025 10:27:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762250110; cv=none; b=gNgxJqfyLNTmXJtfDvrz98GzqfKe/WgvLdOTYaqupnoUdf+KYYZcNe/Hd3dwpZw4FMMn+m5hNZRKWQtCecvx/7Yx2hwlV3Yod1P6P7w5yzCetE/Nvz4NP14Fpca4QLkGeuXYbwiMuXRZSGVzCvxgRJgaiWrqAzed02ld4F265rk=
+	t=1762252061; cv=none; b=eweaRVwicUZVJZyJESmyeE9zgCusnPHLvVgZ55SpnyVwDFahG9Mc+dgvP3PY22lWQRaZEyWGEMAh9i+y5025dtvqwNFPCsqL24TSFGSfhPKtmgLMe/6xHaFXOTTVsVJoDvybSfTnuE7OtJqHSDqkUHfBJaVMIvM2GlUDVRMqe9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762250110; c=relaxed/simple;
-	bh=QfSQ5cpqVePGEDeF20Ht8A/SzrjwwOLDakiJXtv47U0=;
+	s=arc-20240116; t=1762252061; c=relaxed/simple;
+	bh=PXwkPg6t9gZHTPHYFMBxi8xJdrgBYRM08StHpo40yRs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hWqyuqKaBZ5i0Im5nasjQyuVhKhImRkFgjRAWgt/n9nZITFn2xSxeS31+Z9GlAOTkFbUlcRSl8Ur0qO6DxGKcQZjYnWEXdmlk14FDH0IPPfsvdu95FznPvp28qTiAQfMpGRiK4oapUUZV5FRdHQZpiG9vcO5EnKdZJHwFnURbWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IQcTEQX8; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=e6ogavbAdtC5JhS+5fZAaTJDBODndd8C4O8deCtDUmL1cuqKfpL17wPyk4Pr80r4RCXHzT1K85UnDoMfdUrZphA0kw+ggEcrFZcAUnYnwb4dNC7FmctHfk77NyP50+LYc6951Gt5QDQNPE2QNbN5Xq3n6XpSPuOTWdA3n2KvJ88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QqLEX14+; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IQcTEQX8"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QqLEX14+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762250107;
+	s=mimecast20190719; t=1762252058;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VP7vTJNouoan64MmsnztfHu0gZfK42bIBxJmyPWNcv8=;
-	b=IQcTEQX8PW7A2EKkkLPTeicvAX6AybTRM/I63+gtKb1r0BknExu5V0NDKBDFFKj/XVwDzm
-	69tlH6mI7FQQRAeQt2LjomSn2O7GJ9W0sjRuhkXQ6wAjoplEHT7W1VtxzE330RnUkOMtl5
-	GLPCQ/FP9t+SIvhCEcmbRDYcaktJRIU=
+	bh=9BJHzXVXTqUYAlxMYc+x6/745b/YJuqB0StnnaDGEuM=;
+	b=QqLEX14+Arw9P7MXXee4iXBvxtaedbzB8Nw6Erg7M7MewUCDwZcgxAokacLY2MI1Lc+dSj
+	narHjl67aHkvJmT0HGETYt/5c7cW3kv5if16iOQktO5GqpShjasWqyhqfVWD0fDKdNUEh8
+	ZLLDnTVY44BedsqqG9Q4stMGGlIV91I=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-353-Gc8oAJFkOk20j7DNm77GLQ-1; Tue, 04 Nov 2025 04:55:05 -0500
-X-MC-Unique: Gc8oAJFkOk20j7DNm77GLQ-1
-X-Mimecast-MFC-AGG-ID: Gc8oAJFkOk20j7DNm77GLQ_1762250104
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4770c37331fso38207095e9.3
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 04 Nov 2025 01:55:05 -0800 (PST)
+ us-mta-553-0gUuhT9kPvOK-HCLyMxasQ-1; Tue, 04 Nov 2025 05:27:37 -0500
+X-MC-Unique: 0gUuhT9kPvOK-HCLyMxasQ-1
+X-Mimecast-MFC-AGG-ID: 0gUuhT9kPvOK-HCLyMxasQ_1762252056
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4770c37331fso38465195e9.3
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 04 Nov 2025 02:27:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762250104; x=1762854904;
+        d=1e100.net; s=20230601; t=1762252056; x=1762856856;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VP7vTJNouoan64MmsnztfHu0gZfK42bIBxJmyPWNcv8=;
-        b=mtsWd6yLq3+JtZcYiiUkWBDZIC2ogk46KcoFEPkts5OptLhFohyAAWfMu/jgUNj+6U
-         LPLIOI0kwxnOCWF9WkasIO41oD8gn/Sh5D/amlWQs24jyHHrzee/ykRJcXCUo+Trqe+y
-         Eulutf95/aOxerpsj72lN6B9nMIHiX78ovFqXsPjrUwJInMoHJKarc1N6Z4J6bQB1lJf
-         9yyCOT9LRjcVSlgZ4GGHvs+ntZMv3ZK0NFq+ZDraQB/BYZcgylI2dbvq+wwO21SHiUU4
-         2N0iajI09v1y5kdnTPgICd5TMRb/nZGZVyVtF+BWVb2J1teBEXIeVae00hfgbzj6AApj
-         khGA==
-X-Forwarded-Encrypted: i=1; AJvYcCWXbCiEIc4l2orBLDMVlATcYTfgSrI3COVRpIll12JjTSf1sk5YII/9QiPQFmC51BsFjI/nLsp7Nx62U2UqIOfjdNhkwQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyeyZ+rY2iPQbPm16aPWYgck5R017AJK0nLSirvWG7ITdAUKIuC
-	cWNJIs3yzgM/qT5yx70Gk1s1BrFv/lOKrgRB2f0EGbbazqvxulcE3upiZk+dxfkfd4qfrmRXw+R
-	e4cOJdBShhzS1Kg0K88aMKJ6N3yAjyYPa0M5iO0sClO0+XFl7FWxn214D5DzYY8lBMct0C3+LFs
-	Kj
-X-Gm-Gg: ASbGncsAxIJCjiSOO+R7Qlw36hHQkqMnH1XlZvGDrxtjJOfExu3c65UkmGH0UtHmp50
-	Z3jzU/LUG/YLy8jnDkcUr9lvmF8hmfXpZyxZE/AGycdBdokoY6vU+0bTz9G/zB8ZLwzQwoO5o7M
-	tqbGxIPy6YftP+67/A2nBnt8yDhSqI6TX0bwA/a7z6+upEJ/+8cugOk+lOvxQaWVnQ5mt4KnNTn
-	doPE9SQ40AXyF/d3BlLsai2DfK+gGrWHeLISb+96prqXpGyQKXVgGyw4wv3jFmWq7aobcmx3PAo
-	Mi3b63YmKhXC+xrefY0O6JGCrCmL/hRFI4NZAtY5bRXhOMZDM+cCQmUuDY1NPSDQMJopBKRyh3O
-	NVoJf8u6K0IxfDD4pdpCzWpAH6iwBa4YTp3er/pmLtx1m
-X-Received: by 2002:a05:600d:8394:b0:475:d944:2053 with SMTP id 5b1f17b1804b1-47730ef502bmr102634815e9.2.1762250104380;
-        Tue, 04 Nov 2025 01:55:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH6j3suXJsdE1W3rADP1TPpeXGC+84lF7jrCGSmoPCopSvWPQsrXeTI2soLtfPTzeuZHI21IQ==
-X-Received: by 2002:a05:600d:8394:b0:475:d944:2053 with SMTP id 5b1f17b1804b1-47730ef502bmr102634195e9.2.1762250103915;
-        Tue, 04 Nov 2025 01:55:03 -0800 (PST)
+        bh=9BJHzXVXTqUYAlxMYc+x6/745b/YJuqB0StnnaDGEuM=;
+        b=jExVO0nuqlk5UW2CT4m4N+THPjHn5PuB3WkJUvj/pwPNfBhiEtzJNXdMG5R6EKxTaK
+         H4j881EGimaTgPjJFtLOpn4ySr/hMhUAz5EAri3hJzYZhfIV7IUlTVuamXD2XHuYlkYp
+         l8anNc/PYNjmslUja/8rwgdYOltXITrKHOXQ6uCNa5u3TSaLuZS0da51bdiXPK2SXVjS
+         dPXiwUQ1kzMQKoXwaxXJncqszoQ/FGIhZZJujm+LGivErGFBxRKjEF4GPLoA+RDtf2EX
+         pE/3PWFi1GfTt1vgB0ualrrvNpcpYj8FPNbbu2cbmv5dDCBP7gd0FNib3VKTDI1q9VNL
+         qIGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQtaYblGPx5mgS7/mePnY6aKWodeRgzpbg/D3OlRSPLgwPh1GapiomxkxphVIOskqbsa2/o7fDKHbcznpJByvow6aqNw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy2LuZQnsVEdAJcwxlEh3DAyLnwSaUwoBnY2hA7POp45gnKWhzg
+	lbfeyCrvYzTbQdsPHfnq/mlq64D0Q+12FJAHMEo75cZWuYzDJuno/CDHz46Blce74jVh73iKPsC
+	jUQiXjSP98oHQYbNeE2I4TMeHYgnh8V94/GGKyAsYEDauKwLJr5wmRqQDMk7FhpHdHK97I/eXsE
+	wc
+X-Gm-Gg: ASbGncv843OSdI6n+sjpqTOITVbihhfjNkRVl2HcPnvG9HoJppHo7S7mWGlTbQ4NeMA
+	JKHWtCkXPEoYKP9sG5kIJXbGtdY+ms/qLS73qZDcSryGgumf8uVdccBtouvAMoM94EgHfekjfpV
+	SLFXZnjKJTo2vHXo24xdgfqQk/Qz7VleGek4R6LkUwSe/66lhUgoUW+TVqj/nztR53+tEeD0eGF
+	BoedQtPqkKcxEU3/adt2vaLMdj0TGsV//pH4DnUkwyaJ0SjRYZCEJcQdBVWfJXe14RzmjuCeoc0
+	jKmAedSfy+edsgymTzfUX3QH5+zix3e3Q4LFafMaLQVbp7J9k/XhruMt3aAjm0V+37yBs/OjJ3R
+	cZsiaMF5g+M06pAB0Mj/09yna6PtT9QE8GVZtUWguZZXv
+X-Received: by 2002:a05:600c:1f0e:b0:46e:4704:b01e with SMTP id 5b1f17b1804b1-477305a24bcmr155433375e9.8.1762252056294;
+        Tue, 04 Nov 2025 02:27:36 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFDIikHrNRel31D0YOz3lp7mI8RIh/7Fkt/R7xUHROdiwAly3TJjMPIf8hmo3m6Yoq37eLQaQ==
+X-Received: by 2002:a05:600c:1f0e:b0:46e:4704:b01e with SMTP id 5b1f17b1804b1-477305a24bcmr155432885e9.8.1762252055721;
+        Tue, 04 Nov 2025 02:27:35 -0800 (PST)
 Received: from ?IPV6:2a0d:3341:b8a2:8d10:2aab:5fa:9fa0:d7e6? ([2a0d:3341:b8a2:8d10:2aab:5fa:9fa0:d7e6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4775598c2c9sm28545315e9.8.2025.11.04.01.55.01
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4773c48daa0sm210093085e9.3.2025.11.04.02.27.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Nov 2025 01:55:03 -0800 (PST)
-Message-ID: <1fcf4639-4c3e-4c07-9d01-0537cadcff42@redhat.com>
-Date: Tue, 4 Nov 2025 10:55:01 +0100
+        Tue, 04 Nov 2025 02:27:35 -0800 (PST)
+Message-ID: <f557c3eb-9177-4e4f-b46e-e83bf938e2b0@redhat.com>
+Date: Tue, 4 Nov 2025 11:27:32 +0100
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -75,8 +75,8 @@ List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v4 03/15] quic: provide common utilities and data
- structures
+Subject: Re: [PATCH net-next v4 04/15] quic: provide family ops for address
+ and protocol
 To: Xin Long <lucien.xin@gmail.com>, network dev <netdev@vger.kernel.org>,
  quic@lists.linux.dev
 Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
@@ -98,29 +98,224 @@ Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
  Daniel Stenberg <daniel@haxx.se>,
  Andy Gospodarek <andrew.gospodarek@broadcom.com>
 References: <cover.1761748557.git.lucien.xin@gmail.com>
- <66e48fe865ea67beb2a7f5cf084ea86d93592dff.1761748557.git.lucien.xin@gmail.com>
+ <204debefcf0329a04ecd03094eb4d428bf9a44f1.1761748557.git.lucien.xin@gmail.com>
 From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <66e48fe865ea67beb2a7f5cf084ea86d93592dff.1761748557.git.lucien.xin@gmail.com>
+In-Reply-To: <204debefcf0329a04ecd03094eb4d428bf9a44f1.1761748557.git.lucien.xin@gmail.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Ird1NkHmX3ilvnVnerxye1ridclr8_aOUyavLG0tnEo_1762250104
+X-Mimecast-MFC-PROC-ID: iWTIZBOXyJFRaCNLKwXI0TMtzz0epGPtNcvi-BXMvd0_1762252056
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 10/29/25 3:35 PM, Xin Long wrote:
-> This patch provides foundational data structures and utilities used
-> throughout the QUIC stack.
-> 
-> It introduces packet header types, connection ID support, and address
-> handling. Hash tables are added to manage socket lookup and connection
-> ID mapping.
-> 
-> A flexible binary data type is provided, along with helpers for parsing,
-> matching, and memory management. Helpers for encoding and decoding
-> transport parameters and frames are also included.
-> 
-> Signed-off-by: Xin Long <lucien.xin@gmail.com>
+> +static int quic_v4_flow_route(struct sock *sk, union quic_addr *da, union quic_addr *sa,
+> +			      struct flowi *fl)
+> +{
+> +	struct flowi4 *fl4;
+> +	struct rtable *rt;
+> +
+> +	if (__sk_dst_check(sk, 0))
+> +		return 1;
+> +
+> +	memset(fl, 0x00, sizeof(*fl));
+> +	fl4 = &fl->u.ip4;
+> +	fl4->saddr = sa->v4.sin_addr.s_addr;
+> +	fl4->fl4_sport = sa->v4.sin_port;
+> +	fl4->daddr = da->v4.sin_addr.s_addr;
+> +	fl4->fl4_dport = da->v4.sin_port;
+> +	fl4->flowi4_proto = IPPROTO_UDP;
+> +	fl4->flowi4_oif = sk->sk_bound_dev_if;
+> +
+> +	fl4->flowi4_scope = ip_sock_rt_scope(sk);
+> +	fl4->flowi4_dscp = inet_sk_dscp(inet_sk(sk));
+> +
+> +	rt = ip_route_output_key(sock_net(sk), fl4);
+> +	if (IS_ERR(rt))
+> +		return PTR_ERR(rt);
+> +
+> +	if (!sa->v4.sin_family) {
 
-Acked-by: Paolo Abeni <pabeni@redhat.com>
+The above check is strange. Any special reason to not use
+quic_v4_is_any_addr()?
+
+> +		sa->v4.sin_family = AF_INET;
+> +		sa->v4.sin_addr.s_addr = fl4->saddr;
+> +	}
+> +	sk_setup_caps(sk, &rt->dst);
+> +	return 0;
+> +}
+> +
+> +static int quic_v6_flow_route(struct sock *sk, union quic_addr *da, union quic_addr *sa,
+> +			      struct flowi *fl)
+> +{
+> +	struct ipv6_pinfo *np = inet6_sk(sk);
+> +	struct ip6_flowlabel *flowlabel;
+> +	struct dst_entry *dst;
+> +	struct flowi6 *fl6;
+> +
+> +	if (__sk_dst_check(sk, np->dst_cookie))
+> +		return 1;
+> +
+> +	memset(fl, 0x00, sizeof(*fl));
+> +	fl6 = &fl->u.ip6;
+> +	fl6->saddr = sa->v6.sin6_addr;
+> +	fl6->fl6_sport = sa->v6.sin6_port;
+> +	fl6->daddr = da->v6.sin6_addr;
+> +	fl6->fl6_dport = da->v6.sin6_port;
+> +	fl6->flowi6_proto = IPPROTO_UDP;
+> +	fl6->flowi6_oif = sk->sk_bound_dev_if;
+> +
+> +	if (inet6_test_bit(SNDFLOW, sk)) {
+> +		fl6->flowlabel = (da->v6.sin6_flowinfo & IPV6_FLOWINFO_MASK);
+> +		if (fl6->flowlabel & IPV6_FLOWLABEL_MASK) {
+> +			flowlabel = fl6_sock_lookup(sk, fl6->flowlabel);
+> +			if (IS_ERR(flowlabel))
+> +				return -EINVAL;
+> +			fl6_sock_release(flowlabel);
+> +		}
+> +	}
+> +
+> +	dst = ip6_dst_lookup_flow(sock_net(sk), sk, fl6, NULL);
+> +	if (IS_ERR(dst))
+> +		return PTR_ERR(dst);
+> +
+> +	if (!sa->v6.sin6_family) {
+
+(similar question here)
+
+[...]
+> +static int quic_v4_get_mtu_info(struct sk_buff *skb, u32 *info)
+> +{
+> +	struct icmphdr *hdr;
+> +
+> +	hdr = (struct icmphdr *)(skb_network_header(skb) - sizeof(struct icmphdr));
+
+Noting the above relies on headers being already pulled in the linear
+part. Later patch will do skb_linarize(), but that looks overkill and
+should hit performance badly. Instead you should use pskb_may_pull() &&
+friends.
+
+> +	if (hdr->type == ICMP_DEST_UNREACH && hdr->code == ICMP_FRAG_NEEDED) {
+> +		*info = ntohs(hdr->un.frag.mtu);
+> +		return 0;
+> +	}
+> +
+> +	/* Defer other types' processing to UDP error handler. */
+> +	return 1;
+> +}
+> +
+> +static int quic_v6_get_mtu_info(struct sk_buff *skb, u32 *info)
+> +{
+> +	struct icmp6hdr *hdr;
+> +
+> +	hdr = (struct icmp6hdr *)(skb_network_header(skb) - sizeof(struct icmp6hdr));
+> +	if (hdr->icmp6_type == ICMPV6_PKT_TOOBIG) {
+> +		*info = ntohl(hdr->icmp6_mtu);
+> +		return 0;
+> +	}
+> +
+> +	/* Defer other types' processing to UDP error handler. */
+> +	return 1;
+> +}
+> +
+> +static u8 quic_v4_get_msg_ecn(struct sk_buff *skb)
+> +{
+> +	return (ip_hdr(skb)->tos & INET_ECN_MASK);
+> +}
+> +
+> +static u8 quic_v6_get_msg_ecn(struct sk_buff *skb)
+> +{
+> +	return (ipv6_get_dsfield(ipv6_hdr(skb)) & INET_ECN_MASK);
+> +}
+> +
+> +static int quic_v4_get_user_addr(struct sock *sk, union quic_addr *a, struct sockaddr *addr,
+> +				 int addr_len)
+> +{
+> +	u32 len = sizeof(struct sockaddr_in);
+> +
+> +	if (addr_len < len || addr->sa_family != AF_INET)
+> +		return 1;
+> +	if (ipv4_is_multicast(quic_addr(addr)->v4.sin_addr.s_addr))
+> +		return 1;
+> +	memcpy(a, addr, len);
+> +	return 0;
+> +}
+
+It looks like the above function is not used in this series?!? (well
+it's called by quic_get_user_addr() which in turn is unsed.
+
+Perhaps drop from here and add later as needed?
+
+Also the name sounds possibly misleading, I read it as it should copy
+data to user-space and return value could possibly be an errnum.
+
+> +static void quic_v4_get_pref_addr(struct sock *sk, union quic_addr *addr, u8 **pp, u32 *plen)
+> +{
+> +	u8 *p = *pp;
+> +
+> +	memcpy(&addr->v4.sin_addr, p, QUIC_ADDR4_LEN);
+> +	p += QUIC_ADDR4_LEN;
+> +	memcpy(&addr->v4.sin_port, p, QUIC_PORT_LEN);
+> +	p += QUIC_PORT_LEN;
+> +	addr->v4.sin_family = AF_INET;
+> +	/* Skip over IPv6 address and port, not used for AF_INET sockets. */
+> +	p += QUIC_ADDR6_LEN;
+> +	p += QUIC_PORT_LEN;
+> +
+> +	if (!addr->v4.sin_port || quic_v4_is_any_addr(addr) ||
+> +	    ipv4_is_multicast(addr->v4.sin_addr.s_addr))
+> +		memset(addr, 0, sizeof(*addr));
+> +	*plen -= (p - *pp);
+> +	*pp = p;
+> +}
+
+Similarly unused?
+
+> +static bool quic_v4_cmp_sk_addr(struct sock *sk, union quic_addr *a, union quic_addr *addr)
+> +{
+> +	if (a->v4.sin_port != addr->v4.sin_port)
+> +		return false;
+> +	if (a->v4.sin_family != addr->v4.sin_family)
+> +		return false;
+> +	if (a->v4.sin_addr.s_addr == htonl(INADDR_ANY) ||
+> +	    addr->v4.sin_addr.s_addr == htonl(INADDR_ANY))
+> +		return true;
+> +	return a->v4.sin_addr.s_addr == addr->v4.sin_addr.s_addr;
+> +}
+> +
+> +static bool quic_v6_cmp_sk_addr(struct sock *sk, union quic_addr *a, union quic_addr *addr)
+> +{
+> +	if (a->v4.sin_port != addr->v4.sin_port)
+> +		return false;
+> +
+> +	if (a->sa.sa_family == AF_INET && addr->sa.sa_family == AF_INET) {
+> +		if (a->v4.sin_addr.s_addr == htonl(INADDR_ANY) ||
+> +		    addr->v4.sin_addr.s_addr == htonl(INADDR_ANY))
+> +			return true;
+> +		return a->v4.sin_addr.s_addr == addr->v4.sin_addr.s_addr;
+> +	}
+> +
+> +	if (a->sa.sa_family != addr->sa.sa_family) {
+> +		if (ipv6_only_sock(sk))
+> +			return false;
+> +		if (a->sa.sa_family == AF_INET6 && ipv6_addr_any(&a->v6.sin6_addr))
+> +			return true;
+> +		if (a->sa.sa_family == AF_INET && addr->sa.sa_family == AF_INET6 &&
+
+Below this code assumes that sa_family is either AF_INET or AF_INET6. If
+such assumtion hold, you should use here, too. and drop the
+'addr->sa.sa_family == AF_INET6' condition.
+
+> +		    ipv6_addr_v4mapped(&addr->v6.sin6_addr) &&
+> +		    addr->v6.sin6_addr.s6_addr32[3] == a->v4.sin_addr.s_addr)
+> +			return true;
+> +		if (addr->sa.sa_family == AF_INET && a->sa.sa_family == AF_INET6 &&
+> +		    ipv6_addr_v4mapped(&a->v6.sin6_addr) &&
+> +		    a->v6.sin6_addr.s6_addr32[3] == addr->v4.sin_addr.s_addr)
+> +			return true;
+
+Nothing this branch does not handle the 'ipv6_addr_any(&addr->v6.sin6_addr)'
+
+/P
 

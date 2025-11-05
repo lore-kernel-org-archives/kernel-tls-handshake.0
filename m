@@ -1,109 +1,130 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF03E2D8779
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  5 Nov 2025 22:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54202EBDDE
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  5 Nov 2025 22:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762381203; cv=none; b=boJT1r9mkWmib8VsrWN2XhsMouXSg7Me1UhajPlXMcaGrLpOFIHS7btMq05SynuFtk6pLP+3VRPuaE8dAjNkTevHqLyg6WOWXSKSHjStRl/SJIOf3NCxkjAQhZNHKuf9OrwBxIvA+I13A6Zt9+Ketv3dGdml+QcU4dGBjpaIcKw=
+	t=1762381247; cv=none; b=V+HTyhC12B/Br9K37Jj07KGsEd8etqHdPWYFWGkG72lu6m6BHHfxILhlCLJvtAC5OOmY0IbxgmBkWSa8dFqmaS9Quw9bzLwI3JE1WyGpz6VQwwr2Bo8D3r3vPlH1oiyIYfoZxRaWWy3+9xTJQPGWcC5jVMdxHKNPQNg84saT5+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762381203; c=relaxed/simple;
-	bh=EYKxP/O/E3xqBmODbiboV3aBEJpx7ZMxu1D3mOtTn3M=;
+	s=arc-20240116; t=1762381247; c=relaxed/simple;
+	bh=I2Hsg/B2GBcgQ3xLGmh7nx19s9mgd3/8xUEED7dpNHw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gzit2UaYBgyxfN7UwXjZVbitR1XlF5Ntn3PXYwBESuaH2VzS8Y5BcPDDYON/ELGF60G9LTFBxqHSxjDExYKTAvgJIZ1YMWQtSeCkQYEmgdnAfIPrPwoHjnKzbkPhyJKJJHhZ+6DE2J1c9I+kwmZ/9sQRIzIOxKKf9EmyZKjhK3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j3LLwDYc; arc=none smtp.client-ip=209.85.214.180
+	 To:Cc:Content-Type; b=Z9udhuO8/ye8Lt/+RpGE+fkS/E34WQP6SAjNB0PMkGblY6/HVMAaz9VBJVuw7agsGcMXVI4Nh7PuRE0XIDB0nuudftmOoGMK54hV3S/p5wxlXPaDd2cG7lwlBhD3GWeSy3KYxAFKSzIxdlCyVIZC9NHseNIgtrzRx3nm946So20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NXS9R6/y; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j3LLwDYc"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-295ceaf8dacso3439145ad.0
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 05 Nov 2025 14:20:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NXS9R6/y"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-33db8fde85cso349101a91.0
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 05 Nov 2025 14:20:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762381201; x=1762986001; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1762381245; x=1762986045; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ui2U0Ij5vkKFB7H5IIU3rlE4C90Li/F+qZfil4Xomfo=;
-        b=j3LLwDYcQZjOr8Q5qludEG5UMK98bg35iiZz4Wj3PXxGA3CIbxdpNEH8UVUDQd3lhV
-         dX1lYT5iPCBO7z1e93AD6K/TjTN6gs0arPBPTA5FqQ5hqp6BVKfSDTnXDfxvx8Cz2QK/
-         Bjv7mXyymRvu2X3AIIjohO47YT6iJFxAipdbmgNLMJVOTbAwCAVIpcNYPgBfLk8jBr39
-         LTMKnD0WHwfhnO/DcWHQy9GXlt2C6cGL6m7GobgJoIWh50VyXaI2ALrUCXZ4xkM8ne83
-         GD8S1L3oL7MgFyirdHDdtfmRokd2H3DvFnL9KSPgwz9JGo1ZFKQKR0Ff3Ez+jFxiRQhI
-         rXog==
+        bh=h2iC3i/NABlxjjFozwtUiIBPGgmouctXhyOdEE/QiTU=;
+        b=NXS9R6/yA4oqj1vxBsxtnS15wehyOzaa9Jj5EgfRO+afB3Phuex92nT/MbzlrKcy04
+         hjxgpskd0iuEf+sqc/KHVbtBPTY7G9CEtv1EJuvs/hr0fkN+IQrtZOD7P2qPQ1J8lSW+
+         32wg8A0i6yFjXSbbzzl0+mWaBfG+jNd4HROmM3Rdfqr/HSj/0UAe9CtbJn/9nOVIzbWo
+         77ck98jb100B/kW4WYq7NHFBc/+oHBW3OvW8SADC3wqu8fq3uDN7m7sLIJCZIMMykDpn
+         Ik3AUieGeWKMyeXJz5myKBIJJPQZqdxETSCBPLovjwL8Np7eiPVHrfFtxmrJ741rRpLf
+         NVmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762381201; x=1762986001;
+        d=1e100.net; s=20230601; t=1762381245; x=1762986045;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ui2U0Ij5vkKFB7H5IIU3rlE4C90Li/F+qZfil4Xomfo=;
-        b=eANXNSTYf0UzzeI4YGaeBsMc5HFhDXORsqxOpQNyQndxbeYkufLexqmF2m9SQoMwsA
-         0KIsyBsk4ryR4NS+WKspBFViKaKgbgXThh98o1JbT9ZkzK7EOsVEPz6o4CbkEvnShsx2
-         zATcQzYMnVKmtISPmy4d4ZzcV2R3+YyWp9x96pr6kXPRgM1xrh4SmCxaIsBh4DKO81mt
-         kVuBZAw/FkBkmYt3SIvPHHTh29/WoijXgldopf/e9JoR3wc9ILwut0K98mZCYSLf/MJ/
-         222vv/g9iI7HBCNstTLKquxV9lPKa531qKQCyf3+RlQPYsdP4bin54CRH7WW47HLZBaq
-         yPxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVY+yfiR6kwDocCJNSSIICzPtih4TYsQmEfnRZGD+ACzaS17wOF5dzI35xhmG8EJxth2R6ZEIH79DkHNi+f6bjgjZTC3w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx2urB2d0J7CuBtZgo1ZyU97RbSRjX5N3Dj+F6cZEK8sHyvyy1i
-	JeDqDvSCwQcX+f0itZf/rxos85P4ZvsRJD7gfwshWS6V8XbUNrLKO8n1yURwjKZGsFfeTcXEmTm
-	f6CZxU8P/e/KsbEV2gvo+mUAT0w8M78sWqEl/
-X-Gm-Gg: ASbGnctNfthF8E8DR9HI79/rYmzxwagTnq2GuaiNxc4VXuXnAusBvm1mOVs3nDMGvK9
-	nj21Bwv7h1X6Q4jiCVW7Rc1M6tKXCKhkPbJakATJM6Z+H0y1V39X+gnFWpKLYjQ26WaOt+4Ev0N
-	xcGRUWohPX2rYmaxkVlsjsLL02n1K0MJ6Do87b7aa4YXbJi1KsH0ZEthNUPZgVlJPPHhzyJJRzt
-	iOq90ZL2K7V5oSa7V/XSvEnpS1yvdZrNQSJtOMid1kscquISdfpitSjDx8t
-X-Google-Smtp-Source: AGHT+IEDvGlUuVEideahYZY+ODYUe4guvkm4F0yQbQ2rOAGZccJElktFd+64A9TEF3O1cn/fjQ78uoSBDOooxDIQsAU=
-X-Received: by 2002:a17:902:db05:b0:295:6850:a389 with SMTP id
- d9443c01a7336-2962ad2b2c3mr69533935ad.20.1762381201200; Wed, 05 Nov 2025
- 14:20:01 -0800 (PST)
+        bh=h2iC3i/NABlxjjFozwtUiIBPGgmouctXhyOdEE/QiTU=;
+        b=i/G8vrJGElK7rpIg4F52FnJ2xW2Rx6Cey40uKLF3NjTkL4FABIjMxC/kSltRilvpYt
+         nPzLmRo9QgFddVeRMsRLlMwHSnZEUiQpdNKSHqtxrLi/bTNgHanIrWmEnM3h4w3HOBf8
+         v6cSakBfQwFF+XxlIvuKoSF4KyYFHMuHcZPpejBTMx6+Kh6mpdJ8sjGE/5Uzz+thhu/B
+         0ZYAkruTELZxu/bNN/R0rCC9HPKkq3NaoksDx/F4zWfPjNsbAUjovQBEVUuylwTikNlZ
+         q21GpRNe1ec+3/yCRvRHNAcEbds5menyitQI7RRk+Q+0nB+s4QXCr2J7LexTI0u5NUcr
+         M9Fw==
+X-Forwarded-Encrypted: i=1; AJvYcCVBSFua8Xb7bGEl/Hnz1fxz3OrB31cvaahTdz20EzAq1uprqVtKKG/6IDvne8YX7yOQy3hrCxXFpwOYU6t4DpLF4TBabA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxz2ZlBiGH5Af9JJPQfcd6opz7t7gsepFnm027TBqFxXE/pUS//
+	qiGxLOjUXA26JANzfC/0CHR6al36ZMWRlipFwOAA5gF6gAoYY6tsUvMnr/Io17iXt8+cO+jCQLt
+	DYEM4bHTG62e33cL4FcwZAwUq29BDO2s=
+X-Gm-Gg: ASbGncuivtC2lJ+8BJdFdmwhHywAJN4PBlpsDm626f2aMpofhKAZrT59V5NLD7alIkl
+	mGB8+AXuVCxeWVlT5RfCLrhL/KX0T5X3oBCm0UgTOV/+KP6GieONretznQ6j7w5CzVK++srI2+h
+	z2dQ2Wtd5gG+h3mTVpB7EPXCocFgqHfVafu0h4rmfd+Jz42p/efKGtRUXWFAX/pWyKSw/5hu47A
+	D2OrqbzUR3JoUwfc9ANYNHfX7fyoVN93TCcGJb2b8WQfhUsGYD9LHtKkpUk
+X-Google-Smtp-Source: AGHT+IF9huOMB6L9BBqEVqTdSAoOXtne1VO5JWHa16xjKf9IxuOLvUQRWxxDT69nj5IfkbHYDZVPmIIL4ocNXonBxEc=
+X-Received: by 2002:a17:90b:48ca:b0:340:bfcd:6af8 with SMTP id
+ 98e67ed59e1d1-341a6bfb6bdmr5773377a91.4.1762381245005; Wed, 05 Nov 2025
+ 14:20:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1761748557.git.lucien.xin@gmail.com> <20251103184145.17b23780@kernel.org>
-In-Reply-To: <20251103184145.17b23780@kernel.org>
+References: <cover.1761748557.git.lucien.xin@gmail.com> <91ff36185099cd97626a7a8782d756cf3e963c82.1761748557.git.lucien.xin@gmail.com>
+ <ffe0715b-7a60-49a4-802a-a2bd75c7dac4@redhat.com>
+In-Reply-To: <ffe0715b-7a60-49a4-802a-a2bd75c7dac4@redhat.com>
 From: Xin Long <lucien.xin@gmail.com>
-Date: Wed, 5 Nov 2025 17:19:49 -0500
-X-Gm-Features: AWmQ_bk5zH6aZ8eA6Di6ajFu_oTzlSNpD7ldH11olJifIEsUkj_P9OR2FBRf4E0
-Message-ID: <CADvbK_fdph6C5+nnUix2259TQb9-vBVEPOxMpzzpEy5xhR-xTA@mail.gmail.com>
-Subject: Re: [PATCH net-next v4 00/15] net: introduce QUIC infrastructure and
- core subcomponents
-To: Jakub Kicinski <kuba@kernel.org>
+Date: Wed, 5 Nov 2025 17:20:33 -0500
+X-Gm-Features: AWmQ_bnm5UfKvMR91-3ijvc6b8x8StJ9v75fS15sCmi9yT7hm61wUIVxJ8Ij89E
+Message-ID: <CADvbK_e=UbsN2W7zqsRRHzbwZcSzR7GwZ9-YPrPcxvaHZ0ZjMw@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 02/15] net: build socket infrastructure for
+ QUIC protocol
+To: Paolo Abeni <pabeni@redhat.com>
 Cc: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev, davem@davemloft.net, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	kuba@kernel.org, Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>, 
 	Stefan Metzmacher <metze@samba.org>, Moritz Buhl <mbuhl@openbsd.org>, Tyler Fanelli <tfanelli@redhat.com>, 
 	Pengtao He <hepengtao@xiaomi.com>, Thomas Dreibholz <dreibh@simula.no>, linux-cifs@vger.kernel.org, 
 	Steve French <smfrench@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>, 
 	Paulo Alcantara <pc@manguebit.com>, Tom Talpey <tom@talpey.com>, kernel-tls-handshake@lists.linux.dev, 
 	Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, 
-	Steve Dickson <steved@redhat.com>, Hannes Reinecke <hare@suse.de>, Alexander Aring <aahringo@redhat.com>, 
-	David Howells <dhowells@redhat.com>, Matthieu Baerts <matttbe@kernel.org>, 
-	John Ericson <mail@johnericson.me>, Cong Wang <xiyou.wangcong@gmail.com>, 
-	"D . Wythe" <alibuda@linux.alibaba.com>, Jason Baron <jbaron@akamai.com>, 
-	illiliti <illiliti@protonmail.com>, Sabrina Dubroca <sd@queasysnail.net>, 
-	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, Daniel Stenberg <daniel@haxx.se>, 
-	Andy Gospodarek <andrew.gospodarek@broadcom.com>
+	Benjamin Coddington <bcodding@redhat.com>, Steve Dickson <steved@redhat.com>, Hannes Reinecke <hare@suse.de>, 
+	Alexander Aring <aahringo@redhat.com>, David Howells <dhowells@redhat.com>, 
+	Matthieu Baerts <matttbe@kernel.org>, John Ericson <mail@johnericson.me>, 
+	Cong Wang <xiyou.wangcong@gmail.com>, "D . Wythe" <alibuda@linux.alibaba.com>, 
+	Jason Baron <jbaron@akamai.com>, illiliti <illiliti@protonmail.com>, 
+	Sabrina Dubroca <sd@queasysnail.net>, Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, 
+	Daniel Stenberg <daniel@haxx.se>, Andy Gospodarek <andrew.gospodarek@broadcom.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 3, 2025 at 9:41=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wro=
-te:
+On Tue, Nov 4, 2025 at 4:38=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wrot=
+e:
 >
-> On Wed, 29 Oct 2025 10:35:42 -0400 Xin Long wrote:
-> >  net/Kconfig               |    1 +
-> >  net/Makefile              |    1 +
+> On 10/29/25 3:35 PM, Xin Long wrote:
+> [...]
+> > +static struct ctl_table quic_table[] =3D {
+> > +     {
+> > +             .procname       =3D "quic_mem",
+> > +             .data           =3D &sysctl_quic_mem,
+> > +             .maxlen         =3D sizeof(sysctl_quic_mem),
+> > +             .mode           =3D 0644,
+> > +             .proc_handler   =3D proc_doulongvec_minmax
+> > +     },
+> > +     {
+> > +             .procname       =3D "quic_rmem",
+> > +             .data           =3D &sysctl_quic_rmem,
+> > +             .maxlen         =3D sizeof(sysctl_quic_rmem),
+> > +             .mode           =3D 0644,
+> > +             .proc_handler   =3D proc_dointvec,
+> > +     },
+> > +     {
+> > +             .procname       =3D "quic_wmem",
+> > +             .data           =3D &sysctl_quic_wmem,
+> > +             .maxlen         =3D sizeof(sysctl_quic_wmem),
+> > +             .mode           =3D 0644,
+> > +             .proc_handler   =3D proc_dointvec,
+> > +     },
+> > +     {
+> > +             .procname       =3D "alpn_demux",
+> > +             .data           =3D &sysctl_quic_alpn_demux,
+> > +             .maxlen         =3D sizeof(sysctl_quic_alpn_demux),
+> > +             .mode           =3D 0644,
+> > +             .proc_handler   =3D proc_dointvec_minmax,
+> > +             .extra1         =3D SYSCTL_ZERO,
+> > +             .extra2         =3D SYSCTL_ONE,
+> > +     },
 >
-> Haven't gotten to reviewing yet myself, hopefully Paolo will find time
-> tomorrow. But you're definitely missing a MAINTAINERS entry...
-
-I was planning to add the MAINTAINERS entry in the second patchset,
-since that patch will introduce Documentation/networking/quic.rst,
-which should be listed in the entry as:
-
-F:      Documentation/networking/quic.rst
-
-I guess it should be fine to add the MAINTAINERS entry now without
-this F: line in the current patchset, and then update it in the second
-patchset once the file exists.
-
-Thanks.
+> I'm sorry for not nothing this before, but please add a Documentation
+> entry for the above sysctl.
+>
+Sure, will do, thanks.

@@ -1,74 +1,74 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3ABC337B99
-	for <kernel-tls-handshake@lists.linux.dev>; Thu,  6 Nov 2025 19:24:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E452F7477
+	for <kernel-tls-handshake@lists.linux.dev>; Thu,  6 Nov 2025 20:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762457076; cv=none; b=QGh1zI4Fg89ziRBUUEzvxom8zp5B/KoxETmAuOtxjF+ge4zID4gfPDg3bdiYueKocdl1pxRkkss3j/nZ1S5EEkW2D/laIrn/zwPjuKNTMWJCKprr+gDZH4DUlo2TZHQFavQ/2CYpXjjElq8YYZGnorgl5A/UdjExIk51CPRrXJ0=
+	t=1762460685; cv=none; b=qbMbRB3BuD4JSYVvVUrsslZz94gR1nRlrv0PxJtIp+Ru8h1F9yxfE2LAL6ZrVRSUmYshOOhzwytKqxoC9EETy6puQdW/+XhyNmWFqfXZiqsupRMfQ+yNgETwkpqQj1ckJzs9rD+YmqrRS09gYagh0J5eHEhbr7CIXfO2laLB9Rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762457076; c=relaxed/simple;
-	bh=2E0rHcjSg2g7ddxHtaXVab9HpB/ebxqIuX3rNsYxzu8=;
+	s=arc-20240116; t=1762460685; c=relaxed/simple;
+	bh=Im9QWWxJXdZqz7HeLFWXZzmI9TfaqMlaB4gqcycUoss=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CLolsjugjVbmua/TEV8u7bpEHjS5yMX0im39Hcl6nQR8zjlmGTRuyBJqIp3PwVY+VdFK8MyvKpbzsga6HWUvrEn+8KAjwVAOdF8cVII5qTBPbaI+gsyc7NJ3IcfDwEb8y7bAAWLvw/SbXIWBx6S3Lr/lbF6Y3u9GEiSMFfHxxEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VrSfsuIb; arc=none smtp.client-ip=209.85.216.54
+	 To:Cc:Content-Type; b=HyTIYKjDufB2FSMWlNdBU0YDY3AmOUTvQK+zDYKrdnnMoPOCn0g/C4/I2oW6x6/KFYoPrtR/FnD6mYqHARcN2jNw9P4hEaq+fvjCoZQSzF7XIMmDw0aYyFhbs6tJrXKth+F16Ry3fPOMUvJJeC4VFJnSfbq6wI/pI1kKdUh5EdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Aeywhely; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VrSfsuIb"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-33292adb180so1364936a91.3
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 06 Nov 2025 11:24:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Aeywhely"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-294fd2ca6acso259235ad.0
+        for <kernel-tls-handshake@lists.linux.dev>; Thu, 06 Nov 2025 12:24:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762457074; x=1763061874; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1762460683; x=1763065483; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/v9XM3ZKPMTOA5s31o/9IMxhFP/c6V4aNgO9S0cm3yA=;
-        b=VrSfsuIb/IokO9eM26uljr4BaORLo+g+Kw6Ye0eycnnYZIrKIgMDEqFIshFc8akP6A
-         UCcutwKk/a0WtqV8mRXWrF7NT7BlYNqTJmqVANh8mLAjkqdEtCJtu832ZR6laS9fuP5K
-         z5BJDK3imHjN/ocw735+kiEqKvMYF/0TJrSvp9jPE1gKVxxh899xKnJvvgnE8gA9QqIW
-         WHRLwItsfTw9QtREfrPcJP/xIi/jWagJ7Xjz3FnC6HHIGEFjahDXOiUhHK+r2yfex++W
-         h7WUnfMI/Ybmgpf9qAE5ubF/2CH6gyI6rWZ4Yovy+Y49EPb/CCVH974e11EFI3T4VOuM
-         r6xA==
+        bh=z3gyUgZQhfQPtS7SLCIDf6NbyslQ68pOuETZ2b4hfpg=;
+        b=AeywhelyyRhVcvSTW5y3qzPZq1yeX+dXisADbZ3JKd4uVPjv/pFaamY0X+1I2chheS
+         u/DthJrAlDw/PqyJhmeWfau1mfTin+7Un5mp9O1YktcCkwJDFIOHb3dW99UdNAiiD1UT
+         ydxC+PTjegyyTA50+APXn36NKGA8i/grDZA9rhICefo3X6pqG0ASknGxDTBwoRfyJmHt
+         i/v2xqYgPJX37cITm13tl4b/jAiRUMUoS31HITVotmkuPWbOIhsZjQOwK2zdoAgLnYit
+         jKEe50nShTsZJ5O3qzJpwszrs91GOkVjA8mJUi22qZ/j50f5ckGI0MhM6yJP42hroqp7
+         CnhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762457074; x=1763061874;
+        d=1e100.net; s=20230601; t=1762460683; x=1763065483;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=/v9XM3ZKPMTOA5s31o/9IMxhFP/c6V4aNgO9S0cm3yA=;
-        b=ncoab2TjYWWzdgnK8H2Vl6rc7OSp0t4teqMQ2++FEc9pjot6AEi+ub9UteUn58BQNJ
-         xhxK9OZE0E4rqD0Xpy84S7X/lMOM9ZksHOMxXQh+Z4kbx37kevLrTBrmyE0od06hbsZz
-         1fIT5WJ9OYK+u+hxygfq2oImXLqxfyBbxrYPBUpX6j65gd6p3ZVQhSNCxv5JtzOFaNYe
-         Iq3XPwo1jqCuWn423rI8e+KKpAXLaYXST7U/POlYT2c/fsVQjs9hq9bWTYKT1bQIh53y
-         3uVEBWamfpRL9rC2wyxRJ9kjOe99JHlJ0a67TP+oza54IoOQibRJyga8ud1S1EyZKdIC
-         7HJA==
-X-Forwarded-Encrypted: i=1; AJvYcCUfR2vamsRuRA3YFrpHsNu0s+JXbKEDRv6iKWDkw2njxMxE4AlqGPNqFCVx1n91UtDyocV/hhAlGL7q9b44bLWkhtDEtg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5KZoNYVJXELDq4B6RS0GeIGrTczg65jGRwfDdfEmffmNfvHO0
-	4wz1oq22Xl2X+MQnU/ifxf6E/Qf2WVqafZ1Qku3+upSq9QrkGLJ2XsK28tjMxefhRX103WgXdcU
-	yZ7k89JJdbS72BigOYySFQzpW1PZdjDA=
-X-Gm-Gg: ASbGnctxMdTTKy2Fa1s4mEh5TsqzMKoNbF2YDm4Z+V6hhqdD6XLmwrwcK53dJMfLV7T
-	5z9pynyFYh4+tgWVW+BXxJumN6JvrvM3wJPNM1EoSxhvfW/zjGYTvYt6dKFMVAyr6exnebTr0Z0
-	WwouHjfnE71s69CZdMDYpmDFIJnuD9eKfXzupbRfZM8jWePCHdqU6qzGKPbVxgW+49wJWt/I24l
-	QuULOzKh7CN8LBnrHGZqJ2C9Z/0jkWOk01HXHeQ8YLh+stKvAP5DaFZTQk7E269x79HZAeJL27D
-	827qRzkrhJVSrtFLgDo=
-X-Google-Smtp-Source: AGHT+IHsWDUBCle2bN62W9WnIZt8SABJKzazabmlzKoxEh2fh9WUo/f/sCCDA+DLzL/juPkbnIR7PPimmjlHkDiHw6o=
-X-Received: by 2002:a17:90b:2fcf:b0:330:6f13:53fc with SMTP id
- 98e67ed59e1d1-3434c5896e4mr315760a91.27.1762457074202; Thu, 06 Nov 2025
- 11:24:34 -0800 (PST)
+        bh=z3gyUgZQhfQPtS7SLCIDf6NbyslQ68pOuETZ2b4hfpg=;
+        b=gAY4nnMDvoCA60kufx30VSFQdJkLe3FhHE1eroUvSIQ3s0kYkdby/BUDYzVfzQvcT/
+         hyb2hIOB+E0uV31zEVFwAt0bEWoRzn/hArpXMcRe5alEUlwlY/kKBGmETuSBqUffGX0/
+         g/dgimRJ+B5tOArmPY2hBW2z26VnybFp1mRnqNAC/SrzrlTJ474UzvG4WXcORd4KlA1t
+         WOjyeGx5aF6ycBt+KyibziNZpuQRm7A553NwCoMZdokoit/UWEFn71JSYfmrg1+WLc25
+         KYDHwhRc3qKPB5e6dwRuTwJDVorQ8uxRjeazRtlc2H+H6QxzIDR16yKvRwESd9c4AV4d
+         2bxg==
+X-Forwarded-Encrypted: i=1; AJvYcCWPzNTCe29qGOJMS8zFJQ8FKiyZ+GTany4iOiGMSf2TkrUef9jHlyN7jVPPz1JJDPI8lYIzsZKTrJ5/futYpl+ZuS5bWQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxRS3TbcT/1vRbh8gLVdSm8+Jko9qUHfwvXjrI2vqpvkQljIoCb
+	Xfmln5Od5ckXJ/MpRdUBCuuB5CG9m1DyRx5NN/EZ1VmDBZfHWBdUHTRjU7QEPkWgs0S9DzOXT66
+	H37+UokYlyS9LtXCJitCxxSnLHynAzvM=
+X-Gm-Gg: ASbGncuh7G4/MIEKfJ2sx32tN5bNW3q4evPS7Rf+S5rM8I9jX477ar2JxztF5iJu8RR
+	2J9iBil7tWm7ejiFqVcq207lnCWMdlAM/PXxsl10NOf9EXR2Zst0MLdBxftRhsu+8lsTzRWDMB1
+	oT1Uhwsjkrz6nD8dYafaYVYCCn6FSifF5stBG/SvP7Sgor5B9c84yVWpqb5ZOuXo4/0NI9I95D7
+	AAktgt/P/7qd0Z4IvfMWWIVtNKU9cJeHfEQyrUa6TQrudenhi90C2F7A58cdxNozHQ/jDfv3kYf
+	Uavnfa1fo3WqfVCc+KE7Qc/qlcsu2A==
+X-Google-Smtp-Source: AGHT+IGTWzJU0xlvlovHbYWoDH5XM24Ae1wEThKwWG8ycDKpQ4Pza4FucwMrn4xnT46tQsURsHTnLGHE4XvA3l/bTbM=
+X-Received: by 2002:a17:902:da86:b0:267:912b:2b36 with SMTP id
+ d9443c01a7336-297c00de2ecmr9261995ad.23.1762460682652; Thu, 06 Nov 2025
+ 12:24:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1761748557.git.lucien.xin@gmail.com> <c9b7d644059fcd181a710ef2aff089e002133046.1761748557.git.lucien.xin@gmail.com>
- <6dfd2fe8-65b6-40db-b0f2-34aa0e4f3e9b@redhat.com>
-In-Reply-To: <6dfd2fe8-65b6-40db-b0f2-34aa0e4f3e9b@redhat.com>
+References: <cover.1761748557.git.lucien.xin@gmail.com> <32c7730d3b0f6e5323d289d5bdfd01fc22d551b5.1761748557.git.lucien.xin@gmail.com>
+ <43ea4062-75a8-4152-bf19-2eca561036bd@redhat.com>
+In-Reply-To: <43ea4062-75a8-4152-bf19-2eca561036bd@redhat.com>
 From: Xin Long <lucien.xin@gmail.com>
-Date: Thu, 6 Nov 2025 14:24:21 -0500
-X-Gm-Features: AWmQ_bl2ElznIpZ2pV-C2koFAtJ0Dh9ui1NXrXbVWIj7Jzye-OCrSic0jsfMEEs
-Message-ID: <CADvbK_evd2=Cs5EZGf3EVBiY5SvF_aOtbu6wMjj_mSgFgfBpzw@mail.gmail.com>
-Subject: Re: [PATCH net-next v4 15/15] quic: add packet builder and parser base
+Date: Thu, 6 Nov 2025 15:24:30 -0500
+X-Gm-Features: AWmQ_blGjOQ50fcZQT5EtzHNncMYn6qzWEjBf9UHnF498_0zXTgvgxEng025WXQ
+Message-ID: <CADvbK_d8WoKJkU7ACK6nzbv7hzxxkAYZ5--DPzVQHsSZbEJnuw@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 09/15] quic: add congestion control
 To: Paolo Abeni <pabeni@redhat.com>
 Cc: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev, davem@davemloft.net, 
 	kuba@kernel.org, Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>, 
@@ -87,193 +87,96 @@ Cc: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev, davem@davemloft.
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 4, 2025 at 9:44=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wrot=
+On Tue, Nov 4, 2025 at 7:02=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wrot=
 e:
 >
 > On 10/29/25 3:35 PM, Xin Long wrote:
-> > +/* Process PMTU reduction event on a QUIC socket. */
-> > +void quic_packet_rcv_err_pmtu(struct sock *sk)
+> > +/* Compute and update the pacing rate based on congestion window and s=
+moothed RTT. */
+> > +static void quic_cong_pace_update(struct quic_cong *cong, u32 bytes, u=
+32 max_rate)
 > > +{
-> > +     struct quic_path_group *paths =3D quic_paths(sk);
-> > +     struct quic_packet *packet =3D quic_packet(sk);
-> > +     struct quic_config *c =3D quic_config(sk);
-> > +     u32 pathmtu, info, taglen;
-> > +     struct dst_entry *dst;
-> > +     bool reset_timer;
+> > +     u64 rate;
 > > +
-> > +     if (!ip_sk_accept_pmtu(sk))
+> > +     /* rate =3D N * congestion_window / smoothed_rtt */
+> > +     rate =3D (u64)cong->window * USEC_PER_SEC * 2;
+> > +     if (likely(cong->smoothed_rtt))
+> > +             rate =3D div64_ul(rate, cong->smoothed_rtt);
+> > +
+> > +     WRITE_ONCE(cong->pacing_rate, min_t(u64, rate, max_rate));
+> > +     pr_debug("%s: update pacing rate: %u, max rate: %u, srtt: %u\n",
+> > +              __func__, cong->pacing_rate, max_rate, cong->smoothed_rt=
+t);
+>
+> I think you should skip entirely the pacing_rate update when
+> `smoothed_rtt =3D=3D 0`
+>
+will update it.
+
+> [...]> +/* rfc9002#section-5: Estimating the Round-Trip Time */
+> > +void quic_cong_rtt_update(struct quic_cong *cong, u32 time, u32 ack_de=
+lay)
+> > +{
+> > +     u32 adjusted_rtt, rttvar_sample;
+> > +
+> > +     /* Ignore RTT sample if ACK delay is suspiciously large. */
+> > +     if (ack_delay > cong->max_ack_delay * 2)
 > > +             return;
 > > +
-> > +     info =3D clamp(paths->mtu_info, QUIC_PATH_MIN_PMTU, QUIC_PATH_MAX=
-_PMTU);
-> > +     /* If PLPMTUD is not enabled, update MSS using the route and ICMP=
- info. */
-> > +     if (!c->plpmtud_probe_interval) {
-> > +             if (quic_packet_route(sk) < 0)
-> > +                     return;
+> > +     /* rfc9002#section-5.1: latest_rtt =3D ack_time - send_time_of_la=
+rgest_acked */
+> > +     cong->latest_rtt =3D cong->time - time;
 > > +
-> > +             dst =3D __sk_dst_get(sk);
-> > +             dst->ops->update_pmtu(dst, sk, NULL, info, true);
-> > +             quic_packet_mss_update(sk, info - packet->hlen);
-> > +             return;
+> > +     /* rfc9002#section-5.2: Estimating min_rtt */
+> > +     if (!cong->min_rtt_valid) {
+> > +             cong->min_rtt =3D cong->latest_rtt;
+> > +             cong->min_rtt_valid =3D 1;
 > > +     }
-> > +     /* PLPMTUD is enabled: adjust to smaller PMTU, subtract headers a=
-nd AEAD tag.  Also
-> > +      * notify the QUIC path layer for possible state changes and prob=
-ing.
-> > +      */
-> > +     taglen =3D quic_packet_taglen(packet);
-> > +     info =3D info - packet->hlen - taglen;
-> > +     pathmtu =3D quic_path_pl_toobig(paths, info, &reset_timer);
-> > +     if (reset_timer)
-> > +             quic_timer_reset(sk, QUIC_TIMER_PMTU, c->plpmtud_probe_in=
-terval);
-> > +     if (pathmtu)
-> > +             quic_packet_mss_update(sk, pathmtu + taglen);
-> > +}
+> > +     if (cong->min_rtt > cong->latest_rtt)
+> > +             cong->min_rtt =3D cong->latest_rtt;
 > > +
-> > +/* Handle ICMP Toobig packet and update QUIC socket path MTU. */
-> > +static int quic_packet_rcv_err(struct sk_buff *skb)
-> > +{
-> > +     union quic_addr daddr, saddr;
-> > +     struct sock *sk =3D NULL;
-> > +     int ret =3D 0;
-> > +     u32 info;
-> > +
-> > +     /* All we can do is lookup the matching QUIC socket by addresses.=
- */
-> > +     quic_get_msg_addrs(skb, &saddr, &daddr);
-> > +     sk =3D quic_sock_lookup(skb, &daddr, &saddr, NULL);
-> > +     if (!sk)
-> > +             return -ENOENT;
-> > +
-> > +     bh_lock_sock(sk);
-> > +     if (quic_is_listen(sk))
->
-> The above looks race-prone. You should check the status only when
-> holding the sk socket lock, i.e. if !sock_owned_by_user(sk)
-This check can be deleted now, as quic_sock_lookup()
-has only returned regular socket since I moved listen socket to
-another hashtable.
-
->
-> > +             goto out;
-> > +
-> > +     if (quic_get_mtu_info(skb, &info))
-> > +             goto out;
->
-> This can be moved outside the lock.
->
-Right.
-
-> > +
-> > +     ret =3D 1; /* Success: update socket path MTU info. */
-> > +     quic_paths(sk)->mtu_info =3D info;
-> > +     if (sock_owned_by_user(sk)) {
-> > +             /* Socket is in use by userspace context.  Defer MTU proc=
-essing to later via
-> > +              * tasklet.  Ensure the socket is not dropped before defe=
-rral.
+> > +     if (!cong->is_rtt_set) {
+> > +             /* rfc9002#section-5.3:
+> > +              *   smoothed_rtt =3D latest_rtt
+> > +              *   rttvar =3D latest_rtt / 2
 > > +              */
-> > +             if (!test_and_set_bit(QUIC_MTU_REDUCED_DEFERRED, &sk->sk_=
-tsq_flags))
-> > +                     sock_hold(sk);
-> > +             goto out;
+> > +             cong->smoothed_rtt =3D cong->latest_rtt;
+> > +             cong->rttvar =3D cong->smoothed_rtt / 2;
+> > +             quic_cong_pto_update(cong);
+> > +             cong->is_rtt_set =3D 1;
+> > +             return;
 > > +     }
-> > +     /* Otherwise, process the MTU reduction now. */
-> > +     quic_packet_rcv_err_pmtu(sk);
-> > +out:
-> > +     bh_unlock_sock(sk);
-> > +     sock_put(sk);
-> > +     return ret;
-> > +}
 > > +
-> > +#define QUIC_PACKET_BACKLOG_MAX              4096
+> > +     /* rfc9002#section-5.3:
+> > +      *   adjusted_rtt =3D latest_rtt
+> > +      *   if (latest_rtt >=3D min_rtt + ack_delay):
+> > +      *     adjusted_rtt =3D latest_rtt - ack_delay
+> > +      *   smoothed_rtt =3D 7/8 * smoothed_rtt + 1/8 * adjusted_rtt
+> > +      *   rttvar_sample =3D abs(smoothed_rtt - adjusted_rtt)
+> > +      *   rttvar =3D 3/4 * rttvar + 1/4 * rttvar_sample
+> > +      */
+> > +     adjusted_rtt =3D cong->latest_rtt;
+> > +     if (cong->latest_rtt >=3D cong->min_rtt + ack_delay)
+> > +             adjusted_rtt =3D cong->latest_rtt - ack_delay;
 > > +
-> > +/* Queue a packet for later processing when sleeping is allowed. */
-> > +static int quic_packet_backlog_schedule(struct net *net, struct sk_buf=
-f *skb)
-> > +{
-> > +     struct quic_skb_cb *cb =3D QUIC_SKB_CB(skb);
-> > +     struct quic_net *qn =3D quic_net(net);
-> > +
-> > +     if (cb->backlog)
-> > +             return 0;
+> > +     cong->smoothed_rtt =3D (cong->smoothed_rtt * 7 + adjusted_rtt) / =
+8;
 >
-> The above test is present also in the only caller of this function. It
-> should be removed from there.
-I may delete the one from the caller, as there will be other
-callers in the 2nd patchset need it to be checked in here.
+> Out of sheer curiosity, is the compiler smart enough to use a 'srl 3'
+> for the above?
+>
+Yes.
 
->
-> [...]> +/* Work function to process packets in the backlog queue. */
-> > +void quic_packet_backlog_work(struct work_struct *work)
-> > +{
-> > +     struct quic_net *qn =3D container_of(work, struct quic_net, work)=
-;
-> > +     struct sk_buff *skb;
-> > +     struct sock *sk;
-> > +
-> > +     skb =3D skb_dequeue(&qn->backlog_list);
-> > +     while (skb) {
-> > +             sk =3D quic_packet_get_listen_sock(skb);
-> > +             if (!sk)
-> > +                     continue;
-> > +
-> > +             lock_sock(sk);
->
-> Possibly lock_sock_fast(sk);
-These are some control QUIC packets (not on the main data path) for
-which we need to generate keys from header fields in order to process
-them.
+266 cong->smoothed_rtt =3D (cong->smoothed_rtt * 7 + adjusted_rtt) / 8;
 
-However, the kernel crypto API cannot install a key into a tfm in
-atomic context, so we must use a workqueue to handle key generation,
-installation, and then decryption.
-
-lock_sock_fast() can not be used here,  otherwise this path runs in
-atomic context again.
-
->
-> > +             quic_packet_process(sk, skb);
-> > +             release_sock(sk);
-> > +             sock_put(sk);
-> > +
-> > +             skb =3D skb_dequeue(&qn->backlog_list);
-> > +     }
-> > +}
->
-> [...]> +/* Create and transmit a new QUIC packet. */
-> > +int quic_packet_create(struct sock *sk)
-> Possibly rename the function accordingly to its actual action, i.e.
-> quic_packet_create_xmit()
-I will use quic_packet_create_and_xmit().
-
->
-> [...]> @@ -291,6 +294,8 @@ static void __net_exit quic_net_exit(struct
-> net *net)
-> >  #ifdef CONFIG_PROC_FS
-> >       quic_net_proc_exit(net);
-> >  #endif
-> > +     skb_queue_purge(&qn->backlog_list);
-> > +     cancel_work_sync(&qn->work);
->
-> Likely: disable_work_sync()
->
-Will update it.
-
-> >       quic_crypto_free(&qn->crypto);
-> >       free_percpu(qn->stat);
-> >       qn->stat =3D NULL;
->
-> EPATCHISTOOBIG, very hard to process. Please split this one it at least
-> 2 (i.e. rx and tx part), even if the series will grow above 15
->
-Sure, I will do it.
-
-BTW, about the MAINTAINERS entry Jakub mentioned, should I
-create a new patch for it, or append it in one of these patches, like into:
-
-[PATCH net-next 02/15] net: build socket infrastructure for QUIC protocol
+0x593d <+77>:  mov    (%rbx),%ecx         ; ecx =3D cong->smoothed_rtt
+0x593f <+79>:  lea    (%rax,%rcx,8),%edx   ; edx =3D adjusted_rtt + (ecx * =
+8)
+0x5942 <+82>:  sub    %ecx,%edx           ; edx =3D adjusted_rtt +
+(8*ecx) - ecx =3D ecx*7 + adjusted_rtt
+0x5946 <+86>:  shr    $0x3,%edx           ; edx >>=3D 3 =E2=86=92 divide by=
+ 8
+0x594d <+93>:  mov    %edx,(%rbx)         ; store result back to
+cong->smoothed_rtt
 
 Thanks.

@@ -1,75 +1,74 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69020341661
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 12 Nov 2025 15:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D0233CE84
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 12 Nov 2025 15:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762959748; cv=fail; b=FhM0jtl1jV0B8KvYiLn9jtFRRrK/Dh/IRgd3i87zib+e98jXFsZPv+9WNxxkMGNv51WqiqAj7QhF/+NJrbFsCeumfHprgaEP5oSt/8xfLFe4BTce1jRoXGesbJRPxiuTqDHJ40fOjm0UPqNHTL2qCIfXMnFw/k0s73CgJG4mgJc=
+	t=1762962468; cv=fail; b=QpRMoak17IgNxe9r9eN4+hIRutHPqLZ3tVcizxn8EuOPEzm4wycy6xQc9vzRMru7O64iFpkrsj0X4xiOjbHZ5sl0ND3CtXwOjIQHIO2ZHwVuTMMNvpSgt0xtl1rct+IVVUk6GNYOghYTJsBSgK7/+DhN7sTfZW/+SOYADTMzI7U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762959748; c=relaxed/simple;
-	bh=rDwzEIFipp4iKiQKO1/svE34dfYFsX2Oy1pSyrObLx8=;
+	s=arc-20240116; t=1762962468; c=relaxed/simple;
+	bh=mncFDGY3+/945SVUg5s1gAOOrQg5NhUMeQ6kzLmHCQ4=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Se7bZqDXCuSKYlWKA/T5aDAgoTiT0ZmPhGRcdLE0xv1jRR6NVIDf3dLjIUmfcdnIi/3YJF5y0j88Ntpzv3E/1OLFQm7OcDqvazO73mqWEq1TYj6572Y6qJfUz6dsptp9pZEvbRwLqqVu157v/KqBPxhBQruUNHXww+zqPA4j5Lw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=WCCay3ud; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=bvrm+/0Y; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Type:MIME-Version; b=s1+VcW9ff0VE5l4S51o34RURGrfFi1HL+d2g13WDXUQhOM7X//MUznNywQ6+QD/je45tFsOWC7oeWKUXJWVhLtJquDK5H2pLiFdhohASSiYOrxYpnyW7lAh6+ylNDhFbfN/CZi3wpMRgPiuv5+78KGtboHWLmcj496COBY52kOQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=BCQLxQ4C; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=DbiH1WSx; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="WCCay3ud";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="bvrm+/0Y"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5ACEuH2v017770;
-	Wed, 12 Nov 2025 15:02:12 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="BCQLxQ4C";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="DbiH1WSx"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5ACFRCFM008527;
+	Wed, 12 Nov 2025 15:47:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=wjIzGTXgBx3SxAUvQnG1d6V5tk0hw6RUcBUt3YIHfls=; b=
-	WCCay3udYp8eK+8sjR/2VO9Vqmo3pGg0dSPqaCpV1O75bJ1kIPwNrQlm5fFjg9Cj
-	0dr4unyKXkuaN/CUDChxwLmidRT+Z8fC5LK04uuX9INfgQBq1wrvpeucPPXhUvU2
-	IYkNb1soM/lI5Ucwl+DQnHazRRxGqGEkq0uh95VkPYi8+/XittJOIHeaDIiKYsEU
-	4zeeCs9sd+q61p4XvXj6ihrlkrGhiLe9atp5MtI4r+7UW773bhiUutof0Zl99E+0
-	jAGh9Y0ZFVQiOoHBZJKz9Um5MoiV6KGXXy7dFhAKrIe2egHi67y0glzA+zNtnMRK
-	hwPHIiByYCMYMEaBA0gqHw==
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4acv97r1pc-1
+	corp-2025-04-25; bh=R+4g7ii9dxK/ak1xJw/apb9dBOK+CHzYsGXFD8xN0Is=; b=
+	BCQLxQ4CPm1dHjLlV3XmewHnFZieYLODYpCe5qdAiN0V1watRIiHHvUpM1BSSNi1
+	fGbKL0vLp+8R3baK2B5t07wyWK8GfN6KE9MinqBkoNpz8bjoucupAWImD75TzxFH
+	jx+qumPOXCeHTD6SW1fX7cdD8bDFEWDBOU6+o+5wg2q1vd6EvZ1pqND4UmE5mnVQ
+	6VgZlCdms6GMQC0G9gXbYil93Ek6sD3U/AvORnqyG5FZJrjISmlXYenBu7YTygHm
+	9iROcIhnHRTX3NC/PiKddjyXzJXNXu6Xdeyd6WrdMIo6wugJaJZ9cYFBGYrI2io+
+	1OcGi76LmYuArGFjZijeXA==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4acvssr31t-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 12 Nov 2025 15:02:12 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5ACEG3Rl011369;
-	Wed, 12 Nov 2025 15:02:11 GMT
-Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11011019.outbound.protection.outlook.com [40.93.194.19])
-	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4a9vaeb0wf-1
+	Wed, 12 Nov 2025 15:47:18 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5ACEG3nB018618;
+	Wed, 12 Nov 2025 15:47:18 GMT
+Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010042.outbound.protection.outlook.com [52.101.201.42])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4a9vaaux6v-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 12 Nov 2025 15:02:11 +0000
+	Wed, 12 Nov 2025 15:47:18 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TO6uyzuUVeLDNMcv3sH7SnquRT7SjWCLXRWNwJ8NkH5b6sOpChWP3PBgfUzEO5XLoV+PyU/nSljcKLYQlHbLQ/G+KB+M/07wtjT46y9149F8kSkZzm0IK47SFaYRWGLzEYPFuQwl60cSGmrU65Rekrpu/bgnhJVEhoCqFT7oUx5xSKSmg8bopRozirHL0LFlKEVx9jVp+ELH+E229VGTtbvI34hEFoDjg1kfDYzU4bD+qf8mcMYd3Mw2D/mYglo0EpeTCTBz3Tml4sl+U/gsNoBK4C2dUnfTjH/ffpwh2hiKHD3uxkdxUuL/I2iwPZBAyxpoz0gcrQFqXmqX+5eBYg==
+ b=g1USuMx3llxDG4JLwJ5QBpOWNiZAc15GWPhB0Km7y/Vcz9AlH3j/SdNiYQ1miVRukKw32GExbjNRz73evXzeyr3FC14Etv3kFvsgADjVqbaYXkcM+mf1lFK6gVu1qpCYNFgQZXcrFV2TQ7aoafF27xuXX47RfuJRLZKccDqTP4HRwKhhimPdM0Uxs7l4nWFuu12uU4L0nLyqogFiPl/SJk7dzHGpOu+IP58Vx52jXN9dK6P6W4A/iTCNFGAtADfNTeA149+gLTGVF5AUQ39Ch6Xc6S5UacwKKTcEugbYK9Q86h3OiUHY00lWrQtItsZyrI8PAkPRWImXV6Vs2IDBDg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wjIzGTXgBx3SxAUvQnG1d6V5tk0hw6RUcBUt3YIHfls=;
- b=NTV1XEO85cYtMnZaPa3acGY56/B0ceFXMJKZHAiZfbcnUFtwUJb+v+qMyBScK28mrN8+POKPtLnm+oPeX6Rgq68g/CPVOJm+vfPCAEewsvnlys+jiLgTlu5UwfZYwdmY6II4F1PwJA2z2rgVlo5BeZoy848T0pe3UIkCWGKvV1N/y2hh0XNcBOZJ5dn7oZ2uNiTbi8obzYb3aSJPdXnme+ZmgIAZKrZU36yCnUd48DsOqV3553q3Xk/We0UXcbJG1h4WuPefa3LxMAEG+MR4nvdrK88QengicElYbdslTcby4M93Kphqx9VZ2DxJmlcG8+CQHPOArPAZ4Fn6LiGaUQ==
+ bh=R+4g7ii9dxK/ak1xJw/apb9dBOK+CHzYsGXFD8xN0Is=;
+ b=Bc73QJmvfhvpZ47FQJ743d5r7EIUrsg5DbPjScraGMzfHv97aRPnrXj1MxPR6HSiWno8WmBmx29+cMK+TQSg5RNGhP5lyrvdG02J9xi2Cmt0GCTnGX2Fy1UzGm27MpcsemM0tYf6IbjMVTlRZdxgNO9F9Cksn3RntjaZloCmD0KS83iQSCHjEvXLUJh+3Q2YST1iySmLXvo2Z5ZAN9QnaEgF+A/Xuswchhb9F8hCBG5K4YltgIC03rYb2WyQjIy0VAUPTWGG66G4K9aeBUHp9LxYXaV9UA5cwM8NIQ/hfVyOseofDFFwVZ7E1cqP4mxQlTxUe4jngBngHINtwU53wQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wjIzGTXgBx3SxAUvQnG1d6V5tk0hw6RUcBUt3YIHfls=;
- b=bvrm+/0YqayNx5ujwT9seppluwLXS341Oyicp1gVs7HIU/5wQwbqeL/NRYa6YvJZIsXgwiVqrpt6UKIzPbRRvTJgafO9NLe8FufFNevJyi2aJmKIx0BZKuutloq4hlF1DzzJKNqQpDJXCvBDj3Nv8FxN+mBuMr9m1M4WI1nFh/M=
+ bh=R+4g7ii9dxK/ak1xJw/apb9dBOK+CHzYsGXFD8xN0Is=;
+ b=DbiH1WSxtEdJKOl+qXJNWysqAbIEpue9X2hfaLxh94cOC/W7trV57E2WoLOJH6kve9oSMK9WwEARpYZi37KYGQ6IuNgHDDGMiF+4PmjKg5U1N+DOOb3nI06nAZ4S8wvgPcyrV43mQZB6VwowKxQZh1Wr6IlQ9R6+yrSmxccLpbE=
 Received: from BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24)
- by CH2PR10MB4182.namprd10.prod.outlook.com (2603:10b6:610:7a::22) with
+ by BY5PR10MB4372.namprd10.prod.outlook.com (2603:10b6:a03:207::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.17; Wed, 12 Nov
- 2025 15:02:06 +0000
+ 2025 15:47:14 +0000
 Received: from BN0PR10MB5128.namprd10.prod.outlook.com
  ([fe80::743a:3154:40da:cf90]) by BN0PR10MB5128.namprd10.prod.outlook.com
  ([fe80::743a:3154:40da:cf90%4]) with mapi id 15.20.9298.010; Wed, 12 Nov 2025
- 15:02:06 +0000
-Message-ID: <265384ab-c2d5-438d-9071-25fdd7ea724c@oracle.com>
-Date: Wed, 12 Nov 2025 10:02:03 -0500
+ 15:47:14 +0000
+Message-ID: <49bbe54a-4b55-48a7-bfb4-30a222cb7d4f@oracle.com>
+Date: Wed, 12 Nov 2025 10:47:10 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/6] net/handshake: Store the key serial number on
- completion
+Subject: Re: [PATCH v5 2/6] net/handshake: Define handshake_sk_destruct_req
 To: alistair23@gmail.com, hare@kernel.org,
         kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
@@ -78,14 +77,14 @@ Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
         kch@nvidia.com, hare@suse.de,
         Alistair Francis <alistair.francis@wdc.com>
 References: <20251112042720.3695972-1-alistair.francis@wdc.com>
- <20251112042720.3695972-2-alistair.francis@wdc.com>
+ <20251112042720.3695972-3-alistair.francis@wdc.com>
 Content-Language: en-US
 From: Chuck Lever <chuck.lever@oracle.com>
-In-Reply-To: <20251112042720.3695972-2-alistair.francis@wdc.com>
+In-Reply-To: <20251112042720.3695972-3-alistair.francis@wdc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR08CA0013.namprd08.prod.outlook.com
- (2603:10b6:610:33::18) To BN0PR10MB5128.namprd10.prod.outlook.com
+X-ClientProxiedBy: CH2PR18CA0038.namprd18.prod.outlook.com
+ (2603:10b6:610:55::18) To BN0PR10MB5128.namprd10.prod.outlook.com
  (2603:10b6:408:117::24)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
@@ -94,394 +93,223 @@ List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN0PR10MB5128:EE_|CH2PR10MB4182:EE_
-X-MS-Office365-Filtering-Correlation-Id: f153edbb-36f0-4155-7b50-08de21fc71de
+X-MS-TrafficTypeDiagnostic: BN0PR10MB5128:EE_|BY5PR10MB4372:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e5baeb0-7947-40fd-c698-08de2202c04d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|7053199007;
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?OWkxZ0t2UnI1cFhiU1kzZkppdTBNYXVOQTRQTFJ5OC9vclhTMTZ3S3k3bHZO?=
- =?utf-8?B?czZxY0hqeDJPb1BKaEVuRlhzSmdxbzUvSTZGNHNvazg1bXIxVFJrNmpzVWJ4?=
- =?utf-8?B?anZxT0dKSTFjVFhBNU5FSytwclA4Mk9RK0RnMmFFYloxclZONU9tOVY5TUw3?=
- =?utf-8?B?MWZ4WFFKUDhwSkZvOVdINVEzOHhoVS8rNDg5WmRDNVRJVVVFQjl6ZlJLVzRp?=
- =?utf-8?B?UjFUVW1tRi9ZaE9xZlZHV3dERDNlVUdNcDQyYWtITjY1V0J3N2h2L014eHNY?=
- =?utf-8?B?K1ltRy82UEd4dG91NmhVeW4waFQyamowcERibHl6UHNDNE5SZDRwUWJQM1d4?=
- =?utf-8?B?czFkY2xwY3NNL0NlL0pKQnBRYzB0SUJZK0t0dFQvRElHK1M4eGNxSTVNb3Ja?=
- =?utf-8?B?dU9qeitUQVQwLzFzUzFvZkZOQXV3NzBQRG5ad3FRK3VIUHpwR1RwT2gvOURF?=
- =?utf-8?B?NWFjVlFOUVRhSkkxWW5qK0lMNk1rUUY1RVRuVlBJRW9jNlhQeGtkTkdwVE5q?=
- =?utf-8?B?bk1TTDJHRkdUUmkwTE44ODhyMDlnQUtvbWlRcnViZUs5MmhLZGhtUFFLMWVu?=
- =?utf-8?B?VFRzR2l1S2E1TmZYOE5Rck0yVXdFSmU0MkczQVppd2pLdHVDUm5vYysxRWJs?=
- =?utf-8?B?eFpoRFd3bllzaUxlMnM1eHhkNFFhbzN6TlBFVFpXN2ZQYmFmUXViTjVKaHVG?=
- =?utf-8?B?cG5CeGhBZGozODYxU0lvaEg3cGhmRGNWWXBDVStCVTZCdHpkMjltYmMxc0ww?=
- =?utf-8?B?UktKT0E3ekZDUDRnZnFhMTkrcVhQMU1CVExkZGlDV2RnNWJRbWpYYVc1SUVs?=
- =?utf-8?B?bEY2SnFLTVQvbVV2aDIwUlBaLzVaMWlOK045M0hWaTIxYUhXUWJTc0toRlNU?=
- =?utf-8?B?RGdvWS9TeWNYN1pQamlSVkMyditHbGV1SWtyUFpWUHlOcmI4dkVvSnlVR2dB?=
- =?utf-8?B?ZVhqMmVmQ3FIOVZQMXJFdXloNjYvUGNrbGNXakVpeUkwamd0cjVyUFV0emZ6?=
- =?utf-8?B?UDNzejZFaEZQOHdEZXNlNTVmSkttN2k2dUhtbVNLMmtsT3FmSElSdmxBYXB5?=
- =?utf-8?B?R2JPQ1h1emFPWnRHRjRQZE1SSkx5OHZOS2RMRUdhbHU0R2w1MWV0NEI5eFlU?=
- =?utf-8?B?OXVxNUtma2lLRnpndjBSbTRKT05YUW9JM1JXazhIZDM4MVI1S0VyOGQ5K21N?=
- =?utf-8?B?MTRrQ0hzdnBHVDlPRjBiWURSdUw5Mk5Zb0RhU2t2anRITHB1VlNoay9CdUtx?=
- =?utf-8?B?NHJZYjcrMG1lZW1hM0U0RHpxcXRCdGRzNnJ1enloYjd5SDFoeWFNdnplNktL?=
- =?utf-8?B?WTNodnpDdlRIWTZ1QzZIdUlQSGd5MWNoQytJTi9CM2w0ZlVEYld1VE1BaVF5?=
- =?utf-8?B?WS9hLzNmTDk3b3dhRG80MXZ0UVEzNU96eVZleVFuWU9DaCs5MkhCbHdZMlJw?=
- =?utf-8?B?aGNRTDhJYTVpY1ViTkY2TzEvYzFSREZZWUtoTjdYdU1MeG1wRFZRYnBqVzhP?=
- =?utf-8?B?aEV6LzBuL3kwbzh0U1c2L3JVSVZqaCthUjlhTWRIUlQ3MXNBaE42aFMrQ1ll?=
- =?utf-8?B?ZktFUnl6bit6TzVNY1p0MnZOWjBiM25ITnk3MmNzV25DalVZaVArN0tHU29B?=
- =?utf-8?B?WTJXTitOSG11U2cvaVA1L1BXSU95dEk3a0RMRWZsMW4vd0FrN2t0Y0lMd1ps?=
- =?utf-8?B?UzRjaHNsekFKS3JyZExGK2hacElHSzZSVXZtQWdQOGhBTUlud2JBb3Njc09L?=
- =?utf-8?B?MW1OQnExTE5ENzQvV2dSaVZIVEZ6ZmowdTcxMmprOFZKMEk5R2xlZTdIZFdw?=
- =?utf-8?B?U2RHdWtEZ3FVR2ZPNHNMSkE1eWRGUGM0cUVFaTNBOEdvUVo4ZmZPa05qTGFR?=
- =?utf-8?B?b1JoL0RicU1yRFd1N01TMzRhZUxGcmtsNVJ3Y2FwRUNsc2psRkFCUFZIY0pw?=
- =?utf-8?Q?xPZTmICBcr20/PdxeR030wnpJJ/hIbvW?=
+	=?utf-8?B?OUgxd3duSWU4YU5nVWFKM0NmcHpRQURpc3JaZHlvUkhObWVKOWVTeGdtRzhV?=
+ =?utf-8?B?UjYwZmpCb2pheFd6WXE2MU53R01pbE9wTzhtQW1wMUNHdlBBSDNTZTJiemJB?=
+ =?utf-8?B?dUFuTzVLSGVqWVl5eENmUUhQbTJzVVRKTW5zQ05HN2FKMzIxUUlPUUx4WUZ5?=
+ =?utf-8?B?QnlYeGp5eHNaOUhpRGJiU3NNc3pMVTlySlhJdjBGNUo1WmJYSW9BeGIzT00z?=
+ =?utf-8?B?RnpocXE4Ny9SN0hNUS9LYmdXRFlpL2YvQjFJWTVpREwvRVliMU1SUXZSeCtG?=
+ =?utf-8?B?WVNUanY0dGFBRmhaUkxOMXowNmxpYnVDVE42RXRDQVZMYXlwUVRhNFRXS3JO?=
+ =?utf-8?B?alloQTVKdzZSMGk3WEhWUXB6Q1FSUUpELzBmNzlUc0JreW1DZjRacmxGeG1I?=
+ =?utf-8?B?Z1hhMEcrZDJBNnVWVXAwK0hML2dIVnBEdEdCYU94TFM4UWNpOFowU3EydFVL?=
+ =?utf-8?B?d09nVVlkMkJwbVhyOUNweHpBUXdEeEhRM1puRDBoWGlTMVEwVkhlRHRSZmh1?=
+ =?utf-8?B?d1RncEFRV21nOUp4MGFIeFpzQ1VWeUdEa1J2dTlDYUdzZmN4eHhseTRaendu?=
+ =?utf-8?B?RlFWaURPckEyUFBjb2E2cSthTGpLQWcwS09jZ28zbVNrckxRalJvNTVZLzc4?=
+ =?utf-8?B?WmRaTFRHOGp1em16aDhmZGVSZjUxSWdRVkY1V29uRmFwcDhJaEc4RHJpN1N2?=
+ =?utf-8?B?MmRkazBCYW5XczgrSkF5dGd5UWtKWUxReXUyRU8yeDIvV0RHWC8wZlZrTFRL?=
+ =?utf-8?B?d01ubXRxcWNwUEkyNjRucFNDZ3pndWcyL1pTL3BEZ3dneHdvcHA4Y0xBS1ZB?=
+ =?utf-8?B?NGpZNGw2K2w3cWdNYWdKV2JoeUQ0TjBkdGk3VTExaTlWNk02ZU42SExRSnNs?=
+ =?utf-8?B?ZHcwVUdmazBLYkphTHl2dk5HblliUzBFMmVwMGJEeTN6b1BjRGRRYVBab3c4?=
+ =?utf-8?B?eXZseU8wUXJyOGJoWlVQSDUrZGFmMGZOYWk2bFVWRlhPQ1FJbmd6cWdGRDlL?=
+ =?utf-8?B?M2M5aWR3OVJQZkUvWDgrT2VLdjB1S1UzTlBuQXMrWlhCV0hOcEVOT0FvbHNJ?=
+ =?utf-8?B?MmtsTmFuYWQzcUtDbUhtdFFxMmpxMGZYYnR4K1Q1Y2l5azY4R3hPalpXR25N?=
+ =?utf-8?B?UW91SEZLS2g1Y2JOSE5oc2dzblpPRUlRdExhYmdiNG9mK3NzaFZUaXI3SkJV?=
+ =?utf-8?B?L1R4cEt1RXBmeWN4RGRRb1VTSS9aZ0oxVWJsMG02YXlFZjlGQi80eGZjcDNx?=
+ =?utf-8?B?a1lZUTUrZ1FmUDE3WGwrTnp3Mkxud0xRZklGMFhYK1BHTGljWitFVlhQNmdO?=
+ =?utf-8?B?WGZHNmVUZlA0aksyVVlNUWNhSmMyVHBHRDdRZWNseGJHcmJtaG42cjBrWGEx?=
+ =?utf-8?B?RFhWdnd4dmVLUXl4VncwdVhSWWxXMzFtcGtXMzRWU25Bem51Q2NwR3BTSmg0?=
+ =?utf-8?B?L1k4NlQ4S3AvaFJPM0ZmYXVTb2w1YzNEVGN0YjltRGpXOEsveElTYzgyRFJ3?=
+ =?utf-8?B?M3JQTDIrR2pPSzJvTnBlK1Vick1MR1ozTFpMZUNTOEdpQzJ2UmU5Q2VSVkdW?=
+ =?utf-8?B?a2twSGF4dnFIMUNGeWhuQ2xLSXVXYzI4akpSaHdsNWFlcGJ1cVhzVGdBSU5M?=
+ =?utf-8?B?QW1MK2UzaVY1azJMc290NDlidDJkN1dQZVBOZWU5NU1OWGVxSDl5dnJsUWZr?=
+ =?utf-8?B?MFpVNnNNZ3ZoNGRoOXVHTEhtSWtVVkZRbFBVQWFoNUxZbXRLRFJZUUtCTGh6?=
+ =?utf-8?B?eVQ3RHp0ZW9BcHN3QWF1MVA5MFluVWdwZVEyV2JBZitEUmxCc0xFdk1sa1I1?=
+ =?utf-8?B?VHhDMVNVZ003THk3VitEa2Z2Q08wenNsc2RzUUFibHZlR3BQTUNxdnN5eXBk?=
+ =?utf-8?B?QzlzTkp2eGxQSnVsRmVPbTR2bWFHMUdiK1llY3dGb0JtcEt3em5RcG03dVpD?=
+ =?utf-8?Q?lo1WbqCji5dMNHYO8uprHIvGyJX9+7Jf?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN0PR10MB5128.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?V21HSjZSTk00aXQ2LzQxZktuZldyeGFMdjdFNDNjVU5WRTVneENueThZYS8z?=
- =?utf-8?B?YnpFNDBGZWdqRXd6SUNrb2lDaUxTRjN5d0Nobis0bFpRbm5zOEd1SDBxRERk?=
- =?utf-8?B?VmhUc3l5RnZ1bVUvZ01TVDFxelBteFNaSENBL1lhTXVQYklPVTFNblExTUlT?=
- =?utf-8?B?L2wwMzNhbitucGx5aldZUkYrUTI1RDcwSlVSOS80WHQ2WXJXTUYxcVAyd20y?=
- =?utf-8?B?VER5YS9mY2czM1lEbzd0NXRiaERtVTl2QUNUTFpETldHQnJEbzZOZ25WZk54?=
- =?utf-8?B?d0YvSVYvRUw0TnVsUXlHNlVFcllFd0tnZGpQRTFsUVBZUExyM3l4T2tTZjJ0?=
- =?utf-8?B?K2hhM0krdW1hdXRjWWU3cXh2QkdLRWh5TkhEQ1RGbzFFTHlvUFlJRjdQYk9s?=
- =?utf-8?B?UTI3c2JnaFBMeXFZZUdWdFZtcTByazVGYXdXRHBhenNoMHpFdzRGcms0UTNZ?=
- =?utf-8?B?YUI1SlQwRzhRd1FwbkdHQk52aGJuNjRMMXp3MktYUUVleVhJb0FlQ25kd2VZ?=
- =?utf-8?B?RVVIQkxoVU1QU09WZVFUV2pBL2huVDVCRWExaVoyUStLU09qL3VIeGRmSDYw?=
- =?utf-8?B?VmM2QU9nSFVPY0xBeW1YNlJWMW04Vk9TM1AwdS82VG9oZm84RXVtTVZRM2o2?=
- =?utf-8?B?NERDeFRuVkFvVVh2eFVzalJCcUFXNWlHY2E5MDlxT3NaendpM1JZNW40Zm1l?=
- =?utf-8?B?Q0pMeWdaR21jREJXNmhEaWJnaWtCUTRvblQ2UStlY2huSDNxNGUySzVTL0tP?=
- =?utf-8?B?Vy9PUTd3aWo4cHVJeFkyaVpsNzdZUEFzYVZweVBJeWJXQnVjZ0JLMGVIREUx?=
- =?utf-8?B?Q3dDZzVvVGIxaW1OczM5WlZYTE04eVBVaEdWVmZjbFBpNXpqL3h5VEh4VXFX?=
- =?utf-8?B?dEZqQys4VFFISStyZzZSc2RZWVFTb04zU1MzWm00bzdPTTNEYkZKSnJFM0Fw?=
- =?utf-8?B?eXJ4bC9rbGJXekxVaU9ockgzMjNXbzYwMUp3aVhBaHNaa25IQk9rYWVyZFJ4?=
- =?utf-8?B?MWJVSE1HNm1OVi9uTVFxMHVBQXpCczZQRGR0YUExbUEzK084SnlGT3BUZStu?=
- =?utf-8?B?TmtnQjNTWWtPT0t2eDEydW93Syt6djVoeWZ6NmpRWFpmNG9zQVJJQjRYZXFm?=
- =?utf-8?B?R2cwL0txLzVnRGMwc1RIY2wrZVVoc2txSDg1ODZoUXlzbG1MTThYM04ybWEz?=
- =?utf-8?B?bEt0MjY2OEUyNnNZaXJMZEJEaWhqVWZaRG1aMDcwMm9QWVAzK3hBMTkxUTRN?=
- =?utf-8?B?UmowYU40UzJXSkpRRERmZ3Y3eDBrWmZKUjJiR1Z4eGYzYmxxblNhNkVpS0Zl?=
- =?utf-8?B?R3dDOEsvT0M1Nm80d2FhTEExRkp1eGhYWTFpakJxUlFBKzFnWVY1aUg0Ritl?=
- =?utf-8?B?ZVIwRXFDTzNCSWFJN3FqTVZJaFYxMXQ4bE9uYnFzVmJLSjV4NWVCRWRJUkxK?=
- =?utf-8?B?TnJVakpDVk9udnB3N1JCcHVyS1hCSXJ1a3JubkFsNC9NMjNMcVhTQ0p2OUx1?=
- =?utf-8?B?TFVJQ1hGb29VM0RzU0w4UjMweGozRllaSFZ6aVVhUFdtT1BZRGp3KzlsOGFn?=
- =?utf-8?B?OWluTGZQMmplYzJTT3RBQ2toSko0UklTUFRVUHJkTGNlZVUzUUp5NWpIb25n?=
- =?utf-8?B?a0QyaHYwcmtPZ2FhVm5iemJZeE9uQ3hJRlhTeUlVVEpMU2w2TkhrdnVrMzV6?=
- =?utf-8?B?MjhGTkNNMGdZOC82cUlzSWRkSjVsT2JqTE1ETDhNWHVTNGlpcm9YczYzVHo0?=
- =?utf-8?B?eVRmV0Q4eXV6TWNtSlJwOURES21NSE9SYS9CanVuSnJOSkUvTkFNZTVnYWlq?=
- =?utf-8?B?Qkx3VlZGdk9iZlJGK0ZXVEswY3pXcU1KU25rTHdPTy9Fd0pSVURwRnZacTFK?=
- =?utf-8?B?eW5RTytwSlNoc1Z6SEE5dEFuZ1NNM0FkYlFDUjJSTWdSVVR6WnVLOXlPcnNy?=
- =?utf-8?B?SXdwdVJOSDAwNnZ3R3VJOFkySDZybGtiN3l6aThibVZERldGNW93UHQ1WHZC?=
- =?utf-8?B?R2NMN2hBVlhaRTVFRWFjQ2N5RE1xbk1KZm4xQm5ncG9VeVl0R2ZqNkgwdXpG?=
- =?utf-8?B?NnZ2TWc1R0EwdlFOL3hvK2tvVWkxNGF0RXNmalBkT1lIeGZpYTAwaUVCQW1s?=
- =?utf-8?Q?RCfnBwUEmNvuZs8a9hp9uteGZ?=
+	=?utf-8?B?amNVSzZJVmxpbkloMll1VERPc2o0eXdQQitDNzNDNkdHR2t2VHZhTnBhVENm?=
+ =?utf-8?B?Ykg4clpxb1BHdG1ROTMrN3BZV2ZqcnpsamJYRkYzY0NsRVo0MEovR3FwMEFE?=
+ =?utf-8?B?aXE0WWxabUJBNE10SGtlOGwzbCtmRnB0bis3V25pUWUxU3Nwb3ZINy8zTnRF?=
+ =?utf-8?B?WHNZZ1FiZWIrRzlCa0cvbGlpN2JyaUhSVGJNUEVXQU5oY2VVVzVBNlpaY2p5?=
+ =?utf-8?B?ZTVpM2F5NSsvUjN0ajllL1RiVW5sN1BPRi9rcWNMQVZvSWovMGlzZS9VckVD?=
+ =?utf-8?B?RHBrZWpDRDFNTC9uZksrYmlPdmJ2cTk2SFMvWHQ2T3pwbDdFcjlRQ1kxbXBv?=
+ =?utf-8?B?dndlVHQrSUtZMUppcGQwOHlDL2tpbFRhNUFSNlFVa2I3Zit1bllQcW1yVUd3?=
+ =?utf-8?B?V0ZrTVFCOWFDUjJXNzl1Sk41ZHQvN2o3VnJ0ai9MNDl5enl5cVJWb2ZUd3FE?=
+ =?utf-8?B?Z1dwU2pDcDVtUG9mUU5lNTh2VVFJWDMwMzlidU9PT0V2VDZtTEwxaHJRLzE3?=
+ =?utf-8?B?d2U5U0RLcFVQYWxuK2lPNnlMajRmanlhS3RmSWhGME1jakpGUnVtN2dMcHNn?=
+ =?utf-8?B?eVZobzJ2OTROWmFJdHlpLzhXOXp4MWxQVExkZ2diSGUzS1RnSTF2Q2YzRi9p?=
+ =?utf-8?B?dThiVllXcC8vaEt2a1p3TXNmYjc0a1dnbWJaQzRwNFdFd0I4cEthM2VFSHEw?=
+ =?utf-8?B?cVl4LzZtaERjRXV3K2poQXFNNngyVHhHZTdnOXJnSEpkSTNmT0dZTWJtWkF0?=
+ =?utf-8?B?ZU5rb2ZKUG9QdUtiakF6bm55c3plTFQ1cG5kSlZwZUZMVWlteGptQUxoY3BT?=
+ =?utf-8?B?SFBWNGg4VndZWlRXUkhLbTdCV0VsNHBtN2hOTmwwYjFTemsvcG1rUWpkcWo0?=
+ =?utf-8?B?RzJKR0hwdFluQytYZmE0Qll0QnlLTGJUS1RHaDJFMGtGb1hIOGVieEd3TWVo?=
+ =?utf-8?B?a0MzSGNnK1A2KzYzSURlK1hoRktXRUpVY1NLcjdWcS9iWkZtZW5tN0YxcWdt?=
+ =?utf-8?B?TGNmemplRmFUb2cvSkk4Z2dVVHZobW5OdnhpTWpUeENiZW11Mm1yTWVvRUQ3?=
+ =?utf-8?B?ajUrV2RqdGVHRE5JeXNpUTU3a2ZYQkUwUlZ1dk8waVhnSkwvckJVZmVvYzBp?=
+ =?utf-8?B?OWViUm5OOElNZVpjVkFTOS9sK2c2ZjBxcjlzYnVCY2VEN1RiaG1pSzV0a011?=
+ =?utf-8?B?OG1QcGt0SXBaNTc0Y2FjVTVZdGFWNDREQ3AxSEI5R2gxN1I4aExVUGJLN3Fp?=
+ =?utf-8?B?R3ljdzFJUk1zdHpEbUpaQlpDeGdyNEwxV0YvVWYzaGRpL0RJU1JhQzU5ZldN?=
+ =?utf-8?B?RElnRzArTE5jUFBNKzYvbmlYYVFYTnFocUwxbHpvYit5eThSMHloRWdhaHhm?=
+ =?utf-8?B?OXRhVkZIZ0QvZkZkVGZHRXVBNTFCNlZYVmhkUUF3MjJRL0MrVVlqNTBqczFR?=
+ =?utf-8?B?K0R2YzMzeVkvUVo3UjlJejFWSGpGb0haMHhQU1NySXRmb0VyWStsaWFoZGdY?=
+ =?utf-8?B?NXdidkFUMXJOTWdZQ1R0WG5DWW1rNDdhb0c1c2ZBUHphTzNSZ0JTcmViNXd3?=
+ =?utf-8?B?WVozenJQSnB6OXlIZHZHQ0JCM0hrRGR2WWRXT25iTFBjNStEZ0hrNXRidm95?=
+ =?utf-8?B?b0oveWN2VVZ5ODJVVlhqdVphWEZwN1lTVi85REYyODM2OUErWVhhTGUxZmt6?=
+ =?utf-8?B?d3IxVXEvM0RNcjBGMkQ4OW9EZ1hSamIrdUVsM01WM1cybWJCdlhJWmF5Vzhu?=
+ =?utf-8?B?VjlIYll3UE1TTEpTZzUzUi85aGtPVFQxM1RUWlRvZ0EvSlh6ZnR2VmkyazFE?=
+ =?utf-8?B?Z0gycDBOVnYwcnBpaEZNYWVYRG41VUpZSDI3am1IQTNrUEFBUEpPK1JZVUN6?=
+ =?utf-8?B?YmVna2piOFdDb1RIZ29FRUFlQU5NRlVvQXpGNVN0WVVaRVF2ZzRGSmpVSE81?=
+ =?utf-8?B?SDcxb2M1RzlaeUVVRW02RjhYN2FaM0ZnZ1hrVVRDMDdFNnU0SEo3US9XeUxI?=
+ =?utf-8?B?MlVuZDdBaVZLOUlsd2ppZ2NmbUJxY3pFTDVxNWpHa3FrMGdWNHhXaVkxL3NR?=
+ =?utf-8?B?V2sxMjdXaE0yTEFNa2ZSWFBiSE14TDBBRHhwY2ZxSnhUeFNZMEs1TjA1bzBN?=
+ =?utf-8?Q?ADaaLyJl6GdWo1STU69xZywHs?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	HKdFWitF6XXUbml0i7vGca9YUVJBDVll20iikWvlfLGNwl3qh9p7jH5210w7xQTM2V2M1PN/pQ8eLzgsBc1wyKD+Ayyb3Jxwy377JCiwIhBLO0V0ni8zU5P1Y9jghsquNybKRy75azushseWVA8n4IHyYD7Zs+sxaVqjB4YrNPmxUykN2azYo7xGw/GiuknhomaicM32E0mKrIDPYBvl/75fWQWdcksIFjzeMYxuGzl0pjA+EpeQGeRNrkh1PuO+Y9Y3FpK9C5/2v3h6e9JFif+70PkU8sOtLEeeTRq+wNU1MKjKgSu42W6gQTONCE9bL2k4k4nIEkoF6kD8NSMpse1ShoBGwgyRHFwH2La3cqnaW7a/uaJ3JdJgKOXPL4PEWvRrGkNZhvh521ri05EjYz6po20dhNfiPOh3/rtrd1zODNBWHKo/CSeLftIoh3Vwux3IvgdAKGdLhvRmmaoWuUWrmA8NF5TR+Q1SQMR3aWYKScBApMcpvtZUQUDp4BlxAKPqkS3ODKc0MfigoPTZNFzM0M7D6WUNVrENIboRtP7KBnBm84vwUVwQ8CTU7658Cy0lDxJOBQWvO/ZciX2Xhcjs2oWRl30dkL7/yEoYkiE=
+	PyvWd2zk+Yk/T0cCMv48AOuWyc0Z9/zMhj38SYBKQao+5+uHqrdEAfIojFOJxRNZfQkk4wqJboYbGtkjyZl2woWdTVylf0curAXf6v9H/mMq9ZIsSFmadED0XG7XZoMKR3lPycshhYsUF7hsABOFpqDq8eSrfv7uWyqINnRTxWTzSLbEbxwiM47JOmalNjKXpqu4l43QVTGoZO4elpRuAATTJLpvpPiKdsOEkIs4tKDtSZ3fjXomXqUSFrWFOU6UfsDCJJEgwfvRBGHECe9LRIx67/6B1vHcZKOaoRD+hrMyGJLvlMJewz7LdEf/oKjnyQOlOlTSak+5CNo5KcarpsLCs/gcZwgY7KkbRqqdI/nDWBLQn/n3H2ztQpEAIpDr4dONUnoQkaogT9ciEgc+phNRudtjHfsGywlRUp3ERsTVVtXdG2XKczUAh7BXloywIS2teajAAYZXWVy0b9TBcBf35m4T9PgnJffuCqMwFGjIpHs5OsHNgHJF+Efpgs+UDXMiSXBKwgi3bPy7ltO39OJadfyX+s+vnw/uz5LfUfEdQsu5OcZW30XT30ZcHzcmTXF6FQCvTB1rzXPKVXmB4Gso1a/nDz6+yayHFNEcCbI=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f153edbb-36f0-4155-7b50-08de21fc71de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e5baeb0-7947-40fd-c698-08de2202c04d
 X-MS-Exchange-CrossTenant-AuthSource: BN0PR10MB5128.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2025 15:02:06.0214
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2025 15:47:14.6024
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jK3rvcV8j7KDX51V7zQ/CgE7WzTrmr+8CtTIl13zlFSEbRwu4J8r4i1d6j77bXwQPtiUlBXCDzDskHfSNUg0ZA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR10MB4182
+X-MS-Exchange-CrossTenant-UserPrincipalName: YYOBzaEgO41Es/Edli/lH3XLVUQ/r3We94dku8s575qbvV6HLQid4hgMtWF2KvRtKDgL2t9VFKrYIK37LyPabw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4372
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-12_04,2025-11-11_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 mlxscore=0 spamscore=0
- phishscore=0 suspectscore=0 adultscore=0 bulkscore=0 malwarescore=0
+ definitions=2025-11-12_05,2025-11-11_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxscore=0 phishscore=0
+ mlxlogscore=999 spamscore=0 suspectscore=0 bulkscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510240000
- definitions=main-2511120121
-X-Authority-Analysis: v=2.4 cv=Cseys34D c=1 sm=1 tr=0 ts=6914a174 b=1 cx=c_pps
- a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ definitions=main-2511120127
+X-Authority-Analysis: v=2.4 cv=bJUb4f+Z c=1 sm=1 tr=0 ts=6914ac06 b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=6UeiqGixMTsA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=pGLkceISAAAA:8 a=JF9118EUAAAA:8 a=yPCof4ZbAAAA:8 a=zqJBN6IEQoyygF5RKowA:9
- a=QEXdDO2ut3YA:10 a=xVlTc564ipvMDusKsbsT:22 cc=ntf awl=host:12099
-X-Proofpoint-ORIG-GUID: wFxvcOXfcXbTnNkxIskJ6NJeEv76XWPy
-X-Proofpoint-GUID: wFxvcOXfcXbTnNkxIskJ6NJeEv76XWPy
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEyMDExOSBTYWx0ZWRfXwe+QbKsF4y6r
- KE7uvo3ZtgUA74q5+1GP51D8yhWJxex7nA2MzUoou4mfh8/2FhmsZnlnbdaP/dli6J8zCT9l8bN
- UpapIZgw6Nc+tKk5tgCUiJA5xQGZ0y6BMHNhKpjg2BZNH1Js3aIqND2JBbHMTrOH0yrwkkjwOsq
- PF960iH7I5R9cOyT7BH2jkGfmj6Z+P7vojKrSPvySq9OZOu5N+1/Es2+wv3fDnSWnHCoJ+invyj
- VxhR6RvMejQa3BoOA+PhXLXqsmEGZGPckitjytaH8xhkVeBEEjKURDF8vQvYSbE7H/WUUzvX1gB
- J5ijWrsoEQ11ZOgJ/9Nfhy4iW5DbBBrVja/LLabG3TYqaiMaO5JskJyoZWIIVTtSIQShvnBk2V/
- PO7hlVY/9tDP8mF3Wr15Nyi24WwEcml2mSqmvICyxdPNGy9NcTM=
+ a=pGLkceISAAAA:8 a=JF9118EUAAAA:8 a=c2cqNLOTf_ciDq2IyfIA:9 a=QEXdDO2ut3YA:10
+ a=xVlTc564ipvMDusKsbsT:22
+X-Proofpoint-GUID: wc1Tu0eVLOMX56gR3b3rX6mAkwg9FOaN
+X-Proofpoint-ORIG-GUID: wc1Tu0eVLOMX56gR3b3rX6mAkwg9FOaN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEyMDEyMyBTYWx0ZWRfX7+UM2qlUxiBn
+ RVK+ed3rKXpX3x1xfEVpKZTVE6LdrNJvrWEcVDYSN2bwjMJXW6wAMTon9TOo/NtIf8mhvLie0eL
+ eD8IMC/UdB4bxsSuaGyrcOfKDRBVb/Zcgzw5H5WM4r4jq4+uuLs39+cYYboxexJXuwAFjxeG+2F
+ ZGl1+tiZCXo5qaoVTkmrb3e0Ad692CIA0WRvIoyUDr62Prvxk+OVv/6/3Wh+fCl34G8mbdeK4m6
+ jgmZuu0S4jPQ45aMv9pLxzO496iRrSBhHHHXvSq3iTiv8C+qDJrd/xew0vtY73xIqBV7l7Coenn
+ AazwlpKMn8wWWjlzKm0odxvgZc3oWrd+gireZ1TD6aORxq6GTZxhlKvNYzCjz/GZVn3a3SHN0R9
+ sINFxFa8vlSdgnHEMEZADrtxRHRcTA==
 
 On 11/11/25 11:27 PM, alistair23@gmail.com wrote:
 > From: Alistair Francis <alistair.francis@wdc.com>
 > 
-> Allow userspace to include a key serial number when completing a
-> handshake with the HANDSHAKE_CMD_DONE command.
+> Define a `handshake_sk_destruct_req()` function to allow the destruction
+> of the handshake req.
 > 
-> We then store this serial number and will provide it back to userspace
-> in the future. This allows userspace to save data to the keyring and
-> then restore that data later.
-> 
-> This will be used to support the TLS KeyUpdate operation, as now
-> userspace can resume information about a established session.
+> This is required to avoid hash conflicts when handshake_req_hash_add()
+> is called as part of submitting the KeyUpdate request.
 > 
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Hannes Reincke <hare@suse.de>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
 > ---
 > v5:
->  - Change name to "handshake session ID"
+>  - No change
 > v4:
 >  - No change
 > v3:
->  - No change
-> v2:
->  - Change "key-serial" to "session-id"
+>  - New patch
 > 
->  Documentation/netlink/specs/handshake.yaml |  4 ++++
->  Documentation/networking/tls-handshake.rst |  1 +
->  drivers/nvme/host/tcp.c                    |  3 ++-
->  drivers/nvme/target/tcp.c                  |  3 ++-
->  include/net/handshake.h                    |  4 +++-
->  include/uapi/linux/handshake.h             |  1 +
->  net/handshake/genl.c                       |  5 +++--
->  net/handshake/tlshd.c                      | 15 +++++++++++++--
->  net/sunrpc/svcsock.c                       |  4 +++-
->  net/sunrpc/xprtsock.c                      |  4 +++-
->  10 files changed, 35 insertions(+), 9 deletions(-)
+>  net/handshake/request.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 > 
-> diff --git a/Documentation/netlink/specs/handshake.yaml b/Documentation/netlink/specs/handshake.yaml
-> index 95c3fade7a8d..a273bc74d26f 100644
-> --- a/Documentation/netlink/specs/handshake.yaml
-> +++ b/Documentation/netlink/specs/handshake.yaml
-> @@ -87,6 +87,9 @@ attribute-sets:
->          name: remote-auth
->          type: u32
->          multi-attr: true
-> +      -
-> +        name: session-id
-> +        type: u32
->  
->  operations:
->    list:
-> @@ -123,6 +126,7 @@ operations:
->              - status
->              - sockfd
->              - remote-auth
-> +            - session-id
->  
->  mcast-groups:
->    list:
-> diff --git a/Documentation/networking/tls-handshake.rst b/Documentation/networking/tls-handshake.rst
-> index 6f5ea1646a47..0941b81dde5c 100644
-> --- a/Documentation/networking/tls-handshake.rst
-> +++ b/Documentation/networking/tls-handshake.rst
-> @@ -60,6 +60,7 @@ fills in a structure that contains the parameters of the request:
->          key_serial_t    ta_my_privkey;
->          unsigned int    ta_num_peerids;
->          key_serial_t    ta_my_peerids[5];
-> +        key_serial_t    handshake_session_id;
->    };
->  
->  The @ta_sock field references an open and connected socket. The consumer
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 9058ea64b89c..024d02248831 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1694,7 +1694,8 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
->  		qid, queue->io_cpu);
+> diff --git a/net/handshake/request.c b/net/handshake/request.c
+> index 274d2c89b6b2..0d1c91c80478 100644
+> --- a/net/handshake/request.c
+> +++ b/net/handshake/request.c
+> @@ -98,6 +98,22 @@ static void handshake_sk_destruct(struct sock *sk)
+>  		sk_destruct(sk);
 >  }
 >  
-> -static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid)
-> +static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid,
-> +			      key_serial_t handshake_session_id)
->  {
->  	struct nvme_tcp_queue *queue = data;
->  	struct nvme_tcp_ctrl *ctrl = queue->ctrl;
-> diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-> index 470bf37e5a63..7f8516892359 100644
-> --- a/drivers/nvme/target/tcp.c
-> +++ b/drivers/nvme/target/tcp.c
-> @@ -1780,7 +1780,8 @@ static int nvmet_tcp_tls_key_lookup(struct nvmet_tcp_queue *queue,
->  }
->  
->  static void nvmet_tcp_tls_handshake_done(void *data, int status,
-> -					 key_serial_t peerid)
-> +					 key_serial_t peerid,
-> +					 key_serial_t handshake_session_id)
->  {
->  	struct nvmet_tcp_queue *queue = data;
->  
-> diff --git a/include/net/handshake.h b/include/net/handshake.h
-> index 8ebd4f9ed26e..68d7f89e431a 100644
-> --- a/include/net/handshake.h
-> +++ b/include/net/handshake.h
-> @@ -18,7 +18,8 @@ enum {
->  };
->  
->  typedef void	(*tls_done_func_t)(void *data, int status,
-> -				   key_serial_t peerid);
-> +				   key_serial_t peerid,
-> +				   key_serial_t handshake_session_id);
->  
->  struct tls_handshake_args {
->  	struct socket		*ta_sock;
-> @@ -31,6 +32,7 @@ struct tls_handshake_args {
->  	key_serial_t		ta_my_privkey;
->  	unsigned int		ta_num_peerids;
->  	key_serial_t		ta_my_peerids[5];
-> +	key_serial_t		handshake_session_id;
+> +/**
+> + * handshake_sk_destruct_req - destroy an existing request
+> + * @sk: socket on which there is an existing request
 
-Please follow the existing field name convention and add a "ta_"
-prefix.
+Generally the kdoc style is unnecessary for static helper functions,
+especially functions with only a single caller.
+
+This all looks so much like handshake_sk_destruct(). Consider
+eliminating the code duplication by splitting that function into a
+couple of helpers instead of adding this one.
 
 
->  };
->  
->  int tls_client_hello_anon(const struct tls_handshake_args *args, gfp_t flags);
-> diff --git a/include/uapi/linux/handshake.h b/include/uapi/linux/handshake.h
-> index 662e7de46c54..b68ffbaa5f31 100644
-> --- a/include/uapi/linux/handshake.h
-> +++ b/include/uapi/linux/handshake.h
-> @@ -55,6 +55,7 @@ enum {
->  	HANDSHAKE_A_DONE_STATUS = 1,
->  	HANDSHAKE_A_DONE_SOCKFD,
->  	HANDSHAKE_A_DONE_REMOTE_AUTH,
-> +	HANDSHAKE_A_DONE_SESSION_ID,
->  
->  	__HANDSHAKE_A_DONE_MAX,
->  	HANDSHAKE_A_DONE_MAX = (__HANDSHAKE_A_DONE_MAX - 1)
-> diff --git a/net/handshake/genl.c b/net/handshake/genl.c
-> index f55d14d7b726..6cdce7e5dbc0 100644
-> --- a/net/handshake/genl.c
-> +++ b/net/handshake/genl.c
-> @@ -16,10 +16,11 @@ static const struct nla_policy handshake_accept_nl_policy[HANDSHAKE_A_ACCEPT_HAN
->  };
->  
->  /* HANDSHAKE_CMD_DONE - do */
-> -static const struct nla_policy handshake_done_nl_policy[HANDSHAKE_A_DONE_REMOTE_AUTH + 1] = {
-> +static const struct nla_policy handshake_done_nl_policy[HANDSHAKE_A_DONE_SESSION_ID + 1] = {
->  	[HANDSHAKE_A_DONE_STATUS] = { .type = NLA_U32, },
->  	[HANDSHAKE_A_DONE_SOCKFD] = { .type = NLA_S32, },
->  	[HANDSHAKE_A_DONE_REMOTE_AUTH] = { .type = NLA_U32, },
-> +	[HANDSHAKE_A_DONE_SESSION_ID] = { .type = NLA_U32, },
->  };
->  
->  /* Ops table for handshake */
-> @@ -35,7 +36,7 @@ static const struct genl_split_ops handshake_nl_ops[] = {
->  		.cmd		= HANDSHAKE_CMD_DONE,
->  		.doit		= handshake_nl_done_doit,
->  		.policy		= handshake_done_nl_policy,
-> -		.maxattr	= HANDSHAKE_A_DONE_REMOTE_AUTH,
-> +		.maxattr	= HANDSHAKE_A_DONE_SESSION_ID,
->  		.flags		= GENL_CMD_CAP_DO,
->  	},
->  };
-> diff --git a/net/handshake/tlshd.c b/net/handshake/tlshd.c
-> index 081093dfd553..85c5fed690c0 100644
-> --- a/net/handshake/tlshd.c
-> +++ b/net/handshake/tlshd.c
-> @@ -26,7 +26,8 @@
->  
->  struct tls_handshake_req {
->  	void			(*th_consumer_done)(void *data, int status,
-> -						    key_serial_t peerid);
-> +						    key_serial_t peerid,
-> +						    key_serial_t handshake_session_id);
->  	void			*th_consumer_data;
->  
->  	int			th_type;
-> @@ -39,6 +40,8 @@ struct tls_handshake_req {
->  
->  	unsigned int		th_num_peerids;
->  	key_serial_t		th_peerid[5];
+> + */
+> +static void handshake_sk_destruct_req(struct sock *sk)
+
+Because this function is static, I imagine that the compiler will
+bark about the addition of an unused function. Perhaps it would
+be better to combine 2/6 and 3/6.
+
+That would also make it easier for reviewers to check the resource
+accounting issues mentioned below.
+
+
+> +{
+> +	struct handshake_req *req;
 > +
-> +	key_serial_t		handshake_session_id;
-
-Please follow the existing field name convention and add a "th_"
-prefix.
-
-
->  };
->  
->  static struct tls_handshake_req *
-> @@ -55,6 +58,7 @@ tls_handshake_req_init(struct handshake_req *req,
->  	treq->th_num_peerids = 0;
->  	treq->th_certificate = TLS_NO_CERT;
->  	treq->th_privkey = TLS_NO_PRIVKEY;
-> +	treq->handshake_session_id = TLS_NO_PRIVKEY;
-
-Please define a TLS_NO_SESSION_ID symbolic constant for initializing
-this field, which is not a private key.
-
-
->  	return treq;
->  }
->  
-> @@ -83,6 +87,13 @@ static void tls_handshake_remote_peerids(struct tls_handshake_req *treq,
->  		if (i >= treq->th_num_peerids)
->  			break;
->  	}
+> +	req = handshake_req_hash_lookup(sk);
+> +	if (!req)
+> +		return;
 > +
-> +	nla_for_each_attr(nla, head, len, rem) {
-> +		if (nla_type(nla) == HANDSHAKE_A_DONE_SESSION_ID) {
-> +			treq->handshake_session_id = nla_get_u32(nla);
-> +			break;
-> +		}
-> +	}
->  }
->  
+> +	trace_handshake_destruct(sock_net(sk), req, sk);
+
+Wondering if this function needs to preserve the socket's destructor
+callback chain like so:
+
++	void (sk_destruct)(struct sock sk);
+
+  ...
+
++	sk_destruct = req->hr_odestruct;
++	sk->sk_destruct = sk_destruct;
+
+then:
+
+> +	handshake_req_destroy(req);
+
+Because of the current code organization and patch ordering, it's
+difficult to confirm that sock_put() isn't necessary here.
+
+
+> +}
+> +
 >  /**
-> @@ -105,7 +116,7 @@ static void tls_handshake_done(struct handshake_req *req,
->  		set_bit(HANDSHAKE_F_REQ_SESSION, &req->hr_flags);
->  
->  	treq->th_consumer_done(treq->th_consumer_data, -status,
-> -			       treq->th_peerid[0]);
-> +			       treq->th_peerid[0], treq->handshake_session_id);
->  }
->  
->  #if IS_ENABLED(CONFIG_KEYS)
-> diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
-> index 7b90abc5cf0e..2401b4c757f6 100644
-> --- a/net/sunrpc/svcsock.c
-> +++ b/net/sunrpc/svcsock.c
-> @@ -444,13 +444,15 @@ static void svc_tcp_kill_temp_xprt(struct svc_xprt *xprt)
->   * @data: address of xprt to wake
->   * @status: status of handshake
->   * @peerid: serial number of key containing the remote peer's identity
-> + * @handshake_session_id: serial number of the userspace session ID
->   *
->   * If a security policy is specified as an export option, we don't
->   * have a specific export here to check. So we set a "TLS session
->   * is present" flag on the xprt and let an upper layer enforce local
->   * security policy.
->   */
-> -static void svc_tcp_handshake_done(void *data, int status, key_serial_t peerid)
-> +static void svc_tcp_handshake_done(void *data, int status, key_serial_t peerid,
-> +				   key_serial_t handshake_session_id)
->  {
->  	struct svc_xprt *xprt = data;
->  	struct svc_sock *svsk = container_of(xprt, struct svc_sock, sk_xprt);
-> diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
-> index 3aa987e7f072..5c6e7543f293 100644
-> --- a/net/sunrpc/xprtsock.c
-> +++ b/net/sunrpc/xprtsock.c
-> @@ -2589,9 +2589,11 @@ static int xs_tcp_tls_finish_connecting(struct rpc_xprt *lower_xprt,
->   * @data: address of xprt to wake
->   * @status: status of handshake
->   * @peerid: serial number of key containing the remote's identity
-> + * @handshake_session_id: serial number of the userspace session ID
->   *
->   */
-> -static void xs_tls_handshake_done(void *data, int status, key_serial_t peerid)
-> +static void xs_tls_handshake_done(void *data, int status, key_serial_t peerid,
-> +				  key_serial_t handshake_session_id)
->  {
->  	struct rpc_xprt *lower_xprt = data;
->  	struct sock_xprt *lower_transport =
+>   * handshake_req_alloc - Allocate a handshake request
+>   * @proto: security protocol
 
-Aside from a few nits:
+There's no synchronization preventing concurrent handshake_req_cancel()
+calls from accessing the request after it's freed during handshake
+completion. That is one reason why handshake_complete() leaves completed
+requests in the hash.
 
-Reviewed-by: Chuck Lever <chuck.lever@oracle.com>
+So I'm thinking that removing requests like this is not going to work
+out. Would it work better if handshake_req_hash_add() could recognize
+that a KeyUpdate is going on, and allow replacement of a hashed
+request? I haven't thought that through.
+
+
+As always, please double-check my questions and assumptions before
+revising this patch!
 
 
 -- 

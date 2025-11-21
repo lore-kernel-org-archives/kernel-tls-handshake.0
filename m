@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF8B23B615;
-	Thu, 20 Nov 2025 18:02:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FAE513774D;
+	Fri, 21 Nov 2025 01:48:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763661764; cv=none; b=IO8sA4CsqALv9/Q3RISd3mLxCwwbTvZJB5G8zd/y3BGPL7ObvirZuxuUOrKck4jX7spG3pwoh+Fb3aLEEUKiS3Qos8R16ep1AZaf4l2/B7zuK2KcngjlOuDzS+hG2sCKiuUZasTnsaxfvESefP+KExCdtfbb5PV7Q09/Q76t+A0=
+	t=1763689713; cv=none; b=aUl3UFgT6y89JFvGX/BCE3EfcXAkCRft6/dmDo/M0utcMMchgzi3LrrxyjlV+Z4uJ0RzxIcdE7asXtH2KDuxMpMIi4BkLFGkcC2xshq7kvlsoxRR6aCXUl6tSne+z+aRtTwZQpMWQ46+bMkuNJXb7HceEG+/2I9rfiPkou6Zpzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763661764; c=relaxed/simple;
-	bh=tW4GWywFGyxIBvvnTE52KQ0xbnTTxrBJuVsfwIEnrEY=;
+	s=arc-20240116; t=1763689713; c=relaxed/simple;
+	bh=YRGxdUVg3YMAZdxNx5V7iXEiJ8SXLhk91mcY9zZWy2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Bd7A3sqdbVvPNMfpYYbjFSjgkr9CksYLfXUAvCMMym9tFf24hFcnkrzoxubM7q4fPaPlLZSUqxehL5sG/6p9p9xzzrfgScXRZfxGEYzZROBx9HLbzmeKAX32C+nXpNNLGdOraVnoymekqq7+eJCD4hkT13+gSWioSQfrFHwabzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bU1aX7dC; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=CeWIM4IUXjSZz7XeT309QagkCOO6ioa2C54GpIMjE98jyUzXjp10/PJjzQF7T6bupGYjEpGSMHIx3HEE+mwIaFxL8K1tg9okxq/NYlTfWzrebLATlmVAnLzIdkkywXKTYAuyiWknlC3odYNQu9oLNw/Fy8nHeMN9NabdGJzM2As=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q4Id5sV4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bU1aX7dC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F67AC4CEF1;
-	Thu, 20 Nov 2025 18:02:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q4Id5sV4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACEEDC4CEF1;
+	Fri, 21 Nov 2025 01:48:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763661763;
-	bh=tW4GWywFGyxIBvvnTE52KQ0xbnTTxrBJuVsfwIEnrEY=;
+	s=k20201202; t=1763689712;
+	bh=YRGxdUVg3YMAZdxNx5V7iXEiJ8SXLhk91mcY9zZWy2g=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bU1aX7dCdw3jpvhsOS8/fsYpgSWcKVyMRk+L7pljjC+YPutDUc16+nkqLtJus7SQo
-	 Iwpd2Slb01j64FnS/raCTlEhfOzlM/xaDtDo3WM8RCpq5vp3vyWfYS9Tv7ct/jSus4
-	 NPoDR89HMhyV8IYt3tpqEZKMvJD+2M2W4FaUpqSo1LaY7pDQWbO3GSRh6vCwUEGj2b
-	 Lfp94mIRWogUqLMga7ZVuqjgd/gaWn84MRSDN+bTOdNkf8sI6x9aOuTBrBZSl2Gz3t
-	 /Tt2Ycbk3TOIuxhitFF0yw3fb87xOUBSD/jHyhcFNiky1W6eolkvkqYX/9nvgNZ8q6
-	 W/SThFGBkyBWQ==
-Date: Thu, 20 Nov 2025 10:02:40 -0800
+	b=q4Id5sV4e/aEHygXHtwDUuJb9K7fo6737hS4A8nkmr2s5pio5jV+y5XEIFiWxx35N
+	 01ed5YUwrnT5Wa42QXSe8zV/C+zpIwRZueBhMBy6r9nJhsirvoNJf4mB+yFNELRGjB
+	 8K/pYs7UoaQIcF09ztmIJF7GQvbMJIsWtg2yjGrpBRogPd3JZOh2iwWZljbuLJCkJl
+	 ZWlOSeTevj2cncGYYnIuXj4fEt8lc2gLejBUvMWXNbOMJ1+Buc+JdP6Ne2pP09fGEQ
+	 A58Ge1caOPNqI0sHTOAOIZ+PR+xgCZwqQc4IZNmk+yLgzDSZGmqU2Y3Ex3+efDD6j3
+	 jDUF8aw7/D7KQ==
+Date: Thu, 20 Nov 2025 17:48:29 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: =?UTF-8?B?QXNiasO4cm4=?= Sloth =?UTF-8?B?VMO4bm5lc2Vu?=
  <ast@fiberby.net>
@@ -57,10 +57,11 @@ Cc: Donald Hunter <donald.hunter@gmail.com>, "Jason A. Donenfeld"
  <trondmy@kernel.org>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, Willem
  de Bruijn <willemb@google.com>
 Subject: Re: [PATCH net-next 2/2] tools: ynl-gen: add regeneration comment
-Message-ID: <20251120100240.1e80c65f@kernel.org>
-In-Reply-To: <20251120174429.390574-3-ast@fiberby.net>
+Message-ID: <20251120174829.2e9c44a7@kernel.org>
+In-Reply-To: <20251120100240.1e80c65f@kernel.org>
 References: <20251120174429.390574-1-ast@fiberby.net>
 	<20251120174429.390574-3-ast@fiberby.net>
+	<20251120100240.1e80c65f@kernel.org>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -70,15 +71,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 20 Nov 2025 17:44:27 +0000 Asbj=C3=B8rn Sloth T=C3=B8nnesen wrote:
-> Add a comment on regeneration to the generated files.
+On Thu, 20 Nov 2025 10:02:40 -0800 Jakub Kicinski wrote:
+> On Thu, 20 Nov 2025 17:44:27 +0000 Asbj=C3=B8rn Sloth T=C3=B8nnesen wrote:
+> > Add a comment on regeneration to the generated files.
+> >=20
+> > The comment is placed after the YNL-GEN line[1], as to not interfere
+> > with ynl-regen.sh's detection logic.
+> >=20
+> > [1] and after the optional YNL-ARG line. =20
 >=20
-> The comment is placed after the YNL-GEN line[1], as to not interfere
-> with ynl-regen.sh's detection logic.
->=20
-> [1] and after the optional YNL-ARG line.
+> Let's make this comment also optional? Detect whether it's there=20
+> in the bash script and pass appropriate flag to C gen?
 
-Let's make this comment also optional? Detect whether it's there=20
-in the bash script and pass appropriate flag to C gen?
---=20
-pw-bot: cr
+Raced responding with Matthieu. Sounds like a strong signal that this
+is useful, so let's keep the patch as is. I'll revive it in pw.

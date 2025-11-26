@@ -1,97 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA7D329375
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 26 Nov 2025 13:53:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FAE217648
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 26 Nov 2025 15:36:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764165225; cv=none; b=m5rp/ZO/T6cmVVzfzK4U1tfKVkEB2GfGJbdlMlLWM+8DFrmsK4/c4h+9ZveSifG5OwvwHwjJpodvHtxKNONQbMZGVFNGcMOash71I9K76KwgYmLyKZOuOYE2us/1p9ebxdYHis1t9uHgDyMtt8w+WeBY5OpLksjEqSVROwYGHWU=
+	t=1764171414; cv=none; b=lzO67bobF/MYwjDKqQ3//9JF2QiFdMUZmXmMi7zj7IoNPcRelYNtQuUeelqKZANZrtpHPauyaEaYmUwQNd9kVyHCMmjA3Cy1SwsUIslHs1HCSdsN7eOv2LWM49avus8b3Pvm/kscs0l1H50ikSja59Go8qlNlNEiPnZtv9TfFPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764165225; c=relaxed/simple;
-	bh=c0DgwlbVSTP3zHIBRSRfKUQZpFA9iWvV/kTmuLI7gog=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=mbWkfwye9zwlWIyHXloFYlI+nVtWjDk5zYUmWULJI9SnJAvfzz0CYvnLagfXnrFIv5QuC5nCvdDSzotZxPO5qk7e4JxRlK/5WcB5LO5uhu+gAvYA+VCRgvvlpabe6y6MLhVKpYGY/De1bi3Xs0p61kdWVwaofzbPUPyaAYwGdF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d6F6//x/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764171414; c=relaxed/simple;
+	bh=gdIE+W7373qxEdaFb+oGuYsohRkWV6yVF7uo8K2icEY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jHlBr1XZyGaG91/TBXmeHtUPA722nm+0MIKk/mu3qZiIOymMfqCmOEMR2f0ohlX755af7GkG4l21ZmobqeyAhKvAvuYKF74RgWXSaeFiPUYMU1hGp78jt7D/CcWRNvHRF1WDUh7Ub1nEUYiDcSXUr+S8sZSR56H93Wt80SgJ7HM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d4UykHXq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d6F6//x/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42719C4CEF7;
-	Wed, 26 Nov 2025 13:53:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d4UykHXq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A7C6C116B1;
+	Wed, 26 Nov 2025 15:36:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764165224;
-	bh=c0DgwlbVSTP3zHIBRSRfKUQZpFA9iWvV/kTmuLI7gog=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=d6F6//x/yI2WR5Zr5pppysvZqlZyU/dyRljrYiLdxBEUYKSb/NIc7MNU11wpaO4Vc
-	 FwJEeTf0LGCedhhHxpDLvdGrdceucw++yPXefaZfSjmJNbxeU3E9SCbOo7ncKhdDX+
-	 owslTjCHx+SHaPTHIR46TDsgxMFGqCXzyDJXA303rWDRXUMzWLngw5iLxTjAX2Wb9w
-	 kLgtkopIEjT0pmUW2vbdXOVB05FSRN7hkBQZhExUlYt6n0afo2r7BnTDjPug/kJdrV
-	 +wiCtyA8xmoBLFzroiqpdTjtzf6DcDJEPhlsFicoZHSOIL9fH0hyvQ1Y1nE/DX8hEH
-	 Pjph/h8bnzznA==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 65669F40068;
-	Wed, 26 Nov 2025 08:53:43 -0500 (EST)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Wed, 26 Nov 2025 08:53:43 -0500
-X-ME-Sender: <xms:ZwYnae9_DooamkKwmEHtdBKzK5cEPR4AqmGLTKDTweLGtfT2f7QZcg>
-    <xme:ZwYnaZgGAN1xacl30N52vTGRqu0ykK8a4QQQEgKwmUSAHiJVpb6b8BBaqBBngr5GB
-    nqeiuimVvhrn05YOYuqOMWv7Jdih4DXkoh2adMqe2WQJyUbXQ9H6i0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvgeegheduucetufdoteggodetrf
+	s=k20201202; t=1764171413;
+	bh=gdIE+W7373qxEdaFb+oGuYsohRkWV6yVF7uo8K2icEY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d4UykHXq/6BIcndVPrJzkqkcabPD3UKehRg+0I2gM7D7Nsq5GrmO/bLwZ69Y+qbeP
+	 ktP+iLWOLRyvE1LYnonF1eatXUIHObptXNqKclcFqsFv3loL6fsRZjdppToXujDkJm
+	 xTetT7YefuFVzcl3T5FnP0/QkHz+3taOfY6+cONqrif/ID3Nk+Q0IGkBWjQC8I3bCk
+	 mxahnCT17dfyyErfQPy/xUV7nmC4vdvLXxS7ghutGA4O+JIoWWhKKZs7sGQAkW3Dsx
+	 RHdLqg24IKdMWowwGiG20Sfu31XXVu44FBq9hJc1dB3XnVyWwL3M6HH/NRdkQ0YxSX
+	 2W3Xlyeods5hA==
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 8D71FF4006B;
+	Wed, 26 Nov 2025 10:36:52 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Wed, 26 Nov 2025 10:36:52 -0500
+X-ME-Sender: <xms:lB4naf2F2onIyJGu_-aeAYiAyGyrmdybClGuRLwqUnqGKNxb2S9dKQ>
+    <xme:lB4naVhSeqNYN5q9FRNkUxld7bcsuYawh81mpQmD1bIGSYYblo-kWzGNXsnf_pO29
+    r71v5u_PGmJR3J2WBis6kpmdZHqVZzYZCdGgxk1HVuaMPXkXKMnOPY>
+X-ME-Received: <xmr:lB4nadQnru4ohwWB1A79QBYl9nc2ZzAzZmVU-T52I20irF-xc4TNvxsmxuw9Lug-VoUnVtbhm6VQbA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvgeegjedvucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
-    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
-    hnpeejvefhudehleetvdejhfejvefghfelgeejvedvgfduuefffeegtdejuefhiedukeen
-    ucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomheptghhuhgtkhhlvghvvghrodhmvghsmhhtphgruhht
-    hhhpvghrshhonhgrlhhithihqdduieefgeelleelheelqdefvdelkeeggedvfedqtggvlh
-    eppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthho
-    peefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegsrhgruhhnvghrsehkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopegurghnrdgtrghrphgvnhhtvghrsehlihhnrghrohdr
-    ohhrghdprhgtphhtthhopehkvghrnhgvlhdqthhlshdqhhgrnhgushhhrghkvgeslhhish
-    htshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:ZwYnaY7RTSsMRAr-s1vwjJb13YD_Ko7WSDvpL9ptKVEHgh3fGNpxGA>
-    <xmx:ZwYnaRpRGpbnNg7IMhXPUiNwcnir1r2SwbqsOdrGYl4xqGtFaHA69A>
-    <xmx:ZwYnaahfa0gajXHUv7Y6JypNG4XbK6RU3Qn_xz5X-td_r_Oi63kX_A>
-    <xmx:ZwYnabIrGjeyZJ5s1xJK6EQBx1XIHpUUe5DvI3IPLdr_4yYlnRrPvw>
-    <xmx:ZwYnaaCQUQvM6O7r5H74U8v4zMTmCmzjSDW5MKVRenxjyLOMyW5TeunX>
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvehhuhgtkhcu
+    nfgvvhgvrhcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnhepve
+    eivddugfeuuddugffgfeehveeltdehiefghedvieeukeeujeetjedtffehtdelnecuffho
+    mhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpegthhhutghklhgvvhgvrhdomhgvshhmthhprghuthhhphgv
+    rhhsohhnrghlihhthidqudeifeegleelleehledqfedvleekgeegvdefqdgtvghlpeepkh
+    gvrhhnvghlrdhorhhgsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthhtohepfedp
+    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepsghrrghunhgvrheskhgvrhhnvghlrd
+    horhhgpdhrtghpthhtohepkhgvrhhnvghlqdhtlhhsqdhhrghnughshhgrkhgvsehlihhs
+    thhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepuggrnhdrtggrrhhpvghnthgvrheslh
+    hinhgrrhhordhorhhg
+X-ME-Proxy: <xmx:lB4naejwKZAkXkKuLXKroLy9YUhKRIamGH8ewRoTRzebQIStG6-tiA>
+    <xmx:lB4naV5-jcBWisfynsvWLhStwstcTtSvf_PvcMkpkcqVKWO3T5Iw5A>
+    <xmx:lB4naTDDACniMh34VWkoBohZKOEGrU53tWp-J3BTcxxI3nT5A5iafw>
+    <xmx:lB4naUZFwyLYD7cQwUDCHMmB5Kzi2eLETeluE22f6xlpQMvBSzD3Xg>
+    <xmx:lB4naWYjGDFFsSL6_sj0Ch4QQELbD8jWeDSvTbVMAnQ8s2DAjwZBnJWY>
 Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 24C4B780054; Wed, 26 Nov 2025 08:53:43 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 26 Nov 2025 10:36:52 -0500 (EST)
+Date: Wed, 26 Nov 2025 10:36:50 -0500
+From: Chuck Lever <cel@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: kernel-tls-handshake@lists.linux.dev,
+	Dan Carpenter <dan.carpenter@linaro.org>
+Subject: Re: [bug report] net/handshake: convert handshake_nl_accept_doit()
+ to FD_PREPARE()
+Message-ID: <aScekpuOYHRM9uOd@morisot.1015granger.net>
+References: <aSa65GzoGY-E6OYt@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AElR_IUDdpBc
-Date: Wed, 26 Nov 2025 08:53:22 -0500
-From: "Chuck Lever" <cel@kernel.org>
-To: "Dan Carpenter" <dan.carpenter@linaro.org>,
- "Christian Brauner" <brauner@kernel.org>
-Cc: kernel-tls-handshake@lists.linux.dev
-Message-Id: <4fbc4f88-2040-4c7d-b018-7cf69d371105@app.fastmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <aSa65GzoGY-E6OYt@stanley.mountain>
-References: <aSa65GzoGY-E6OYt@stanley.mountain>
-Subject: Re: [bug report] net/handshake: convert handshake_nl_accept_doit() to
- FD_PREPARE()
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
 
-
-
-On Wed, Nov 26, 2025, at 3:31 AM, Dan Carpenter wrote:
+On Wed, Nov 26, 2025 at 11:31:32AM +0300, Dan Carpenter wrote:
 > Hello Christian Brauner,
->
+> 
 > Commit 214ab7edf554 ("net/handshake: convert
 > handshake_nl_accept_doit() to FD_PREPARE()") from Nov 23, 2025
 > (linux-next), leads to the following Smatch static checker warning:
->
+> 
 > 	net/handshake/netlink.c:128 handshake_nl_accept_doit()
 > 	error: we previously assumed 'req' could be null (see line 109)
->
+> 
 > net/handshake/netlink.c
->     90 int handshake_nl_accept_doit(struct sk_buff *skb, struct 
-> genl_info *info)
+>     90 int handshake_nl_accept_doit(struct sk_buff *skb, struct genl_info *info)
 >     91 {
 >     92         struct net *net = sock_net(skb->sk);
 >     93         struct handshake_net *hn = handshake_pernet(net);
@@ -104,18 +100,16 @@ On Wed, Nov 26, 2025, at 3:31 AM, Dan Carpenter wrote:
 >     100                 goto out_status;
 >     101 
 >     102         err = -EINVAL;
->     103         if (GENL_REQ_ATTR_CHECK(info, 
-> HANDSHAKE_A_ACCEPT_HANDLER_CLASS))
+>     103         if (GENL_REQ_ATTR_CHECK(info, HANDSHAKE_A_ACCEPT_HANDLER_CLASS))
 >     104                 goto out_status;
->     105         class = 
-> nla_get_u32(info->attrs[HANDSHAKE_A_ACCEPT_HANDLER_CLASS]);
+>     105         class = nla_get_u32(info->attrs[HANDSHAKE_A_ACCEPT_HANDLER_CLASS]);
 >     106 
 >     107         err = -EAGAIN;
 >     108         req = handshake_req_next(hn, class);
 >     109         if (req) {
->
+> 
 > If handshake_req_next() returns NULL
->
+> 
 >     110                 sock = req->hr_sk->sk_socket;
 >     111 
 >     112                 FD_PREPARE(fdf, O_CLOEXEC, sock->file);
@@ -124,16 +118,12 @@ On Wed, Nov 26, 2025, at 3:31 AM, Dan Carpenter wrote:
 >     115                         goto out_complete;
 >     116                 }
 >     117 
->     118                 get_file(sock->file); /* FD_PREPARE() consumes 
-> a reference. */
->     119                 err = req->hr_proto->hp_accept(req, info, 
-> fd_prepare_fd(fdf));
+>     118                 get_file(sock->file); /* FD_PREPARE() consumes a reference. */
+>     119                 err = req->hr_proto->hp_accept(req, info, fd_prepare_fd(fdf));
 >     120                 if (err)
->     121                         goto out_complete; /* Automatic cleanup 
-> handles fput */
+>     121                         goto out_complete; /* Automatic cleanup handles fput */
 >     122 
->     123                 trace_handshake_cmd_accept(net, req, 
-> req->hr_sk, fd_prepare_fd(fdf));
+>     123                 trace_handshake_cmd_accept(net, req, req->hr_sk, fd_prepare_fd(fdf));
 >     124                 return fd_publish(fdf);
 >     125         }
 >     126 
@@ -141,24 +131,33 @@ On Wed, Nov 26, 2025, at 3:31 AM, Dan Carpenter wrote:
 > --> 128         handshake_complete(req, -EIO, NULL);
 >                                    ^^^
 > then this will crash.
->
+> 
 >     129 out_status:
 >     130         trace_handshake_cmd_accept_err(net, req, NULL, err);
 >     131         return err;
 >     132 }
->
+> 
 > regards,
 > dan carpenter
+> 
+
+Following up with a review comment or two, based on:
 
 https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/net/handshake/netlink.c?id=0f3d7fa5007a11d8a0eab88c970086363afb1564
 
-I've searched the netdev@ archive on lore, and don't see this
-commit. Neither is it in netdev-next.
+The original code followed the preferred early exit / early return
+kernel style. The new version inverts this by wrapping the success
+path inside:
 
-I'm a little concerned that a change to net/handshake/netlink.c
-was never sent to any of its listed maintainers for review or
-Acked-by.
+  if (req) { ... }
 
+instead of checking
+
+  if (!req)
+    goto out;
+
+and then continuing the main execution flow at the base indentation
+level. Is there a reason the original style needs to be abandoned?
 
 -- 
 Chuck Lever

@@ -1,163 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FAE217648
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 26 Nov 2025 15:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A8626CE23
+	for <kernel-tls-handshake@lists.linux.dev>; Thu, 27 Nov 2025 13:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764171414; cv=none; b=lzO67bobF/MYwjDKqQ3//9JF2QiFdMUZmXmMi7zj7IoNPcRelYNtQuUeelqKZANZrtpHPauyaEaYmUwQNd9kVyHCMmjA3Cy1SwsUIslHs1HCSdsN7eOv2LWM49avus8b3Pvm/kscs0l1H50ikSja59Go8qlNlNEiPnZtv9TfFPk=
+	t=1764249141; cv=none; b=dXkj5yRx+c04gGU/aarohScWGfmW671X5d6aK0lnKG/YvfvHuJ9HR+cx7QV0QO++J7YyvUQCRkGh1kkIH1iOW1J340xIFayryX1LhdpVlipP7g0fk7WJwL5SyQsEMk/z5IG4YGM6s7+sil27+O21fFI71DYQhoqXAK8XIvSqy6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764171414; c=relaxed/simple;
-	bh=gdIE+W7373qxEdaFb+oGuYsohRkWV6yVF7uo8K2icEY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jHlBr1XZyGaG91/TBXmeHtUPA722nm+0MIKk/mu3qZiIOymMfqCmOEMR2f0ohlX755af7GkG4l21ZmobqeyAhKvAvuYKF74RgWXSaeFiPUYMU1hGp78jt7D/CcWRNvHRF1WDUh7Ub1nEUYiDcSXUr+S8sZSR56H93Wt80SgJ7HM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d4UykHXq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764249141; c=relaxed/simple;
+	bh=k/wtGNkoBswZG5c+ttQTy9CE/ckOgp8Wd5qCrYhXrj0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qAB++hrX+X/4WfKYBDBm8PUzsmQJl/32UNx7fMFNRIZZ15wvYjcDi5K52Tb2OvQNS79gZXeDheq3i5Nujgs0Z3CAwZtaOH5odTvTPHGopsFDoau6358ViStdmGyq1yGeryq7pD2TnKjE+vSihwGtRFstRgM7CzRfDajmPWpCZvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Q7LZT069; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KqxWqbxC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iwwxgqLh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sEtM4pKd; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d4UykHXq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A7C6C116B1;
-	Wed, 26 Nov 2025 15:36:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764171413;
-	bh=gdIE+W7373qxEdaFb+oGuYsohRkWV6yVF7uo8K2icEY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d4UykHXq/6BIcndVPrJzkqkcabPD3UKehRg+0I2gM7D7Nsq5GrmO/bLwZ69Y+qbeP
-	 ktP+iLWOLRyvE1LYnonF1eatXUIHObptXNqKclcFqsFv3loL6fsRZjdppToXujDkJm
-	 xTetT7YefuFVzcl3T5FnP0/QkHz+3taOfY6+cONqrif/ID3Nk+Q0IGkBWjQC8I3bCk
-	 mxahnCT17dfyyErfQPy/xUV7nmC4vdvLXxS7ghutGA4O+JIoWWhKKZs7sGQAkW3Dsx
-	 RHdLqg24IKdMWowwGiG20Sfu31XXVu44FBq9hJc1dB3XnVyWwL3M6HH/NRdkQ0YxSX
-	 2W3Xlyeods5hA==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 8D71FF4006B;
-	Wed, 26 Nov 2025 10:36:52 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Wed, 26 Nov 2025 10:36:52 -0500
-X-ME-Sender: <xms:lB4naf2F2onIyJGu_-aeAYiAyGyrmdybClGuRLwqUnqGKNxb2S9dKQ>
-    <xme:lB4naVhSeqNYN5q9FRNkUxld7bcsuYawh81mpQmD1bIGSYYblo-kWzGNXsnf_pO29
-    r71v5u_PGmJR3J2WBis6kpmdZHqVZzYZCdGgxk1HVuaMPXkXKMnOPY>
-X-ME-Received: <xmr:lB4nadQnru4ohwWB1A79QBYl9nc2ZzAzZmVU-T52I20irF-xc4TNvxsmxuw9Lug-VoUnVtbhm6VQbA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvgeegjedvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvehhuhgtkhcu
-    nfgvvhgvrhcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnhepve
-    eivddugfeuuddugffgfeehveeltdehiefghedvieeukeeujeetjedtffehtdelnecuffho
-    mhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpegthhhutghklhgvvhgvrhdomhgvshhmthhprghuthhhphgv
-    rhhsohhnrghlihhthidqudeifeegleelleehledqfedvleekgeegvdefqdgtvghlpeepkh
-    gvrhhnvghlrdhorhhgsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthhtohepfedp
-    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepsghrrghunhgvrheskhgvrhhnvghlrd
-    horhhgpdhrtghpthhtohepkhgvrhhnvghlqdhtlhhsqdhhrghnughshhgrkhgvsehlihhs
-    thhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepuggrnhdrtggrrhhpvghnthgvrheslh
-    hinhgrrhhordhorhhg
-X-ME-Proxy: <xmx:lB4naejwKZAkXkKuLXKroLy9YUhKRIamGH8ewRoTRzebQIStG6-tiA>
-    <xmx:lB4naV5-jcBWisfynsvWLhStwstcTtSvf_PvcMkpkcqVKWO3T5Iw5A>
-    <xmx:lB4naTDDACniMh34VWkoBohZKOEGrU53tWp-J3BTcxxI3nT5A5iafw>
-    <xmx:lB4naUZFwyLYD7cQwUDCHMmB5Kzi2eLETeluE22f6xlpQMvBSzD3Xg>
-    <xmx:lB4naWYjGDFFsSL6_sj0Ch4QQELbD8jWeDSvTbVMAnQ8s2DAjwZBnJWY>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 26 Nov 2025 10:36:52 -0500 (EST)
-Date: Wed, 26 Nov 2025 10:36:50 -0500
-From: Chuck Lever <cel@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: kernel-tls-handshake@lists.linux.dev,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Subject: Re: [bug report] net/handshake: convert handshake_nl_accept_doit()
- to FD_PREPARE()
-Message-ID: <aScekpuOYHRM9uOd@morisot.1015granger.net>
-References: <aSa65GzoGY-E6OYt@stanley.mountain>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Q7LZT069";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KqxWqbxC";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iwwxgqLh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sEtM4pKd"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7F222336F2;
+	Thu, 27 Nov 2025 13:12:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764249137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P8UOz1lx4bQABnsPJotRzictXM7dsqgfz1cF/UHESVg=;
+	b=Q7LZT069FGyDoauMgZjTpX8sfA0cmHnyhroJrgnuIMgAqej0qJ0QcmTT0uTZYWQDT5rj/K
+	1osMPlbrxbqvRnErpCN3fRop7u871wW9q6XO0t0nfKA6z17NrJZqZEVoQWp+zVoyOcTDAL
+	3yiS+DqdppC1LpqoH6kJ2BDgraETCeE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764249137;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P8UOz1lx4bQABnsPJotRzictXM7dsqgfz1cF/UHESVg=;
+	b=KqxWqbxC3GMWFx+kNR0xS0/5PUETZtYhGNkDMkvUq8sJH5JzzIJ2noF8Abm6rKMstgm0YX
+	TQCBAQBS19K/D9BQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1764249136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P8UOz1lx4bQABnsPJotRzictXM7dsqgfz1cF/UHESVg=;
+	b=iwwxgqLhraQyZbIG2ojZtyTwjTMPJrNHf/cJSiCsF3PeF5J4lFZ1owgZUY1/9kQN5EwLEi
+	UHnbwUKh+4XUC9UuKyiGMz1XMZHjmdV5PqHZ/I1SZbsaeHbDLaUA6YOtXmxxvZDriCz3tN
+	i82P0paxlmFoRxCNDp2L8OKm1aNS5MM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1764249136;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P8UOz1lx4bQABnsPJotRzictXM7dsqgfz1cF/UHESVg=;
+	b=sEtM4pKdE4gTvSNTpa3lJ+45lyyhG2KI9X/2BVsaIUCBIKdmzX3/5fKEf/I/Pg5azosv2B
+	hCF9MEtAQJOHqoBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3CD163EA63;
+	Thu, 27 Nov 2025 13:12:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id PqFPDjBOKGl3PgAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 27 Nov 2025 13:12:16 +0000
+Message-ID: <bd570dbc-2844-4720-8a19-a9d508a1e365@suse.de>
+Date: Thu, 27 Nov 2025 14:12:15 +0100
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aSa65GzoGY-E6OYt@stanley.mountain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 4/6] net/handshake: Support KeyUpdate message types
+To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+ kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
+References: <20251112042720.3695972-1-alistair.francis@wdc.com>
+ <20251112042720.3695972-5-alistair.francis@wdc.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20251112042720.3695972-5-alistair.francis@wdc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 
-On Wed, Nov 26, 2025 at 11:31:32AM +0300, Dan Carpenter wrote:
-> Hello Christian Brauner,
+On 11/12/25 05:27, alistair23@gmail.com wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
 > 
-> Commit 214ab7edf554 ("net/handshake: convert
-> handshake_nl_accept_doit() to FD_PREPARE()") from Nov 23, 2025
-> (linux-next), leads to the following Smatch static checker warning:
+> When reporting the msg-type to userspace let's also support reporting
+> KeyUpdate events. This supports reporting a client/server event and if
+> the other side requested a KeyUpdateRequest.
 > 
-> 	net/handshake/netlink.c:128 handshake_nl_accept_doit()
-> 	error: we previously assumed 'req' could be null (see line 109)
+> Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+> v5:
+>   - Drop clientkeyupdaterequest and serverkeyupdaterequest
+> v4:
+>   - Don't overload existing functions, instead create new ones
+> v3:
+>   - Fixup yamllint and kernel-doc failures
 > 
-> net/handshake/netlink.c
->     90 int handshake_nl_accept_doit(struct sk_buff *skb, struct genl_info *info)
->     91 {
->     92         struct net *net = sock_net(skb->sk);
->     93         struct handshake_net *hn = handshake_pernet(net);
->     94         struct handshake_req *req = NULL;
->     95         struct socket *sock;
->     96         int class, err;
->     97 
->     98         err = -EOPNOTSUPP;
->     99         if (!hn)
->     100                 goto out_status;
->     101 
->     102         err = -EINVAL;
->     103         if (GENL_REQ_ATTR_CHECK(info, HANDSHAKE_A_ACCEPT_HANDLER_CLASS))
->     104                 goto out_status;
->     105         class = nla_get_u32(info->attrs[HANDSHAKE_A_ACCEPT_HANDLER_CLASS]);
->     106 
->     107         err = -EAGAIN;
->     108         req = handshake_req_next(hn, class);
->     109         if (req) {
+>   Documentation/netlink/specs/handshake.yaml | 16 ++++-
+>   drivers/nvme/host/tcp.c                    | 15 +++-
+>   drivers/nvme/target/tcp.c                  | 10 ++-
+>   include/net/handshake.h                    |  6 ++
+>   include/uapi/linux/handshake.h             | 11 +++
+>   net/handshake/tlshd.c                      | 83 +++++++++++++++++++++-
+>   6 files changed, 133 insertions(+), 8 deletions(-)
 > 
-> If handshake_req_next() returns NULL
-> 
->     110                 sock = req->hr_sk->sk_socket;
->     111 
->     112                 FD_PREPARE(fdf, O_CLOEXEC, sock->file);
->     113                 if (fdf.err) {
->     114                         err = fdf.err;
->     115                         goto out_complete;
->     116                 }
->     117 
->     118                 get_file(sock->file); /* FD_PREPARE() consumes a reference. */
->     119                 err = req->hr_proto->hp_accept(req, info, fd_prepare_fd(fdf));
->     120                 if (err)
->     121                         goto out_complete; /* Automatic cleanup handles fput */
->     122 
->     123                 trace_handshake_cmd_accept(net, req, req->hr_sk, fd_prepare_fd(fdf));
->     124                 return fd_publish(fdf);
->     125         }
->     126 
->     127 out_complete:
-> --> 128         handshake_complete(req, -EIO, NULL);
->                                    ^^^
-> then this will crash.
-> 
->     129 out_status:
->     130         trace_handshake_cmd_accept_err(net, req, NULL, err);
->     131         return err;
->     132 }
-> 
-> regards,
-> dan carpenter
-> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Following up with a review comment or two, based on:
+Cheers,
 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/net/handshake/netlink.c?id=0f3d7fa5007a11d8a0eab88c970086363afb1564
-
-The original code followed the preferred early exit / early return
-kernel style. The new version inverts this by wrapping the success
-path inside:
-
-  if (req) { ... }
-
-instead of checking
-
-  if (!req)
-    goto out;
-
-and then continuing the main execution flow at the base indentation
-level. Is there a reason the original style needs to be abandoned?
-
+Hannes
 -- 
-Chuck Lever
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich

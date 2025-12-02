@@ -1,271 +1,181 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1269623B61B
-	for <kernel-tls-handshake@lists.linux.dev>; Mon,  1 Dec 2025 23:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3032A191F91
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  2 Dec 2025 01:35:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764631665; cv=none; b=qva6fo7lW3gN7UINOA5jmBfM0tOJN/z0/EycDrJkUpH+d1GqM11/URmavZ3LWX/FIBSq4Z8ewR4/ZeHfZqDE6SXiwt8AYcQ6GS3saRRrRbjsE3sEDpIxbTCyvgDTEqeJNRgJNCaZif7xYhKEAYm+fWNjwIr07KxtioYZD+k5Gf0=
+	t=1764639307; cv=none; b=blhQdzoQqRQJDYFYIGMIYnzIXnV/XdqtO2NXeTbfFZrwegZGE7xjzWOdNy108goVmVzkn6qznqiBrdY5/8c6BqiuGBJNP+9biRfrSu96GxabDTRtOOLDtebMVQtAiFHpWrEwxINIMke5rOtnaHz7N/FeoXgewjfZkSf4BsybYt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764631665; c=relaxed/simple;
-	bh=2v7PUt3zWp+C6C2zHvV/eYFuT92dPOAzdkMDCQL1GT0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rQaoNgWwQdbivuc7Decy0IT3+LXpmCJAaRogxn/koTsPT4NBZnb4EPT50y887LzR/PhrwIg/ZHZrYxYOUIOlkdU1LD5ZxeCdOjf25MTCYncIXo+HoGDtf43cp/wqh+94CHDlhUu7Bz+R5c5xf1ZilMz5wnikWmir6A+pacneAz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MEog2cua; arc=none smtp.client-ip=209.85.218.46
+	s=arc-20240116; t=1764639307; c=relaxed/simple;
+	bh=QFsXnu9MdkgXAqXQJzYkeKJGZVvnPkPJKQ+sI7t/4I8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kWYE16ffG8CNpPoEMba9Cc3Ws6RRRgDy62uyPgqw4jV+MtGDqjKhLjl0OuFsV5/QbXP+b/eEWF4kjMhstfboMvlPSp5q3M72Nam9D5LfRR2x0Ugr2+GYzxtFa1Qxp8HdEFGJd6QnKoGxYozO5p6DcGofO3IeWlfvlP61O67cEcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YR4bUiX8; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MEog2cua"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b728a43e410so820800866b.1
-        for <kernel-tls-handshake@lists.linux.dev>; Mon, 01 Dec 2025 15:27:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YR4bUiX8"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-29844c68068so55027555ad.2
+        for <kernel-tls-handshake@lists.linux.dev>; Mon, 01 Dec 2025 17:35:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764631662; x=1765236462; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I5v1/VXYzTJjMPpWg21e/KcaL7VxnGFLf4XvfhndU1c=;
-        b=MEog2cuaqNuiKhVD5rfVMm5a1HobEGBAflScB70BKX6AKeJ0pbfoNgaIVy39hwsD+w
-         67mx6RpXV7SZ8pg0ViBfeDbM48Ye9Oi9uKAAzM9Tyj/tdEXcfGvxhBL0Yms6f9zLmIP5
-         hNsW60FvWEVGvraKOfejSKl7iT6Rg2oC+qtQHAJjvaLpUnmFmQ+j9cLVWG+lN1yw3G22
-         5e6s2rfvP4sd/rgn8eimImEm/wyau1HNGWr0ou4doucsksZ8z34qkingz53NXEQxdzpd
-         cv+dJPrMi4V7Ycd0p8nlEUAPyCPnY9A2aQvSvvGssUPlKuXNkwRZ70/whpy8evFSgeTk
-         HxCw==
+        d=gmail.com; s=20230601; t=1764639305; x=1765244105; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cOcMvyPGMcTIjq6QNdUg0HCwNMNqed1s4YiNfKDSxyU=;
+        b=YR4bUiX8VYSRDRkGMuAWWEwZxj5Yam3zMQHnJUdoooh3w+hj5IrNPrSHC2qVr7XqBW
+         gQpkcRULzrMP2yZ7d+BmuB+qc9t8YR0AmjOgMXj7SeeSq+/17WJ+KnPFVoRI6dZSiIEE
+         mB9989QW5tNDIfMmHuX7rAMeP5VbkGyivX3Bp5uDroMrtSEcXdfKEQjWcQ4J2ykI6A/+
+         FzlDtM9l0DdVBX94f1f2I0XQwA4TaGasIpujsEFp83V4N30L68AegkHPf3gAJ5gl8lAZ
+         JQYfrlQolvNmOBBK3a+rcZF6qw2A+lBHWlaogx3Tknaue2/A5kYoV38yNYzqgV2dBrdO
+         T5yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764631662; x=1765236462;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=I5v1/VXYzTJjMPpWg21e/KcaL7VxnGFLf4XvfhndU1c=;
-        b=bHRa2K0KNfbeSFeaM+g7QwFfg9wDfJ2TdRkTaeLJHB7gUf9zhM3BP/WVg2oKPGs898
-         4FVxxII9S45HA6VNwMqZ/9TGNVNU5cW/uFIANmzGTeCoECCKYHzThtIkB67MRlayLT9b
-         FU40NmhP/gfCcapob+WfUY+hzgC3E6b9d/2WjP/E9f/1+DbhtfhCUFBTRx0A8f85AzxI
-         FLDfHa8fQVssW41SzybMM/6o8Zy9fQh59MOvfCjM9TUzHbrN0+MG9JGwIeHfC76CrrN3
-         iKrB13A2LxKpjzlYs+mqs0dDTWZbWTUAEig9QEjAseOnugHOEpe1CypMCz7qLjzMxI/L
-         AQvg==
-X-Forwarded-Encrypted: i=1; AJvYcCUpWXLJlcUaqTuqBg0Mvvtj8vcUvGPO3mnkAZ0mkYm1t+oend2oZUhOZBIKXWzLME9H8jnJ2ZOjEx4DTVdCGFA/gHzszw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzPex7vuLpOC/xDdZ4hcqeE+BNNDzHrMV5oNIL/tFGKL2eN5AXe
-	1gmNq1ebP/EW97yB0RQJsoluICfI37G2jl+AepIJKgjIRK8Sj7UDuFBML92XNyKwa2gEH/1hpyQ
-	xum8S1oPnu6GKiRKWM9mwjEefnN+zkN4=
-X-Gm-Gg: ASbGncsWLCgNtxFagq7ihz4OXToSBFAoPSICH5c2BUaxYN0w58RI1vBX0f2ejLBqAgz
-	RpaoINUv3ZXccwiTUzFFYytzhvz1zlHGuh98H2pmTJi0GXyolNQdXN60Gg+tPZsjuwFvLRMZQuB
-	W3I8TKTIzuZX23lvjdeH1g0ZZAtAX8tCFkrykMdB7BG0ndYCcZxGbrRmW5TFv67H7VQ/I7jlCum
-	6uJsq5b+wzeczcNpZoidEMhCwqWOeitbE7yZXGfcFAtw1IBijC78Q6jZ5tnTX/lzZWG2cnpL0zv
-	GYt6FU/f66RLLVH21uAyz3p5Zw==
-X-Google-Smtp-Source: AGHT+IF9jmZyoLWFSx4hBdg0tZdsiQqccPSCxC9NjkJhrPQdxcaCTCtSHGJiP4lrMAOk35kCgFsaz5zURXiOG0ANOnM=
-X-Received: by 2002:a17:907:1b28:b0:b73:6f8c:612b with SMTP id
- a640c23a62f3a-b76715653d5mr4425120366b.16.1764631662278; Mon, 01 Dec 2025
- 15:27:42 -0800 (PST)
+        d=1e100.net; s=20230601; t=1764639305; x=1765244105;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cOcMvyPGMcTIjq6QNdUg0HCwNMNqed1s4YiNfKDSxyU=;
+        b=ZmbAn7k8crgKWu80a0fPJl3X1F4dujTOvXVcvTZan5YwGM5FYB1s1voCQHblGPFI9x
+         l59TSKKzMOlCbenLiFaUPvELVq6c26jgs0DawTWMe2NRfo2QXj6OqVEDHhOnQVpv7AJ7
+         m3EJ80207H9HztrZXoDZubvWsiJrbs0WYJL9Ddl7Zxhyi6BWkTX7/pkSHQ5g2H6LtONW
+         MOIk5zmwfXBMo8Oj93fwBdDDaGOl3te0p4kgYfUrOJRcJIzaWVuHbJ5AA8Om5Iei1QUM
+         ecCai8isgODaD5He8tTsL1wBpejbEhQUEPyhgsGwDbYlzOms+bVAfvoeZoz1ypoPhMvu
+         8hsw==
+X-Forwarded-Encrypted: i=1; AJvYcCWyFxTRao3pleNmhUkPkdTIysiRChiKbsMaTg0tl3OCkMpqrU+5jPkRUDFh0R7N0sODTDf2Ddj3iPZpe7O3l7nBrAQXZw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwYEFzc3MlsS5ZsqhU1KIvv/rV9EDAk7vUp+3bKcBQ7njSnPb6n
+	vhPvjQY1+kBfGmxcJIvrnwDJ4+FEar1a3ar/SK3kq0cMyhSXDTSlvyxB
+X-Gm-Gg: ASbGncuELIVOP8Wy3VT2OcJX5hoXcIKchl2J9/XG6VBncLeiR+L4aJYj3QzLPzjwVOt
+	+Dv+AKeBsWl1p7R3BgIGZ/GqYS6pjcms8CUacbVD5sX5UBwBq5QB1Usnovtr27xDqdPz9n4FHHc
+	ovixdk9TtOtetm06sD8GcOHTjUgOVDyle1MPmmfyjRqK4uvcW3z0+tv/OjQQHQsBO7zC/DQhEVH
+	4N1mQwiKZrrnB8q04WUA+3Wlly51Jw1znPCvqOX6J76St5uwR0cHMh2X0vlsJcgvNPX8hIyJSob
+	Hh5Pn5kBZW0b/Af1yURrPTE3uq60/C5ueDwfFK1fQ3vyHr+b6TKDjakCg5TNN5Da0TgGupbUTSY
+	27wEfCV7/zAq7qu/JrjIAgUDX8yCSLxnIzS6b/+dXTDhVDr9VKr9jsbo3EWTqCBr+reB40Q5bHm
+	nuSjheawodWPP/BMAbryLcgC4gPV7x3UdZNTIjUdNGMJAotqYSGnL2VDfGy1ZLw39YKwFMa1BsS
+	UrdO0c2Rf8YVLH4RsI=
+X-Google-Smtp-Source: AGHT+IG2js8otbv+uQSAe0fNFhmo5Bp5ciBaRf9d70pDhultX+GW+649FyeVTJlTc0iOHCrbLvVJdQ==
+X-Received: by 2002:a17:903:19c6:b0:271:479d:3de2 with SMTP id d9443c01a7336-29b6beac7fbmr426147885ad.13.1764639305257;
+        Mon, 01 Dec 2025 17:35:05 -0800 (PST)
+Received: from toolbx.alistair23.me (2403-580b-97e8-0-82ce-f179-8a79-69f4.ip6.aussiebb.net. [2403:580b:97e8:0:82ce:f179:8a79:69f4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bceb54563sm132378575ad.89.2025.12.01.17.34.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Dec 2025 17:35:04 -0800 (PST)
+From: alistair23@gmail.com
+X-Google-Original-From: alistair.francis@wdc.com
+To: chuck.lever@oracle.com,
+	hare@kernel.org,
+	kernel-tls-handshake@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
+	linux-nfs@vger.kernel.org
+Cc: kbusch@kernel.org,
+	axboe@kernel.dk,
+	hch@lst.de,
+	sagi@grimberg.me,
+	kch@nvidia.com,
+	hare@suse.de,
+	alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: [PATCH v6 0/5] nvme-tcp: Support receiving KeyUpdate requests
+Date: Tue,  2 Dec 2025 11:34:24 +1000
+Message-ID: <20251202013429.1199659-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251112042720.3695972-1-alistair.francis@wdc.com>
- <20251112042720.3695972-6-alistair.francis@wdc.com> <1184961b-5488-4150-b647-29ed363e2276@grimberg.me>
-In-Reply-To: <1184961b-5488-4150-b647-29ed363e2276@grimberg.me>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 2 Dec 2025 09:27:15 +1000
-X-Gm-Features: AWmQ_bk8CEM-2dviwMQHZxPcd6nv4bajHpJYpbv7ORWXtEq1tzS6ym3A8-DNYFg
-Message-ID: <CAKmqyKPe_o8Yaa0uNd-PeGgT1GONwuLxjATRHW9a-6DV7c=4nA@mail.gmail.com>
-Subject: Re: [PATCH v5 5/6] nvme-tcp: Support KeyUpdate
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: chuck.lever@oracle.com, hare@kernel.org, 
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
-	axboe@kernel.dk, hch@lst.de, kch@nvidia.com, hare@suse.de, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Dec 1, 2025 at 8:31=E2=80=AFAM Sagi Grimberg <sagi@grimberg.me> wro=
-te:
->
->
->
-> On 12/11/2025 6:27, alistair23@gmail.com wrote:
-> > From: Alistair Francis <alistair.francis@wdc.com>
-> >
-> > If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
-> > EKEYEXPIRED then the underlying TLS keys need to be updated. This occur=
-s
-> > on an KeyUpdate event as described in RFC8446
-> > https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3.
-> >
-> > If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
-> > allow the NVMe layer to process the KeyUpdate request and forward the
-> > request to userspace. Userspace must then update the key to keep the
-> > connection alive.
-> >
-> > This patch allows us to handle the NVMe target sending a KeyUpdate
-> > request without aborting the connection. At this time we don't support
-> > initiating a KeyUpdate.
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
->
-> I see this is on top of Hannes recvmsg patch. Worth noting in the patch
-> here at least.
->
-> > v5:
-> >   - Cleanup code flow
-> >   - Check for MSG_CTRUNC in the msg_flags return from recvmsg
-> >     and use that to determine if it's a control message
-> > v4:
-> >   - Remove all support for initiating KeyUpdate
-> >   - Don't call cancel_work() when updating keys
-> > v3:
-> >   - Don't cancel existing handshake requests
-> > v2:
-> >   - Don't change the state
-> >   - Use a helper function for KeyUpdates
-> >   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
-> >   - Remove command message using recvmsg
-> >
-> >   drivers/nvme/host/tcp.c | 85 +++++++++++++++++++++++++++++++++-------=
--
-> >   1 file changed, 70 insertions(+), 15 deletions(-)
-> >
-> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> > index 4797a4532b0d..5cec5a974bbf 100644
-> > --- a/drivers/nvme/host/tcp.c
-> > +++ b/drivers/nvme/host/tcp.c
-> > @@ -172,6 +172,7 @@ struct nvme_tcp_queue {
-> >       bool                    tls_enabled;
-> >       u32                     rcv_crc;
-> >       u32                     snd_crc;
-> > +     key_serial_t            handshake_session_id;
-> >       __le32                  exp_ddgst;
-> >       __le32                  recv_ddgst;
-> >       struct completion       tls_complete;
-> > @@ -858,7 +859,10 @@ static void nvme_tcp_handle_c2h_term(struct nvme_t=
-cp_queue *queue,
-> >   static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_queue *queue)
-> >   {
-> >       char *pdu =3D queue->pdu;
-> > +     char cbuf[CMSG_LEN(sizeof(char))] =3D {};
-> >       struct msghdr msg =3D {
-> > +             .msg_control =3D cbuf,
-> > +             .msg_controllen =3D sizeof(cbuf),
-> >               .msg_flags =3D MSG_DONTWAIT,
-> >       };
-> >       struct kvec iov =3D {
-> > @@ -873,12 +877,17 @@ static int nvme_tcp_recvmsg_pdu(struct nvme_tcp_q=
-ueue *queue)
-> >       if (ret <=3D 0)
-> >               return ret;
-> >
-> > +     hdr =3D queue->pdu;
-> > +     if (hdr->type =3D=3D TLS_HANDSHAKE_KEYUPDATE) {
-> > +             dev_err(queue->ctrl->ctrl.device, "KeyUpdate message\n");
-> > +             return 1;
-> > +     }
-> > +
-> >       queue->pdu_remaining -=3D ret;
-> >       queue->pdu_offset +=3D ret;
-> >       if (queue->pdu_remaining)
-> >               return 0;
-> >
-> > -     hdr =3D queue->pdu;
-> >       if (unlikely(hdr->hlen !=3D sizeof(struct nvme_tcp_rsp_pdu))) {
-> >               if (!nvme_tcp_recv_pdu_supported(hdr->type))
-> >                       goto unsupported_pdu;
-> > @@ -944,6 +953,7 @@ static int nvme_tcp_recvmsg_data(struct nvme_tcp_qu=
-eue *queue)
-> >       struct request *rq =3D
-> >               nvme_cid_to_rq(nvme_tcp_tagset(queue), pdu->command_id);
-> >       struct nvme_tcp_request *req =3D blk_mq_rq_to_pdu(rq);
-> > +     char cbuf[CMSG_LEN(sizeof(char))] =3D {};
-> >
-> >       if (nvme_tcp_recv_state(queue) !=3D NVME_TCP_RECV_DATA)
-> >               return 0;
-> > @@ -976,10 +986,26 @@ static int nvme_tcp_recvmsg_data(struct nvme_tcp_=
-queue *queue)
-> >
-> >               ret =3D sock_recvmsg(queue->sock, &msg, msg.msg_flags);
-> >               if (ret < 0) {
-> > -                     dev_err(queue->ctrl->ctrl.device,
-> > -                             "queue %d failed to receive request %#x d=
-ata",
-> > -                             nvme_tcp_queue_id(queue), rq->tag);
-> > -                     return ret;
-> > +                     /* If MSG_CTRUNC is set, it's a control message,
-> > +                      * so let's read the control message.
-> > +                      */
-> > +                     if (msg.msg_flags & MSG_CTRUNC) {
-> > +                             memset(&msg, 0, sizeof(msg));
-> > +                             msg.msg_flags =3D MSG_DONTWAIT;
-> > +                             msg.msg_control =3D cbuf;
-> > +                             msg.msg_controllen =3D sizeof(cbuf);
-> > +
-> > +                             ret =3D sock_recvmsg(queue->sock, &msg, m=
-sg.msg_flags);
-> > +                     }
-> > +
-> > +                     if (ret < 0) {
-> > +                             dev_dbg(queue->ctrl->ctrl.device,
-> > +                                     "queue %d failed to receive reque=
-st %#x data, %d",
-> > +                                     nvme_tcp_queue_id(queue), rq->tag=
-, ret);
-> > +                             return ret;
-> > +                     }
-> > +
-> > +                     return 0;
-> >               }
-> >               if (queue->data_digest)
-> >                       nvme_tcp_ddgst_calc(req, &queue->rcv_crc, ret);
-> > @@ -1384,15 +1410,39 @@ static int nvme_tcp_try_recvmsg(struct nvme_tcp=
-_queue *queue)
-> >               }
-> >       } while (result >=3D 0);
-> >
-> > -     if (result < 0 && result !=3D -EAGAIN) {
-> > -             dev_err(queue->ctrl->ctrl.device,
-> > -                     "receive failed:  %d\n", result);
-> > -             queue->rd_enabled =3D false;
-> > -             nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> > -     } else if (result =3D=3D -EAGAIN)
-> > -             result =3D 0;
-> > +     if (result < 0) {
-> > +             if (result !=3D -EKEYEXPIRED && result !=3D -EAGAIN) {
-> > +                     dev_err(queue->ctrl->ctrl.device,
-> > +                             "receive failed:  %d\n", result);
-> > +                     queue->rd_enabled =3D false;
-> > +                     nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> > +             }
-> > +             return result;
-> > +     }
-> > +
-> > +     queue->nr_cqe =3D nr_cqe;
-> > +     return nr_cqe;
-> > +}
-> > +
-> > +static void update_tls_keys(struct nvme_tcp_queue *queue)
-> > +{
-> > +     int qid =3D nvme_tcp_queue_id(queue);
-> > +     int ret;
-> > +
-> > +     dev_dbg(queue->ctrl->ctrl.device,
-> > +             "updating key for queue %d\n", qid);
-> >
-> > -     return result < 0 ? result : (queue->nr_cqe =3D nr_cqe);
-> > +     flush_work(&(queue->ctrl->ctrl).async_event_work);
-> > +
-> > +     ret =3D nvme_tcp_start_tls(&(queue->ctrl->ctrl),
-> > +                              queue, queue->ctrl->ctrl.tls_pskid,
-> > +                              HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
->
-> No need to quiesce the queue or anything like that? everything continues
-> as usual?
+From: Alistair Francis <alistair.francis@wdc.com>
 
-Everything just continues as usual. Besides a drop in throughput
-waiting for the KeyUpdate you don't notice it. For testing I trigger
-an update every 30 packets, it's slow but works
+The TLS 1.3 specification allows the TLS client or server to send a
+KeyUpdate. This is generally used when the sequence is about to
+overflow or after a certain amount of bytes have been encrypted.
 
-> Why are you flushing async_event_work?
+The TLS spec doesn't mandate the conditions though, so a KeyUpdate
+can be sent by the TLS client or server at any time. This includes
+when running NVMe-OF over a TLS 1.3 connection.
 
-I think that's just leftover from earlier, I'll remove it
+As such Linux should be able to handle a KeyUpdate event, as the
+other NVMe side could initiate a KeyUpdate.
 
-Alistair
+Upcoming WD NVMe-TCP hardware controllers implement TLS support
+and send KeyUpdate requests.
+
+This series builds on top of the existing TLS EKEYEXPIRED work,
+which already detects a KeyUpdate request. We can now pass that
+information up to the NVMe layer (target and host) and then pass
+it up to userspace.
+
+Userspace (ktls-utils) will need to save the connection state
+in the keyring during the initial handshake. The kernel then
+provides the key serial back to userspace when handling a
+KeyUpdate. Userspace can use this to restore the connection
+information and then update the keys, this final process
+is similar to the initial handshake.
+
+This series depends on the recvmsg() kernel patch:
+https://lore.kernel.org/linux-nvme/2cbe1350-0bf5-4487-be33-1d317cb73acf@suse.de/T/#mf56283228ae6c93e37dfbf1c0f6263910217cd80
+
+ktls-utils (tlshd) userspace patches are available at:
+https://lore.kernel.org/kernel-tls-handshake/CAKmqyKNpFhPtM8HAkgRMKQA8_N7AgoeqaSTe2=0spPnb+Oz2ng@mail.gmail.com/T/#mb277f5c998282666d0f41cc02f4abf516fcc4e9c
+
+Link: https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3
+
+Based-on: 2cbe1350-0bf5-4487-be33-1d317cb73acf@suse.de
+
+v6:
+ - Don't free handshake request on completion (handshake_sk_destruct_req())
+ - Add handshake_req_keyupdate() which reuses existing handshake request
+   for a KeyUpdate
+ - Other small improvements and tidyups
+v5:
+ - Cleanup code flow for nvme-tcp
+ - When using recvmsg in the host code first check for MSG_CTRUNC
+   in the msg_flags returned from recvmsg() and use that to determine
+   if it's a control message
+ - Drop clientkeyupdaterequest and serverkeyupdaterequest
+v4:
+ - Don't stop the keep-alive timer
+ - Remove any support for sending a KeyUpdate
+ - Add tls_client_keyupdate_psk()' and 'tls_server_keyupdate_psk()'
+ - Code cleanups
+ - Change order of patches
+v3:
+ - Rebase on the recvmsg() workflow patch
+ - Add debugfs support for the host
+ - Don't cancel an ongoing request
+ - Ensure a request is destructed on completion
+v2:
+ - Change "key-serial" to "session-id"
+ - Fix reported build failures
+ - Drop tls_clear_err() function
+ - Stop keep alive timer during KeyUpdate
+ - Drop handshake message decoding in the NVMe layer
+
+Alistair Francis (5):
+  net/handshake: Store the key serial number on completion
+  net/handshake: Define handshake_req_keyupdate
+  net/handshake: Support KeyUpdate message types
+  nvme-tcp: Support KeyUpdate
+  nvmet-tcp: Support KeyUpdate
+
+ Documentation/netlink/specs/handshake.yaml |  20 +-
+ Documentation/networking/tls-handshake.rst |   1 +
+ drivers/nvme/host/tcp.c                    | 111 ++++++++---
+ drivers/nvme/target/tcp.c                  | 213 ++++++++++++++-------
+ include/net/handshake.h                    |  11 +-
+ include/uapi/linux/handshake.h             |  12 ++
+ net/handshake/genl.c                       |   5 +-
+ net/handshake/handshake.h                  |   2 +
+ net/handshake/request.c                    |  95 +++++++++
+ net/handshake/tlshd.c                      |  97 +++++++++-
+ net/sunrpc/svcsock.c                       |   4 +-
+ net/sunrpc/xprtsock.c                      |   4 +-
+ 12 files changed, 480 insertions(+), 95 deletions(-)
+
+-- 
+2.51.1
+

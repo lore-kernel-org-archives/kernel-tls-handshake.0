@@ -1,65 +1,65 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372521494C2
-	for <kernel-tls-handshake@lists.linux.dev>; Tue,  2 Dec 2025 01:35:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E913221F1F
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  2 Dec 2025 01:35:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764639313; cv=none; b=pRNdPebotolXU91IqKyZRdh2d/QPbK9xPZSeqHlXZidnHTYAFBNCjocwr8fxyVPuFsLjvGEupXr4WYNInaPFbi5/gpafEkSvtKl7juK+VfUuBeTMjz+oYS5r4M4OMt1WM/S68GlG1iGrzNzdwRxUa4JT2P+05MovoMXlHzP1BVs=
+	t=1764639319; cv=none; b=NEFVO4yaDRH4JOTHLmYCcOTK+GBfNAa1m84ZPQpTbKVo2qRXkUoSxk4Sqnq+fHxANAbGOACV5oohgeIUP2NoHZut7m0rqwYUnVSYXqNCVTZZzNwHrbG3pd33sDs6Ck13HvpYFC8gLk3swT6Adjqm+3uZyvzmvPkHCMPsPJQEnVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764639313; c=relaxed/simple;
-	bh=hz26PoRu8wHYwcbPcNok7LEN/UGSvwxHbi/hTcXSdHQ=;
+	s=arc-20240116; t=1764639319; c=relaxed/simple;
+	bh=vxpkGccNVOzZnxnGt+XxGTh2tk/X17iKXQnOD/cPnrU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SCEHuhdfKxVMtTzCRLNjF4kSbkGPfh8kaJBN3ZQlWwYp/5TG3ZFd/umn2V5TNo2lkQq/GDRaE0IlDc2DyLelS/Fo3uN1g4p/c/dfXhBP+phYm6ne2ayihLKMck0oJ3iIzwKh0CbQmnkUjmjgU5ZS2Gk+KSR2phLSd6EpU7s0qu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nNarNSYr; arc=none smtp.client-ip=209.85.214.182
+	 MIME-Version; b=JyUE9Ulb33hDqIRqLmqzIcGoXl/LD/SeDeWqQH3Bw2VDJX+u4ok9khDYCUMQnVrjPEap7QU1Qg5y3ZDVSOVX/Wz+nlkqoectW5yFW+VIr4Q31rLmx0GzsW2mrC2v8uLqWFk6lNNziui497oMDPLvzERCeFWEfrqsh4/nT9PsulQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rfw15Zew; arc=none smtp.client-ip=209.85.215.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nNarNSYr"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-297d4a56f97so71079575ad.1
-        for <kernel-tls-handshake@lists.linux.dev>; Mon, 01 Dec 2025 17:35:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rfw15Zew"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-bcfd82f55ebso2289772a12.1
+        for <kernel-tls-handshake@lists.linux.dev>; Mon, 01 Dec 2025 17:35:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764639311; x=1765244111; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1764639317; x=1765244117; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kJvJhfPbnFYn3z6Y3dZFBcvJzRxMfFMy2X3buPGIRvg=;
-        b=nNarNSYrh5zzzQmurIagxXo19OR45Nj3JK99NXdy+ZRKTANYZW76vF2EyVJZy16pkq
-         ItilkZG+bp7eApbc3ly5AL9YMP+vJQlTvfPmfssxf0qMSZ2m53ei6TtfhxELoLTONZs9
-         vYY7QX9KQ8LLdBffGnYJzFs31vrz1+Rjsda76OyBeDg3sVGgYceVhUr/vd7ynp8iRsRb
-         I7GgLAM+aTazYV1a6+ymwq51zv0/Ka3rjVYLTOI7zVKxtGZFviURvWms1A8yprHavRXv
-         zTTqbQb15CnZ9W6bMXQC18zT1dFVuZ9xaBU4josrmpjk7XPMRq9N52CPaZwk1GNXxYFe
-         gVQw==
+        bh=czIyAwG2XcUYBMND32our9jihcE3M72DjVQfcH7wVb4=;
+        b=Rfw15ZewNR7bgm82euGgkDAb4WAnl2HSVMRhKliAPhA7B3Nd1Mai0uYHouPtJ4yeOJ
+         gx4d0wdoY5i3UZTC7J+PTAVSkyWZByV3LQhadir8b7WoRQWIAyfHmxB0+OtFEIIlhwwk
+         vr387MMwYuKFvCHvN1uEweY689zzHIFttHsLfUym6SRWv37fMyUK9WJwgSEzm1CrI2eg
+         UPCsDicc1eGeY/zbmXGurtqsKImB+P/5y4vIISU2jgYUELT0CPA9kENkTdMtxV1bArSA
+         XcMrVZJBQE2m0q6ag9r7PTrIhp4IdBwprPljGM9hc14XfwhBLwuY6R1up66JDmgyapA8
+         GtHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764639311; x=1765244111;
+        d=1e100.net; s=20230601; t=1764639317; x=1765244117;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=kJvJhfPbnFYn3z6Y3dZFBcvJzRxMfFMy2X3buPGIRvg=;
-        b=SVyTLeuBITDb/stnww5VwT059sJvdEOErBZSnJtEFZLiIfXl2JVCpR86NCWR33oxLV
-         beuwDQon99uO1IIG3HB5a1vaHlDsgyTGGBYV+oFpVgcJZfAHHVfFr+449vRb2Q+EO8sJ
-         HPq1eH9dPN8Sf/T8y0do2kYCKvLp8UrP/meEKNrXKbKv/dSZsxF4v6jAoGaiiScle9qr
-         ExqTaC/HNlzQtE9MIvsueSsEn33fEs5Hdhh5Snwatkh1inoBWxEjedqyM5bab4hQftVh
-         KWaE5bIVvcqTtDcDx+mScgfz0WyUrtb3nz4E3z8FNaIZAuCaIplDbiYQAtapeMxrh0En
-         A/6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWNPM4ead7+Fu1EpehPL8IEvjMytKRp3M8DjqY3zvvQQq9OpNS607UWFo3cfbEfm3CbPeFUpD4cRg3ZjwBHCYLlMj+8bg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxsnIVrCO9EJgSUOKeuYkYrsP+P5rthj4e8CSH1jtSeXAWktirj
-	mjNaOm9gK3eGcRP2Lvd5CPKFYMhejHsI+mrSbJeBz2qGSRBjSWfxoXQQ
-X-Gm-Gg: ASbGnctZtTBrC7JkrIcFFIX0j1rX24v2n/Ty+Eilp4eTjK6efmX5eHeSjcVi9SUqnZK
-	6+8VftVbXOkm5r+eTh9rKI2Y1WCuh3V2VcjfOC++Ju+r4ySsRq+eDv3HIO2WoqmziEHK+8i4IPe
-	7aN7I7EHLQy0V5a/RQazrhj0xcW94ykmq05zGHuCvURdf0xzrp+wf1K2mfvTd7fWssL5hI1qPzM
-	G4Afhaj8FEAltjZBaHE/ZuVjieBOQ2yhMGgJvI3wbgS+9z8Z6Px5yOcYvZ7eT40QgGbLDLU9bXd
-	hxNkh4LE1I0mcKbxWxwi4XpGXjLrXJEtuES82/E8W9U9Sx8qiSQZljZy6tNzFvsDeAOaeCDrH8f
-	CYaPyXeQa8yEUj7Rnr17s5GIJnnnLJngkdkXhzxA9pYShC0xsmYZyW5hIzIkLdpbz6gdB6Pzwvl
-	NUhQc970vpHqu1dZaoMZC6o0kscv4ccXx3vfJwwYHKPjwZpeKiGiENAN/jQpO+xftPNZsAAgHJc
-	93wEtSoGMZaQYrxaoc=
-X-Google-Smtp-Source: AGHT+IH83tJaSf6G3Voz30gvV9am+rP5Je0+3DRGMgD/fBbFGdbiYM3LHkSvkNZ0vjcndHQPHyhM1A==
-X-Received: by 2002:a17:903:37cd:b0:29a:2d0:c1b5 with SMTP id d9443c01a7336-29b6c4fc395mr396760085ad.22.1764639311213;
-        Mon, 01 Dec 2025 17:35:11 -0800 (PST)
+        bh=czIyAwG2XcUYBMND32our9jihcE3M72DjVQfcH7wVb4=;
+        b=soHgP25rghTgYMIw+qQ3+Ukrmf7Gnh0G+JoJ2DyHB/EqBxue+AdrK5hdjeQTRBQIhJ
+         Z3uk1062RPSqHT3fc/z06+HlKSLrSkfmWzu7WjL5DsUZh3qpS8NgVRHOoGAdhAVGI2+r
+         blEKWVLCno4VdrilIW/QxooP6JqLtG0joqyvIOS/I8nvSy9LJ0CG6ETZxMVa88qV5bB9
+         WePiZbjBGbPghk+N9aWOIF06lbcXcFJWT+JyG0kpDK02wWyWU2G6437euYjmmJKCynxM
+         2o8OHDHBVDHSdLQXCq3ABlX5RxKyAQMBaj4GV/7J6mRFL0XyGKYErtf65y78kZerFXkq
+         rwGg==
+X-Forwarded-Encrypted: i=1; AJvYcCX8Dh4HoZqoO2R+VMaNAEgzfX7vaMb+B18KgRkLaREPWZLPSP0RJqU7fAWjsURvfB30cEKJX5TF/VZN18bdI+Rkk6B4gA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxicwhOiqP6JlKCNSbSDJ+JihN+DukwY5Zw+jQB7X7GTCFQw4wl
+	zY+ood3vpxsC/bwMjPTihAT9N0+o8bhtlSQqVLWrNu5yw9TJw22e426U
+X-Gm-Gg: ASbGncvKl1wYlf9XrOZu0SbDMKGMEWXkqYkwdvtirczWcXv9vSmV35IUjnFAbIHAYIB
+	IxE9J8bOimPS3ld4as78SHJZY88/4J11pvQIChRW80iLlUfGronz3hSkH8qbGZHHCoir9AYSc90
+	3BnfIrKXLVMvG/P7vib4yFIe2Jp5BFbVEb4i5ppNuboQOoLjNIEwse8UKBcWQ3QxwenF2stTerC
+	kbXvHfXGaKTSY0yvDSnDwVG2TkePVjdnEYtVG4II3elqQWO3mN3KpYhKa67rhShndc+TysY7q2H
+	CWQqq33vIXPZL9+hJF/6rI7I6byi8paVmjj817J5gMuYYvJua2mnQaJ+uZzYojn05+lYiIChlFm
+	kP/VaHCiNY5jGHJFdgIMjZveDqG4eAPSseKJJzIJoE71Vf0koOer1pHXNodJPnXzBHAW6K71Ln6
+	yWzydGk5Ix15daVs9JbAthB7MKFaYkhtEUwDjzECSgleRcGd17bLsxERMx+6Y8Obfhp+khyE7BH
+	MvQ2xVeakXHq09XuIA=
+X-Google-Smtp-Source: AGHT+IEg+/N743oXcIq0ciRB44SxAmj3ck5rf7L8gATspDeLcAoYxScp44MI8ISyD4Zq0PaY2ptvmA==
+X-Received: by 2002:a17:903:1b03:b0:295:5da6:5ff7 with SMTP id d9443c01a7336-29d5a5379f5mr8003195ad.15.1764639317177;
+        Mon, 01 Dec 2025 17:35:17 -0800 (PST)
 Received: from toolbx.alistair23.me (2403-580b-97e8-0-82ce-f179-8a79-69f4.ip6.aussiebb.net. [2403:580b:97e8:0:82ce:f179:8a79:69f4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bceb54563sm132378575ad.89.2025.12.01.17.35.05
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bceb54563sm132378575ad.89.2025.12.01.17.35.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Dec 2025 17:35:10 -0800 (PST)
+        Mon, 01 Dec 2025 17:35:16 -0800 (PST)
 From: alistair23@gmail.com
 X-Google-Original-From: alistair.francis@wdc.com
 To: chuck.lever@oracle.com,
@@ -78,9 +78,9 @@ Cc: kbusch@kernel.org,
 	hare@suse.de,
 	alistair23@gmail.com,
 	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v6 1/5] net/handshake: Store the key serial number on completion
-Date: Tue,  2 Dec 2025 11:34:25 +1000
-Message-ID: <20251202013429.1199659-2-alistair.francis@wdc.com>
+Subject: [PATCH v6 2/5] net/handshake: Define handshake_req_keyupdate
+Date: Tue,  2 Dec 2025 11:34:26 +1000
+Message-ID: <20251202013429.1199659-3-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251202013429.1199659-1-alistair.francis@wdc.com>
 References: <20251202013429.1199659-1-alistair.francis@wdc.com>
@@ -94,262 +94,149 @@ Content-Transfer-Encoding: 8bit
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-Allow userspace to include a key serial number when completing a
-handshake with the HANDSHAKE_CMD_DONE command.
+Add a new handshake_req_keyupdate() function which is similar to the
+existing handshake_req_submit().
 
-We then store this serial number and will provide it back to userspace
-in the future. This allows userspace to save data to the keyring and
-then restore that data later.
+The new handshake_req_keyupdate() does not add the request to the hash
+table (unlike handshake_req_submit()) but instead uses the existing
+request from the initial handshake.
 
-This will be used to support the TLS KeyUpdate operation, as now
-userspace can resume information about a established session.
+During the initial handshake handshake_req_submit() will add the request
+to the hash table. The request will not be removed from the hash table
+unless the socket is closed (reference count hits zero).
+
+After the initial handshake handshake_req_keyupdate() can be used to re-use
+the existing request in the hash table to trigger a KeyUpdate with
+userspace.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Hannes Reincke <hare@suse.de>
-Reviewed-by: Chuck Lever <chuck.lever@oracle.com>
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 ---
 v6:
- - Add the "ta_" and "th_" prefixs
-v5:
- - Change name to "handshake session ID"
-v4:
- - No change
-v3:
- - No change
-v2:
- - Change "key-serial" to "session-id"
+ - New patch
 
- Documentation/netlink/specs/handshake.yaml |  4 ++++
- Documentation/networking/tls-handshake.rst |  1 +
- drivers/nvme/host/tcp.c                    |  3 ++-
- drivers/nvme/target/tcp.c                  |  3 ++-
- include/net/handshake.h                    |  5 ++++-
- include/uapi/linux/handshake.h             |  1 +
- net/handshake/genl.c                       |  5 +++--
- net/handshake/tlshd.c                      | 15 +++++++++++++--
- net/sunrpc/svcsock.c                       |  4 +++-
- net/sunrpc/xprtsock.c                      |  4 +++-
- 10 files changed, 36 insertions(+), 9 deletions(-)
+ net/handshake/handshake.h |  2 +
+ net/handshake/request.c   | 95 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 97 insertions(+)
 
-diff --git a/Documentation/netlink/specs/handshake.yaml b/Documentation/netlink/specs/handshake.yaml
-index 95c3fade7a8d..a273bc74d26f 100644
---- a/Documentation/netlink/specs/handshake.yaml
-+++ b/Documentation/netlink/specs/handshake.yaml
-@@ -87,6 +87,9 @@ attribute-sets:
-         name: remote-auth
-         type: u32
-         multi-attr: true
-+      -
-+        name: session-id
-+        type: u32
- 
- operations:
-   list:
-@@ -123,6 +126,7 @@ operations:
-             - status
-             - sockfd
-             - remote-auth
-+            - session-id
- 
- mcast-groups:
-   list:
-diff --git a/Documentation/networking/tls-handshake.rst b/Documentation/networking/tls-handshake.rst
-index 6f5ea1646a47..c58b3c8b16c1 100644
---- a/Documentation/networking/tls-handshake.rst
-+++ b/Documentation/networking/tls-handshake.rst
-@@ -60,6 +60,7 @@ fills in a structure that contains the parameters of the request:
-         key_serial_t    ta_my_privkey;
-         unsigned int    ta_num_peerids;
-         key_serial_t    ta_my_peerids[5];
-+        key_serial_t    ta_handshake_session_id;
-   };
- 
- The @ta_sock field references an open and connected socket. The consumer
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index 9058ea64b89c..024d02248831 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -1694,7 +1694,8 @@ static void nvme_tcp_set_queue_io_cpu(struct nvme_tcp_queue *queue)
- 		qid, queue->io_cpu);
+diff --git a/net/handshake/handshake.h b/net/handshake/handshake.h
+index a48163765a7a..04feacd1e21d 100644
+--- a/net/handshake/handshake.h
++++ b/net/handshake/handshake.h
+@@ -84,6 +84,8 @@ void handshake_req_hash_destroy(void);
+ void *handshake_req_private(struct handshake_req *req);
+ struct handshake_req *handshake_req_hash_lookup(struct sock *sk);
+ struct handshake_req *handshake_req_next(struct handshake_net *hn, int class);
++int handshake_req_keyupdate(struct socket *sock, struct handshake_req *req,
++			 gfp_t flags);
+ int handshake_req_submit(struct socket *sock, struct handshake_req *req,
+ 			 gfp_t flags);
+ void handshake_complete(struct handshake_req *req, unsigned int status,
+diff --git a/net/handshake/request.c b/net/handshake/request.c
+index 274d2c89b6b2..916caab88fe0 100644
+--- a/net/handshake/request.c
++++ b/net/handshake/request.c
+@@ -196,6 +196,101 @@ struct handshake_req *handshake_req_next(struct handshake_net *hn, int class)
  }
+ EXPORT_SYMBOL_IF_KUNIT(handshake_req_next);
  
--static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid)
-+static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid,
-+			      key_serial_t handshake_session_id)
- {
- 	struct nvme_tcp_queue *queue = data;
- 	struct nvme_tcp_ctrl *ctrl = queue->ctrl;
-diff --git a/drivers/nvme/target/tcp.c b/drivers/nvme/target/tcp.c
-index 470bf37e5a63..7f8516892359 100644
---- a/drivers/nvme/target/tcp.c
-+++ b/drivers/nvme/target/tcp.c
-@@ -1780,7 +1780,8 @@ static int nvmet_tcp_tls_key_lookup(struct nvmet_tcp_queue *queue,
- }
- 
- static void nvmet_tcp_tls_handshake_done(void *data, int status,
--					 key_serial_t peerid)
-+					 key_serial_t peerid,
-+					 key_serial_t handshake_session_id)
- {
- 	struct nvmet_tcp_queue *queue = data;
- 
-diff --git a/include/net/handshake.h b/include/net/handshake.h
-index 8ebd4f9ed26e..d9b2411d5523 100644
---- a/include/net/handshake.h
-+++ b/include/net/handshake.h
-@@ -15,10 +15,12 @@ enum {
- 	TLS_NO_PEERID = 0,
- 	TLS_NO_CERT = 0,
- 	TLS_NO_PRIVKEY = 0,
-+	TLS_NO_SESSION_ID = 0,
- };
- 
- typedef void	(*tls_done_func_t)(void *data, int status,
--				   key_serial_t peerid);
-+				   key_serial_t peerid,
-+				   key_serial_t handshake_session_id);
- 
- struct tls_handshake_args {
- 	struct socket		*ta_sock;
-@@ -31,6 +33,7 @@ struct tls_handshake_args {
- 	key_serial_t		ta_my_privkey;
- 	unsigned int		ta_num_peerids;
- 	key_serial_t		ta_my_peerids[5];
-+	key_serial_t		ta_handshake_session_id;
- };
- 
- int tls_client_hello_anon(const struct tls_handshake_args *args, gfp_t flags);
-diff --git a/include/uapi/linux/handshake.h b/include/uapi/linux/handshake.h
-index 662e7de46c54..b68ffbaa5f31 100644
---- a/include/uapi/linux/handshake.h
-+++ b/include/uapi/linux/handshake.h
-@@ -55,6 +55,7 @@ enum {
- 	HANDSHAKE_A_DONE_STATUS = 1,
- 	HANDSHAKE_A_DONE_SOCKFD,
- 	HANDSHAKE_A_DONE_REMOTE_AUTH,
-+	HANDSHAKE_A_DONE_SESSION_ID,
- 
- 	__HANDSHAKE_A_DONE_MAX,
- 	HANDSHAKE_A_DONE_MAX = (__HANDSHAKE_A_DONE_MAX - 1)
-diff --git a/net/handshake/genl.c b/net/handshake/genl.c
-index f55d14d7b726..6cdce7e5dbc0 100644
---- a/net/handshake/genl.c
-+++ b/net/handshake/genl.c
-@@ -16,10 +16,11 @@ static const struct nla_policy handshake_accept_nl_policy[HANDSHAKE_A_ACCEPT_HAN
- };
- 
- /* HANDSHAKE_CMD_DONE - do */
--static const struct nla_policy handshake_done_nl_policy[HANDSHAKE_A_DONE_REMOTE_AUTH + 1] = {
-+static const struct nla_policy handshake_done_nl_policy[HANDSHAKE_A_DONE_SESSION_ID + 1] = {
- 	[HANDSHAKE_A_DONE_STATUS] = { .type = NLA_U32, },
- 	[HANDSHAKE_A_DONE_SOCKFD] = { .type = NLA_S32, },
- 	[HANDSHAKE_A_DONE_REMOTE_AUTH] = { .type = NLA_U32, },
-+	[HANDSHAKE_A_DONE_SESSION_ID] = { .type = NLA_U32, },
- };
- 
- /* Ops table for handshake */
-@@ -35,7 +36,7 @@ static const struct genl_split_ops handshake_nl_ops[] = {
- 		.cmd		= HANDSHAKE_CMD_DONE,
- 		.doit		= handshake_nl_done_doit,
- 		.policy		= handshake_done_nl_policy,
--		.maxattr	= HANDSHAKE_A_DONE_REMOTE_AUTH,
-+		.maxattr	= HANDSHAKE_A_DONE_SESSION_ID,
- 		.flags		= GENL_CMD_CAP_DO,
- 	},
- };
-diff --git a/net/handshake/tlshd.c b/net/handshake/tlshd.c
-index 8f9532a15f43..e72f45bdc226 100644
---- a/net/handshake/tlshd.c
-+++ b/net/handshake/tlshd.c
-@@ -26,7 +26,8 @@
- 
- struct tls_handshake_req {
- 	void			(*th_consumer_done)(void *data, int status,
--						    key_serial_t peerid);
-+						    key_serial_t peerid,
-+						    key_serial_t handshake_session_id);
- 	void			*th_consumer_data;
- 
- 	int			th_type;
-@@ -39,6 +40,8 @@ struct tls_handshake_req {
- 
- 	unsigned int		th_num_peerids;
- 	key_serial_t		th_peerid[5];
++/**
++ * handshake_req_keyupdate - Submit a KeyUpdate request
++ * @sock: open socket on which to perform the handshake
++ * @req: handshake arguments, this must already be allocated and exist
++ * in the hash table, which happens as part of handshake_req_submit()
++ * @flags: memory allocation flags
++ *
++ * Return values:
++ *   %0: Request queued
++ *   %-EINVAL: Invalid argument
++ *   %-EBUSY: A handshake is already under way for this socket
++ *   %-ESRCH: No handshake agent is available
++ *   %-EAGAIN: Too many pending handshake requests
++ *   %-ENOMEM: Failed to allocate memory
++ *   %-EMSGSIZE: Failed to construct notification message
++ *   %-EOPNOTSUPP: Handshake module not initialized
++ *
++ * A zero return value from handshake_req_submit() means that
++ * exactly one subsequent completion callback is guaranteed.
++ *
++ * A negative return value from handshake_req_submit() means that
++ * no completion callback will be done and that @req has been
++ * destroyed.
++ */
++int handshake_req_keyupdate(struct socket *sock, struct handshake_req *req,
++			    gfp_t flags)
++{
++	struct handshake_net *hn;
++	struct net *net;
++	struct handshake_req *req_lookup;
++	int ret;
 +
-+	key_serial_t		th_handshake_session_id;
- };
- 
- static struct tls_handshake_req *
-@@ -55,6 +58,7 @@ tls_handshake_req_init(struct handshake_req *req,
- 	treq->th_num_peerids = 0;
- 	treq->th_certificate = TLS_NO_CERT;
- 	treq->th_privkey = TLS_NO_PRIVKEY;
-+	treq->th_handshake_session_id = TLS_NO_SESSION_ID;
- 	return treq;
- }
- 
-@@ -83,6 +87,13 @@ static void tls_handshake_remote_peerids(struct tls_handshake_req *treq,
- 		if (i >= treq->th_num_peerids)
- 			break;
- 	}
-+
-+	nla_for_each_attr(nla, head, len, rem) {
-+		if (nla_type(nla) == HANDSHAKE_A_DONE_SESSION_ID) {
-+			treq->th_handshake_session_id = nla_get_u32(nla);
-+			break;
-+		}
++	if (!sock || !req || !sock->file) {
++		kfree(req);
++		return -EINVAL;
 +	}
- }
- 
++
++	req->hr_sk = sock->sk;
++	if (!req->hr_sk) {
++		kfree(req);
++		return -EINVAL;
++	}
++	req->hr_odestruct = req->hr_sk->sk_destruct;
++	req->hr_sk->sk_destruct = handshake_sk_destruct;
++
++	ret = -EOPNOTSUPP;
++	net = sock_net(req->hr_sk);
++	hn = handshake_pernet(net);
++	if (!hn)
++		goto out_err;
++
++	ret = -EAGAIN;
++	if (READ_ONCE(hn->hn_pending) >= hn->hn_pending_max)
++		goto out_err;
++
++	spin_lock(&hn->hn_lock);
++	ret = -EOPNOTSUPP;
++	if (test_bit(HANDSHAKE_F_NET_DRAINING, &hn->hn_flags))
++		goto out_unlock;
++	ret = -EBUSY;
++
++	req_lookup = handshake_req_hash_lookup(sock->sk);
++	if (!req_lookup)
++		goto out_unlock;
++
++	if (req_lookup != req)
++		goto out_unlock;
++	if (!__add_pending_locked(hn, req))
++		goto out_unlock;
++	spin_unlock(&hn->hn_lock);
++
++	test_and_clear_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags);
++
++	ret = handshake_genl_notify(net, req->hr_proto, flags);
++	if (ret) {
++		trace_handshake_notify_err(net, req, req->hr_sk, ret);
++		if (remove_pending(hn, req))
++			goto out_err;
++	}
++
++	/* Prevent socket release while a handshake request is pending */
++	sock_hold(req->hr_sk);
++
++	trace_handshake_submit(net, req, req->hr_sk);
++	return 0;
++
++out_unlock:
++	spin_unlock(&hn->hn_lock);
++out_err:
++	trace_handshake_submit_err(net, req, req->hr_sk, ret);
++	handshake_req_destroy(req);
++	return ret;
++}
++EXPORT_SYMBOL(handshake_req_keyupdate);
++
  /**
-@@ -105,7 +116,7 @@ static void tls_handshake_done(struct handshake_req *req,
- 		set_bit(HANDSHAKE_F_REQ_SESSION, &req->hr_flags);
- 
- 	treq->th_consumer_done(treq->th_consumer_data, -status,
--			       treq->th_peerid[0]);
-+			       treq->th_peerid[0], treq->th_handshake_session_id);
- }
- 
- #if IS_ENABLED(CONFIG_KEYS)
-diff --git a/net/sunrpc/svcsock.c b/net/sunrpc/svcsock.c
-index 7b90abc5cf0e..2401b4c757f6 100644
---- a/net/sunrpc/svcsock.c
-+++ b/net/sunrpc/svcsock.c
-@@ -444,13 +444,15 @@ static void svc_tcp_kill_temp_xprt(struct svc_xprt *xprt)
-  * @data: address of xprt to wake
-  * @status: status of handshake
-  * @peerid: serial number of key containing the remote peer's identity
-+ * @handshake_session_id: serial number of the userspace session ID
-  *
-  * If a security policy is specified as an export option, we don't
-  * have a specific export here to check. So we set a "TLS session
-  * is present" flag on the xprt and let an upper layer enforce local
-  * security policy.
-  */
--static void svc_tcp_handshake_done(void *data, int status, key_serial_t peerid)
-+static void svc_tcp_handshake_done(void *data, int status, key_serial_t peerid,
-+				   key_serial_t handshake_session_id)
- {
- 	struct svc_xprt *xprt = data;
- 	struct svc_sock *svsk = container_of(xprt, struct svc_sock, sk_xprt);
-diff --git a/net/sunrpc/xprtsock.c b/net/sunrpc/xprtsock.c
-index 3aa987e7f072..5c6e7543f293 100644
---- a/net/sunrpc/xprtsock.c
-+++ b/net/sunrpc/xprtsock.c
-@@ -2589,9 +2589,11 @@ static int xs_tcp_tls_finish_connecting(struct rpc_xprt *lower_xprt,
-  * @data: address of xprt to wake
-  * @status: status of handshake
-  * @peerid: serial number of key containing the remote's identity
-+ * @handshake_session_id: serial number of the userspace session ID
-  *
-  */
--static void xs_tls_handshake_done(void *data, int status, key_serial_t peerid)
-+static void xs_tls_handshake_done(void *data, int status, key_serial_t peerid,
-+				  key_serial_t handshake_session_id)
- {
- 	struct rpc_xprt *lower_xprt = data;
- 	struct sock_xprt *lower_transport =
+  * handshake_req_submit - Submit a handshake request
+  * @sock: open socket on which to perform the handshake
 -- 
 2.51.1
 

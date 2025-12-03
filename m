@@ -1,79 +1,126 @@
-Received: from cmccmta2.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7005143ABC
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  3 Dec 2025 04:16:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.135
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547F3306499
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  3 Dec 2025 14:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764735402; cv=none; b=I4Y2MI3jcL4I/8ignGvBEjbzQ/dy6uSWtYiwrrS0wcC87lFkDzudyJA1yMm0uwp6wfaDuC2o7dBGk1BEwLIATV9m+FSTdNxd1jSN3X1qLIFKGEWB4qVq/dP5MZa8HmaO8p6zXpVDbnlKh8KEPHtNR+9ukno0E8qewrvtv5nT4qQ=
+	t=1764773781; cv=none; b=B1xAbWZqVeEbPuPj6z9jjvPmrQBTkvvvHMbSHgNaPGgElApHwTr8BnP1GHeTx1EEVE2dQcP93y2uTJfXaH8ZJoFrZMns80zubHM4eGWfDryWNu86lQnXbVm3WDn4KDXMY/Sxzzb0zqU8Etv8hsDOwDrHbAl2F027FqSRsntMCKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764735402; c=relaxed/simple;
-	bh=vlILOzbZNY3COdT0kEPHK07pGdodIaGsMkBzzQC1QLo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PamkkIit+ARhAvUlkMfimpGmcKhdJ5cnEsgVZtFQ7WBpcXdJKlkzBZxw5BVS0k2svllmf6Jfu+hiP1EkxKBVP8mPZHfHr7QEB7HUCJGmIuCTQU08tSx7fl9E4W8RWh76iC4rUwR1ghLejgFO3XFX44ArHziDc1LwGfQ7Oyog5T8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.135
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app07-12007 (RichMail) with SMTP id 2ee7692fb8e8595-9c678;
-	Wed, 03 Dec 2025 12:13:29 +0800 (CST)
-X-RM-TRANSID:2ee7692fb8e8595-9c678
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from localhost.localdomain (unknown[10.55.1.71])
-	by rmsmtp-syy-appsvr04-12004 (RichMail) with SMTP id 2ee4692fb8e7e6e-98573;
-	Wed, 03 Dec 2025 12:13:29 +0800 (CST)
-X-RM-TRANSID:2ee4692fb8e7e6e-98573
-From: caoping <caoping@cmss.chinamobile.com>
-To: chuck.lever@oracle.com
-Cc: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	kernel-tls-handshake@lists.linux.dev,
-	netdev@vger.kernel.org,
-	caoping <caoping@cmss.chinamobile.com>
-Subject: [PATCH] net/handshake: restore destructor on submit failure
-Date: Tue,  2 Dec 2025 20:12:49 -0800
-Message-ID: <20251203041250.967606-1-caoping@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.47.3
+	s=arc-20240116; t=1764773781; c=relaxed/simple;
+	bh=Sdmj+/pJ+nLkLaviE2J8S8mxqxK7tULeh2R05cZtdSA=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ab4trMXeKySBu+he74cmz1eh3HyePTGuzVg3+Oft4BONXnhlzXYU7Z6PFTmQUGM6wGZLTRah2DHxWkTfUOew1cO++gtKz7h9ZFTDFU7Si7Mw+1RjilvrqqZddzjZmS2opQFxg4qOHkFOttNe8Wrc3ycnPIY+FQ/7F5kPvEwubjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T0X5tPsY; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T0X5tPsY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC3BDC16AAE;
+	Wed,  3 Dec 2025 14:56:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764773781;
+	bh=Sdmj+/pJ+nLkLaviE2J8S8mxqxK7tULeh2R05cZtdSA=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=T0X5tPsYN9aSkO9gEliGGUwOsD5um4pEhG9kXzkL5lzjiJ7Hs9f8MQnlq6WQ54Etx
+	 bD1UV+J/xfUk+x/Wcv3LpPqoJtP8PWAAyqebdXcLbGnXoau1J9Nic91Tv+w3P48RxS
+	 BUvvhh+1kKCF5lrusjq+Mt5FW17O+boBAoy1g/txPomt1IP+oUbBh36Cw7C4XDQOIs
+	 23lzW0Z1OzNdm9WSaS0Zme4bQjmxwTBo8Cgwmo9AwDAjBc7J/aLuXloaSXZJ06LN3l
+	 C/v1R19G0LIIJ+TxBsZ0HFj8z1/2Yu5x9ke48zXpWCAZ151lh8v7ieIhaQXlbL99RO
+	 PJn1uJeKpsx1A==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id DC769F4006C;
+	Wed,  3 Dec 2025 09:56:19 -0500 (EST)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Wed, 03 Dec 2025 09:56:19 -0500
+X-ME-Sender: <xms:k08waW_51DZuHSb6ssGYV8X7D40GA-I4JC_byHmv_bL3EsF5JZIvVg>
+    <xme:k08waRjCqsCHLAp3dfbU6SrFwmuQGbzeKuA_5SifJeVmMzNHwSxvqK5qKadWz1Tam
+    UR-FbTWIVlB8V3DIR9npHospF-GdiaIn4Hd6_2YXhoO9ePvUScky524>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefuddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtre
+    dttdenucfhrhhomhepfdevhhhutghkucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdr
+    ohhrgheqnecuggftrfgrthhtvghrnhephfffkefffedtgfehieevkeduuefhvdejvdefvd
+    euuddvgeelkeegtefgudfhfeelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
+    pehmrghilhhfrhhomheptghhuhgtkhhlvghvvghrodhmvghsmhhtphgruhhthhhpvghrsh
+    honhgrlhhithihqdduieefgeelleelheelqdefvdelkeeggedvfedqtggvlheppehkvghr
+    nhgvlhdrohhrghesfhgrshhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthhopeelpdhmoh
+    guvgepshhmthhpohhuthdprhgtphhtthhopegtrghophhinhhgsegtmhhsshdrtghhihhn
+    rghmohgsihhlvgdrtghomhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrd
+    hnvghtpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphht
+    thhopehhohhrmhhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkuhgsrgeskhgvrh
+    hnvghlrdhorhhgpdhrtghpthhtohepkhgvrhhnvghlqdhtlhhsqdhhrghnughshhgrkhgv
+    sehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheptghhuhgtkhdrlhgvvhgvrh
+    esohhrrggtlhgvrdgtohhmpdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtgho
+    mhdprhgtphhtthhopehnvghtuggvvhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:k08waY_A_xzk3kM5P8ytwYtpZnCWRaI6PQf8eW8b0iO41_p5X1fbIQ>
+    <xmx:k08wadRdhR2WQ81EdqgQ7W2VMgDevEVRQVXaOM-dxznnd6wVXcm4kg>
+    <xmx:k08waSekKy9QTMSPprUKMRmy130QLzZFuD46aKxM_WY6SxSTUHlUNQ>
+    <xmx:k08wafTveKFAhlQVsT3UdGOn0OKkByrzf2PqYxjYQVR4vGyI7ttlBw>
+    <xmx:k08waeI6IZFG_V2291D9pezZVu-PaGVaoyjeyoF7DjiiHPcSrOLlrb6x>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id BF80F780054; Wed,  3 Dec 2025 09:56:19 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: Aidyn3_a5KKc
+Date: Wed, 03 Dec 2025 09:55:58 -0500
+From: "Chuck Lever" <cel@kernel.org>
+To: caoping <caoping@cmss.chinamobile.com>,
+ "Chuck Lever" <chuck.lever@oracle.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, kernel-tls-handshake@lists.linux.dev,
+ netdev@vger.kernel.org
+Message-Id: <fe675ba1-4711-4c79-8929-f7cc90aea4ad@app.fastmail.com>
+In-Reply-To: <20251203041250.967606-1-caoping@cmss.chinamobile.com>
+References: <20251203041250.967606-1-caoping@cmss.chinamobile.com>
+Subject: Re: [PATCH] net/handshake: restore destructor on submit failure
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-handshake_req_submit() replaces sk->sk_destruct but never restores it when
-submission fails before the request is hashed. handshake_sk_destruct() then
-returns early and the original destructor never runs, leaking the socket.
-Restore sk_destruct on the error path.
 
-Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for handling handshake requests")
 
-Signed-off-by: caoping <caoping@cmss.chinamobile.com>
----
- net/handshake/request.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Tue, Dec 2, 2025, at 11:12 PM, caoping wrote:
+> handshake_req_submit() replaces sk->sk_destruct but never restores it when
+> submission fails before the request is hashed. handshake_sk_destruct() then
+> returns early and the original destructor never runs, leaking the socket.
+> Restore sk_destruct on the error path.
+>
+> Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for 
+> handling handshake requests")
+>
+> Signed-off-by: caoping <caoping@cmss.chinamobile.com>
+> ---
+>  net/handshake/request.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/net/handshake/request.c b/net/handshake/request.c
+> index 274d2c89b6b2..89435ed755cd 100644
+> --- a/net/handshake/request.c
+> +++ b/net/handshake/request.c
+> @@ -276,6 +276,8 @@ int handshake_req_submit(struct socket *sock, 
+> struct handshake_req *req,
+>  out_unlock:
+>  	spin_unlock(&hn->hn_lock);
+>  out_err:
+> +	/* Restore original destructor so socket teardown still runs on 
+> failure */
+> +	req->hr_sk->sk_destruct = req->hr_odestruct;
+>  	trace_handshake_submit_err(net, req, req->hr_sk, ret);
+>  	handshake_req_destroy(req);
+>  	return ret;
+>
+> base-commit: 4a26e7032d7d57c998598c08a034872d6f0d3945
+> -- 
+> 2.47.3
 
-diff --git a/net/handshake/request.c b/net/handshake/request.c
-index 274d2c89b6b2..89435ed755cd 100644
---- a/net/handshake/request.c
-+++ b/net/handshake/request.c
-@@ -276,6 +276,8 @@ int handshake_req_submit(struct socket *sock, struct handshake_req *req,
- out_unlock:
- 	spin_unlock(&hn->hn_lock);
- out_err:
-+	/* Restore original destructor so socket teardown still runs on failure */
-+	req->hr_sk->sk_destruct = req->hr_odestruct;
- 	trace_handshake_submit_err(net, req, req->hr_sk, ret);
- 	handshake_req_destroy(req);
- 	return ret;
+Reviewed-by: Chuck Lever <chuck.lever@oracle.com>
 
-base-commit: 4a26e7032d7d57c998598c08a034872d6f0d3945
+Consider adding a Cc: stable@vger.kernel.org when applying.
+
+
 -- 
-2.47.3
-
-
-
+Chuck Lever

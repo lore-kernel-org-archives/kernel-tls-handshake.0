@@ -1,59 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78FC52C21E6;
-	Tue,  2 Dec 2025 18:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from cmccmta2.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7005143ABC
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  3 Dec 2025 04:16:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.135
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764700196; cv=none; b=o2Yn1nbQi8zg4yhObSbpGfR1usm5SuIqHrmOlawSfofbf3LX8aj0SvMJf25Jo3Mm68oRV1S1Um4OQrFCXsX3UWKC4t3Ik0gNT28zwH9yLuFUY2W28PYz8fGPJeraNM+Qxjua6EBKsk72bLcdhk2E4AiLTmMGpUDMxdKUFnU2ffw=
+	t=1764735402; cv=none; b=I4Y2MI3jcL4I/8ignGvBEjbzQ/dy6uSWtYiwrrS0wcC87lFkDzudyJA1yMm0uwp6wfaDuC2o7dBGk1BEwLIATV9m+FSTdNxd1jSN3X1qLIFKGEWB4qVq/dP5MZa8HmaO8p6zXpVDbnlKh8KEPHtNR+9ukno0E8qewrvtv5nT4qQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764700196; c=relaxed/simple;
-	bh=b91d4Sj/zOc1Uxp75EeHjQ7LhV7sLgUQXLlKeqKkWUw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qgExw+3uHtrB9KDLmUUQYgGHyJVUT6wVahKjPDVqwWnr/bfhZVGkSySTQUihyzeH2Hsev2bW1qAXOnKqOWNUykHc3OEhT0LDT6iDP964dxWHbl7DY2y2hDD1+0/mRhTvewVR4iph8oOkMPMDoMYI20QGN6Ah84f+VB4FkgQaRbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kRCOKJPY; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kRCOKJPY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A682C4CEF1;
-	Tue,  2 Dec 2025 18:29:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764700195;
-	bh=b91d4Sj/zOc1Uxp75EeHjQ7LhV7sLgUQXLlKeqKkWUw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kRCOKJPYoXWImxAR5irj7Clj8Kvh3CWOdd6PImAWYa3CFDuymiOwXHPeAtGsfktua
-	 z+F2UPfiLp45Um4B3mOfOcFPeahev9+K0fzS5ihAOq0d93bNVbsSDiHU981ZXcSbwZ
-	 QcX7AeCh5PTu4nbFucW72OPaXMiWJJfsuaSJhC/nKgbOfzqInX404Lu4/ctGC+lPN4
-	 /vNgggKoMznnyn9Q0D/XPEMbMbLCUuZ3Tyir8Rnd0Czc2ZwBPvZPmm9qhdWtJKHj9z
-	 C+b6PDHpCdQUAFRpaZkC4Bp9Xhvi5HMDXihv0aakP8RRXtlHmj18GgxXCW7jRNGj6x
-	 MJsQks5kmrmaQ==
-Date: Tue, 2 Dec 2025 10:29:54 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: alistair23@gmail.com
-Cc: chuck.lever@oracle.com, hare@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
- kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
- kch@nvidia.com, hare@suse.de, Alistair Francis <alistair.francis@wdc.com>
-Subject: Re: [PATCH v6 1/5] net/handshake: Store the key serial number on
- completion
-Message-ID: <20251202102954.048fb6e5@kernel.org>
-In-Reply-To: <20251202013429.1199659-2-alistair.francis@wdc.com>
-References: <20251202013429.1199659-1-alistair.francis@wdc.com>
-	<20251202013429.1199659-2-alistair.francis@wdc.com>
+	s=arc-20240116; t=1764735402; c=relaxed/simple;
+	bh=vlILOzbZNY3COdT0kEPHK07pGdodIaGsMkBzzQC1QLo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PamkkIit+ARhAvUlkMfimpGmcKhdJ5cnEsgVZtFQ7WBpcXdJKlkzBZxw5BVS0k2svllmf6Jfu+hiP1EkxKBVP8mPZHfHr7QEB7HUCJGmIuCTQU08tSx7fl9E4W8RWh76iC4rUwR1ghLejgFO3XFX44ArHziDc1LwGfQ7Oyog5T8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app07-12007 (RichMail) with SMTP id 2ee7692fb8e8595-9c678;
+	Wed, 03 Dec 2025 12:13:29 +0800 (CST)
+X-RM-TRANSID:2ee7692fb8e8595-9c678
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from localhost.localdomain (unknown[10.55.1.71])
+	by rmsmtp-syy-appsvr04-12004 (RichMail) with SMTP id 2ee4692fb8e7e6e-98573;
+	Wed, 03 Dec 2025 12:13:29 +0800 (CST)
+X-RM-TRANSID:2ee4692fb8e7e6e-98573
+From: caoping <caoping@cmss.chinamobile.com>
+To: chuck.lever@oracle.com
+Cc: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	kernel-tls-handshake@lists.linux.dev,
+	netdev@vger.kernel.org,
+	caoping <caoping@cmss.chinamobile.com>
+Subject: [PATCH] net/handshake: restore destructor on submit failure
+Date: Tue,  2 Dec 2025 20:12:49 -0800
+Message-ID: <20251203041250.967606-1-caoping@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue,  2 Dec 2025 11:34:25 +1000 alistair23@gmail.com wrote:
->  net/handshake/genl.c                       |  5 +++--
->  net/handshake/tlshd.c                      | 15 +++++++++++++--
+handshake_req_submit() replaces sk->sk_destruct but never restores it when
+submission fails before the request is hashed. handshake_sk_destruct() then
+returns early and the original destructor never runs, leaking the socket.
+Restore sk_destruct on the error path.
 
-We don't process -next patches during the merge window in networking.
-If someone thinks this is urgent do what you gotta do, otherwise please
-repost this once merge window is over.
+Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for handling handshake requests")
+
+Signed-off-by: caoping <caoping@cmss.chinamobile.com>
+---
+ net/handshake/request.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/net/handshake/request.c b/net/handshake/request.c
+index 274d2c89b6b2..89435ed755cd 100644
+--- a/net/handshake/request.c
++++ b/net/handshake/request.c
+@@ -276,6 +276,8 @@ int handshake_req_submit(struct socket *sock, struct handshake_req *req,
+ out_unlock:
+ 	spin_unlock(&hn->hn_lock);
+ out_err:
++	/* Restore original destructor so socket teardown still runs on failure */
++	req->hr_sk->sk_destruct = req->hr_odestruct;
+ 	trace_handshake_submit_err(net, req, req->hr_sk, ret);
+ 	handshake_req_destroy(req);
+ 	return ret;
+
+base-commit: 4a26e7032d7d57c998598c08a034872d6f0d3945
+-- 
+2.47.3
+
+
+

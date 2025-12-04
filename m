@@ -1,28 +1,28 @@
-Received: from cmccmta2.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5F1A155C82
-	for <kernel-tls-handshake@lists.linux.dev>; Thu,  4 Dec 2025 08:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.135
+Received: from cmccmta2.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 398A333B97B
+	for <kernel-tls-handshake@lists.linux.dev>; Thu,  4 Dec 2025 09:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764838129; cv=none; b=YhQ956PTYt25mD8ylqfByXFqCXPDrqNvjLO3LUOjGE5blfrAof2XNkRbN2sYHjzEHrWU7mmnbZypv/lR6I9+I5DSJV+TjiTLZWhkDJFhwo14dCcAyiHxnz+xAnvEN5R0LPHKmiZy+h5cQpZGb8qAHadceP4sLBv9zh0TTUjqu20=
+	t=1764839518; cv=none; b=YIv65edu1TGBg2xkKnlixD4Hte9J1ZhYDAavUUkXcBD0gL46cRmhcdaaq2ELyEqr5fsJiq8N6Jhs62kzkUBGIXpZfVXiLej7IESkGZaugOgL/bN8LZYVuCMke3DRHLa0VIBlF6LscrV/RNvwNySA6e6Xo3ZY04Rh6xxeya9iW7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764838129; c=relaxed/simple;
-	bh=vlILOzbZNY3COdT0kEPHK07pGdodIaGsMkBzzQC1QLo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IFg75mjsALn/m0u+3Sx7yBY5S0T4ynuGI6jirR/Izu/fZ+1UUH9OtcFzaRtWfswG6UEK0J/EAwP9YmyvvndLzCwvMp/RIWKRNZdaktSeWUvJJb0q120i2oFlMXbh+Z0ofcXqiiRajTOHZCGTziwJQipfSxV6uQGzAapJ1Amweww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.135
+	s=arc-20240116; t=1764839518; c=relaxed/simple;
+	bh=viIUBCUxUrQIU+KRE+rcobyjD9sts35NOjZEYvyj3fA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NrGLRqWpefY0W+JJppXggsyYOK4FchHL3X5pSuDD3zq4l3A079hdszH381bGD4jall1TMX1VFh1RzQ0rxd8Gz/qjEljo/gFq55kcjS2UrsiQwMOacXkbpksHzcplDPsmn8vOaAsgDD7/mp5bu1dA5qK3DcO2sQ9PgRRVrwuVP5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.137
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app07-12007 (RichMail) with SMTP id 2ee769314ae371a-aa800;
-	Thu, 04 Dec 2025 16:48:37 +0800 (CST)
-X-RM-TRANSID:2ee769314ae371a-aa800
+	by rmmx-syy-dmz-app08-12008 (RichMail) with SMTP id 2ee86931504578c-45839;
+	Thu, 04 Dec 2025 17:11:37 +0800 (CST)
+X-RM-TRANSID:2ee86931504578c-45839
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from localhost.localdomain (unknown[10.55.1.72])
-	by rmsmtp-syy-appsvr10-12010 (RichMail) with SMTP id 2eea69314ae33bb-d0125;
-	Thu, 04 Dec 2025 16:48:37 +0800 (CST)
-X-RM-TRANSID:2eea69314ae33bb-d0125
+	by rmsmtp-syy-appsvr01-12001 (RichMail) with SMTP id 2ee169315046302-d1b52;
+	Thu, 04 Dec 2025 17:11:37 +0800 (CST)
+X-RM-TRANSID:2ee169315046302-d1b52
 From: caoping <caoping@cmss.chinamobile.com>
 To: chuck.lever@oracle.com
 Cc: davem@davemloft.net,
@@ -35,9 +35,9 @@ Cc: davem@davemloft.net,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
 	caoping <caoping@cmss.chinamobile.com>
-Subject: [PATCH v2] net/handshake: restore destructor on submit failure
-Date: Thu,  4 Dec 2025 00:47:56 -0800
-Message-ID: <20251204084757.1536523-1-caoping@cmss.chinamobile.com>
+Subject: [PATCH v3] net/handshake: restore destructor on submit failure
+Date: Thu,  4 Dec 2025 01:10:58 -0800
+Message-ID: <20251204091058.1545151-1-caoping@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
@@ -53,7 +53,8 @@ returns early and the original destructor never runs, leaking the socket.
 Restore sk_destruct on the error path.
 
 Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for handling handshake requests")
-
+Reviewed-by: Chuck Lever <chuck.lever@oracle.com>
+Cc: stable@vger.kernel.org
 Signed-off-by: caoping <caoping@cmss.chinamobile.com>
 ---
  net/handshake/request.c | 2 ++

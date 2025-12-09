@@ -1,162 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3790D3B8D48;
-	Sat,  6 Dec 2025 15:12:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5492D0636
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  9 Dec 2025 11:38:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765033945; cv=none; b=dRmiqO+6Gz5sXriafXWMPYDipdSyePjTm+IHWptZWNqZ/g2JoRPvpYvBgtV+yB25ow4CHmTH1cARmEg1R1VsQAFfxY4Q0A4qG8dcatJB186BI5YLqUSCmW8mjp5dd5XNRBaqg8r5S11JTY3e2o754SzPuYuTaCbKrJVcAI6Xo1Q=
+	t=1765280302; cv=none; b=ubl4Iv+D+4y7tj7Nryg5On9BYVREer+Ci08DrrIo0vPoeNKYRn/vkWQac5zbgtPfXD6OTvbXjyTt00S9dQmqr4LPmZzcjJy4mU2txMj9qHuMwz73EVZA8gUkWC+eR6vQAvREHkgWKi5Z8IevHu2qpSxx/dsGnstplJ1lebq5CnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765033945; c=relaxed/simple;
-	bh=heCjDJaK/8yYZnizxFi58MmiCDcbuYi5+RI8fl2EFZI=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=LwZv1rrALJKawJ6zkA8qPAJIiOs10TgoJXuI2uG0DdlRkq/U0ZK1FVChK1mIoZd9HgS6GPrroAH+WErhhwnVJ7MhihtdAfAlBKMDCF7Ww1ViZRQ6ExOPNrZ9porzpDRH3xtoM/wSHCCin5xlhs97NOcqDbb5ylbJPYmp4zxesY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DdNYSTZ4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765280302; c=relaxed/simple;
+	bh=tWrBG8HAv0xv5TTDtzEEhPMb5d2qvR5a95M0Ni6dfvs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dz28ADIFTnRJ0aVlWRWYc/FHJNrseANTr21xCsotGfmKoI6I0GtAZXlqQ0o1IdSGMwziR+qb3OhSYRJOpl9Ixq4H+BcSuT5AiKKXPR6u93nXm3oPiAyW/rwlxLepZ+wUwA9iSBmWrqGoWSHPSQ1nv2DUteFyJ1i3uJ8jvbR7rSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=JiPcUjo4; arc=none smtp.client-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DdNYSTZ4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BC4CC116B1;
-	Sat,  6 Dec 2025 15:12:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765033944;
-	bh=heCjDJaK/8yYZnizxFi58MmiCDcbuYi5+RI8fl2EFZI=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=DdNYSTZ4v7mpgljzBNgEfEDtUXrhurWzglRn/i7Wf3KE0vuWdJLvKBkmwgUPwHR4v
-	 ZUutk3vx0+kAU9XHW/7GGPEDMWiuMeeXYD4hm7VwDk4U4sfhXdjTe5JNqY1Zw6sV3Z
-	 EgjohB9H5OiwhZ6SdA5CxQ/RJNZVpP5art50WE867ioZHlkDMuOKPYtKjvSHxbM00L
-	 38rVXWFGa4mv9MEjE8JwuTtNbwODeeC7Lidyoio1JAGPpLJCKGw0MJv/6ApRSOTdRk
-	 aHSaa7A7Z3JpKYmngfZd4TRTe7H6IRk0hc4eXxOsqnI4+jOknOR81uhl8ahXkSvqYu
-	 T88nJcL1tjXzA==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 9B282F4007A;
-	Sat,  6 Dec 2025 10:12:22 -0500 (EST)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Sat, 06 Dec 2025 10:12:22 -0500
-X-ME-Sender: <xms:1kc0aVJpCDyJK4iH90Nh2U0dQwXR5he14IlfZPP_qjB6CnpMpUT9Qg>
-    <xme:1kc0ab9XWy19bm8uCETN_BvvGFLh14ZtMcj6iCcTHUC8zHhjdWqZ9CryoDmuacBbs
-    4g0XO-aqTxRNCmCzi4IrFTVhQMVsyry1FTtN7FafyrZHsXy89tE2vRs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduuddviecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdevhhhutghk
-    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
-    ephfffkefffedtgfehieevkeduuefhvdejvdefvdeuuddvgeelkeegtefgudfhfeelnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghhuhgtkh
-    hlvghvvghrodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieefgeelleel
-    heelqdefvdelkeeggedvfedqtggvlheppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrih
-    hlrdgtohhmpdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehkvghrnhgvlhdqthhlshdqhhgrnhgushhhrghkvgeslhhishhtshdrlhhinhhugi
-    druggvvhdprhgtphhtthhopegthhhutghkrdhlvghvvghrsehorhgrtghlvgdrtghomhdp
-    rhgtphhtthhopehsmhgrhihhvgifsehrvgguhhgrthdrtghomhdprhgtphhtthhopehnvg
-    htuggvvhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:1kc0aRx8QT32xeVT1_X69bf6KvlgWR8ANXNdOLNV_BfnONWrmtdu9Q>
-    <xmx:1kc0actNyerePgSXQIs1akqJihrwYaivTwx0B6bfFD80no8kELtKkQ>
-    <xmx:1kc0ae2UqRxJOsBvyN610esArqklNPeC5GzHmBzgsXQh8VjnrArSGQ>
-    <xmx:1kc0aX89qnuzoo7JTio7yM02WaoC0YAyazIL53lKGVQQmH-588FdtQ>
-    <xmx:1kc0afPb4hAowOQIYPVbkzCxGRhOURpkg87lrqENxj1q6H6X0rKRv4Dc>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 7A617780054; Sat,  6 Dec 2025 10:12:22 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="JiPcUjo4"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=XSAMW90pfyJ5RaZXgdjgyCtrW3u7NkuwZweC/h83jIk=;
+	b=JiPcUjo4XSCIlajYQL9o0wr7Ve3qQNxypagTYPO4cAjdTvk/yeaFZEVUaBFLL9FctNDAccxOj
+	+L4kcJYPHGmubSYSJjsUisB8Dtv6K9yjDBsJCmDopNLBYoy/nhf/ZyFFVw3qZwsKOb3zYMLVy+A
+	nw6LLnRvGNMRBHNN3u3Tpo4=
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4dQcHd61rhzRhRm;
+	Tue,  9 Dec 2025 19:36:13 +0800 (CST)
+Received: from dggpemf500016.china.huawei.com (unknown [7.185.36.197])
+	by mail.maildlp.com (Postfix) with ESMTPS id EA8E514034D;
+	Tue,  9 Dec 2025 19:38:09 +0800 (CST)
+Received: from huawei.com (10.50.85.128) by dggpemf500016.china.huawei.com
+ (7.185.36.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 9 Dec
+ 2025 19:38:09 +0800
+From: Wang Liang <wangliang74@huawei.com>
+To: <chuck.lever@oracle.com>, <davem@davemloft.net>, <edumazet@google.com>,
+	<kuba@kernel.org>, <pabeni@redhat.com>, <horms@kernel.org>,
+	<brauner@kernel.org>
+CC: <kernel-tls-handshake@lists.linux.dev>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <yuehaibing@huawei.com>,
+	<zhangchangzhong@huawei.com>, <wangliang74@huawei.com>
+Subject: [PATCH net] net/handshake: Fix null-ptr-deref in handshake_complete()
+Date: Tue, 9 Dec 2025 19:58:52 +0800
+Message-ID: <20251209115852.3827876-1-wangliang74@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AKAJIIlgov-V
-Date: Sat, 06 Dec 2025 10:12:02 -0500
-From: "Chuck Lever" <cel@kernel.org>
-To: "Scott Mayhew" <smayhew@redhat.com>,
- "Chuck Lever" <chuck.lever@oracle.com>
-Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org
-Message-Id: <938c82cd-9760-42e5-b0ce-123c86710782@app.fastmail.com>
-In-Reply-To: <20251206143006.2493798-1-smayhew@redhat.com>
-References: <20251206143006.2493798-1-smayhew@redhat.com>
-Subject: Re: [PATCH] net/handshake: a handshake can only be cancelled once
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ dggpemf500016.china.huawei.com (7.185.36.197)
 
+A null pointer dereference in handshake_complete() was observed [1].
 
+When handshake_req_next() return NULL in handshake_nl_accept_doit(),
+function handshake_complete() will be called unexpectedly which triggers
+this crash. Fix it by goto out_status when req is NULL.
 
-On Sat, Dec 6, 2025, at 9:30 AM, Scott Mayhew wrote:
-> When a handshake request is cancelled it is removed from the
-> handshake_net->hn_requests list, but it is still present in the
-> handshake_rhashtbl until it is destroyed.
->
-> If a second cancellation request arrives for the same handshake request,
-> then remove_pending() will return false... and assuming
-> HANDSHAKE_F_REQ_COMPLETED isn't set in req->hr_flags, we'll continue
-> processing through the out_true label, where we put another reference on
-> the sock and a refcount underflow occurs.
->
-> This can happen for example if a handshake times out - particularly if
-> the SUNRPC client sends the AUTH_TLS probe to the server but doesn't
-> follow it up with the ClientHello due to a problem with tlshd.  When the
-> timeout is hit on the server, the server will send a FIN, which triggers
-> a cancellation request via xs_reset_transport().  When the timeout is
-> hit on the client, another cancellation request happens via
-> xs_tls_handshake_sync().
->
-> Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for 
-> handling handshake requests")
-> Signed-off-by: Scott Mayhew <smayhew@redhat.com>
-> ---
->  net/handshake/request.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/net/handshake/request.c b/net/handshake/request.c
-> index 274d2c89b6b2..c7b20d167a55 100644
-> --- a/net/handshake/request.c
-> +++ b/net/handshake/request.c
-> @@ -333,6 +333,10 @@ bool handshake_req_cancel(struct sock *sk)
->  		return false;
->  	}
-> 
-> +	/* Duplicate cancellation request */
-> +	trace_handshake_cancel_none(net, req, sk);
-> +	return false;
-> +
->  out_true:
->  	trace_handshake_cancel(net, req, sk);
-> 
-> -- 
-> 2.51.0
+[1]
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000005: 0000 [#1] SMP KASAN PTI
+RIP: 0010:handshake_complete+0x36/0x2b0 net/handshake/request.c:288
+Call Trace:
+ <TASK>
+ handshake_nl_accept_doit+0x32d/0x7e0 net/handshake/netlink.c:129
+ genl_family_rcv_msg_doit+0x204/0x300 net/netlink/genetlink.c:1115
+ genl_family_rcv_msg+0x436/0x670 net/netlink/genetlink.c:1195
+ genl_rcv_msg+0xcc/0x170 net/netlink/genetlink.c:1210
+ netlink_rcv_skb+0x14c/0x430 net/netlink/af_netlink.c:2550
+ genl_rcv+0x2d/0x40 net/netlink/genetlink.c:1219
+ netlink_unicast_kernel net/netlink/af_netlink.c:1318 [inline]
+ netlink_unicast+0x878/0xb20 net/netlink/af_netlink.c:1344
+ netlink_sendmsg+0x897/0xd70 net/netlink/af_netlink.c:1894
+ sock_sendmsg_nosec net/socket.c:727 [inline]
+ __sock_sendmsg net/socket.c:742 [inline]
+ ____sys_sendmsg+0xa39/0xbf0 net/socket.c:2592
+ ___sys_sendmsg+0x121/0x1c0 net/socket.c:2646
+ __sys_sendmsg+0x155/0x200 net/socket.c:2678
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x5f/0x350 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
+ </TASK>
 
-To help support engineers find this patch, I recommend using
-"net/handshake: duplicate handshake cancellations leak socket" as
-the short description.
+Fixes: fe67b063f687 ("net/handshake: convert handshake_nl_accept_doit() to FD_PREPARE()")
+Signed-off-by: Wang Liang <wangliang74@huawei.com>
+---
+ net/handshake/netlink.c | 35 ++++++++++++++++++-----------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
 
-The proposed solution might introduce a socket reference leak:
-
-1. Request submitted: sock_hold() called (line 271)
-2. Request accepted by daemon via handshake_req_next()
-   (removes from pending list)
-3. Cancel called:
-  - remove_pending() returns FALSE (not in pending list)
-  - test_and_set_bit() returns FALSE (sets the bit now)
-  - With patch: returns FALSE, sock_put() NOT called
-4. handshake_complete() called: bit already set, skips sock_put()
-
-What if we use test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED) in the
-pending cancel path so duplicate cancels can be detected?
-
-Instead of:
-
-        if (hn && remove_pending(hn, req)) {
-                /* Request hadn't been accepted */
-                goto out_true;
-        }
-
-go with this bit of untested code:
-
-        if (hn && remove_pending(hn, req)) {
-                /* Request hadn't been accepted - mark cancelled */
-                if (test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags)) {
-                        trace_handshake_cancel_busy(net, req, sk);
-                        return false;
-                }
-                goto out_true;
-        }
-
+diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
+index 1d33a4675a48..cdaea8b8d004 100644
+--- a/net/handshake/netlink.c
++++ b/net/handshake/netlink.c
+@@ -106,25 +106,26 @@ int handshake_nl_accept_doit(struct sk_buff *skb, struct genl_info *info)
+ 
+ 	err = -EAGAIN;
+ 	req = handshake_req_next(hn, class);
+-	if (req) {
+-		sock = req->hr_sk->sk_socket;
+-
+-		FD_PREPARE(fdf, O_CLOEXEC, sock->file);
+-		if (fdf.err) {
+-			err = fdf.err;
+-			goto out_complete;
+-		}
+-
+-		get_file(sock->file); /* FD_PREPARE() consumes a reference. */
+-		err = req->hr_proto->hp_accept(req, info, fd_prepare_fd(fdf));
+-		if (err)
+-			goto out_complete; /* Automatic cleanup handles fput */
+-
+-		trace_handshake_cmd_accept(net, req, req->hr_sk, fd_prepare_fd(fdf));
+-		fd_publish(fdf);
+-		return 0;
++	if (!req)
++		goto out_status;
++
++	sock = req->hr_sk->sk_socket;
++
++	FD_PREPARE(fdf, O_CLOEXEC, sock->file);
++	if (fdf.err) {
++		err = fdf.err;
++		goto out_complete;
+ 	}
+ 
++	get_file(sock->file); /* FD_PREPARE() consumes a reference. */
++	err = req->hr_proto->hp_accept(req, info, fd_prepare_fd(fdf));
++	if (err)
++		goto out_complete; /* Automatic cleanup handles fput */
++
++	trace_handshake_cmd_accept(net, req, req->hr_sk, fd_prepare_fd(fdf));
++	fd_publish(fdf);
++	return 0;
++
+ out_complete:
+ 	handshake_complete(req, -EIO, NULL);
+ out_status:
 -- 
-Chuck Lever
+2.34.1
+

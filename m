@@ -1,43 +1,57 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6A12D7803;
-	Tue,  9 Dec 2025 18:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658CF305957
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  9 Dec 2025 19:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765303610; cv=none; b=dvWREYin1LRyKObafWU+yaCuA/0WnpLz0cfe/vQU3wSbefybr385wgiu1KFOoUqThsuOKJbeHODYuSEd+rrVrgl3Am7O1H8Bjk0jMJxFKOZujJZG1eoNSvjQWjHMwwyvhGrpK7LuLybpBBRHPUWlCP0hfS1wCn0P8ExUw6OqARY=
+	t=1765308479; cv=none; b=FsCEa8gpx2c6Pl2DjJS5IUCwd4+7hs1x2tcOHPfsHLXuBnMg69JeAfLUAF31/XWgS5++7KNnCzoThdArZ2WjZhd/gIW3Ypd9ljTVL5eav9HQoB0//x2wmwSeny3oSKoS4pKxmk8TO7kLHnihN3QRldWTKjZkmjFL+cXToC2P/50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765303610; c=relaxed/simple;
-	bh=oXy8lcGgtyzeGMTsH2PksKxqz7e9MQNYzW6NnAqIqZ8=;
+	s=arc-20240116; t=1765308479; c=relaxed/simple;
+	bh=wjbxWJSeRleQvETobHDfeRjHY1+mXH3Frsntw51pLWc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q5VUZdeZuG4VKglhEpbWNyaFHT04jNxICgSzdx44G4z7esP6khqowN/sbAhP3L5kexLAw3gmGcluk70Qor3hvmelmozeE9dVmCQe0LqfZzrZeblh4uk3Cs29RY+2s5Y/LnlgKbe10AdMabl0YMv4KXqIuVvvQYlyG/oV6ObdGxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iPxigFvL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=H1VZwqwfv6HyAnEQicmwr3FG5hNN++KVZo2LXwi29P42PSj2D9Os1MC9jFbF7qXeMSM6pX+ATbRQ8w9n7wm661psCe98gdd8vJJre+gi4eKUey7GjC36a9F7a4yqmMOQ9kB5C26Ci9imghlNBG2LU1rudwJOtMq0yK2argRVA5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=e5jQSDgc; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iPxigFvL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1616DC4CEF5;
-	Tue,  9 Dec 2025 18:06:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765303610;
-	bh=oXy8lcGgtyzeGMTsH2PksKxqz7e9MQNYzW6NnAqIqZ8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iPxigFvLniyWs5QRv642DWfvPC2ZR34AqFt6kCDRYgP5dY0nJVn/XKY92oJnnpwla
-	 PW0K47sve9XjJrVCkUfPraj0rNYKc7l1UaNCzCIVvnOaUma0KOBpn+tyBmmtyX85nx
-	 UF6KlgwtA1sic1BqMSd3q8vnPCyiPyn6v2dHJFFt8uTos5+xiVl5ORZuBeqSEj6QoC
-	 KC8AxsaYzkpa7TiYHFvKgzVLSy+dGjdzGVunWRirR+wA/QlDWNi+ROOeuNNeN0kk+N
-	 kN5zXw9pmjLiARrswBGKiEv+1V7+487qbOePu2EGdh6chECHfBhEKQwEyahzRMScj0
-	 9OtKpON4gy5NA==
-Date: Tue, 9 Dec 2025 18:06:46 +0000
-From: Simon Horman <horms@kernel.org>
-To: Wang Liang <wangliang74@huawei.com>
-Cc: chuck.lever@oracle.com, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, brauner@kernel.org,
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, yuehaibing@huawei.com,
-	zhangchangzhong@huawei.com
-Subject: Re: [PATCH net] net/handshake: Fix null-ptr-deref in
- handshake_complete()
-Message-ID: <aThlNuc-kjPqd9kh@horms.kernel.org>
-References: <20251209115852.3827876-1-wangliang74@huawei.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e5jQSDgc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1765308475;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CBEhM01DwH+mNTDzXCIduQ5j9yuBc3fGFQPO8YqgPP8=;
+	b=e5jQSDgcRjwHCc89kxR9//e4pFYc2ueRPdLODTNPoJKWkRFu1BthgHNTE7x5Eot97ukJsO
+	to5+Lzq8Z8ApR3G3GIvKXDbrCYYEaS5hDhUOKGutGdsJndd5t3HeSG5gC16oxKvdekNIne
+	5mqqhDj1V6TFIMFjUNWPf6Qmu1Y8WWw=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-349-zkwNK1LqOSG81f0jV4qDuw-1; Tue,
+ 09 Dec 2025 14:27:51 -0500
+X-MC-Unique: zkwNK1LqOSG81f0jV4qDuw-1
+X-Mimecast-MFC-AGG-ID: zkwNK1LqOSG81f0jV4qDuw_1765308470
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D38ED195609F;
+	Tue,  9 Dec 2025 19:27:50 +0000 (UTC)
+Received: from aion.redhat.com (unknown [10.22.80.38])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 78AA51800451;
+	Tue,  9 Dec 2025 19:27:50 +0000 (UTC)
+Received: by aion.redhat.com (Postfix, from userid 1000)
+	id A224754CA76; Tue, 09 Dec 2025 14:27:48 -0500 (EST)
+Date: Tue, 9 Dec 2025 14:27:48 -0500
+From: Scott Mayhew <smayhew@redhat.com>
+To: Chuck Lever <cel@kernel.org>
+Cc: Chuck Lever <chuck.lever@oracle.com>,
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [PATCH] net/handshake: a handshake can only be cancelled once
+Message-ID: <aTh4NGPQfWl-uurT@aion>
+References: <20251206143006.2493798-1-smayhew@redhat.com>
+ <938c82cd-9760-42e5-b0ce-123c86710782@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -46,130 +60,96 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251209115852.3827876-1-wangliang74@huawei.com>
+In-Reply-To: <938c82cd-9760-42e5-b0ce-123c86710782@app.fastmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Tue, Dec 09, 2025 at 07:58:52PM +0800, Wang Liang wrote:
-> A null pointer dereference in handshake_complete() was observed [1].
+On Sat, 06 Dec 2025, Chuck Lever wrote:
+
 > 
-> When handshake_req_next() return NULL in handshake_nl_accept_doit(),
-> function handshake_complete() will be called unexpectedly which triggers
-> this crash. Fix it by goto out_status when req is NULL.
 > 
-> [1]
-> Oops: general protection fault, probably for non-canonical address 0xdffffc0000000005: 0000 [#1] SMP KASAN PTI
-> RIP: 0010:handshake_complete+0x36/0x2b0 net/handshake/request.c:288
-> Call Trace:
->  <TASK>
->  handshake_nl_accept_doit+0x32d/0x7e0 net/handshake/netlink.c:129
->  genl_family_rcv_msg_doit+0x204/0x300 net/netlink/genetlink.c:1115
->  genl_family_rcv_msg+0x436/0x670 net/netlink/genetlink.c:1195
->  genl_rcv_msg+0xcc/0x170 net/netlink/genetlink.c:1210
->  netlink_rcv_skb+0x14c/0x430 net/netlink/af_netlink.c:2550
->  genl_rcv+0x2d/0x40 net/netlink/genetlink.c:1219
->  netlink_unicast_kernel net/netlink/af_netlink.c:1318 [inline]
->  netlink_unicast+0x878/0xb20 net/netlink/af_netlink.c:1344
->  netlink_sendmsg+0x897/0xd70 net/netlink/af_netlink.c:1894
->  sock_sendmsg_nosec net/socket.c:727 [inline]
->  __sock_sendmsg net/socket.c:742 [inline]
->  ____sys_sendmsg+0xa39/0xbf0 net/socket.c:2592
->  ___sys_sendmsg+0x121/0x1c0 net/socket.c:2646
->  __sys_sendmsg+0x155/0x200 net/socket.c:2678
->  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->  do_syscall_64+0x5f/0x350 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x76/0x7e
->  </TASK>
+> On Sat, Dec 6, 2025, at 9:30 AM, Scott Mayhew wrote:
+> > When a handshake request is cancelled it is removed from the
+> > handshake_net->hn_requests list, but it is still present in the
+> > handshake_rhashtbl until it is destroyed.
+> >
+> > If a second cancellation request arrives for the same handshake request,
+> > then remove_pending() will return false... and assuming
+> > HANDSHAKE_F_REQ_COMPLETED isn't set in req->hr_flags, we'll continue
+> > processing through the out_true label, where we put another reference on
+> > the sock and a refcount underflow occurs.
+> >
+> > This can happen for example if a handshake times out - particularly if
+> > the SUNRPC client sends the AUTH_TLS probe to the server but doesn't
+> > follow it up with the ClientHello due to a problem with tlshd.  When the
+> > timeout is hit on the server, the server will send a FIN, which triggers
+> > a cancellation request via xs_reset_transport().  When the timeout is
+> > hit on the client, another cancellation request happens via
+> > xs_tls_handshake_sync().
+> >
+> > Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for 
+> > handling handshake requests")
+> > Signed-off-by: Scott Mayhew <smayhew@redhat.com>
+> > ---
+> >  net/handshake/request.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/net/handshake/request.c b/net/handshake/request.c
+> > index 274d2c89b6b2..c7b20d167a55 100644
+> > --- a/net/handshake/request.c
+> > +++ b/net/handshake/request.c
+> > @@ -333,6 +333,10 @@ bool handshake_req_cancel(struct sock *sk)
+> >  		return false;
+> >  	}
+> > 
+> > +	/* Duplicate cancellation request */
+> > +	trace_handshake_cancel_none(net, req, sk);
+> > +	return false;
+> > +
+> >  out_true:
+> >  	trace_handshake_cancel(net, req, sk);
+> > 
+> > -- 
+> > 2.51.0
 > 
-> Fixes: fe67b063f687 ("net/handshake: convert handshake_nl_accept_doit() to FD_PREPARE()")
-> Signed-off-by: Wang Liang <wangliang74@huawei.com>
-> ---
->  net/handshake/netlink.c | 35 ++++++++++++++++++-----------------
->  1 file changed, 18 insertions(+), 17 deletions(-)
+> To help support engineers find this patch, I recommend using
+> "net/handshake: duplicate handshake cancellations leak socket" as
+> the short description.
 > 
-> diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
-> index 1d33a4675a48..cdaea8b8d004 100644
-> --- a/net/handshake/netlink.c
-> +++ b/net/handshake/netlink.c
-> @@ -106,25 +106,26 @@ int handshake_nl_accept_doit(struct sk_buff *skb, struct genl_info *info)
->  
->  	err = -EAGAIN;
->  	req = handshake_req_next(hn, class);
-> -	if (req) {
-> -		sock = req->hr_sk->sk_socket;
-> -
-> -		FD_PREPARE(fdf, O_CLOEXEC, sock->file);
-> -		if (fdf.err) {
-> -			err = fdf.err;
-> -			goto out_complete;
-> -		}
-> -
-> -		get_file(sock->file); /* FD_PREPARE() consumes a reference. */
-> -		err = req->hr_proto->hp_accept(req, info, fd_prepare_fd(fdf));
-> -		if (err)
-> -			goto out_complete; /* Automatic cleanup handles fput */
-> -
-> -		trace_handshake_cmd_accept(net, req, req->hr_sk, fd_prepare_fd(fdf));
-> -		fd_publish(fdf);
-> -		return 0;
-> +	if (!req)
-> +		goto out_status;
-> +
-> +	sock = req->hr_sk->sk_socket;
-> +
-> +	FD_PREPARE(fdf, O_CLOEXEC, sock->file);
-> +	if (fdf.err) {
-> +		err = fdf.err;
-> +		goto out_complete;
->  	}
->  
-> +	get_file(sock->file); /* FD_PREPARE() consumes a reference. */
-> +	err = req->hr_proto->hp_accept(req, info, fd_prepare_fd(fdf));
-> +	if (err)
-> +		goto out_complete; /* Automatic cleanup handles fput */
-> +
-> +	trace_handshake_cmd_accept(net, req, req->hr_sk, fd_prepare_fd(fdf));
-> +	fd_publish(fdf);
-> +	return 0;
-> +
->  out_complete:
->  	handshake_complete(req, -EIO, NULL);
->  out_status:
+> The proposed solution might introduce a socket reference leak:
+> 
+> 1. Request submitted: sock_hold() called (line 271)
+> 2. Request accepted by daemon via handshake_req_next()
+>    (removes from pending list)
+> 3. Cancel called:
+>   - remove_pending() returns FALSE (not in pending list)
+>   - test_and_set_bit() returns FALSE (sets the bit now)
+>   - With patch: returns FALSE, sock_put() NOT called
+> 4. handshake_complete() called: bit already set, skips sock_put()
+> 
+> What if we use test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED) in the
+> pending cancel path so duplicate cancels can be detected?
+> 
+> Instead of:
+> 
+>         if (hn && remove_pending(hn, req)) {
+>                 /* Request hadn't been accepted */
+>                 goto out_true;
+>         }
+> 
+> go with this bit of untested code:
+> 
+>         if (hn && remove_pending(hn, req)) {
+>                 /* Request hadn't been accepted - mark cancelled */
+>                 if (test_and_set_bit(HANDSHAKE_F_REQ_COMPLETED, &req->hr_flags)) {
+>                         trace_handshake_cancel_busy(net, req, sk);
+>                         return false;
+>                 }
+>                 goto out_true;
+>         }
 
-Hi,
+Thanks, Chuck.  That works.
+> 
+> -- 
+> Chuck Lever
+> 
 
-Clang 21.1.7 W=1 builds are rather unhappy about this:
-
-  net/handshake/netlink.c:110:3: error: cannot jump from this goto statement to its label
-    110 |                 goto out_status;
-        |                 ^
-  net/handshake/netlink.c:114:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    114 |         FD_PREPARE(fdf, O_CLOEXEC, sock->file);
-        |                    ^
-  net/handshake/netlink.c:104:3: error: cannot jump from this goto statement to its label
-    104 |                 goto out_status;
-        |                 ^
-  net/handshake/netlink.c:114:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    114 |         FD_PREPARE(fdf, O_CLOEXEC, sock->file);
-        |                    ^
-  net/handshake/netlink.c:100:3: error: cannot jump from this goto statement to its label
-    100 |                 goto out_status;
-        |                 ^
-  net/handshake/netlink.c:114:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    114 |         FD_PREPARE(fdf, O_CLOEXEC, sock->file);
-        |                    ^
-
-My undersatnding of the problem is as follows:
-
-FD_PREPARE uses __cleanup to call class_fd_prepare_destructor when
-resources when fdf goes out of scope.
-
-Prior to this patch this was when the if (req) block was existed.
-Either via return or a goto due to an error.
-
-Now it is when handshake_nl_accept_doit() itself is exited.
-Again via a return or a goto due to error.
-
-But, importantly, such a goto can now occur before fdf is initialised.
-Boom!
-
--- 
-pw-bot: changes-requested

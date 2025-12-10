@@ -1,167 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B1D3A1DB;
-	Wed, 10 Dec 2025 01:36:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA5F4A02
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 10 Dec 2025 02:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765330593; cv=none; b=Bmn3f/zuW50AtlcPimov/btpaiIqdFlHvMyNOOvaz2WlJ2EVCRr4qf73CVLqhSg+xas8S45upFJDBDYTwDyVyIplG/Sd3zdYQtgSmz+bdgSVHDaC8NPZMfnVb0E+1vmhRvPW3IeUDlIiup6knXj+mpkoLJy5cdCTM8F9uo5Plyo=
+	t=1765335014; cv=none; b=u+SXiV2/YrJOn0TzSLxJpUdBj6JdNoCPBARAv++1BFHO9BN1yLtHmyVRBleiWs/CR5ZeFPwRtIJjBVnwC0dcnuWLdg9jDIJfKxGQuqQDyz6BZE/Y1MHWH8h7bgam9uZ4UAKHH/zQJEL1+qViPFdABonrJaZLhnrGVeEUUV39uvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765330593; c=relaxed/simple;
-	bh=K5odEHdQx6AReGW+bBKxgqCvZEHkimJ7Bft2ZBOGO04=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cX4OZPDPFspLiJ7lucN4/YLF6BUQPlsWfuRqwlaeMcPc7tlF6j7jXtjaKy9csPpJ/UPys6LvmgYdMIFnvlWzak+0ii6KKW4CALSVtYXR8PgsM3Neo5owiBM9cUP/lvvbbDhLwWzotJKV0y8AsDDQcET5Ay2LDAwQMiw088y+Www=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ngZplvnY; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765335014; c=relaxed/simple;
+	bh=hmQUpgm3c0O20DMrXGIC2qrQrdi7Sr1r2ymCXEy7mYs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=m85vkAo++7yKF07FEc0C++Abn8xp9wRg+no3jwmHhiqxDL2gy99OPPYeBegNdjY0WZ7YQ2SJkzUDZZfBJgPqJI7XzChOBDrXR0n8WgL6z8z6ktJ2eAHTvDphn9qg+8K9dnRVS0CtqCrxqB3ET4SU4X3KSya1Sd6Rh7jJt4yAbew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=askhfrNk; arc=none smtp.client-ip=113.46.200.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ngZplvnY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765330592; x=1796866592;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=K5odEHdQx6AReGW+bBKxgqCvZEHkimJ7Bft2ZBOGO04=;
-  b=ngZplvnYu5qEV3cF/a+P8g4XZt87o6ScddjE9JZYAl/Wm3C1eLWbxqT9
-   KQ3wH6pe0sv3QyrWUGNeVMgDt/5+w7qkbjmELSCMOCqUFEzlc9C2tQK1e
-   AgLDlWGLfU9PSG+1mymZ+eUN3JNpEb/cJR9AYO7HKsCyWEpoub6EgAoIE
-   sqz4YI/ZVcsYrKuTDWPb+H2EAbWfa6fR2aruhLa8txZVCkgyScqBszqQb
-   x08tnHz1+e1E7DRm1yhz/wmI3MldKnTh+ZOGwCmRU95hqsPBhBZidGhnE
-   TsojI9PaGV/P1EANKBMAL71oUxsCbt406iu2JSKIuH5Rbiq5Yo30jt4G0
-   Q==;
-X-CSE-ConnectionGUID: kkF9+9FZSKaw6BrAQ4oCDw==
-X-CSE-MsgGUID: DuyjVtR8Siy9JylcBXlIGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="84711127"
-X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; 
-   d="scan'208";a="84711127"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 17:36:31 -0800
-X-CSE-ConnectionGUID: Fx1f0ymTQfWL7CWfi6FUOg==
-X-CSE-MsgGUID: kGC7calUTMCwMTiPO6GqVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; 
-   d="scan'208";a="201303730"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Dec 2025 17:36:27 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vT97x-000000002Uv-1ixI;
-	Wed, 10 Dec 2025 01:36:25 +0000
-Date: Wed, 10 Dec 2025 09:36:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wang Liang <wangliang74@huawei.com>, chuck.lever@oracle.com,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, brauner@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, yuehaibing@huawei.com,
-	zhangchangzhong@huawei.com, wangliang74@huawei.com
-Subject: Re: [PATCH net] net/handshake: Fix null-ptr-deref in
- handshake_complete()
-Message-ID: <202512100952.cr9q1lGr-lkp@intel.com>
-References: <20251209115852.3827876-1-wangliang74@huawei.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="askhfrNk"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=jH8YEHJ1QexebVm5QngK4AIF6AG1kDsOYmA+4PwgQE4=;
+	b=askhfrNkmBfnLEheaKscqtT8fpo4DdL+9pJRsot/0NFQzXxJY9xUvLU03Qvj9iCcjAOHSvas2
+	Jch4m3Yl9/vSk7DIXboNknSZdjcZVDuoaSAe3cKAkq+5AQbmB54A8cezhO9Ks8ekhE9rDpVjToF
+	y+344EQh9npWrFyBeWqo8uQ=
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4dR0WX0rGnz12LCr;
+	Wed, 10 Dec 2025 10:47:52 +0800 (CST)
+Received: from dggpemf500016.china.huawei.com (unknown [7.185.36.197])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0AA661402C1;
+	Wed, 10 Dec 2025 10:50:10 +0800 (CST)
+Received: from [10.174.177.19] (10.174.177.19) by
+ dggpemf500016.china.huawei.com (7.185.36.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 10 Dec 2025 10:50:08 +0800
+Message-ID: <c754e0ea-2a5e-4be5-9207-93299b38d28e@huawei.com>
+Date: Wed, 10 Dec 2025 10:50:08 +0800
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251209115852.3827876-1-wangliang74@huawei.com>
-
-Hi Wang,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wang-Liang/net-handshake-Fix-null-ptr-deref-in-handshake_complete/20251209-194006
-base:   net/main
-patch link:    https://lore.kernel.org/r/20251209115852.3827876-1-wangliang74%40huawei.com
-patch subject: [PATCH net] net/handshake: Fix null-ptr-deref in handshake_complete()
-config: arm-mps2_defconfig (https://download.01.org/0day-ci/archive/20251210/202512100952.cr9q1lGr-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512100952.cr9q1lGr-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512100952.cr9q1lGr-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> net/handshake/netlink.c:110:3: error: cannot jump from this goto statement to its label
-     110 |                 goto out_status;
-         |                 ^
-   net/handshake/netlink.c:114:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     114 |         FD_PREPARE(fdf, O_CLOEXEC, sock->file);
-         |                    ^
-   net/handshake/netlink.c:104:3: error: cannot jump from this goto statement to its label
-     104 |                 goto out_status;
-         |                 ^
-   net/handshake/netlink.c:114:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     114 |         FD_PREPARE(fdf, O_CLOEXEC, sock->file);
-         |                    ^
-   net/handshake/netlink.c:100:3: error: cannot jump from this goto statement to its label
-     100 |                 goto out_status;
-         |                 ^
-   net/handshake/netlink.c:114:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     114 |         FD_PREPARE(fdf, O_CLOEXEC, sock->file);
-         |                    ^
-   3 errors generated.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net] net/handshake: Fix null-ptr-deref in
+ handshake_complete()
+To: Chuck Lever <cel@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
+	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Christian Brauner
+	<brauner@kernel.org>
+CC: <kernel-tls-handshake@lists.linux.dev>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <yuehaibing@huawei.com>,
+	<zhangchangzhong@huawei.com>
+References: <20251209115852.3827876-1-wangliang74@huawei.com>
+ <13914223-071e-4374-882b-d6ca5257b751@app.fastmail.com>
+From: Wang Liang <wangliang74@huawei.com>
+In-Reply-To: <13914223-071e-4374-882b-d6ca5257b751@app.fastmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ dggpemf500016.china.huawei.com (7.185.36.197)
 
 
-vim +110 net/handshake/netlink.c
+在 2025/12/9 22:39, Chuck Lever 写道:
+>
+> On Tue, Dec 9, 2025, at 6:58 AM, Wang Liang wrote:
+>> A null pointer dereference in handshake_complete() was observed [1].
+>>
+>> When handshake_req_next() return NULL in handshake_nl_accept_doit(),
+>> function handshake_complete() will be called unexpectedly which triggers
+>> this crash. Fix it by goto out_status when req is NULL.
+>>
+>> [1]
+>> Oops: general protection fault, probably for non-canonical address
+>> 0xdffffc0000000005: 0000 [#1] SMP KASAN PTI
+>> RIP: 0010:handshake_complete+0x36/0x2b0 net/handshake/request.c:288
+>> Call Trace:
+>>   <TASK>
+>>   handshake_nl_accept_doit+0x32d/0x7e0 net/handshake/netlink.c:129
+>>   genl_family_rcv_msg_doit+0x204/0x300 net/netlink/genetlink.c:1115
+>>   genl_family_rcv_msg+0x436/0x670 net/netlink/genetlink.c:1195
+>>   genl_rcv_msg+0xcc/0x170 net/netlink/genetlink.c:1210
+>>   netlink_rcv_skb+0x14c/0x430 net/netlink/af_netlink.c:2550
+>>   genl_rcv+0x2d/0x40 net/netlink/genetlink.c:1219
+>>   netlink_unicast_kernel net/netlink/af_netlink.c:1318 [inline]
+>>   netlink_unicast+0x878/0xb20 net/netlink/af_netlink.c:1344
+>>   netlink_sendmsg+0x897/0xd70 net/netlink/af_netlink.c:1894
+>>   sock_sendmsg_nosec net/socket.c:727 [inline]
+>>   __sock_sendmsg net/socket.c:742 [inline]
+>>   ____sys_sendmsg+0xa39/0xbf0 net/socket.c:2592
+>>   ___sys_sendmsg+0x121/0x1c0 net/socket.c:2646
+>>   __sys_sendmsg+0x155/0x200 net/socket.c:2678
+>>   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>>   do_syscall_64+0x5f/0x350 arch/x86/entry/syscall_64.c:94
+>>   entry_SYSCALL_64_after_hwframe+0x76/0x7e
+>>   </TASK>
+>>
+>> Fixes: fe67b063f687 ("net/handshake: convert handshake_nl_accept_doit()
+>> to FD_PREPARE()")
+>> Signed-off-by: Wang Liang <wangliang74@huawei.com>
+>> ---
+>>   net/handshake/netlink.c | 35 ++++++++++++++++++-----------------
+>>   1 file changed, 18 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
+>> index 1d33a4675a48..cdaea8b8d004 100644
+>> --- a/net/handshake/netlink.c
+>> +++ b/net/handshake/netlink.c
+>> @@ -106,25 +106,26 @@ int handshake_nl_accept_doit(struct sk_buff *skb,
+>> struct genl_info *info)
+>>
+>>   	err = -EAGAIN;
+>>   	req = handshake_req_next(hn, class);
+>> -	if (req) {
+>> -		sock = req->hr_sk->sk_socket;
+>> -
+>> -		FD_PREPARE(fdf, O_CLOEXEC, sock->file);
+>> -		if (fdf.err) {
+>> -			err = fdf.err;
+>> -			goto out_complete;
+>> -		}
+>> -
+>> -		get_file(sock->file); /* FD_PREPARE() consumes a reference. */
+>> -		err = req->hr_proto->hp_accept(req, info, fd_prepare_fd(fdf));
+>> -		if (err)
+>> -			goto out_complete; /* Automatic cleanup handles fput */
+>> -
+>> -		trace_handshake_cmd_accept(net, req, req->hr_sk, fd_prepare_fd(fdf));
+>> -		fd_publish(fdf);
+>> -		return 0;
+>> +	if (!req)
+>> +		goto out_status;
+>> +
+>> +	sock = req->hr_sk->sk_socket;
+>> +
+>> +	FD_PREPARE(fdf, O_CLOEXEC, sock->file);
+>> +	if (fdf.err) {
+>> +		err = fdf.err;
+>> +		goto out_complete;
+>>   	}
+>>
+>> +	get_file(sock->file); /* FD_PREPARE() consumes a reference. */
+>> +	err = req->hr_proto->hp_accept(req, info, fd_prepare_fd(fdf));
+>> +	if (err)
+>> +		goto out_complete; /* Automatic cleanup handles fput */
+>> +
+>> +	trace_handshake_cmd_accept(net, req, req->hr_sk, fd_prepare_fd(fdf));
+>> +	fd_publish(fdf);
+>> +	return 0;
+>> +
+>>   out_complete:
+>>   	handshake_complete(req, -EIO, NULL);
+>>   out_status:
+>> -- 
+>> 2.34.1
+> Reviewed-by: Chuck Lever <chuck.lever@oracle.com>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/kernel-tls-handshake/aScekpuOYHRM9uOd@morisot.1015granger.net/T/#m7cfa5c11efc626d77622b2981591197a2acdd65e
 
-    89	
-    90	int handshake_nl_accept_doit(struct sk_buff *skb, struct genl_info *info)
-    91	{
-    92		struct net *net = sock_net(skb->sk);
-    93		struct handshake_net *hn = handshake_pernet(net);
-    94		struct handshake_req *req = NULL;
-    95		struct socket *sock;
-    96		int class, err;
-    97	
-    98		err = -EOPNOTSUPP;
-    99		if (!hn)
-   100			goto out_status;
-   101	
-   102		err = -EINVAL;
-   103		if (GENL_REQ_ATTR_CHECK(info, HANDSHAKE_A_ACCEPT_HANDLER_CLASS))
-   104			goto out_status;
-   105		class = nla_get_u32(info->attrs[HANDSHAKE_A_ACCEPT_HANDLER_CLASS]);
-   106	
-   107		err = -EAGAIN;
-   108		req = handshake_req_next(hn, class);
-   109		if (!req)
- > 110			goto out_status;
-   111	
-   112		sock = req->hr_sk->sk_socket;
-   113	
-   114		FD_PREPARE(fdf, O_CLOEXEC, sock->file);
-   115		if (fdf.err) {
-   116			err = fdf.err;
-   117			goto out_complete;
-   118		}
-   119	
-   120		get_file(sock->file); /* FD_PREPARE() consumes a reference. */
-   121		err = req->hr_proto->hp_accept(req, info, fd_prepare_fd(fdf));
-   122		if (err)
-   123			goto out_complete; /* Automatic cleanup handles fput */
-   124	
-   125		trace_handshake_cmd_accept(net, req, req->hr_sk, fd_prepare_fd(fdf));
-   126		fd_publish(fdf);
-   127		return 0;
-   128	
-   129	out_complete:
-   130		handshake_complete(req, -EIO, NULL);
-   131	out_status:
-   132		trace_handshake_cmd_accept_err(net, req, NULL, err);
-   133		return err;
-   134	}
-   135	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks for the reminder. I hadn't noticed this email before.
+
+I will add this in v2 patch.
+
+------
+Best regards
+Wang Liang
+
+>

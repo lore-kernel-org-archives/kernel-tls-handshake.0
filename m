@@ -1,80 +1,130 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2722130DEB5;
-	Wed, 10 Dec 2025 09:23:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1BF30AAA6;
+	Wed, 10 Dec 2025 10:08:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765358601; cv=none; b=Dj6UEUtYRuC9WoSbf65cDTE375AElyO7VFJxg2i5kKmv0AHl8FZUZMS4wLO7YuBcfqckqJxJjUHTyBzuvDqlC56MAhd5wuy6dlcs8yHhteqU5TaB4VUP/qmwd/e5T6e754IApPJBvTUdUH+XBwD4SPJgIRJLHoZS8QstmYxaNd8=
+	t=1765361333; cv=none; b=qRiYr5ZS6UhwiCZazA6IPDNAT2m0/wgEj9jyyzZl+hxk09eybtkfzACEYvd/uGAZ7DiT/J4lQFrkV1bZuDuXg3Vh0CX7lismtFpjtFENZwE1x/5c1a1727VWC0g9uMKeCWmGd0lz6Js0ClUkdE8sWigcDraeTlUsTjUP4AiVu/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765358601; c=relaxed/simple;
-	bh=fQE8Piz7TeTd5PSXjii+oX+LMW5oTzgNtn7GW5Zzx4w=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=FW1ekb+q75P/1/P9nFbiM3lXk1vx5zrwQZF9Ma1Td01aL+zREH4WhywgeRxqGS2GpUVs15ubAudKZFMM0xDFqFu6BH2TY3ulVFyqKIJEoJ6MwZ+7UISnT0rQfJNj7g5gKWbjkddxubJ5N7wgdAKYWOl/eTVMxnEUvp2eSfemxhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=unzZsm74; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765361333; c=relaxed/simple;
+	bh=89IlcdGdzzwXpS4A0/v3Qxrc1x2e4XUX10pWBNc4wN0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KaCNNil2CFwGj/Z2V4PbaLkuzLRcN5rn4LFO9SDKmZCpbzKd16bVJszUszzuGP7DYPiTDjsQAy57QidOvROeMTzISskfvvsUd0Zhcjm7gBD5aHPou39KjGdyPsazqWDeJOFk4/RCWUFiEPtHLyR1uyIUhgSJQEThpsXN9cEs0lE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=imFsBinl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="unzZsm74"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90BC6C4CEF1;
-	Wed, 10 Dec 2025 09:23:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="imFsBinl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1934C113D0;
+	Wed, 10 Dec 2025 10:08:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765358600;
-	bh=fQE8Piz7TeTd5PSXjii+oX+LMW5oTzgNtn7GW5Zzx4w=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=unzZsm74oKaQ1xYbDLy2aiBkW1E17idwIMGYJCXkCMzs603QGnnJIptlSBQzuTQEz
-	 xG2IT28SxDOP8aD74l5+hJKfLW1DN8zxR+Q9tD5AMrI2IqqjTgqg8pBpMgru/vIYF2
-	 DpJh5qgHwSDbyE43yDyMTiQVwjRa7RAmm/idj2dMIqp7ELYvSrngOz8wPyxoaHWycU
-	 TFiNIflwTbNBmXn/cenC/ZW+vphWeoNysVZxn/2spkLGY+yLDAapyfM19kR3ipEdjg
-	 ot5TiKv+Na7dKyRVBh5QdFesWTLmPBa3U2bpqF3K/OECwlZ5GpyOfoxlwtNixvzDbM
-	 /P+6mCY55Obig==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 788683809A18;
-	Wed, 10 Dec 2025 09:20:16 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1765361333;
+	bh=89IlcdGdzzwXpS4A0/v3Qxrc1x2e4XUX10pWBNc4wN0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=imFsBinl3fGYKIcDgOr9YHOFw+S1maS3kl/25JPKPJMKkOiohoCApbWgyA2H0PZoC
+	 2wtyxpb1/68sp4gINHKYfCYQ9gMhsTZ5Ovb372OUJRtiknheRmCH9/Ew0Lmp7i1pec
+	 EYmccFjzzLy5Po4/d/BYTnAAV3kSGZ0l+czCvvNpXtVV+Gq0PbOG9j9H21/SXqB+wD
+	 dnN0ETHWtLdMTUdPsQ3jbxMPCPv88JOVoqdrXd5cuTnATmWnAZSp9oOeeYW51XmsFe
+	 FZ5np051Q6kGpe84gYdw7rg5SP5HWwhUB+DinoviZPo7FvQModGXwVfo2RYC2S38AF
+	 Y2uOh+B18JAjg==
+Date: Wed, 10 Dec 2025 10:08:48 +0000
+From: Simon Horman <horms@kernel.org>
+To: Wang Liang <wangliang74@huawei.com>
+Cc: Chuck Lever <cel@kernel.org>, chuck.lever@oracle.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, brauner@kernel.org,
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, yuehaibing@huawei.com,
+	zhangchangzhong@huawei.com
+Subject: Re: [PATCH net] net/handshake: Fix null-ptr-deref in
+ handshake_complete()
+Message-ID: <aTlGsMozNBaLDpNW@horms.kernel.org>
+References: <20251209115852.3827876-1-wangliang74@huawei.com>
+ <aThlNuc-kjPqd9kh@horms.kernel.org>
+ <5d5a0cf3-e085-4921-b340-b84446526985@huawei.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3] net/handshake: restore destructor on submit failure
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176535841527.523551.15411391386973921361.git-patchwork-notify@kernel.org>
-Date: Wed, 10 Dec 2025 09:20:15 +0000
-References: <20251204091058.1545151-1-caoping@cmss.chinamobile.com>
-In-Reply-To: <20251204091058.1545151-1-caoping@cmss.chinamobile.com>
-To: caoping <caoping@cmss.chinamobile.com>
-Cc: chuck.lever@oracle.com, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
+In-Reply-To: <5d5a0cf3-e085-4921-b340-b84446526985@huawei.com>
 
-Hello:
+On Wed, Dec 10, 2025 at 10:51:11AM +0800, Wang Liang wrote:
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+...
 
-On Thu,  4 Dec 2025 01:10:58 -0800 you wrote:
-> handshake_req_submit() replaces sk->sk_destruct but never restores it when
-> submission fails before the request is hashed. handshake_sk_destruct() then
-> returns early and the original destructor never runs, leaking the socket.
-> Restore sk_destruct on the error path.
+> > Hi,
+> > 
+> > Clang 21.1.7 W=1 builds are rather unhappy about this:
+> > 
+> >    net/handshake/netlink.c:110:3: error: cannot jump from this goto statement to its label
+> >      110 |                 goto out_status;
+> >          |                 ^
+> >    net/handshake/netlink.c:114:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
+> >      114 |         FD_PREPARE(fdf, O_CLOEXEC, sock->file);
+> >          |                    ^
+> >    net/handshake/netlink.c:104:3: error: cannot jump from this goto statement to its label
+> >      104 |                 goto out_status;
+> >          |                 ^
+> >    net/handshake/netlink.c:114:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
+> >      114 |         FD_PREPARE(fdf, O_CLOEXEC, sock->file);
+> >          |                    ^
+> >    net/handshake/netlink.c:100:3: error: cannot jump from this goto statement to its label
+> >      100 |                 goto out_status;
+> >          |                 ^
+> >    net/handshake/netlink.c:114:13: note: jump bypasses initialization of variable with __attribute__((cleanup))
+> >      114 |         FD_PREPARE(fdf, O_CLOEXEC, sock->file);
+> >          |                    ^
+> > 
+> > My undersatnding of the problem is as follows:
+> > 
+> > FD_PREPARE uses __cleanup to call class_fd_prepare_destructor when
+> > resources when fdf goes out of scope.
+> > 
+> > Prior to this patch this was when the if (req) block was existed.
+> > Either via return or a goto due to an error.
+> > 
+> > Now it is when handshake_nl_accept_doit() itself is exited.
+> > Again via a return or a goto due to error.
+> > 
+> > But, importantly, such a goto can now occur before fdf is initialised.
+> > Boom!
 > 
-> Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for handling handshake requests")
-> Reviewed-by: Chuck Lever <chuck.lever@oracle.com>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: caoping <caoping@cmss.chinamobile.com>
 > 
-> [...]
+> Thanks for your analysis, you are right!
+> 
+> How about adding a null check before calling handshake_complete()?
 
-Here is the summary with links:
-  - [v3] net/handshake: restore destructor on submit failure
-    https://git.kernel.org/netdev/net/c/6af2a01d65f8
+I assumed the problem lies around the initialisation of fdf
+and class_fd_prepare_destructor being called regardless of that
+having occurred. But maybe I miss your point.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+In any case, I would advocate an approach that left FD_PREPARE in a scope
+where it is always called before the scope is exited.
 
-
+> 
+> Like:
+> 
+> diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
+> index 1d33a4675a48..b989456fc4c5 100644
+> --- a/net/handshake/netlink.c
+> +++ b/net/handshake/netlink.c
+> @@ -126,7 +126,8 @@ int handshake_nl_accept_doit(struct sk_buff *skb, struct
+> genl_info *info)
+>         }
+> 
+>  out_complete:
+> -       handshake_complete(req, -EIO, NULL);
+> +       if (req)
+> +               handshake_complete(req, -EIO, NULL);
+>  out_status:
+>         trace_handshake_cmd_accept_err(net, req, NULL, err);
+>         return err;
+> 
+> ------
+> Best regards
+> Wang Liang
+> 

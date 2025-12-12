@@ -1,112 +1,97 @@
-Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84C626FDBF
-	for <kernel-tls-handshake@lists.linux.dev>; Fri, 12 Dec 2025 01:06:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B342580D7;
+	Fri, 12 Dec 2025 16:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765501619; cv=none; b=HFnT56jdRLjLjJdL/FaEcZKO3Sc06SUvGrn913lqeaiVA/P5hV+kST+fBrqU4OYEF+FAq9Gj0RanuR39CaOh4Qj5A4oOInDL6wsgO0+aAugb7rb+m72CU5JClQ9+g196mXr+6qpdhHGh+9lpEvXSXzgKcvqGMg3/ygR51IrI2ck=
+	t=1765558257; cv=none; b=GNkDhlOTaSM/LXgANth2/IzGROrm4X5yPFrAs15kwIn6NZBGKKz81THtEbg+vPt0bI4QfyArb+YtpClRuO24wIZQC/LrQase+y898GqumJEA5rjsBVkdOYuggtjdW1oa1QXj/EaD+RPAe8doGrm67YWSOzOzFqzOFBemvge2JR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765501619; c=relaxed/simple;
-	bh=aczU1JfBLxP2khwCirtNjzBSNECnoRTmttzNtlwxNUg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qX6jYMGbppTbnyKefcnVaNQY3o3K2Wu4D7lrPP88fPLBhnNJf0UCSzTMF7khrQ2/zIYNp0DJ2w53aHqZ969FgmRa/2QtD0PNjFPN/pevI8I8IdLRZCef1pXV5i9r7wOVmHPzYWu38Trkc3wcdsjOvc6JU7G1uf5kwkFqKaa0+80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=MciBeZo6; arc=none smtp.client-ip=113.46.200.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1765558257; c=relaxed/simple;
+	bh=OcHsKLbBZRjLnwJzCx8BqpA7PpLlbGBhVjpwidAlopo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jHH6ywil0wG0BNHobaevfJfVSOZIw4ve66FxxjxFafosWw8sLzaC3lK5vpVGYDTFzlZ7JJ0YLwDc5TmgC/p8gFlL7L6r3tUk8ANt0jPprtVNXZO7DFQeEAZhyEsklgr2FvXtM10S6LITju8SeNXcZP5reKgAgEcu3+1L4RINQ3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkK7cMvb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="MciBeZo6"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=hw8tuactDGjDGNOJ5xlRE25GO/eWacUHzTR/n+O1OCg=;
-	b=MciBeZo6do0ynq3ObqEemd+esv2NFLzcEF+2LZu/dqVOW7AWokW4DM+7yLVFQ18+I0H6dFzPz
-	c+lPmIfh/2Wy3G7uDbhX8phXNvmJjDrpEheuoM0WAU2CB14rglgWE2MHTGgj0x5n6CGRw86uMBp
-	4Hu+WDtQclL+yrKAYNwgjlE=
-Received: from mail.maildlp.com (unknown [172.19.163.44])
-	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dSB7M2GxtznTV6;
-	Fri, 12 Dec 2025 09:04:31 +0800 (CST)
-Received: from dggpemf500016.china.huawei.com (unknown [7.185.36.197])
-	by mail.maildlp.com (Postfix) with ESMTPS id D3A071401F1;
-	Fri, 12 Dec 2025 09:06:47 +0800 (CST)
-Received: from huawei.com (10.50.85.128) by dggpemf500016.china.huawei.com
- (7.185.36.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 12 Dec
- 2025 09:06:47 +0800
-From: Wang Liang <wangliang74@huawei.com>
-To: <chuck.lever@oracle.com>, <davem@davemloft.net>, <edumazet@google.com>,
-	<kuba@kernel.org>, <pabeni@redhat.com>, <horms@kernel.org>,
-	<brauner@kernel.org>
-CC: <kernel-tls-handshake@lists.linux.dev>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <yuehaibing@huawei.com>,
-	<zhangchangzhong@huawei.com>, <wangliang74@huawei.com>
-Subject: [PATCH net v2] net/handshake: Fix null-ptr-deref in handshake_complete()
-Date: Fri, 12 Dec 2025 09:27:23 +0800
-Message-ID: <20251212012723.4111831-1-wangliang74@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bkK7cMvb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80476C116B1;
+	Fri, 12 Dec 2025 16:50:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765558256;
+	bh=OcHsKLbBZRjLnwJzCx8BqpA7PpLlbGBhVjpwidAlopo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bkK7cMvbkvvL1TjmBnSXXES/9z7FxXjrEgrRx6E1Uo2r4JuFcSx9CyCqBnSlmu0FY
+	 RbKVfGHGVEd0fRyf7VRq+7B5OK1pFw6/gJMSe/QmAyAzNucDgoGBhbD8T6akfsnvVy
+	 T2HL0HO2JT2KyKdcKvn7JtkbJ/c5WZf5twN6RJNMjsGjZUr/FAo13xgLBSzQtCwDov
+	 MzHal26SX48wioxzJiOALzeWWOnJpIeu0Vx5AWg+xa19wulZvtDnlnBlv0kEn81Z5q
+	 BHThl40NyxIWDtIdmITGR8E9DR6CFSw+2Xh6QGbH0+CVdAZSmWstKrQdz6IBzUxhhC
+	 wl+uqrhH6b+eA==
+Date: Fri, 12 Dec 2025 16:50:52 +0000
+From: Simon Horman <horms@kernel.org>
+To: Wang Liang <wangliang74@huawei.com>
+Cc: chuck.lever@oracle.com, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, brauner@kernel.org,
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, yuehaibing@huawei.com,
+	zhangchangzhong@huawei.com
+Subject: Re: [PATCH net v2] net/handshake: Fix null-ptr-deref in
+ handshake_complete()
+Message-ID: <aTxH7E2Jq_S9b6rq@horms.kernel.org>
+References: <20251212012723.4111831-1-wangliang74@huawei.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- dggpemf500016.china.huawei.com (7.185.36.197)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251212012723.4111831-1-wangliang74@huawei.com>
 
-A null pointer dereference in handshake_complete() was observed [1].
+On Fri, Dec 12, 2025 at 09:27:23AM +0800, Wang Liang wrote:
+> A null pointer dereference in handshake_complete() was observed [1].
+> 
+> When handshake_req_next() return NULL in handshake_nl_accept_doit(),
+> function handshake_complete() will be called unexpectedly which triggers
+> this crash. Fix it by goto out_status when req is NULL.
+> 
+> [1]
+> Oops: general protection fault, probably for non-canonical address 0xdffffc0000000005: 0000 [#1] SMP KASAN PTI
+> RIP: 0010:handshake_complete+0x36/0x2b0 net/handshake/request.c:288
+> Call Trace:
+>  <TASK>
+>  handshake_nl_accept_doit+0x32d/0x7e0 net/handshake/netlink.c:129
+>  genl_family_rcv_msg_doit+0x204/0x300 net/netlink/genetlink.c:1115
+>  genl_family_rcv_msg+0x436/0x670 net/netlink/genetlink.c:1195
+>  genl_rcv_msg+0xcc/0x170 net/netlink/genetlink.c:1210
+>  netlink_rcv_skb+0x14c/0x430 net/netlink/af_netlink.c:2550
+>  genl_rcv+0x2d/0x40 net/netlink/genetlink.c:1219
+>  netlink_unicast_kernel net/netlink/af_netlink.c:1318 [inline]
+>  netlink_unicast+0x878/0xb20 net/netlink/af_netlink.c:1344
+>  netlink_sendmsg+0x897/0xd70 net/netlink/af_netlink.c:1894
+>  sock_sendmsg_nosec net/socket.c:727 [inline]
+>  __sock_sendmsg net/socket.c:742 [inline]
+>  ____sys_sendmsg+0xa39/0xbf0 net/socket.c:2592
+>  ___sys_sendmsg+0x121/0x1c0 net/socket.c:2646
+>  __sys_sendmsg+0x155/0x200 net/socket.c:2678
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0x5f/0x350 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+>  </TASK>
+> 
+> Fixes: fe67b063f687 ("net/handshake: convert handshake_nl_accept_doit() to FD_PREPARE()")
+> Reviewed-by: Chuck Lever <chuck.lever@oracle.com>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/kernel-tls-handshake/aScekpuOYHRM9uOd@morisot.1015granger.net/T/#m7cfa5c11efc626d77622b2981591197a2acdd65e
+> Signed-off-by: Wang Liang <wangliang74@huawei.com>
+> ---
+>  net/handshake/netlink.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-When handshake_req_next() return NULL in handshake_nl_accept_doit(),
-function handshake_complete() will be called unexpectedly which triggers
-this crash. Fix it by goto out_status when req is NULL.
+Thanks for the update and for addressing my review of v1.
 
-[1]
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000005: 0000 [#1] SMP KASAN PTI
-RIP: 0010:handshake_complete+0x36/0x2b0 net/handshake/request.c:288
-Call Trace:
- <TASK>
- handshake_nl_accept_doit+0x32d/0x7e0 net/handshake/netlink.c:129
- genl_family_rcv_msg_doit+0x204/0x300 net/netlink/genetlink.c:1115
- genl_family_rcv_msg+0x436/0x670 net/netlink/genetlink.c:1195
- genl_rcv_msg+0xcc/0x170 net/netlink/genetlink.c:1210
- netlink_rcv_skb+0x14c/0x430 net/netlink/af_netlink.c:2550
- genl_rcv+0x2d/0x40 net/netlink/genetlink.c:1219
- netlink_unicast_kernel net/netlink/af_netlink.c:1318 [inline]
- netlink_unicast+0x878/0xb20 net/netlink/af_netlink.c:1344
- netlink_sendmsg+0x897/0xd70 net/netlink/af_netlink.c:1894
- sock_sendmsg_nosec net/socket.c:727 [inline]
- __sock_sendmsg net/socket.c:742 [inline]
- ____sys_sendmsg+0xa39/0xbf0 net/socket.c:2592
- ___sys_sendmsg+0x121/0x1c0 net/socket.c:2646
- __sys_sendmsg+0x155/0x200 net/socket.c:2678
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x5f/0x350 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x76/0x7e
- </TASK>
+Considering that this function combines __cleanup (via FD_PREPARE) with
+goto labels, which IMHO leads to an awkward arrangement of the code, I
+think this approach is a good one for a bug fix.
 
-Fixes: fe67b063f687 ("net/handshake: convert handshake_nl_accept_doit() to FD_PREPARE()")
-Reviewed-by: Chuck Lever <chuck.lever@oracle.com>
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/kernel-tls-handshake/aScekpuOYHRM9uOd@morisot.1015granger.net/T/#m7cfa5c11efc626d77622b2981591197a2acdd65e
-Signed-off-by: Wang Liang <wangliang74@huawei.com>
----
- net/handshake/netlink.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
-index 1d33a4675a48..b989456fc4c5 100644
---- a/net/handshake/netlink.c
-+++ b/net/handshake/netlink.c
-@@ -126,7 +126,8 @@ int handshake_nl_accept_doit(struct sk_buff *skb, struct genl_info *info)
- 	}
- 
- out_complete:
--	handshake_complete(req, -EIO, NULL);
-+	if (req)
-+		handshake_complete(req, -EIO, NULL);
- out_status:
- 	trace_handshake_cmd_accept_err(net, req, NULL, err);
- 	return err;
--- 
-2.34.1
-
+Reviewed-by: Simon Horman <horms@kernel.org>

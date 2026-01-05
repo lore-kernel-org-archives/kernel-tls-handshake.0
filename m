@@ -1,64 +1,64 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD0F33A9F9
-	for <kernel-tls-handshake@lists.linux.dev>; Mon,  5 Jan 2026 14:08:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDFF2773E9
+	for <kernel-tls-handshake@lists.linux.dev>; Mon,  5 Jan 2026 14:08:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767622122; cv=none; b=CIvyjf7J9e5EEoakDYN/roytFb7W95/jriWOemhwS3NDgYnEd6KYIV6RnXorn48QN4+mwosn4lICNTyZDmCk59DzkRv9KuZT3zz/4DGio8DZEGNO7x/FjKD7JcmroV9yieCwtlYPfF3AcIeUikrx4VP1u/QYIEibGQG2VeaqHSw=
+	t=1767622126; cv=none; b=jetb31gN5S2W4AzobTqstKGgu+V9PTVHblmN8S76yv2kOMzJVEbjyRdQIYory3Gt9694wOCBb3nDWnbCAb8dsGH0SLTgf5UZXy2++oFK2ox+ImOkigrmWsZruyOBe0wp6u5Uo5oBxYnz2Bh5vhQEwuKYSytHPE8Jj/6ljSdX2Co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767622122; c=relaxed/simple;
-	bh=9qUWacfD09KgHI4uHvyDH3fJyUC3b8Lia1tfXOHyB60=;
+	s=arc-20240116; t=1767622126; c=relaxed/simple;
+	bh=UjY1qfAlGIm9BZaLhEQ9tDVHvZXEYCuYEr2LM5Iv0nU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l3H3aelsgkDv6Q2JEdLyZfIlUhWSYbFiekqPUiVy5RLSqprqaSwDpdwkjvaH2USbrKzwyiJ8UDMOmdLQI5KOmwZFj9ySOCy1tYUmXmJaK1bD4sAx+qzhwDAdf5cDU4nmEmjB2h7eHpo693AyHysroOcOGju03HOieimbOMJLPNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jbYMqIxd; arc=none smtp.client-ip=209.85.222.174
+	 MIME-Version:Content-Type; b=ACZsxkB0iJNcEF/6pvLubrN2mTWeDEsBLNrrTUrpqbW+0W4K8myDlSTfOFSxJ2I+/oETVWVqXMS+44HPXKhkw2lleiPR6nXZXlvg60Ihz6rQObN/Ngsin7ewOM7Z5NO2FSk3ImfH58/TfnREEa+U0vF0ZC3eXsTa/GajUcgYfZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gifJtOB2; arc=none smtp.client-ip=209.85.219.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jbYMqIxd"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-8b25dd7ab33so956476485a.1
-        for <kernel-tls-handshake@lists.linux.dev>; Mon, 05 Jan 2026 06:08:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gifJtOB2"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-88fca7bce90so153538486d6.3
+        for <kernel-tls-handshake@lists.linux.dev>; Mon, 05 Jan 2026 06:08:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767622111; x=1768226911; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1767622114; x=1768226914; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GYunKGHzuTELe0KxGrMziSmaOFUrGJRhxe6MHqPo/j4=;
-        b=jbYMqIxduCyMEvnwTm/1ddmLDZO/Kns669U/ZoPtxFceHbKMbqBm78zlpr0ZhbsAQ4
-         lBduBoLiFp4kRgZxNmpQkIiNUgczsYEyWlHRh7O8K/F2NvTIKKvv2ksIwWlnE97Ldpc4
-         PHMmcYcwG18crj8Ck01S1V2nYtD9IM94cGvb+1vWpzB50/V8j88zrqbu3m6sbcjnjj4H
-         rhCl0oOS179p7OAX53/2o++yib+5BQwuHOfvvgFcyq7eYxmM9/rmguAsvmEXWFV3nNwG
-         c2qPwbelkHMN5/L7Cl/l/5lGcQs4pVrEx5zMm9jyrOTzWHing62FmlJEUJPlCpfNJwvd
-         FK9g==
+        bh=IcXQDX9utiE4yE1plGTDORj2uFFQtwgI0WcuWjtYoug=;
+        b=gifJtOB2usYIVemvSlIiMmjvsAGAVFv8NWyJY301v5sQYTor8uynUauptd4X+o+DTp
+         NHVUTJ7EPzrqrIh/pf/VeE/H+Ml56T190LranknRBBa7FYkpgFWYMLl67C3kqNV72g8O
+         71++UzY82FTKBtMpifKoHAGcanNwTy/uKMcTjIn3i3OwAHA422wJb7MyxyK5/8A44USI
+         WJtmBeLZzbMvT7kBAlRW/G8z5n+J0gDeqaG84KXKKg2Rz6z/U/BBJs43I227YlfzZZmS
+         75pW88TngojpumvedxxtzEWtMKbP3OmLUTfr1Kcvp+5ped29VPQcGSNXHEo5QytLU21F
+         g5zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767622111; x=1768226911;
+        d=1e100.net; s=20230601; t=1767622114; x=1768226914;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=GYunKGHzuTELe0KxGrMziSmaOFUrGJRhxe6MHqPo/j4=;
-        b=tl7V3XLqV9R1OZjRizBhqtFlcPZNi9ny8UADVdiQjH3GzmkcXoEfeyMxVWrlIniYEA
-         cXbl3gXFpzqBrhXoPFY0TKRYfGQX+0TjPO3rjPZ4N0wKEGPR4MH7nfJoxTDDByNDFiS+
-         jM8njLmoHUdNUAb/TOzR2iK9mEC++Sdlo3/BAAu7N3Bk3bmuRwUU0JSzPt0FBTFt0IcJ
-         CCGVeQbu50Pi92/DkjsD9G+I9zRhNHMCspekqkuVB8kd9mauBVrJfZ0ZFNDzSo9FME5H
-         VhQc3eLm7aX86HUXwYavGnJNiDVYr96V3VnrROlpw0iESoYalPWhpoR8oWZ8kyb0zdIk
-         zHTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVkE+5FZ1mBr+HJjXPpdKA8ARLIXnFiRS9L7TAA8rRw7bu/20W18gC1CoKovUo0a2jvpcX6o8VgRPE8gYrDucax6ymMiQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyiGk6mwQXzbY0MZUZvTNzyd5z1FD6Fy7Ot9s3gu3gJo6gncgjd
-	DSo2GGRHQN9S7owwHnt8vFAVY6K9DXpG2XmdbencuXMM/IXruHtEbKC6
-X-Gm-Gg: AY/fxX6GnYuYETtUejdV4KTPG1Q+cxpCwO6wBIqOgCbzzro+W5SWQB2BccZngMjZlot
-	YNTE4I5a+SEFnUgHyKdgNKmHYitgN06Zwk+8nWtwZqfnusYnOy3nBBTtQHWBoAq4kitC7tOiX4w
-	t2Ei3PAKS8jn0UWz5YOOXfmRw1agaVb0qRTCVQl2DC2zQ9OOPg9oGlL/9mqt5yJQVkgtgai4hmk
-	tjh5WvWDM1IjWrzxP0KHPf5d01jJ0/YAOSpMcGb0lw4dawnNBioYMSg4Br9dkMlSBNyjxho3iIQ
-	QfoM5MqjuFEGW2jwAmD6BZunaLv+cHHwGqsxik58FNr48o8qYnh2SuQlvi2ES75eXJuv98FdvrA
-	N80iDlFIF7KZDSGL86AoA7GQig9wxVDn0hviGPSCqVZirNKZfUsAETo5xSPkPUFL1YPnjf7u3v1
-	5BYXklZ1a3ZuUXuSRshTPG3i7IrCpN/JxoRp2pK2yc6mFOg5APeoc=
-X-Google-Smtp-Source: AGHT+IF1jpUOAaItRMnPJRZkSCyJ1sZ8t+yK8k0y1JnCccZ1xxf93wauz4RrhfZsMSoMZY5cO4XDAA==
-X-Received: by 2002:ac8:5ccd:0:b0:4f1:ea19:da with SMTP id d75a77b69052e-4f4abd6216cmr627107541cf.41.1767622108953;
-        Mon, 05 Jan 2026 06:08:28 -0800 (PST)
+        bh=IcXQDX9utiE4yE1plGTDORj2uFFQtwgI0WcuWjtYoug=;
+        b=fJhRYc9Y17iEMzcBRuuEj/V+kFXK/NrsuSQj4wa0kyNPRb61glHGAolRNAT8pbjfhh
+         CSWQgY+Oj/j0B1Icj6hdfKMtJ5KZgFzTILvG7UHGgIJDtmfAV4ElkDbANcOY60IZNT6S
+         pypzkQpNsSuj1UYZcOsv4O7AWQviy9T+QztHTit9hug1HDfugWxz4kJfZHFpUkNqC4C1
+         IH0iHEuJyoZzBR3L06hfHFAo0jhTRNb+KaTRj3ua9AHXcbW/bnI41rAJX27PS40Bvd66
+         azB5ubBvOg+4i/Hrf41O8e4qdY+8FsqXqVkdtANUOZThaS/GCTjRDwXsMoDa4MezFQbH
+         OV8w==
+X-Forwarded-Encrypted: i=1; AJvYcCXfrReP4KKVRH/7yIpXSszpdVcSOujLwq05eaxOUL445TBAiQk1URG83ZpnU1/EaDOppPKeRYKB5TUHUlQ6xWD/hJWH9w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx2QFgM3C5s4JMCZoDy3ebHAzhqZ5a7c3NBlwKjrqGAwhSEjoZJ
+	eH1wIog0ff5gAaj3syceVIja249O/5g1ckbjPaWWOcFuxNcAmm+CLB52
+X-Gm-Gg: AY/fxX6RPZ0HdUAs74h7RkLbq75OuH2YqlpvMx6oVRh97BmC8YxqLeQsLes9CPSiyBP
+	GS1f77oquUhCkx14pI6mkjM69S/Qxp1IUwWWK2/SAx2l3M6e1F+OjoAAgNt0ht8T02EftgC5szg
+	vv7rhmGvm20UFeVJsjCtuZJ58oyRENdI99UdDXLf+08XpIU/OLS9cFwttxsmG1vNo43GoSKqRl/
+	Ji13OWQOB/tdj7jOSD2gd59Ltko9TZQOM2RsAoWAtZ2c0KbuBkmTwCvdNGUJoCU4HR6WBfj4Y4t
+	o4Hx8F9aG+t8Z7oOI/lc72lPZcl4wgGhj2FUs6QF9k/jIKzTR/lUSN11Eia9nCmrz3yiEW7RgI/
+	zMVGeck4iOy5MFI/prZCcFrZ38HPaQ/gA9HIkqCdhL5XH8ls0ikPUjd+Zn13znPRUVHqCGPlPdN
+	uhamZ11pKlh9ggdpOtJQZHil/fqRCu6MX2ATEmF3DqYOufIJjZxJg=
+X-Google-Smtp-Source: AGHT+IEh60ifEQ4skXCUIIIHphMvL8bP01mKTOAAJ814wAmq2DX4dMYWg2cjvZX7H5LYHqPwKpvV4A==
+X-Received: by 2002:a05:6214:469e:b0:884:6f86:e08c with SMTP id 6a1803df08f44-88d8271aeb3mr823781116d6.21.1767622113799;
+        Mon, 05 Jan 2026 06:08:33 -0800 (PST)
 Received: from wsfd-netdev58.anl.eng.rdu2.dc.redhat.com ([66.187.232.140])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4f4ac64a47esm368957221cf.24.2026.01.05.06.08.27
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4f4ac64a47esm368957221cf.24.2026.01.05.06.08.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 06:08:28 -0800 (PST)
+        Mon, 05 Jan 2026 06:08:33 -0800 (PST)
 From: Xin Long <lucien.xin@gmail.com>
 To: network dev <netdev@vger.kernel.org>,
 	quic@lists.linux.dev
@@ -94,9 +94,9 @@ Cc: davem@davemloft.net,
 	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
 	Daniel Stenberg <daniel@haxx.se>,
 	Andy Gospodarek <andrew.gospodarek@broadcom.com>
-Subject: [PATCH net-next v6 12/16] quic: add crypto packet encryption and decryption
-Date: Mon,  5 Jan 2026 09:04:38 -0500
-Message-ID: <8abbcc5b4289e1be8302d0c617160019a748129b.1767621882.git.lucien.xin@gmail.com>
+Subject: [PATCH net-next v6 15/16] quic: add packet builder base
+Date: Mon,  5 Jan 2026 09:04:41 -0500
+Message-ID: <2594c0e223de422661d0e1cb51021c7de6e2b536.1767621882.git.lucien.xin@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <cover.1767621882.git.lucien.xin@gmail.com>
 References: <cover.1767621882.git.lucien.xin@gmail.com>
@@ -106,782 +106,563 @@ List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This patch adds core support for packet-level encryption and decryption
-using AEAD, including both payload protection and QUIC header protection.
-It introduces helpers to encrypt packets before transmission and to
-remove header protection and decrypt payloads upon reception, in line
-with QUIC's cryptographic requirements.
+This patch introduces 'quic_packet' to handle packing of QUIC packets on
+the transmit (TX) path.
 
-- quic_crypto_encrypt(): Perform header protection and payload
-  encryption (TX).
+It provides functionality for frame packing and packet construction. The
+packet configuration includes setting the path, calculating overhead,
+and verifying routing. Frames are appended to the packet before it is
+created with the queued frames.
 
-- quic_crypto_decrypt(): Perform header protection removal and
-  payload decryption (RX).
+Once assembled, the packet is encrypted, bundled, and sent out. There
+is also support to flush the packet when no additional frames remain.
+Functions to create application (short) and handshake (long) packets
+are currently placeholders for future implementation.
 
-The patch also includes support for Retry token handling. It provides
-helpers to compute the Retry integrity tag, generate tokens for address
-validation, and verify tokens received from clients during the
-handshake phase.
+- quic_packet_config(): Set the path, compute overhead, and verify routing.
 
-- quic_crypto_get_retry_tag(): Compute tag for Retry packets.
+- quic_packet_tail(): Append a frame to the packet for transmission.
 
-- quic_crypto_generate_token(): Generate retry token.
+- quic_packet_create_and_xmit(): Create and send the packet with the queued
+  frames.
 
-- quic_crypto_verify_token(): Verify retry token.
+- quic_packet_xmit(): Encrypt, bundle, and send out the packet.
 
-These additions establish the cryptographic primitives necessary for
-secure QUIC packet exchange and address validation.
+- quic_packet_flush(): Send the packet if there's nothing left to bundle.
 
 Signed-off-by: Xin Long <lucien.xin@gmail.com>
 ---
 v3:
-  - quic_crypto_decrypt(): return -EKEYREVOKED to defer key updates to
-    the workqueue when the packet is not marked backlog, since
-    quic_crypto_key_update()/crypto_aead_setkey() must run in process
-    context.
-  - Only perform header decryption if !cb->number_len to avoid double
-    decryption when a key-update packet (with flipped key_phase)
-    re-enters quic_crypto_decrypt() from the workqueue.
+  - Adjust global connection and listen socket hashtable operations
+    based on the new hashtable type.
+  - Introduce quic_packet_backlog_schedule() to enqueue Initial packets
+    to quic_net.backlog_list and defer their decryption for ALPN demux
+    to quic_packet_backlog_work() on quic_net.work, since
+    quic_crypto_initial_keys_install()/crypto_aead_setkey() must run
+    in process context.
 v4:
-  - skb_dst_force() is already called in in quic_udp_rcv() on recv path,
-    so remove its call from quic_crypto_payload_decrypt(), which may be
-    called without RCU protection.
-  - Remove the incorrect (void *) cast to quic_crypto_done.
+  - Update quic_(listen_)sock_lookup() to support lockless socket
+    lookup using hlist_nulls_node APIs.
+  - Use quic_wq for QUIC packet backlog processing work.
 v5:
-  - Use skb_cb->crypto_ctx for async crypto context freeing, which is
-    safer than using skb_shinfo(skb)->destructor_arg.
-  - skb_cb->number_max is removed and number is reused as the largest
-    previously seen and update quic_crypto_get_header() accordingly.
-  - Change timestamp variables from u32 to u64 and use quic_ktime_get_us()
-    for current timestamps, as jiffies_to_usecs() is not accurate enough.
-v6:
-  - Rename quic_crypto_get_header() to quic_crypto_get_number(), move
-    key_phase parsing out of it, check cb->length when parsing packet
-    number, and update all callers.
-  - Use hdr->pnl + 1 instead of (*p & QUIC_PN_LEN_BITS_MASK) + 1 to get
-    packet number length, and remove the unnecessary the len variable
-    and QUIC_PN_LEN_BITS_MASK macro from quic_crypto_header_decrypt().
+  - Rename quic_packet_create() to quic_packet_create_and_xmit()
+    (suggested by Paolo).
+  - Move the packet parser base code to a separate patch, keeping only
+    the packet builder base in this patch (suggested by Paolo).
+  - Change sent_time timestamp from u32 to u64 to improve accuracy.
 ---
- net/quic/crypto.c | 662 ++++++++++++++++++++++++++++++++++++++++++++++
- net/quic/crypto.h |  10 +
- 2 files changed, 672 insertions(+)
+ net/quic/Makefile |   2 +-
+ net/quic/packet.c | 313 ++++++++++++++++++++++++++++++++++++++++++++++
+ net/quic/packet.h | 121 ++++++++++++++++++
+ net/quic/socket.c |   1 +
+ net/quic/socket.h |   7 ++
+ 5 files changed, 443 insertions(+), 1 deletion(-)
+ create mode 100644 net/quic/packet.c
+ create mode 100644 net/quic/packet.h
 
-diff --git a/net/quic/crypto.c b/net/quic/crypto.c
-index 1623aaa5aafb..11d6e7a6161d 100644
---- a/net/quic/crypto.c
-+++ b/net/quic/crypto.c
-@@ -207,6 +207,333 @@ static int quic_crypto_rx_keys_derive_and_install(struct quic_crypto *crypto)
- 	return err;
- }
+diff --git a/net/quic/Makefile b/net/quic/Makefile
+index 645ee470c95e..4a43052eb441 100644
+--- a/net/quic/Makefile
++++ b/net/quic/Makefile
+@@ -6,4 +6,4 @@
+ obj-$(CONFIG_IP_QUIC) += quic.o
  
-+static void *quic_crypto_skcipher_mem_alloc(struct crypto_skcipher *tfm, u32 mask_size,
-+					    u8 **iv, struct skcipher_request **req)
+ quic-y := common.o family.o protocol.o socket.o stream.o connid.o path.o \
+-	  cong.o pnspace.o crypto.o timer.o frame.o
++	  cong.o pnspace.o crypto.o timer.o frame.o packet.o
+diff --git a/net/quic/packet.c b/net/quic/packet.c
+new file mode 100644
+index 000000000000..348e760aa197
+--- /dev/null
++++ b/net/quic/packet.c
+@@ -0,0 +1,313 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/* QUIC kernel implementation
++ * (C) Copyright Red Hat Corp. 2023
++ *
++ * This file is part of the QUIC kernel implementation
++ *
++ * Initialization/cleanup for QUIC protocol support.
++ *
++ * Written or modified by:
++ *    Xin Long <lucien.xin@gmail.com>
++ */
++
++#include "socket.h"
++
++#define QUIC_HLEN		1
++
++/* Make these fixed for easy coding. */
++#define QUIC_PACKET_NUMBER_LEN	QUIC_PN_MAX_LEN
++#define QUIC_PACKET_LENGTH_LEN	4
++
++static struct sk_buff *quic_packet_handshake_create(struct sock *sk)
 +{
-+	unsigned int iv_size, req_size;
-+	unsigned int len;
-+	u8 *mem;
++	struct quic_packet *packet = quic_packet(sk);
++	struct quic_frame *frame, *next;
 +
-+	iv_size = crypto_skcipher_ivsize(tfm);
-+	req_size = sizeof(**req) + crypto_skcipher_reqsize(tfm);
-+
-+	len = mask_size;
-+	len += iv_size;
-+	len += crypto_skcipher_alignmask(tfm) & ~(crypto_tfm_ctx_alignment() - 1);
-+	len = ALIGN(len, crypto_tfm_ctx_alignment());
-+	len += req_size;
-+
-+	mem = kzalloc(len, GFP_ATOMIC);
-+	if (!mem)
-+		return NULL;
-+
-+	*iv = (u8 *)PTR_ALIGN(mem + mask_size, crypto_skcipher_alignmask(tfm) + 1);
-+	*req = (struct skcipher_request *)PTR_ALIGN(*iv + iv_size,
-+			crypto_tfm_ctx_alignment());
-+
-+	return (void *)mem;
++	/* Free all frames for now, and future patches will implement the actual creation logic. */
++	list_for_each_entry_safe(frame, next, &packet->frame_list, list) {
++		list_del(&frame->list);
++		quic_frame_put(frame);
++	}
++	return NULL;
 +}
 +
-+#define QUIC_SAMPLE_LEN		16
-+
-+#define QUIC_HEADER_FORM_BIT	0x80
-+#define QUIC_LONG_HEADER_MASK	0x0f
-+#define QUIC_SHORT_HEADER_MASK	0x1f
-+
-+/* Header Protection. */
-+static int quic_crypto_header_encrypt(struct crypto_skcipher *tfm, struct sk_buff *skb, bool chacha)
++static int quic_packet_number_check(struct sock *sk)
 +{
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	struct skcipher_request *req;
-+	struct scatterlist sg;
-+	u8 *mask, *iv, *p;
-+	int err, i;
-+
-+	mask = quic_crypto_skcipher_mem_alloc(tfm, QUIC_SAMPLE_LEN, &iv, &req);
-+	if (!mask)
-+		return -ENOMEM;
-+
-+	/* rfc9001#section-5.4.2: Header Protection Sample:
-+	 *
-+	 *   # pn_offset is the start of the Packet Number field.
-+	 *   sample_offset = pn_offset + 4
-+	 *
-+	 *   sample = packet[sample_offset..sample_offset+sample_length]
-+	 *
-+	 * rfc9001#section-5.4.3: AES-Based Header Protection:
-+	 *
-+	 *   header_protection(hp_key, sample):
-+	 *     mask = AES-ECB(hp_key, sample)
-+	 *
-+	 * rfc9001#section-5.4.4: ChaCha20-Based Header Protection:
-+	 *
-+	 *   header_protection(hp_key, sample):
-+	 *     counter = sample[0..3]
-+	 *     nonce = sample[4..15]
-+	 *     mask = ChaCha20(hp_key, counter, nonce, {0,0,0,0,0})
-+	 */
-+	memcpy((chacha ? iv : mask), skb->data + cb->number_offset + QUIC_PN_MAX_LEN,
-+	       QUIC_SAMPLE_LEN);
-+	sg_init_one(&sg, mask, QUIC_SAMPLE_LEN);
-+	skcipher_request_set_tfm(req, tfm);
-+	skcipher_request_set_crypt(req, &sg, &sg, QUIC_SAMPLE_LEN, iv);
-+	err = crypto_skcipher_encrypt(req);
-+	if (err)
-+		goto err;
-+
-+	/* rfc9001#section-5.4.1:
-+	 *
-+	 * mask = header_protection(hp_key, sample)
-+	 *
-+	 * pn_length = (packet[0] & 0x03) + 1
-+	 * if (packet[0] & 0x80) == 0x80:
-+	 *    # Long header: 4 bits masked
-+	 *    packet[0] ^= mask[0] & 0x0f
-+	 * else:
-+	 *    # Short header: 5 bits masked
-+	 *    packet[0] ^= mask[0] & 0x1f
-+	 *
-+	 * # pn_offset is the start of the Packet Number field.
-+	 * packet[pn_offset:pn_offset+pn_length] ^= mask[1:1+pn_length]
-+	 */
-+	p = skb->data;
-+	*p = (u8)(*p ^ (mask[0] & (((*p & QUIC_HEADER_FORM_BIT) == QUIC_HEADER_FORM_BIT) ?
-+				   QUIC_LONG_HEADER_MASK : QUIC_SHORT_HEADER_MASK)));
-+	p = skb->data + cb->number_offset;
-+	for (i = 1; i <= cb->number_len; i++)
-+		*p++ ^= mask[i];
-+err:
-+	kfree_sensitive(mask);
-+	return err;
-+}
-+
-+/* Extracts and reconstructs the packet number from an incoming QUIC packet. */
-+static int quic_crypto_get_number(struct sk_buff *skb)
-+{
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	s64 number_max = cb->number;
-+	u32 len = cb->length;
-+	u8 *p;
-+
-+	/* rfc9000#section-17.1:
-+	 *
-+	 * Once header protection is removed, the packet number is decoded by finding the packet
-+	 * number value that is closest to the next expected packet. The next expected packet is
-+	 * the highest received packet number plus one.
-+	 */
-+	p = (u8 *)quic_hdr(skb) + cb->number_offset;
-+	if (!quic_get_int(&p, &len, &cb->number, cb->number_len))
-+		return -EINVAL;
-+	cb->number = quic_get_num(number_max, cb->number, cb->number_len);
 +	return 0;
 +}
 +
-+static int quic_crypto_header_decrypt(struct crypto_skcipher *tfm, struct sk_buff *skb, bool chacha)
++static struct sk_buff *quic_packet_app_create(struct sock *sk)
 +{
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	struct quichdr *hdr = quic_hdr(skb);
-+	struct skcipher_request *req;
-+	struct scatterlist sg;
-+	u8 *mask, *iv, *p;
-+	int err, i;
++	struct quic_packet *packet = quic_packet(sk);
++	struct quic_frame *frame, *next;
 +
-+	mask = quic_crypto_skcipher_mem_alloc(tfm, QUIC_SAMPLE_LEN, &iv, &req);
-+	if (!mask)
-+		return -ENOMEM;
++	/* Free all frames for now, and future patches will implement the actual creation logic. */
++	list_for_each_entry_safe(frame, next, &packet->frame_list, list) {
++		list_del(&frame->list);
++		quic_frame_put(frame);
++	}
++	return NULL;
++}
 +
-+	if (cb->length < QUIC_PN_MAX_LEN + QUIC_SAMPLE_LEN) {
-+		err = -EINVAL;
-+		goto err;
++/* Update the MSS and inform congestion control. */
++void quic_packet_mss_update(struct sock *sk, u32 mss)
++{
++	struct quic_packet *packet = quic_packet(sk);
++	struct quic_cong *cong = quic_cong(sk);
++
++	packet->mss[0] = (u16)mss;
++	quic_cong_set_mss(cong, packet->mss[0] - packet->taglen[0]);
++}
++
++/* Perform routing for the QUIC packet on the specified path, update header length and MSS
++ * accordingly, reset path and start PMTU timer.
++ */
++int quic_packet_route(struct sock *sk)
++{
++	struct quic_path_group *paths = quic_paths(sk);
++	struct quic_packet *packet = quic_packet(sk);
++	struct quic_config *c = quic_config(sk);
++	union quic_addr *sa, *da;
++	u32 pmtu;
++	int err;
++
++	da = quic_path_daddr(paths, packet->path);
++	sa = quic_path_saddr(paths, packet->path);
++	err = quic_flow_route(sk, da, sa, &paths->fl);
++	if (err)
++		return err;
++
++	packet->hlen = quic_encap_len(da);
++	pmtu = min_t(u32, dst_mtu(__sk_dst_get(sk)), QUIC_PATH_MAX_PMTU);
++	quic_packet_mss_update(sk, pmtu - packet->hlen);
++
++	quic_path_pl_reset(paths);
++	quic_timer_reset(sk, QUIC_TIMER_PMTU, c->plpmtud_probe_interval);
++	return 0;
++}
++
++/* Configure the QUIC packet header and routing based on encryption level and path. */
++int quic_packet_config(struct sock *sk, u8 level, u8 path)
++{
++	struct quic_conn_id_set *dest = quic_dest(sk), *source = quic_source(sk);
++	struct quic_packet *packet = quic_packet(sk);
++	struct quic_config *c = quic_config(sk);
++	u32 hlen = QUIC_HLEN;
++
++	/* If packet already has data, no need to reconfigure. */
++	if (!quic_packet_empty(packet))
++		return 0;
++
++	packet->ack_eliciting = 0;
++	packet->frame_len = 0;
++	packet->ipfragok = 0;
++	packet->padding = 0;
++	packet->frames = 0;
++	hlen += QUIC_PACKET_NUMBER_LEN; /* Packet number length. */
++	hlen += quic_conn_id_choose(dest, path)->len; /* DCID length. */
++	if (level) {
++		hlen += 1; /* Length byte for DCID. */
++		hlen += 1 + quic_conn_id_active(source)->len; /* Length byte + SCID length. */
++		if (level == QUIC_CRYPTO_INITIAL) /* Include token for Initial packets. */
++			hlen += quic_var_len(quic_token(sk)->len) + quic_token(sk)->len;
++		hlen += QUIC_VERSION_LEN; /* Version length. */
++		hlen += QUIC_PACKET_LENGTH_LEN; /* Packet length field length. */
++		/* Allow fragmentation if PLPMTUD is enabled, as it no longer relies on ICMP
++		 * Toobig messages to discover the path MTU.
++		 */
++		packet->ipfragok = !!c->plpmtud_probe_interval;
++	}
++	packet->level = level;
++	packet->len = (u16)hlen;
++	packet->overhead = (u8)hlen;
++
++	if (packet->path != path) { /* If the path changed, update and reset routing cache. */
++		packet->path = path;
++		__sk_dst_reset(sk);
 +	}
 +
-+	/* Similar logic to quic_crypto_header_encrypt(). */
-+	p = (u8 *)hdr + cb->number_offset;
-+	memcpy((chacha ? iv : mask), p + QUIC_PN_MAX_LEN, QUIC_SAMPLE_LEN);
-+	sg_init_one(&sg, mask, QUIC_SAMPLE_LEN);
-+	skcipher_request_set_tfm(req, tfm);
-+	skcipher_request_set_crypt(req, &sg, &sg, QUIC_SAMPLE_LEN, iv);
-+	err = crypto_skcipher_encrypt(req);
++	/* Perform routing and MSS update for the configured packet. */
++	if (quic_packet_route(sk) < 0)
++		return -1;
++	return 0;
++}
++
++static void quic_packet_encrypt_done(struct sk_buff *skb, int err)
++{
++	/* Free it for now, future patches will implement the actual deferred transmission logic. */
++	kfree_skb(skb);
++}
++
++/* Coalescing Packets. */
++static int quic_packet_bundle(struct sock *sk, struct sk_buff *skb)
++{
++	struct quic_skb_cb *head_cb, *cb = QUIC_SKB_CB(skb);
++	struct quic_packet *packet = quic_packet(sk);
++	struct sk_buff *p;
++
++	if (!packet->head) { /* First packet to bundle: initialize the head. */
++		packet->head = skb;
++		cb->last = skb;
++		goto out;
++	}
++
++	/* If bundling would exceed MSS, flush the current bundle. */
++	if (packet->head->len + skb->len >= packet->mss[0]) {
++		quic_packet_flush(sk);
++		packet->head = skb;
++		cb->last = skb;
++		goto out;
++	}
++	/* Bundle it and update metadata for the aggregate skb. */
++	p = packet->head;
++	head_cb = QUIC_SKB_CB(p);
++	if (head_cb->last == p)
++		skb_shinfo(p)->frag_list = skb;
++	else
++		head_cb->last->next = skb;
++	p->data_len += skb->len;
++	p->truesize += skb->truesize;
++	p->len += skb->len;
++	head_cb->last = skb;
++	head_cb->ecn |= cb->ecn;  /* Merge ECN flags. */
++
++out:
++	/* rfc9000#section-12.2:
++	 *   Packets with a short header (Section 17.3) do not contain a Length field and so
++	 *   cannot be followed by other packets in the same UDP datagram.
++	 *
++	 * so Return 1 to flush if it is a Short header packet.
++	 */
++	return !cb->level;
++}
++
++/* Transmit a QUIC packet, possibly encrypting and bundling it. */
++int quic_packet_xmit(struct sock *sk, struct sk_buff *skb)
++{
++	struct quic_packet *packet = quic_packet(sk);
++	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
++	struct net *net = sock_net(sk);
++	int err;
++
++	/* Skip encryption if taglen == 0 (e.g., disable_1rtt_encryption). */
++	if (!packet->taglen[quic_hdr(skb)->form])
++		goto xmit;
++
++	cb->crypto_done = quic_packet_encrypt_done;
++	/* Associate skb with sk to ensure sk is valid during async encryption completion. */
++	WARN_ON(!skb_set_owner_sk_safe(skb, sk));
++	err = quic_crypto_encrypt(quic_crypto(sk, packet->level), skb);
++	if (err) {
++		if (err != -EINPROGRESS) {
++			QUIC_INC_STATS(net, QUIC_MIB_PKT_ENCDROP);
++			kfree_skb(skb);
++			return err;
++		}
++		QUIC_INC_STATS(net, QUIC_MIB_PKT_ENCBACKLOGS);
++		return err;
++	}
++	if (!cb->resume) /* Encryption completes synchronously. */
++		QUIC_INC_STATS(net, QUIC_MIB_PKT_ENCFASTPATHS);
++
++xmit:
++	if (quic_packet_bundle(sk, skb))
++		quic_packet_flush(sk);
++	return 0;
++}
++
++/* Create and transmit a new QUIC packet. */
++int quic_packet_create_and_xmit(struct sock *sk)
++{
++	struct quic_packet *packet = quic_packet(sk);
++	struct sk_buff *skb;
++	int err;
++
++	err = quic_packet_number_check(sk);
 +	if (err)
 +		goto err;
 +
-+	p = (u8 *)hdr;
-+	*p = (u8)(*p ^ (mask[0] & (((*p & QUIC_HEADER_FORM_BIT) == QUIC_HEADER_FORM_BIT) ?
-+				   QUIC_LONG_HEADER_MASK : QUIC_SHORT_HEADER_MASK)));
-+	cb->number_len = hdr->pnl + 1;
-+	cb->key_phase = hdr->key;
-+	p += cb->number_offset;
-+	for (i = 0; i < cb->number_len; ++i)
-+		*(p + i) = *((u8 *)hdr + cb->number_offset + i) ^ mask[i + 1];
-+	err = quic_crypto_get_number(skb);
++	if (packet->level)
++		skb = quic_packet_handshake_create(sk);
++	else
++		skb = quic_packet_app_create(sk);
++	if (!skb) {
++		err = -ENOMEM;
++		goto err;
++	}
 +
-+err:
-+	kfree_sensitive(mask);
-+	return err;
-+}
-+
-+static void *quic_crypto_aead_mem_alloc(struct crypto_aead *tfm, u32 ctx_size,
-+					u8 **iv, struct aead_request **req,
-+					struct scatterlist **sg, u32 nsg)
-+{
-+	unsigned int iv_size, req_size;
-+	unsigned int len;
-+	u8 *mem;
-+
-+	iv_size = crypto_aead_ivsize(tfm);
-+	req_size = sizeof(**req) + crypto_aead_reqsize(tfm);
-+
-+	len = ctx_size;
-+	len += iv_size;
-+	len += crypto_aead_alignmask(tfm) & ~(crypto_tfm_ctx_alignment() - 1);
-+	len = ALIGN(len, crypto_tfm_ctx_alignment());
-+	len += req_size;
-+	len = ALIGN(len, __alignof__(struct scatterlist));
-+	len += nsg * sizeof(**sg);
-+
-+	mem = kzalloc(len, GFP_ATOMIC);
-+	if (!mem)
-+		return NULL;
-+
-+	*iv = (u8 *)PTR_ALIGN(mem + ctx_size, crypto_aead_alignmask(tfm) + 1);
-+	*req = (struct aead_request *)PTR_ALIGN(*iv + iv_size,
-+			crypto_tfm_ctx_alignment());
-+	*sg = (struct scatterlist *)PTR_ALIGN((u8 *)*req + req_size,
-+			__alignof__(struct scatterlist));
-+
-+	return (void *)mem;
-+}
-+
-+static void quic_crypto_done(void *data, int err)
-+{
-+	struct sk_buff *skb = data;
-+
-+	kfree_sensitive(QUIC_SKB_CB(skb)->crypto_ctx);
-+	QUIC_SKB_CB(skb)->crypto_done(skb, err);
-+}
-+
-+/* AEAD Usage. */
-+static int quic_crypto_payload_encrypt(struct crypto_aead *tfm, struct sk_buff *skb,
-+				       u8 *tx_iv, bool ccm)
-+{
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	struct quichdr *hdr = quic_hdr(skb);
-+	u8 *iv, i, nonce[QUIC_IV_LEN];
-+	struct aead_request *req;
-+	struct sk_buff *trailer;
-+	struct scatterlist *sg;
-+	u32 nsg, hlen, len;
-+	void *ctx;
-+	__be64 n;
-+	int err;
-+
-+	len = skb->len;
-+	err = skb_cow_data(skb, QUIC_TAG_LEN, &trailer);
-+	if (err < 0)
-+		return err;
-+	nsg = (u32)err;
-+	pskb_put(skb, trailer, QUIC_TAG_LEN);
-+	hdr->key = cb->key_phase;
-+
-+	ctx = quic_crypto_aead_mem_alloc(tfm, 0, &iv, &req, &sg, nsg);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	sg_init_table(sg, nsg);
-+	err = skb_to_sgvec(skb, sg, 0, (int)skb->len);
-+	if (err < 0)
++	err = quic_packet_xmit(sk, skb);
++	if (err && err != -EINPROGRESS)
 +		goto err;
 +
-+	/* rfc9001#section-5.3:
-+	 *
-+	 * The associated data, A, for the AEAD is the contents of the QUIC header,
-+	 * starting from the first byte of either the short or long header, up to and
-+	 * including the unprotected packet number.
-+	 *
-+	 * The nonce, N, is formed by combining the packet protection IV with the packet
-+	 * number.  The 62 bits of the reconstructed QUIC packet number in network byte
-+	 * order are left-padded with zeros to the size of the IV. The exclusive OR of the
-+	 * padded packet number and the IV forms the AEAD nonce.
++	/* Return 1 if at least one ACK-eliciting (non-PING) frame was sent. */
++	return !!packet->frames;
++err:
++	pr_debug("%s: err: %d\n", __func__, err);
++	return 0;
++}
++
++/* Flush any coalesced/bundled QUIC packets. */
++void quic_packet_flush(struct sock *sk)
++{
++	struct quic_path_group *paths = quic_paths(sk);
++	struct quic_packet *packet = quic_packet(sk);
++
++	if (packet->head) {
++		quic_lower_xmit(sk, packet->head,
++				quic_path_daddr(paths, packet->path), &paths->fl);
++		packet->head = NULL;
++	}
++}
++
++/* Append a frame to the tail of the current QUIC packet. */
++int quic_packet_tail(struct sock *sk, struct quic_frame *frame)
++{
++	struct quic_packet *packet = quic_packet(sk);
++	u8 taglen;
++
++	/* Reject frame if it doesn't match the packet's encryption level or path, or if
++	 * padding is already in place (no further frames should be added).
 +	 */
-+	hlen = cb->number_offset + cb->number_len;
-+	memcpy(nonce, tx_iv, QUIC_IV_LEN);
-+	n = cpu_to_be64(cb->number);
-+	for (i = 0; i < sizeof(n); i++)
-+		nonce[QUIC_IV_LEN - sizeof(n) + i] ^= ((u8 *)&n)[i];
++	if (frame->level != (packet->level % QUIC_CRYPTO_EARLY) ||
++	    frame->path != packet->path || packet->padding)
++		return 0;
 +
-+	/* For CCM based ciphers, first byte of IV is a constant. */
-+	iv[0] = TLS_AES_CCM_IV_B0_BYTE;
-+	memcpy(&iv[ccm], nonce, QUIC_IV_LEN);
-+	aead_request_set_tfm(req, tfm);
-+	aead_request_set_ad(req, hlen);
-+	aead_request_set_crypt(req, sg, sg, len - hlen, iv);
-+	aead_request_set_callback(req, CRYPTO_TFM_REQ_MAY_BACKLOG, quic_crypto_done, skb);
++	/* Check if frame would exceed the current datagram MSS (excluding AEAD tag). */
++	taglen = quic_packet_taglen(packet);
++	if (packet->len + frame->len > packet->mss[frame->dgram] - taglen) {
++		/* If some data has already been added to the packet, bail out. */
++		if (packet->len != packet->overhead)
++			return 0;
++		/* Otherwise, allow IP fragmentation for this packet unless it’s a PING probe. */
++		if (!quic_frame_ping(frame->type))
++			packet->ipfragok = 1;
++	}
++	if (frame->padding)
++		packet->padding = frame->padding;
 +
-+	cb->crypto_ctx = ctx; /* Set crypto_ctx for async free in quic_crypto_done(). */
-+	err = crypto_aead_encrypt(req);
-+	if (err == -EINPROGRESS) {
-+		memzero_explicit(nonce, sizeof(nonce));
-+		return err;
++	/* Track frames that require retransmission if lost (i.e., ACK-eliciting and non-PING). */
++	if (frame->ack_eliciting) {
++		packet->ack_eliciting = 1;
++		if (!quic_frame_ping(frame->type)) {
++			packet->frames++;
++			packet->frame_len += frame->len;
++		}
 +	}
 +
-+err:
-+	kfree_sensitive(ctx);
-+	memzero_explicit(nonce, sizeof(nonce));
-+	return err;
++	list_move_tail(&frame->list, &packet->frame_list);
++	packet->len += frame->len;
++	return frame->len;
 +}
 +
-+static int quic_crypto_payload_decrypt(struct crypto_aead *tfm, struct sk_buff *skb,
-+				       u8 *rx_iv, bool ccm)
++void quic_packet_init(struct sock *sk)
 +{
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	u8 *iv, i, nonce[QUIC_IV_LEN];
-+	struct aead_request *req;
-+	struct sk_buff *trailer;
-+	int nsg, hlen, len, err;
-+	struct scatterlist *sg;
-+	void *ctx;
-+	__be64 n;
++	struct quic_packet *packet = quic_packet(sk);
 +
-+	len = cb->length + cb->number_offset;
-+	hlen = cb->number_offset + cb->number_len;
-+	if (len - hlen < QUIC_TAG_LEN)
-+		return -EINVAL;
-+	nsg = skb_cow_data(skb, 0, &trailer);
-+	if (nsg < 0)
-+		return nsg;
-+	ctx = quic_crypto_aead_mem_alloc(tfm, 0, &iv, &req, &sg, nsg);
-+	if (!ctx)
-+		return -ENOMEM;
++	INIT_LIST_HEAD(&packet->frame_list);
++	packet->taglen[0] = QUIC_TAG_LEN;
++	packet->taglen[1] = QUIC_TAG_LEN;
++	packet->mss[0] = QUIC_TAG_LEN;
++	packet->mss[1] = QUIC_TAG_LEN;
 +
-+	sg_init_table(sg, nsg);
-+	err = skb_to_sgvec(skb, sg, 0, len);
-+	if (err < 0)
-+		goto err;
++	packet->version = QUIC_VERSION_V1;
++}
+diff --git a/net/quic/packet.h b/net/quic/packet.h
+new file mode 100644
+index 000000000000..85efeba6199b
+--- /dev/null
++++ b/net/quic/packet.h
+@@ -0,0 +1,121 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/* QUIC kernel implementation
++ * (C) Copyright Red Hat Corp. 2023
++ *
++ * This file is part of the QUIC kernel implementation
++ *
++ * Written or modified by:
++ *    Xin Long <lucien.xin@gmail.com>
++ */
 +
-+	/* Similar logic to quic_crypto_payload_encrypt(). */
-+	memcpy(nonce, rx_iv, QUIC_IV_LEN);
-+	n = cpu_to_be64(cb->number);
-+	for (i = 0; i < sizeof(n); i++)
-+		nonce[QUIC_IV_LEN - sizeof(n) + i] ^= ((u8 *)&n)[i];
++struct quic_packet {
++	struct quic_conn_id dcid;	/* Dest Connection ID from received packet */
++	struct quic_conn_id scid;	/* Source Connection ID from received packet */
++	union quic_addr daddr;		/* Dest address from received packet */
++	union quic_addr saddr;		/* Source address from received packet */
 +
-+	iv[0] = TLS_AES_CCM_IV_B0_BYTE;
-+	memcpy(&iv[ccm], nonce, QUIC_IV_LEN);
-+	aead_request_set_tfm(req, tfm);
-+	aead_request_set_ad(req, hlen);
-+	aead_request_set_crypt(req, sg, sg, len - hlen, iv);
-+	aead_request_set_callback(req, CRYPTO_TFM_REQ_MAY_BACKLOG, quic_crypto_done, skb);
++	struct list_head frame_list;	/* List of frames to pack into packet for send */
++	struct sk_buff *head;		/* Head skb for packet bundling on send */
++	u16 frame_len;		/* Length of all ack-eliciting frames excluding PING */
++	u8 taglen[2];		/* Tag length for short and long packets */
++	u32 version;		/* QUIC version used/selected during handshake */
++	u8 errframe;		/* Frame type causing packet processing failure */
++	u8 overhead;		/* QUIC header length excluding frames */
++	u16 errcode;		/* Error code on packet processing failure */
++	u16 frames;		/* Number of ack-eliciting frames excluding PING */
++	u16 mss[2];		/* MSS for datagram and non-datagram packets */
++	u16 hlen;		/* UDP + IP header length for sending */
++	u16 len;		/* QUIC packet length excluding taglen for sending */
 +
-+	cb->crypto_ctx = ctx;
-+	err = crypto_aead_decrypt(req);
-+	if (err == -EINPROGRESS) {
-+		memzero_explicit(nonce, sizeof(nonce));
-+		return err;
-+	}
-+err:
-+	kfree_sensitive(ctx);
-+	memzero_explicit(nonce, sizeof(nonce));
-+	return err;
++	u8 ack_eliciting:1;	/* Packet contains ack-eliciting frames to send */
++	u8 ack_requested:1;	/* Packet contains ack-eliciting frames received */
++	u8 ack_immediate:1;	/* Send ACK immediately (skip ack_delay timer) */
++	u8 non_probing:1;	/* Packet has ack-eliciting frames excluding NEW_CONNECTION_ID */
++	u8 has_sack:1;		/* Packet has ACK frames received */
++	u8 ipfragok:1;		/* Allow IP fragmentation */
++	u8 padding:1;		/* Packet has padding frames */
++	u8 path:1;		/* Path identifier used to send this packet */
++	u8 level;		/* Encryption level used */
++};
++
++struct quic_packet_sent {
++	struct list_head list;	/* Link in sent packet list for ACK tracking */
++	u64 sent_time;		/* Timestamp when packet was sent */
++	s64 number;		/* Packet number */
++	u8  level;		/* Packet number space */
++	u8  ecn:2;		/* ECN bits */
++
++	u16 frame_len;		/* Combined length of all frames held */
++	u16 frames;		/* Number of frames held */
++
++	struct quic_frame *frame_array[];	/* Array of pointers to held frames */
++};
++
++#define QUIC_PACKET_INITIAL_V1		0
++#define QUIC_PACKET_0RTT_V1		1
++#define QUIC_PACKET_HANDSHAKE_V1	2
++#define QUIC_PACKET_RETRY_V1		3
++
++#define QUIC_PACKET_INITIAL_V2		1
++#define QUIC_PACKET_0RTT_V2		2
++#define QUIC_PACKET_HANDSHAKE_V2	3
++#define QUIC_PACKET_RETRY_V2		0
++
++#define QUIC_PACKET_INITIAL		QUIC_PACKET_INITIAL_V1
++#define QUIC_PACKET_0RTT		QUIC_PACKET_0RTT_V1
++#define QUIC_PACKET_HANDSHAKE		QUIC_PACKET_HANDSHAKE_V1
++#define QUIC_PACKET_RETRY		QUIC_PACKET_RETRY_V1
++
++#define QUIC_VERSION_LEN		4
++
++static inline u8 quic_packet_taglen(struct quic_packet *packet)
++{
++	return packet->taglen[!!packet->level];
 +}
 +
- #define QUIC_CIPHER_MIN TLS_CIPHER_AES_GCM_128
- #define QUIC_CIPHER_MAX TLS_CIPHER_CHACHA20_POLY1305
++static inline void quic_packet_set_taglen(struct quic_packet *packet, u8 taglen)
++{
++	packet->taglen[0] = taglen;
++}
++
++static inline u32 quic_packet_mss(struct quic_packet *packet)
++{
++	return packet->mss[0] - packet->taglen[!!packet->level];
++}
++
++static inline u32 quic_packet_max_payload(struct quic_packet *packet)
++{
++	return packet->mss[0] - packet->overhead - packet->taglen[!!packet->level];
++}
++
++static inline u32 quic_packet_max_payload_dgram(struct quic_packet *packet)
++{
++	return packet->mss[1] - packet->overhead - packet->taglen[!!packet->level];
++}
++
++static inline int quic_packet_empty(struct quic_packet *packet)
++{
++	return list_empty(&packet->frame_list);
++}
++
++static inline void quic_packet_reset(struct quic_packet *packet)
++{
++	packet->level = 0;
++	packet->errcode = 0;
++	packet->errframe = 0;
++	packet->has_sack = 0;
++	packet->non_probing = 0;
++	packet->ack_requested = 0;
++	packet->ack_immediate = 0;
++}
++
++int quic_packet_tail(struct sock *sk, struct quic_frame *frame);
++int quic_packet_config(struct sock *sk, u8 level, u8 path);
++
++int quic_packet_xmit(struct sock *sk, struct sk_buff *skb);
++int quic_packet_create_and_xmit(struct sock *sk);
++int quic_packet_route(struct sock *sk);
++
++void quic_packet_mss_update(struct sock *sk, u32 mss);
++void quic_packet_flush(struct sock *sk);
++void quic_packet_init(struct sock *sk);
+diff --git a/net/quic/socket.c b/net/quic/socket.c
+index 0a6e59f85d32..f3a2b11fb251 100644
+--- a/net/quic/socket.c
++++ b/net/quic/socket.c
+@@ -48,6 +48,7 @@ static int quic_init_sock(struct sock *sk)
+ 	quic_cong_init(quic_cong(sk));
  
-@@ -231,6 +558,137 @@ static struct quic_cipher ciphers[QUIC_CIPHER_MAX + 1 - QUIC_CIPHER_MIN] = {
- 		    "rfc7539(chacha20,poly1305)", "chacha20", "hmac(sha256)"),
+ 	quic_timer_init(sk);
++	quic_packet_init(sk);
+ 
+ 	if (quic_stream_init(quic_streams(sk)))
+ 		return -ENOMEM;
+diff --git a/net/quic/socket.h b/net/quic/socket.h
+index eeb510e0a09b..a463b80a76fc 100644
+--- a/net/quic/socket.h
++++ b/net/quic/socket.h
+@@ -20,6 +20,7 @@
+ #include "path.h"
+ #include "cong.h"
+ 
++#include "packet.h"
+ #include "frame.h"
+ 
+ #include "protocol.h"
+@@ -77,6 +78,7 @@ struct quic_sock {
+ 	struct quic_pnspace		space[QUIC_PNSPACE_MAX];
+ 	struct quic_crypto		crypto[QUIC_CRYPTO_MAX];
+ 
++	struct quic_packet		packet;
+ 	struct quic_timer		timers[QUIC_TIMER_MAX];
  };
  
-+static bool quic_crypto_is_cipher_ccm(struct quic_crypto *crypto)
-+{
-+	return crypto->cipher_type == TLS_CIPHER_AES_CCM_128;
-+}
-+
-+static bool quic_crypto_is_cipher_chacha(struct quic_crypto *crypto)
-+{
-+	return crypto->cipher_type == TLS_CIPHER_CHACHA20_POLY1305;
-+}
-+
-+/* Encrypts a QUIC packet before transmission.  This function performs AEAD encryption of
-+ * the packet payload and applies header protection. It handles key phase tracking and key
-+ * update timing..
-+ *
-+ * Return: 0 on success, or a negative error code.
-+ */
-+int quic_crypto_encrypt(struct quic_crypto *crypto, struct sk_buff *skb)
-+{
-+	u8 *iv, cha, ccm, phase = crypto->key_phase;
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	int err;
-+
-+	cb->key_phase = phase;
-+	iv = crypto->tx_iv[phase];
-+	/* Packet payload is already encrypted (e.g., resumed from async), proceed to header
-+	 * protection only.
-+	 */
-+	if (cb->resume)
-+		goto out;
-+
-+	/* If a key update is pending and this is the first packet using the new key, save the
-+	 * current time. Later used to clear old keys after some time has passed (see
-+	 * quic_crypto_decrypt()).
-+	 */
-+	if (crypto->key_pending && !crypto->key_update_send_time)
-+		crypto->key_update_send_time = quic_ktime_get_us();
-+
-+	ccm = quic_crypto_is_cipher_ccm(crypto);
-+	err = quic_crypto_payload_encrypt(crypto->tx_tfm[phase], skb, iv, ccm);
-+	if (err)
-+		return err;
-+out:
-+	cha = quic_crypto_is_cipher_chacha(crypto);
-+	return quic_crypto_header_encrypt(crypto->tx_hp_tfm, skb, cha);
-+}
-+
-+/* Decrypts a QUIC packet after reception.  This function removes header protection,
-+ * decrypts the payload, and processes any key updates if the key phase bit changes.
-+ *
-+ * Return: 0 on success, or a negative error code.
-+ */
-+int quic_crypto_decrypt(struct quic_crypto *crypto, struct sk_buff *skb)
-+{
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	u8 *iv, cha, ccm, phase;
-+	int err = 0;
-+	u64 time;
-+
-+	/* Payload was decrypted asynchronously.  Proceed with parsing packet number and key
-+	 * phase.
-+	 */
-+	if (cb->resume) {
-+		err = quic_crypto_get_number(skb);
-+		if (err)
-+			return err;
-+		goto out;
-+	}
-+	if (!cb->number_len) { /* Packet header not yet decrypted. */
-+		cha = quic_crypto_is_cipher_chacha(crypto);
-+		err = quic_crypto_header_decrypt(crypto->rx_hp_tfm, skb, cha);
-+		if (err) {
-+			pr_debug("%s: hd decrypt err %d\n", __func__, err);
-+			return err;
-+		}
-+	}
-+
-+	/* rfc9001#section-6:
-+	 *
-+	 * The Key Phase bit allows a recipient to detect a change in keying material without
-+	 * needing to receive the first packet that triggered the change. An endpoint that
-+	 * notices a changed Key Phase bit updates keys and decrypts the packet that contains
-+	 * the changed value.
-+	 */
-+	if (cb->key_phase != crypto->key_phase && !crypto->key_pending) {
-+		if (!crypto->send_ready) /* Not ready for key update. */
-+			return -EINVAL;
-+		if (!cb->backlog) /* Key update must be done in process context. */
-+			return -EKEYREVOKED;
-+		err = quic_crypto_key_update(crypto); /* Perform a key update. */
-+		if (err) {
-+			cb->errcode = QUIC_TRANSPORT_ERROR_KEY_UPDATE;
-+			return err;
-+		}
-+		cb->key_update = 1; /* Mark packet as triggering key update. */
-+	}
-+
-+	phase = cb->key_phase;
-+	iv = crypto->rx_iv[phase];
-+	ccm = quic_crypto_is_cipher_ccm(crypto);
-+	err = quic_crypto_payload_decrypt(crypto->rx_tfm[phase], skb, iv, ccm);
-+	if (err) {
-+		if (err == -EINPROGRESS)
-+			return err;
-+		/* When using the old keys can not decrypt the packets, the peer might
-+		 * start another key_update. Thus, clear the last key_pending so that
-+		 * next packets will trigger the new key-update.
-+		 */
-+		if (crypto->key_pending && cb->key_phase != crypto->key_phase) {
-+			crypto->key_pending = 0;
-+			crypto->key_update_time = 0;
-+		}
-+		return err;
-+	}
-+
-+out:
-+	/* rfc9001#section-6.1:
-+	 *
-+	 * An endpoint MUST retain old keys until it has successfully unprotected a
-+	 * packet sent using the new keys. An endpoint SHOULD retain old keys for
-+	 * some time after unprotecting a packet sent using the new keys.
-+	 */
-+	if (crypto->key_pending && cb->key_phase == crypto->key_phase) {
-+		time = crypto->key_update_send_time;
-+		if (time && quic_ktime_get_us() - time >= crypto->key_update_time) {
-+			crypto->key_pending = 0;
-+			crypto->key_update_time = 0;
-+		}
-+	}
-+	return err;
-+}
-+
- int quic_crypto_set_cipher(struct quic_crypto *crypto, u32 type, u8 flag)
- {
- 	struct quic_cipher *cipher;
-@@ -516,6 +974,210 @@ int quic_crypto_initial_keys_install(struct quic_crypto *crypto, struct quic_con
- 	return err;
+@@ -155,6 +157,11 @@ static inline struct quic_crypto *quic_crypto(const struct sock *sk, u8 level)
+ 	return &quic_sk(sk)->crypto[level];
  }
  
-+#define QUIC_RETRY_KEY_V1 "\xbe\x0c\x69\x0b\x9f\x66\x57\x5a\x1d\x76\x6b\x54\xe3\x68\xc8\x4e"
-+#define QUIC_RETRY_KEY_V2 "\x8f\xb4\xb0\x1b\x56\xac\x48\xe2\x60\xfb\xcb\xce\xad\x7c\xcc\x92"
-+
-+#define QUIC_RETRY_NONCE_V1 "\x46\x15\x99\xd3\x5d\x63\x2b\xf2\x23\x98\x25\xbb"
-+#define QUIC_RETRY_NONCE_V2 "\xd8\x69\x69\xbc\x2d\x7c\x6d\x99\x90\xef\xb0\x4a"
-+
-+/* Retry Packet Integrity. */
-+int quic_crypto_get_retry_tag(struct quic_crypto *crypto, struct sk_buff *skb,
-+			      struct quic_conn_id *odcid, u32 version, u8 *tag)
++static inline struct quic_packet *quic_packet(const struct sock *sk)
 +{
-+	struct crypto_aead *tfm = crypto->tag_tfm;
-+	u8 *pseudo_retry, *p, *iv, *key;
-+	struct aead_request *req;
-+	struct scatterlist *sg;
-+	u32 plen;
-+	int err;
-+
-+	/* rfc9001#section-5.8:
-+	 *
-+	 * The Retry Integrity Tag is a 128-bit field that is computed as the output of
-+	 * AEAD_AES_128_GCM used with the following inputs:
-+	 *
-+	 * - The secret key, K, is 128 bits equal to 0xbe0c690b9f66575a1d766b54e368c84e.
-+	 * - The nonce, N, is 96 bits equal to 0x461599d35d632bf2239825bb.
-+	 * - The plaintext, P, is empty.
-+	 * - The associated data, A, is the contents of the Retry Pseudo-Packet,
-+	 *
-+	 * The Retry Pseudo-Packet is not sent over the wire. It is computed by taking the
-+	 * transmitted Retry packet, removing the Retry Integrity Tag, and prepending the
-+	 * two following fields: ODCID Length + Original Destination Connection ID (ODCID).
-+	 */
-+	err = crypto_aead_setauthsize(tfm, QUIC_TAG_LEN);
-+	if (err)
-+		return err;
-+	key = QUIC_RETRY_KEY_V1;
-+	if (version == QUIC_VERSION_V2)
-+		key = QUIC_RETRY_KEY_V2;
-+	err = crypto_aead_setkey(tfm, key, TLS_CIPHER_AES_GCM_128_KEY_SIZE);
-+	if (err)
-+		return err;
-+
-+	plen = 1 + odcid->len + skb->len - QUIC_TAG_LEN;
-+	pseudo_retry = quic_crypto_aead_mem_alloc(tfm, plen + QUIC_TAG_LEN, &iv, &req, &sg, 1);
-+	if (!pseudo_retry)
-+		return -ENOMEM;
-+
-+	p = pseudo_retry;
-+	p = quic_put_int(p, odcid->len, 1);
-+	p = quic_put_data(p, odcid->data, odcid->len);
-+	p = quic_put_data(p, skb->data, skb->len - QUIC_TAG_LEN);
-+	sg_init_one(sg, pseudo_retry, plen + QUIC_TAG_LEN);
-+
-+	memcpy(iv, QUIC_RETRY_NONCE_V1, QUIC_IV_LEN);
-+	if (version == QUIC_VERSION_V2)
-+		memcpy(iv, QUIC_RETRY_NONCE_V2, QUIC_IV_LEN);
-+	aead_request_set_tfm(req, tfm);
-+	aead_request_set_ad(req, plen);
-+	aead_request_set_crypt(req, sg, sg, 0, iv);
-+	err = crypto_aead_encrypt(req);
-+	if (!err)
-+		memcpy(tag, p, QUIC_TAG_LEN);
-+	kfree_sensitive(pseudo_retry);
-+	return err;
++	return &quic_sk(sk)->packet;
 +}
 +
-+/* Generate a token for Retry or address validation.
-+ *
-+ * Builds a token with the format: [client address][timestamp][original DCID][auth tag]
-+ *
-+ * Encrypts the token (excluding the first flag byte) using AES-GCM with a key and IV
-+ * derived via HKDF. The original DCID is stored to be recovered later from a Client
-+ * Initial packet.  Ensures the token is bound to the client address and time, preventing
-+ * reuse or tampering.
-+ *
-+ * Returns 0 on success or a negative error code on failure.
-+ */
-+int quic_crypto_generate_token(struct quic_crypto *crypto, void *addr, u32 addrlen,
-+			       struct quic_conn_id *conn_id, u8 *token, u32 *tlen)
-+{
-+	u8 key[TLS_CIPHER_AES_GCM_128_KEY_SIZE], iv[QUIC_IV_LEN];
-+	struct crypto_aead *tfm = crypto->tag_tfm;
-+	u8 *retry_token = NULL, *tx_iv, *p;
-+	struct quic_data srt = {}, k, i;
-+	u64 ts = quic_ktime_get_us();
-+	struct aead_request *req;
-+	struct scatterlist *sg;
-+	int err, len;
-+
-+	quic_data(&srt, quic_random_data, QUIC_RANDOM_DATA_LEN);
-+	quic_data(&k, key, TLS_CIPHER_AES_GCM_128_KEY_SIZE);
-+	quic_data(&i, iv, QUIC_IV_LEN);
-+	err = quic_crypto_keys_derive(crypto->secret_tfm, &srt, &k, &i, NULL, QUIC_VERSION_V1);
-+	if (err)
-+		goto out;
-+	err = crypto_aead_setauthsize(tfm, QUIC_TAG_LEN);
-+	if (err)
-+		goto out;
-+	err = crypto_aead_setkey(tfm, key, TLS_CIPHER_AES_GCM_128_KEY_SIZE);
-+	if (err)
-+		goto out;
-+	token++;
-+	len = addrlen + sizeof(ts) + conn_id->len + QUIC_TAG_LEN;
-+	retry_token = quic_crypto_aead_mem_alloc(tfm, len, &tx_iv, &req, &sg, 1);
-+	if (!retry_token) {
-+		err = -ENOMEM;
-+		goto out;
-+	}
-+
-+	p = retry_token;
-+	p = quic_put_data(p, addr, addrlen);
-+	p = quic_put_int(p, ts, sizeof(ts));
-+	quic_put_data(p, conn_id->data, conn_id->len);
-+	sg_init_one(sg, retry_token, len);
-+	aead_request_set_tfm(req, tfm);
-+	aead_request_set_ad(req, addrlen);
-+	aead_request_set_crypt(req, sg, sg, len - addrlen - QUIC_TAG_LEN, iv);
-+	err = crypto_aead_encrypt(req);
-+	if (err)
-+		goto out;
-+	memcpy(token, retry_token, len);
-+	*tlen = len + 1;
-+out:
-+	kfree_sensitive(retry_token);
-+	memzero_explicit(key, sizeof(key));
-+	memzero_explicit(iv, sizeof(iv));
-+	return err;
-+}
-+
-+/* Validate a Retry or address validation token.
-+ *
-+ * Decrypts the token using derived key and IV. Checks that the decrypted address matches
-+ * the provided address, validates the embedded timestamp against current time with a
-+ * version-specific timeout. If applicable, it extracts and returns the original
-+ * destination connection ID (ODCID) for Retry packets.
-+ *
-+ * Returns 0 if the token is valid, -EINVAL if invalid, or another negative error code.
-+ */
-+int quic_crypto_verify_token(struct quic_crypto *crypto, void *addr, u32 addrlen,
-+			     struct quic_conn_id *conn_id, u8 *token, u32 len)
-+{
-+	u64 t, ts = quic_ktime_get_us(), timeout = QUIC_TOKEN_TIMEOUT_RETRY;
-+	u8 key[TLS_CIPHER_AES_GCM_128_KEY_SIZE], iv[QUIC_IV_LEN];
-+	u8 *retry_token = NULL, *rx_iv, *p, flag = *token;
-+	struct crypto_aead *tfm = crypto->tag_tfm;
-+	struct quic_data srt = {}, k, i;
-+	struct aead_request *req;
-+	struct scatterlist *sg;
-+	int err;
-+
-+	if (len < sizeof(flag) + addrlen + sizeof(ts) + QUIC_TAG_LEN)
-+		return -EINVAL;
-+	quic_data(&srt, quic_random_data, QUIC_RANDOM_DATA_LEN);
-+	quic_data(&k, key, TLS_CIPHER_AES_GCM_128_KEY_SIZE);
-+	quic_data(&i, iv, QUIC_IV_LEN);
-+	err = quic_crypto_keys_derive(crypto->secret_tfm, &srt, &k, &i, NULL, QUIC_VERSION_V1);
-+	if (err)
-+		goto out;
-+	err = crypto_aead_setauthsize(tfm, QUIC_TAG_LEN);
-+	if (err)
-+		goto out;
-+	err = crypto_aead_setkey(tfm, key, TLS_CIPHER_AES_GCM_128_KEY_SIZE);
-+	if (err)
-+		goto out;
-+	len--;
-+	token++;
-+	retry_token = quic_crypto_aead_mem_alloc(tfm, len, &rx_iv, &req, &sg, 1);
-+	if (!retry_token) {
-+		err = -ENOMEM;
-+		goto out;
-+	}
-+
-+	memcpy(retry_token, token, len);
-+	sg_init_one(sg, retry_token, len);
-+	aead_request_set_tfm(req, tfm);
-+	aead_request_set_ad(req, addrlen);
-+	aead_request_set_crypt(req, sg, sg, len - addrlen, iv);
-+	err = crypto_aead_decrypt(req);
-+	if (err)
-+		goto out;
-+
-+	err = -EINVAL;
-+	p = retry_token;
-+	if (memcmp(p, addr, addrlen))
-+		goto out;
-+	p += addrlen;
-+	len -= addrlen;
-+	if (flag == QUIC_TOKEN_FLAG_REGULAR)
-+		timeout = QUIC_TOKEN_TIMEOUT_REGULAR;
-+	if (!quic_get_int(&p, &len, &t, sizeof(ts)) || t + timeout < ts)
-+		goto out;
-+	len -= QUIC_TAG_LEN;
-+	if (len > QUIC_CONN_ID_MAX_LEN)
-+		goto out;
-+
-+	if (flag == QUIC_TOKEN_FLAG_RETRY)
-+		quic_conn_id_update(conn_id, p, len);
-+	err = 0;
-+out:
-+	kfree_sensitive(retry_token);
-+	memzero_explicit(key, sizeof(key));
-+	memzero_explicit(iv, sizeof(iv));
-+	return err;
-+}
-+
- /* Generate a derived key using HKDF-Extract and HKDF-Expand with a given label. */
- static int quic_crypto_generate_key(struct quic_crypto *crypto, void *data, u32 len,
- 				    char *label, u8 *token, u32 key_len)
-diff --git a/net/quic/crypto.h b/net/quic/crypto.h
-index fc562035271c..51891ae9852e 100644
---- a/net/quic/crypto.h
-+++ b/net/quic/crypto.h
-@@ -62,6 +62,9 @@ int quic_crypto_get_secret(struct quic_crypto *crypto, struct quic_crypto_secret
- int quic_crypto_set_cipher(struct quic_crypto *crypto, u32 type, u8 flag);
- int quic_crypto_key_update(struct quic_crypto *crypto);
- 
-+int quic_crypto_encrypt(struct quic_crypto *crypto, struct sk_buff *skb);
-+int quic_crypto_decrypt(struct quic_crypto *crypto, struct sk_buff *skb);
-+
- int quic_crypto_initial_keys_install(struct quic_crypto *crypto, struct quic_conn_id *conn_id,
- 				     u32 version, bool is_serv);
- int quic_crypto_generate_session_ticket_key(struct quic_crypto *crypto, void *data,
-@@ -69,5 +72,12 @@ int quic_crypto_generate_session_ticket_key(struct quic_crypto *crypto, void *da
- int quic_crypto_generate_stateless_reset_token(struct quic_crypto *crypto, void *data,
- 					       u32 len, u8 *key, u32 key_len);
- 
-+int quic_crypto_generate_token(struct quic_crypto *crypto, void *addr, u32 addrlen,
-+			       struct quic_conn_id *conn_id, u8 *token, u32 *tlen);
-+int quic_crypto_get_retry_tag(struct quic_crypto *crypto, struct sk_buff *skb,
-+			      struct quic_conn_id *odcid, u32 version, u8 *tag);
-+int quic_crypto_verify_token(struct quic_crypto *crypto, void *addr, u32 addrlen,
-+			     struct quic_conn_id *conn_id, u8 *token, u32 len);
-+
- void quic_crypto_free(struct quic_crypto *crypto);
- void quic_crypto_init(void);
+ static inline void *quic_timer(const struct sock *sk, u8 type)
+ {
+ 	return (void *)&quic_sk(sk)->timers[type];
 -- 
 2.47.1
 

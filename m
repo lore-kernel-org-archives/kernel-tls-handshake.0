@@ -1,65 +1,105 @@
-Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35C228682
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 25 Dec 2025 00:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34EEE335090
+	for <kernel-tls-handshake@lists.linux.dev>; Mon,  5 Jan 2026 14:08:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766622978; cv=none; b=Ddqmlfd5L4EoEt3Qe8RKGtinEFJzEy3ugip6e/HfrU+eDOp3021QBLh+Crpt3dcQdcdH+bPowVPd/UZ5BCurXqE9s52FQa+8kfdpV7qRRI7V1shY0/jnu65xuyTx76caIiMRKsaF1hqZgz1eWZUy3GFY7FC8kV9f4wsaw73QDZA=
+	t=1767622094; cv=none; b=M/1Jin7ST9/6OFhprxNCAVYR8Wq0RpapwdHhiMO2zuO71QEB8Dk90BK04gyKftG0qavPYK/I/g5w0EVPrhDsAge5UgfGf/P7v8p4Ac5BdjjxqtbqG4rXr5J4ngvkSvKcFMQBL45VWWWUcIC7m2ykYp+lfHSFehdaLgtCFouk4ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766622978; c=relaxed/simple;
-	bh=cTpa9slDDP8mIuLtQ0c8nEGgOjtP9nDATw4cwgNi+R8=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=kHW/ez0/oX8i84e3dsncl9c69abdL1c8PQrp31kO+UdSZmsQzMNkE331RIUXbYyDAAqgJooVrmjn4jjLxad49j+ykS7vVs5ybAJE6h8aV+q9ja52YoT+gTFeNXyWUJWf//Zo6fyYaPOXY6g58yV/U2H1w5cmD/WImgkQbkIHHM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=S8FzOUYI; arc=none smtp.client-ip=43.163.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1767622094; c=relaxed/simple;
+	bh=zEN3doId9UKmo1rLmAoDue2BHiaeEn8l3OYvCK/ydP4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=T/S0XvLhF8rc3votNnihmgBWDZB+hkDRJr+0yu13r1rLKI4EHm+5uUyRFug12RLGHAj2pT/hP3sXhfe48wnRj9TWK1R5TFb5+LRUz2su9k+s27jz/m6/YGLJxPxWEzu1INjaoFNfg6HhqWQ4D8/WSH+MRYn/EgwD2J4cKlqo7ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m5xZ/UdY; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="S8FzOUYI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1766622965; bh=9lDPljmxxpWOrB9/2KIpPiYqV9rnijI2OneHK6N8CvQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=S8FzOUYIGf+BRrceD537UiuenEv1ZbSqYQSFjNQckBaE44xn3JOeCUriA7roU+D6K
-	 A0V2Nh0hexP9Hy0lqV/vFXJYzyRfYrWa969DfLe6bo4Dnx384n/XZIu69AeJRCqC/y
-	 Zi+Lnc0+/b8kuzdkCI4PcgH2NSJYTVBAVZ60ry3A=
-Received: from lxu-ped-host.. ([111.201.7.117])
-	by newxmesmtplogicsvrszc43-0.qq.com (NewEsmtp) with SMTP
-	id 902AAEFF; Thu, 25 Dec 2025 08:36:02 +0800
-X-QQ-mid: xmsmtpt1766622962tlrisy3kd
-Message-ID: <tencent_ED8C80A7CB46C0D2FF064E4987AED7AEDC06@qq.com>
-X-QQ-XMAILINFO: MqswyhUqVe0CiLLBdYSKfHubH75ygG1My3V5D0YPUyeHZDYmCRmgGZOT+/jksz
-	 pAogx2tp5jPf5xHHCCAfTqTZp2COMoBSPT3KBFOLKs204FVsev85p6RRmgtVLEAPJCq3KeVaRP25
-	 l/pX2NilOqLP5VErfK7x4aerYdoIy8GnMIO3zjaQcn5IUvhh482RbBCNFY9mNCsKONqem3w345Rp
-	 7rXGYj/gwDkwegKTi+dqzdAM7GjoY9evtvT14VGwVpkYqW3W+xXfpjfQigoiQkW+KJ3GvvNXMyC9
-	 fPb1+pSQKYumbscBITqJogiEmmSrq5r1k6paHym42Zl4EhQZt7hVHvMPjThzYnlcnnqEhsfRwn+B
-	 n/YfWFJ9CSg/8ZzSmHcvL6vo+SNV+nOCBCJJJkk3g1+5h29/clNI5r/IjQymt3Pofv92qY1GsgS1
-	 xYrCVgOiKZ3DhHjWIRsaA6OkP08EOfqFAGo2M4DkuHqTo7JkLhcycQaZRSUeszV7NzisSx3jaKwl
-	 pBBj6Aoi0BvzXKJ4yRpzh6VrTwK8KN8glhtxw+Bcfmng+sEhYTUmAkyQOKvde3elGmXzuDVeNuie
-	 EQfkCUk3gXn+Mzwj3+CZjBgsZp4WLkaVt2+luQ1xSP0rJnLGqhUkyhUxJtv73x67IfbWqkdeVy3b
-	 ALxtGcjmTSrt4J6k9vBM+AxskvzLT2Nu4pg3IdQs28DqZu79vZzSCjoSC2xcyIsauEJaRuFSGvW0
-	 LMbxkKEDYZbecNNe1gkxDxL1OOQB68WL5Y58gDRDGzkgqKkCditjqTgm4ohLLaFUfHowv2aY+B/6
-	 2bAhVRewwL5BJJDnVV3z6RPDlLwOawwADdZNYXSM/hcBSScDOOvnQnU47E3KbEyc5UC2ovVG6MGB
-	 HGjQJzvaPptWnj4Dn3cxtQUEfrPOggxvjS3ghd33I6Tzielige6c/6Cwr8xTb95uzMY7RpdUj43c
-	 cSUbMArCf8i7h7BOjnUB1rRdXw2S2PrKbPqLjHpARH2jtgxyO9/u7vyM06AFOLwYzVMLPsAb8=
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+dfffb6c26ee592ff9e83@syzkaller.appspotmail.com
-Cc: chuck.lever@oracle.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	horms@kernel.org,
-	kernel-tls-handshake@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m5xZ/UdY"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4ee1879e6d9so165334401cf.1
+        for <kernel-tls-handshake@lists.linux.dev>; Mon, 05 Jan 2026 06:08:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767622092; x=1768226892; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d+6m+RaUAFXaTtrp8udufW/i4uBYkmLcVK6S66Yx8m8=;
+        b=m5xZ/UdY18plsIzXTL1Rh8l5GEkrMtzcIKwutnn4Gzwq6hFKOkEr4alzWsxWDK8dgl
+         g+Qr29rI1j3VDemYS8BmTU32ZA/1S4GlMY7l8tBjwVMcthfGWo3041ilEnOJ21/9GY51
+         9kNTnoRWfMkLM6lRJyohA6aLApicp+Ww2CWHS3h0SZu/U69imbN7xVkaYKAbPN2wumfQ
+         zOZsXCcwEVFg1INI2AVTz8OgPtW4+fJ1WS3pvvwA+syW3BX45WgZ7hl0FBUz+T7bJNq9
+         DMn3GZEYDCbRok5+GY0eZMGE5d12/Y5Cee4Kych4SgLxvp/bsRd0I9A9Gw4TRIziw7I4
+         WdpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767622092; x=1768226892;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=d+6m+RaUAFXaTtrp8udufW/i4uBYkmLcVK6S66Yx8m8=;
+        b=a12EGSaC8DpSc8v6Kgi15Ojqs9Hc+AxXNGywrK2Ol7iHhMdf0SEvcKDNq9Jntb9g0r
+         7KxH1T5DQmaZG90N0TRbngpe1KfXHcHVd9jQG2NBkElh2K90OJ/QKFsglXWw1xMsjiAr
+         ixHCPhR77yaZ0UCivUx/7I6Rbw0finKzYpG+tEnFiwyxLW5AYsHGfA0tQIWy4xV4Apo9
+         fmSGtgkjgPcSQqx0wLsl6qY/KOge5nx8cJ+6Jik06HuvaFq/qz5Um42Em1Y0YrILRB6D
+         bP7I+wKza6ExJ5muuKjOYL67sWvhkelPun2rqMLgdHg3IMzkMgHa2krV3yZaMQ1rmbIT
+         eAeg==
+X-Forwarded-Encrypted: i=1; AJvYcCX1XgzM55oETHTEYreaqC2H2W8B/N+T+ydeXk+aW1E38Q0TxOP4SdBZIAADcOpVS0fRm9iO2tySYSfaC4quh3LBCdE7bA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQJNzYN8wTUGilfMh4gb5Whc9e027rWaQ8gnjn7nVWkXqWOivn
+	PUgSNMyQDUQHF3YVbBN0b2uYYxwtJGeMq8I5UCTMVlhvWyeqM0lm/wNH
+X-Gm-Gg: AY/fxX5KrHO8aVNyTjr1l+s4kRCJIYncCIrtOFV1QDmf42iMotTHOlAVo1TQJpTo7nl
+	DxJNp7EACtyDbZNH11Co6eR2J0B4XfpOV/k46x6ynqoirkLe+nJ/wmQ0RtYfFN8rOD+jKFf6Ncg
+	8VKd8I4D1ZSpG/D3GHn7qD1gel27cido4kSm4TkguFnyAf6oYrOeu9NSKXZ1PBNly+WT/XcJAtL
+	VuHBKVAEMcb/Jmv/TUDT684WDYp1SdijOQBaN384QIj6ZePf7N9EGHmacsbbpsk/fKHtxpXLWJI
+	UEjxbiUMMTKJaCm5OJPa6SRL+uJ35JbW5/tweALfjO062taT8zQg+mJ8tiqt/o5EMmDr+DpOug2
+	E3b7GL0v/cU0rfqnsgB5kJ4+LR9pOBDdXu8zF57nY1xReC+uHGjNlQaQ5/6Cgrl4Lsc/nTXVwBf
+	0Rv7Dq5kz8e+9agNFt8b3SqLgC1j7oX0L25SlGoZEdYJkteAsoFmo=
+X-Google-Smtp-Source: AGHT+IEHuRM2+t5qnRSVI0kl/We7szrHGppbL3OLinZ2JFHLaZJDDk0NxAF77vZNPlpHu38oz5oaFA==
+X-Received: by 2002:ac8:5914:0:b0:4f1:b9ec:f6a4 with SMTP id d75a77b69052e-4f4abceebf3mr885961071cf.33.1767622091533;
+        Mon, 05 Jan 2026 06:08:11 -0800 (PST)
+Received: from wsfd-netdev58.anl.eng.rdu2.dc.redhat.com ([66.187.232.140])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4f4ac64a47esm368957221cf.24.2026.01.05.06.08.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jan 2026 06:08:10 -0800 (PST)
+From: Xin Long <lucien.xin@gmail.com>
+To: network dev <netdev@vger.kernel.org>,
+	quic@lists.linux.dev
+Cc: davem@davemloft.net,
 	kuba@kernel.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	pabeni@redhat.com,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH] net/handshake: fix null-ptr-deref in handshake_complete
-Date: Thu, 25 Dec 2025 08:36:02 +0800
-X-OQ-MSGID: <20251225003601.34147-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <694bcddd.050a0220.35954c.001c.GAE@google.com>
-References: <694bcddd.050a0220.35954c.001c.GAE@google.com>
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Stefan Metzmacher <metze@samba.org>,
+	Moritz Buhl <mbuhl@openbsd.org>,
+	Tyler Fanelli <tfanelli@redhat.com>,
+	Pengtao He <hepengtao@xiaomi.com>,
+	Thomas Dreibholz <dreibh@simula.no>,
+	linux-cifs@vger.kernel.org,
+	Steve French <smfrench@gmail.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Paulo Alcantara <pc@manguebit.com>,
+	Tom Talpey <tom@talpey.com>,
+	kernel-tls-handshake@lists.linux.dev,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Steve Dickson <steved@redhat.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Alexander Aring <aahringo@redhat.com>,
+	David Howells <dhowells@redhat.com>,
+	Matthieu Baerts <matttbe@kernel.org>,
+	John Ericson <mail@johnericson.me>,
+	Cong Wang <xiyou.wangcong@gmail.com>,
+	"D . Wythe" <alibuda@linux.alibaba.com>,
+	Jason Baron <jbaron@akamai.com>,
+	illiliti <illiliti@protonmail.com>,
+	Sabrina Dubroca <sd@queasysnail.net>,
+	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+	Daniel Stenberg <daniel@haxx.se>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>
+Subject: [PATCH net-next v6 01/16] net: define IPPROTO_QUIC and SOL_QUIC constants
+Date: Mon,  5 Jan 2026 09:04:27 -0500
+Message-ID: <d04504f267ed7dbc7075b96e0da08feb3c301d8a.1767621882.git.lucien.xin@gmail.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <cover.1767621882.git.lucien.xin@gmail.com>
+References: <cover.1767621882.git.lucien.xin@gmail.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -68,42 +108,64 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When retrieving the next request that has not yet completed the
-three-way handshake, a null pointer is returned if the operation fails.
-Patch fe67b063f687 did not consider this scenario, which triggered the
-issue reported by syzbot [1].
+This patch adds IPPROTO_QUIC and SOL_QUIC constants to the networking
+subsystem. These definitions are essential for applications to set
+socket options and protocol identifiers related to the QUIC protocol.
 
-Added handling for the case where there are no requests.
+QUIC does not possess a protocol number allocated from IANA, and like
+IPPROTO_MPTCP, IPPROTO_QUIC is merely a value used when opening a QUIC
+socket with:
 
-[1]
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000005: 0000 [#1] SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x0000000000000028-0x000000000000002f]
-RIP: 0010:handshake_complete+0x36/0x350 net/handshake/request.c:288
-Call Trace:
- handshake_nl_accept_doit+0x3c9/0x7f0 net/handshake/netlink.c:128
- genl_family_rcv_msg_doit+0x215/0x300 net/netlink/genetlink.c:1115
+  socket(AF_INET, SOCK_STREAM, IPPROTO_QUIC);
 
-Fixes: fe67b063f687 ("net/handshake: convert handshake_nl_accept_doit() to FD_PREPARE()")
-Reported-by: syzbot+dfffb6c26ee592ff9e83@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=dfffb6c26ee592ff9e83
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+Note we did not opt for UDP ULP for QUIC implementation due to several
+considerations:
+
+- QUIC's connection Migration requires at least 2 UDP sockets for one
+  QUIC connection at the same time, not to mention the multipath
+  feature in one of its draft RFCs.
+
+- In-Kernel QUIC, as a Transport Protocol, wants to provide users with
+  the TCP or SCTP like Socket APIs, like connect()/listen()/accept()...
+  Note that a single UDP socket might even be used for multiple QUIC
+  connections.
+
+The use of IPPROTO_QUIC type sockets over UDP tunnel will effectively
+address these challenges and provides a more flexible and scalable
+solution.
+
+Signed-off-by: Xin Long <lucien.xin@gmail.com>
+Acked-by: Paolo Abeni <pabeni@redhat.com>
 ---
- net/handshake/netlink.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/linux/socket.h  | 1 +
+ include/uapi/linux/in.h | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/net/handshake/netlink.c b/net/handshake/netlink.c
-index 1d33a4675a48..a36441d4372b 100644
---- a/net/handshake/netlink.c
-+++ b/net/handshake/netlink.c
-@@ -124,6 +124,8 @@ int handshake_nl_accept_doit(struct sk_buff *skb, struct genl_info *info)
- 		fd_publish(fdf);
- 		return 0;
- 	}
-+	else
-+		goto out_status;
+diff --git a/include/linux/socket.h b/include/linux/socket.h
+index 944027f9765e..b4563ffe552b 100644
+--- a/include/linux/socket.h
++++ b/include/linux/socket.h
+@@ -401,6 +401,7 @@ struct ucred {
+ #define SOL_MCTP	285
+ #define SOL_SMC		286
+ #define SOL_VSOCK	287
++#define SOL_QUIC	288
  
- out_complete:
- 	handshake_complete(req, -EIO, NULL);
+ /* IPX options */
+ #define IPX_TYPE	1
+diff --git a/include/uapi/linux/in.h b/include/uapi/linux/in.h
+index ced0fc3c3aa5..34becd90d3a6 100644
+--- a/include/uapi/linux/in.h
++++ b/include/uapi/linux/in.h
+@@ -85,6 +85,8 @@ enum {
+ #define IPPROTO_RAW		IPPROTO_RAW
+   IPPROTO_SMC = 256,		/* Shared Memory Communications		*/
+ #define IPPROTO_SMC		IPPROTO_SMC
++  IPPROTO_QUIC = 261,		/* A UDP-Based Multiplexed and Secure Transport	*/
++#define IPPROTO_QUIC		IPPROTO_QUIC
+   IPPROTO_MPTCP = 262,		/* Multipath TCP connection		*/
+ #define IPPROTO_MPTCP		IPPROTO_MPTCP
+   IPPROTO_MAX
 -- 
-2.43.0
+2.47.1
 

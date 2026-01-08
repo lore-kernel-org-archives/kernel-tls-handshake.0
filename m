@@ -1,75 +1,74 @@
 Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50C12F5A10
-	for <kernel-tls-handshake@lists.linux.dev>; Thu,  8 Jan 2026 17:44:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072872EB862
+	for <kernel-tls-handshake@lists.linux.dev>; Thu,  8 Jan 2026 18:07:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767894299; cv=none; b=FHoCBfajb3yGfXGaYZ/s2qYA31qy3gsZWFWQP+re9qod7oQGcnLuyqcuVu8w2FU3g8k3ZfBYepCjnkHzg6FdZzA+sK5z7v4O/RWlBWVd/B8OD+4p9yHqnp1Fael1MRU7kX4/r+eB/CtuCGa4j/UpOkCYgYK97Snc/inpmXBMkSs=
+	t=1767895676; cv=none; b=CqCZ/6cDp20gMOGro6Ye9N5CLTBf2u0VrNS5DWs04n6+UBAraW6YdxSM1HWfkgswfscs7KHphwqloyh3w7eMT5aSt3dT3bs1VztQjsBLDKiLA0ey5wfXCi1ASA93WR2MWIv5x2UvGYlEYZ3Efcv6Z1PB/D+lfwVDuFTep+aNbkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767894299; c=relaxed/simple;
-	bh=ss/QmZtegoT8QUE92ql/8y/No8UIkLe6lLm4BxyGzgg=;
+	s=arc-20240116; t=1767895676; c=relaxed/simple;
+	bh=eFlE0EEPfk3rewZOji/LmMkHrW23JLC2qQUHwRdkLWA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pIHErAnqTudckdJ7Yz9dlYa5qXcVKUo4OfsFeKY2emHwT6HkWCa29AduuTQeaVJLbmx6tSj8C57fUicT/SKEGHuc6iwGgtEkWu3OY2otnjbEJ6GCvqhoybmBZ2uzdQDRiy/cReDGx6MUEHlQ2SQjIcWoQzjx1JS5PQsUQsXT8Nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BeNKhWQi; arc=none smtp.client-ip=209.85.214.176
+	 To:Cc:Content-Type; b=vEFsYPdO0uFBb0ECwpv0pj/828eZMgqicwTNTcwHFoEGySY6gzZ40Onb9jmBx7EPXIlgyojh3J6RUepRiIv+bWwXA4IcPsKuREudWRrlcFdW3C/2x4my2YgNkP0MCMrrkbY//pJBcylflAC7gqaW+sCy2s+ox73OFEnW9zGeS8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eyA0miNm; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BeNKhWQi"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a3e76d0f64so9945445ad.1
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 08 Jan 2026 09:44:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eyA0miNm"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a07f8dd9cdso26268885ad.1
+        for <kernel-tls-handshake@lists.linux.dev>; Thu, 08 Jan 2026 10:07:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767894291; x=1768499091; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1767895674; x=1768500474; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ss/QmZtegoT8QUE92ql/8y/No8UIkLe6lLm4BxyGzgg=;
-        b=BeNKhWQiXYJ8VapN+lS598s7aWlAg3ZkN5x48Iszhtr+ZYxzIzcLJauYMrKVA/Lfd5
-         xUz5JHi1VsDQc/NiTND44G1qGP3nhUXtm0Zrbzk8orAAWwvUnzLS3CgbmBj6DqDEa/UI
-         ODu7/NU15d5EXvHZd/yaXY1SOJHzwXmrU51Mir1OQ1gj68JqkGgnULhI4LVjBB06TfvX
-         Rx1eNsEgNjP/psKCrDmbcOqApvjH/oWl0PNf+QdhzOblHQJuY8A/JjcOOg5nTYPefLNG
-         VuI2R3YBiHrNyFenbzGeyMfwJTirq9QHiV/HgcVLmq+PRLT0TFIp/cigc8ScWiZWSXDo
-         nuTQ==
+        bh=kG0qxlR7DkmzCTUi0X2cIVFJ3HHiLT6S36Wu9RwdLVQ=;
+        b=eyA0miNmKxJR05LKo48yWYF0ksrMX9R0vgR7bMkQOTB6DMD78DN546BPQYNjsvXcYS
+         Jzp8A5cNEBQysvC0uDqEjiezRt+68OfFg4RfiLOujUU7fbJOO/SF7wCwFle26b3v+MAe
+         PM8udzy29eATEL0Pd4WWL061oEuzhng3M8uTP6oJ2yx+iv9nnHRal9kXdqr5J65TUVpD
+         yqWTMm8nhKqUAVTv7WsxYHIeFwU0MEbMC1adY0Q4F85DT9AwRdl/MaL+VsaXyeH4VeFg
+         og9ZaBIpkjMrUAY1ceBkJvIJfVJ8Th7BWtw2jg+HCiQKcYNyWd16s+tIXjxp3gO5AIii
+         tY3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767894291; x=1768499091;
+        d=1e100.net; s=20230601; t=1767895674; x=1768500474;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ss/QmZtegoT8QUE92ql/8y/No8UIkLe6lLm4BxyGzgg=;
-        b=FZE6BouPjVY+M5uQF5rdb+kD3ptB3qZNT4kU26k7p5xsnVMJjpjEc6A2tv8PRcXm4A
-         Z6O6mvF2jO0N7DArDPYoLNPiKu63UqtR3F5j2uy1gGBfho+U4JXJjBLA2kT4ZmCE8yUq
-         UUank2b3ux1dxCWxefdrCgREmP8dE7H2ms4YR0ZCETd6WB6a9TaZRikMIyiIX64SB3D+
-         Era+drwJisCk4XT10v9J9pSuZnTC6XhB2/F2tQYQw2iSazzHKmshuT0pzkVEn3GLr+na
-         hwa6UzVET0NiNZAk4l7vuKSghODh2NPiSJZXvV4MujBoldlypN3k7XZINjji9d2Q0d2I
-         8Ehg==
-X-Forwarded-Encrypted: i=1; AJvYcCWMZpP0REIESx5c34uqDzCrZlz6v4sarzFrM3cjPJUfYMGodRgPTkBR7gpLl8cCkb1iVNzEjj8tohQ+CoOzOQzcAcAX6w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRxQKI0B/9PQfs4W9mo7ni7AShQ3ssKfZJD201RSdI1TqFI/53
-	O+Tn/6CwL44hGXYBGH0xbaY4CZ0gWpjFpBpRg+ODrKry08tlWMf+DCpURPNmFTAuBg70J2tUZNd
-	2wE4VgT+JGy6pnenqRYQb261PNI0zKo4=
-X-Gm-Gg: AY/fxX6mQ/vn5ozbS6ZUzuOUpMZ+XjDdVU9AfRk5J5zPgZbOJy0XqpR2oeYicQ7tU65
-	vCEPkQV3UNMQEhcSfDH/jBwxRGYYKDhvcMvzYaucdEWXysfwrSAZbPqfAnVB3AfTkbNhLlEKm+a
-	Zc33IrAzugSamGQWY6GTnmQnP0LvLCRpVldqmEz/RIpXXguu+6ypSt0Ik/JNUjPsg36p2ZVQxfo
-	bxAGsyikTVfNxrqhTKFoPpI747LWfGdToHZPvv+Oe1CtiLbxBesKYD0g8uC+M96Sf872JARhY6x
-	KMVI+RUfqsAP7HohgpH7TtiJYVApeKrQ/1m1gGM=
-X-Google-Smtp-Source: AGHT+IGo23JTAhDe6YZ04HEPRhsvfMI0iFv39hHhbnRbHjZlEOShm5/5yd/f68zNrStyS0OL76jXKcU4YQTPqscbaUY=
-X-Received: by 2002:a17:902:d4d1:b0:2a0:b432:4a6 with SMTP id
- d9443c01a7336-2a3edb775abmr78034655ad.15.1767894290166; Thu, 08 Jan 2026
- 09:44:50 -0800 (PST)
+        bh=kG0qxlR7DkmzCTUi0X2cIVFJ3HHiLT6S36Wu9RwdLVQ=;
+        b=eEKbNheolx+ILc1xkzCJBF+i/FqSPT7Kp66FtjsRh9/vk4aAdHupJdqRb+aa2dkV2+
+         wdXmdJxR+fNRPOO9CtzQ1Pal/YeTtK9pIM4Hhye5E9wqL4DQz3lMkmKneF5ruUyMCJ8F
+         DOlNLZVpR472OsdK9xsBsy0L+c4MuuHpN6xgy1EsruQ58CpFbgxV47wI5JaKp4C7ApxA
+         pJhpp6BngIe5HjZE5vK43k5eETJuBun+psTyml79NxKAaWnT3YzYGbwXgfwRD3oobv5x
+         Yfrkn2OXd0re0WwFc0UjAjruGnKS1B0gYT2CAU7/EGqm4Kp2WsUFPW6j7mjaDWTRURL4
+         7K0w==
+X-Forwarded-Encrypted: i=1; AJvYcCXUzZMs1xOxVOqwJ6XltPfc2ecF2zbt1vzj4kXtQnONGb02Kmc7p62Y1/KElIFAshwakcDv0aDpagJeDZamt3X1HKKFsA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxx06gC4OIEsAF0fQ6sePUBDTX7hpvkIQlcgk7pyjN1ccj7xbaX
+	UeAThlFEMLku/5qVeo+TYzMfCvBXiEVNHujhMTnLnUkRiVcXFuhgM9i3k1gsket+teouupvVb9I
+	SekS3h8VsI5A+pDS59Mnpb87FlQeRMSg=
+X-Gm-Gg: AY/fxX7i+i1ZTHAmkpGHL1Kys9/XiH/tKmSntphhIkQKqzCYp054vJzrC7adFDg8ohd
+	9skbnPcQeGch/7racHZyug5FEdJ3+rTlYIKdEv/MgCR/N2ZXcqwnR2e/szrMf2HmSBB0zpVwUcw
+	xqf6Do6+miCbUv79w72P55WwjgUSiLqF8/tNpeU6qttnLs0+8MJQmBIsNeHvvrXstxLLzj1n17P
+	24eLTyDPmNm92KoZMiiz4M383pEkQzzma5EeU77HHgm/w8cIw8Q5znzBA2z0p2ExZZFH/IWXqPB
+	ui5c1gvBuLprzr9xgNiI6HT+rmb2
+X-Google-Smtp-Source: AGHT+IE9Y4d720NUxx7X6c0Vop4TSZunxU0aBEXsPFaXcnftPaEKDqjIyJPqDzTbJ8MhAvkZSc7J6WYOjD4cMrQ1F1Y=
+X-Received: by 2002:a17:903:124e:b0:2a1:3cd8:d2dc with SMTP id
+ d9443c01a7336-2a3ee4b74a9mr74559005ad.57.1767895674105; Thu, 08 Jan 2026
+ 10:07:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1767621882.git.lucien.xin@gmail.com> <127ed26fc7689a580c52316a2a82d8f418228b23.1767621882.git.lucien.xin@gmail.com>
- <1f31a9ac-01dd-4bb1-9a5a-ec67b381c5c0@redhat.com>
-In-Reply-To: <1f31a9ac-01dd-4bb1-9a5a-ec67b381c5c0@redhat.com>
+References: <cover.1767621882.git.lucien.xin@gmail.com> <79bf90a6e105c6e6ac692de21a90ec621af47cc5.1767621882.git.lucien.xin@gmail.com>
+ <ec28c852-e80a-41c9-94ce-a0fce8ee07e7@redhat.com>
+In-Reply-To: <ec28c852-e80a-41c9-94ce-a0fce8ee07e7@redhat.com>
 From: Xin Long <lucien.xin@gmail.com>
-Date: Thu, 8 Jan 2026 12:44:37 -0500
-X-Gm-Features: AQt7F2o6dW95jyJ167axiY2PfCkYBHxaTuo-Pd8v15qVpoBoDqajatltW2Rygls
-Message-ID: <CADvbK_c2YE8KfXE2KP0=a_zaUm-AWNOwpmyeDCQURA3AtbDpOQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v6 05/16] quic: provide quic.h header files for
- kernel and userspace
+Date: Thu, 8 Jan 2026 13:07:42 -0500
+X-Gm-Features: AQt7F2q4UBD6cchiuW4fIBTslqGz6vf73cyh9XXwWjTaKPFND-PFSs14ShxZDj8
+Message-ID: <CADvbK_dKYZ6_NyxcsweKRPkFEq046+1RENA7vH9hBhG-6xNxxw@mail.gmail.com>
+Subject: Re: [PATCH net-next v6 07/16] quic: add connection id management
 To: Paolo Abeni <pabeni@redhat.com>
 Cc: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev, davem@davemloft.net, 
 	kuba@kernel.org, Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>, 
@@ -88,29 +87,62 @@ Cc: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev, davem@davemloft.
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 8, 2026 at 10:01=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wro=
+On Thu, Jan 8, 2026 at 10:52=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wro=
 te:
 >
 > On 1/5/26 3:04 PM, Xin Long wrote:
-> > This commit adds quic.h to include/uapi/linux, providing the necessary
-> > definitions for the QUIC socket API. Exporting this header allows both
-> > user space applications and kernel subsystems to access QUIC-related
-> > control messages, socket options, and event/notification interfaces.
-> >
-> > Since kernel_get/setsockopt() is no longer available to kernel consumer=
-s,
-> > a corresponding internal header, include/linux/quic.h, is added.
+> > +/* Remove connection IDs from the set with sequence numbers less than =
+or equal to a number. */
+> > +void quic_conn_id_remove(struct quic_conn_id_set *id_set, u32 number)
+> > +{
+> > +     struct quic_common_conn_id *common, *tmp;
+> > +     struct list_head *list;
+> > +
+> > +     list =3D &id_set->head;
+> > +     list_for_each_entry_safe(common, tmp, list, list) {
+> > +             if (common->number <=3D number) {
+> > +                     if (id_set->active =3D=3D common)
+> > +                             id_set->active =3D tmp;
+> > +                     quic_conn_id_del(common);
+> > +                     id_set->count--;
+> > +             }
 >
-> Re-adding kernel_get/setsockopt() variants after removal, but just for a
-> single protocol is a bit ackward. The current series does not have any
-> user.
+> Since the list is sorted by number you could break the loop as soon as
+> common->number > number.
 >
-> Do such helpers save a lot of duplicate code? Otherwise I would instead
-> expose quic_do_{get,set}sockopt().
+> > +     }
+> > +}
+> > +
+> > +struct quic_conn_id *quic_conn_id_find(struct quic_conn_id_set *id_set=
+, u32 number)
+> > +{
+> > +     struct quic_common_conn_id *common;
+> > +
+> > +     list_for_each_entry(common, &id_set->head, list)
+> > +             if (common->number =3D=3D number)
+> > +                     return &common->id;
 >
-Not much, just when using quic_do_{get,set}sockopt(), KERNEL_SOCKPTR()
-will be used around the optval and optlen.
+> Same here, you can break the loop when common->number > number
+>
+Yup, this will save some rounds.
 
-It should be fine to change to expose quic_do_{get,set}sockopt().
+>
+> > +static inline u32 quic_conn_id_first_number(struct quic_conn_id_set *i=
+d_set)
+> > +{
+> > +     struct quic_common_conn_id *common;
+> > +
+> > +     common =3D list_first_entry(&id_set->head, struct quic_common_con=
+n_id, list);
+>
+> id_set can be empty at creation time. The above assumes it contains at
+> least an element. Does the caller need to check for such condition?
+> Possibly moving the check here would simplify the code?
+>
+quic_conn_id_first_number() is always called in the socket that is not
+in CLOSE state,
+and there must be at least one ID in the id_set in such states. I will
+leave a comment
+in this function if you're okay with it.
 
 Thanks.

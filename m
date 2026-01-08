@@ -1,74 +1,75 @@
 Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34F02E0926
-	for <kernel-tls-handshake@lists.linux.dev>; Thu,  8 Jan 2026 16:58:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50C12F5A10
+	for <kernel-tls-handshake@lists.linux.dev>; Thu,  8 Jan 2026 17:44:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767891514; cv=none; b=BkyKPAc4fXLXS3RYpC+XqeBPaWPwahY1lk5c0DodB9Zj2n5lxDCbFpVqzszY/REtsH81suve1H/1XYDRNMF2CFGatyY06yGZibFlSiaL3r9gSG8GCru5u2A/PlbA1TAo2vYsgG+fglcj6lmYmpSkye8Dw3M8aB1nHL4a+epf1lU=
+	t=1767894299; cv=none; b=FHoCBfajb3yGfXGaYZ/s2qYA31qy3gsZWFWQP+re9qod7oQGcnLuyqcuVu8w2FU3g8k3ZfBYepCjnkHzg6FdZzA+sK5z7v4O/RWlBWVd/B8OD+4p9yHqnp1Fael1MRU7kX4/r+eB/CtuCGa4j/UpOkCYgYK97Snc/inpmXBMkSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767891514; c=relaxed/simple;
-	bh=MVTzGXbScex35TzesGDsimq24WTvc4nqhQnvv4OBy3M=;
+	s=arc-20240116; t=1767894299; c=relaxed/simple;
+	bh=ss/QmZtegoT8QUE92ql/8y/No8UIkLe6lLm4BxyGzgg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BxT0SmRRLCUxxSQiJwEvCY2zqvgfaOyOIb2cfEIayzjAndf5Va7H0pVKxA+RkzJTa6Hb48h2qwFKU/SJA/1RWQnysKO6pSm61uu31mOQxtttS6DN0NiaBrxquIy5olFwi+T8sxZN++NB/vGc9l4o8FAXz46xOKCh7pxq6K7TggU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GJzOMW0z; arc=none smtp.client-ip=209.85.214.176
+	 To:Cc:Content-Type; b=pIHErAnqTudckdJ7Yz9dlYa5qXcVKUo4OfsFeKY2emHwT6HkWCa29AduuTQeaVJLbmx6tSj8C57fUicT/SKEGHuc6iwGgtEkWu3OY2otnjbEJ6GCvqhoybmBZ2uzdQDRiy/cReDGx6MUEHlQ2SQjIcWoQzjx1JS5PQsUQsXT8Nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BeNKhWQi; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GJzOMW0z"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a07fac8aa1so26945095ad.1
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 08 Jan 2026 08:58:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BeNKhWQi"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a3e76d0f64so9945445ad.1
+        for <kernel-tls-handshake@lists.linux.dev>; Thu, 08 Jan 2026 09:44:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767891511; x=1768496311; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1767894291; x=1768499091; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fIpmw3TbxuFac2rr3Ral/5NrCqmxWN0HTMSbOEZp4Sw=;
-        b=GJzOMW0z8IRwk0RPf8EbQu6dwi4DW79EqjpL3PLoOANZxkjtBGxIUSbHEsrwMAToIL
-         iNjDNoC0tA7Xz1SUw005K5yLtzrs+yN50tTG0PRS61hcvs4OIjV0fEqB9v8cwY7+YU2q
-         13iMhNH4BhyYRmAfS1JYePcmdRRD3nTwd4FGAX7pi3kfgmZw5kkbw2qTU5kKwPEzSRVo
-         jP+AOQjn4sXFX+IMDPvwi9nIqEPzpMsS4zoBtTdka2G4FR8YOrxv//PJkPLbEIGoShB6
-         9xo57hEnk+PBUCD/xDIb1bodlFVw5nZNtWGK+79enbjBEbixEKIYDUL+wbK7vvY/TMhb
-         16+g==
+        bh=ss/QmZtegoT8QUE92ql/8y/No8UIkLe6lLm4BxyGzgg=;
+        b=BeNKhWQiXYJ8VapN+lS598s7aWlAg3ZkN5x48Iszhtr+ZYxzIzcLJauYMrKVA/Lfd5
+         xUz5JHi1VsDQc/NiTND44G1qGP3nhUXtm0Zrbzk8orAAWwvUnzLS3CgbmBj6DqDEa/UI
+         ODu7/NU15d5EXvHZd/yaXY1SOJHzwXmrU51Mir1OQ1gj68JqkGgnULhI4LVjBB06TfvX
+         Rx1eNsEgNjP/psKCrDmbcOqApvjH/oWl0PNf+QdhzOblHQJuY8A/JjcOOg5nTYPefLNG
+         VuI2R3YBiHrNyFenbzGeyMfwJTirq9QHiV/HgcVLmq+PRLT0TFIp/cigc8ScWiZWSXDo
+         nuTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767891511; x=1768496311;
+        d=1e100.net; s=20230601; t=1767894291; x=1768499091;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=fIpmw3TbxuFac2rr3Ral/5NrCqmxWN0HTMSbOEZp4Sw=;
-        b=COS58fFpGWavWz1fkpo3GgncC+1L9L8GB8AhoVjOMQBE6w7wIvlMi0LJRr0gSkWkoI
-         age+SUq/qnNKtffnu3leXlAHHAKELHqZpZrB9YQnYcFhzJk/Wum3lJJv9i90YWiXOw7i
-         bgL7XA5Xq+ZXLBv3dhXZjLFEL/xUGdc8EOPIHwu4qrPxlCvyRGzoi2xZGRKf4c0AsY6G
-         u0yDSfHs4EyZ/pGBpWHNj0WDIG6w76Ou0a9kEBqU/wiWQ2ld7KsCOQ6abz3nyxz4o82W
-         sZfrW/37qKvILvGZJLAWmlP1DsjAzY3vIyUQfNc9Fdvd8W4VI7HB5/6pVFmIf6o6U3vw
-         sFKA==
-X-Forwarded-Encrypted: i=1; AJvYcCUu79N4e0DKzFsLJsuYjwgmmybnwXiYHfEjJP6YHdv6hIMf53ziU3rvPX5pTocHUYYGeRZzGz2FjFhWVwSyj+CuoJupnA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz4qzu/omw5thkgSDGBGeshpkvbAXgtYsKGFK//mchbNnRf6ojZ
-	iUtq2hptuHMrxIDNGSUD9ozXxyI00Wy41jdbRYHLSm+AnOBcZt8J7M8ovQ9fPLxCQAnIHiy8Ymf
-	r1nruuaqChBSutkM802oV2ea4Z7bYstA=
-X-Gm-Gg: AY/fxX48KtSWl2i7Pm4YPvAlz1uZgd0GMMm1a6NXbH/7ufvNDZZBhbLbiM9x8AOWFkl
-	o/u5dip9wYZlXIrTCv1kW8OUiYMOUk+tM4HcHdwuEoJTlpn9uZH8FDokXIq0Z3oIQ6sXVxSKuyN
-	avX5euNZ2Z2WVmgzJx7AItEsyzxBUxhirisbonPJMWPO74/+8EVrrO0vkG42PQG8P3iub7IdM07
-	sJB1iFjjzYBd3KVVAEcR9CkjgGsja8VRMbiSNn0nTZ04GICp0HLDro/nSu5K7nTCGqLL2RJtuz1
-	KgPVc3CzS0L4GoxA4MtDtt8yf+fm
-X-Google-Smtp-Source: AGHT+IHULotT7XFOA4hDBTUJBhfsHPefC4PlHzU1kuHvxYpkrgCp4pB0H1Sx2VpJWUGOCosSRzEF1Th10/Eb/PAqOAk=
-X-Received: by 2002:a17:903:1a6f:b0:2a3:ee53:d201 with SMTP id
- d9443c01a7336-2a3ee53d218mr72769795ad.12.1767891510843; Thu, 08 Jan 2026
- 08:58:30 -0800 (PST)
+        bh=ss/QmZtegoT8QUE92ql/8y/No8UIkLe6lLm4BxyGzgg=;
+        b=FZE6BouPjVY+M5uQF5rdb+kD3ptB3qZNT4kU26k7p5xsnVMJjpjEc6A2tv8PRcXm4A
+         Z6O6mvF2jO0N7DArDPYoLNPiKu63UqtR3F5j2uy1gGBfho+U4JXJjBLA2kT4ZmCE8yUq
+         UUank2b3ux1dxCWxefdrCgREmP8dE7H2ms4YR0ZCETd6WB6a9TaZRikMIyiIX64SB3D+
+         Era+drwJisCk4XT10v9J9pSuZnTC6XhB2/F2tQYQw2iSazzHKmshuT0pzkVEn3GLr+na
+         hwa6UzVET0NiNZAk4l7vuKSghODh2NPiSJZXvV4MujBoldlypN3k7XZINjji9d2Q0d2I
+         8Ehg==
+X-Forwarded-Encrypted: i=1; AJvYcCWMZpP0REIESx5c34uqDzCrZlz6v4sarzFrM3cjPJUfYMGodRgPTkBR7gpLl8cCkb1iVNzEjj8tohQ+CoOzOQzcAcAX6w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyRxQKI0B/9PQfs4W9mo7ni7AShQ3ssKfZJD201RSdI1TqFI/53
+	O+Tn/6CwL44hGXYBGH0xbaY4CZ0gWpjFpBpRg+ODrKry08tlWMf+DCpURPNmFTAuBg70J2tUZNd
+	2wE4VgT+JGy6pnenqRYQb261PNI0zKo4=
+X-Gm-Gg: AY/fxX6mQ/vn5ozbS6ZUzuOUpMZ+XjDdVU9AfRk5J5zPgZbOJy0XqpR2oeYicQ7tU65
+	vCEPkQV3UNMQEhcSfDH/jBwxRGYYKDhvcMvzYaucdEWXysfwrSAZbPqfAnVB3AfTkbNhLlEKm+a
+	Zc33IrAzugSamGQWY6GTnmQnP0LvLCRpVldqmEz/RIpXXguu+6ypSt0Ik/JNUjPsg36p2ZVQxfo
+	bxAGsyikTVfNxrqhTKFoPpI747LWfGdToHZPvv+Oe1CtiLbxBesKYD0g8uC+M96Sf872JARhY6x
+	KMVI+RUfqsAP7HohgpH7TtiJYVApeKrQ/1m1gGM=
+X-Google-Smtp-Source: AGHT+IGo23JTAhDe6YZ04HEPRhsvfMI0iFv39hHhbnRbHjZlEOShm5/5yd/f68zNrStyS0OL76jXKcU4YQTPqscbaUY=
+X-Received: by 2002:a17:902:d4d1:b0:2a0:b432:4a6 with SMTP id
+ d9443c01a7336-2a3edb775abmr78034655ad.15.1767894290166; Thu, 08 Jan 2026
+ 09:44:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1767621882.git.lucien.xin@gmail.com> <f891d87f585b028c2994b4f57712504e6c39b1b5.1767621882.git.lucien.xin@gmail.com>
- <6c8a1f56-16ed-482f-a9a8-ac840a7aebd3@redhat.com>
-In-Reply-To: <6c8a1f56-16ed-482f-a9a8-ac840a7aebd3@redhat.com>
+References: <cover.1767621882.git.lucien.xin@gmail.com> <127ed26fc7689a580c52316a2a82d8f418228b23.1767621882.git.lucien.xin@gmail.com>
+ <1f31a9ac-01dd-4bb1-9a5a-ec67b381c5c0@redhat.com>
+In-Reply-To: <1f31a9ac-01dd-4bb1-9a5a-ec67b381c5c0@redhat.com>
 From: Xin Long <lucien.xin@gmail.com>
-Date: Thu, 8 Jan 2026 11:58:18 -0500
-X-Gm-Features: AQt7F2r2eahRmpC-isaCgnTPZ3EtB5uQT5Ead8hHYSoe5kUDYAgbUFOe0Uminug
-Message-ID: <CADvbK_d_3cF63zM6cJv0Oc5XB7ntaZozzbu4K+xmM2jaS7Jshg@mail.gmail.com>
-Subject: Re: [PATCH net-next v6 03/16] quic: provide common utilities and data structures
+Date: Thu, 8 Jan 2026 12:44:37 -0500
+X-Gm-Features: AQt7F2o6dW95jyJ167axiY2PfCkYBHxaTuo-Pd8v15qVpoBoDqajatltW2Rygls
+Message-ID: <CADvbK_c2YE8KfXE2KP0=a_zaUm-AWNOwpmyeDCQURA3AtbDpOQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v6 05/16] quic: provide quic.h header files for
+ kernel and userspace
 To: Paolo Abeni <pabeni@redhat.com>
 Cc: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev, davem@davemloft.net, 
 	kuba@kernel.org, Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>, 
@@ -87,47 +88,29 @@ Cc: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev, davem@davemloft.
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 8, 2026 at 9:45=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wrot=
-e:
+On Thu, Jan 8, 2026 at 10:01=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wro=
+te:
 >
 > On 1/5/26 3:04 PM, Xin Long wrote:
-> > +/* Check whether 'd2' is equal to any element inside the list 'd1'.
-> > + *
-> > + * 'd1' is assumed to be a sequence of length-prefixed elements. Each =
-element
-> > + * is compared to 'd2' using 'quic_data_cmp()'.
-> > + *
-> > + * Returns 1 if a match is found, 0 otherwise.
-> > + */
-> > +int quic_data_has(struct quic_data *d1, struct quic_data *d2)
-> > +{
-> > +     struct quic_data d;
-> > +     u64 length;
-> > +     u32 len;
-> > +     u8 *p;
-> > +
-> > +     for (p =3D d1->data, len =3D d1->len; len; len -=3D length, p +=
-=3D length) {
-> > +             quic_get_int(&p, &len, &length, 1);
-> > +             quic_data(&d, p, length);
-> > +             if (!quic_data_cmp(&d, d2))
-> > +                     return 1;
+> > This commit adds quic.h to include/uapi/linux, providing the necessary
+> > definitions for the QUIC socket API. Exporting this header allows both
+> > user space applications and kernel subsystems to access QUIC-related
+> > control messages, socket options, and event/notification interfaces.
+> >
+> > Since kernel_get/setsockopt() is no longer available to kernel consumer=
+s,
+> > a corresponding internal header, include/linux/quic.h, is added.
 >
-> AI review found something likely relevant here:
+> Re-adding kernel_get/setsockopt() variants after removal, but just for a
+> single protocol is a bit ackward. The current series does not have any
+> user.
 >
-> """
-> Can this cause an integer underflow?  When 'length' (read from the data)
-> is greater than the remaining 'len', the subtraction 'len -=3D length' wi=
-ll
-> wrap the u32 to a very large value, causing out-of-bounds memory access.
+> Do such helpers save a lot of duplicate code? Otherwise I would instead
+> expose quic_do_{get,set}sockopt().
 >
-> Compare with quic_data_to_string() which validates: 'len < length'.
->
-> The same issue exists in quic_data_match() below.
-> """
-AI seems right. I will change it to:
+Not much, just when using quic_do_{get,set}sockopt(), KERNEL_SOCKPTR()
+will be used around the optval and optlen.
 
-                if (!quic_get_int(&p, &len, &length, 1) || len < length)
-                        return 0;
+It should be fine to change to expose quic_do_{get,set}sockopt().
 
 Thanks.

@@ -1,115 +1,130 @@
-Received: from outbound.ms.icloud.com (p-west3-cluster2-host11-snip4-10.eps.apple.com [57.103.74.93])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7213D5D8D
-	for <kernel-tls-handshake@lists.linux.dev>; Thu,  8 Jan 2026 10:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.74.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED032248B3
+	for <kernel-tls-handshake@lists.linux.dev>; Thu,  8 Jan 2026 14:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767868387; cv=none; b=Air5grIIfJBF8XZDedAH/ygfOtDBgy6cbJhhzvR8W+ndbivieeZ4TWiINdcgXAUJmqpbnSfEA2Cl+RKLAIIXRYcIGP8WXJcuB0K7TVvjY5XszIe6Qkok0oVnn7bEpFcETH+yME0TmlzfFdrlp7BzFf0YADiVpmwTSNSVhJ6ojTI=
+	t=1767883212; cv=none; b=il2QsG/WynEcfBm2q/OmuGBQwkcaOdvKQl7sW2wWrUYccSoJUNLWmaNFOhS5SseHd2ni6FGNHm7PhS6fWwhBSFZioFtwxqzTNmuPFBiXB7uIRVotxMhLRxrWGknGxIUZdTga7otn4YQibeIBuH3JnmZZU/NUntzUuvkcsGndUnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767868387; c=relaxed/simple;
-	bh=3VvZc5Pxqa2DYWHioCPMHDe+wkeZBiz42WkZ8pZYGKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kc93nU6ez9bbPtVG8ExmgFwReS6T2OeKc2ikaHk9vYdNs1pagzv59fovOnA3n3+TryIcmw9GIaGljDBHzM9XXjSuYgPpbqhLd6W7qwDyqkl81yktqrYmIl61bQfBxQxzXFDvCpFBvoG31HbFUFBY+X4SiikbuPP9JqGW52ul3bA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=y-koj.net; spf=pass smtp.mailfrom=y-koj.net; dkim=fail (0-bit key) header.d=y-koj.net header.i=@y-koj.net header.b=lPvKeEbS reason="key not found in DNS"; arc=none smtp.client-ip=57.103.74.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=y-koj.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=y-koj.net
+	s=arc-20240116; t=1767883212; c=relaxed/simple;
+	bh=dPmlogqSF3x91CEJq+G86ZMwTBqFlXyFWdTsnVs3Vl8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=c8BjF6AZmpoVILAoXdluVGdn8umFGhYo0x3kMLWqzHYaIzsfS9DnQRgw+feAaMnQris48H8jJtuEf9yNipjB4ZeKY8wk/3NZetmmMKli9x6YtRuToU2QasHm0HhTMIlV9nypQSUe+0ZgoUSTp24MrZARvauq+9wZ5JK+NQtlHcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AEl/xqf0; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=y-koj.net header.i=@y-koj.net header.b="lPvKeEbS"
-Received: from outbound.ms.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-west-3a-100-percent-7 (Postfix) with ESMTPS id F0F4718001A0;
-	Thu,  8 Jan 2026 10:32:57 +0000 (UTC)
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=y-koj.net; s=sig1; bh=LUPYqb/Z3vOvooaWSeMwubFxJknkvN/Ii7q3nM4iWGk=; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=lPvKeEbSaYiwAJreUhoH7n0SbBz6UjbzJJQ4dHgB/I870dUntaME2dbfU1GfSOjy08nMiy2V1rnTWxFjSVaKa/GE4FF9Hnmfz5zc4zvs1c+FS+fUqhMgwpc9hAbSCsXY9wimIbzlZ3NY9BS3jAJhOE70kLQVJXFXeus9DJB/aOrJcwLbkLSsx5dKsBfxlP4kqcL/BK9xwYOvD1+ou/tf+2UJS4odvhJS15T0aCEgfHG878nm54fGW2TlFIBYnaqLtl7MrFCTaIG2YkcrIio7eomuYgP/CUaqUQ2w2v05PpK3JJtjx0Qg7XQ84HTjJiSpI+pzkhpGxQJRiGYAuBu9oQ==
-mail-alias-created-date: 1719758601013
-Received: from desktop.y-koj.net (unknown [17.57.154.37])
-	by p00-icloudmta-asmtp-us-west-3a-100-percent-7 (Postfix) with ESMTPSA id 3401718001EA;
-	Thu,  8 Jan 2026 10:32:53 +0000 (UTC)
-Date: Thu, 8 Jan 2026 19:32:51 +0900
-From: Yohei Kojima <yk@y-koj.net>
-To: Stefan Metzmacher <metze@samba.org>
-Cc: Xin Long <lucien.xin@gmail.com>, network dev <netdev@vger.kernel.org>,
-	quic@lists.linux.dev, davem@davemloft.net, kuba@kernel.org,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Moritz Buhl <mbuhl@openbsd.org>,
-	Tyler Fanelli <tfanelli@redhat.com>,
-	Pengtao He <hepengtao@xiaomi.com>,
-	Thomas Dreibholz <dreibh@simula.no>, linux-cifs@vger.kernel.org,
-	Steve French <smfrench@gmail.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Paulo Alcantara <pc@manguebit.com>, Tom Talpey <tom@talpey.com>,
-	kernel-tls-handshake@lists.linux.dev,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>, Steve Dickson <steved@redhat.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Alexander Aring <aahringo@redhat.com>,
-	David Howells <dhowells@redhat.com>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	John Ericson <mail@johnericson.me>,
-	Cong Wang <xiyou.wangcong@gmail.com>,
-	"D . Wythe" <alibuda@linux.alibaba.com>,
-	Jason Baron <jbaron@akamai.com>, illiliti <illiliti@protonmail.com>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-	Daniel Stenberg <daniel@haxx.se>,
-	Andy Gospodarek <andrew.gospodarek@broadcom.com>
-Subject: Re: [PATCH net-next v6 05/16] quic: provide quic.h header files for
- kernel and userspace
-Message-ID: <aV-HgBCqGx0pc-pL@desktop.y-koj.net>
-References: <cover.1767621882.git.lucien.xin@gmail.com>
- <127ed26fc7689a580c52316a2a82d8f418228b23.1767621882.git.lucien.xin@gmail.com>
- <aV9AwNITeyL71INz@desktop.y-koj.net>
- <a0453a42-ee41-466a-b8aa-8eaaa38d7905@samba.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AEl/xqf0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1767883209;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=njA+hTMBn/k9kWyQkaykZqwF8RGh2m3Qf7ruOi453Qc=;
+	b=AEl/xqf0vVD/wXpbQCH0NXSbExyann50q+o2GpU+l3MuPMpHkLvs626IZLyEMO+IxUb4PN
+	Iu3/VAtXghFYiFcj/3KagP2+SuCfaDnni+s9MqE4DbCiivfMo2EalFLJshaY+rJaSgdTp7
+	9nwokz5RegI1pbtyVJofpnzyAAFGboc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-684-p0QdbfLHMxOPHc127MpH5w-1; Thu, 08 Jan 2026 09:40:06 -0500
+X-MC-Unique: p0QdbfLHMxOPHc127MpH5w-1
+X-Mimecast-MFC-AGG-ID: p0QdbfLHMxOPHc127MpH5w_1767883206
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-43065ad16a8so1952544f8f.1
+        for <kernel-tls-handshake@lists.linux.dev>; Thu, 08 Jan 2026 06:40:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767883206; x=1768488006;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=njA+hTMBn/k9kWyQkaykZqwF8RGh2m3Qf7ruOi453Qc=;
+        b=ta02dGk4tMxr/lFVBhMjVAjXb1UPZntcVDKRyRZ4RIvZwj+KWBNxySMHHftojHfYsA
+         n78bik7tBv6Ie9G6VuSjNYdZnV+se8X1V1CRGeHx+kBPfLjMI1SzGjh2hn4MF7aIAXFD
+         a9uuIpW/UZznJXssWudixMT7BHFtp83/6ac5+aE6dQd5yfKLjRp6zdBhIGxNUr4Kr57X
+         jjdLrnQsYhw/TKDqM2/zjWHLV5+mglTa8x7vbc32ovrKYTSlr3W47iFu3XY0ye5n/Sc/
+         x9LnXEX6TVaCpEJIpi1rCu6SjEukPRvd2nXfCA51tZo3i8YNzh6vVvkHZp0sDIDfT+qm
+         DOFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVd/DgPhRGOX6kTg5fAKo9aXwaRm47lyaCvld75EjOu0WRLgl8muKzrXnoJtyxjHr+ZOVDcfCiI+tfBMG37Vq9fv+q6/Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxqSyXzUr1GWLSw6ExgR7ZjJ/3rkDH8Vj4IzzoZjBqrnXzUGbU2
+	1kLDK9KKiIDq0sfgsmAbL2GtS0htW7JVeetLal3G1jsNWRj2PLxFmNXCdTItkV2H/P/gN38Ko1v
+	FcIZossE0pXAPHXllo4FEqXKkrYGoGSsqs/X0f3zI5sH+W6nUZP1d1S3QsC7eN1nPcNiPtJ/O/O
+	i2
+X-Gm-Gg: AY/fxX6EzknxQT5nHCpr1HA/OULvyvuz/N27SCfA8P4Q7SAKiZLWVlVDUXf2PzcRhl1
+	9MGjGgUgmHnZZVmzNL+85g3ZpzGQveTPUDfQv9k3qI73CwsXA/wDAN07Cmnbi0YbImFJXqktDmB
+	ZSqOfHRvbOGDuROqeQt0byWRcVoAKquxsHSu2yOKdsiy0xMaj7kJzjsRQhrIsYGy8i2To8giS71
+	Timq0tS5OXUbOfALiyk7CWJ+VTOvO5/l/Dy9V/HllDGO3F6Pc5WozvZ5RaYcrItq8aEdVzyJENz
+	PCghhMrZDz1m3bxquDl5CcRTx2rE+ofSF17PSCIExlmNlyT2PUZbtYOmc/g2AXQ+VUmxQ0cVUzG
+	Ar/bDGqMbwpO73g==
+X-Received: by 2002:a05:6000:290c:b0:431:864:d48d with SMTP id ffacd0b85a97d-432c36282b8mr9097906f8f.5.1767883205630;
+        Thu, 08 Jan 2026 06:40:05 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFhrvE0E96qmKMPJwgFr/KgrUshlj3gNC/1jVjlfOFsD1VsRwzSKI/T+U4gkSRnW2fyKqjotw==
+X-Received: by 2002:a05:6000:290c:b0:431:864:d48d with SMTP id ffacd0b85a97d-432c36282b8mr9097863f8f.5.1767883205167;
+        Thu, 08 Jan 2026 06:40:05 -0800 (PST)
+Received: from [192.168.88.32] ([212.105.149.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5ff1e9sm17531056f8f.41.2026.01.08.06.40.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Jan 2026 06:40:04 -0800 (PST)
+Message-ID: <0df97c1d-aa75-4472-aad6-33eaa919ce28@redhat.com>
+Date: Thu, 8 Jan 2026 15:40:02 +0100
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a0453a42-ee41-466a-b8aa-8eaaa38d7905@samba.org>
-X-Proofpoint-GUID: JLj43OVRav7MR6VFNVjRS8okeeDqPRLl
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA4MDA3MSBTYWx0ZWRfX5hmb4oSR963s
- Iog93epKphb/mOgoQFR2UR0U/5XfwAfFsTfEQ4nQMrcr+FPjIqramaOeSCwRvmj8rf9iSDSgsIv
- W6/W7tjhh7SqHpJjM4r55aaEV2IqF+y2575cy7C9MJLxlf7koDWNka+jMlFuf5F2Z2xBSCfCQ2S
- XrsKjRJM/RgmECGh39aCoQN3gkkVMqbQJjobWeUpqlWYMJ1lseR8PyqGljS6GfZtw2+526+Z+vo
- PgLY8NoybtybcIuy2WRVcpj4lUZK6hISKEa1LYm+swQHyl+fGA0w425eCRKg7fzXo2PldzD4BsX
- 1guYZzAOZjXBxXxcSvw
-X-Authority-Info: v=2.4 cv=b/G/I9Gx c=1 sm=1 tr=0 ts=695f87db
- cx=c_apl:c_apl_out:c_pps a=qkKslKyYc0ctBTeLUVfTFg==:117 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=_cr4Ci8WIZHmLF2k5DQA:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: JLj43OVRav7MR6VFNVjRS8okeeDqPRLl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-08_02,2026-01-07_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=576
- phishscore=0 clxscore=1030 spamscore=0 mlxscore=0 suspectscore=0 bulkscore=0
- malwarescore=0 adultscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.22.0-2510240001 definitions=main-2601080071
-X-JNJ: AAAAAAAB7HiKDXe6q/z6mwBqEPBcxpgq2SZdZu0d1zTRUl+8Mh95RVMlNCbhqB+hmtxz+g4tD+gGurL6TBbAhgIQuBly6NiLQN798UYk7PSEJhiwZmbWLPn6vMJK8bYsUSKAd+ij8lEBEUtB9ktehSVNt4cQN1VeuOSh5H7scQ2P7D54iIbo1B8XBDcH0AR1k49dlRWuEddjBy1m/Zl3LHTa8Rm+r+4UzyEgEGJVC80zc4ZZwg/ApYc6CI/ITLTRMiyQFTBMOrxT7V1dt+ViZb0hoD011JDkDSrQCDJAuqagF1ZJgMoST0qzZVculNtwA1NmfULwZ8mrGgHF1Z0vBNQWfPmQukAWW6jDjAxX9r533dhqURLZTggPlXjSAInYjfPT/XlW/HRn2Osw3P3FOt+Ffb+zWG5qjBM4WYw1Bvsit+ffzTzt4LOQAHntvs6qTVqNQHhrdFGWSr+X/wnJCPZW225TGNkuc0qxr4LwubF7vA37Hcgm772/rargMeyJ//XVCe5vIToXNDQUvWkxNKizKjLQ64CxuV9Tr/tUah7MGYOtOQuRfgbklcqXjqWDBEC5P6M41qPR7KeRQt9TJwKwta0IL8OOdSjcRcXfNrNr+qQZ19h2+MR27/Let2ltPgqRsQb1wz4Dx12YQBc+LFiG5ac++Pgyd5m3pNKOoYDlFV0IAw86GHwl6scWEpdSKiuamL7Cws8g6/NTcsA2XGNfMrZwkQzuUm7vX+DadEBhjWBYLnZbFqqhCvyAFi/sOq0lpnL+dC1KMOtpId0s/e/Y/Q03njmQjYfxet4jvsZwYPyxhAt3sUCxlvBNim/V0y54AUHbUltGFSkhmlubiEs/Mux+SDUuK5EyjgNjL/ZVGseFCnxuSjc280tnz7X6pqpgKm5t+U7bXnKRck3JwrqriSv3EVdzzwh5AX+DqUo25uV7/FdfgWKKNWW6takhr+NbB2SJCe1eUXYcvsdZsZUA1i83wnN
- ktib/Dr/kuVOMgFo+6wJLHt+wiQuS/JE04xvE87fdV1qj9GqXt8Ghl8cQWu+pMDazHVlfiHhU7mCAav8Ow/xcWcSplmOQlc3AWZWpL6E=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v6 02/16] net: build socket infrastructure for
+ QUIC protocol
+To: Xin Long <lucien.xin@gmail.com>, network dev <netdev@vger.kernel.org>,
+ quic@lists.linux.dev
+Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
+ Simon Horman <horms@kernel.org>, Stefan Metzmacher <metze@samba.org>,
+ Moritz Buhl <mbuhl@openbsd.org>, Tyler Fanelli <tfanelli@redhat.com>,
+ Pengtao He <hepengtao@xiaomi.com>, Thomas Dreibholz <dreibh@simula.no>,
+ linux-cifs@vger.kernel.org, Steve French <smfrench@gmail.com>,
+ Namjae Jeon <linkinjeon@kernel.org>, Paulo Alcantara <pc@manguebit.com>,
+ Tom Talpey <tom@talpey.com>, kernel-tls-handshake@lists.linux.dev,
+ Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>,
+ Steve Dickson <steved@redhat.com>, Hannes Reinecke <hare@suse.de>,
+ Alexander Aring <aahringo@redhat.com>, David Howells <dhowells@redhat.com>,
+ Matthieu Baerts <matttbe@kernel.org>, John Ericson <mail@johnericson.me>,
+ Cong Wang <xiyou.wangcong@gmail.com>, "D . Wythe"
+ <alibuda@linux.alibaba.com>, Jason Baron <jbaron@akamai.com>,
+ illiliti <illiliti@protonmail.com>, Sabrina Dubroca <sd@queasysnail.net>,
+ Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+ Daniel Stenberg <daniel@haxx.se>,
+ Andy Gospodarek <andrew.gospodarek@broadcom.com>
+References: <cover.1767621882.git.lucien.xin@gmail.com>
+ <d5e0dce5e52d72ed2e1847fe15060aa62e423510.1767621882.git.lucien.xin@gmail.com>
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <d5e0dce5e52d72ed2e1847fe15060aa62e423510.1767621882.git.lucien.xin@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: fB36XAk9zjwdXCU25QwLNR5FFpTCC6N4QzLHk7DEy-g_1767883206
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 08, 2026 at 10:15:13AM +0100, Stefan Metzmacher wrote:
-> >> +
-> >> +/* Socket Options APIs */
-> >> +#define QUIC_SOCKOPT_EVENT				0
-> >> +#define QUIC_SOCKOPT_STREAM_OPEN			1
-> >> +#define QUIC_SOCKOPT_STREAM_RESET			2
-> >> +#define QUIC_SOCKOPT_STREAM_STOP_SENDING		3
-> >> +#define QUIC_SOCKOPT_CONNECTION_ID			4
-> >> +#define QUIC_SOCKOPT_CONNECTION_CLOSE			5
-> >> +#define QUIC_SOCKOPT_CONNECTION_MIGRATION		6
-> >> +#define QUIC_SOCKOPT_KEY_UPDATE				7
-> > 
-> > This is a trivial point, but it would be better to align the indentation
-> > of the line above.
-> 
-> This is just the diff output in mail, now in my reply
-> the value 5 is also moved one tab to much.
-> 
-> It's all aligned correctly in the actual file.
+On 1/5/26 3:04 PM, Xin Long wrote:
+> +static int quic_net_proc_init(struct net *net)
+> +{
+> +	quic_net(net)->proc_net = proc_net_mkdir(net, "quic", net->proc_net);
+> +	if (!quic_net(net)->proc_net)
+> +		return -ENOMEM;
+> +
+> +	if (!proc_create_net_single("snmp", 0444, quic_net(net)->proc_net,
+> +				    quic_snmp_seq_show, NULL))
+> +		goto free;
+> +	return 0;
+> +free:
 
-That's embarrassing! I'm very sorry for the noise.
+Minor nits: I think an empty line before the label makes the code more
+readable, and I would prefer #if IS_ENABLED() over #ifdef.
 
-Yohei
+Other than that:
+
+Acked-by: Paolo Abeni <pabeni@redhat.com>
+

@@ -1,63 +1,63 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7FB336EE9
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 26 Jan 2026 16:42:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7AFB347BC1
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 26 Jan 2026 16:46:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769445756; cv=none; b=Z0cSQrGLVkAvpFLe6rUxl7vdFrcev5yboi1cHQiHVoZ/rHP6nQctMWMcnhikjf2Bxv3mmvsR70ibdF0a8s764C3Lc0cTZwDc0/ELmyRkcJWyCtrizdSAgF8DDFD+vNF5X9gsUq0KjATZx4ALaZ4gzI3cfWYsgNyNN9l5+8vp4A0=
+	t=1769446020; cv=none; b=BLTlH5BI+Ry66XEVNuahYRh0TMm0fT5H+X5Swe1Nnwyn47T5/ubkYQjvjTRNby9OWAmtSRdnL2axQmOghJaWg42M5RUw5+tOngASy2lQDeMfVuulVUv1uM+lWkVfgchmUmbwx8QI9r3HFGgoCtNcvYGEOdQzj8KtMMrFPYs8SZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769445756; c=relaxed/simple;
-	bh=PK/1mFe+Y1PCntQKmtDgrO6kth6CSTZVeYWwFACDvgw=;
+	s=arc-20240116; t=1769446020; c=relaxed/simple;
+	bh=JJqkpuUFuIe/gFYva1ohWTEXB+T9x5tVlAQa7/2p+6k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fa8QdZn6YayoB/Z2sNdSOs6r22HO3/l9RRJZkYZ7DNKa1TUpBZqxQqw61AMfDt0rMD9bOm0OGLCijV2FDumZjuVAJ6I5JivN9eTaPUeZDxmqFWoN4urRiNeB7oj60zlGGpMi5l5TaNN/mvpOuRIPB66lrPL2holcCN7U5PgpVUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dg1vOcrR; arc=none smtp.client-ip=209.85.160.182
+	 MIME-Version; b=uULGm746kmdnIJenM8T75zt0MoukilmPoe8n6OwKRK3Qv+/nm9ThwUIuJnGqccF1Xenbf7uUqMCNDHcQ62FWa6TtM5YG5vPSq80wHbJBUiH6PnUiTS/sDZwr1IymGWSl+ZExnVhLpxFYiS0MFcKLGJCFWzSHTYLE2ablC3ZR/qI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e47t/G1i; arc=none smtp.client-ip=209.85.217.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dg1vOcrR"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-5018ec2ae21so53229431cf.0
-        for <kernel-tls-handshake@lists.linux.dev>; Mon, 26 Jan 2026 08:42:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e47t/G1i"
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-5f52e500e89so5399875137.0
+        for <kernel-tls-handshake@lists.linux.dev>; Mon, 26 Jan 2026 08:46:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769445753; x=1770050553; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1769446016; x=1770050816; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fgw1aJ9gX/qBqI/fuJ5Hy9mEiYX5ZnOH7fScCTT4iY4=;
-        b=dg1vOcrRS8miE3qhb2XfQYB+McPwQEHaoI34Ua90DeKKEo+wG0kPmGwEM6cnv0npVk
-         wgFSIO2fwq97eL0zK1CJtmYnMU6tO17+sQc+cmKROyYu2Vj+ps7bKee1Q9ghLxkNevzx
-         ppwF0JVeZuPLkwgETCbLD2pVAysafMHm4T0MhpLDqnoT2DCCQQBTm3seb0R1sPKF+QMk
-         4AGGnZIueB2K00Edi3QkF9DIdE2Is4T/iU9eQ9BEaMiebuqF3KSnex2oEOh3sUU03aB0
-         Ts829bmf88Sq0AJWjAAhmv0kNGpoDv16Z5BrHv/hy64j0GpbCjgszppCyfrdJ1SfobGa
-         O3Tg==
+        bh=tYFKy8wmeOF9/xLY0YwTs32UNcdqHUMzReGDert9fzo=;
+        b=e47t/G1iutw6uBYJ0VhXNM5T0FraQuIJsUDIwfyrrNNYW0TV+ahJ7o0YGkr4Iel8on
+         kXMklfWDY9ooPlcdJ7yLcy/BtMPfAXeyMHjFeq8PbkfD2VulRx4wKzsBIr8A/op72o0N
+         JRMGRAfb5STs8M66Z9giCqrEmdZYlOvyYIabDG71ukO44EQSBrAe2MYj5t26J3pLtuMR
+         Wgy+CVc2jJ8IaAii1YCTTiG9auACthHKL94hjeBrNG2ykC3FEWUBq7y3dJOB3XtrS1DE
+         aWposO7FqQXiqk74r/ELq6BcvyJD1PFeOVyxyflwqu8+Z78VgKtC2Ge6BqFYm00LAEEc
+         JZIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769445753; x=1770050553;
+        d=1e100.net; s=20230601; t=1769446016; x=1770050816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=fgw1aJ9gX/qBqI/fuJ5Hy9mEiYX5ZnOH7fScCTT4iY4=;
-        b=wmcEDYGR1LacrrDbgex8I1CTqsVYSmCjOs+nNLTv6QEu89gzlNOKweaNj3f8lqqnxW
-         LoJw7Zyp9qCTxHqOM18dgdBcNgUpM7muzDfEp4cDhOW3uWUmMnfPAvMkIuDq1sHEvVvZ
-         SQvzQLSCyA81znzbkUE5o7Jyil9Q5gQtGiNIR/UGnDceEe881DQ+Z5e3qrJQY5uSOT32
-         k3Pko7Fozq/szjRJtsiT2/jun0oNHUwY9HVVnSxGuiEnITwx9DJYhzwi1SYqw1Q3LOGI
-         Rwvf3Q9OsJG/Zp+UcSR6NEQOlFqJPGasWXL/Yc17Kkkg7MKlG5sP2OfAGscv+/bGgEpZ
-         oTlA==
-X-Forwarded-Encrypted: i=1; AJvYcCUQl4IBSdYxNkghuO74kKkpSQzSF4W9U1rld2k2SHfVd4WybITBbXANJXLkgGHy4d7Qfswafj6Ya8Qw+UweKxCZNpbRIA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzfklDD6td3DPGyx4G/Dla+NH4+adt8POBLj+PHcrXrXlRjbIgJ
-	WRlsjtbTDzJQ2HxcDmftSIZZqshXvv+Y2YaFJ3DodH4LASWo/SkKi7xRBHmpDrQw
-X-Gm-Gg: AZuq6aIvSikoNiOui4bMdgFWlgS7iHBcI8UPrRZ3l00/GXvCJO0YPPIl5SD8aksmF/w
-	JCir9i8lBQhl3dZrnCH0itwvHiIwqWXhQnNc4nfo/rLVqdOv1Ib0w54XrPY9Ba61+V6NJUr6TpW
-	MKlC+d9XO1iLS1PuVIP0V1rE6LAnkjEEPBSqlKF+SZmD04cyBTLQcbYyVynnD1Do7Kz6hV98MDV
-	sQkIDMjgGEYs1UR/QAHegcXY+d78ewFHCN3wI/mkTlVgdeav0lEd1JZTRqwJ86Sk00WoNcJtQ9I
-	bxIizVMNK/1AK3lRzunXLHrNvK8MSMuYDBdf4k8jlsafNcICPdtWzzfOHnWwRd0i2Bdy1FLoc7I
-	hzpqP8vkOAIVO7oI1uaNGpIZmLdA00hiDz+G79mSa6FFyRlYFL/gvBmmmp0kG3WZDJKQyAZb0n7
-	B56z3sJNDx1548jB1R5GGgq3Z6zEgjZbBrSq3uFXq3nAmEmDjIBZVO74fn35Bilw==
-X-Received: by 2002:a05:620a:1906:b0:8c5:33bf:5250 with SMTP id af79cd13be357-8c6f96545b0mr521710985a.66.1769439182645;
-        Mon, 26 Jan 2026 06:53:02 -0800 (PST)
+        bh=tYFKy8wmeOF9/xLY0YwTs32UNcdqHUMzReGDert9fzo=;
+        b=bELVm+khkc03ssDRDhhcZs2gi3CPaFwrkE233V5vFkZgjAuEy/3/OxYYpN5xgBkoYS
+         3Xm2fFBMie7A5yP9+Z5gyvzd8/OwXS64Fu7IaxSjqd+GsBM/AIJ+JalkLQYBcX/X2GKo
+         QwM+QWS15tmi3cg1YPMhiXpmK/Mr7dDksiyqxkZYu5Ggkn7g+CUkq3aHOW8PUl418TOR
+         gMnJDye2NxQ+UzZs+ZZezhmx0eMFSnxJENWGI42rH4koqAvkNCAAi9NGP9cTSkIzSnY1
+         9m/NvsbfuvZ6rJF71nF+iJdHRPWbs6HSv50EeRYZuaXvJscw/uIRAdw2N5Kzz9oACKY2
+         pJhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU7NhnhYAIOhI+5w9FkKt4B+cYVbOF02fL8mC2kb3A5GVnUD2nX39Q1IMG1XEbELXi93rupbiQyxJRYL1pFAFQp42E+eA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzfJ75PRaZgRwGI3JGp6CBG5lUY/5fup6R41ED7SA7vBa8zX+QD
+	8Xj4KuXD2Pbl+GHR2ZxJv8Ncbi8IQqcOR7xdu7iT2cu+2lAM2qbbWbwfmltEZhix
+X-Gm-Gg: AZuq6aIrjRUg8KRkZqU6UCWZy/udC7a+1BJgizgCgScPkWyTC6qIKZ0fpmuK20OJcR4
+	Qq3q30ks4OrM3tu09PHQQ/fezY7mXSGCIkun+yr254VuFT5TPFhkwj6HLHZvfK962yyBsdd9aDx
+	1ATH7j5v1F6IWTy/Bku/3FoKE0thWq1aC66jnV3rePVRjuhbI11Ull7/POKl6GJJRmJ8LDlVEIv
+	6wjcZLSqdCQ4Z3cjbkSAOatz5FQR6hlM1qOlwNGcIS80DpUM/SeUw/tWVF20JlIf6STp19nG7r9
+	9ly9eXo7qlTL+CAwtyRKZY6qoMpioPrDHAaTghitxWVyBLQvT1XJgG357/qwuH+jbuUu/RGQ2uq
+	G1amTV73yyNR8seONcm0wpmNVjSZHVqwGFitAPbKfC/Lwd1Q5AHYio3WTy5DQ5n2OcGhzEJ6N52
+	7atRj4a4uOP3QtEmtrv8knqcdCRMaEGOplMPlakXcETl1tiO/PxtqUt8Jp2NuIWg==
+X-Received: by 2002:a05:620a:4109:b0:8b2:7558:406d with SMTP id af79cd13be357-8c6f96bd814mr488599585a.61.1769439198381;
+        Mon, 26 Jan 2026 06:53:18 -0800 (PST)
 Received: from wsfd-netdev58.anl.eng.rdu2.dc.redhat.com ([66.187.232.140])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6e37d2422sm1018611585a.18.2026.01.26.06.53.01
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6e37d2422sm1018611585a.18.2026.01.26.06.53.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 06:53:02 -0800 (PST)
+        Mon, 26 Jan 2026 06:53:17 -0800 (PST)
 From: Xin Long <lucien.xin@gmail.com>
 To: network dev <netdev@vger.kernel.org>,
 	quic@lists.linux.dev
@@ -93,9 +93,9 @@ Cc: davem@davemloft.net,
 	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
 	Daniel Stenberg <daniel@haxx.se>,
 	Andy Gospodarek <andrew.gospodarek@broadcom.com>
-Subject: [PATCH net-next v8 04/15] quic: provide family ops for address and protocol
-Date: Mon, 26 Jan 2026 09:51:02 -0500
-Message-ID: <a6b82009a6135edecc3f5b10b9538fcd860df5eb.1769439073.git.lucien.xin@gmail.com>
+Subject: [PATCH net-next v8 13/15] quic: add timer management
+Date: Mon, 26 Jan 2026 09:51:11 -0500
+Message-ID: <1c169d2a4dc38eaf847ab9377ece163c5ca2a1c1.1769439073.git.lucien.xin@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <cover.1769439073.git.lucien.xin@gmail.com>
 References: <cover.1769439073.git.lucien.xin@gmail.com>
@@ -107,74 +107,182 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introduce QUIC address and protocol family operations to handle IPv4/IPv6
-specifics consistently, similar to SCTP. The new quic_family.{c,h} provide
-helpers for routing, skb transmit handling, address parsing and comparison
-and UDP socket config initializing etc.
+This patch introduces 'quic_timer' to unify and manage the five main
+timers used in QUIC: loss detection, delayed ACK, path validation,
+PMTU probing, and pacing. These timers are critical for driving
+retransmissions, connection liveness, and flow control.
 
-This consolidates protocol-family logic and enables cleaner dual-stack
-support in the QUIC socket implementation.
+Each timer type is initialized, started, reset, or stopped using a common
+set of operations.
 
+- quic_timer_reset(): Reset a timer with type and timeout
+
+- quic_timer_start(): Start a timer with type and timeout
+
+- quic_timer_stop(): Stop a timer with type
+
+Although handler functions for each timer are defined, they are currently
+placeholders; their logic will be implemented in upcoming patches for
+packet transmission and outqueue handling.
+
+Deferred timer actions are also integrated through quic_release_cb(),
+which dispatches to the appropriate handler when timers expire.
+
+Signed-off-by: Tyler Fanelli <tfanelli@redhat.com>
 Signed-off-by: Xin Long <lucien.xin@gmail.com>
 Acked-by: Paolo Abeni <pabeni@redhat.com>
 ---
-v2:
-  - Add more checks for addrs in .get_user_addr() and .get_pref_addr().
-  - Consider sk_bound_dev_if in .udp_conf_init() and .flow_route() to
-    support vrf.
-v3:
-  - Remove quic_addr_family/proto_ops abstraction; use if statements to
-    reduce indirect call overhead (suggested by Paolo).
-  - quic_v6_set_sk_addr(): add quic_v6_copy_sk_addr() helper to avoid
-    duplicate code (noted by Paolo).
-  - quic_v4_flow_route(): use flowi4_dscp per latest net-next changes.
-v4:
-  - Remove unnecessary _fl variable from flow_route() functions (noted
-    by Paolo).
-  - Fix coding style of ?: operator (noted by Paolo).
 v5:
-  - Remove several unused functions from this patch series (suggested by Paolo):
-    * quic_seq_dump_addr()
-    * quic_get_msg_ecn()
-    * quic_get_user_addr()
-    * quic_get_pref_addr()
-    * quic_set_pref_addr()
-    * quic_set_sk_addr()
-    * quic_set_sk_ecn()
-  - Replace the sa->v4/v6.sin_family checks with quic_v4/v6_is_any_addr()
-    in quic_v4/v6_flow_route() (suggested by Paolo).
-  - Introduce quic_v4_match_v6_addr() to simplify family-mismatch checks
-    between sk and addr in quic_v6_cmp_sk_addr() (notied by Paolo).
-v6:
-  - Use udp_hdr(skb) to access UDP header in quic_v4/6_get_msg_addrs(), as
-    transport_header is no longer reset for QUIC.
+  - Rename QUIC_TSQ_DEFERRED to QUIC_PACE_DEFERRED.
 ---
- net/quic/Makefile   |   2 +-
- net/quic/family.c   | 372 ++++++++++++++++++++++++++++++++++++++++++++
- net/quic/family.h   |  33 ++++
- net/quic/protocol.c |   2 +-
- net/quic/socket.c   |   4 +-
- net/quic/socket.h   |   1 +
- 6 files changed, 410 insertions(+), 4 deletions(-)
- create mode 100644 net/quic/family.c
- create mode 100644 net/quic/family.h
+ net/quic/Makefile |   2 +-
+ net/quic/socket.c |  33 ++++++++
+ net/quic/socket.h |  33 ++++++++
+ net/quic/timer.c  | 196 ++++++++++++++++++++++++++++++++++++++++++++++
+ net/quic/timer.h  |  47 +++++++++++
+ 5 files changed, 310 insertions(+), 1 deletion(-)
+ create mode 100644 net/quic/timer.c
+ create mode 100644 net/quic/timer.h
 
 diff --git a/net/quic/Makefile b/net/quic/Makefile
-index e0067272de7d..13bf4a4e5442 100644
+index 58bb18f7926d..2ccf01ad9e22 100644
 --- a/net/quic/Makefile
 +++ b/net/quic/Makefile
-@@ -5,4 +5,4 @@
- 
+@@ -6,4 +6,4 @@
  obj-$(CONFIG_IP_QUIC) += quic.o
  
--quic-y := common.o protocol.o socket.o
-+quic-y := common.o family.o protocol.o socket.o
-diff --git a/net/quic/family.c b/net/quic/family.c
+ quic-y := common.o family.o protocol.o socket.o stream.o connid.o path.o \
+-	  cong.o pnspace.o crypto.o
++	  cong.o pnspace.o crypto.o timer.o
+diff --git a/net/quic/socket.c b/net/quic/socket.c
+index 7fd6955824bc..dde1d9becf06 100644
+--- a/net/quic/socket.c
++++ b/net/quic/socket.c
+@@ -47,6 +47,8 @@ static int quic_init_sock(struct sock *sk)
+ 	quic_conn_id_set_init(quic_dest(sk), 0);
+ 	quic_cong_init(quic_cong(sk));
+ 
++	quic_timer_init(sk);
++
+ 	if (quic_stream_init(quic_streams(sk)))
+ 		return -ENOMEM;
+ 
+@@ -68,6 +70,8 @@ static void quic_destroy_sock(struct sock *sk)
+ {
+ 	u8 i;
+ 
++	quic_timer_free(sk);
++
+ 	for (i = 0; i < QUIC_PNSPACE_MAX; i++)
+ 		quic_pnspace_free(quic_pnspace(sk, i));
+ 	for (i = 0; i < QUIC_CRYPTO_MAX; i++)
+@@ -194,6 +198,35 @@ static int quic_getsockopt(struct sock *sk, int level, int optname,
+ 
+ static void quic_release_cb(struct sock *sk)
+ {
++	/* Similar to tcp_release_cb(). */
++	unsigned long nflags, flags = smp_load_acquire(&sk->sk_tsq_flags);
++
++	do {
++		if (!(flags & QUIC_DEFERRED_ALL))
++			return;
++		nflags = flags & ~QUIC_DEFERRED_ALL;
++	} while (!try_cmpxchg(&sk->sk_tsq_flags, &flags, nflags));
++
++	if (flags & QUIC_F_LOSS_DEFERRED) {
++		quic_timer_loss_handler(sk);
++		__sock_put(sk);
++	}
++	if (flags & QUIC_F_SACK_DEFERRED) {
++		quic_timer_sack_handler(sk);
++		__sock_put(sk);
++	}
++	if (flags & QUIC_F_PATH_DEFERRED) {
++		quic_timer_path_handler(sk);
++		__sock_put(sk);
++	}
++	if (flags & QUIC_F_PMTU_DEFERRED) {
++		quic_timer_pmtu_handler(sk);
++		__sock_put(sk);
++	}
++	if (flags & QUIC_F_PACE_DEFERRED) {
++		quic_timer_pace_handler(sk);
++		__sock_put(sk);
++	}
+ }
+ 
+ static int quic_disconnect(struct sock *sk, int flags)
+diff --git a/net/quic/socket.h b/net/quic/socket.h
+index fc203eecbb8b..5e9b21430f42 100644
+--- a/net/quic/socket.h
++++ b/net/quic/socket.h
+@@ -21,6 +21,7 @@
+ #include "cong.h"
+ 
+ #include "protocol.h"
++#include "timer.h"
+ 
+ extern struct proto quic_prot;
+ extern struct proto quicv6_prot;
+@@ -32,6 +33,31 @@ enum quic_state {
+ 	QUIC_SS_ESTABLISHED	= TCP_ESTABLISHED,
+ };
+ 
++enum quic_tsq_enum {
++	QUIC_MTU_REDUCED_DEFERRED,
++	QUIC_LOSS_DEFERRED,
++	QUIC_SACK_DEFERRED,
++	QUIC_PATH_DEFERRED,
++	QUIC_PMTU_DEFERRED,
++	QUIC_PACE_DEFERRED,
++};
++
++enum quic_tsq_flags {
++	QUIC_F_MTU_REDUCED_DEFERRED	= BIT(QUIC_MTU_REDUCED_DEFERRED),
++	QUIC_F_LOSS_DEFERRED		= BIT(QUIC_LOSS_DEFERRED),
++	QUIC_F_SACK_DEFERRED		= BIT(QUIC_SACK_DEFERRED),
++	QUIC_F_PATH_DEFERRED		= BIT(QUIC_PATH_DEFERRED),
++	QUIC_F_PMTU_DEFERRED		= BIT(QUIC_PMTU_DEFERRED),
++	QUIC_F_PACE_DEFERRED		= BIT(QUIC_PACE_DEFERRED),
++};
++
++#define QUIC_DEFERRED_ALL (QUIC_F_MTU_REDUCED_DEFERRED |	\
++			   QUIC_F_LOSS_DEFERRED |		\
++			   QUIC_F_SACK_DEFERRED |		\
++			   QUIC_F_PATH_DEFERRED |		\
++			   QUIC_F_PMTU_DEFERRED |		\
++			   QUIC_F_PACE_DEFERRED)
++
+ struct quic_sock {
+ 	struct inet_sock		inet;
+ 	struct list_head		reqs;
+@@ -48,6 +74,8 @@ struct quic_sock {
+ 	struct quic_cong		cong;
+ 	struct quic_pnspace		space[QUIC_PNSPACE_MAX];
+ 	struct quic_crypto		crypto[QUIC_CRYPTO_MAX];
++
++	struct quic_timer		timers[QUIC_TIMER_MAX];
+ };
+ 
+ struct quic6_sock {
+@@ -125,6 +153,11 @@ static inline struct quic_crypto *quic_crypto(const struct sock *sk, u8 level)
+ 	return &quic_sk(sk)->crypto[level];
+ }
+ 
++static inline void *quic_timer(const struct sock *sk, u8 type)
++{
++	return (void *)&quic_sk(sk)->timers[type];
++}
++
+ static inline bool quic_is_establishing(struct sock *sk)
+ {
+ 	return sk->sk_state == QUIC_SS_ESTABLISHING;
+diff --git a/net/quic/timer.c b/net/quic/timer.c
 new file mode 100644
-index 000000000000..5914fc3c3e49
+index 000000000000..6f957385a341
 --- /dev/null
-+++ b/net/quic/family.c
-@@ -0,0 +1,372 @@
++++ b/net/quic/timer.c
+@@ -0,0 +1,196 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +/* QUIC kernel implementation
 + * (C) Copyright Red Hat Corp. 2023
@@ -187,372 +295,196 @@ index 000000000000..5914fc3c3e49
 + *    Xin Long <lucien.xin@gmail.com>
 + */
 +
-+#include <net/inet_common.h>
-+#include <net/udp_tunnel.h>
-+#include <linux/icmp.h>
++#include "socket.h"
 +
-+#include "common.h"
-+#include "family.h"
-+
-+static int quic_v4_is_any_addr(union quic_addr *addr)
++void quic_timer_sack_handler(struct sock *sk)
 +{
-+	return addr->v4.sin_addr.s_addr == htonl(INADDR_ANY);
 +}
 +
-+static int quic_v6_is_any_addr(union quic_addr *addr)
++static void quic_timer_sack_timeout(struct timer_list *t)
 +{
-+	return ipv6_addr_any(&addr->v6.sin6_addr);
-+}
++	struct quic_sock *qs = container_of(t, struct quic_sock, timers[QUIC_TIMER_SACK].t);
++	struct sock *sk = &qs->inet.sk;
 +
-+static void quic_v4_udp_conf_init(struct sock *sk, struct udp_port_cfg *conf, union quic_addr *a)
-+{
-+	conf->family = AF_INET;
-+	conf->local_ip.s_addr = a->v4.sin_addr.s_addr;
-+	conf->local_udp_port = a->v4.sin_port;
-+	conf->use_udp6_rx_checksums = true;
-+	conf->bind_ifindex = sk->sk_bound_dev_if;
-+}
-+
-+static void quic_v6_udp_conf_init(struct sock *sk, struct udp_port_cfg *conf, union quic_addr *a)
-+{
-+	conf->family = AF_INET6;
-+	conf->local_ip6 = a->v6.sin6_addr;
-+	conf->local_udp_port = a->v6.sin6_port;
-+	conf->use_udp6_rx_checksums = true;
-+	conf->ipv6_v6only = ipv6_only_sock(sk);
-+	conf->bind_ifindex = sk->sk_bound_dev_if;
-+}
-+
-+static int quic_v4_flow_route(struct sock *sk, union quic_addr *da, union quic_addr *sa,
-+			      struct flowi *fl)
-+{
-+	struct flowi4 *fl4;
-+	struct rtable *rt;
-+
-+	if (__sk_dst_check(sk, 0))
-+		return 1;
-+
-+	memset(fl, 0x00, sizeof(*fl));
-+	fl4 = &fl->u.ip4;
-+	fl4->saddr = sa->v4.sin_addr.s_addr;
-+	fl4->fl4_sport = sa->v4.sin_port;
-+	fl4->daddr = da->v4.sin_addr.s_addr;
-+	fl4->fl4_dport = da->v4.sin_port;
-+	fl4->flowi4_proto = IPPROTO_UDP;
-+	fl4->flowi4_oif = sk->sk_bound_dev_if;
-+
-+	fl4->flowi4_scope = ip_sock_rt_scope(sk);
-+	fl4->flowi4_dscp = inet_sk_dscp(inet_sk(sk));
-+
-+	rt = ip_route_output_key(sock_net(sk), fl4);
-+	if (IS_ERR(rt))
-+		return PTR_ERR(rt);
-+
-+	if (quic_v4_is_any_addr(sa)) {
-+		sa->v4.sin_family = AF_INET;
-+		sa->v4.sin_addr.s_addr = fl4->saddr;
++	bh_lock_sock(sk);
++	if (sock_owned_by_user(sk)) {
++		if (!test_and_set_bit(QUIC_SACK_DEFERRED, &sk->sk_tsq_flags))
++			sock_hold(sk);
++		goto out;
 +	}
-+	sk_setup_caps(sk, &rt->dst);
-+	return 0;
++
++	quic_timer_sack_handler(sk);
++out:
++	bh_unlock_sock(sk);
++	sock_put(sk);
 +}
 +
-+static int quic_v6_flow_route(struct sock *sk, union quic_addr *da, union quic_addr *sa,
-+			      struct flowi *fl)
++void quic_timer_loss_handler(struct sock *sk)
 +{
-+	struct ipv6_pinfo *np = inet6_sk(sk);
-+	struct ip6_flowlabel *flowlabel;
-+	struct dst_entry *dst;
-+	struct flowi6 *fl6;
++}
 +
-+	if (__sk_dst_check(sk, np->dst_cookie))
-+		return 1;
++static void quic_timer_loss_timeout(struct timer_list *t)
++{
++	struct quic_sock *qs = container_of(t, struct quic_sock, timers[QUIC_TIMER_LOSS].t);
++	struct sock *sk = &qs->inet.sk;
 +
-+	memset(fl, 0x00, sizeof(*fl));
-+	fl6 = &fl->u.ip6;
-+	fl6->saddr = sa->v6.sin6_addr;
-+	fl6->fl6_sport = sa->v6.sin6_port;
-+	fl6->daddr = da->v6.sin6_addr;
-+	fl6->fl6_dport = da->v6.sin6_port;
-+	fl6->flowi6_proto = IPPROTO_UDP;
-+	fl6->flowi6_oif = sk->sk_bound_dev_if;
++	bh_lock_sock(sk);
++	if (sock_owned_by_user(sk)) {
++		if (!test_and_set_bit(QUIC_LOSS_DEFERRED, &sk->sk_tsq_flags))
++			sock_hold(sk);
++		goto out;
++	}
 +
-+	if (inet6_test_bit(SNDFLOW, sk)) {
-+		fl6->flowlabel = (da->v6.sin6_flowinfo & IPV6_FLOWINFO_MASK);
-+		if (fl6->flowlabel & IPV6_FLOWLABEL_MASK) {
-+			flowlabel = fl6_sock_lookup(sk, fl6->flowlabel);
-+			if (IS_ERR(flowlabel))
-+				return -EINVAL;
-+			fl6_sock_release(flowlabel);
++	quic_timer_loss_handler(sk);
++out:
++	bh_unlock_sock(sk);
++	sock_put(sk);
++}
++
++void quic_timer_path_handler(struct sock *sk)
++{
++}
++
++static void quic_timer_path_timeout(struct timer_list *t)
++{
++	struct quic_sock *qs = container_of(t, struct quic_sock, timers[QUIC_TIMER_PATH].t);
++	struct sock *sk = &qs->inet.sk;
++
++	bh_lock_sock(sk);
++	if (sock_owned_by_user(sk)) {
++		if (!test_and_set_bit(QUIC_PATH_DEFERRED, &sk->sk_tsq_flags))
++			sock_hold(sk);
++		goto out;
++	}
++
++	quic_timer_path_handler(sk);
++out:
++	bh_unlock_sock(sk);
++	sock_put(sk);
++}
++
++void quic_timer_reset_path(struct sock *sk)
++{
++	struct quic_cong *cong = quic_cong(sk);
++	u64 timeout = cong->pto * 2;
++
++	/* Calculate timeout based on cong.pto, but enforce a lower bound. */
++	if (timeout < QUIC_MIN_PATH_TIMEOUT)
++		timeout = QUIC_MIN_PATH_TIMEOUT;
++	quic_timer_reset(sk, QUIC_TIMER_PATH, timeout);
++}
++
++void quic_timer_pmtu_handler(struct sock *sk)
++{
++}
++
++static void quic_timer_pmtu_timeout(struct timer_list *t)
++{
++	struct quic_sock *qs = container_of(t, struct quic_sock, timers[QUIC_TIMER_PMTU].t);
++	struct sock *sk = &qs->inet.sk;
++
++	bh_lock_sock(sk);
++	if (sock_owned_by_user(sk)) {
++		if (!test_and_set_bit(QUIC_PMTU_DEFERRED, &sk->sk_tsq_flags))
++			sock_hold(sk);
++		goto out;
++	}
++
++	quic_timer_pmtu_handler(sk);
++out:
++	bh_unlock_sock(sk);
++	sock_put(sk);
++}
++
++void quic_timer_pace_handler(struct sock *sk)
++{
++}
++
++static enum hrtimer_restart quic_timer_pace_timeout(struct hrtimer *hr)
++{
++	struct quic_sock *qs = container_of(hr, struct quic_sock, timers[QUIC_TIMER_PACE].hr);
++	struct sock *sk = &qs->inet.sk;
++
++	bh_lock_sock(sk);
++	if (sock_owned_by_user(sk)) {
++		if (!test_and_set_bit(QUIC_PACE_DEFERRED, &sk->sk_tsq_flags))
++			sock_hold(sk);
++		goto out;
++	}
++
++	quic_timer_pace_handler(sk);
++out:
++	bh_unlock_sock(sk);
++	sock_put(sk);
++	return HRTIMER_NORESTART;
++}
++
++void quic_timer_reset(struct sock *sk, u8 type, u64 timeout)
++{
++	struct timer_list *t = quic_timer(sk, type);
++
++	if (timeout && !mod_timer(t, jiffies + usecs_to_jiffies(timeout)))
++		sock_hold(sk);
++}
++
++void quic_timer_start(struct sock *sk, u8 type, u64 timeout)
++{
++	struct timer_list *t;
++	struct hrtimer *hr;
++
++	if (type == QUIC_TIMER_PACE) {
++		hr = quic_timer(sk, type);
++
++		if (!hrtimer_is_queued(hr)) {
++			hrtimer_start(hr, ns_to_ktime(timeout), HRTIMER_MODE_ABS_PINNED_SOFT);
++			sock_hold(sk);
 +		}
-+	}
-+
-+	dst = ip6_dst_lookup_flow(sock_net(sk), sk, fl6, NULL);
-+	if (IS_ERR(dst))
-+		return PTR_ERR(dst);
-+
-+	if (quic_v6_is_any_addr(sa)) {
-+		sa->v6.sin6_family = AF_INET6;
-+		sa->v6.sin6_addr = fl6->saddr;
-+	}
-+	ip6_dst_store(sk, dst, NULL, NULL);
-+	return 0;
-+}
-+
-+static void quic_v4_lower_xmit(struct sock *sk, struct sk_buff *skb, struct flowi *fl)
-+{
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	u8 tos = (inet_sk(sk)->tos | cb->ecn), ttl;
-+	struct flowi4 *fl4 = &fl->u.ip4;
-+	struct dst_entry *dst;
-+	__be16 df = 0;
-+
-+	pr_debug("%s: skb: %p, len: %d, num: %llu, %pI4:%d -> %pI4:%d\n", __func__,
-+		 skb, skb->len, cb->number, &fl4->saddr, ntohs(fl4->fl4_sport),
-+		 &fl4->daddr, ntohs(fl4->fl4_dport));
-+
-+	dst = sk_dst_get(sk);
-+	if (!dst) {
-+		kfree_skb(skb);
-+		return;
-+	}
-+	if (ip_dont_fragment(sk, dst) && !skb->ignore_df)
-+		df = htons(IP_DF);
-+
-+	ttl = (u8)ip4_dst_hoplimit(dst);
-+	udp_tunnel_xmit_skb((struct rtable *)dst, sk, skb, fl4->saddr, fl4->daddr,
-+			    tos, ttl, df, fl4->fl4_sport, fl4->fl4_dport, false, false, 0);
-+}
-+
-+static void quic_v6_lower_xmit(struct sock *sk, struct sk_buff *skb, struct flowi *fl)
-+{
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	u8 tc = (inet6_sk(sk)->tclass | cb->ecn), ttl;
-+	struct flowi6 *fl6 = &fl->u.ip6;
-+	struct dst_entry *dst;
-+	__be32 label;
-+
-+	pr_debug("%s: skb: %p, len: %d, num: %llu, %pI6c:%d -> %pI6c:%d\n", __func__,
-+		 skb, skb->len, cb->number, &fl6->saddr, ntohs(fl6->fl6_sport),
-+		 &fl6->daddr, ntohs(fl6->fl6_dport));
-+
-+	dst = sk_dst_get(sk);
-+	if (!dst) {
-+		kfree_skb(skb);
 +		return;
 +	}
 +
-+	ttl = (u8)ip6_dst_hoplimit(dst);
-+	label = ip6_make_flowlabel(sock_net(sk), skb, fl6->flowlabel, true, fl6);
-+	udp_tunnel6_xmit_skb(dst, sk, skb, NULL, &fl6->saddr, &fl6->daddr, tc,
-+			     ttl, label, fl6->fl6_sport, fl6->fl6_dport, false, 0);
-+}
-+
-+static void quic_v4_get_msg_addrs(struct sk_buff *skb, union quic_addr *da, union quic_addr *sa)
-+{
-+	struct udphdr *uh = udp_hdr(skb);
-+
-+	sa->v4.sin_family = AF_INET;
-+	sa->v4.sin_port = uh->source;
-+	sa->v4.sin_addr.s_addr = ip_hdr(skb)->saddr;
-+
-+	da->v4.sin_family = AF_INET;
-+	da->v4.sin_port = uh->dest;
-+	da->v4.sin_addr.s_addr = ip_hdr(skb)->daddr;
-+}
-+
-+static void quic_v6_get_msg_addrs(struct sk_buff *skb, union quic_addr *da, union quic_addr *sa)
-+{
-+	struct udphdr *uh = udp_hdr(skb);
-+
-+	sa->v6.sin6_family = AF_INET6;
-+	sa->v6.sin6_port = uh->source;
-+	sa->v6.sin6_addr = ipv6_hdr(skb)->saddr;
-+
-+	da->v6.sin6_family = AF_INET6;
-+	da->v6.sin6_port = uh->dest;
-+	da->v6.sin6_addr = ipv6_hdr(skb)->daddr;
-+}
-+
-+static int quic_v4_get_mtu_info(struct sk_buff *skb, u32 *info)
-+{
-+	struct icmphdr *hdr;
-+
-+	hdr = (struct icmphdr *)(skb_network_header(skb) - sizeof(struct icmphdr));
-+	if (hdr->type == ICMP_DEST_UNREACH && hdr->code == ICMP_FRAG_NEEDED) {
-+		*info = ntohs(hdr->un.frag.mtu);
-+		return 0;
++	t = quic_timer(sk, type);
++	if (timeout && !timer_pending(t)) {
++		if (!mod_timer(t, jiffies + usecs_to_jiffies(timeout)))
++			sock_hold(sk);
 +	}
-+
-+	/* Defer other types' processing to UDP error handler. */
-+	return 1;
 +}
 +
-+static int quic_v6_get_mtu_info(struct sk_buff *skb, u32 *info)
++void quic_timer_stop(struct sock *sk, u8 type)
 +{
-+	struct icmp6hdr *hdr;
-+
-+	hdr = (struct icmp6hdr *)(skb_network_header(skb) - sizeof(struct icmp6hdr));
-+	if (hdr->icmp6_type == ICMPV6_PKT_TOOBIG) {
-+		*info = ntohl(hdr->icmp6_mtu);
-+		return 0;
++	if (type == QUIC_TIMER_PACE) {
++		if (hrtimer_try_to_cancel(quic_timer(sk, type)) == 1)
++			sock_put(sk);
++		return;
 +	}
-+
-+	/* Defer other types' processing to UDP error handler. */
-+	return 1;
++	if (timer_delete(quic_timer(sk, type)))
++		sock_put(sk);
 +}
 +
-+static bool quic_v4_cmp_sk_addr(struct sock *sk, union quic_addr *a, union quic_addr *addr)
++void quic_timer_init(struct sock *sk)
 +{
-+	if (a->v4.sin_port != addr->v4.sin_port)
-+		return false;
-+	if (a->v4.sin_family != addr->v4.sin_family)
-+		return false;
-+	if (a->v4.sin_addr.s_addr == htonl(INADDR_ANY) ||
-+	    addr->v4.sin_addr.s_addr == htonl(INADDR_ANY))
-+		return true;
-+	return a->v4.sin_addr.s_addr == addr->v4.sin_addr.s_addr;
++	timer_setup(quic_timer(sk, QUIC_TIMER_LOSS), quic_timer_loss_timeout, 0);
++	timer_setup(quic_timer(sk, QUIC_TIMER_SACK), quic_timer_sack_timeout, 0);
++	timer_setup(quic_timer(sk, QUIC_TIMER_PATH), quic_timer_path_timeout, 0);
++	timer_setup(quic_timer(sk, QUIC_TIMER_PMTU), quic_timer_pmtu_timeout, 0);
++	/* Use hrtimer for pace timer, ensuring precise control over send timing. */
++	hrtimer_setup(quic_timer(sk, QUIC_TIMER_PACE), quic_timer_pace_timeout,
++		      CLOCK_MONOTONIC, HRTIMER_MODE_ABS_PINNED_SOFT);
 +}
 +
-+static bool quic_v4_match_v6_addr(union quic_addr *a4, union quic_addr *a6)
++void quic_timer_free(struct sock *sk)
 +{
-+	if (ipv6_addr_any(&a6->v6.sin6_addr))
-+		return true;
-+	if (ipv6_addr_v4mapped(&a6->v6.sin6_addr) &&
-+	    a6->v6.sin6_addr.s6_addr32[3] == a4->v4.sin_addr.s_addr)
-+		return true;
-+	return false;
++	quic_timer_stop(sk, QUIC_TIMER_LOSS);
++	quic_timer_stop(sk, QUIC_TIMER_SACK);
++	quic_timer_stop(sk, QUIC_TIMER_PATH);
++	quic_timer_stop(sk, QUIC_TIMER_PMTU);
++	quic_timer_stop(sk, QUIC_TIMER_PACE);
 +}
-+
-+static bool quic_v6_cmp_sk_addr(struct sock *sk, union quic_addr *a, union quic_addr *addr)
-+{
-+	if (a->v4.sin_port != addr->v4.sin_port)
-+		return false;
-+
-+	if (a->sa.sa_family == AF_INET && addr->sa.sa_family == AF_INET) {
-+		if (a->v4.sin_addr.s_addr == htonl(INADDR_ANY) ||
-+		    addr->v4.sin_addr.s_addr == htonl(INADDR_ANY))
-+			return true;
-+		return a->v4.sin_addr.s_addr == addr->v4.sin_addr.s_addr;
-+	}
-+
-+	if (a->sa.sa_family != addr->sa.sa_family) {
-+		if (ipv6_only_sock(sk))
-+			return false;
-+		if (a->sa.sa_family == AF_INET)
-+			return quic_v4_match_v6_addr(a, addr);
-+		return quic_v4_match_v6_addr(addr, a);
-+	}
-+
-+	if (ipv6_addr_any(&a->v6.sin6_addr) || ipv6_addr_any(&addr->v6.sin6_addr))
-+		return true;
-+	return ipv6_addr_equal(&a->v6.sin6_addr, &addr->v6.sin6_addr);
-+}
-+
-+static int quic_v4_get_sk_addr(struct socket *sock, struct sockaddr *uaddr, int peer)
-+{
-+	return inet_getname(sock, uaddr, peer);
-+}
-+
-+static int quic_v6_get_sk_addr(struct socket *sock, struct sockaddr *uaddr, int peer)
-+{
-+	union quic_addr *a = quic_addr(uaddr);
-+	int ret;
-+
-+	ret = inet6_getname(sock, uaddr, peer);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (a->sa.sa_family == AF_INET6 && ipv6_addr_v4mapped(&a->v6.sin6_addr)) {
-+		a->v4.sin_family = AF_INET;
-+		a->v4.sin_port = a->v6.sin6_port;
-+		a->v4.sin_addr.s_addr = a->v6.sin6_addr.s6_addr32[3];
-+	}
-+
-+	if (a->sa.sa_family == AF_INET) {
-+		memset(a->v4.sin_zero, 0, sizeof(a->v4.sin_zero));
-+		return sizeof(struct sockaddr_in);
-+	}
-+	return sizeof(struct sockaddr_in6);
-+}
-+
-+#define quic_af_ipv4(a)		((a)->sa.sa_family == AF_INET)
-+
-+u32 quic_encap_len(union quic_addr *a)
-+{
-+	return (quic_af_ipv4(a) ? sizeof(struct iphdr) : sizeof(struct ipv6hdr)) +
-+	       sizeof(struct udphdr);
-+}
-+
-+int quic_is_any_addr(union quic_addr *a)
-+{
-+	return quic_af_ipv4(a) ? quic_v4_is_any_addr(a) : quic_v6_is_any_addr(a);
-+}
-+
-+void quic_udp_conf_init(struct sock *sk, struct udp_port_cfg *conf, union quic_addr *a)
-+{
-+	quic_af_ipv4(a) ? quic_v4_udp_conf_init(sk, conf, a) : quic_v6_udp_conf_init(sk, conf, a);
-+}
-+
-+int quic_flow_route(struct sock *sk, union quic_addr *da, union quic_addr *sa, struct flowi *fl)
-+{
-+	return quic_af_ipv4(da) ? quic_v4_flow_route(sk, da, sa, fl) :
-+				  quic_v6_flow_route(sk, da, sa, fl);
-+}
-+
-+void quic_lower_xmit(struct sock *sk, struct sk_buff *skb, union quic_addr *da, struct flowi *fl)
-+{
-+	quic_af_ipv4(da) ? quic_v4_lower_xmit(sk, skb, fl) : quic_v6_lower_xmit(sk, skb, fl);
-+}
-+
-+#define quic_skb_ipv4(skb)	(ip_hdr(skb)->version == 4)
-+
-+void quic_get_msg_addrs(struct sk_buff *skb, union quic_addr *da, union quic_addr *sa)
-+{
-+	memset(sa, 0, sizeof(*sa));
-+	memset(da, 0, sizeof(*da));
-+	quic_skb_ipv4(skb) ? quic_v4_get_msg_addrs(skb, da, sa) :
-+			     quic_v6_get_msg_addrs(skb, da, sa);
-+}
-+
-+int quic_get_mtu_info(struct sk_buff *skb, u32 *info)
-+{
-+	return quic_skb_ipv4(skb) ? quic_v4_get_mtu_info(skb, info) :
-+				    quic_v6_get_mtu_info(skb, info);
-+}
-+
-+#define quic_pf_ipv4(sk)	((sk)->sk_family == PF_INET)
-+
-+bool quic_cmp_sk_addr(struct sock *sk, union quic_addr *a, union quic_addr *addr)
-+{
-+	return quic_pf_ipv4(sk) ? quic_v4_cmp_sk_addr(sk, a, addr) :
-+				  quic_v6_cmp_sk_addr(sk, a, addr);
-+}
-+
-+int quic_get_sk_addr(struct socket *sock, struct sockaddr *a, bool peer)
-+{
-+	return quic_pf_ipv4(sock->sk) ? quic_v4_get_sk_addr(sock, a, peer) :
-+					quic_v6_get_sk_addr(sock, a, peer);
-+}
-+
-+int quic_common_setsockopt(struct sock *sk, int level, int optname, sockptr_t optval,
-+			   unsigned int optlen)
-+{
-+	return quic_pf_ipv4(sk) ? ip_setsockopt(sk, level, optname, optval, optlen) :
-+				  ipv6_setsockopt(sk, level, optname, optval, optlen);
-+}
-+
-+int quic_common_getsockopt(struct sock *sk, int level, int optname, char __user *optval,
-+			   int __user *optlen)
-+{
-+	return quic_pf_ipv4(sk) ? ip_getsockopt(sk, level, optname, optval, optlen) :
-+				  ipv6_getsockopt(sk, level, optname, optval, optlen);
-+}
-diff --git a/net/quic/family.h b/net/quic/family.h
+diff --git a/net/quic/timer.h b/net/quic/timer.h
 new file mode 100644
-index 000000000000..624a5d7a8471
+index 000000000000..61b094325334
 --- /dev/null
-+++ b/net/quic/family.h
-@@ -0,0 +1,33 @@
++++ b/net/quic/timer.h
+@@ -0,0 +1,47 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/* QUIC kernel implementation
 + * (C) Copyright Red Hat Corp. 2023
@@ -563,76 +495,43 @@ index 000000000000..624a5d7a8471
 + *    Xin Long <lucien.xin@gmail.com>
 + */
 +
-+#define QUIC_PORT_LEN		2
-+#define QUIC_ADDR4_LEN		4
-+#define QUIC_ADDR6_LEN		16
++enum {
++	QUIC_TIMER_LOSS,	/* Loss detection timer: triggers retransmission on packet loss */
++	QUIC_TIMER_SACK,	/* ACK delay timer, also used as idle timer alias */
++	QUIC_TIMER_PATH,	/* Path validation timer: verifies network path connectivity */
++	QUIC_TIMER_PMTU,	/* Packetization Layer Path MTU Discovery probing timer */
++	QUIC_TIMER_PACE,	/* Pacing timer: controls packet transmission pacing */
++	QUIC_TIMER_MAX,
++	QUIC_TIMER_IDLE = QUIC_TIMER_SACK,
++};
 +
-+#define QUIC_PREF_ADDR_LEN	(QUIC_ADDR4_LEN + QUIC_PORT_LEN + QUIC_ADDR6_LEN + QUIC_PORT_LEN)
++struct quic_timer {
++	union {
++		struct timer_list t;
++		struct hrtimer hr;
++	};
++};
 +
-+int quic_is_any_addr(union quic_addr *a);
-+u32 quic_encap_len(union quic_addr *a);
++#define QUIC_MIN_PROBE_TIMEOUT	5000000
 +
-+void quic_lower_xmit(struct sock *sk, struct sk_buff *skb, union quic_addr *da, struct flowi *fl);
-+int quic_flow_route(struct sock *sk, union quic_addr *da, union quic_addr *sa, struct flowi *fl);
-+void quic_udp_conf_init(struct sock *sk, struct udp_port_cfg *conf, union quic_addr *a);
++#define QUIC_MIN_PATH_TIMEOUT	1500000
 +
-+void quic_get_msg_addrs(struct sk_buff *skb, union quic_addr *da, union quic_addr *sa);
-+int quic_get_mtu_info(struct sk_buff *skb, u32 *info);
++#define QUIC_MIN_IDLE_TIMEOUT	1000000
++#define QUIC_DEF_IDLE_TIMEOUT	30000000
 +
-+bool quic_cmp_sk_addr(struct sock *sk, union quic_addr *a, union quic_addr *addr);
-+int quic_get_sk_addr(struct socket *sock, struct sockaddr *a, bool peer);
++void quic_timer_reset(struct sock *sk, u8 type, u64 timeout);
++void quic_timer_start(struct sock *sk, u8 type, u64 timeout);
++void quic_timer_stop(struct sock *sk, u8 type);
++void quic_timer_init(struct sock *sk);
++void quic_timer_free(struct sock *sk);
 +
-+int quic_common_setsockopt(struct sock *sk, int level, int optname, sockptr_t optval,
-+			   unsigned int optlen);
-+int quic_common_getsockopt(struct sock *sk, int level, int optname, char __user *optval,
-+			   int __user *optlen);
-diff --git a/net/quic/protocol.c b/net/quic/protocol.c
-index 439b22d4e0f1..68b5fc821537 100644
---- a/net/quic/protocol.c
-+++ b/net/quic/protocol.c
-@@ -46,7 +46,7 @@ static int quic_inet_listen(struct socket *sock, int backlog)
- 
- static int quic_inet_getname(struct socket *sock, struct sockaddr *uaddr, int peer)
- {
--	return -EOPNOTSUPP;
-+	return quic_get_sk_addr(sock, uaddr, peer);
- }
- 
- static __poll_t quic_inet_poll(struct file *file, struct socket *sock, poll_table *wait)
-diff --git a/net/quic/socket.c b/net/quic/socket.c
-index 784b8aaadb25..a0eedf59545a 100644
---- a/net/quic/socket.c
-+++ b/net/quic/socket.c
-@@ -116,7 +116,7 @@ static int quic_setsockopt(struct sock *sk, int level, int optname,
- 			   sockptr_t optval, unsigned int optlen)
- {
- 	if (level != SOL_QUIC)
--		return -EOPNOTSUPP;
-+		return quic_common_setsockopt(sk, level, optname, optval, optlen);
- 
- 	return quic_do_setsockopt(sk, optname, optval, optlen);
- }
-@@ -130,7 +130,7 @@ static int quic_getsockopt(struct sock *sk, int level, int optname,
- 			   char __user *optval, int __user *optlen)
- {
- 	if (level != SOL_QUIC)
--		return -EOPNOTSUPP;
-+		return quic_common_getsockopt(sk, level, optname, optval, optlen);
- 
- 	return quic_do_getsockopt(sk, optname, USER_SOCKPTR(optval), USER_SOCKPTR(optlen));
- }
-diff --git a/net/quic/socket.h b/net/quic/socket.h
-index 9a2f4b851676..0aa642e3b0ae 100644
---- a/net/quic/socket.h
-+++ b/net/quic/socket.h
-@@ -11,6 +11,7 @@
- #include <net/udp_tunnel.h>
- 
- #include "common.h"
-+#include "family.h"
- 
- #include "protocol.h"
- 
++void quic_timer_reset_path(struct sock *sk);
++
++void quic_timer_loss_handler(struct sock *sk);
++void quic_timer_pace_handler(struct sock *sk);
++void quic_timer_path_handler(struct sock *sk);
++void quic_timer_sack_handler(struct sock *sk);
++void quic_timer_pmtu_handler(struct sock *sk);
 -- 
 2.47.1
 

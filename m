@@ -1,73 +1,73 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B74037F0EE
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 29 Jan 2026 12:33:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0AD33F8DD
+	for <kernel-tls-handshake@lists.linux.dev>; Thu, 29 Jan 2026 16:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769690001; cv=none; b=I4UME54dYKjqReA4Lo0sdq9nDtlMXBIL4uy2JwTv43x+fZp0TV+mJizCpRnmwtFCtin6lrZgkGPcDTiMw2d+t2xZq1epdrKzbKZmu3hLqVFfAkxaGjw1+Rz71AnUD0vQsQqjYKvvYku+ykmFn6mwyTrElILlBOVItzCbZmPcjRw=
+	t=1769703640; cv=none; b=oOG6S22y2ocm92rRWsjOK8/SqbehcQT5t/UOAjDC+Kl2NgD64oHCQyML/KIfQLLwCMvlCTWsbAcaR1VmVdt0sAu/hbcliDhrliYSLwW/tf7joCbIn621CKqnbMSoqX573ZSu5jlzV9U32gO/4pkWPzFHMBbITXqJfv0/I16B9ZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769690001; c=relaxed/simple;
-	bh=40wMWG7SyPMSzabUx/Wcz8EBhiLCqDenQlqMLv7YPuc=;
+	s=arc-20240116; t=1769703640; c=relaxed/simple;
+	bh=G/Xf9G1ti577G+bBblG0MUwFPwZ9vzAAm3ze1AAlLbk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=boDKcKr5zmgsVISoNhI/wumALYaiPh3SlAXLhAatoSaeUsxrNRCMQ+KQpUD0iQX5lSDVRgqQ7ThYl2Y3PbmhtCORyP69vYFuh3iZUaGUrZoW+8hURshjJRoyHAnCtvt6Egoyv8LTujZSYHxhWgW9yDpIiGo5cfv7Me7tknKHWQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F2Dge+60; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=FNQa4bROUIYE93uW5VUeDqr2dZAh+yhUfkUGdOaYZ0e//3WvS73tOQvl526pMtDqXeyukAY7s9QalEHEQxW3Umjrx9K11uuoYVSBTJtTFPbXrUhZveGdVKyo+DZfNftgZemn3Mjnqa4DC5lzf9mQ5ysVU6/Ihj+raP7PH0OhCTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dDlhcAy4; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F2Dge+60"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dDlhcAy4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769689999;
+	s=mimecast20190719; t=1769703637;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mRy+y1wqapOxzHZCLfyA/JeLGF66Z2ABQ1elBTYnVS4=;
-	b=F2Dge+60r2+gECeRPxZb8aadw50Sca5T9Wl8hovaNEGZFKiYq1dyp51eiuwpVqOzAgLc6N
-	yUjHRGnNdvaiUEa++GIFsDL10dZQ6rtRvFcysF8v546KYHBRylvBS3n6DwD47IZ3SS+9RX
-	MqFUOOJuwtA2kHVE21ugDtAB+XmmZjI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=4TkAH62E02KTShvHQ/Vaw4buCmlxPxGf9ryljHEUHAo=;
+	b=dDlhcAy4AVXAOtccdJanWLFgyzRqK/7As+Ti9f1Z9nSnhKgOcCxGopvFdUUhBaV6nun9Xh
+	5oNhmj7xFSk46jEMilX3qSO5DLDaLFzwjrwr9WcUFaYaautA9+Ym97oWcNJJLX2Si+G0YM
+	MfLxoRsTJYi5Y979hQMsds0xlLqQIuE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-618-tsbYJJFrMXuaC3QBKgiqdg-1; Thu, 29 Jan 2026 07:33:16 -0500
-X-MC-Unique: tsbYJJFrMXuaC3QBKgiqdg-1
-X-Mimecast-MFC-AGG-ID: tsbYJJFrMXuaC3QBKgiqdg_1769689995
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-435db9425ebso1020711f8f.1
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 29 Jan 2026 04:33:16 -0800 (PST)
+ us-mta-297-kptpyvI-NGy21a5qmo_UEw-1; Thu, 29 Jan 2026 11:20:36 -0500
+X-MC-Unique: kptpyvI-NGy21a5qmo_UEw-1
+X-Mimecast-MFC-AGG-ID: kptpyvI-NGy21a5qmo_UEw_1769703635
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4806cfffca6so11777585e9.2
+        for <kernel-tls-handshake@lists.linux.dev>; Thu, 29 Jan 2026 08:20:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769689995; x=1770294795;
+        d=1e100.net; s=20230601; t=1769703635; x=1770308435;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mRy+y1wqapOxzHZCLfyA/JeLGF66Z2ABQ1elBTYnVS4=;
-        b=KdoenL6nsR7zCPgDgGpTPrO5Wri41aQPIgl6vC9Bedtz87Or3Iw3l/yynjGZuViG8b
-         Rrpl7t2RKLUykbAKoPh7r2GSz5+j6vk6x0C0V8uc0j/z2/C4wJ/0JKajywyvgGDGGapJ
-         UKMBCkftnANlmmh5nTcbD15ltyqrRs+JcYaGwldT0XyKwr6uoB7JHRKuo+3Ay0zNhivl
-         htqJyc/6iXyX2Bd19k7laWQZW65aFR98rBQU7LYvuIV3W2PkhyRZg9gjeA3CWs8PX30a
-         m4hlVNQuWHIqMKEK7Ldh57HHPt2pMlyQuBgeTcBsnV8F/H085RlUTYouNYRFDECUCuHM
-         /+VQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWGwSDRflU4Rwh1dMPytWLs8uyGSR0G19UzyM5ho/dHDTMfOjs3/puDOwl/Hbt7qjgS/TFEZYZo3CpQp/ov4CxNKx/+4g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyy/Li41agJmWOIvCuE4qIvxAQPNf1j4DkG9xx74l99JM9SkH/F
-	vPx4e1VeC9gnus+xJE9C+Xk0U8teFHKVdusGxZrg9qkCGgCA9UdQq954aMhuiAH1+2nG8f6FbRU
-	ls5owOOr7UD0VpJYScdNniGLixmNDA5U9Pm0LO0rcn6K4x5RhRARKnc0vdyMIpTDkKIamaXdObC
-	Em
-X-Gm-Gg: AZuq6aIiAB3R6SzQ0ZRWLRW3PfZGLix9Ex8AP5Um2sUJO1y32kKonGgxwAEWboMASii
-	1dhqKpP1ByukVLCdlBt9nCFrZgLng0HzASmKUTpEDilnag4/7B8XurKWfCVrSn6uQnJqi+n5Zdi
-	cG5+SQCBlyEpv5Ikq7xpPbWlCrPVyIZBDSC3VKO+4uanE+leefLEy466iwbGJAQrsuwLRL+sJs5
-	dZ9KW6rlW+GYiJdmLxJN9bZBKdzZLfD2CjPO0lrVvlQdnNWrq3rWm/GOaBCdqogSZ1k0M8pBDsI
-	l2JYLPWXfD70wEZIy+wttr0mlNeVMgkFM6DvSPTZqaJt3E+8PXJCAgHBy9IuoAESaFoCq6RgNzI
-	OnqrceIGH3cun
-X-Received: by 2002:a05:6000:22c9:b0:435:9882:234e with SMTP id ffacd0b85a97d-435dd1d8e62mr10552712f8f.59.1769689994897;
-        Thu, 29 Jan 2026 04:33:14 -0800 (PST)
-X-Received: by 2002:a05:6000:22c9:b0:435:9882:234e with SMTP id ffacd0b85a97d-435dd1d8e62mr10552677f8f.59.1769689994350;
-        Thu, 29 Jan 2026 04:33:14 -0800 (PST)
+        bh=4TkAH62E02KTShvHQ/Vaw4buCmlxPxGf9ryljHEUHAo=;
+        b=gcus0yZzQ+dV7/ctcflXsxTrFn/TrFG2I62wrJ/VyuBmYUBvcokmWZiUwlReacP953
+         i6mEmbol6xGl1vZ5wI/owUBm7qCqJTTLzntqiGLm0iUuMzskWke+x+8JKDWB9oDZs2Ip
+         KVrl8LpDAefQcK8Q7Ap9vggazj2+80IOIAxgnQC0pzGNy0rYgNdTmjltH7YMtWVS/Wvr
+         YV9rAISMnZv54l0uc6H2dmlNIGx6fl/wxP/w7GZjbWQINplrxBDzUDrbN+sNmZ0b+DDM
+         3dvN+xPT71gnJZhKrRhH3Oet4XfT1rmvl+rx7oQSCRqH0MH6QEli4t50eQovzZtsCXeE
+         m1ig==
+X-Forwarded-Encrypted: i=1; AJvYcCVT1zivl+FZVOThuEeMnIOy3VRRj+p/ENEXTez5Jp4habUKNAEFktl0NOP54UI376Bwj7bIftCi4uQQAKvz2gNQbdvTaQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwNiwxrCr2kWC7lP3bLrSaT7/+HUAu+NVcyKpqhMO9TaOu9sob4
+	c2H52xpxojls/MeTV7ujmqZcpAosQ6qYjsI3qfX2I7ZIwpTEHMzK7+jZfvElEiNJjB2nJ3TDbml
+	QyPal0NQK/wmXGR6DqAkfvXWQBaW/bCupkDdT9D4O213k0s7FAKuF3aDIov95ood1S79H2ZD2AD
+	Sd
+X-Gm-Gg: AZuq6aKE3EWueLdgDPDyzAZeHMeN5y7V3ymn++f9qZ25KR8SwvfNMHPy415jxz0c6zu
+	puvFDsErk7BBmfD+afIpLqFxi3fFK3f7qsHQjLA1ZWtHyVy+U8uYpPBXBFEkURN2U0hey/aDHDz
+	yOaMHu9b6JSs8w+FE2zRLXggUmXRoMuQCtMuKQxPVOnXPPBUQVdgzQzqCjoW6CGyacLLu3V6sqw
+	+JQorOAkqAqzhT2lUr7SjtLFWYiQBhzYTFZyr7Pm03ylH2oiBtWc93sU+ezyuUYYUDFzekX5HHg
+	boL/dl7iOBTbHGF2tieS3Si1jPbrN9fvv7kA+GzJXjn9R9+3xNAkusGJHnKA3fa2aaFw2dB74jU
+	gJ1GOFXqCEvAd
+X-Received: by 2002:a05:600c:8b22:b0:47b:da85:b9ef with SMTP id 5b1f17b1804b1-48069c2335cmr143437915e9.16.1769703634806;
+        Thu, 29 Jan 2026 08:20:34 -0800 (PST)
+X-Received: by 2002:a05:600c:8b22:b0:47b:da85:b9ef with SMTP id 5b1f17b1804b1-48069c2335cmr143437275e9.16.1769703634240;
+        Thu, 29 Jan 2026 08:20:34 -0800 (PST)
 Received: from [192.168.88.32] ([212.105.153.56])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e132356dsm15075716f8f.33.2026.01.29.04.33.11
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-481a5dab86asm281675e9.6.2026.01.29.08.20.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Jan 2026 04:33:13 -0800 (PST)
-Message-ID: <9621f01f-5c89-4d13-9997-b4066b7e9d16@redhat.com>
-Date: Thu, 29 Jan 2026 13:33:11 +0100
+        Thu, 29 Jan 2026 08:20:33 -0800 (PST)
+Message-ID: <a7b64f16-5ca9-4344-b7e8-c0d4508e43cc@redhat.com>
+Date: Thu, 29 Jan 2026 17:20:31 +0100
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -75,7 +75,7 @@ List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v8 07/15] quic: add connection id management
+Subject: Re: [PATCH net-next v8 08/15] quic: add path management
 To: Xin Long <lucien.xin@gmail.com>, network dev <netdev@vger.kernel.org>,
  quic@lists.linux.dev
 Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
@@ -96,48 +96,231 @@ Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
  Daniel Stenberg <daniel@haxx.se>,
  Andy Gospodarek <andrew.gospodarek@broadcom.com>
 References: <cover.1769439073.git.lucien.xin@gmail.com>
- <ad730679ce27da0886104546a3d327b5fb653340.1769439073.git.lucien.xin@gmail.com>
+ <2367f77787fa0a29913f48c91087397dcc82c35f.1769439073.git.lucien.xin@gmail.com>
 From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <ad730679ce27da0886104546a3d327b5fb653340.1769439073.git.lucien.xin@gmail.com>
+In-Reply-To: <2367f77787fa0a29913f48c91087397dcc82c35f.1769439073.git.lucien.xin@gmail.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: kQviz1BmNLoujnsQRIjXOGtJy7tVgBWc7iRzvUCL_ks_1769689995
+X-Mimecast-MFC-PROC-ID: qwWYxoG2-wrzMqXgYHd2FPtINVe0qBcWeAfcjQj3hNE_1769703635
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 1/26/26 3:51 PM, Xin Long wrote:
-> This patch introduces 'struct quic_conn_id_set' for managing Connection
-> IDs (CIDs), which are represented by 'struct quic_source_conn_id'
-> and 'struct quic_dest_conn_id'.
+> This patch introduces 'quic_path_group' for managing paths, represented
+> by 'struct quic_path'. A connection may use two paths simultaneously
+> for connection migration.
 > 
-> It provides helpers to add and remove CIDs from the set, and handles
-> insertion of source CIDs into the global connection ID hash table
-> when necessary.
+> Each path is associated with a UDP tunnel socket (sk), and a single
+> UDP tunnel socket can be related to multiple paths from different sockets.
+> These UDP tunnel sockets are wrapped in 'quic_udp_sock' structures and
+> stored in a hash table.
 > 
-> - quic_conn_id_add(): Add a new Connection ID to the set, and inserts
->   it to conn_id hash table if it is a source conn_id.
+> It includes mechanisms to bind and unbind paths, detect alternative paths
+> for migration, and swap paths to support seamless transition between
+> networks.
 > 
-> - quic_conn_id_remove(): Remove connection IDs the set with sequence
->   numbers less than or equal to a number.
+> - quic_path_bind(): Bind a path to a port and associate it with a UDP sk.
 > 
-> It also adds utilities to look up CIDs by value or sequence number,
-> search the global hash table for incoming packets, and check for
-> stateless reset tokens among destination CIDs. These functions are
-> essential for RX path connection lookup and stateless reset processing.
+> - quic_path_unbind(): Unbind a path from a port and disassociate it from a
+>   UDP sk.
 > 
-> - quic_conn_id_find(): Find a Connection ID in the set by seq number.
+> - quic_path_swap(): Swap two paths to facilitate connection migration.
 > 
-> - quic_conn_id_lookup(): Lookup a Connection ID from global hash table
->   using the ID value, typically used for socket lookup on the RX path.
+> - quic_path_detect_alt(): Determine if a packet is using an alternative
+>   path, used for connection migration.
 > 
-> - quic_conn_id_token_exists(): Check if a stateless reset token exists
->   in any dest Connection ID (used during stateless reset processing).
+>  It also integrates basic support for Packetization Layer Path MTU
+> Discovery (PLPMTUD), using PING frames and ICMP feedback to adjust path
+> MTU and handle probe confirmation or resets during routing changes.
 > 
-> Note source/dest conn_id set is per socket, the operations on it are
-> always pretected by the sock lock.
+> - quic_path_pl_recv(): state transition and pmtu update after the probe
+>   packet is acked.
 > 
+> - quic_path_pl_toobig(): state transition and pmtu update after
+>   receiving a toobig or needfrag icmp packet.
+> 
+> - quic_path_pl_send(): state transition and pmtu update after sending a
+>   probe packet.
+> 
+> - quic_path_pl_reset(): restart the probing when path routing changes.
+> 
+> - quic_path_pl_confirm(): check if probe packet gets acked.
+> 
+> Signed-off-by: Tyler Fanelli <tfanelli@redhat.com>
 > Signed-off-by: Xin Long <lucien.xin@gmail.com>
+> ---
+> v3:
+>   - Fix annotation in quic_udp_sock_lookup() (noted by Paolo).
+>   - Use inet_sk_get_local_port_range() instead of
+>     inet_get_local_port_range() (suggested by Paolo).
+>   - Adjust global UDP tunnel socket hashtable operations for the new
+>     hashtable type.
+>   - Delete quic_workqueue; use system_wq for UDP tunnel socket destroy.
+> v4:
+>   - Cache UDP tunnel socket pointer and its source address in struct
+>     quic_path for RCU-protected lookup/access.
+>   - Return -EAGAIN instead of -EINVAL in quic_path_bind() when UDP
+>     socket is being released in workqueue.
+>   - Move udp_tunnel_sock_release() out of the mutex_lock to avoid a
+>     warning of lockdep in quic_udp_sock_put_work().
+>   - Introduce quic_wq for UDP socket release work, so all pending works
+>     can be flushed before destroying the hashtable in quic_exit().
+> v5:
+>   - Rename quic_path_free() to quic_path_unbind() (suggested by Paolo).
+>   - Remove the 'serv' member from struct quic_path_group, since
+>     quic_is_serv() defined in a previous patch now uses
+>     sk->sk_max_ack_backlog for server-side detection.
+>   - Use quic_ktime_get_us() to set skb_cb->time, as RTT is measured
+>     in microseconds and jiffies_to_usecs() is not accurate enough.
+> v6:
+>   - Do not reset transport_header for QUIC in quic_udp_rcv(), allowing
+>     removal of udph_offset and enabling access to the UDP header via
+>     udp_hdr(); Pull skb->data in quic_udp_rcv() to allow access to the
+>     QUIC header via skb->data.
+> v7:
+>   - Pass udp sk to quic_path_rcv() and move the call to skb_linearize()
+>     and skb_set_owner_sk_safe() to .quic_path_rcv().
+>   - Delete the call to skb_linearize() and skb_set_owner_sk_safe() from
+>     quic_udp_err(), as it should not change skb in .encap_err_lookup()
+>     (noted by AI review).
+> v8:
+>   - Remove indirect quic_path_rcv and late call quic_packet_rcv()
+>     directly via extern (noted by Paolo).
+>   - Add a comment in quic_udp_rcv() clarifying it must return 0.
+>   - Add a comment in quic_udp_sock_put() clarifying the UDP socket
+>     may be freed in atomic RX context during connection migration.
+>   - Reorder some quic_path_group members to reduce struct size.
+> ---
+>  net/quic/Makefile   |   2 +-
+>  net/quic/path.c     | 520 ++++++++++++++++++++++++++++++++++++++++++++
+>  net/quic/path.h     | 170 +++++++++++++++
+>  net/quic/protocol.c |  11 +
+>  net/quic/socket.c   |   3 +
+>  net/quic/socket.h   |   7 +
+>  6 files changed, 712 insertions(+), 1 deletion(-)
+>  create mode 100644 net/quic/path.c
+>  create mode 100644 net/quic/path.h
+> 
+> diff --git a/net/quic/Makefile b/net/quic/Makefile
+> index eee7501588d3..1565fb5cef9d 100644
+> --- a/net/quic/Makefile
+> +++ b/net/quic/Makefile
+> @@ -5,4 +5,4 @@
+>  
+>  obj-$(CONFIG_IP_QUIC) += quic.o
+>  
+> -quic-y := common.o family.o protocol.o socket.o stream.o connid.o
+> +quic-y := common.o family.o protocol.o socket.o stream.o connid.o path.o
+> diff --git a/net/quic/path.c b/net/quic/path.c
+> new file mode 100644
+> index 000000000000..9556607a009e
+> --- /dev/null
+> +++ b/net/quic/path.c
+> @@ -0,0 +1,520 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/* QUIC kernel implementation
+> + * (C) Copyright Red Hat Corp. 2023
+> + *
+> + * This file is part of the QUIC kernel implementation
+> + *
+> + * Initialization/cleanup for QUIC protocol support.
+> + *
+> + * Written or modified by:
+> + *    Xin Long <lucien.xin@gmail.com>
+> + */
+> +
+> +#include <net/udp_tunnel.h>
+> +#include <linux/quic.h>
+> +
+> +#include "common.h"
+> +#include "family.h"
+> +#include "path.h"
+> +
+> +static int quic_udp_rcv(struct sock *sk, struct sk_buff *skb)
+> +{
+> +	memset(skb->cb, 0, sizeof(skb->cb));
+> +	QUIC_SKB_CB(skb)->seqno = -1;
+> +	QUIC_SKB_CB(skb)->time = quic_ktime_get_us();
+> +
+> +	skb_pull(skb, sizeof(struct udphdr));
+> +	skb_dst_force(skb);
+> +	kfree_skb(skb);
+> +	return 0; /* .encap_rcv must return 0 if skb was either consumed or dropped. */
+> +}
+> +
+> +static int quic_udp_err(struct sock *sk, struct sk_buff *skb)
+> +{
+> +	return 0;
+> +}
+> +
+> +static void quic_udp_sock_put_work(struct work_struct *work)
+> +{
+> +	struct quic_udp_sock *us = container_of(work, struct quic_udp_sock, work);
+> +	struct quic_uhash_head *head;
+> +	struct sock *sk = us->sk;
+> +
+> +	/* Hold the sock to safely access it in quic_udp_sock_lookup() even after
+> +	 * udp_tunnel_sock_release(). The release must occur before __hlist_del()
+> +	 * so a new UDP tunnel socket can be created for the same address and port
+> +	 * if quic_udp_sock_lookup() fails to find one.
+> +	 *
+> +	 * Note: udp_tunnel_sock_release() cannot be called under the mutex due to
+> +	 * some lockdep warnings.
+> +	 */
+> +	sock_hold(sk);
+> +	udp_tunnel_sock_release(sk->sk_socket);
+> +
+> +	head = quic_udp_sock_head(sock_net(sk), ntohs(us->addr.v4.sin_port));
+> +	mutex_lock(&head->lock);
+> +	__hlist_del(&us->node);
+> +	mutex_unlock(&head->lock);
+> +
+> +	sock_put(sk);
+> +	kfree(us);
+> +}
+> +
+> +static struct quic_udp_sock *quic_udp_sock_create(struct sock *sk, union quic_addr *a)
+> +{
+> +	struct udp_tunnel_sock_cfg tuncfg = {};
+> +	struct udp_port_cfg udp_conf = {};
+> +	struct net *net = sock_net(sk);
+> +	struct quic_uhash_head *head;
+> +	struct quic_udp_sock *us;
+> +	struct socket *sock;
+> +
+> +	us = kzalloc(sizeof(*us), GFP_KERNEL);
+> +	if (!us)
+> +		return NULL;
+> +
+> +	quic_udp_conf_init(sk, &udp_conf, a);
+> +	if (udp_sock_create(net, &udp_conf, &sock)) {
+> +		pr_debug("%s: failed to create udp sock\n", __func__);
+> +		kfree(us);
+> +		return NULL;
+> +	}
+> +
+> +	tuncfg.encap_type = 1;
+> +	tuncfg.encap_rcv = quic_udp_rcv;
+> +	tuncfg.encap_err_lookup = quic_udp_err;
+> +	setup_udp_tunnel_sock(net, sock, &tuncfg);
 
-Acked-by: Paolo Abeni <pabeni@redhat.com>
+Possibly you need to adjust UDP_MAX_TUNNEL_TYPES in udp_offload.c. You
+could check running a kernel with QUIC enabled and geneve, vxlan, FOU
+and xfrm disabled.
+
+> +
+> +	refcount_set(&us->refcnt, 1);
+> +	us->sk = sock->sk;
+> +	memcpy(&us->addr, a, sizeof(*a));
+> +	us->bind_ifindex = sk->sk_bound_dev_if;
+> +
+> +	head = quic_udp_sock_head(net, ntohs(a->v4.sin_port));
+> +	hlist_add_head(&us->node, &head->head);
+> +	INIT_WORK(&us->work, quic_udp_sock_put_work);
+
+Is unclear to me if quick udp socket lookup be done locklessy with
+future series?
+
+/P
 

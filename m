@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A129833A9F2
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 29 Jan 2026 16:40:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72FD633ADAF
+	for <kernel-tls-handshake@lists.linux.dev>; Thu, 29 Jan 2026 16:53:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769704859; cv=none; b=BDXBh+uN9ZHSSTckE2Jwqt6Gs0qz3NOfQ0rs74czuDuhywa/B11WD5daJbfbruSpudS8PMyYsX/1c4U4Wm5pG3CkX9tKFF3qxQ+VklzcekUwJYTPHdXHUppvbQtPYKmChAGgr/gjUyurnGOq9bf/tsKfGIbUyCuw1uJ0RuYRo9Y=
+	t=1769705603; cv=none; b=q1pG0kbOjzpwvOsrXcBLer7LhqwRDWkSVZ6OZxgMoP374HKktt+WD3q/0/nnAnAFm/AoBY4c4l9KaqJHtDoXxK+KuanAEMxGWtJx2TSizFyn8RA337wSHk3w3GN5HD8cYa6X8lrHNdyDdxmU+sfSTNiZEWn2JLFb/u9iXMs0uIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769704859; c=relaxed/simple;
-	bh=tAGcf2qHYt65xo/mPlZWfHpD6g4PeOJZ15QDP/sjPeE=;
+	s=arc-20240116; t=1769705603; c=relaxed/simple;
+	bh=WOGhGhsnQIX0JLxRhL6uuprL7CVf0Nxffn2Etmsupas=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Kl9sdJ1zvVQKmFKqCl/S4YtIJeTs7DsZdfM4yAqIDTi7L8t7bCl7617cK0IotTPC1P4OFsT99/cFHw8nHig2JyGuF5JrL4tTDPJa41Do30BGnlHklyzRJUmM5Nmjrze1Uu6sG4uLSBnShaZdMPubeGb5+F4FTeCtux5y5uIsiKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ioslu35z; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=pjOQ3KBZlv1EASe2xkla6vmC8ztt7KdOZA6hwYdLo7o05R15S/omFrsHAgrRoVhvPug6oxQRBtLvGl9SP3MJG8hwHf+MTedvODAXL218JI7jhGFFa+PIUfMur5sliRNLeWxTO2HPMM9PES6U8RbxT+lc32Y36j7F9J+0Yn+keSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FzwuvNBN; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ioslu35z"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FzwuvNBN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769704855;
+	s=mimecast20190719; t=1769705601;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BmP+ZaocLWbsQYSfK1kgq3CFYftfiEuO4FH3b4mkBqg=;
-	b=ioslu35zlYCS4YcWn+lNjeV6SVCAzIw8UmfwnmfLPFrXYl58THELPsKisH1PQ4N85DA1Uy
-	aatqig7vtNhCswndjOh92bTqC60SerFoueP61rJHjgFCPoVlZ4jeRKJn00lYzkA1YLuzpK
-	KUV50OCgd1C7msJr+3y9rASCqCzI3/o=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=bxsJZ4lY7/i7NTzxVza1t8bxhbR1O4VQ7g3k6JdX5O0=;
+	b=FzwuvNBNkqnk9SyHXPyHb2M+FqkJV8Xpbb78Gynildhk9o6i6BFqWkYi9OkoxBR96fDITe
+	k/E/j8flWnJu+fHSTFBpWyzjjqtnS06tgUiiZbPAXjIphX375H+oSFuciQg3XnWv8hXA3r
+	1cERL4tp3ipOrLtFH3+9MHXMeHFrEzA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-629-n1CTDb3ZMSi0YotwiVb02g-1; Thu, 29 Jan 2026 11:40:54 -0500
-X-MC-Unique: n1CTDb3ZMSi0YotwiVb02g-1
-X-Mimecast-MFC-AGG-ID: n1CTDb3ZMSi0YotwiVb02g_1769704853
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-48025e12b5bso24100825e9.2
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 29 Jan 2026 08:40:54 -0800 (PST)
+ us-mta-449-3cEWVxCcPjW_05ZYXvQIwA-1; Thu, 29 Jan 2026 11:53:20 -0500
+X-MC-Unique: 3cEWVxCcPjW_05ZYXvQIwA-1
+X-Mimecast-MFC-AGG-ID: 3cEWVxCcPjW_05ZYXvQIwA_1769705599
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-47ee3dd7fc8so12037555e9.3
+        for <kernel-tls-handshake@lists.linux.dev>; Thu, 29 Jan 2026 08:53:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769704853; x=1770309653;
+        d=1e100.net; s=20230601; t=1769705599; x=1770310399;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BmP+ZaocLWbsQYSfK1kgq3CFYftfiEuO4FH3b4mkBqg=;
-        b=PqptlRN7qxs1Db+GHn1RI7h0qvNAOX3a4pHvMXN3Ya5YqfiGdCcvuuEnB37dyH/WsC
-         N+PlZ2ebmN+1SL6nhye/QodeeSlWlhW/FyKtZ3qcJi8DnGFLb6OmMo8lIwrwhNfCKKbU
-         EoLS77J634A5vhIMYdhmCQHC9CU7pbQ0R9X4lLC6+oXsa5huKa4KASJj6J0nlRCOoniY
-         P2n39BOhxHOi8WndDPyvPdllz02I0ckZ/j7qbqsI/NuUVp1ep1E7aK4EiduPQuRJD4Ad
-         WB0j2mypFNq64SZBsCd4EHXa2L9iCn1IUiEzjMT8Yy2JNUMKMDIsWl9LniNABdxS6Mhe
-         /PTw==
-X-Forwarded-Encrypted: i=1; AJvYcCWh9eHgtit3YlhjEF/oX0vxabjRwmDTHSy37kpjE7u1ko8PKaZMa+ZeIL/idYDIzlJQO/3wJs//LKpHGW9Fxvs+8c6EiA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyT+ri8fOJvK5wGc2Gya2TiSW1gvUBK3xUA65ddoKCDKjcGBQAI
-	w0r7efbot8ynPdcngr6uaW1jlRlOvTfllInXD4rI5XDoFRqkVN2OM4r7O7iI2zfGPXe8W+11u/K
-	ClTJEowiay7UXreHSzeQg74HomApL7NKU/JmjGfB78b/5nOyk3oHYFsshXZTxot2B8OYn5ZzsQ5
-	mb
-X-Gm-Gg: AZuq6aLNW6ZRh8uBEruRbc0FVQHZD54Li+RlY4URxnDTAdqOTfX4K1FFRJc5pXnp+SG
-	FcMjlFvkyTVcPXOOuI8uRJS7ZXKGwo5WmUyJGZf59KxjPuiqpIkg9bNTkziJ9J8x2zXqlbONtMW
-	wacnNa60L1oVGrqSMLe6Okql3JLJeC5Yd2l0wWF3iF9B38TPnsMdEaKDAlq5nZv+/ECSQzWVKkt
-	xA5E6A4HV6fkPWzql0xysYZ6b/SFguerkMZaondaMIhhR90ar3NV+mHKcfSEFYYSgfiyBRBan1/
-	b7ShZkhp9o91kJZeYZlLtfkCZ0MG93dU13SgqoRtc8+zMaWWAEbnWUDRZk2fXUraHteEhVhYGEA
-	le1mBzSVNxPUj
-X-Received: by 2002:a05:600c:1e85:b0:471:13dd:bae7 with SMTP id 5b1f17b1804b1-48069c89792mr113973165e9.30.1769704852877;
-        Thu, 29 Jan 2026 08:40:52 -0800 (PST)
-X-Received: by 2002:a05:600c:1e85:b0:471:13dd:bae7 with SMTP id 5b1f17b1804b1-48069c89792mr113972655e9.30.1769704852398;
-        Thu, 29 Jan 2026 08:40:52 -0800 (PST)
+        bh=bxsJZ4lY7/i7NTzxVza1t8bxhbR1O4VQ7g3k6JdX5O0=;
+        b=bxzNbDUferBmECNLndvmJ60Y7IFlKNJWybZQJpW+Xt/3urwtxfKm+UCHBjGwLbE+sh
+         Fj/XtQ2HtgrQqdruiBcpoA592Tpg242KLOmh5M41yDbonS6AEMYo3lseJTjn8GZFlgRv
+         /mqUTexxAMIpCWlDOqGcZwifuJuXMcPVIlal9ySpBueIHpHOvUAhou1pnPvjcA0Ty6wV
+         MBUtbXG+voal6KkqK0wA2gu1Mz+4gYq1S8fZulurMXpgeyU2q/eRDcdB1mBOXD9IDufc
+         MNytfStgqvNSwQ7l6krt/oB+HxsiiRBCyEZMH9RNQNXp+aoliWfPd6sL6Fr6nZxlJvwC
+         nDAA==
+X-Forwarded-Encrypted: i=1; AJvYcCXrYm685FjdmWGh44nXoYWHrKZfy7BJnH1MML6MXsJ6fN3Le+WCkucOOrsgHe+DxfXDo/OCDgJGF9IkVTN5itNb+0unXg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy+QWoNA8kXtD65inzOxn7Tud3VBZ8svQkZAHmHe50kau6BSEXs
+	DE1qu3LQnsoJpSniBD5wzmftjy325gE2KdNrpN3C17s8VAreVDQ2BY5cxGt9a/jTugdo6Xu7LW0
+	aMYP2ZMErB9yTmhOR9CrSPegM5QvvnwfepM+kLNr4G0XfzYoJZdr2QN2fskZIOTMBvgZTknY8Sh
+	hx
+X-Gm-Gg: AZuq6aJsCZ1E/K4gXaLhld5W2M7rV+YjIgkheAUNMJeQYi85gf/SBmTZWppw0tAsmGS
+	mLOmvpPMI56RRn1RIc7RAjM1czLOXEgmShKgchr5NYF4K5j2RJdXGqOdKm5yUNiDNu6sstFdDf9
+	FIlrRMG+kc9IPyHENvyifj2yHfKLGJdW9QMO56uvWMS8VhBf3tPHHGjkBwVfdkYVDw+o7wYGY2v
+	96lTCi8YJMv2ECgZDGjqVRfEqgoKFyB2pEfPAYtYGEkYuxypP2ECtOJbSsHw4jjOBgxJEnE93rK
+	9xdyOIE1gu10Enct1f3lMqsvRxBj/3gJdR/Bt9/ytm5sKqF5S6KPhjnhxg1ChPz2hMDAkQcRpFU
+	Nfc3iF6oDrFMJ
+X-Received: by 2002:a05:600c:4e90:b0:477:582e:7a81 with SMTP id 5b1f17b1804b1-48069c2a907mr105133765e9.4.1769705598755;
+        Thu, 29 Jan 2026 08:53:18 -0800 (PST)
+X-Received: by 2002:a05:600c:4e90:b0:477:582e:7a81 with SMTP id 5b1f17b1804b1-48069c2a907mr105133265e9.4.1769705598230;
+        Thu, 29 Jan 2026 08:53:18 -0800 (PST)
 Received: from [192.168.88.32] ([212.105.153.56])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10e46cesm15195228f8f.7.2026.01.29.08.40.50
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-481a5e195ecsm793975e9.4.2026.01.29.08.53.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Jan 2026 08:40:52 -0800 (PST)
-Message-ID: <b0045978-ea65-422b-8260-d079b43eb553@redhat.com>
-Date: Thu, 29 Jan 2026 17:40:49 +0100
+        Thu, 29 Jan 2026 08:53:17 -0800 (PST)
+Message-ID: <bbbaf4e5-1c31-4c84-adb4-dbb94b8d07f4@redhat.com>
+Date: Thu, 29 Jan 2026 17:53:14 +0100
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -75,7 +75,7 @@ List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v8 14/15] quic: add packet builder base
+Subject: Re: [PATCH net-next v8 15/15] quic: add packet parser base
 To: Xin Long <lucien.xin@gmail.com>, network dev <netdev@vger.kernel.org>,
  quic@lists.linux.dev
 Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
@@ -96,96 +96,33 @@ Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
  Daniel Stenberg <daniel@haxx.se>,
  Andy Gospodarek <andrew.gospodarek@broadcom.com>
 References: <cover.1769439073.git.lucien.xin@gmail.com>
- <4ec3ade7dfc709658a2b1839dbe29c9467b25fdf.1769439073.git.lucien.xin@gmail.com>
+ <46f93cbee41da1e1f7b7f408b17915fd93b39ec1.1769439073.git.lucien.xin@gmail.com>
 From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <4ec3ade7dfc709658a2b1839dbe29c9467b25fdf.1769439073.git.lucien.xin@gmail.com>
+In-Reply-To: <46f93cbee41da1e1f7b7f408b17915fd93b39ec1.1769439073.git.lucien.xin@gmail.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: WKmPHjD-GBpvZzI2e8WpzFg0dF8rUIt7j5pv5bGm0sw_1769704853
+X-Mimecast-MFC-PROC-ID: dZCtSTIZomOZiRQsUn-eaSex8N8SBVN2-6jujdIwrsw_1769705599
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 1/26/26 3:51 PM, Xin Long wrote:
-> +/* Configure the QUIC packet header and routing based on encryption level and path. */
-> +int quic_packet_config(struct sock *sk, u8 level, u8 path)
+> +/* Lookup listening socket for Client Initial packet (in process context). */
+> +static struct sock *quic_packet_get_listen_sock(struct sk_buff *skb)
 > +{
-> +	struct quic_conn_id_set *dest = quic_dest(sk), *source = quic_source(sk);
-> +	struct quic_packet *packet = quic_packet(sk);
-> +	struct quic_config *c = quic_config(sk);
-> +	u32 hlen = QUIC_HLEN;
+> +	union quic_addr daddr, saddr;
+> +	struct quic_data alpns = {};
+> +	struct sock *sk;
 > +
-> +	/* If packet already has data, no need to reconfigure. */
-> +	if (!quic_packet_empty(packet))
-> +		return 0;
+> +	quic_get_msg_addrs(skb, &daddr, &saddr);
 > +
-> +	packet->ack_eliciting = 0;
-> +	packet->frame_len = 0;
-> +	packet->ipfragok = 0;
-> +	packet->padding = 0;
-> +	packet->frames = 0;
-> +	hlen += QUIC_PACKET_NUMBER_LEN; /* Packet number length. */
-> +	hlen += quic_conn_id_choose(dest, path)->len; /* DCID length. */
-> +	if (level) {
-> +		hlen += 1; /* Length byte for DCID. */
-> +		hlen += 1 + quic_conn_id_active(source)->len; /* Length byte + SCID length. */
-> +		if (level == QUIC_CRYPTO_INITIAL) /* Include token for Initial packets. */
-> +			hlen += quic_var_len(quic_token(sk)->len) + quic_token(sk)->len;
-> +		hlen += QUIC_VERSION_LEN; /* Version length. */
-> +		hlen += QUIC_PACKET_LENGTH_LEN; /* Packet length field length. */
-> +		/* Allow fragmentation if PLPMTUD is enabled, as it no longer relies on ICMP
-> +		 * Toobig messages to discover the path MTU.
-> +		 */
-> +		packet->ipfragok = !!c->plpmtud_probe_interval;
-> +	}
-> +	packet->level = level;
-> +	packet->len = (u16)hlen;
-> +	packet->overhead = (u8)hlen;
+> +	if (quic_packet_parse_alpn(skb, &alpns))
+> +		return NULL;
+> +
+> +	local_bh_disable();
 
-Given the above math, it looks like hlen can never be > 255, but
-possibly a DEBUG_NET_WARN_ON_ONCE() could save from future bug and make
-the code more clear?
-
-> +
-> +	if (packet->path != path) { /* If the path changed, update and reset routing cache. */
-> +		packet->path = path;
-> +		__sk_dst_reset(sk);
-> +	}
-> +
-> +	/* Perform routing and MSS update for the configured packet. */
-> +	if (quic_packet_route(sk) < 0)
-> +		return -1;
-> +	return 0;
-> +}
-> +
-> +static void quic_packet_encrypt_done(struct sk_buff *skb, int err)
-> +{
-> +	/* Free it for now, future patches will implement the actual deferred transmission logic. */
-> +	kfree_skb(skb);
-> +}
-> +
-> +/* Coalescing Packets. */
-> +static int quic_packet_bundle(struct sock *sk, struct sk_buff *skb)
-> +{
-> +	struct quic_skb_cb *head_cb, *cb = QUIC_SKB_CB(skb);
-> +	struct quic_packet *packet = quic_packet(sk);
-> +	struct sk_buff *p;
-> +
-> +	if (!packet->head) { /* First packet to bundle: initialize the head. */
-> +		packet->head = skb;
-> +		cb->last = skb;
-> +		goto out;
-> +	}
-> +
-> +	/* If bundling would exceed MSS, flush the current bundle. */
-> +	if (packet->head->len + skb->len >= packet->mss[0]) {
-> +		quic_packet_flush(sk);
-> +		packet->head = skb;
-> +		cb->last = skb;
-> +		goto out;
-
-The same code is duplicate a few lines above; you could reduce
-duplication jumping to a common label.
+Is this really needed? If so, it needs some comment explaining the
+rationale, otherwise please drop it.
 
 /P
 

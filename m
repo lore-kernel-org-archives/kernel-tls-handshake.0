@@ -1,63 +1,63 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4922248B4
-	for <kernel-tls-handshake@lists.linux.dev>; Mon,  2 Feb 2026 16:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6940822256B
+	for <kernel-tls-handshake@lists.linux.dev>; Mon,  2 Feb 2026 16:18:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770049071; cv=none; b=eGcbE0HeBJ1N1joayWDAHT50xVUdM3dYOnkPbl/GBagyQZYCEV1NK/oYlFp4JQSrXi48nm/Dskj42B9gCH+izzb8tGzZ3e961vqL2WpyF7WOx7QEvYv5ROh1WFCkJN9+re3xpO+AtU75ZS/I1y8AgV4h84xzUbNXPF3/H3pAM0w=
+	t=1770049086; cv=none; b=q5KqrlTxnPX9p85daHlRu1ElepZJZhE5yudbqSy6pGgaxOYbr058F9S/WXljFA256Br5GVOHlE2poTxNUtVp+BHPeXhPWJI5K3w/maHS02fH94ez1DFawduY4F6G84+/Nb3aPz5ouFFpA/2hQh7z8+SYBlC0FbKlv+rTjdUqRSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770049071; c=relaxed/simple;
-	bh=f+HrC0iWonAH7sbFK2rFbMBR2gQQoVHp1Fhe7Yzvaz4=;
+	s=arc-20240116; t=1770049086; c=relaxed/simple;
+	bh=JJqkpuUFuIe/gFYva1ohWTEXB+T9x5tVlAQa7/2p+6k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h2O2MDJv6MbFr8UOg9Lgs5Qysls8t0mvmksQ3VTlkbcShsqDNsJLX8j4YyFEFMwkrv84kyaX1yoQTs4Vej2qGlYUIKIJzzhYROOdgJu1MYdU195XTsOeXOyh3THbsjTuHJthTj+MHu+yGCIMcS5cyfFEx0Ne/+9YcnVa7iGmRAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S/E+VI0r; arc=none smtp.client-ip=209.85.214.171
+	 MIME-Version; b=bIDuCrFRl7GUOlN5pkjxfu36jgDibBxX3RrvcVtnbhOigw6y+yPcO6Ud0bsJhSHAExhRr0K7uORxnDUWrETDSKZFQF7DzpS1XBs2rcYy7PU1eDkRNOPeNqQ3uacsNPAtOf4hbwS90XTikj2xDL6rMNfk4DOp9uRqeNhJY09yzqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LtSCW/2o; arc=none smtp.client-ip=209.85.222.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S/E+VI0r"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2a09757004cso37392395ad.3
-        for <kernel-tls-handshake@lists.linux.dev>; Mon, 02 Feb 2026 08:17:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LtSCW/2o"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8c6f21c2d81so466993285a.2
+        for <kernel-tls-handshake@lists.linux.dev>; Mon, 02 Feb 2026 08:18:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770049069; x=1770653869; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1770049083; x=1770653883; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1a9l567QPE61uruLEu3GPyK0pRg9wkjFHjtbUXOYHUk=;
-        b=S/E+VI0rRLvEYeRUzH2dVZekN4KQ77hmoDuKMPql2E0Fptv+pg1ohbYKj16TMQtw6V
-         H3Fsw6TCp9nwwhS0lGJ5HMk3wp5P4TIkJCl41ZUg4Z1s2OpT0b13SBumx3lt0vgHyXbp
-         mL+lEofTYn7++cv6Hlpeb+qh4VzWm0i4umv4BwPO57Sls0N1CQAI4JqZ+KIdq+3LXTbz
-         THR0cN5hJJszhxHHYRZWjGdEr2wJuuIA+77vUbf16sPX/6LBcs2n7XLXhDVajYrm3Sbx
-         sTnbWs/Ew3uTplxjbXQtpFoAayD0XMPgObIym7nZpZ5pePnNtju8z7Tk3KRVPhlE3clN
-         pAOA==
+        bh=tYFKy8wmeOF9/xLY0YwTs32UNcdqHUMzReGDert9fzo=;
+        b=LtSCW/2oMu6VqG9vui2kE1RphsPEnBEAA7Sehcr/ZnM6pxOANvtNeJIiuaX5YM9W07
+         9GucTPxxTutm04WYfyXRQODN9LNvw3dy78rTWWfozqUuYw9FIUPHUjSp0UG2/qJ4aQlg
+         erOu3ASlsfi97157TD0wE1JxvS4YDJORNY/dpsZi0xoZ6KPq5zSI/44LhksTVEPnPw95
+         99nNaMCRWFqpCA5F2tBcdkkmZ4xqVDXtH1uQW+x/VdLKnhBrDgNEx621bOqZ24Z62L86
+         bM7R6ziuOiUwomxlVRmkarLeoXrrrLn73Zzhor0nQ+4enbd7XYQ6CnvctKH2p5hjPgBJ
+         wpsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770049069; x=1770653869;
+        d=1e100.net; s=20230601; t=1770049083; x=1770653883;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=1a9l567QPE61uruLEu3GPyK0pRg9wkjFHjtbUXOYHUk=;
-        b=O9y7PXDqozMaJs1SR3SLtbZqWf9NQVkE9b/Ils0X2N6A0LQAz29XL74ywfXXA1+wEO
-         oEUP48iY7FQxjCx6tHW6JuhXW73nDnwKLnhFSP6ep3SaO4hK54AgrwTjczldrxJkH8GS
-         OXcBE9anOjwA9vJ9QmTmkhowZle0A7tFG2vnmw3ssS3XAVvYqETjSxmPPfMULXV26PI/
-         7VVpwz9EtNsjjuSeN7UTtigU/PFZcPUU3HPejViW1vXRpZn+FgCjBp9eHkrOYT71AGGr
-         Ri9jxx/FZXTAgSELk8BibYXK2f66eQz27yMHS3i9/BUxc8fUzigBW82QRitzKTxixX85
-         FtmA==
-X-Forwarded-Encrypted: i=1; AJvYcCWbEpkiSa6PFQW0pwG01YRQym56zyhq447qPjI4Xy6jRMgG/ft2D75VXmhXw3ZkakCG4DP3/X3RNUc5R9QYQMHWk8Xv0g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy0MHnj6+fAOpDpnqUMJ9viE5RU4ylceTKNbhbOzFvX4OdQ7HST
-	42X9JWV28pxdh2D78uPfDmcbHSbvd5naEj+Got2bNzu6RiljGeRJQtXsstlbzY7q
-X-Gm-Gg: AZuq6aLZYb6lCoRbRoMTpuQ9jJmxTSqXmz4tt7vR3U+QdeSZL+AemCqv50mOFOiFO4b
-	DF4LdjUa9uCZhbzbXf+M26ZWpSOY5HMZVWW20pdwjfP+vVU0tuAlfRZ9u/MiALJuGIqVKiLxgjn
-	zGow/bScWzMBru3QZEmCekxnibtRwmgS0GMQuYFtu2eMO8QAbiaR8oORV/kT4FmuBBT5+JVrgmE
-	IQ5rnHHj9nL5bw8SW7ljOfRSn8W/fMLHgWlpJSqFznoGjGiXCXMfvly/OIqRcF9R96pJtIRPEQK
-	Hmf0cANNYq3+TeUTrCHRl2e6YhFLyVVzPrEf/hUK8YViFtuUrSw5go+CbSFU9G3Rcq/pueZlMMJ
-	fZqSRDHJNmKolIyQWJ48Hz5EbFGk5kCKFlHsGo0pKaGJsxdGvhxr5AwWk+Q3Tj9lGQt8Zk5GGf9
-	NJyqogp8VIheHWQtJiAPNYhfmX7P40vfHelZQsIZB9OMMebeyfP/SymKjFZP0u/A==
-X-Received: by 2002:ac8:7f0f:0:b0:4f3:5361:7609 with SMTP id d75a77b69052e-505d22cf23fmr169838961cf.79.1770042598744;
-        Mon, 02 Feb 2026 06:29:58 -0800 (PST)
+        bh=tYFKy8wmeOF9/xLY0YwTs32UNcdqHUMzReGDert9fzo=;
+        b=wfUaDSaOvuBgXulyTkWcANG0edY7U0qDQkdwFmnqU1mdpS3IB5cMaUZ2QdYdh/Qhtz
+         5gvHsAAfyQ2EzlkpIxJEJEb8zPMmPzLjS4E8LisrkG+isHLBGAQcirX3T4+z53fw2TXj
+         iMq6/8mKgxq1Uc0WGCLU0dGj2iJTwG4hnLG60NUw1fq8Zw3IQP2IBFCF9nSOLZiqhTjP
+         cXTsqOqXeW+TFT4nu9vSRCSfF7bFKuqWIVIHlJw+eYDm7JvcUfGeOgBIpZ3Zl75fQDkH
+         u42dav7eskgx89V735EZxvCBlkoy+heBWDNJkCskcE3VLuhk++1QjTINp5e5mlzeWBVq
+         ctKw==
+X-Forwarded-Encrypted: i=1; AJvYcCWWBZPlYQ+olFE++yAWKwi2KLCSd9bcb8NyIC6YMmIxJjumjwwvcq7ZiqLzggBgXhXBoZ7dNf1KhLlmezS1BLt/CCl7IA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy3oApCrYB91rjCyHCcSSX99hzw4gduTdg32hMchHCNv8Cwsq3m
+	8PN0wBKWx+81TDlWPs8JmmP8WpjoOicfb5xd4TiFKRvlMZvVuGtvx8SSBlTPIF+I
+X-Gm-Gg: AZuq6aJuedkJS0VZBu/B6HaTdFWRxK9JRGgjMAe17Q+Nvn+4YcHm98E4w3Pn5lsucKk
+	8gaQSjC06mAGJX4mHlkeCzyIB7YGPJ0x9EJKnYvVUUPhwvYEv1UlLa1IqhcvPClN1PewX7jjBV0
+	y6rueecGiBom+MNavhNmgguBrXhVDbG8F5Naxwz5qfI3kGP/W5KPXEtgOMQsqqPX8D8ZINaOfva
+	i9BFKCPKCDwtqZ+ZLRPD8Y/P990OiWzSprOmTkYQHbSJlSLh30GnuKkdLepO0t+zmV025nOvHrT
+	AK0jGYYTGacg3O1w8UBCmZUJenMPNNcdQlrOdXfU+v9i0ATq+nxgi/Uvq2qX1OLjxHejzgaYaP5
+	AcwCUo6g48HTkyxNJAyzQE2rI5xJ7+sXFFBivSZfg6Tw1lVTgDLbke5B0z7qQoX9TBCECE841Kc
+	BtCPzCOGZm+EibA9TgE5UHQZEAshEBOrsDcSH31WUF+mRrnc0M194=
+X-Received: by 2002:a05:622a:d:b0:4ff:c295:3c3e with SMTP id d75a77b69052e-505d215193amr138048011cf.10.1770042610785;
+        Mon, 02 Feb 2026 06:30:10 -0800 (PST)
 Received: from wsfd-netdev58.anl.eng.rdu2.dc.redhat.com ([66.187.232.140])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50337ba3981sm106865171cf.16.2026.02.02.06.29.57
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50337ba3981sm106865171cf.16.2026.02.02.06.30.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 06:29:58 -0800 (PST)
+        Mon, 02 Feb 2026 06:30:10 -0800 (PST)
 From: Xin Long <lucien.xin@gmail.com>
 To: network dev <netdev@vger.kernel.org>,
 	quic@lists.linux.dev
@@ -93,9 +93,9 @@ Cc: davem@davemloft.net,
 	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
 	Daniel Stenberg <daniel@haxx.se>,
 	Andy Gospodarek <andrew.gospodarek@broadcom.com>
-Subject: [PATCH net-next v9 05/15] quic: provide quic.h header files for kernel and userspace
-Date: Mon,  2 Feb 2026 09:27:31 -0500
-Message-ID: <b3e81a27cc3e4c03fa8357c2c77b238997e48610.1770042461.git.lucien.xin@gmail.com>
+Subject: [PATCH net-next v9 13/15] quic: add timer management
+Date: Mon,  2 Feb 2026 09:27:39 -0500
+Message-ID: <780c27b38ee09f68ffbe52de73f1c401e65bd7a6.1770042461.git.lucien.xin@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <cover.1770042461.git.lucien.xin@gmail.com>
 References: <cover.1770042461.git.lucien.xin@gmail.com>
@@ -107,76 +107,384 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This commit adds quic.h to include/uapi/linux, providing the necessary
-definitions for the QUIC socket API. Exporting this header allows both
-user space applications and kernel subsystems to access QUIC-related
-control messages, socket options, and event/notification interfaces.
+This patch introduces 'quic_timer' to unify and manage the five main
+timers used in QUIC: loss detection, delayed ACK, path validation,
+PMTU probing, and pacing. These timers are critical for driving
+retransmissions, connection liveness, and flow control.
 
-Since kernel_get/setsockopt() is no longer available to kernel consumers,
-a corresponding internal header, include/linux/quic.h, is added. This
-exposes quic_do_get/setsockopt() to handle QUIC socket options directly
-for kernel subsystems.
+Each timer type is initialized, started, reset, or stopped using a common
+set of operations.
 
-Detailed descriptions of these structures are available in [1], and will
-be also provided when adding corresponding socket interfaces in the
-later patches.
+- quic_timer_reset(): Reset a timer with type and timeout
 
-[1] https://datatracker.ietf.org/doc/html/draft-lxin-quic-socket-apis
+- quic_timer_start(): Start a timer with type and timeout
+
+- quic_timer_stop(): Stop a timer with type
+
+Although handler functions for each timer are defined, they are currently
+placeholders; their logic will be implemented in upcoming patches for
+packet transmission and outqueue handling.
+
+Deferred timer actions are also integrated through quic_release_cb(),
+which dispatches to the appropriate handler when timers expire.
 
 Signed-off-by: Tyler Fanelli <tfanelli@redhat.com>
-Signed-off-by: Stefan Metzmacher <metze@samba.org>
-Signed-off-by: Thomas Dreibholz <dreibh@simula.no>
 Signed-off-by: Xin Long <lucien.xin@gmail.com>
 Acked-by: Paolo Abeni <pabeni@redhat.com>
 ---
-v2:
-  - Fix a kernel API description warning, found by Jakub.
-  - Replace uintN_t with __uN, capitalize _UAPI_LINUX_QUIC_H, and
-    assign explicit values for QUIC_TRANSPORT_ERROR_ enum in UAPI
-    quic.h, suggested by David Howells.
-v4:
-  - Use MSG_QUIC_ prefix for MSG_* flags to avoid conflicts with other
-    protocols, such as MSG_NOTIFICATION in SCTP (reported by Thomas).
-  - Remove QUIC_CONG_ALG_CUBIC; only NEW RENO congestion control is
-    supported in this version.
 v5:
-  - Add include/linux/quic.h and include/uapi/linux/quic.h to the
-    QUIC PROTOCOL entry in MAINTAINERS.
-v6:
-  - Fix the copy/pasted the uAPI path for SCTP to the QUIC entry (noted
-    by Jakub).
-v7:
-  - Expose quic_do_get/setsockopt() instead of quic_kernel_get/setsockopt()
-    (suggested by Paolo).
+  - Rename QUIC_TSQ_DEFERRED to QUIC_PACE_DEFERRED.
 ---
- MAINTAINERS               |   2 +
- include/linux/quic.h      |  20 ++++
- include/uapi/linux/quic.h | 235 ++++++++++++++++++++++++++++++++++++++
- net/quic/socket.c         |  32 +++++-
- net/quic/socket.h         |   7 ++
- 5 files changed, 294 insertions(+), 2 deletions(-)
- create mode 100644 include/linux/quic.h
- create mode 100644 include/uapi/linux/quic.h
+ net/quic/Makefile |   2 +-
+ net/quic/socket.c |  33 ++++++++
+ net/quic/socket.h |  33 ++++++++
+ net/quic/timer.c  | 196 ++++++++++++++++++++++++++++++++++++++++++++++
+ net/quic/timer.h  |  47 +++++++++++
+ 5 files changed, 310 insertions(+), 1 deletion(-)
+ create mode 100644 net/quic/timer.c
+ create mode 100644 net/quic/timer.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7e41961dbd01..cf424d94c1d6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21687,6 +21687,8 @@ M:	Xin Long <lucien.xin@gmail.com>
- L:	quic@lists.linux.dev
- S:	Maintained
- W:	https://github.com/lxin/quic
-+F:	include/linux/quic.h
-+F:	include/uapi/linux/quic.h
- F:	net/quic/
+diff --git a/net/quic/Makefile b/net/quic/Makefile
+index 58bb18f7926d..2ccf01ad9e22 100644
+--- a/net/quic/Makefile
++++ b/net/quic/Makefile
+@@ -6,4 +6,4 @@
+ obj-$(CONFIG_IP_QUIC) += quic.o
  
- RADEON and AMDGPU DRM DRIVERS
-diff --git a/include/linux/quic.h b/include/linux/quic.h
+ quic-y := common.o family.o protocol.o socket.o stream.o connid.o path.o \
+-	  cong.o pnspace.o crypto.o
++	  cong.o pnspace.o crypto.o timer.o
+diff --git a/net/quic/socket.c b/net/quic/socket.c
+index 7fd6955824bc..dde1d9becf06 100644
+--- a/net/quic/socket.c
++++ b/net/quic/socket.c
+@@ -47,6 +47,8 @@ static int quic_init_sock(struct sock *sk)
+ 	quic_conn_id_set_init(quic_dest(sk), 0);
+ 	quic_cong_init(quic_cong(sk));
+ 
++	quic_timer_init(sk);
++
+ 	if (quic_stream_init(quic_streams(sk)))
+ 		return -ENOMEM;
+ 
+@@ -68,6 +70,8 @@ static void quic_destroy_sock(struct sock *sk)
+ {
+ 	u8 i;
+ 
++	quic_timer_free(sk);
++
+ 	for (i = 0; i < QUIC_PNSPACE_MAX; i++)
+ 		quic_pnspace_free(quic_pnspace(sk, i));
+ 	for (i = 0; i < QUIC_CRYPTO_MAX; i++)
+@@ -194,6 +198,35 @@ static int quic_getsockopt(struct sock *sk, int level, int optname,
+ 
+ static void quic_release_cb(struct sock *sk)
+ {
++	/* Similar to tcp_release_cb(). */
++	unsigned long nflags, flags = smp_load_acquire(&sk->sk_tsq_flags);
++
++	do {
++		if (!(flags & QUIC_DEFERRED_ALL))
++			return;
++		nflags = flags & ~QUIC_DEFERRED_ALL;
++	} while (!try_cmpxchg(&sk->sk_tsq_flags, &flags, nflags));
++
++	if (flags & QUIC_F_LOSS_DEFERRED) {
++		quic_timer_loss_handler(sk);
++		__sock_put(sk);
++	}
++	if (flags & QUIC_F_SACK_DEFERRED) {
++		quic_timer_sack_handler(sk);
++		__sock_put(sk);
++	}
++	if (flags & QUIC_F_PATH_DEFERRED) {
++		quic_timer_path_handler(sk);
++		__sock_put(sk);
++	}
++	if (flags & QUIC_F_PMTU_DEFERRED) {
++		quic_timer_pmtu_handler(sk);
++		__sock_put(sk);
++	}
++	if (flags & QUIC_F_PACE_DEFERRED) {
++		quic_timer_pace_handler(sk);
++		__sock_put(sk);
++	}
+ }
+ 
+ static int quic_disconnect(struct sock *sk, int flags)
+diff --git a/net/quic/socket.h b/net/quic/socket.h
+index fc203eecbb8b..5e9b21430f42 100644
+--- a/net/quic/socket.h
++++ b/net/quic/socket.h
+@@ -21,6 +21,7 @@
+ #include "cong.h"
+ 
+ #include "protocol.h"
++#include "timer.h"
+ 
+ extern struct proto quic_prot;
+ extern struct proto quicv6_prot;
+@@ -32,6 +33,31 @@ enum quic_state {
+ 	QUIC_SS_ESTABLISHED	= TCP_ESTABLISHED,
+ };
+ 
++enum quic_tsq_enum {
++	QUIC_MTU_REDUCED_DEFERRED,
++	QUIC_LOSS_DEFERRED,
++	QUIC_SACK_DEFERRED,
++	QUIC_PATH_DEFERRED,
++	QUIC_PMTU_DEFERRED,
++	QUIC_PACE_DEFERRED,
++};
++
++enum quic_tsq_flags {
++	QUIC_F_MTU_REDUCED_DEFERRED	= BIT(QUIC_MTU_REDUCED_DEFERRED),
++	QUIC_F_LOSS_DEFERRED		= BIT(QUIC_LOSS_DEFERRED),
++	QUIC_F_SACK_DEFERRED		= BIT(QUIC_SACK_DEFERRED),
++	QUIC_F_PATH_DEFERRED		= BIT(QUIC_PATH_DEFERRED),
++	QUIC_F_PMTU_DEFERRED		= BIT(QUIC_PMTU_DEFERRED),
++	QUIC_F_PACE_DEFERRED		= BIT(QUIC_PACE_DEFERRED),
++};
++
++#define QUIC_DEFERRED_ALL (QUIC_F_MTU_REDUCED_DEFERRED |	\
++			   QUIC_F_LOSS_DEFERRED |		\
++			   QUIC_F_SACK_DEFERRED |		\
++			   QUIC_F_PATH_DEFERRED |		\
++			   QUIC_F_PMTU_DEFERRED |		\
++			   QUIC_F_PACE_DEFERRED)
++
+ struct quic_sock {
+ 	struct inet_sock		inet;
+ 	struct list_head		reqs;
+@@ -48,6 +74,8 @@ struct quic_sock {
+ 	struct quic_cong		cong;
+ 	struct quic_pnspace		space[QUIC_PNSPACE_MAX];
+ 	struct quic_crypto		crypto[QUIC_CRYPTO_MAX];
++
++	struct quic_timer		timers[QUIC_TIMER_MAX];
+ };
+ 
+ struct quic6_sock {
+@@ -125,6 +153,11 @@ static inline struct quic_crypto *quic_crypto(const struct sock *sk, u8 level)
+ 	return &quic_sk(sk)->crypto[level];
+ }
+ 
++static inline void *quic_timer(const struct sock *sk, u8 type)
++{
++	return (void *)&quic_sk(sk)->timers[type];
++}
++
+ static inline bool quic_is_establishing(struct sock *sk)
+ {
+ 	return sk->sk_state == QUIC_SS_ESTABLISHING;
+diff --git a/net/quic/timer.c b/net/quic/timer.c
 new file mode 100644
-index 000000000000..c246f6349f9c
+index 000000000000..6f957385a341
 --- /dev/null
-+++ b/include/linux/quic.h
-@@ -0,0 +1,20 @@
++++ b/net/quic/timer.c
+@@ -0,0 +1,196 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/* QUIC kernel implementation
++ * (C) Copyright Red Hat Corp. 2023
++ *
++ * This file is part of the QUIC kernel implementation
++ *
++ * Initialization/cleanup for QUIC protocol support.
++ *
++ * Written or modified by:
++ *    Xin Long <lucien.xin@gmail.com>
++ */
++
++#include "socket.h"
++
++void quic_timer_sack_handler(struct sock *sk)
++{
++}
++
++static void quic_timer_sack_timeout(struct timer_list *t)
++{
++	struct quic_sock *qs = container_of(t, struct quic_sock, timers[QUIC_TIMER_SACK].t);
++	struct sock *sk = &qs->inet.sk;
++
++	bh_lock_sock(sk);
++	if (sock_owned_by_user(sk)) {
++		if (!test_and_set_bit(QUIC_SACK_DEFERRED, &sk->sk_tsq_flags))
++			sock_hold(sk);
++		goto out;
++	}
++
++	quic_timer_sack_handler(sk);
++out:
++	bh_unlock_sock(sk);
++	sock_put(sk);
++}
++
++void quic_timer_loss_handler(struct sock *sk)
++{
++}
++
++static void quic_timer_loss_timeout(struct timer_list *t)
++{
++	struct quic_sock *qs = container_of(t, struct quic_sock, timers[QUIC_TIMER_LOSS].t);
++	struct sock *sk = &qs->inet.sk;
++
++	bh_lock_sock(sk);
++	if (sock_owned_by_user(sk)) {
++		if (!test_and_set_bit(QUIC_LOSS_DEFERRED, &sk->sk_tsq_flags))
++			sock_hold(sk);
++		goto out;
++	}
++
++	quic_timer_loss_handler(sk);
++out:
++	bh_unlock_sock(sk);
++	sock_put(sk);
++}
++
++void quic_timer_path_handler(struct sock *sk)
++{
++}
++
++static void quic_timer_path_timeout(struct timer_list *t)
++{
++	struct quic_sock *qs = container_of(t, struct quic_sock, timers[QUIC_TIMER_PATH].t);
++	struct sock *sk = &qs->inet.sk;
++
++	bh_lock_sock(sk);
++	if (sock_owned_by_user(sk)) {
++		if (!test_and_set_bit(QUIC_PATH_DEFERRED, &sk->sk_tsq_flags))
++			sock_hold(sk);
++		goto out;
++	}
++
++	quic_timer_path_handler(sk);
++out:
++	bh_unlock_sock(sk);
++	sock_put(sk);
++}
++
++void quic_timer_reset_path(struct sock *sk)
++{
++	struct quic_cong *cong = quic_cong(sk);
++	u64 timeout = cong->pto * 2;
++
++	/* Calculate timeout based on cong.pto, but enforce a lower bound. */
++	if (timeout < QUIC_MIN_PATH_TIMEOUT)
++		timeout = QUIC_MIN_PATH_TIMEOUT;
++	quic_timer_reset(sk, QUIC_TIMER_PATH, timeout);
++}
++
++void quic_timer_pmtu_handler(struct sock *sk)
++{
++}
++
++static void quic_timer_pmtu_timeout(struct timer_list *t)
++{
++	struct quic_sock *qs = container_of(t, struct quic_sock, timers[QUIC_TIMER_PMTU].t);
++	struct sock *sk = &qs->inet.sk;
++
++	bh_lock_sock(sk);
++	if (sock_owned_by_user(sk)) {
++		if (!test_and_set_bit(QUIC_PMTU_DEFERRED, &sk->sk_tsq_flags))
++			sock_hold(sk);
++		goto out;
++	}
++
++	quic_timer_pmtu_handler(sk);
++out:
++	bh_unlock_sock(sk);
++	sock_put(sk);
++}
++
++void quic_timer_pace_handler(struct sock *sk)
++{
++}
++
++static enum hrtimer_restart quic_timer_pace_timeout(struct hrtimer *hr)
++{
++	struct quic_sock *qs = container_of(hr, struct quic_sock, timers[QUIC_TIMER_PACE].hr);
++	struct sock *sk = &qs->inet.sk;
++
++	bh_lock_sock(sk);
++	if (sock_owned_by_user(sk)) {
++		if (!test_and_set_bit(QUIC_PACE_DEFERRED, &sk->sk_tsq_flags))
++			sock_hold(sk);
++		goto out;
++	}
++
++	quic_timer_pace_handler(sk);
++out:
++	bh_unlock_sock(sk);
++	sock_put(sk);
++	return HRTIMER_NORESTART;
++}
++
++void quic_timer_reset(struct sock *sk, u8 type, u64 timeout)
++{
++	struct timer_list *t = quic_timer(sk, type);
++
++	if (timeout && !mod_timer(t, jiffies + usecs_to_jiffies(timeout)))
++		sock_hold(sk);
++}
++
++void quic_timer_start(struct sock *sk, u8 type, u64 timeout)
++{
++	struct timer_list *t;
++	struct hrtimer *hr;
++
++	if (type == QUIC_TIMER_PACE) {
++		hr = quic_timer(sk, type);
++
++		if (!hrtimer_is_queued(hr)) {
++			hrtimer_start(hr, ns_to_ktime(timeout), HRTIMER_MODE_ABS_PINNED_SOFT);
++			sock_hold(sk);
++		}
++		return;
++	}
++
++	t = quic_timer(sk, type);
++	if (timeout && !timer_pending(t)) {
++		if (!mod_timer(t, jiffies + usecs_to_jiffies(timeout)))
++			sock_hold(sk);
++	}
++}
++
++void quic_timer_stop(struct sock *sk, u8 type)
++{
++	if (type == QUIC_TIMER_PACE) {
++		if (hrtimer_try_to_cancel(quic_timer(sk, type)) == 1)
++			sock_put(sk);
++		return;
++	}
++	if (timer_delete(quic_timer(sk, type)))
++		sock_put(sk);
++}
++
++void quic_timer_init(struct sock *sk)
++{
++	timer_setup(quic_timer(sk, QUIC_TIMER_LOSS), quic_timer_loss_timeout, 0);
++	timer_setup(quic_timer(sk, QUIC_TIMER_SACK), quic_timer_sack_timeout, 0);
++	timer_setup(quic_timer(sk, QUIC_TIMER_PATH), quic_timer_path_timeout, 0);
++	timer_setup(quic_timer(sk, QUIC_TIMER_PMTU), quic_timer_pmtu_timeout, 0);
++	/* Use hrtimer for pace timer, ensuring precise control over send timing. */
++	hrtimer_setup(quic_timer(sk, QUIC_TIMER_PACE), quic_timer_pace_timeout,
++		      CLOCK_MONOTONIC, HRTIMER_MODE_ABS_PINNED_SOFT);
++}
++
++void quic_timer_free(struct sock *sk)
++{
++	quic_timer_stop(sk, QUIC_TIMER_LOSS);
++	quic_timer_stop(sk, QUIC_TIMER_SACK);
++	quic_timer_stop(sk, QUIC_TIMER_PATH);
++	quic_timer_stop(sk, QUIC_TIMER_PMTU);
++	quic_timer_stop(sk, QUIC_TIMER_PACE);
++}
+diff --git a/net/quic/timer.h b/net/quic/timer.h
+new file mode 100644
+index 000000000000..61b094325334
+--- /dev/null
++++ b/net/quic/timer.h
+@@ -0,0 +1,47 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/* QUIC kernel implementation
 + * (C) Copyright Red Hat Corp. 2023
@@ -187,345 +495,43 @@ index 000000000000..c246f6349f9c
 + *    Xin Long <lucien.xin@gmail.com>
 + */
 +
-+#ifndef _LINUX_QUIC_H
-+#define _LINUX_QUIC_H
-+
-+#include <linux/sockptr.h>
-+#include <uapi/linux/quic.h>
-+
-+int quic_do_setsockopt(struct sock *sk, int optname, sockptr_t optval, unsigned int optlen);
-+int quic_do_getsockopt(struct sock *sk, int optname, sockptr_t optval, sockptr_t optlen);
-+
-+#endif
-diff --git a/include/uapi/linux/quic.h b/include/uapi/linux/quic.h
-new file mode 100644
-index 000000000000..990b70c3afb0
---- /dev/null
-+++ b/include/uapi/linux/quic.h
-@@ -0,0 +1,235 @@
-+/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
-+/* QUIC kernel implementation
-+ * (C) Copyright Red Hat Corp. 2023
-+ *
-+ * This file is part of the QUIC kernel implementation
-+ *
-+ * Written or modified by:
-+ *    Xin Long <lucien.xin@gmail.com>
-+ */
-+
-+#ifndef _UAPI_LINUX_QUIC_H
-+#define _UAPI_LINUX_QUIC_H
-+
-+#include <linux/types.h>
-+#ifdef __KERNEL__
-+#include <linux/socket.h>
-+#else
-+#include <sys/socket.h>
-+#endif
-+
-+/* NOTE: Structure descriptions are specified in:
-+ * https://datatracker.ietf.org/doc/html/draft-lxin-quic-socket-apis
-+ */
-+
-+/* Send or Receive Options APIs */
-+enum quic_cmsg_type {
-+	QUIC_STREAM_INFO,
-+	QUIC_HANDSHAKE_INFO,
-+};
-+
-+#define QUIC_STREAM_TYPE_SERVER_MASK	0x01
-+#define QUIC_STREAM_TYPE_UNI_MASK	0x02
-+#define QUIC_STREAM_TYPE_MASK		0x03
-+
-+enum quic_msg_flags {
-+	/* flags for stream_flags */
-+	MSG_QUIC_STREAM_NEW		= MSG_SYN,
-+	MSG_QUIC_STREAM_FIN		= MSG_FIN,
-+	MSG_QUIC_STREAM_UNI		= MSG_CONFIRM,
-+	MSG_QUIC_STREAM_DONTWAIT	= MSG_WAITFORONE,
-+	MSG_QUIC_STREAM_SNDBLOCK	= MSG_ERRQUEUE,
-+
-+	/* extented flags for msg_flags */
-+	MSG_QUIC_DATAGRAM		= MSG_RST,
-+	MSG_QUIC_NOTIFICATION		= MSG_MORE,
-+};
-+
-+enum quic_crypto_level {
-+	QUIC_CRYPTO_APP,
-+	QUIC_CRYPTO_INITIAL,
-+	QUIC_CRYPTO_HANDSHAKE,
-+	QUIC_CRYPTO_EARLY,
-+	QUIC_CRYPTO_MAX,
-+};
-+
-+struct quic_handshake_info {
-+	__u8	crypto_level;
-+};
-+
-+struct quic_stream_info {
-+	__s64	stream_id;
-+	__u32	stream_flags;
-+};
-+
-+/* Socket Options APIs */
-+#define QUIC_SOCKOPT_EVENT				0
-+#define QUIC_SOCKOPT_STREAM_OPEN			1
-+#define QUIC_SOCKOPT_STREAM_RESET			2
-+#define QUIC_SOCKOPT_STREAM_STOP_SENDING		3
-+#define QUIC_SOCKOPT_CONNECTION_ID			4
-+#define QUIC_SOCKOPT_CONNECTION_CLOSE			5
-+#define QUIC_SOCKOPT_CONNECTION_MIGRATION		6
-+#define QUIC_SOCKOPT_KEY_UPDATE				7
-+#define QUIC_SOCKOPT_TRANSPORT_PARAM			8
-+#define QUIC_SOCKOPT_CONFIG				9
-+#define QUIC_SOCKOPT_TOKEN				10
-+#define QUIC_SOCKOPT_ALPN				11
-+#define QUIC_SOCKOPT_SESSION_TICKET			12
-+#define QUIC_SOCKOPT_CRYPTO_SECRET			13
-+#define QUIC_SOCKOPT_TRANSPORT_PARAM_EXT		14
-+
-+#define QUIC_VERSION_V1			0x1
-+#define QUIC_VERSION_V2			0x6b3343cf
-+
-+struct quic_transport_param {
-+	__u8	remote;
-+	__u8	disable_active_migration;
-+	__u8	grease_quic_bit;
-+	__u8	stateless_reset;
-+	__u8	disable_1rtt_encryption;
-+	__u8	disable_compatible_version;
-+	__u8	active_connection_id_limit;
-+	__u8	ack_delay_exponent;
-+	__u16	max_datagram_frame_size;
-+	__u16	max_udp_payload_size;
-+	__u32	max_idle_timeout;
-+	__u32	max_ack_delay;
-+	__u16	max_streams_bidi;
-+	__u16	max_streams_uni;
-+	__u64	max_data;
-+	__u64	max_stream_data_bidi_local;
-+	__u64	max_stream_data_bidi_remote;
-+	__u64	max_stream_data_uni;
-+	__u64	reserved;
-+};
-+
-+struct quic_config {
-+	__u32	version;
-+	__u32	plpmtud_probe_interval;
-+	__u32	initial_smoothed_rtt;
-+	__u32	payload_cipher_type;
-+	__u8	congestion_control_algo;
-+	__u8	validate_peer_address;
-+	__u8	stream_data_nodelay;
-+	__u8	receive_session_ticket;
-+	__u8	certificate_request;
-+	__u8	reserved[3];
-+};
-+
-+struct quic_crypto_secret {
-+	__u8	send;  /* send or recv */
-+	__u8	level; /* crypto level */
-+	__u32	type; /* TLS_CIPHER_* */
-+#define QUIC_CRYPTO_SECRET_BUFFER_SIZE 48
-+	__u8	secret[QUIC_CRYPTO_SECRET_BUFFER_SIZE];
-+};
-+
-+enum quic_cong_algo {
-+	QUIC_CONG_ALG_RENO,
-+	QUIC_CONG_ALG_MAX,
-+};
-+
-+struct quic_errinfo {
-+	__s64	stream_id;
-+	__u32	errcode;
-+};
-+
-+struct quic_connection_id_info {
-+	__u8	dest;
-+	__u32	active;
-+	__u32	prior_to;
-+};
-+
-+struct quic_event_option {
-+	__u8	type;
-+	__u8	on;
-+};
-+
-+/* Event APIs */
-+enum quic_event_type {
-+	QUIC_EVENT_NONE,
-+	QUIC_EVENT_STREAM_UPDATE,
-+	QUIC_EVENT_STREAM_MAX_DATA,
-+	QUIC_EVENT_STREAM_MAX_STREAM,
-+	QUIC_EVENT_CONNECTION_ID,
-+	QUIC_EVENT_CONNECTION_CLOSE,
-+	QUIC_EVENT_CONNECTION_MIGRATION,
-+	QUIC_EVENT_KEY_UPDATE,
-+	QUIC_EVENT_NEW_TOKEN,
-+	QUIC_EVENT_NEW_SESSION_TICKET,
-+	QUIC_EVENT_MAX,
-+};
-+
 +enum {
-+	QUIC_STREAM_SEND_STATE_READY,
-+	QUIC_STREAM_SEND_STATE_SEND,
-+	QUIC_STREAM_SEND_STATE_SENT,
-+	QUIC_STREAM_SEND_STATE_RECVD,
-+	QUIC_STREAM_SEND_STATE_RESET_SENT,
-+	QUIC_STREAM_SEND_STATE_RESET_RECVD,
-+
-+	QUIC_STREAM_RECV_STATE_RECV,
-+	QUIC_STREAM_RECV_STATE_SIZE_KNOWN,
-+	QUIC_STREAM_RECV_STATE_RECVD,
-+	QUIC_STREAM_RECV_STATE_READ,
-+	QUIC_STREAM_RECV_STATE_RESET_RECVD,
-+	QUIC_STREAM_RECV_STATE_RESET_READ,
++	QUIC_TIMER_LOSS,	/* Loss detection timer: triggers retransmission on packet loss */
++	QUIC_TIMER_SACK,	/* ACK delay timer, also used as idle timer alias */
++	QUIC_TIMER_PATH,	/* Path validation timer: verifies network path connectivity */
++	QUIC_TIMER_PMTU,	/* Packetization Layer Path MTU Discovery probing timer */
++	QUIC_TIMER_PACE,	/* Pacing timer: controls packet transmission pacing */
++	QUIC_TIMER_MAX,
++	QUIC_TIMER_IDLE = QUIC_TIMER_SACK,
 +};
 +
-+struct quic_stream_update {
-+	__s64	id;
-+	__u8	state;
-+	__u32	errcode;
-+	__u64	finalsz;
++struct quic_timer {
++	union {
++		struct timer_list t;
++		struct hrtimer hr;
++	};
 +};
 +
-+struct quic_stream_max_data {
-+	__s64	id;
-+	__u64	max_data;
-+};
++#define QUIC_MIN_PROBE_TIMEOUT	5000000
 +
-+struct quic_connection_close {
-+	__u32	errcode;
-+	__u8	frame;
-+	__u8	phrase[];
-+};
++#define QUIC_MIN_PATH_TIMEOUT	1500000
 +
-+union quic_event {
-+	struct quic_stream_update	update;
-+	struct quic_stream_max_data	max_data;
-+	struct quic_connection_close	close;
-+	struct quic_connection_id_info	info;
-+	__u64	max_stream;
-+	__u8	local_migration;
-+	__u8	key_update_phase;
-+};
++#define QUIC_MIN_IDLE_TIMEOUT	1000000
++#define QUIC_DEF_IDLE_TIMEOUT	30000000
 +
-+enum {
-+	QUIC_TRANSPORT_ERROR_NONE			= 0x00,
-+	QUIC_TRANSPORT_ERROR_INTERNAL			= 0x01,
-+	QUIC_TRANSPORT_ERROR_CONNECTION_REFUSED		= 0x02,
-+	QUIC_TRANSPORT_ERROR_FLOW_CONTROL		= 0x03,
-+	QUIC_TRANSPORT_ERROR_STREAM_LIMIT		= 0x04,
-+	QUIC_TRANSPORT_ERROR_STREAM_STATE		= 0x05,
-+	QUIC_TRANSPORT_ERROR_FINAL_SIZE			= 0x06,
-+	QUIC_TRANSPORT_ERROR_FRAME_ENCODING		= 0x07,
-+	QUIC_TRANSPORT_ERROR_TRANSPORT_PARAM		= 0x08,
-+	QUIC_TRANSPORT_ERROR_CONNECTION_ID_LIMIT	= 0x09,
-+	QUIC_TRANSPORT_ERROR_PROTOCOL_VIOLATION		= 0x0a,
-+	QUIC_TRANSPORT_ERROR_INVALID_TOKEN		= 0x0b,
-+	QUIC_TRANSPORT_ERROR_APPLICATION		= 0x0c,
-+	QUIC_TRANSPORT_ERROR_CRYPTO_BUF_EXCEEDED	= 0x0d,
-+	QUIC_TRANSPORT_ERROR_KEY_UPDATE			= 0x0e,
-+	QUIC_TRANSPORT_ERROR_AEAD_LIMIT_REACHED		= 0x0f,
-+	QUIC_TRANSPORT_ERROR_NO_VIABLE_PATH		= 0x10,
++void quic_timer_reset(struct sock *sk, u8 type, u64 timeout);
++void quic_timer_start(struct sock *sk, u8 type, u64 timeout);
++void quic_timer_stop(struct sock *sk, u8 type);
++void quic_timer_init(struct sock *sk);
++void quic_timer_free(struct sock *sk);
 +
-+	/* The cryptographic handshake failed. A range of 256 values is reserved
-+	 * for carrying error codes specific to the cryptographic handshake that
-+	 * is used. Codes for errors occurring when TLS is used for the
-+	 * cryptographic handshake are described in Section 4.8 of [QUIC-TLS].
-+	 */
-+	QUIC_TRANSPORT_ERROR_CRYPTO			= 0x0100,
-+};
++void quic_timer_reset_path(struct sock *sk);
 +
-+#endif /* _UAPI_LINUX_QUIC_H */
-diff --git a/net/quic/socket.c b/net/quic/socket.c
-index a0eedf59545a..b86989080184 100644
---- a/net/quic/socket.c
-+++ b/net/quic/socket.c
-@@ -107,10 +107,24 @@ static void quic_close(struct sock *sk, long timeout)
- 	sk_common_release(sk);
- }
- 
--static int quic_do_setsockopt(struct sock *sk, int optname, sockptr_t optval, unsigned int optlen)
-+/**
-+ * quic_do_setsockopt - set a QUIC socket option
-+ * @sk: socket to configure
-+ * @optname: option name (QUIC-level)
-+ * @optval: user buffer containing the option value
-+ * @optlen: size of the option value
-+ *
-+ * Sets a QUIC socket option on a given socket.
-+ *
-+ * Return:
-+ * - On success, 0 is returned.
-+ * - On error, a negative error value is returned.
-+ */
-+int quic_do_setsockopt(struct sock *sk, int optname, sockptr_t optval, unsigned int optlen)
- {
- 	return -EOPNOTSUPP;
- }
-+EXPORT_SYMBOL_GPL(quic_do_setsockopt);
- 
- static int quic_setsockopt(struct sock *sk, int level, int optname,
- 			   sockptr_t optval, unsigned int optlen)
-@@ -121,10 +135,24 @@ static int quic_setsockopt(struct sock *sk, int level, int optname,
- 	return quic_do_setsockopt(sk, optname, optval, optlen);
- }
- 
--static int quic_do_getsockopt(struct sock *sk, int optname, sockptr_t optval, sockptr_t optlen)
-+/**
-+ * quic_do_getsockopt - get a QUIC socket option
-+ * @sk: socket to query
-+ * @optname: option name (QUIC-level)
-+ * @optval: user buffer to receive the option value
-+ * @optlen: in/out parameter for buffer size; updated with actual length on return
-+ *
-+ * Gets a QUIC socket option from a given socket.
-+ *
-+ * Return:
-+ * - On success, 0 is returned.
-+ * - On error, a negative error value is returned.
-+ */
-+int quic_do_getsockopt(struct sock *sk, int optname, sockptr_t optval, sockptr_t optlen)
- {
- 	return -EOPNOTSUPP;
- }
-+EXPORT_SYMBOL_GPL(quic_do_getsockopt);
- 
- static int quic_getsockopt(struct sock *sk, int level, int optname,
- 			   char __user *optval, int __user *optlen)
-diff --git a/net/quic/socket.h b/net/quic/socket.h
-index 0aa642e3b0ae..7ee190af4454 100644
---- a/net/quic/socket.h
-+++ b/net/quic/socket.h
-@@ -9,6 +9,7 @@
-  */
- 
- #include <net/udp_tunnel.h>
-+#include <linux/quic.h>
- 
- #include "common.h"
- #include "family.h"
-@@ -29,6 +30,7 @@ struct quic_sock {
- 	struct inet_sock		inet;
- 	struct list_head		reqs;
- 
-+	struct quic_config		config;
- 	struct quic_data		ticket;
- 	struct quic_data		token;
- 	struct quic_data		alpn;
-@@ -49,6 +51,11 @@ static inline struct list_head *quic_reqs(const struct sock *sk)
- 	return &quic_sk(sk)->reqs;
- }
- 
-+static inline struct quic_config *quic_config(const struct sock *sk)
-+{
-+	return &quic_sk(sk)->config;
-+}
-+
- static inline struct quic_data *quic_token(const struct sock *sk)
- {
- 	return &quic_sk(sk)->token;
++void quic_timer_loss_handler(struct sock *sk);
++void quic_timer_pace_handler(struct sock *sk);
++void quic_timer_path_handler(struct sock *sk);
++void quic_timer_sack_handler(struct sock *sk);
++void quic_timer_pmtu_handler(struct sock *sk);
 -- 
 2.47.1
 

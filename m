@@ -1,192 +1,226 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6AA70810
-	for <kernel-tls-handshake@lists.linux.dev>; Thu,  5 Feb 2026 12:51:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0EDA31B10D
+	for <kernel-tls-handshake@lists.linux.dev>; Thu,  5 Feb 2026 17:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770295915; cv=none; b=lu5rvlbXMWQpp7vGUrtt8vnmaYcu+bvrDyGgOWn/CNywd4AE1t3Hs53iavSSkRbEDNhwvZ4Ohqr4YbM41189Jbdm76k+rO5hAvdBZx7nJ1WBH0NCMz5C6A/RmBE/pOeh8PjN1fAzHoRfaKhaPCTmHDfXUTiq4lToR2eVYTo/iOQ=
+	t=1770312530; cv=none; b=SaoObwj4VifIEWuiZSDYxPZmrcBykTY32o3CFsS+Cf19Dd3TpWV6wPK5Fqcf6iWc/6cefh4jkATE3HCD/62FI8EXU7YCn1lkXJRKD55kZxRa2fTKBX9a89lA6KRlESa4XcZGdkXFU6AL6EtZl0mlGGfH7VbK7kciY7n0Awg3FvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770295915; c=relaxed/simple;
-	bh=cIIrTOVlC3bXSKi+mZruvQiu25kMcY3J4iVTy2b63e0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pwfBJrWJ9c0D6O454Yy8aCRoXJ7EcLXp/Pw7EPdFHkIN9NMFl8D7F51aI5HpWS7e+jm8WdgYbIduZKbB9+kmb3WzLscLUYc5aJdziFmmESFvOTlUA2lx91bo37JYLf7wWmEXoi4yV1me4E0MVa9XjOmGoSyDdpKAKGYqXDQfO3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=B1DibesS; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1770312530; c=relaxed/simple;
+	bh=3/RE8IcIQOsLflOyvqUtnz/4eBpp7xj0PdYivrkqlaM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=MNsuCYheayvomo8/z7QKN3qI2CrMyhr7BjOcIAZZj0IK++EgW+SsUCBtRRTrUiI7YricXoD+XDE0aW9Vis6s9uGK6X9GbIzo0+gjQySx268+V7vb+VzwPkRjUEBDi7h3e+BRzPNYJs/sJ8yA4SiRFguIZfkeLbwxytTAPCFWkMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aDqejEHW; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="B1DibesS"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aDqejEHW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1770295914;
+	s=mimecast20190719; t=1770312528;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+KqqY7o17giM2jgPy+d2XiGnDvxNW+2fee3IUyYpT+c=;
-	b=B1DibesSfMf+ZAa3f6axClUZDVcmnWHtT8sxYCQcCGJUyMfWYSgeHoKH1tD/JaTH0/wf58
-	/AQPfAEaZO39H/5h6oyAgTU0X6FSlJwhaMwowXyOP9npwvbydJ/9CQWZno9ZANXPD6gmBb
-	0vIgMiVbWxi99ywfOFURMyFDZJbVoXo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-677-RuYXUOr7Oka39pu211hfFQ-1; Thu, 05 Feb 2026 07:51:51 -0500
-X-MC-Unique: RuYXUOr7Oka39pu211hfFQ-1
-X-Mimecast-MFC-AGG-ID: RuYXUOr7Oka39pu211hfFQ_1770295910
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4804157a3c9so10878125e9.1
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 05 Feb 2026 04:51:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770295910; x=1770900710;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+KqqY7o17giM2jgPy+d2XiGnDvxNW+2fee3IUyYpT+c=;
-        b=Xq27Y4T1HHw+pkKxqRfUnV3mZKzeyq/5H32HR8fxLKt8POIUbOi0HF3fqO90Q/Bmk3
-         eVIc5On0liHZ8P+PM0iOtdkbPPDiSkr/wqCmVFgAS55cWRALAbUwp1dWsvInayn+/cnZ
-         EfULNvBJ5IG2p5pu7JQL/hlBZoSDg+7OjCvZUjsWQOXQClNA1hkyfokER/0U38f4KJNW
-         ZCRSr35CIMzpWWIz1TDH8pVIAlLIFTX/+5lFA6SHhIn7Ktui/D3z6ScIvGVhmRJldT8N
-         i0/SWSIWELTYIBgOAwn+cQ2sYi1YRHma7aQAa8B59vsmI00Pl0cAgRkYcwJf5enOVdPY
-         DN0g==
-X-Forwarded-Encrypted: i=1; AJvYcCWQdyu/xTC/Aqo4HXr5auX136R0I2HVjIbK4jcOXzCHXLEJhsCf4FPkELlaXkX7rPeoUgAMmvmAIuSoi0GxpQw3VWXXUQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz9Z1KnjUr7e/OH4kiv8aqNrWrGhDmhILwe1jkXDfmCAcxHeh8Z
-	O2+NcIbxzIrgTfpsebHhOvLWkyWYAT49W9O8cnU6lxlQIOCYMCjgNjqtPTxRHIqWSVKiJhLvdkS
-	WbwbjGRTVDvC2o/As5RfYqX4T1kd6ZOXMbVBaRQem83Dbd46okp6nRbmGDZybXqj/2Ap9ahmVNU
-	qi
-X-Gm-Gg: AZuq6aLzn/zdFt36S014hRM95CcwXjTAXQ+llonuawzA4LXwFhCfn/Bow2kLwR1mPL5
-	sbyxqOnEC8Zbf6em2aWvUArdJ3PT4ICEEP89FHf+ab80ObXMlU3V7Uq09q4OCihIiZA63umGhyN
-	yY1rDnyr5Uiw7Do2a2aXPW5vHXY2HBjnl1JAosK3bEapxg/CD0ySvLYCLfHZOz/rZZrnhv04PVK
-	OBOuLX4i4vC0xWw+uIC/cxXgHFOjBTpyVHHSMFvDcfN6s3viq6eui46mrNtZqrh1ZfrxD883pzd
-	boaa0gj4seqxOOR3jLt5hFxiI4RuUqQBC8yh+R15tl7rL5hdsLxA6z+f0nhndkJqqTfHMiMQdUP
-	NaKiVPW3OCqNN
-X-Received: by 2002:a05:600c:3e0d:b0:46e:59bd:f7d3 with SMTP id 5b1f17b1804b1-4830e96fb0cmr71819275e9.20.1770295910312;
-        Thu, 05 Feb 2026 04:51:50 -0800 (PST)
-X-Received: by 2002:a05:600c:3e0d:b0:46e:59bd:f7d3 with SMTP id 5b1f17b1804b1-4830e96fb0cmr71818865e9.20.1770295909848;
-        Thu, 05 Feb 2026 04:51:49 -0800 (PST)
-Received: from [192.168.88.32] ([216.128.11.114])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4830fe5614asm63353995e9.4.2026.02.05.04.51.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Feb 2026 04:51:49 -0800 (PST)
-Message-ID: <1bcfe20e-0103-44a5-82b5-90cba7ba5a60@redhat.com>
-Date: Thu, 5 Feb 2026 13:51:46 +0100
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=PLAQ+ZT5Id3k7iTQhv1ckua5UctM1o7A/k2/tnTIo1w=;
+	b=aDqejEHWvaFOuJPKdgrziMIH26DeJ7n5bI/KBpBhnWNo4Jv5TwHRH/N/MpRBF07AmPu6Pr
+	Fh0A2NEHXCWcFTUk7XrpFBAoHAz3cCjIPz5O7TMG3ads4E2yLTkEDX7dIsrGPO845kgp6S
+	gStO9Z10kH7bP06ZFR7FwJX+5e/yWx0=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-120-d8qHwJxZNHOZFa1W98q4Uw-1; Thu,
+ 05 Feb 2026 12:28:47 -0500
+X-MC-Unique: d8qHwJxZNHOZFa1W98q4Uw-1
+X-Mimecast-MFC-AGG-ID: d8qHwJxZNHOZFa1W98q4Uw_1770312525
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 53E571955F41;
+	Thu,  5 Feb 2026 17:28:45 +0000 (UTC)
+Received: from aion.redhat.com (unknown [10.22.65.92])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id F2F85192C7C6;
+	Thu,  5 Feb 2026 17:28:44 +0000 (UTC)
+Received: from aion.redhat.com (localhost [IPv6:::1])
+	by aion.redhat.com (Postfix) with ESMTP id 579416A0148;
+	Thu, 05 Feb 2026 12:28:43 -0500 (EST)
+From: Scott Mayhew <smayhew@redhat.com>
+To: chuck.lever@oracle.com
+Cc: kernel-tls-handshake@lists.linux.dev
+Subject: [PATCH v2] tlshd: Send fatal alert to client when there are server config issues
+Date: Thu,  5 Feb 2026 12:28:43 -0500
+Message-ID: <20260205172843.1547285-1-smayhew@redhat.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next,v9,03/15] quic: provide common utilities and data
- structures
-To: Simon Horman <horms@kernel.org>, lucien.xin@gmail.com
-Cc: steved@redhat.com, marcelo.leitner@gmail.com, aahringo@redhat.com,
- alibuda@linux.alibaba.com, jbaron@akamai.com, hare@suse.de, kuba@kernel.org,
- tom@talpey.com, linux-cifs@vger.kernel.org, daniel@haxx.se,
- quic@lists.linux.dev, jlayton@kernel.org, tfanelli@redhat.com,
- dhowells@redhat.com, linkinjeon@kernel.org, hepengtao@xiaomi.com,
- pc@manguebit.com, kernel-tls-handshake@lists.linux.dev,
- illiliti@protonmail.com, xiyou.wangcong@gmail.com,
- andrew.gospodarek@broadcom.com, mail@johnericson.me, edumazet@google.com,
- matttbe@kernel.org, netdev@vger.kernel.org, smfrench@gmail.com,
- metze@samba.org, mbuhl@openbsd.org, chuck.lever@oracle.com,
- dreibh@simula.no, davem@davemloft.net, sd@queasysnail.net
-References: <74174c085fb11b8a63e72a7df730b6f4a7479c5c.1770042461.git.lucien.xin@gmail.com>
- <20260205115449.2195294-1-horms@kernel.org>
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20260205115449.2195294-1-horms@kernel.org>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: _DA3XN_yIcxYiN1INa885r_8T9D2hNC-7O92YJNT2sQ_1770295910
+X-Mimecast-MFC-PROC-ID: Gih_yuxff4LIZaOdUXjesax50FgM-_6vfFJAUbgIbOE_1770312525
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On 2/5/26 12:54 PM, Simon Horman wrote:
-> This is an AI-generated review of your patch. The human sending this
-> email has considered the AI review valid, or at least plausible.
-> 
-> For local reproduction steps see https://netdev-ai.bots.linux.dev/ai-local.html
-> ---
-> quic: provide common utilities and data structures
-> 
-> This patch provides foundational data structures and utilities for
-> the QUIC stack, including hash tables for socket lookup, connection
-> ID management, and helpers for encoding/decoding transport parameters.
-> 
->> diff --git a/net/quic/common.c b/net/quic/common.c
->> new file mode 100644
->> index 000000000000..94321f3f213d
->> --- /dev/null
->> +++ b/net/quic/common.c
-> 
-> [ ... ]
-> 
->> +/* Reads a QUIC transport parameter value. */
->> +u8 quic_get_param(u64 *pdest, u8 **pp, u32 *plen)
->> +{
->> +	u64 valuelen;
->> +
->> +	if (!quic_get_var(pp, plen, &valuelen))
->> +		return 0;
->> +
->> +	if (*plen < valuelen)
->> +		return 0;
->> +
->> +	if (!quic_get_var(pp, plen, pdest))
->> +		return 0;
->> +
->> +	return (u8)valuelen;
->> +}
-> 
-> Does quic_get_param() need to verify that quic_get_var() consumed exactly
-> valuelen bytes?
-> 
-> The function reads valuelen at the first quic_get_var() call, then decodes
-> the value with the second quic_get_var(). However, quic_get_var() determines
-> how many bytes to consume based on the varint prefix in the data, not from
-> valuelen.
-> 
-> If a malformed packet has valuelen=2 but the varint encoding requires 4 bytes,
-> quic_get_var() will consume 4 bytes while the function returns valuelen=2.
-> This could desynchronize parsing of subsequent parameters since the caller
-> expects the buffer to have advanced by valuelen bytes based on the return
-> value.
+Currently if a client attempts an x.509 handshake and the server is
+misconfigured (no certificates, no private keys, etc), the server simply
+closes the connection.  Prior to b010190 ("tlshd: Pass ETIMEDOUT from
+gnutls to kernel"), this would result in a quick failure on the client.
+Now the client keeps retrying until the mount program times out, which
+takes several minutes.
 
-Hard to tell without any caller for this function. Possibly you could
-drop it? IDK if enforcing such check would be correct/safe from an
-interoperability PoV.
+A misconfigured server isn't a self-correcting problem, so send a fatal
+alert to the client when this occurs so the client stops retrying
+immediately.  This requires some minor refactoring of
+tlshd_tls13_server_x509_handshake() so that the session is initialized
+before attempting to load the certs and keys (otherwise it is not
+possible to send an alert).  Also add some debug logging to help
+the admin take corrective action.
 
->> diff --git a/net/quic/common.h b/net/quic/common.h
->> new file mode 100644
->> index 000000000000..bfec0aaf2907
->> --- /dev/null
->> +++ b/net/quic/common.h
-> 
-> [ ... ]
-> 
->> +#define QUIC_CONN_ID_MAX_LEN	20
-> 
-> [ ... ]
-> 
->> +struct quic_conn_id {
->> +	u8 data[QUIC_CONN_ID_MAX_LEN];
->> +	u8 len;
->> +};
->> +
->> +static inline void quic_conn_id_update(struct quic_conn_id *conn_id, u8 *data, u32 len)
->> +{
->> +	memcpy(conn_id->data, data, len);
->> +	conn_id->len = (u8)len;
->> +}
-> 
-> Should quic_conn_id_update() validate that len does not exceed
-> QUIC_CONN_ID_MAX_LEN before the memcpy?
-> 
-> The destination buffer conn_id->data is a 20-byte array, but the len
-> parameter is u32 with no bounds check. If a caller passes len > 20, the
-> memcpy would overflow the buffer.
+Finally add some logging when an alert is received during the handshake.
+Following suit with handshake completions, alerts will only be logged if
+debug logging is enabled.
 
-It looks like the check responsibility is on the callers. I guess it
-would make things more robust and simpler move the check here.
+Signed-off-by: Scott Mayhew <smayhew@redhat.com>
+---
+ src/tlshd/handshake.c |  4 ++++
+ src/tlshd/log.c       | 15 ++++++++++++++
+ src/tlshd/server.c    | 48 ++++++++++++++++++++++++++++---------------
+ src/tlshd/tlshd.h     |  1 +
+ 4 files changed, 51 insertions(+), 17 deletions(-)
 
-/P
+diff --git a/src/tlshd/handshake.c b/src/tlshd/handshake.c
+index e78f78f..511a369 100644
+--- a/src/tlshd/handshake.c
++++ b/src/tlshd/handshake.c
+@@ -115,6 +115,10 @@ void tlshd_start_tls_handshake(gnutls_session_t session,
+ 			tlshd_log_error("Handshake timeout, retrying");
+ 			parms->session_status = ETIMEDOUT;
+ 			break;
++		case GNUTLS_E_WARNING_ALERT_RECEIVED:
++		case GNUTLS_E_FATAL_ALERT_RECEIVED:
++			tlshd_log_alert(session);
++			break;
+ 		default:
+ 			tlshd_log_gnutls_error(ret);
+ 		}
+diff --git a/src/tlshd/log.c b/src/tlshd/log.c
+index b70d4af..a890b60 100644
+--- a/src/tlshd/log.c
++++ b/src/tlshd/log.c
+@@ -188,6 +188,21 @@ void tlshd_log_cert_verification_error(gnutls_session_t session)
+ 			       tlshd_cert_status_names[i].name);
+ }
+ 
++/**
++ * @brief Report a TLS alert
++ * @param[in]     session  Controlling GnuTLS session
++ */
++void tlshd_log_alert(gnutls_session_t session)
++{
++	gnutls_alert_description_t alert;
++
++	if (!tlshd_debug)
++		return;
++
++	alert = gnutls_alert_get(session);
++	tlshd_log_notice("Received alert: %s", gnutls_alert_get_name(alert));
++}
++
+ /**
+  * @brief Emit "library call failed" notification
+  * @param[in]     error  GnuTLS error code to log
+diff --git a/src/tlshd/server.c b/src/tlshd/server.c
+index 4850210..838c04b 100644
+--- a/src/tlshd/server.c
++++ b/src/tlshd/server.c
+@@ -397,30 +397,50 @@ static void tlshd_tls13_server_x509_handshake(struct tlshd_handshake_parms *parm
+ 	gnutls_session_t session;
+ 	int ret;
+ 
++	ret = gnutls_init(&session, GNUTLS_SERVER);
++	if (ret != GNUTLS_E_SUCCESS) {
++		tlshd_log_gnutls_error(ret);
++		return;
++	}
++	gnutls_transport_set_int(session, parms->sockfd);
++	gnutls_session_set_ptr(session, parms);
++
++	ret = tlshd_gnutls_priority_set(session, parms, 0);
++	if (ret) {
++		tlshd_log_gnutls_error(ret);
++		gnutls_deinit(session);
++		return;
++	}
++
+ 	ret = gnutls_certificate_allocate_credentials(&xcred);
+ 	if (ret != GNUTLS_E_SUCCESS) {
+ 		tlshd_log_gnutls_error(ret);
++		gnutls_deinit(session);
+ 		return;
+ 	}
+ 	ret = tlshd_server_get_truststore(xcred);
+-	if (ret != GNUTLS_E_SUCCESS)
++	if (ret != GNUTLS_E_SUCCESS) {
++		tlshd_log_debug("Failed to initialize server trust store - check the configuration");
++		gnutls_alert_send(session, GNUTLS_AL_FATAL, GNUTLS_A_ACCESS_DENIED);
++		gnutls_deinit(session);
+ 		goto out_free_creds;
++	}
+ 
+-	if (!tlshd_x509_server_get_certs(parms))
++	if (!tlshd_x509_server_get_certs(parms)) {
++		tlshd_log_debug("No usable server certificates were found - check the configuration");
++		gnutls_alert_send(session, GNUTLS_AL_FATAL, GNUTLS_A_ACCESS_DENIED);
++		gnutls_deinit(session);
+ 		goto out_free_creds;
+-	if (!tlshd_x509_server_get_privkey(parms))
++	}
++	if (!tlshd_x509_server_get_privkey(parms)) {
++		tlshd_log_debug("No usable private keys were found - check the configuration");
++		gnutls_alert_send(session, GNUTLS_AL_FATAL, GNUTLS_A_ACCESS_DENIED);
++		gnutls_deinit(session);
+ 		goto out_free_certs;
++	}
+ 	gnutls_certificate_set_retrieve_function2(xcred,
+ 						  tlshd_x509_retrieve_key_cb);
+ 
+-	ret = gnutls_init(&session, GNUTLS_SERVER);
+-	if (ret != GNUTLS_E_SUCCESS) {
+-		tlshd_log_gnutls_error(ret);
+-		goto out_free_certs;
+-	}
+-	gnutls_transport_set_int(session, parms->sockfd);
+-	gnutls_session_set_ptr(session, parms);
+-
+ 	ret = gnutls_credentials_set(session, GNUTLS_CRD_CERTIFICATE, xcred);
+ 	if (ret != GNUTLS_E_SUCCESS) {
+ 		tlshd_log_gnutls_error(ret);
+@@ -430,12 +450,6 @@ static void tlshd_tls13_server_x509_handshake(struct tlshd_handshake_parms *parm
+ 					       tlshd_tls13_server_x509_verify_function);
+ 	gnutls_certificate_server_set_request(session, GNUTLS_CERT_REQUEST);
+ 
+-	ret = tlshd_gnutls_priority_set(session, parms, 0);
+-	if (ret) {
+-		tlshd_log_gnutls_error(ret);
+-		goto out_free_certs;
+-	}
+-
+ 	tlshd_start_tls_handshake(session, parms);
+ 
+ 	if (tlshd_debug &&
+diff --git a/src/tlshd/tlshd.h b/src/tlshd/tlshd.h
+index 75d9a4a..d00cfdf 100644
+--- a/src/tlshd/tlshd.h
++++ b/src/tlshd/tlshd.h
+@@ -118,6 +118,7 @@ extern void tlshd_log_perror(const char *prefix);
+ extern void tlshd_log_gai_error(int error);
+ 
+ extern void tlshd_log_cert_verification_error(gnutls_session_t session);
++extern void tlshd_log_alert(gnutls_session_t session);
+ extern void tlshd_log_gnutls_error(int error);
+ extern void tlshd_gnutls_log_func(int level, const char *msg);
+ extern void tlshd_gnutls_audit_func(gnutls_session_t session, const char *msg);
+-- 
+2.52.0
 

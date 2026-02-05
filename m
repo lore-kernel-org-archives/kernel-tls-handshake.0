@@ -1,143 +1,255 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8435327798
-	for <kernel-tls-handshake@lists.linux.dev>; Thu,  5 Feb 2026 19:37:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770320279; cv=pass; b=aIji9jTXoYle9SQoASKbEevAEqxOmO0Z24/jXsc5Kn57bj/jdlBj5ddQLoEyRTS1JpRa8Y8BN24AL8cv1hhCyaF46UxlKRGNlI0/1UMdpaRDs5hGjJKd1SVsGaudih4kckMWgQfcpzY02Ntx0tLj0ILVGriNt+VI5pPeDLGkBtE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770320279; c=relaxed/simple;
-	bh=sKPzMs6ZiMMSTfcnvFTaywQRGHtQmYcHtLPKvcXf5PU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SwVPuckJiJ4xLI2zmQIWzO9+8HfM3ch95jv3D7vyAbf4TMp79NdAOCGQEONsUiCpxVdRTSSQTWGTWNA+ZBOJq/xAIKqLrIYIzQAos5IevBFI+GGYLR33v+NJTOXZbjPhbd8/RlL52jeg5bSOsQlj8sjQFsuGMWOivNiBAM7EREY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fwk8H25F; arc=pass smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9712281376
+	for <kernel-tls-handshake@lists.linux.dev>; Thu,  5 Feb 2026 20:08:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770322134; cv=none; b=EaopPz2mhn447PdPsBD77XVGjoRAaRJyRBpaNZlmhxpvlIBqD5sJHHJauI4ITkwH148iIxHfipzGeHAonX6wNY31EbcAy+IzztA1rgSY+aHziBRThfhZ+CV8YABN2IV3K8jXlauyhjQre2AHbmobyOEjQvCYpL8N/b9/Eb5l91I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770322134; c=relaxed/simple;
+	bh=moqbsgwllSa5wFWSMz/b9r+x1Rw8q4kGym5kD5orslw=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=M42zejxLnoIzKYdXP+sLZc7GoUaIj3UHagNFDimX3qMhj5zO60TX3g8Nnq3/DjgAb8lUN1wHoU8K5qWaanjGBArx8vpT2TK7gWvToRrkkN4atDjhPoPlBrNFgxGPB9hFQFMiyNsWq7DYmJqpfrxqQwfCJPLJxNm6smq5KZsX0xM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dVed+XTN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fwk8H25F"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a09d981507so10966115ad.1
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 05 Feb 2026 11:37:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770320279; cv=none;
-        d=google.com; s=arc-20240605;
-        b=aj0lCKdDBy4HmV/dM+8gaakSsAadR7ptvWMoxJAF5iO8fooUBXSNHWI+up53K4V3HT
-         dXjldUDlWrA6AfXfCElkZjQgEGn7F/uahu7Hno0xkexVRmO/2fdEpIm+xRB903lPS1Wl
-         EsUVvH1+/FfZAfhweX3qN4h7FyxkzhgmBCrIyvRZICw2qxAN7BlSDj0tIT9zFu62Vv9g
-         v3HETac18UOq7t+GZEVjttr40LgYkylYzJvoP1meauPfw9Y7dAf63v0ApUvYTYnRYGD7
-         Gmo/AtM8aWW+inw61YIJK99QQbAIEtJon+KiWqw8uDv7efhmofT7JurN7O9RkyWd5dxa
-         oV5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dfrsfyhAmd8GwoduMxGfN4+1FY51xPnUMNNk+QbL/6k=;
-        fh=ddR4zEypGm2F2MqlnvS4gUOsq46v8x7+ks2zE875KRU=;
-        b=WIRnRDdSIzT6GZ6lRIprVdf9Qhy23VG3PgeY8xxzKm+JGc8b1+zZn603yhsaz2/bIz
-         iCaVC6JtYBrxrwsciFQaNXUH+dtqSBFV6QdvPuUUNFlcwGpbRal5fLdcERjUnhmvyiOU
-         IGH89kzbB2FukioF6v+UMitjIkQOjDWsfx2k06fm7A37Nk6IVhJO/mTlL4HyuIztBXQL
-         wt2mKWCTZmifYJmvMsNvTFGk6yyaZIXORkgsJD8S2tdYgTkz8MX/C1iq8CGuUpwfTy7H
-         29/ooSx08Tv5kBYoXWJZH2DAms9SFPKAlSNwACcPDCWGLM7WSsA92dSmTz4EueK8aIZZ
-         09ew==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770320279; x=1770925079; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dfrsfyhAmd8GwoduMxGfN4+1FY51xPnUMNNk+QbL/6k=;
-        b=Fwk8H25FJPkCQOgIde4hXlNkWY38UvNrzpbM9RX1+y1p14wRrPQz7Ll1nPLaqjXYVv
-         X1/dhBDnbGigBkcBVjVeN6GigpFqHdqay/wHoVgI01EGCIP5i2/7O8qag9HNb+xnDLap
-         QEofJ+RxMbNYMFpjiS+2p1ezLW3E+W4M93kA3fDT53wn9RNWBS2h3eJ6Xp1igBhkHekU
-         gBLk8sQWJ6+Tl9uOfRtqR0Gre1Nf/2k15KK5qfW9AI9mViaqinml90eW7ael7YRdZ2yp
-         nYukcAVUeD/GG4zql4ZsqAHaBDXc+xxD3Kle1NdnJe5qUbfpjgn+iBjDvCEj1ZpMfF5l
-         FGdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770320279; x=1770925079;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dfrsfyhAmd8GwoduMxGfN4+1FY51xPnUMNNk+QbL/6k=;
-        b=mYCn9Y1J5LuADqulHMChVeyM0ao/eJ0IN2f51T97MwXkHZOjP8RibNSarusQpzlj1s
-         N9z2uyJY+nrB4dFaqEFBUB9/3erk6pFXB4Q71jN+on2D4rqnG2Picl+8bmeQt05xFxvL
-         WqN6+Y9NO594/xnIrZp5RPZSlCRTN1PKtCEDRoOTzgV9Lsz9q02i5yq6/CwKfRx/UPVX
-         Na2z6sKrDqGX+vwDhqTrw1wG5oyEbjeOuroW92MlMLiYt3mvABxCsCKA1jbm+fbdB1zi
-         WtMQO8vhHKjbJWxs2FU/hgQvzGfbecFr2o4WLwCYzumhLAwqaCf2zLJ8qBDnAwYRSk96
-         sKmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV9pCWv4za2s64GSgq/SnRiq7q+58bE8db7yVOk7mGb42RcQ6Wlfv9m0QRl6BJUXz8pT5iU4/3giWluwilTr4PTyYJ4tw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzphdaVg0kYKNUgse1ms0rfumbCSzihECs+ixrrejYhFSAvo32y
-	Z3vqWQwU+5JXga37gfmBYBi3+Ti6oaNuwZl7X7y4hXKqj8felXWQnOM1gnpKEwnjO3s1LYFM00q
-	UFc5Bc/UjPg8fH6N9ckIR201UNvfz7yY=
-X-Gm-Gg: AZuq6aLhLpt3oq2JkHdjP5HuGB6voQiChVJi0qKO7zRxJe0PkmVlAPpH0+8pALLwR34
-	71YSNBmrdr0/QopeedBQtWsCCoTWta9t4ORxmOuD4Wc2r6M0NCu21MsCiPTuGUBf0pVty7xm1Of
-	B0pATNpVY6dHqkvPYv30jSUpUwj3ecKTaix5XB9VN5/K+MJTFuOhSSetXIDRAc3g55dUYZKSXJ3
-	/QZGCSO5/YZro1e9XYQlNAdtp7Rr76TBb/PZcoPDDjI6g3jTjkyWx3JMzcWGM+ONl9maRcW8TSP
-	6qHSk0Ms/EIn6LUsmD8+QWOK3M9H
-X-Received: by 2002:a17:903:3d0c:b0:2a0:b432:4a6 with SMTP id
- d9443c01a7336-2a951948829mr3889045ad.15.1770320278896; Thu, 05 Feb 2026
- 11:37:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dVed+XTN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 490C0C4CEF7
+	for <kernel-tls-handshake@lists.linux.dev>; Thu,  5 Feb 2026 20:08:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770322134;
+	bh=moqbsgwllSa5wFWSMz/b9r+x1Rw8q4kGym5kD5orslw=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=dVed+XTN8TLbSMhhEBGC1HC5HavI55kKhywR8hOehcBFu5hXCppZ5MLFFqih4AOY9
+	 ORxc5jIt2QOsgvGVCPBo19Dmua9ttgu8ql+9jOQ6Iqr6V/A9nxsn+cND1TFnWonbHs
+	 I7iSPLgTN9YKvX3Lb0Sze9PhhmOb+YgmWD5LgKYuBk5oP2HBbfGT6kY0mAavMvxz7p
+	 8nBnTN6q06f9/1BMrWA5M25c7xFznCQeV/NzumdISpCycPVRGq03Vt2nAGYpfkM3n3
+	 o7S5MZVy+l4FMRv0xm68hyY++xw7NsaZyRHdg5rNWxk8z/LektUgS+OZWaERWY/B3S
+	 a9l4ko8dMDk9A==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 28B7DF40069;
+	Thu,  5 Feb 2026 15:08:53 -0500 (EST)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Thu, 05 Feb 2026 15:08:53 -0500
+X-ME-Sender: <xms:1fiEaQQ8fiDiGSwniMvUNM-J8OJ1HXI7lMGaP0VdPDvAELdjuDyPGA>
+    <xme:1fiEaYn56eaqvKeK1CWO5t2tnMkrPZhJxu1-5c4KHCMrDyUPLQNbTTDSLJRTJEZ9H
+    Gwnzn2y3ljElvW-EPZ-BM2c-LnffoXc3hfdNw0hpvonpxsIgP4qaYc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukeeivddvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
+    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpefhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutg
+    hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
+    leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
+    hilhdrtghomhdpnhgspghrtghpthhtohepfedpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepkhgvrhhnvghlqdhtlhhsqdhhrghnughshhgrkhgvsehlihhsthhsrdhlihhnuh
+    igrdguvghvpdhrtghpthhtoheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgvrdgtohhm
+    pdhrtghpthhtohepshhmrgihhhgvfiesrhgvughhrghtrdgtohhm
+X-ME-Proxy: <xmx:1fiEaTsqfgQLVAol_oIPKXy0C-G-GuQDpPaMMqAhsp3c75Y-kQIuBg>
+    <xmx:1fiEacOA10SrvtCbS1IJlRvlMU88BW0hv6YcjWuWHE0zeO-RtxuU8w>
+    <xmx:1fiEaZ2AliVAJYFE65y0Luj1CTiNfDh6jdQvRHPwII6m929W14NeWQ>
+    <xmx:1fiEaQNS7_lgUqMtAUj7JFs0I4R4fCcIRnz4U4J9IDzVs4gxUAeOGw>
+    <xmx:1fiEaR2nKxE5XKDY7SxRpJwCk0sKdGJTxF4BMoNVLQj89GFNmK1Ef-6P>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 00BB6780070; Thu,  5 Feb 2026 15:08:52 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <b3e81a27cc3e4c03fa8357c2c77b238997e48610.1770042461.git.lucien.xin@gmail.com>
- <20260205115506.2195311-1-horms@kernel.org>
-In-Reply-To: <20260205115506.2195311-1-horms@kernel.org>
-From: Xin Long <lucien.xin@gmail.com>
-Date: Thu, 5 Feb 2026 14:37:47 -0500
-X-Gm-Features: AZwV_QgKmhAvyahpdZdywI3F6DO1BC_0r2LG19n44OMuBxjTNkYftoQ43Qsj1cY
-Message-ID: <CADvbK_eTE-eRDpUQ0bLcJOTyveEYusBSqGZTYBYuujuABvm6jw@mail.gmail.com>
-Subject: Re: [net-next,v9,05/15] quic: provide quic.h header files for kernel
- and userspace
-To: Simon Horman <horms@kernel.org>
-Cc: steved@redhat.com, marcelo.leitner@gmail.com, aahringo@redhat.com, 
-	alibuda@linux.alibaba.com, jbaron@akamai.com, hare@suse.de, kuba@kernel.org, 
-	tom@talpey.com, linux-cifs@vger.kernel.org, daniel@haxx.se, 
-	quic@lists.linux.dev, jlayton@kernel.org, tfanelli@redhat.com, 
-	dhowells@redhat.com, linkinjeon@kernel.org, hepengtao@xiaomi.com, 
-	pc@manguebit.com, kernel-tls-handshake@lists.linux.dev, 
-	illiliti@protonmail.com, xiyou.wangcong@gmail.com, 
-	andrew.gospodarek@broadcom.com, mail@johnericson.me, edumazet@google.com, 
-	pabeni@redhat.com, matttbe@kernel.org, netdev@vger.kernel.org, 
-	smfrench@gmail.com, metze@samba.org, mbuhl@openbsd.org, 
-	chuck.lever@oracle.com, dreibh@simula.no, davem@davemloft.net, 
-	sd@queasysnail.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ThreadId: Am1W6CbsKMOk
+Date: Thu, 05 Feb 2026 15:08:32 -0500
+From: "Chuck Lever" <cel@kernel.org>
+To: "Scott Mayhew" <smayhew@redhat.com>,
+ "Chuck Lever" <chuck.lever@oracle.com>
+Cc: kernel-tls-handshake@lists.linux.dev
+Message-Id: <fc92aba9-0498-418a-bd0f-a4e519c6651b@app.fastmail.com>
+In-Reply-To: <20260205172843.1547285-1-smayhew@redhat.com>
+References: <20260205172843.1547285-1-smayhew@redhat.com>
+Subject: Re: [PATCH v2] tlshd: Send fatal alert to client when there are server config
+ issues
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, Feb 5, 2026 at 6:55=E2=80=AFAM Simon Horman <horms@kernel.org> wrot=
-e:
+
+
+On Thu, Feb 5, 2026, at 12:28 PM, Scott Mayhew wrote:
+> Currently if a client attempts an x.509 handshake and the server is
+> misconfigured (no certificates, no private keys, etc), the server simply
+> closes the connection.  Prior to b010190 ("tlshd: Pass ETIMEDOUT from
+> gnutls to kernel"), this would result in a quick failure on the client.
+> Now the client keeps retrying until the mount program times out, which
+> takes several minutes.
 >
-> This is an AI-generated review of your patch. The human sending this
-> email has considered the AI review valid, or at least plausible.
+> A misconfigured server isn't a self-correcting problem, so send a fatal
+> alert to the client when this occurs so the client stops retrying
+> immediately.  This requires some minor refactoring of
+> tlshd_tls13_server_x509_handshake() so that the session is initialized
+> before attempting to load the certs and keys (otherwise it is not
+> possible to send an alert).  Also add some debug logging to help
+> the admin take corrective action.
 >
-> For local reproduction steps see https://netdev-ai.bots.linux.dev/ai-loca=
-l.html
+> Finally add some logging when an alert is received during the handshake.
+> Following suit with handshake completions, alerts will only be logged if
+> debug logging is enabled.
+>
+> Signed-off-by: Scott Mayhew <smayhew@redhat.com>
 > ---
-> quic: provide quic.h header files for kernel and userspace
+>  src/tlshd/handshake.c |  4 ++++
+>  src/tlshd/log.c       | 15 ++++++++++++++
+>  src/tlshd/server.c    | 48 ++++++++++++++++++++++++++++---------------
+>  src/tlshd/tlshd.h     |  1 +
+>  4 files changed, 51 insertions(+), 17 deletions(-)
 >
-> This commit adds quic.h header files in include/uapi/linux and
-> include/linux to provide the necessary definitions for the QUIC
-> socket API.
->
-> > diff --git a/include/uapi/linux/quic.h b/include/uapi/linux/quic.h
-> > --- /dev/null
-> > +++ b/include/uapi/linux/quic.h
->
-> [ ... ]
->
-> > +enum quic_msg_flags {
-> > +     /* flags for stream_flags */
-> > +     MSG_QUIC_STREAM_NEW             =3D MSG_SYN,
-> > +     MSG_QUIC_STREAM_FIN             =3D MSG_FIN,
-> > +     MSG_QUIC_STREAM_UNI             =3D MSG_CONFIRM,
-> > +     MSG_QUIC_STREAM_DONTWAIT        =3D MSG_WAITFORONE,
-> > +     MSG_QUIC_STREAM_SNDBLOCK        =3D MSG_ERRQUEUE,
-> > +
-> > +     /* extented flags for msg_flags */
->
-> This isn't a bug, but there's a typo: "extented" should be "extended".
-Cool, I actually asked my local AI to find all typos but got nothing.
+> diff --git a/src/tlshd/handshake.c b/src/tlshd/handshake.c
+> index e78f78f..511a369 100644
+> --- a/src/tlshd/handshake.c
+> +++ b/src/tlshd/handshake.c
+> @@ -115,6 +115,10 @@ void tlshd_start_tls_handshake(gnutls_session_t 
+> session,
+>  			tlshd_log_error("Handshake timeout, retrying");
+>  			parms->session_status = ETIMEDOUT;
+>  			break;
+> +		case GNUTLS_E_WARNING_ALERT_RECEIVED:
+> +		case GNUTLS_E_FATAL_ALERT_RECEIVED:
+> +			tlshd_log_alert(session);
+> +			break;
+>  		default:
+>  			tlshd_log_gnutls_error(ret);
+>  		}
+> diff --git a/src/tlshd/log.c b/src/tlshd/log.c
+> index b70d4af..a890b60 100644
+> --- a/src/tlshd/log.c
+> +++ b/src/tlshd/log.c
+> @@ -188,6 +188,21 @@ void 
+> tlshd_log_cert_verification_error(gnutls_session_t session)
+>  			       tlshd_cert_status_names[i].name);
+>  }
+> 
+> +/**
+> + * @brief Report a TLS alert
+> + * @param[in]     session  Controlling GnuTLS session
+> + */
+> +void tlshd_log_alert(gnutls_session_t session)
+> +{
+> +	gnutls_alert_description_t alert;
+> +
+> +	if (!tlshd_debug)
+> +		return;
+> +
+> +	alert = gnutls_alert_get(session);
+> +	tlshd_log_notice("Received alert: %s", gnutls_alert_get_name(alert));
+> +}
+> +
+>  /**
+>   * @brief Emit "library call failed" notification
+>   * @param[in]     error  GnuTLS error code to log
+> diff --git a/src/tlshd/server.c b/src/tlshd/server.c
+> index 4850210..838c04b 100644
+> --- a/src/tlshd/server.c
+> +++ b/src/tlshd/server.c
+> @@ -397,30 +397,50 @@ static void 
+> tlshd_tls13_server_x509_handshake(struct tlshd_handshake_parms *parm
+>  	gnutls_session_t session;
+>  	int ret;
+> 
+> +	ret = gnutls_init(&session, GNUTLS_SERVER);
+> +	if (ret != GNUTLS_E_SUCCESS) {
+> +		tlshd_log_gnutls_error(ret);
+> +		return;
+> +	}
+> +	gnutls_transport_set_int(session, parms->sockfd);
+> +	gnutls_session_set_ptr(session, parms);
+> +
+> +	ret = tlshd_gnutls_priority_set(session, parms, 0);
+> +	if (ret) {
+> +		tlshd_log_gnutls_error(ret);
+> +		gnutls_deinit(session);
+> +		return;
+> +	}
+> +
+>  	ret = gnutls_certificate_allocate_credentials(&xcred);
+>  	if (ret != GNUTLS_E_SUCCESS) {
+>  		tlshd_log_gnutls_error(ret);
+> +		gnutls_deinit(session);
+>  		return;
+>  	}
+>  	ret = tlshd_server_get_truststore(xcred);
+> -	if (ret != GNUTLS_E_SUCCESS)
+> +	if (ret != GNUTLS_E_SUCCESS) {
+> +		tlshd_log_debug("Failed to initialize server trust store - check the 
+> configuration");
+> +		gnutls_alert_send(session, GNUTLS_AL_FATAL, GNUTLS_A_ACCESS_DENIED);
+> +		gnutls_deinit(session);
+>  		goto out_free_creds;
+> +	}
+> 
+> -	if (!tlshd_x509_server_get_certs(parms))
+> +	if (!tlshd_x509_server_get_certs(parms)) {
+> +		tlshd_log_debug("No usable server certificates were found - check 
+> the configuration");
+> +		gnutls_alert_send(session, GNUTLS_AL_FATAL, GNUTLS_A_ACCESS_DENIED);
+> +		gnutls_deinit(session);
+>  		goto out_free_creds;
+> -	if (!tlshd_x509_server_get_privkey(parms))
+> +	}
+> +	if (!tlshd_x509_server_get_privkey(parms)) {
+> +		tlshd_log_debug("No usable private keys were found - check the 
+> configuration");
+> +		gnutls_alert_send(session, GNUTLS_AL_FATAL, GNUTLS_A_ACCESS_DENIED);
+> +		gnutls_deinit(session);
+>  		goto out_free_certs;
+> +	}
+>  	gnutls_certificate_set_retrieve_function2(xcred,
+>  						  tlshd_x509_retrieve_key_cb);
+> 
+> -	ret = gnutls_init(&session, GNUTLS_SERVER);
+> -	if (ret != GNUTLS_E_SUCCESS) {
+> -		tlshd_log_gnutls_error(ret);
+> -		goto out_free_certs;
+> -	}
+> -	gnutls_transport_set_int(session, parms->sockfd);
+> -	gnutls_session_set_ptr(session, parms);
+> -
+>  	ret = gnutls_credentials_set(session, GNUTLS_CRD_CERTIFICATE, xcred);
+>  	if (ret != GNUTLS_E_SUCCESS) {
+>  		tlshd_log_gnutls_error(ret);
+> @@ -430,12 +450,6 @@ static void 
+> tlshd_tls13_server_x509_handshake(struct tlshd_handshake_parms *parm
+>  					       tlshd_tls13_server_x509_verify_function);
+>  	gnutls_certificate_server_set_request(session, GNUTLS_CERT_REQUEST);
+> 
+> -	ret = tlshd_gnutls_priority_set(session, parms, 0);
+> -	if (ret) {
+> -		tlshd_log_gnutls_error(ret);
+> -		goto out_free_certs;
+> -	}
+> -
+>  	tlshd_start_tls_handshake(session, parms);
+> 
+>  	if (tlshd_debug &&
+> diff --git a/src/tlshd/tlshd.h b/src/tlshd/tlshd.h
+> index 75d9a4a..d00cfdf 100644
+> --- a/src/tlshd/tlshd.h
+> +++ b/src/tlshd/tlshd.h
+> @@ -118,6 +118,7 @@ extern void tlshd_log_perror(const char *prefix);
+>  extern void tlshd_log_gai_error(int error);
+> 
+>  extern void tlshd_log_cert_verification_error(gnutls_session_t session);
+> +extern void tlshd_log_alert(gnutls_session_t session);
+>  extern void tlshd_log_gnutls_error(int error);
+>  extern void tlshd_gnutls_log_func(int level, const char *msg);
+>  extern void tlshd_gnutls_audit_func(gnutls_session_t session, const char *msg);
+> -- 
+> 2.52.0
 
-Thanks.
+Merged into main with a couple of fixes.
+
+
+-- 
+Chuck Lever

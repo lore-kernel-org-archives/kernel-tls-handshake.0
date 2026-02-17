@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A104139D
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 17 Feb 2026 22:20:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333DE139D
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 17 Feb 2026 22:20:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771366838; cv=none; b=m8xd1tTsQo6LNxHlcHLcJrR+rHng3MBG7588/LQYfUJWL9CbxInvOv08eZMh9feqU4LQS1pUlO4Lg/tNhCyM/ER3oYo/EoKrR586Qj1fpt6FkhpC0ZbwUganK3+1f8xKy6cMv7wWLssIkKsg7v2WaHw3dWbAgHldyb9ZqSr3N9E=
+	t=1771366839; cv=none; b=lP/0BDTzvyWwYYAspv1eU9mp1Q6Ix8v3RCEdYk9bVZ4tcgmp7kTrGqTcWYX09mz9gZ7WlxhItOxksstBX9bXlImgMDD54Gc3pgRUquS4gZoOjRBcqdleH6e+oRIHc9ViWBJexA5hImUMtYUSRAkgCsGg7VGMf1dappjqqNsHVu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771366838; c=relaxed/simple;
-	bh=GeWHfZfVnQYBXPJI4RhEHiwW5xeggoFS24GbgcF4qPM=;
+	s=arc-20240116; t=1771366839; c=relaxed/simple;
+	bh=YyxfI6O14aUeoHfRyFZKy/06AfTkHX2rUpZZ7Bjb3qg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M46dq3SIJKV3bzn+nit9NgTmXo7DTgIKGxour8W5oc5MAH8aYdp/zGDMHANcL+84Om/zUvqViTrwL7JOFOc3cPsC1lRUCxBVb3SvFJeOcaBv/uNpX82o1+93g0yqlG2TUXtwePr12LML0TTuKgPXtS9FJ4jd9MTdHOVdP+PX9iI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SqochXDl; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=nMkw4axHBxqIyarhs8xOuG4Aif+w2ZsclVSb3aXj5Z/jGH4g2/+qlxXdyEA3+695cIrpib6y/3K4Jnw6wR6889UO686WCSfgesGGzZmRCY0ID0ksveyf3IIRG5GeM3fye0Js8k2j7uNggrYkZEsBxEqh94ne4TvC09SDAa+zy8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=swhkr4//; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SqochXDl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E96BC19421;
-	Tue, 17 Feb 2026 22:20:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="swhkr4//"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2E7DC4CEF7;
+	Tue, 17 Feb 2026 22:20:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771366838;
-	bh=GeWHfZfVnQYBXPJI4RhEHiwW5xeggoFS24GbgcF4qPM=;
+	s=k20201202; t=1771366839;
+	bh=YyxfI6O14aUeoHfRyFZKy/06AfTkHX2rUpZZ7Bjb3qg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SqochXDlzIRFm1jWsU3Txh8Pxw9mGsi/p1pH+tpD8iVfbO8O+YNmaF27XK1e2/vMB
-	 9+XKHxmRxClSCDOqbDJWSq1+HPaZVbMEz+df6qojYFXZ6JMHaRnU9xPwpb1aIWrpMG
-	 bRlTDAsoSIJG7W6cMCQwmS5zbXVWBbyGMGBBP4ZgnOQXJW0RU2iCmabWt6LzG/J+xl
-	 06XUo6mneKcF2ewdCa9RJmjNh0ECMgwXvuJvwmcNhf34L10YheNmfzV6/yH/Nj3QQB
-	 MztdWMW2H8akeKuK0sPJguEFr/daGRM4pynq3UGgfHjcyZofPT2cf0oaJMnml1Z9Ss
-	 sv557tMwI9FKA==
+	b=swhkr4//9/dxk8IEVNW2vU+acKc3xbv3zOrWSYVN7XN6zSI8ATquo2bzCQf7wM836
+	 h72NbDLnob2ZWggoeIeCjQWzEHhjQl/bO4h7nl+Yc89V0L1aCuPx+9GlA/wWRWVvaY
+	 8MHrzqyL/P254/A7a8qwqMLlbzf5LC7W3YENkhfA1MS4vqta3hR5SCfA5UtLisiYYA
+	 521JMdmDmb2Al0NdyBhooOWVq8AOAhjtcvxv059GG6oFOynm7E9wX5nTDPtnFaGo/q
+	 IJNcPilhMYNgSw87yWTJDeSmGGpPiR/rXQWofenItT+yr0woxeVhzo6wp5YqwZnPbv
+	 yCcLcUIO+zp8Q==
 From: Chuck Lever <cel@kernel.org>
 To: Hannes Reinecke <hare@suse.de>,
 	Olga Kornievskaia <okorniev@redhat.com>
 Cc: kernel-tls-handshake@lists.linux.dev,
 	Chuck Lever <chuck.lever@oracle.com>
-Subject: [RFC PATCH 1/4] net: Introduce read_sock_cmsg proto_ops for control message delivery
-Date: Tue, 17 Feb 2026 17:20:30 -0500
-Message-ID: <20260217222033.1929211-2-cel@kernel.org>
+Subject: [RFC PATCH 2/4] tls: Implement read_sock_cmsg for kTLS software path
+Date: Tue, 17 Feb 2026 17:20:31 -0500
+Message-ID: <20260217222033.1929211-3-cel@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260217222033.1929211-1-cel@kernel.org>
 References: <20260217222033.1929211-1-cel@kernel.org>
@@ -47,58 +47,113 @@ Content-Transfer-Encoding: 8bit
 
 From: Chuck Lever <chuck.lever@oracle.com>
 
-Kernel TCP consumers that use the read_sock interface
-(proto_ops.read_sock) cannot receive TLS control messages (Alerts,
-Handshake records) when kTLS is active. The current
-tls_sw_read_sock() method rejects non-data records with -EINVAL, and
-the sk_read_actor_t callback has no channel for delivering record-
-type metadata.
+tls_sw_read_sock() rejects non-data records (alerts, handshake
+messages) with -EINVAL. Kernel consumers that need TLS alert
+delivery -- such as NFSD, NFS client, and NVMe target -- must fall
+back to the slower sock_recvmsg() API to receive control messages
+via CMSG.
 
-Four kernel subsystems are affected: NFSD (sunrpc svcsock), NFS
-client (sunrpc xprtsock), NVMe target (nvmet-tcp), and NVMe host
-(nvme-tcp). Each of these either falls back to the slower
-sock_recvmsg() API or lacks TLS alert handling entirely.
-
-A new read_sock_cmsg method in struct proto_ops provides a separate
-code path that delivers non-data TLS records to a callback, without
-changing the existing read_sock behavior used by consumers of the
-existing read_sock method.
-
-The new sk_read_cmsg_actor_t callback type extends the
-sk_read_actor_t signature with a content_type parameter carrying the
-protocol-layer record type (for example, TLS_RECORD_TYPE_ALERT).
+Implement a more efficient API based on the new read_sock_cmsg()
+method for these consumers.
 
 Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 ---
- include/linux/net.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ net/tls/tls.h      |  3 +++
+ net/tls/tls_main.c |  2 ++
+ net/tls/tls_sw.c   | 33 ++++++++++++++++++++++++++++-----
+ 3 files changed, 33 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/net.h b/include/linux/net.h
-index f58b38ab37f8..94eb1c3c1cb6 100644
---- a/include/linux/net.h
-+++ b/include/linux/net.h
-@@ -154,6 +154,10 @@ struct sk_buff;
- struct proto_accept_arg;
- typedef int (*sk_read_actor_t)(read_descriptor_t *, struct sk_buff *,
- 			       unsigned int, size_t);
-+typedef int (*sk_read_cmsg_actor_t)(read_descriptor_t *,
-+				    struct sk_buff *,
-+				    unsigned int, size_t,
-+				    u8 content_type);
- typedef int (*skb_read_actor_t)(struct sock *, struct sk_buff *);
+diff --git a/net/tls/tls.h b/net/tls/tls.h
+index 2f86baeb71fc..2e1581b6ca25 100644
+--- a/net/tls/tls.h
++++ b/net/tls/tls.h
+@@ -168,6 +168,9 @@ ssize_t tls_sw_splice_read(struct socket *sock, loff_t *ppos,
+ 			   size_t len, unsigned int flags);
+ int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
+ 		     sk_read_actor_t read_actor);
++int tls_sw_read_sock_cmsg(struct sock *sk, read_descriptor_t *desc,
++			   sk_read_actor_t read_actor,
++			   sk_read_cmsg_actor_t cmsg_actor);
  
+ int tls_device_sendmsg(struct sock *sk, struct msghdr *msg, size_t size);
+ void tls_device_splice_eof(struct socket *sock);
+diff --git a/net/tls/tls_main.c b/net/tls/tls_main.c
+index 56ce0bc8317b..40163d7baab4 100644
+--- a/net/tls/tls_main.c
++++ b/net/tls/tls_main.c
+@@ -946,11 +946,13 @@ static void build_proto_ops(struct proto_ops ops[TLS_NUM_CONFIG][TLS_NUM_CONFIG]
+ 	ops[TLS_BASE][TLS_SW  ].splice_read	= tls_sw_splice_read;
+ 	ops[TLS_BASE][TLS_SW  ].poll		= tls_sk_poll;
+ 	ops[TLS_BASE][TLS_SW  ].read_sock	= tls_sw_read_sock;
++	ops[TLS_BASE][TLS_SW  ].read_sock_cmsg	= tls_sw_read_sock_cmsg;
  
-@@ -218,6 +222,10 @@ struct proto_ops {
- 	 */
- 	int		(*read_sock)(struct sock *sk, read_descriptor_t *desc,
- 				     sk_read_actor_t recv_actor);
-+	int		(*read_sock_cmsg)(struct sock *sk,
-+					  read_descriptor_t *desc,
-+					  sk_read_actor_t recv_actor,
-+					  sk_read_cmsg_actor_t cmsg_actor);
- 	/* This is different from read_sock(), it reads an entire skb at a time. */
- 	int		(*read_skb)(struct sock *sk, skb_read_actor_t recv_actor);
- 	int		(*sendmsg_locked)(struct sock *sk, struct msghdr *msg,
+ 	ops[TLS_SW  ][TLS_SW  ] = ops[TLS_SW  ][TLS_BASE];
+ 	ops[TLS_SW  ][TLS_SW  ].splice_read	= tls_sw_splice_read;
+ 	ops[TLS_SW  ][TLS_SW  ].poll		= tls_sk_poll;
+ 	ops[TLS_SW  ][TLS_SW  ].read_sock	= tls_sw_read_sock;
++	ops[TLS_SW  ][TLS_SW  ].read_sock_cmsg	= tls_sw_read_sock_cmsg;
+ 
+ #ifdef CONFIG_TLS_DEVICE
+ 	ops[TLS_HW  ][TLS_BASE] = ops[TLS_BASE][TLS_BASE];
+diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+index 9937d4c810f2..e45352b167c4 100644
+--- a/net/tls/tls_sw.c
++++ b/net/tls/tls_sw.c
+@@ -2325,8 +2325,9 @@ ssize_t tls_sw_splice_read(struct socket *sock,  loff_t *ppos,
+ 	goto splice_read_end;
+ }
+ 
+-int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
+-		     sk_read_actor_t read_actor)
++static int __tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
++			      sk_read_actor_t read_actor,
++			      sk_read_cmsg_actor_t cmsg_actor)
+ {
+ 	struct tls_context *tls_ctx = tls_get_ctx(sk);
+ 	struct tls_sw_context_rx *ctx = tls_sw_ctx_rx(tls_ctx);
+@@ -2387,10 +2388,19 @@ int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
+ 			tls_rx_rec_done(ctx);
+ 		}
+ 
+-		/* read_sock does not support reading control messages */
+ 		if (tlm->control != TLS_RECORD_TYPE_DATA) {
+-			err = -EINVAL;
+-			goto read_sock_requeue;
++			if (!cmsg_actor) {
++				err = -EINVAL;
++				goto read_sock_requeue;
++			}
++			err = cmsg_actor(desc, skb, rxm->offset,
++					 rxm->full_len, tlm->control);
++			if (err < 0)
++				goto read_sock_requeue;
++			consume_skb(skb);
++			if (!desc->count)
++				skb = NULL;
++			continue;
+ 		}
+ 
+ 		used = read_actor(desc, skb, rxm->offset, rxm->full_len);
+@@ -2421,6 +2431,19 @@ int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
+ 	goto read_sock_end;
+ }
+ 
++int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
++		     sk_read_actor_t read_actor)
++{
++	return __tls_sw_read_sock(sk, desc, read_actor, NULL);
++}
++
++int tls_sw_read_sock_cmsg(struct sock *sk, read_descriptor_t *desc,
++			   sk_read_actor_t read_actor,
++			   sk_read_cmsg_actor_t cmsg_actor)
++{
++	return __tls_sw_read_sock(sk, desc, read_actor, cmsg_actor);
++}
++
+ bool tls_sw_sock_is_readable(struct sock *sk)
+ {
+ 	struct tls_context *tls_ctx = tls_get_ctx(sk);
 -- 
 2.53.0
 

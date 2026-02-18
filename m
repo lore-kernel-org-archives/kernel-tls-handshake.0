@@ -1,198 +1,160 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C93B342503
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 18 Feb 2026 15:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32352DC352
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 18 Feb 2026 16:12:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771429954; cv=none; b=B/r3xeFWpXfyoEZqi2esMmsJNBFVWiGnpCih3pwdGdOI6qscwZnwFBtxgOkdpb4ADxW+4hvR+Z8tY+if0nPdPNzN8qllde0xW9lQ9bnJaIlWU1aNHrIapWVGmwr1zPQXXviurvtIYyu8JMeNsyHD3StzwMNzzxnakVf6Cc/JZIM=
+	t=1771431165; cv=none; b=eOvbDxvnvsjSP0KXtWxV0caPb1wSd0AkyU1fP34cm+rW3pS72z1eHDRgMqLOm0vKrZGvLiiPIA9vWKEunsOk3z/4xX7/rZef6MQ8oGpV/81jOnnx07kLUIEsnJxsRsT//cBAdrNyc1IGTidixBufCpd4Bci8z17UKf0DuEwV6Wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771429954; c=relaxed/simple;
-	bh=wfFK3cGxyBrr4jq+8xvXD0zZPhP8nSNGNrezkIJGmFs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VQBKwgvRHFGLu3fLNy1YWkNSnWcOs1uiqCizuUyw1sYhxV6pgWlJiBa4rv85y15xobW/1ughIk+d/mA+fh5V51IzSTcFr60HQ85fmUb1HGZ4ji5v3TqD5Yla4A1WswxNeZcWirqJ3z2IX/T2vgwobgvP19/ReToedQAkIrDlBrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RZrcD9wG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gxjki1LE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RZrcD9wG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gxjki1LE; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1771431165; c=relaxed/simple;
+	bh=iN8SsleU89C8bP3tlDBsZ8cSG+sMiypnZGipWwEwaPo=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ZDi0FDRaYFe4tWXxLvfZ7nqC3tjq3F2bwmleN2rNNbqxspUzlXGPhCjk5ypBhT4z28c/xWOoXIuEhve3M33qQTyyGaPDuCzb6xztvhiAoGTQ4dIfzhEi7pLYbJQ4PlYb6ClKAZXVk+NYI97E4up7GN8mTROLkXmpR+KSOCcnTKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nrQjwzgD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RZrcD9wG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gxjki1LE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RZrcD9wG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gxjki1LE"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 581235BCD9;
-	Wed, 18 Feb 2026 15:52:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771429951; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S4LnZ8fozSBHDp3UWHPpxMaxnm8O1Xfa+oTLBbs5nlc=;
-	b=RZrcD9wGBeuaYyiM3tzcTnVSqwYP/X4UKtpFKnQg2CM9CFieeNkkLxImQC/Eo50iVl9wO3
-	A4MMm9WxycZ9wc3ZH+mjIhnFEZ4LL7LQ/V9Dtc42BDt9AJOEBZB8g9vC1zddceuXbMsEEW
-	uGtmkNhf0gvOtk/p5ophz0NX2S5PGz8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771429951;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S4LnZ8fozSBHDp3UWHPpxMaxnm8O1Xfa+oTLBbs5nlc=;
-	b=gxjki1LEOIYPm6CPl3WE7xmrnEKMzvCD1ENoiWcNansN1EAXyM05XfyNq5kCCkC9Y1gaXx
-	rrUA2I+JyuJp5iAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RZrcD9wG;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gxjki1LE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1771429951; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S4LnZ8fozSBHDp3UWHPpxMaxnm8O1Xfa+oTLBbs5nlc=;
-	b=RZrcD9wGBeuaYyiM3tzcTnVSqwYP/X4UKtpFKnQg2CM9CFieeNkkLxImQC/Eo50iVl9wO3
-	A4MMm9WxycZ9wc3ZH+mjIhnFEZ4LL7LQ/V9Dtc42BDt9AJOEBZB8g9vC1zddceuXbMsEEW
-	uGtmkNhf0gvOtk/p5ophz0NX2S5PGz8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1771429951;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S4LnZ8fozSBHDp3UWHPpxMaxnm8O1Xfa+oTLBbs5nlc=;
-	b=gxjki1LEOIYPm6CPl3WE7xmrnEKMzvCD1ENoiWcNansN1EAXyM05XfyNq5kCCkC9Y1gaXx
-	rrUA2I+JyuJp5iAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1F9823EA65;
-	Wed, 18 Feb 2026 15:52:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id lch7Bj/glWlBdgAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 18 Feb 2026 15:52:31 +0000
-Message-ID: <1330bf39-196c-4ef5-8f36-fd407e7e6605@suse.de>
-Date: Wed, 18 Feb 2026 16:52:30 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nrQjwzgD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 346A7C116D0;
+	Wed, 18 Feb 2026 16:12:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771431165;
+	bh=iN8SsleU89C8bP3tlDBsZ8cSG+sMiypnZGipWwEwaPo=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=nrQjwzgDPJhXTcBOUgYkfc5mk4MWLqL9Zs0lkgOQBFAa+ZaoPjxV6pjdr30o/iKpV
+	 Ev1Z3JvXR91L2hkC1zn6TfEY8l2tsePqcKmBNkC4PiT7pkGvtynCqVlK2cYp+9B+cL
+	 Rmt6uXKyxEFavxRmB6sVC/vfwrYVrzck4NHo+Yjum0Uu7BpZ4V0dqMMzBC6UMjzDvz
+	 OzHvP9vUt8e+NIyQvYOxnYLlJwEyOfWsZIgTIqVr5vEu21oZFs+GOFQ7hd+UqY20fx
+	 Ndy7R0smmI9Vjc54ZLCW9bNcDbrrqgRb++KfZu/pREjjoJYy4HcgcsBwBqBzG9zOsy
+	 +wU3liemSth6A==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 13964F4006C;
+	Wed, 18 Feb 2026 11:12:44 -0500 (EST)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Wed, 18 Feb 2026 11:12:44 -0500
+X-ME-Sender: <xms:--SVaauCInW2A5nOMuW5oLB_hByuyTyFdtnTFygJw3peE3lHzIkqwA>
+    <xme:--SVaaQYSnwp-K58xHaCPsXsgCj_h6KDdBRCqhnbcE2UAXO-Y_Yxt6bzFHHmxJsum
+    6D5UWDB21_eVtboS9h81ju_eaLs0iVi-e5TlQY4O5VgsqnNF235brE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvvdeftdelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
+    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpefhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutg
+    hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
+    leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
+    hilhdrtghomhdpnhgspghrtghpthhtohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepkhgvrhhnvghlqdhtlhhsqdhhrghnughshhgrkhgvsehlihhsthhsrdhlihhnuh
+    igrdguvghvpdhrtghpthhtoheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgvrdgtohhm
+    pdhrtghpthhtohepohhkohhrnhhivghvsehrvgguhhgrthdrtghomhdprhgtphhtthhope
+    hhrghrvgesshhushgvrdguvg
+X-ME-Proxy: <xmx:--SVaSXtT6z7d4kMd9ZzoYkTBaO0BNJLmsg_rynT_KmY44fgVAseCw>
+    <xmx:_OSVacZEU7psPIhUXA19J_My9Yb3kOssLlGzL6nIgaqHXJuonZ4tZQ>
+    <xmx:_OSVaQ1iB-33uFYEWGSxpJvGh-c28z6wQsYqr6e4qDDukpdmPns46Q>
+    <xmx:_OSVaWi7zob_1t0HCC6PPaPiL_ngSJx5-dz3W0QsZdbfZAMwk-yGpQ>
+    <xmx:_OSVacZOMJ7c4zCzWqjLH2-ZeHTIbnRSMSR9xp8_luMh6qy2NotFlp-h>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id E0DF1780075; Wed, 18 Feb 2026 11:12:43 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/4] net: Introduce read_sock_cmsg proto_ops for
- control message delivery
-To: Chuck Lever <cel@kernel.org>, Olga Kornievskaia <okorniev@redhat.com>
-Cc: kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>
+X-ThreadId: AAEVwnKxNJwc
+Date: Wed, 18 Feb 2026 11:12:04 -0500
+From: "Chuck Lever" <cel@kernel.org>
+To: "Hannes Reinecke" <hare@suse.de>,
+ "Olga Kornievskaia" <okorniev@redhat.com>
+Cc: kernel-tls-handshake@lists.linux.dev,
+ "Chuck Lever" <chuck.lever@oracle.com>
+Message-Id: <2646cf04-c972-4c1b-a782-00b0d94c603c@app.fastmail.com>
+In-Reply-To: <1330bf39-196c-4ef5-8f36-fd407e7e6605@suse.de>
 References: <20260217222033.1929211-1-cel@kernel.org>
  <20260217222033.1929211-2-cel@kernel.org>
  <29c55055-a7e9-485a-8290-4f0bc1543a59@suse.de>
  <c4c6ac9f-10d0-45ae-a35d-b1266f7a06d9@kernel.org>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <c4c6ac9f-10d0-45ae-a35d-b1266f7a06d9@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 581235BCD9
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
+ <1330bf39-196c-4ef5-8f36-fd407e7e6605@suse.de>
+Subject: Re: [RFC PATCH 1/4] net: Introduce read_sock_cmsg proto_ops for control
+ message delivery
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On 2/18/26 15:33, Chuck Lever wrote:
-> On 2/18/26 2:29 AM, Hannes Reinecke wrote:
->> On 2/17/26 23:20, Chuck Lever wrote:
->>> From: Chuck Lever <chuck.lever@oracle.com>
+
+
+On Wed, Feb 18, 2026, at 10:52 AM, Hannes Reinecke wrote:
+> On 2/18/26 15:33, Chuck Lever wrote:
+>> On 2/18/26 2:29 AM, Hannes Reinecke wrote:
+
+>>> The way I see it, ->read_sock() has an advantage when you can work
+>>> with skbuffs (ie network packets) directly. Then it has the benefit
+>>> of being paced with the packets arriving as they do on the network.
 >>>
->>> Kernel TCP consumers that use the read_sock interface
->>> (proto_ops.read_sock) cannot receive TLS control messages (Alerts,
->>> Handshake records) when kTLS is active. The current
->>> tls_sw_read_sock() method rejects non-data records with -EINVAL, and
->>> the sk_read_actor_t callback has no channel for delivering record-
->>> type metadata.
+>>> But for TLS this is no longer true; the TLS skbuffs are synthesized
+>>> on top of the TCP stream, and the boundary of a TLS skbuff is completely
+>>> decoupled from the TCP skbuff (in theory, at least).
 >>>
->>> Four kernel subsystems are affected: NFSD (sunrpc svcsock), NFS
->>> client (sunrpc xprtsock), NVMe target (nvmet-tcp), and NVMe host
->>> (nvme-tcp). Each of these either falls back to the slower
->>> sock_recvmsg() API or lacks TLS alert handling entirely.
->>>
->> And that is the contentious topic.
->> Is it really slower?
-> 
-> I measured 5-10% throughput increases and latency drops with NFSD,
-> /without/ TLS. The primary benefit of this series is that it handles
-> CMSG (TLS Alerts) much more cleanly.
-> 
-> 
->> The way I see it, ->read_sock() has an advantage when you can work
->> with skbuffs (ie network packets) directly. Then it has the benefit
->> of being paced with the packets arriving as they do on the network.
->>
->> But for TLS this is no longer true; the TLS skbuffs are synthesized
->> on top of the TCP stream, and the boundary of a TLS skbuff is completely
->> decoupled from the TCP skbuff (in theory, at least).
->>
->> This can result in TLS skbuff stalls when waiting for the remainder
->> of the TCP data stream to arrive.
-> 
-> An entire TLS Record has to be present before it can be decrypted and
-> passed to the socket consumer. Is that what you mean?
-> 
-Yes. And that makes ->read_sock() a bit pointless (from my POV); looking
-at the network stack the skbuffs are assembled/decoded by the TLS layer,
-only to be converted into skbuffs again for ->read_sock().
-Which seems a bit pointless.
+>>> This can result in TLS skbuff stalls when waiting for the remainder
+>>> of the TCP data stream to arrive.
+>> 
+>> An entire TLS Record has to be present before it can be decrypted and
+>> passed to the socket consumer. Is that what you mean?
+>> 
+> Yes. And that makes ->read_sock() a bit pointless (from my POV); looking
+> at the network stack the skbuffs are assembled/decoded by the TLS layer,
+> only to be converted into skbuffs again for ->read_sock().
+> Which seems a bit pointless.
 
-But the main point with ->read_sock() is that we can only process
-skbuffs, ie we have to wait for the TLS layer to assemble the entire
-record.
-With recvmsg() we at least have a theoretical choice of returning
-a short read, allowing the code to do something clever in the meantime.
+Is this true only of the software kTLS implementation? For
+offload, I'd think the decrypted records are placed directly
+in the skbs that are handed to consumers.
 
-Mind you, that is all conjecture. Might well be that ->read_sock()
-is beneficial for TLS, too. Or, at least, doesn't do any harm.
-It's just that I don't trust the author of the TLS read_sock()
-implementation; his network stack knowledge isn't _that_ great.
 
-(Problem is that my performance measurements always ran into
-some obnoxious occasional stall, rendering the entire measurement
-pretty worthless. So I couldn't tell whether the recvmsg()
-implementation delivers a benefit or not)
+> But the main point with ->read_sock() is that we can only process
+> skbuffs, ie we have to wait for the TLS layer to assemble the entire
+> record.
+> With recvmsg() we at least have a theoretical choice of returning
+> a short read, allowing the code to do something clever in the meantime.
 
-Cheers,
+Do you mean that read_sock is always synchronous? Perhaps
+judicious construction of the consumer can help there; but
+I expect that plain TCP has similar pathologies during, for
+instance, a network partition.
 
-Hannes
+
+> Mind you, that is all conjecture. Might well be that ->read_sock()
+> is beneficial for TLS, too. Or, at least, doesn't do any harm.
+> It's just that I don't trust the author of the TLS read_sock()
+> implementation; his network stack knowledge isn't _that_ great.
+
+Time to get out our measuring sticks, I suppose.
+
+
+> (Problem is that my performance measurements always ran into
+> some obnoxious occasional stall, rendering the entire measurement
+> pretty worthless. So I couldn't tell whether the recvmsg()
+> implementation delivers a benefit or not)
+
+Generally speaking (ie, hand-wave mode) that kind of stall arises
+because the consumer expects it will get another data_ready and the
+network layer does not conform with the implementer's expectations.
+
+So I like the read_sock_cmsg design here because with recvmsg,
+the CMSG payload can appear in the consumer's data buffer. For
+direct I/O, that's bad. We also really don't want to place the
+TLS Alerts in page cache pages. With read_sock_cmsg, the CMSG
+payload can be efficiently directed to an independent buffer
+that is never visible to user space.
+
+And I prefer having a single receive path for both non-TLS and
+TLS processing. That's so much less code to deal with.
+
+This approach seems to me to be more architecturally sound.
+We just have to get over the implementation bumps IMO. I think
+we can certainly examine ->read_sock with software kTLS to see
+if there's room for improvement.
+
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Chuck Lever

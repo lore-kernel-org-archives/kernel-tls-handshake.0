@@ -1,200 +1,235 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E2B148850
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 19 Feb 2026 04:06:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771474019; cv=pass; b=WHtc+FRDd9C4NikrtKMYIidqHsvX7DERXPcaeXhSR/0tCrQzD8Jli5x9Oe/t54T/fJsbImc6iB/d9aOSNe4QZ58bN5ox0QdeD2xPKeQKI9UH75LAscDC7u3RVzZm7iHbxznVR5+ryQC5wTMO0LVXXXGYcYBIRoMG18bdhzpOrEw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771474019; c=relaxed/simple;
-	bh=M5bClbIGl8W19YBZbpud3XdzP5Fjo2rzslJcaFPPgBo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q84NSeCDYF6k66Qq5FoS/2UISGLEe6ENaAobhGEVyKbqAHfRBPWQrYzgkQMJ91JTH6NOLJGmq36Zh/QX/Qj56GkL5XlGdSHSVkxkjvolhwcZ2wD8ZmHBaS+k74zJjVU8WS0rXJrel++1sUPSaikl0h1ZrRiSJAbGcfZjhjzxEPk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G3kSXPVB; arc=pass smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82151332EC4
+	for <kernel-tls-handshake@lists.linux.dev>; Thu, 19 Feb 2026 08:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771488335; cv=none; b=lJOrkTxai+BAHE2yLicoSPu/azY2ZMOJV+5OCfwOHjBEO103i/En/z3oCTFLycPNrTX+mR4R+RXRJCCPCihCgRbGN8Z+lDJu4+GyqPYY1dLgDO/wKKy/NJ5YCLi+qUAHIcNGzA7GPWrvfHVOYlNENrBRXAzCByChZwpfjALThyI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771488335; c=relaxed/simple;
+	bh=3g4/Ke7EkqhJA1cGQx/QlwTv/dRrFh19pouEQxWAUZg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GK2MlArednHOSHvOqpbw1MeAzMo3OkZ/B1zi7l7qh04Om1cxDkMNF0LApER0WGOO7D7ruNYiJpOIG1WejzhcWKSNqjX6Wpj4liTuphdzW4C4xgf2fOhmr/LeAK/GTz3H4ZErftCYkSY2izFOC/Czd01SoDmsqA440No/Ek5jSwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zArDc6hM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wifYnQR6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zArDc6hM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wifYnQR6; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G3kSXPVB"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-65b9608a9adso770356a12.3
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 18 Feb 2026 20:06:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771474016; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CVgkIMYeJsVIoX6DGZJbB0MalH2p9WZyVPg7RJ7d6srLovUxxDj6PDdS/MKDOSOem/
-         gMgVcLbmEh+r8y8jWSFOJSnLEL1M2dlvws/Yh45EYU8JhwUcpAmlhqlqOZhCP6cLQIzp
-         NP9eE7axuNkbZqFhiN9FBjyaVX5wNnhz0alNhupYcVg9i1+enT1G69YxePox5HQkvQpg
-         RXGd69AIs4XkbH7NA36XZaO/phACiFXkVXCtOCJKMrDgu7lcYgpAD423RdWCes5xTYzg
-         4v8tZYP4MKiuNSNI+dS49358bP9Fed+z2Nc8FWI45t6GCI3MbVncr434MY4p0YPCn1i3
-         tGcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=M5bClbIGl8W19YBZbpud3XdzP5Fjo2rzslJcaFPPgBo=;
-        fh=HU0q6bO87TN5sq+uEz7rzu6rvrVozDdbJHMjbAIOxp4=;
-        b=INpdCVDcWh76uyvkf7zfT8zaJ/VWN5N1/kRf/L8Bh3w2+Hnwon9SyjHYwWjUHrKGmO
-         3C3x/s5/JIAuiTwOi/8JmzlmDxAgmiYO/XqB5aNa8VeTXCzMCqwirxWyoVqSOgz2dwcW
-         544uB6KjmHe79fXPx9bQx2jGv+mjZ374lsA7T/tNuzyE8tBWUdj1ytcyyBTmzEQOJ/gO
-         Jtsfyz9PHg7eE6mCk1j280X3zC/aHrxaOii7AuHSBCSEZooJxTD4dX+XHM0njsrqJZYa
-         zbkYHPtuO1qAzpR36efKa5Wct6CWrnWkKIaGJpxWbpFFwonzSsvdq7tuM4HqXzvPlHnU
-         TWTw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771474016; x=1772078816; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M5bClbIGl8W19YBZbpud3XdzP5Fjo2rzslJcaFPPgBo=;
-        b=G3kSXPVBLlYsDp6ip7aZyitwEbrrKbyyvwlK79KEdey1Z4M7zaLVMmtq7tJVWXu/kd
-         c0tRj1EbKJfcQyRvqs0bQzyTa1p2CpAptbD3kPoXuTzYuiEXfYsgEk7DbP/dSNYusGEC
-         QIFMWyrFPQGDTDJxTxub1h5lBXgpg2ZnNjxuQAvmVYgJHqUF13MRwZz16fbkrrw3HxL0
-         hfU0XUMXWbu5LvyHU1yQjYTz4MP+RPlzEWhR2B1BCEXf4dhVzfP4Tbh2h5ssqG0UbihX
-         j81YcwkAvpXhCfv7DpUTYHgvYl332e05vFe4hh5SNOYvzSDu7Xd/n7ZB5cVgRSdgpD24
-         kkjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771474016; x=1772078816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=M5bClbIGl8W19YBZbpud3XdzP5Fjo2rzslJcaFPPgBo=;
-        b=ugoLzyqXVm0cYGEmBe6NHf3chj/YSh3/viyiN+mBIjUKnuE1lKfX6scQUFmSZbY7Y9
-         yMiC/hIJsISnospeZgtb9umi9rUKYlMO+EWEvnOsIV3P7TXA2/+6+VNGcF/ym4aGSnyo
-         T4oGVKBkKjDVjvu9tzjhGThCWnRhY5i4G6sULv1jlW49M+Sy1izNF0k01xN+FuCIOLPK
-         ndIDDt6Tjw9A0BeAxuuybg6cHzVUN6TGIFjck6mjE0zAO8LGTrdNLkjX1ExDLzH8b5JF
-         EUC/WZ7kgWbePil3qrNvi3wCn70KSQ03PMmmj87mkjEnjHJFB5W6rDnovi1xV4Zyfart
-         1ddQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWGSw4MBjzCe3PchlP3Nn7VMZ5dJ+9G0tvxwTiOSyycfKz1lveoPY0BbACg6orE/Ho0QV2DoBeeHRQ/QPruhkrJT4O6cw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx8yW8AAb6WlVOSOAsEWlQyR0rIHRFYZdS36977AOmSwlQJ3tY/
-	BM4PoQxE/1g1rzFzMYbqnbCtagfZQlxDCvPvoWG/dfOjKkRmAkuA0NFjrsdyNBk5LVao+dOebUZ
-	yVxSEMGPJ7qwMfLS7FLNQd1ktS7xhdww=
-X-Gm-Gg: AZuq6aIrCkfEhKo1pva91NClanTJU98AARVKvu6Bd1toxb5FQQKz9v6wfJBtrUOEVwQ
-	zL+Kiapd+xRtZi8BceyG5nx5s9k6ObjTPkSYhB7ZessoF5uWbpQJ6GJmhhZ9ADQBHxr4uB09iBp
-	/2nzw2clA9kCa+urjOHDDduzUwnY9DhVfv/GNDNX/6SikuW83hdfDMM5wvg943Ynt5OiDxMbYiu
-	czDWS3fYo/oxu44XHPrx1d38RtxvtjCV1dpvZw7hRvwx0mtfQhFBwrNAVUfpwUw4DAQx3ZMzHor
-	q8ZvMdSGQ0RS8dH8jHe6gEWOZvWP++BmtqgG/Q==
-X-Received: by 2002:a05:6402:210d:b0:65c:65b:e853 with SMTP id
- 4fb4d7f45d1cf-65c065bef8amr6940336a12.20.1771474015691; Wed, 18 Feb 2026
- 20:06:55 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zArDc6hM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wifYnQR6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zArDc6hM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wifYnQR6"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 768DD3E6ED;
+	Thu, 19 Feb 2026 08:05:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1771488331; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xtg3e0KEzg631OBO8/VmDps7lvbx33ftwLzJYJEX5yc=;
+	b=zArDc6hMZ1gaTeWG+SIoIgYOLUG+B2CcYRLVGGlcIRIWjSi52LPIxdE+jlVuRrgXuAI47S
+	+gm/+0prn/SQp+MigGAKK0br7KqDaQaZnf9up+xM2ZdWrtB22uLR80+W5p+VaCtbWncST+
+	JkoFK/KpFTw5fW9wK0E6JrNPMwM9abk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1771488331;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xtg3e0KEzg631OBO8/VmDps7lvbx33ftwLzJYJEX5yc=;
+	b=wifYnQR6mX8Wde4QOGSn7v5opzSB/GZsl+UpeYK6d5ZltsX/XoUiJHKefSHTf6XxyvV7OL
+	9SXVado4MJecwqAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zArDc6hM;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wifYnQR6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1771488331; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xtg3e0KEzg631OBO8/VmDps7lvbx33ftwLzJYJEX5yc=;
+	b=zArDc6hMZ1gaTeWG+SIoIgYOLUG+B2CcYRLVGGlcIRIWjSi52LPIxdE+jlVuRrgXuAI47S
+	+gm/+0prn/SQp+MigGAKK0br7KqDaQaZnf9up+xM2ZdWrtB22uLR80+W5p+VaCtbWncST+
+	JkoFK/KpFTw5fW9wK0E6JrNPMwM9abk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1771488331;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xtg3e0KEzg631OBO8/VmDps7lvbx33ftwLzJYJEX5yc=;
+	b=wifYnQR6mX8Wde4QOGSn7v5opzSB/GZsl+UpeYK6d5ZltsX/XoUiJHKefSHTf6XxyvV7OL
+	9SXVado4MJecwqAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3BDC73EA65;
+	Thu, 19 Feb 2026 08:05:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id y9rYDEvElmlUUwAAD6G6ig
+	(envelope-from <hare@suse.de>); Thu, 19 Feb 2026 08:05:31 +0000
+Message-ID: <7d899bb8-5b99-4365-a973-12933c2fee40@suse.de>
+Date: Thu, 19 Feb 2026 09:05:22 +0100
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260217222033.1929211-1-cel@kernel.org> <20260217222033.1929211-2-cel@kernel.org>
- <29c55055-a7e9-485a-8290-4f0bc1543a59@suse.de> <c4c6ac9f-10d0-45ae-a35d-b1266f7a06d9@kernel.org>
- <1330bf39-196c-4ef5-8f36-fd407e7e6605@suse.de> <2646cf04-c972-4c1b-a782-00b0d94c603c@app.fastmail.com>
-In-Reply-To: <2646cf04-c972-4c1b-a782-00b0d94c603c@app.fastmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 19 Feb 2026 14:06:29 +1000
-X-Gm-Features: AaiRm50eUgAhVc_N7_qaqUmrLWqABwpvCt6JkR5Dm4FE6LjRfv5Vfw_SGxNRkyk
-Message-ID: <CAKmqyKNMSJ7zw3Uo6VRcyb5b1zTR=i3OutVZTh7nQsMX3+yrgQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH 1/4] net: Introduce read_sock_cmsg proto_ops for
  control message delivery
-To: Chuck Lever <cel@kernel.org>
-Cc: Hannes Reinecke <hare@suse.de>, Olga Kornievskaia <okorniev@redhat.com>, 
-	kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Alistair Francis <alistair23@gmail.com>, Chuck Lever <cel@kernel.org>
+Cc: Olga Kornievskaia <okorniev@redhat.com>,
+ kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>
+References: <20260217222033.1929211-1-cel@kernel.org>
+ <20260217222033.1929211-2-cel@kernel.org>
+ <29c55055-a7e9-485a-8290-4f0bc1543a59@suse.de>
+ <c4c6ac9f-10d0-45ae-a35d-b1266f7a06d9@kernel.org>
+ <1330bf39-196c-4ef5-8f36-fd407e7e6605@suse.de>
+ <2646cf04-c972-4c1b-a782-00b0d94c603c@app.fastmail.com>
+ <CAKmqyKNMSJ7zw3Uo6VRcyb5b1zTR=i3OutVZTh7nQsMX3+yrgQ@mail.gmail.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <CAKmqyKNMSJ7zw3Uo6VRcyb5b1zTR=i3OutVZTh7nQsMX3+yrgQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,suse.de:email];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: 768DD3E6ED
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Spam-Level: 
 
-On Thu, Feb 19, 2026 at 2:12=E2=80=AFAM Chuck Lever <cel@kernel.org> wrote:
->
->
->
-> On Wed, Feb 18, 2026, at 10:52 AM, Hannes Reinecke wrote:
-> > On 2/18/26 15:33, Chuck Lever wrote:
-> >> On 2/18/26 2:29 AM, Hannes Reinecke wrote:
->
-> >>> The way I see it, ->read_sock() has an advantage when you can work
-> >>> with skbuffs (ie network packets) directly. Then it has the benefit
-> >>> of being paced with the packets arriving as they do on the network.
-> >>>
-> >>> But for TLS this is no longer true; the TLS skbuffs are synthesized
-> >>> on top of the TCP stream, and the boundary of a TLS skbuff is complet=
-ely
-> >>> decoupled from the TCP skbuff (in theory, at least).
-> >>>
-> >>> This can result in TLS skbuff stalls when waiting for the remainder
-> >>> of the TCP data stream to arrive.
-> >>
-> >> An entire TLS Record has to be present before it can be decrypted and
-> >> passed to the socket consumer. Is that what you mean?
-> >>
-> > Yes. And that makes ->read_sock() a bit pointless (from my POV); lookin=
-g
-> > at the network stack the skbuffs are assembled/decoded by the TLS layer=
-,
-> > only to be converted into skbuffs again for ->read_sock().
-> > Which seems a bit pointless.
->
-> Is this true only of the software kTLS implementation? For
-> offload, I'd think the decrypted records are placed directly
-> in the skbs that are handed to consumers.
->
->
-> > But the main point with ->read_sock() is that we can only process
-> > skbuffs, ie we have to wait for the TLS layer to assemble the entire
-> > record.
-> > With recvmsg() we at least have a theoretical choice of returning
-> > a short read, allowing the code to do something clever in the meantime.
->
-> Do you mean that read_sock is always synchronous? Perhaps
-> judicious construction of the consumer can help there; but
-> I expect that plain TCP has similar pathologies during, for
-> instance, a network partition.
->
->
-> > Mind you, that is all conjecture. Might well be that ->read_sock()
-> > is beneficial for TLS, too. Or, at least, doesn't do any harm.
-> > It's just that I don't trust the author of the TLS read_sock()
-> > implementation; his network stack knowledge isn't _that_ great.
->
-> Time to get out our measuring sticks, I suppose.
->
->
-> > (Problem is that my performance measurements always ran into
-> > some obnoxious occasional stall, rendering the entire measurement
-> > pretty worthless. So I couldn't tell whether the recvmsg()
-> > implementation delivers a benefit or not)
->
-> Generally speaking (ie, hand-wave mode) that kind of stall arises
-> because the consumer expects it will get another data_ready and the
-> network layer does not conform with the implementer's expectations.
->
-> So I like the read_sock_cmsg design here because with recvmsg,
-> the CMSG payload can appear in the consumer's data buffer. For
-> direct I/O, that's bad. We also really don't want to place the
-> TLS Alerts in page cache pages. With read_sock_cmsg, the CMSG
-> payload can be efficiently directed to an independent buffer
-> that is never visible to user space.
->
-> And I prefer having a single receive path for both non-TLS and
-> TLS processing. That's so much less code to deal with.
->
-> This approach seems to me to be more architecturally sound.
-> We just have to get over the implementation bumps IMO. I think
-> we can certainly examine ->read_sock with software kTLS to see
-> if there's room for improvement.
+On 2/19/26 05:06, Alistair Francis wrote:
+> On Thu, Feb 19, 2026 at 2:12 AM Chuck Lever <cel@kernel.org> wrote:
+>>
+>>
+>>
+>> On Wed, Feb 18, 2026, at 10:52 AM, Hannes Reinecke wrote:
+>>> On 2/18/26 15:33, Chuck Lever wrote:
+>>>> On 2/18/26 2:29 AM, Hannes Reinecke wrote:
+>>
+>>>>> The way I see it, ->read_sock() has an advantage when you can work
+>>>>> with skbuffs (ie network packets) directly. Then it has the benefit
+>>>>> of being paced with the packets arriving as they do on the network.
+>>>>>
+>>>>> But for TLS this is no longer true; the TLS skbuffs are synthesized
+>>>>> on top of the TCP stream, and the boundary of a TLS skbuff is completely
+>>>>> decoupled from the TCP skbuff (in theory, at least).
+>>>>>
+>>>>> This can result in TLS skbuff stalls when waiting for the remainder
+>>>>> of the TCP data stream to arrive.
+>>>>
+>>>> An entire TLS Record has to be present before it can be decrypted and
+>>>> passed to the socket consumer. Is that what you mean?
+>>>>
+>>> Yes. And that makes ->read_sock() a bit pointless (from my POV); looking
+>>> at the network stack the skbuffs are assembled/decoded by the TLS layer,
+>>> only to be converted into skbuffs again for ->read_sock().
+>>> Which seems a bit pointless.
+>>
+>> Is this true only of the software kTLS implementation? For
+>> offload, I'd think the decrypted records are placed directly
+>> in the skbs that are handed to consumers.
+>>
+>>
+>>> But the main point with ->read_sock() is that we can only process
+>>> skbuffs, ie we have to wait for the TLS layer to assemble the entire
+>>> record.
+>>> With recvmsg() we at least have a theoretical choice of returning
+>>> a short read, allowing the code to do something clever in the meantime.
+>>
+>> Do you mean that read_sock is always synchronous? Perhaps
+>> judicious construction of the consumer can help there; but
+>> I expect that plain TCP has similar pathologies during, for
+>> instance, a network partition.
+>>
+>>
+>>> Mind you, that is all conjecture. Might well be that ->read_sock()
+>>> is beneficial for TLS, too. Or, at least, doesn't do any harm.
+>>> It's just that I don't trust the author of the TLS read_sock()
+>>> implementation; his network stack knowledge isn't _that_ great.
+>>
+>> Time to get out our measuring sticks, I suppose.
+>>
+>>
+>>> (Problem is that my performance measurements always ran into
+>>> some obnoxious occasional stall, rendering the entire measurement
+>>> pretty worthless. So I couldn't tell whether the recvmsg()
+>>> implementation delivers a benefit or not)
+>>
+>> Generally speaking (ie, hand-wave mode) that kind of stall arises
+>> because the consumer expects it will get another data_ready and the
+>> network layer does not conform with the implementer's expectations.
+>>
+>> So I like the read_sock_cmsg design here because with recvmsg,
+>> the CMSG payload can appear in the consumer's data buffer. For
+>> direct I/O, that's bad. We also really don't want to place the
+>> TLS Alerts in page cache pages. With read_sock_cmsg, the CMSG
+>> payload can be efficiently directed to an independent buffer
+>> that is never visible to user space.
+>>
+>> And I prefer having a single receive path for both non-TLS and
+>> TLS processing. That's so much less code to deal with.
+>>
+>> This approach seems to me to be more architecturally sound.
+>> We just have to get over the implementation bumps IMO. I think
+>> we can certainly examine ->read_sock with software kTLS to see
+>> if there's room for improvement.
+> 
+> I completely agree!
+> 
+> The current read_sock approach is very brittle, as soon as a control
+> message appears the whole thing falls over. In the NVMe world we are
+> seeing devices issuing Key-Updates, which is breaking things.
+> 
+Indeed. That's why I thought recvmsg() would be a better fit.
 
-I completely agree!
+> So far the approach has been to convert to use sock_recvmsg() instead
+> of ->read_sock(), but at least for the nvme-host conversion (not
+> upstream) that has exposed a range of subtle and hard to narrow down
+> bugs. All this churn just to handle a few control messages.
+> 
+Ah; didn't know this. Was wondering why you had kept quiet, but that
+explains it.
 
-The current read_sock approach is very brittle, as soon as a control
-message appears the whole thing falls over. In the NVMe world we are
-seeing devices issuing Key-Updates, which is breaking things.
+Cheers,
 
-So far the approach has been to convert to use sock_recvmsg() instead
-of ->read_sock(), but at least for the nvme-host conversion (not
-upstream) that has exposed a range of subtle and hard to narrow down
-bugs. All this churn just to handle a few control messages.
-
-This approach (in this series) seems like a great step to handle
-control messages without having to redesign existing otherwise working
-recv flows to use sock_recvmsg(), which doesn't seem to have any other
-benefit, besides handling control messages.
-
-Alistair
-
->
-> --
-> Chuck Lever
->
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich

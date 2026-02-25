@@ -1,64 +1,64 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79911E8836
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 25 Feb 2026 04:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4587418872A
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 25 Feb 2026 04:24:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771992960; cv=none; b=Fbxc8WCVApX9jnGqBq2RhRexJVB363BGV1sD6tAeVATq+jiv0G4zVSn2trB6CMEr9nt20qJdUyQ89jZcku34OSbSh1WCNnRKq+yib5Br4rG9PudHtgk5vUJweo3Gx+3U07Dxg7faQjdszbtIgZWmcVW77Fj9poMuqsBJXMcJ2y4=
+	t=1771993491; cv=none; b=V+ma206PmgsXkR+hvBrnVGuy0kGzAOrTAbYFHd7cnCEQKrCXb9z6w+6i1G86alXDS3au/Q0FmjnP0T7Fjt3KXqnS5xZUQB26hgbV6QV+3sd8jUdBJtFyl7+27xJ0LspC/GBY0NEECaxGtnMulpN4uvAndsSBaqb1eFi4EH1g3Dk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771992960; c=relaxed/simple;
-	bh=bn88wMnM1xbpqotcLjjrvUDC86mH2VGzM6psEKDPIKU=;
+	s=arc-20240116; t=1771993491; c=relaxed/simple;
+	bh=Gjlo7J1BuzGUnxvNmBhrb71nR9k1BwmHEuvAbk9ktK4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YBlBAg+VltsHMwBOZnLAHwf39GsxsJygomhZ6oGCW4o3u0coI3igHF9IwOu1kw7xkGCA+FYmuiO6wcAFLagWR71ZNBn3Iotgbz0QN5GqcQkpRFkUzC7IAc8KL1wL0/Ybqr/Qx0NUrVmcMAmFQjbpgHUNbVVsTKy4QWNGzxdSmnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=meIoQKsi; arc=none smtp.client-ip=209.85.160.180
+	 MIME-Version:Content-Type; b=ViF1R/8Sv+wSv3uiEGTPMRM5yxgbWse/s0HLrizxYH+NXHgm9uXIqHmxNZjN8/TCN4EzzME+kOb7ealXwfb1NMZVcY64l0qcJmeRGKHG9crlQ6GIbafG6V6Gj2QkuAZdMJ6XEGOXIzo2I6p0r2zaNG8lsc9OWtu0kkL3lU7vQgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DNsj50Mn; arc=none smtp.client-ip=209.85.222.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="meIoQKsi"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-506989e8516so52280391cf.0
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 24 Feb 2026 20:15:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DNsj50Mn"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8cb5c9ba82bso1001715485a.2
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 24 Feb 2026 20:24:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771992958; x=1772597758; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1771993488; x=1772598288; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=B4PuZyXnKwTS0epzNqDICuHBDdpM4bAySzL/nDufbjs=;
-        b=meIoQKsiF7MCCqeg/wF0AwFclgHe5bfYbFvDHFdczbCSfAqSa3zfI86nw/qpOmrfla
-         sRABvTcA2btzNy3MPUl2GsgXqJA8GNoToraXZhkHU+ob/au48gpZ4AZZoNk3F75JoRmB
-         n8v7HgOPf7MNWDcFjHp4kgFQzj3nuuSp1VeBG1aPGwnzzj4inxG1w4Czpp/E8hPNEziu
-         TAQ2tnujouTE2ShdunLUXLtq0JlQLsVJ9QnSKzfk96atJwTYrlx/S3arxlUiUg0UzNHD
-         fc7TTZCM3slwBt9MYlmRV97v6rJg2WFxdv/TZlOuE+fgDj7ytNKfgk8NtN8KqGUw8QcI
-         07Bw==
+        bh=tttlKBKxUy8wIGJljU3mcZCC40E8PTqpdj715bQuq5k=;
+        b=DNsj50MnDAXEaAioVGU2Mprcn3K/6q/qMmIolaxsGCNlh2p2o8xQzej1zayYwoM6XX
+         lghkJtrnBLIHfA96kAQ3VbRplPqvVRONf87dyrLL4lF95cBREqYCZJKUC/793/avnaMG
+         JO/o3Q7qrWi13LHqVJXSkFU0XbheSAz/ByB4l+NfK+L2updle3iLi9N0f4QUi4EYEi3v
+         uIcotJglOctCi/h3h0oCbJy5UktI8xrlK2z1nwEsmJ1aaO3omn8sy4O6ALJocZ8JoVdf
+         z6nZo7tM8QL3rh3sglPWjY/DOu6I6dfL5onD01S/JHNrDGnuQL6QJhSEbbcFhiIOeFF+
+         Cs6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771992958; x=1772597758;
+        d=1e100.net; s=20230601; t=1771993488; x=1772598288;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=B4PuZyXnKwTS0epzNqDICuHBDdpM4bAySzL/nDufbjs=;
-        b=hWJOWjKpitj/5z6NZRuTZ8RprDZwVm8trkwlCMfoFari6LpXkK7GMk3kvpz1lhQ0jw
-         hgoLdzGFm2+DyakSpsET0aERxhPFUC4Yysz3oQVmSFtwdl0tVYxr1XKH3YD8siTIKJne
-         FicOLijsryt4SNglJKHaWt7nnYn8jWr6dKxaa47FFKmUvxsTWxpRffZJr21iEEXiA+Ls
-         GNZaWuvw2uejxD1YZd0sNyxa4ZlAb3NdphaaPhLQQKLRLG4jUG8NUg4r+PKOnnJ3NXYo
-         csKfUC1mT2PyBIKlA0Sy7xxxV/6G3ya7v3xdrJPZN0JK/RYiTiPjk7DGAalwo1wdvMca
-         Puag==
-X-Forwarded-Encrypted: i=1; AJvYcCU1MRYUKUiEZkSzcx3EjduWDMp5igu6d08vevn/981Mvb/JfJ9bxjCGq/VoKgkGWSrRh9rMLzZ25jDn+wzLLaWuCHgaSA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy7mVUr0FehrAj6ZpdZPAHjvju8xws0RVd1NRq86wuceVRkh6ew
-	WDh6UZQgK9PwCD2gDtQLgeNRtD4KHJF0ZAjH5asUtZlaUqD5vYRE18kH
-X-Gm-Gg: ATEYQzzxN24W3NwogRxH+BlDeHvCzFyDTMHfpoeHKR1wDp/k+G3gkOG9jAz3Meh1pV6
-	zWvPLv4Vjxu8nfX35/iRP8UhE0UGXKW/9fCyMfvDG8HeBDCTHivuSt0tu92R5G0l4FxgbYXJf9d
-	roQxUTAU9yJeHLN9J5sYainGWcawFHJa+kwaTghGe+A3y0IROSpNykPlwdb8MD3WXpL5Me3cdxj
-	MOCHs3D3QqU3Fx/FJBPT/z3zWak+5nuwOoZWvFWNsvfNOf/muK/kbHkI7ObqlwI8FMr7IblttTy
-	DkUfjHhCdsgItrz+tcNrvxkt/OBWH6vS7xu8NZKhxCF0jBdB5MNRq644jr1OYRM9VWV8OtywFdn
-	TWnp9q0jaVC2J2E3ux6IwsCaVhmeqbISwltlnVytweTwvJ/pK83pJH0Hn1ujChrUxoWMsrO0JiY
-	9jAu695t0hoMGxB+4p+Q3tjJYsC5u2PF2rBqLoMF84hVs+zIO/TECt6YqqeZ06V+4dRVi4SlrnY
-	5fcBSaCehhbpHJ6UqLNJT6Q6X5eZ85uvL8EgdZy/K7Ji0fhs/LmfipfGkZR1eJEEQ==
-X-Received: by 2002:ac8:5fc1:0:b0:501:5233:2a6f with SMTP id d75a77b69052e-5070bba4d14mr212557311cf.14.1771986952528;
-        Tue, 24 Feb 2026 18:35:52 -0800 (PST)
+        bh=tttlKBKxUy8wIGJljU3mcZCC40E8PTqpdj715bQuq5k=;
+        b=mckcrMR5PUmG9Z1/tJU+YHlXlZJMRLHnnqwZjYcpOcv53IdtKyFFscv8i3BWKicoNW
+         oSgOdq5WTajH2ytA300Rj3Mx9FsZE3k7g00JCInP2APb1dS0yZdth02bwrPo6XKuekWU
+         s4zTxnS3ZE+QBnMFcD3zNkIyFSCy/Ycm8yiC7exF4B1uptuZ73yABAEgjvtscHjNcJf9
+         9iflKfDSU6JJ6rOEO5UAy6ucImVw1INasTGfZRksKlhuPsY2ZikQeigw+09tx7dLOESX
+         f9VRRrIpONkHFpHwDbiu6iIqgw1emWUlRAuo/DYMJvdZRXzf+Vwcx8Hobc/z1gf6M2vO
+         HF3w==
+X-Forwarded-Encrypted: i=1; AJvYcCVoV9P26jnlXEWrHtQ05S7vJRrePPxkJ8/n7i1iewHWmULS0JMIm0Cesitl8WKI5rAP3gMn7+AnEH/xjJxCmGydmuBxQA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxRU95mO25d07aVeoDYhsWDoZsd/naSJip+MkLke4CS1ErK3p9T
+	F8ECZxcPcUNQMMaxGXwV8u1Uk2KObljE0s7yr8wMa1AoTplcL9LKz/BSmwkp5nJs
+X-Gm-Gg: ATEYQzxf4Vwm+tDqSCEtbtDDlaMDlO2RDHm05ENE27JLBQiNtuZWcVeeh7BIkqYqhSM
+	2BeqU3yoXyTLVKqDWP/kfFa6o7b6WimkXhMhBti8rczDxljoUTZxxEupiv0eNwGieS3jYl3Piro
+	WU3xTe9IMnZ8zrNchmPUi2BUnu5/ukjrllg24nKHolgEr8SLB8yYDOf21USbhO4wtOeBdY3bGDd
+	twRXi0QHsDxjxfrQsIxYbYxto0eabLVPbq374ieoyOpk9fLFhco2rOpBgXjeLIwmxL+BrAMDAid
+	rk2UlBwM9gVrFIloc+ecBciJ4UpURkJt0ddmaEOFWODaCR0RZG5z+EQMFQ4fW7BuzzY6M/I0bl/
+	RTfL0sGH2gjN/0YaRCxdSFQo6Be+j88AHkJGDh/5Z9Bo3lY0ORBozYkKknvQcys73OWP86Xtp0W
+	ntuS1d9N3GSv/wIhpqgkRJqOL0zyP11JePV0GceGASzvmnrtI8l7RnTiz8Z6v0omP6Vpxmv4n24
+	edDWvg9bt2pM1vm9/GXY8kNJjNuNBcYh+S7fBvfIs7Z8wVKO9yhgQbI3htekyxbYu1WYdfIa0Jq
+X-Received: by 2002:a05:6214:4117:b0:894:6c73:7e79 with SMTP id 6a1803df08f44-899b8968936mr10575806d6.18.1771986936841;
+        Tue, 24 Feb 2026 18:35:36 -0800 (PST)
 Received: from wsfd-netdev58.anl.eng.rdu2.dc.redhat.com ([66.187.232.140])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8997e62f453sm112363586d6.36.2026.02.24.18.35.51
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8997e62f453sm112363586d6.36.2026.02.24.18.35.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 18:35:52 -0800 (PST)
+        Tue, 24 Feb 2026 18:35:36 -0800 (PST)
 From: Xin Long <lucien.xin@gmail.com>
 To: network dev <netdev@vger.kernel.org>,
 	quic@lists.linux.dev
@@ -95,9 +95,9 @@ Cc: davem@davemloft.net,
 	Daniel Stenberg <daniel@haxx.se>,
 	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
 	"Marc E . Fiuczynski" <marc@fiuczynski.com>
-Subject: [PATCH net-next v10 13/15] quic: add timer management
-Date: Tue, 24 Feb 2026 21:34:19 -0500
-Message-ID: <bffaab8d4727991c8dd46c8b57a08507545a25a4.1771986861.git.lucien.xin@gmail.com>
+Subject: [PATCH net-next v10 02/15] net: build socket infrastructure for QUIC protocol
+Date: Tue, 24 Feb 2026 21:34:08 -0500
+Message-ID: <e1227042e813d6554faea1fd397f892ecab09a50.1771986861.git.lucien.xin@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <cover.1771986861.git.lucien.xin@gmail.com>
 References: <cover.1771986861.git.lucien.xin@gmail.com>
@@ -107,184 +107,235 @@ List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This patch introduces 'quic_timer' to unify and manage the five main
-timers used in QUIC: loss detection, delayed ACK, path validation,
-PMTU probing, and pacing. These timers are critical for driving
-retransmissions, connection liveness, and flow control.
+This patch lays the groundwork for QUIC socket support in the kernel.
+It defines the core structures and protocol hooks needed to create
+QUIC sockets, without implementing any protocol behavior at this stage.
 
-Each timer type is initialized, started, reset, or stopped using a common
-set of operations.
+Basic integration is included to allow building the module via
+CONFIG_IP_QUIC=m.
 
-- quic_timer_reset(): Reset a timer with type and timeout
+This provides the scaffolding necessary for adding actual QUIC socket
+behavior in follow-up patches.
 
-- quic_timer_start(): Start a timer with type and timeout
-
-- quic_timer_stop(): Stop a timer with type
-
-Although handler functions for each timer are defined, they are currently
-placeholders; their logic will be implemented in upcoming patches for
-packet transmission and outqueue handling.
-
-Deferred timer actions are also integrated through quic_release_cb(),
-which dispatches to the appropriate handler when timers expire.
-
-Signed-off-by: Tyler Fanelli <tfanelli@redhat.com>
+Signed-off-by: Pengtao He <hepengtao@xiaomi.com>
 Signed-off-by: Xin Long <lucien.xin@gmail.com>
 Acked-by: Paolo Abeni <pabeni@redhat.com>
 ---
+v3:
+  - Kconfig: add 'default n' for IP_QUIC (reported by Paolo).
+  - quic_disconnect(): return -EOPNOTSUPP (suggested by Paolo).
+  - quic_init/destroy_sock(): drop local_bh_disable/enable() calls (noted
+    by Paolo).
+  - sysctl: add alpn_demux option to en/disable ALPN-based demux.
+  - SNMP: remove SNMP_MIB_SENTINEL, switch to
+    snmp_get_cpu_field_batch_cnt() to align with latest net-next changes.
+v4:
+  - Remove unnecessary READ_ONCE() in quic_inet_connect() (reported by
+    Paolo).
 v5:
-  - Rename QUIC_TSQ_DEFERRED to QUIC_PACE_DEFERRED.
+  - Update the type of the parameter 'addr' in quic_inet_connect(),
+    quic_connect(), and quic_bind() to match the latest net-next changes.
+  - Define quic_is_serv() to reuse sk->sk_max_ack_backlog for server-side
+    detection; path->serv will be deleted in a later patch.
+  - Use MODULE_ALIAS_NET_PF_PROTO instead of MODULE_ALIAS (suggested by
+    Stefan).
+  - Add the missing Documentation entry for the new sysctl options (noted
+    by Paolo).
+  - Add the missing MAINTAINERS entry for the QUIC PROTOCOL (noted by
+    Jakub).
+v6:
+  - Relocate the QUIC PROTOCOL MAINTAINERS entry to its proper section
+    (noted by Jakub).
+v7:
+  - Replace #ifdef CONFIG_XXX with #if IS_ENABLED(CONFIG_XXX) (noted by
+    Paolo).
+v8:
+  - Fix an issue where an uninitialized value could be returned from
+    quic_net_init() by initializing err to 0 (reported by AI review).
+  - Replace the global ALPN demultiplexing sysctl with a static key that
+    will be enabled only when ALPN is configured on a listening socket
+    (noted by Stefan).
+v10:
+  - Note for AI reviews: inet6_register_protosw() never fails for QUIC,
+    so checking its return value is unnecessary.
+  - Remove sk_sndbuf/sk_rcvbuf initialization in quic_init_sock(), as it's
+    already done in sock_init_data_uid() with sysctl_w/rmem_default.
 ---
- net/quic/Makefile |   2 +-
- net/quic/socket.c |  33 ++++++++
- net/quic/socket.h |  33 ++++++++
- net/quic/timer.c  | 196 ++++++++++++++++++++++++++++++++++++++++++++++
- net/quic/timer.h  |  47 +++++++++++
- 5 files changed, 310 insertions(+), 1 deletion(-)
- create mode 100644 net/quic/timer.c
- create mode 100644 net/quic/timer.h
+ Documentation/networking/ip-sysctl.rst |  39 +++
+ MAINTAINERS                            |   7 +
+ net/Kconfig                            |   1 +
+ net/Makefile                           |   1 +
+ net/quic/Kconfig                       |  36 +++
+ net/quic/Makefile                      |   8 +
+ net/quic/protocol.c                    | 369 +++++++++++++++++++++++++
+ net/quic/protocol.h                    |  57 ++++
+ net/quic/socket.c                      | 204 ++++++++++++++
+ net/quic/socket.h                      |  89 ++++++
+ 10 files changed, 811 insertions(+)
+ create mode 100644 net/quic/Kconfig
+ create mode 100644 net/quic/Makefile
+ create mode 100644 net/quic/protocol.c
+ create mode 100644 net/quic/protocol.h
+ create mode 100644 net/quic/socket.c
+ create mode 100644 net/quic/socket.h
 
-diff --git a/net/quic/Makefile b/net/quic/Makefile
-index 58bb18f7926d..2ccf01ad9e22 100644
---- a/net/quic/Makefile
-+++ b/net/quic/Makefile
-@@ -6,4 +6,4 @@
- obj-$(CONFIG_IP_QUIC) += quic.o
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index 6921d8594b84..635443980aae 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -3771,6 +3771,45 @@ l3mdev_accept - BOOLEAN
+ 	Default: 1 (enabled)
  
- quic-y := common.o family.o protocol.o socket.o stream.o connid.o path.o \
--	  cong.o pnspace.o crypto.o
-+	  cong.o pnspace.o crypto.o timer.o
-diff --git a/net/quic/socket.c b/net/quic/socket.c
-index 74e3e3939c61..93a7abefc226 100644
---- a/net/quic/socket.c
-+++ b/net/quic/socket.c
-@@ -50,6 +50,8 @@ static int quic_init_sock(struct sock *sk)
- 	quic_conn_id_set_init(quic_dest(sk), 0);
- 	quic_cong_init(quic_cong(sk));
  
-+	quic_timer_init(sk);
++``/proc/sys/net/quic/*`` Variables
++===================================
 +
- 	if (quic_stream_init(quic_streams(sk)))
- 		return -ENOMEM;
- 
-@@ -65,6 +67,8 @@ static void quic_destroy_sock(struct sock *sk)
- {
- 	u8 i;
- 
-+	quic_timer_free(sk);
++quic_mem - vector of 3 LONGs: min, pressure, max
++	Number of pages allowed for queueing by all QUIC sockets.
 +
- 	for (i = 0; i < QUIC_PNSPACE_MAX; i++)
- 		quic_pnspace_free(quic_pnspace(sk, i));
- 	for (i = 0; i < QUIC_CRYPTO_MAX; i++)
-@@ -191,6 +195,35 @@ static int quic_getsockopt(struct sock *sk, int level, int optname,
- 
- static void quic_release_cb(struct sock *sk)
- {
-+	/* Similar to tcp_release_cb(). */
-+	unsigned long nflags, flags = smp_load_acquire(&sk->sk_tsq_flags);
++	min: below this number of pages QUIC is not bothered about its
++	memory appetite.
 +
-+	do {
-+		if (!(flags & QUIC_DEFERRED_ALL))
-+			return;
-+		nflags = flags & ~QUIC_DEFERRED_ALL;
-+	} while (!try_cmpxchg(&sk->sk_tsq_flags, &flags, nflags));
++	pressure: when amount of memory allocated by QUIC exceeds this number
++	of pages, QUIC moderates its memory consumption and enters memory
++	pressure mode, which is exited when memory consumption falls
++	under "min".
 +
-+	if (flags & QUIC_F_LOSS_DEFERRED) {
-+		quic_timer_loss_handler(sk);
-+		__sock_put(sk);
-+	}
-+	if (flags & QUIC_F_SACK_DEFERRED) {
-+		quic_timer_sack_handler(sk);
-+		__sock_put(sk);
-+	}
-+	if (flags & QUIC_F_PATH_DEFERRED) {
-+		quic_timer_path_handler(sk);
-+		__sock_put(sk);
-+	}
-+	if (flags & QUIC_F_PMTU_DEFERRED) {
-+		quic_timer_pmtu_handler(sk);
-+		__sock_put(sk);
-+	}
-+	if (flags & QUIC_F_PACE_DEFERRED) {
-+		quic_timer_pace_handler(sk);
-+		__sock_put(sk);
-+	}
- }
- 
- static int quic_disconnect(struct sock *sk, int flags)
-diff --git a/net/quic/socket.h b/net/quic/socket.h
-index d7811391cc8b..c5654fdc06b5 100644
---- a/net/quic/socket.h
-+++ b/net/quic/socket.h
-@@ -21,6 +21,7 @@
- #include "cong.h"
- 
- #include "protocol.h"
-+#include "timer.h"
- 
- extern struct proto quic_prot;
- extern struct proto quicv6_prot;
-@@ -32,6 +33,31 @@ enum quic_state {
- 	QUIC_SS_ESTABLISHED	= TCP_ESTABLISHED,
- };
- 
-+enum quic_tsq_enum {
-+	QUIC_MTU_REDUCED_DEFERRED,
-+	QUIC_LOSS_DEFERRED,
-+	QUIC_SACK_DEFERRED,
-+	QUIC_PATH_DEFERRED,
-+	QUIC_PMTU_DEFERRED,
-+	QUIC_PACE_DEFERRED,
-+};
++	max: number of pages allowed for queueing by all QUIC sockets.
 +
-+enum quic_tsq_flags {
-+	QUIC_F_MTU_REDUCED_DEFERRED	= BIT(QUIC_MTU_REDUCED_DEFERRED),
-+	QUIC_F_LOSS_DEFERRED		= BIT(QUIC_LOSS_DEFERRED),
-+	QUIC_F_SACK_DEFERRED		= BIT(QUIC_SACK_DEFERRED),
-+	QUIC_F_PATH_DEFERRED		= BIT(QUIC_PATH_DEFERRED),
-+	QUIC_F_PMTU_DEFERRED		= BIT(QUIC_PMTU_DEFERRED),
-+	QUIC_F_PACE_DEFERRED		= BIT(QUIC_PACE_DEFERRED),
-+};
++	Defaults are calculated at boot time from amount of available
++	memory.
 +
-+#define QUIC_DEFERRED_ALL (QUIC_F_MTU_REDUCED_DEFERRED |	\
-+			   QUIC_F_LOSS_DEFERRED |		\
-+			   QUIC_F_SACK_DEFERRED |		\
-+			   QUIC_F_PATH_DEFERRED |		\
-+			   QUIC_F_PMTU_DEFERRED |		\
-+			   QUIC_F_PACE_DEFERRED)
++quic_rmem - vector of 3 INTEGERs: min, default, max
++	Only the first value ("min") is used, "default" and "max" are
++	ignored.
 +
- struct quic_sock {
- 	struct inet_sock		inet;
- 	struct list_head		reqs;
-@@ -47,6 +73,8 @@ struct quic_sock {
- 	struct quic_cong		cong;
- 	struct quic_pnspace		space[QUIC_PNSPACE_MAX];
- 	struct quic_crypto		crypto[QUIC_CRYPTO_MAX];
++	min: Minimal size of receive buffer used by QUIC sockets.
++	It is guaranteed to each QUIC socket, even under moderate memory
++	pressure.
 +
-+	struct quic_timer		timers[QUIC_TIMER_MAX];
- };
++	Default: 4K
++
++quic_wmem - vector of 3 INTEGERs: min, default, max
++	Only the first value ("min") is used, "default" and "max" are
++	ignored.
++
++	min: Amount of memory reserved for send buffers for QUIC sockets.
++	Each QUIC socket has rights to use it due to fact of its birth.
++
++	Default: 4K
++
++
+ ``/proc/sys/net/core/*``
+ ========================
  
- struct quic6_sock {
-@@ -119,6 +147,11 @@ static inline struct quic_crypto *quic_crypto(const struct sock *sk, u8 level)
- 	return &quic_sk(sk)->crypto[level];
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b8d8a5c41597..f1dfc2239978 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -21915,6 +21915,13 @@ L:	linux-wireless@vger.kernel.org
+ S:	Maintained
+ F:	drivers/net/wireless/quantenna/
  
-+static inline void *quic_timer(const struct sock *sk, u8 type)
-+{
-+	return (void *)&quic_sk(sk)->timers[type];
-+}
++QUIC PROTOCOL
++M:	Xin Long <lucien.xin@gmail.com>
++L:	quic@lists.linux.dev
++S:	Maintained
++W:	https://github.com/lxin/quic
++F:	net/quic/
 +
- static inline bool quic_is_establishing(struct sock *sk)
- {
- 	return sk->sk_state == QUIC_SS_ESTABLISHING;
-diff --git a/net/quic/timer.c b/net/quic/timer.c
+ RADEON and AMDGPU DRM DRIVERS
+ M:	Alex Deucher <alexander.deucher@amd.com>
+ M:	Christian König <christian.koenig@amd.com>
+diff --git a/net/Kconfig b/net/Kconfig
+index 62266eaf0e95..dd2ed8420102 100644
+--- a/net/Kconfig
++++ b/net/Kconfig
+@@ -251,6 +251,7 @@ source "net/bridge/netfilter/Kconfig"
+ 
+ endif # if NETFILTER
+ 
++source "net/quic/Kconfig"
+ source "net/sctp/Kconfig"
+ source "net/rds/Kconfig"
+ source "net/tipc/Kconfig"
+diff --git a/net/Makefile b/net/Makefile
+index 90e3d72bf58b..cd43d03907cd 100644
+--- a/net/Makefile
++++ b/net/Makefile
+@@ -43,6 +43,7 @@ obj-$(CONFIG_PHONET)		+= phonet/
+ ifneq ($(CONFIG_VLAN_8021Q),)
+ obj-y				+= 8021q/
+ endif
++obj-$(CONFIG_IP_QUIC)		+= quic/
+ obj-$(CONFIG_IP_SCTP)		+= sctp/
+ obj-$(CONFIG_RDS)		+= rds/
+ obj-$(CONFIG_WIRELESS)		+= wireless/
+diff --git a/net/quic/Kconfig b/net/quic/Kconfig
 new file mode 100644
-index 000000000000..6f957385a341
+index 000000000000..1f10a452b3a1
 --- /dev/null
-+++ b/net/quic/timer.c
-@@ -0,0 +1,196 @@
++++ b/net/quic/Kconfig
+@@ -0,0 +1,36 @@
++# SPDX-License-Identifier: GPL-2.0-or-later
++#
++# QUIC configuration
++#
++
++menuconfig IP_QUIC
++	tristate "QUIC: A UDP-Based Multiplexed and Secure Transport (Experimental)"
++	depends on INET
++	depends on IPV6
++	select CRYPTO
++	select CRYPTO_HMAC
++	select CRYPTO_HKDF
++	select CRYPTO_AES
++	select CRYPTO_GCM
++	select CRYPTO_CCM
++	select CRYPTO_CHACHA20POLY1305
++	select NET_UDP_TUNNEL
++	default n
++	help
++	  QUIC: A UDP-Based Multiplexed and Secure Transport
++
++	  From rfc9000 <https://www.rfc-editor.org/rfc/rfc9000.html>.
++
++	  QUIC provides applications with flow-controlled streams for structured
++	  communication, low-latency connection establishment, and network path
++	  migration.  QUIC includes security measures that ensure
++	  confidentiality, integrity, and availability in a range of deployment
++	  circumstances.  Accompanying documents describe the integration of
++	  TLS for key negotiation, loss detection, and an exemplary congestion
++	  control algorithm.
++
++	  To compile this protocol support as a module, choose M here: the
++	  module will be called quic. Debug messages are handled by the
++	  kernel's dynamic debugging framework.
++
++	  If in doubt, say N.
+diff --git a/net/quic/Makefile b/net/quic/Makefile
+new file mode 100644
+index 000000000000..020e4dd133d8
+--- /dev/null
++++ b/net/quic/Makefile
+@@ -0,0 +1,8 @@
++# SPDX-License-Identifier: GPL-2.0-or-later
++#
++# Makefile for QUIC support code.
++#
++
++obj-$(CONFIG_IP_QUIC) += quic.o
++
++quic-y := protocol.o socket.o
+diff --git a/net/quic/protocol.c b/net/quic/protocol.c
+new file mode 100644
+index 000000000000..6ab81f1c50cc
+--- /dev/null
++++ b/net/quic/protocol.c
+@@ -0,0 +1,369 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +/* QUIC kernel implementation
 + * (C) Copyright Red Hat Corp. 2023
@@ -297,196 +348,369 @@ index 000000000000..6f957385a341
 + *    Xin Long <lucien.xin@gmail.com>
 + */
 +
++#include <net/inet_common.h>
++#include <linux/proc_fs.h>
++#include <net/protocol.h>
++#include <net/rps.h>
++#include <net/tls.h>
++
 +#include "socket.h"
 +
-+void quic_timer_sack_handler(struct sock *sk)
++static unsigned int quic_net_id __read_mostly;
++
++struct percpu_counter quic_sockets_allocated;
++
++DEFINE_STATIC_KEY_FALSE(quic_alpn_demux_key);
++
++long sysctl_quic_mem[3];
++int sysctl_quic_rmem[3];
++int sysctl_quic_wmem[3];
++
++static int quic_inet_connect(struct socket *sock, struct sockaddr_unsized *addr, int addr_len,
++			     int flags)
 +{
++	struct sock *sk = sock->sk;
++
++	if (addr_len < (int)sizeof(addr->sa_family))
++		return -EINVAL;
++
++	return sk->sk_prot->connect(sk, addr, addr_len);
 +}
 +
-+static void quic_timer_sack_timeout(struct timer_list *t)
++static int quic_inet_listen(struct socket *sock, int backlog)
 +{
-+	struct quic_sock *qs = container_of(t, struct quic_sock, timers[QUIC_TIMER_SACK].t);
-+	struct sock *sk = &qs->inet.sk;
++	return -EOPNOTSUPP;
++}
 +
-+	bh_lock_sock(sk);
-+	if (sock_owned_by_user(sk)) {
-+		if (!test_and_set_bit(QUIC_SACK_DEFERRED, &sk->sk_tsq_flags))
-+			sock_hold(sk);
-+		goto out;
++static int quic_inet_getname(struct socket *sock, struct sockaddr *uaddr, int peer)
++{
++	return -EOPNOTSUPP;
++}
++
++static __poll_t quic_inet_poll(struct file *file, struct socket *sock, poll_table *wait)
++{
++	return 0;
++}
++
++static struct ctl_table quic_table[] = {
++	{
++		.procname	= "quic_mem",
++		.data		= &sysctl_quic_mem,
++		.maxlen		= sizeof(sysctl_quic_mem),
++		.mode		= 0644,
++		.proc_handler	= proc_doulongvec_minmax
++	},
++	{
++		.procname	= "quic_rmem",
++		.data		= &sysctl_quic_rmem,
++		.maxlen		= sizeof(sysctl_quic_rmem),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec,
++	},
++	{
++		.procname	= "quic_wmem",
++		.data		= &sysctl_quic_wmem,
++		.maxlen		= sizeof(sysctl_quic_wmem),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec,
++	},
++};
++
++struct quic_net *quic_net(struct net *net)
++{
++	return net_generic(net, quic_net_id);
++}
++
++#if IS_ENABLED(CONFIG_PROC_FS)
++static const struct snmp_mib quic_snmp_list[] = {
++	SNMP_MIB_ITEM("QuicConnCurrentEstabs", QUIC_MIB_CONN_CURRENTESTABS),
++	SNMP_MIB_ITEM("QuicConnPassiveEstabs", QUIC_MIB_CONN_PASSIVEESTABS),
++	SNMP_MIB_ITEM("QuicConnActiveEstabs", QUIC_MIB_CONN_ACTIVEESTABS),
++	SNMP_MIB_ITEM("QuicPktRcvFastpaths", QUIC_MIB_PKT_RCVFASTPATHS),
++	SNMP_MIB_ITEM("QuicPktDecFastpaths", QUIC_MIB_PKT_DECFASTPATHS),
++	SNMP_MIB_ITEM("QuicPktEncFastpaths", QUIC_MIB_PKT_ENCFASTPATHS),
++	SNMP_MIB_ITEM("QuicPktRcvBacklogs", QUIC_MIB_PKT_RCVBACKLOGS),
++	SNMP_MIB_ITEM("QuicPktDecBacklogs", QUIC_MIB_PKT_DECBACKLOGS),
++	SNMP_MIB_ITEM("QuicPktEncBacklogs", QUIC_MIB_PKT_ENCBACKLOGS),
++	SNMP_MIB_ITEM("QuicPktInvHdrDrop", QUIC_MIB_PKT_INVHDRDROP),
++	SNMP_MIB_ITEM("QuicPktInvNumDrop", QUIC_MIB_PKT_INVNUMDROP),
++	SNMP_MIB_ITEM("QuicPktInvFrmDrop", QUIC_MIB_PKT_INVFRMDROP),
++	SNMP_MIB_ITEM("QuicPktRcvDrop", QUIC_MIB_PKT_RCVDROP),
++	SNMP_MIB_ITEM("QuicPktDecDrop", QUIC_MIB_PKT_DECDROP),
++	SNMP_MIB_ITEM("QuicPktEncDrop", QUIC_MIB_PKT_ENCDROP),
++	SNMP_MIB_ITEM("QuicFrmRcvBufDrop", QUIC_MIB_FRM_RCVBUFDROP),
++	SNMP_MIB_ITEM("QuicFrmRetrans", QUIC_MIB_FRM_RETRANS),
++	SNMP_MIB_ITEM("QuicFrmOutCloses", QUIC_MIB_FRM_OUTCLOSES),
++	SNMP_MIB_ITEM("QuicFrmInCloses", QUIC_MIB_FRM_INCLOSES),
++};
++
++static int quic_snmp_seq_show(struct seq_file *seq, void *v)
++{
++	unsigned long buff[ARRAY_SIZE(quic_snmp_list)];
++	const int cnt = ARRAY_SIZE(quic_snmp_list);
++	struct net *net = seq->private;
++	u32 idx;
++
++	memset(buff, 0, sizeof(buff));
++
++	snmp_get_cpu_field_batch_cnt(buff, quic_snmp_list, cnt, quic_net(net)->stat);
++	for (idx = 0; idx < cnt; idx++)
++		seq_printf(seq, "%-32s\t%ld\n", quic_snmp_list[idx].name, buff[idx]);
++
++	return 0;
++}
++
++static int quic_net_proc_init(struct net *net)
++{
++	quic_net(net)->proc_net = proc_net_mkdir(net, "quic", net->proc_net);
++	if (!quic_net(net)->proc_net)
++		return -ENOMEM;
++
++	if (!proc_create_net_single("snmp", 0444, quic_net(net)->proc_net,
++				    quic_snmp_seq_show, NULL))
++		goto free;
++	return 0;
++free:
++	remove_proc_subtree("quic", net->proc_net);
++	quic_net(net)->proc_net = NULL;
++	return -ENOMEM;
++}
++
++static void quic_net_proc_exit(struct net *net)
++{
++	remove_proc_subtree("quic", net->proc_net);
++	quic_net(net)->proc_net = NULL;
++}
++#endif
++
++static const struct proto_ops quic_proto_ops = {
++	.family		   = PF_INET,
++	.owner		   = THIS_MODULE,
++	.release	   = inet_release,
++	.bind		   = inet_bind,
++	.connect	   = quic_inet_connect,
++	.socketpair	   = sock_no_socketpair,
++	.accept		   = inet_accept,
++	.getname	   = quic_inet_getname,
++	.poll		   = quic_inet_poll,
++	.ioctl		   = inet_ioctl,
++	.gettstamp	   = sock_gettstamp,
++	.listen		   = quic_inet_listen,
++	.shutdown	   = inet_shutdown,
++	.setsockopt	   = sock_common_setsockopt,
++	.getsockopt	   = sock_common_getsockopt,
++	.sendmsg	   = inet_sendmsg,
++	.recvmsg	   = inet_recvmsg,
++	.mmap		   = sock_no_mmap,
++};
++
++static struct inet_protosw quic_stream_protosw = {
++	.type       = SOCK_STREAM,
++	.protocol   = IPPROTO_QUIC,
++	.prot       = &quic_prot,
++	.ops        = &quic_proto_ops,
++};
++
++static struct inet_protosw quic_dgram_protosw = {
++	.type       = SOCK_DGRAM,
++	.protocol   = IPPROTO_QUIC,
++	.prot       = &quic_prot,
++	.ops        = &quic_proto_ops,
++};
++
++static const struct proto_ops quicv6_proto_ops = {
++	.family		   = PF_INET6,
++	.owner		   = THIS_MODULE,
++	.release	   = inet6_release,
++	.bind		   = inet6_bind,
++	.connect	   = quic_inet_connect,
++	.socketpair	   = sock_no_socketpair,
++	.accept		   = inet_accept,
++	.getname	   = quic_inet_getname,
++	.poll		   = quic_inet_poll,
++	.ioctl		   = inet6_ioctl,
++	.gettstamp	   = sock_gettstamp,
++	.listen		   = quic_inet_listen,
++	.shutdown	   = inet_shutdown,
++	.setsockopt	   = sock_common_setsockopt,
++	.getsockopt	   = sock_common_getsockopt,
++	.sendmsg	   = inet_sendmsg,
++	.recvmsg	   = inet_recvmsg,
++	.mmap		   = sock_no_mmap,
++};
++
++static struct inet_protosw quicv6_stream_protosw = {
++	.type       = SOCK_STREAM,
++	.protocol   = IPPROTO_QUIC,
++	.prot       = &quicv6_prot,
++	.ops        = &quicv6_proto_ops,
++};
++
++static struct inet_protosw quicv6_dgram_protosw = {
++	.type       = SOCK_DGRAM,
++	.protocol   = IPPROTO_QUIC,
++	.prot       = &quicv6_prot,
++	.ops        = &quicv6_proto_ops,
++};
++
++static int quic_protosw_init(void)
++{
++	int err;
++
++	err = proto_register(&quic_prot, 1);
++	if (err)
++		return err;
++
++	err = proto_register(&quicv6_prot, 1);
++	if (err) {
++		proto_unregister(&quic_prot);
++		return err;
 +	}
 +
-+	quic_timer_sack_handler(sk);
-+out:
-+	bh_unlock_sock(sk);
-+	sock_put(sk);
++	inet_register_protosw(&quic_stream_protosw);
++	inet_register_protosw(&quic_dgram_protosw);
++	inet6_register_protosw(&quicv6_stream_protosw);
++	inet6_register_protosw(&quicv6_dgram_protosw);
++
++	return 0;
 +}
 +
-+void quic_timer_loss_handler(struct sock *sk)
++static void quic_protosw_exit(void)
 +{
++	inet_unregister_protosw(&quic_dgram_protosw);
++	inet_unregister_protosw(&quic_stream_protosw);
++	proto_unregister(&quic_prot);
++
++	inet6_unregister_protosw(&quicv6_dgram_protosw);
++	inet6_unregister_protosw(&quicv6_stream_protosw);
++	proto_unregister(&quicv6_prot);
 +}
 +
-+static void quic_timer_loss_timeout(struct timer_list *t)
++static int __net_init quic_net_init(struct net *net)
 +{
-+	struct quic_sock *qs = container_of(t, struct quic_sock, timers[QUIC_TIMER_LOSS].t);
-+	struct sock *sk = &qs->inet.sk;
++	struct quic_net *qn = quic_net(net);
++	int err = 0;
 +
-+	bh_lock_sock(sk);
-+	if (sock_owned_by_user(sk)) {
-+		if (!test_and_set_bit(QUIC_LOSS_DEFERRED, &sk->sk_tsq_flags))
-+			sock_hold(sk);
-+		goto out;
++	qn->stat = alloc_percpu(struct quic_mib);
++	if (!qn->stat)
++		return -ENOMEM;
++
++#if IS_ENABLED(CONFIG_PROC_FS)
++	err = quic_net_proc_init(net);
++	if (err) {
++		free_percpu(qn->stat);
++		qn->stat = NULL;
 +	}
-+
-+	quic_timer_loss_handler(sk);
-+out:
-+	bh_unlock_sock(sk);
-+	sock_put(sk);
++#endif
++	return err;
 +}
 +
-+void quic_timer_path_handler(struct sock *sk)
++static void __net_exit quic_net_exit(struct net *net)
 +{
++	struct quic_net *qn = quic_net(net);
++
++#if IS_ENABLED(CONFIG_PROC_FS)
++	quic_net_proc_exit(net);
++#endif
++	free_percpu(qn->stat);
++	qn->stat = NULL;
 +}
 +
-+static void quic_timer_path_timeout(struct timer_list *t)
++static struct pernet_operations quic_net_ops = {
++	.init = quic_net_init,
++	.exit = quic_net_exit,
++	.id   = &quic_net_id,
++	.size = sizeof(struct quic_net),
++};
++
++#if IS_ENABLED(CONFIG_SYSCTL)
++static struct ctl_table_header *quic_sysctl_header;
++
++static void quic_sysctl_register(void)
 +{
-+	struct quic_sock *qs = container_of(t, struct quic_sock, timers[QUIC_TIMER_PATH].t);
-+	struct sock *sk = &qs->inet.sk;
-+
-+	bh_lock_sock(sk);
-+	if (sock_owned_by_user(sk)) {
-+		if (!test_and_set_bit(QUIC_PATH_DEFERRED, &sk->sk_tsq_flags))
-+			sock_hold(sk);
-+		goto out;
-+	}
-+
-+	quic_timer_path_handler(sk);
-+out:
-+	bh_unlock_sock(sk);
-+	sock_put(sk);
++	quic_sysctl_header = register_net_sysctl(&init_net, "net/quic", quic_table);
 +}
 +
-+void quic_timer_reset_path(struct sock *sk)
++static void quic_sysctl_unregister(void)
 +{
-+	struct quic_cong *cong = quic_cong(sk);
-+	u64 timeout = cong->pto * 2;
-+
-+	/* Calculate timeout based on cong.pto, but enforce a lower bound. */
-+	if (timeout < QUIC_MIN_PATH_TIMEOUT)
-+		timeout = QUIC_MIN_PATH_TIMEOUT;
-+	quic_timer_reset(sk, QUIC_TIMER_PATH, timeout);
++	unregister_net_sysctl_table(quic_sysctl_header);
 +}
++#endif
 +
-+void quic_timer_pmtu_handler(struct sock *sk)
++static __init int quic_init(void)
 +{
++	int max_share, err = -ENOMEM;
++	unsigned long limit;
++
++	/* Set QUIC memory limits based on available system memory, similar to sctp_init(). */
++	limit = nr_free_buffer_pages() / 8;
++	limit = max(limit, 128UL);
++	sysctl_quic_mem[0] = (long)limit / 4 * 3;
++	sysctl_quic_mem[1] = (long)limit;
++	sysctl_quic_mem[2] = sysctl_quic_mem[0] * 2;
++
++	limit = (sysctl_quic_mem[1]) << (PAGE_SHIFT - 7);
++	max_share = min(4UL * 1024 * 1024, limit);
++
++	sysctl_quic_rmem[0] = PAGE_SIZE;
++	sysctl_quic_rmem[1] = 1024 * 1024;
++	sysctl_quic_rmem[2] = max(sysctl_quic_rmem[1], max_share);
++
++	sysctl_quic_wmem[0] = PAGE_SIZE;
++	sysctl_quic_wmem[1] = 16 * 1024;
++	sysctl_quic_wmem[2] = max(64 * 1024, max_share);
++
++	err = percpu_counter_init(&quic_sockets_allocated, 0, GFP_KERNEL);
++	if (err)
++		goto err_percpu_counter;
++
++	err = register_pernet_subsys(&quic_net_ops);
++	if (err)
++		goto err_def_ops;
++
++	err = quic_protosw_init();
++	if (err)
++		goto err_protosw;
++
++#if IS_ENABLED(CONFIG_SYSCTL)
++	quic_sysctl_register();
++#endif
++	pr_info("quic: init\n");
++	return 0;
++
++err_protosw:
++	unregister_pernet_subsys(&quic_net_ops);
++err_def_ops:
++	percpu_counter_destroy(&quic_sockets_allocated);
++err_percpu_counter:
++	return err;
 +}
 +
-+static void quic_timer_pmtu_timeout(struct timer_list *t)
++static __exit void quic_exit(void)
 +{
-+	struct quic_sock *qs = container_of(t, struct quic_sock, timers[QUIC_TIMER_PMTU].t);
-+	struct sock *sk = &qs->inet.sk;
-+
-+	bh_lock_sock(sk);
-+	if (sock_owned_by_user(sk)) {
-+		if (!test_and_set_bit(QUIC_PMTU_DEFERRED, &sk->sk_tsq_flags))
-+			sock_hold(sk);
-+		goto out;
-+	}
-+
-+	quic_timer_pmtu_handler(sk);
-+out:
-+	bh_unlock_sock(sk);
-+	sock_put(sk);
++#if IS_ENABLED(CONFIG_SYSCTL)
++	quic_sysctl_unregister();
++#endif
++	quic_protosw_exit();
++	unregister_pernet_subsys(&quic_net_ops);
++	percpu_counter_destroy(&quic_sockets_allocated);
++	pr_info("quic: exit\n");
 +}
 +
-+void quic_timer_pace_handler(struct sock *sk)
-+{
-+}
++module_init(quic_init);
++module_exit(quic_exit);
 +
-+static enum hrtimer_restart quic_timer_pace_timeout(struct hrtimer *hr)
-+{
-+	struct quic_sock *qs = container_of(hr, struct quic_sock, timers[QUIC_TIMER_PACE].hr);
-+	struct sock *sk = &qs->inet.sk;
-+
-+	bh_lock_sock(sk);
-+	if (sock_owned_by_user(sk)) {
-+		if (!test_and_set_bit(QUIC_PACE_DEFERRED, &sk->sk_tsq_flags))
-+			sock_hold(sk);
-+		goto out;
-+	}
-+
-+	quic_timer_pace_handler(sk);
-+out:
-+	bh_unlock_sock(sk);
-+	sock_put(sk);
-+	return HRTIMER_NORESTART;
-+}
-+
-+void quic_timer_reset(struct sock *sk, u8 type, u64 timeout)
-+{
-+	struct timer_list *t = quic_timer(sk, type);
-+
-+	if (timeout && !mod_timer(t, jiffies + usecs_to_jiffies(timeout)))
-+		sock_hold(sk);
-+}
-+
-+void quic_timer_start(struct sock *sk, u8 type, u64 timeout)
-+{
-+	struct timer_list *t;
-+	struct hrtimer *hr;
-+
-+	if (type == QUIC_TIMER_PACE) {
-+		hr = quic_timer(sk, type);
-+
-+		if (!hrtimer_is_queued(hr)) {
-+			hrtimer_start(hr, ns_to_ktime(timeout), HRTIMER_MODE_ABS_PINNED_SOFT);
-+			sock_hold(sk);
-+		}
-+		return;
-+	}
-+
-+	t = quic_timer(sk, type);
-+	if (timeout && !timer_pending(t)) {
-+		if (!mod_timer(t, jiffies + usecs_to_jiffies(timeout)))
-+			sock_hold(sk);
-+	}
-+}
-+
-+void quic_timer_stop(struct sock *sk, u8 type)
-+{
-+	if (type == QUIC_TIMER_PACE) {
-+		if (hrtimer_try_to_cancel(quic_timer(sk, type)) == 1)
-+			sock_put(sk);
-+		return;
-+	}
-+	if (timer_delete(quic_timer(sk, type)))
-+		sock_put(sk);
-+}
-+
-+void quic_timer_init(struct sock *sk)
-+{
-+	timer_setup(quic_timer(sk, QUIC_TIMER_LOSS), quic_timer_loss_timeout, 0);
-+	timer_setup(quic_timer(sk, QUIC_TIMER_SACK), quic_timer_sack_timeout, 0);
-+	timer_setup(quic_timer(sk, QUIC_TIMER_PATH), quic_timer_path_timeout, 0);
-+	timer_setup(quic_timer(sk, QUIC_TIMER_PMTU), quic_timer_pmtu_timeout, 0);
-+	/* Use hrtimer for pace timer, ensuring precise control over send timing. */
-+	hrtimer_setup(quic_timer(sk, QUIC_TIMER_PACE), quic_timer_pace_timeout,
-+		      CLOCK_MONOTONIC, HRTIMER_MODE_ABS_PINNED_SOFT);
-+}
-+
-+void quic_timer_free(struct sock *sk)
-+{
-+	quic_timer_stop(sk, QUIC_TIMER_LOSS);
-+	quic_timer_stop(sk, QUIC_TIMER_SACK);
-+	quic_timer_stop(sk, QUIC_TIMER_PATH);
-+	quic_timer_stop(sk, QUIC_TIMER_PMTU);
-+	quic_timer_stop(sk, QUIC_TIMER_PACE);
-+}
-diff --git a/net/quic/timer.h b/net/quic/timer.h
++MODULE_ALIAS_NET_PF_PROTO(PF_INET, 261); /* IPPROTO_QUIC == 261 */
++MODULE_ALIAS_NET_PF_PROTO(PF_INET6, 261);
++MODULE_AUTHOR("Xin Long <lucien.xin@gmail.com>");
++MODULE_DESCRIPTION("Support for the QUIC protocol (RFC9000)");
++MODULE_LICENSE("GPL");
+diff --git a/net/quic/protocol.h b/net/quic/protocol.h
 new file mode 100644
-index 000000000000..61b094325334
+index 000000000000..010e2cd66dd9
 --- /dev/null
-+++ b/net/quic/timer.h
-@@ -0,0 +1,47 @@
++++ b/net/quic/protocol.h
+@@ -0,0 +1,57 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/* QUIC kernel implementation
 + * (C) Copyright Red Hat Corp. 2023
@@ -497,43 +721,358 @@ index 000000000000..61b094325334
 + *    Xin Long <lucien.xin@gmail.com>
 + */
 +
++extern struct percpu_counter quic_sockets_allocated;
++
++DECLARE_STATIC_KEY_FALSE(quic_alpn_demux_key);
++
++extern long sysctl_quic_mem[3];
++extern int sysctl_quic_rmem[3];
++extern int sysctl_quic_wmem[3];
++
 +enum {
-+	QUIC_TIMER_LOSS,	/* Loss detection timer: triggers retransmission on packet loss */
-+	QUIC_TIMER_SACK,	/* ACK delay timer, also used as idle timer alias */
-+	QUIC_TIMER_PATH,	/* Path validation timer: verifies network path connectivity */
-+	QUIC_TIMER_PMTU,	/* Packetization Layer Path MTU Discovery probing timer */
-+	QUIC_TIMER_PACE,	/* Pacing timer: controls packet transmission pacing */
-+	QUIC_TIMER_MAX,
-+	QUIC_TIMER_IDLE = QUIC_TIMER_SACK,
++	QUIC_MIB_NUM = 0,
++	QUIC_MIB_CONN_CURRENTESTABS,	/* Currently established connections */
++	QUIC_MIB_CONN_PASSIVEESTABS,	/* Connections established passively (server-side accept) */
++	QUIC_MIB_CONN_ACTIVEESTABS,	/* Connections established actively (client-side connect) */
++	QUIC_MIB_PKT_RCVFASTPATHS,	/* Packets received on the fast path */
++	QUIC_MIB_PKT_DECFASTPATHS,	/* Packets successfully decrypted on the fast path */
++	QUIC_MIB_PKT_ENCFASTPATHS,	/* Packets encrypted on the fast path (for transmission) */
++	QUIC_MIB_PKT_RCVBACKLOGS,	/* Packets received via backlog processing */
++	QUIC_MIB_PKT_DECBACKLOGS,	/* Packets decrypted in backlog handler */
++	QUIC_MIB_PKT_ENCBACKLOGS,	/* Packets encrypted in backlog handler */
++	QUIC_MIB_PKT_INVHDRDROP,	/* Packets dropped due to invalid headers */
++	QUIC_MIB_PKT_INVNUMDROP,	/* Packets dropped due to invalid packet numbers */
++	QUIC_MIB_PKT_INVFRMDROP,	/* Packets dropped due to invalid frames */
++	QUIC_MIB_PKT_RCVDROP,		/* Packets dropped on receive (general errors) */
++	QUIC_MIB_PKT_DECDROP,		/* Packets dropped due to decryption failure */
++	QUIC_MIB_PKT_ENCDROP,		/* Packets dropped due to encryption failure */
++	QUIC_MIB_FRM_RCVBUFDROP,	/* Frames dropped due to receive buffer limits */
++	QUIC_MIB_FRM_RETRANS,		/* Frames retransmitted */
++	QUIC_MIB_FRM_OUTCLOSES,		/* Frames of CONNECTION_CLOSE sent */
++	QUIC_MIB_FRM_INCLOSES,		/* Frames of CONNECTION_CLOSE received */
++	QUIC_MIB_MAX
 +};
 +
-+struct quic_timer {
-+	union {
-+		struct timer_list t;
-+		struct hrtimer hr;
-+	};
++struct quic_mib {
++	unsigned long	mibs[QUIC_MIB_MAX];	/* Array of counters indexed by the enum above */
 +};
 +
-+#define QUIC_MIN_PROBE_TIMEOUT	5000000
++struct quic_net {
++	DEFINE_SNMP_STAT(struct quic_mib, stat);	/* Per-network namespace MIB statistics */
++#if IS_ENABLED(CONFIG_PROC_FS)
++	struct proc_dir_entry *proc_net;	/* procfs entry for dumping QUIC socket stats */
++#endif
++};
 +
-+#define QUIC_MIN_PATH_TIMEOUT	1500000
++struct quic_net *quic_net(struct net *net);
 +
-+#define QUIC_MIN_IDLE_TIMEOUT	1000000
-+#define QUIC_DEF_IDLE_TIMEOUT	30000000
++#define QUIC_INC_STATS(net, field)	SNMP_INC_STATS(quic_net(net)->stat, field)
++#define QUIC_DEC_STATS(net, field)	SNMP_DEC_STATS(quic_net(net)->stat, field)
+diff --git a/net/quic/socket.c b/net/quic/socket.c
+new file mode 100644
+index 000000000000..d65236482ad3
+--- /dev/null
++++ b/net/quic/socket.c
+@@ -0,0 +1,204 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/* QUIC kernel implementation
++ * (C) Copyright Red Hat Corp. 2023
++ *
++ * This file is part of the QUIC kernel implementation
++ *
++ * Initialization/cleanup for QUIC protocol support.
++ *
++ * Written or modified by:
++ *    Xin Long <lucien.xin@gmail.com>
++ */
 +
-+void quic_timer_reset(struct sock *sk, u8 type, u64 timeout);
-+void quic_timer_start(struct sock *sk, u8 type, u64 timeout);
-+void quic_timer_stop(struct sock *sk, u8 type);
-+void quic_timer_init(struct sock *sk);
-+void quic_timer_free(struct sock *sk);
++#include <net/inet_common.h>
++#include <net/tls.h>
 +
-+void quic_timer_reset_path(struct sock *sk);
++#include "socket.h"
 +
-+void quic_timer_loss_handler(struct sock *sk);
-+void quic_timer_pace_handler(struct sock *sk);
-+void quic_timer_path_handler(struct sock *sk);
-+void quic_timer_sack_handler(struct sock *sk);
-+void quic_timer_pmtu_handler(struct sock *sk);
++static DEFINE_PER_CPU(int, quic_memory_per_cpu_fw_alloc);
++static unsigned long quic_memory_pressure;
++static atomic_long_t quic_memory_allocated;
++
++static void quic_enter_memory_pressure(struct sock *sk)
++{
++	WRITE_ONCE(quic_memory_pressure, 1);
++}
++
++static void quic_write_space(struct sock *sk)
++{
++	struct socket_wq *wq;
++
++	rcu_read_lock();
++	wq = rcu_dereference(sk->sk_wq);
++	if (skwq_has_sleeper(wq))
++		wake_up_interruptible_sync_poll(&wq->wait, EPOLLOUT | EPOLLWRNORM | EPOLLWRBAND);
++	rcu_read_unlock();
++}
++
++static int quic_init_sock(struct sock *sk)
++{
++	sk->sk_destruct = inet_sock_destruct;
++	sk->sk_write_space = quic_write_space;
++	sock_set_flag(sk, SOCK_USE_WRITE_QUEUE);
++
++	sk_sockets_allocated_inc(sk);
++	sock_prot_inuse_add(sock_net(sk), sk->sk_prot, 1);
++
++	return 0;
++}
++
++static void quic_destroy_sock(struct sock *sk)
++{
++	sk_sockets_allocated_dec(sk);
++	sock_prot_inuse_add(sock_net(sk), sk->sk_prot, -1);
++}
++
++static int quic_bind(struct sock *sk, struct sockaddr_unsized *addr, int addr_len)
++{
++	return -EOPNOTSUPP;
++}
++
++static int quic_connect(struct sock *sk, struct sockaddr_unsized *addr, int addr_len)
++{
++	return -EOPNOTSUPP;
++}
++
++static int quic_hash(struct sock *sk)
++{
++	return 0;
++}
++
++static void quic_unhash(struct sock *sk)
++{
++}
++
++static int quic_sendmsg(struct sock *sk, struct msghdr *msg, size_t msg_len)
++{
++	return -EOPNOTSUPP;
++}
++
++static int quic_recvmsg(struct sock *sk, struct msghdr *msg, size_t len, int flags,
++			int *addr_len)
++{
++	return -EOPNOTSUPP;
++}
++
++static struct sock *quic_accept(struct sock *sk, struct proto_accept_arg *arg)
++{
++	arg->err = -EOPNOTSUPP;
++	return NULL;
++}
++
++static void quic_close(struct sock *sk, long timeout)
++{
++	lock_sock(sk);
++
++	quic_set_state(sk, QUIC_SS_CLOSED);
++
++	release_sock(sk);
++
++	sk_common_release(sk);
++}
++
++static int quic_do_setsockopt(struct sock *sk, int optname, sockptr_t optval, unsigned int optlen)
++{
++	return -EOPNOTSUPP;
++}
++
++static int quic_setsockopt(struct sock *sk, int level, int optname,
++			   sockptr_t optval, unsigned int optlen)
++{
++	if (level != SOL_QUIC)
++		return -EOPNOTSUPP;
++
++	return quic_do_setsockopt(sk, optname, optval, optlen);
++}
++
++static int quic_do_getsockopt(struct sock *sk, int optname, sockptr_t optval, sockptr_t optlen)
++{
++	return -EOPNOTSUPP;
++}
++
++static int quic_getsockopt(struct sock *sk, int level, int optname,
++			   char __user *optval, int __user *optlen)
++{
++	if (level != SOL_QUIC)
++		return -EOPNOTSUPP;
++
++	return quic_do_getsockopt(sk, optname, USER_SOCKPTR(optval), USER_SOCKPTR(optlen));
++}
++
++static void quic_release_cb(struct sock *sk)
++{
++}
++
++static int quic_disconnect(struct sock *sk, int flags)
++{
++	return -EOPNOTSUPP;
++}
++
++static void quic_shutdown(struct sock *sk, int how)
++{
++	quic_set_state(sk, QUIC_SS_CLOSED);
++}
++
++struct proto quic_prot = {
++	.name		=  "QUIC",
++	.owner		=  THIS_MODULE,
++	.init		=  quic_init_sock,
++	.destroy	=  quic_destroy_sock,
++	.shutdown	=  quic_shutdown,
++	.setsockopt	=  quic_setsockopt,
++	.getsockopt	=  quic_getsockopt,
++	.connect	=  quic_connect,
++	.bind		=  quic_bind,
++	.close		=  quic_close,
++	.disconnect	=  quic_disconnect,
++	.sendmsg	=  quic_sendmsg,
++	.recvmsg	=  quic_recvmsg,
++	.accept		=  quic_accept,
++	.hash		=  quic_hash,
++	.unhash		=  quic_unhash,
++	.release_cb	=  quic_release_cb,
++	.no_autobind	=  true,
++	.obj_size	=  sizeof(struct quic_sock),
++	.sysctl_mem		=  sysctl_quic_mem,
++	.sysctl_rmem		=  sysctl_quic_rmem,
++	.sysctl_wmem		=  sysctl_quic_wmem,
++	.memory_pressure	=  &quic_memory_pressure,
++	.enter_memory_pressure	=  quic_enter_memory_pressure,
++	.memory_allocated	=  &quic_memory_allocated,
++	.per_cpu_fw_alloc	=  &quic_memory_per_cpu_fw_alloc,
++	.sockets_allocated	=  &quic_sockets_allocated,
++};
++
++struct proto quicv6_prot = {
++	.name		=  "QUICv6",
++	.owner		=  THIS_MODULE,
++	.init		=  quic_init_sock,
++	.destroy	=  quic_destroy_sock,
++	.shutdown	=  quic_shutdown,
++	.setsockopt	=  quic_setsockopt,
++	.getsockopt	=  quic_getsockopt,
++	.connect	=  quic_connect,
++	.bind		=  quic_bind,
++	.close		=  quic_close,
++	.disconnect	=  quic_disconnect,
++	.sendmsg	=  quic_sendmsg,
++	.recvmsg	=  quic_recvmsg,
++	.accept		=  quic_accept,
++	.hash		=  quic_hash,
++	.unhash		=  quic_unhash,
++	.release_cb	=  quic_release_cb,
++	.no_autobind	=  true,
++	.obj_size	= sizeof(struct quic6_sock),
++	.ipv6_pinfo_offset	=  offsetof(struct quic6_sock, inet6),
++	.sysctl_mem		=  sysctl_quic_mem,
++	.sysctl_rmem		=  sysctl_quic_rmem,
++	.sysctl_wmem		=  sysctl_quic_wmem,
++	.memory_pressure	=  &quic_memory_pressure,
++	.enter_memory_pressure	=  quic_enter_memory_pressure,
++	.memory_allocated	=  &quic_memory_allocated,
++	.per_cpu_fw_alloc	=  &quic_memory_per_cpu_fw_alloc,
++	.sockets_allocated	=  &quic_sockets_allocated,
++};
+diff --git a/net/quic/socket.h b/net/quic/socket.h
+new file mode 100644
+index 000000000000..98d3f738e909
+--- /dev/null
++++ b/net/quic/socket.h
+@@ -0,0 +1,89 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/* QUIC kernel implementation
++ * (C) Copyright Red Hat Corp. 2023
++ *
++ * This file is part of the QUIC kernel implementation
++ *
++ * Written or modified by:
++ *    Xin Long <lucien.xin@gmail.com>
++ */
++
++#include <net/udp_tunnel.h>
++
++#include "protocol.h"
++
++extern struct proto quic_prot;
++extern struct proto quicv6_prot;
++
++enum quic_state {
++	QUIC_SS_CLOSED		= TCP_CLOSE,
++	QUIC_SS_LISTENING	= TCP_LISTEN,
++	QUIC_SS_ESTABLISHING	= TCP_SYN_RECV,
++	QUIC_SS_ESTABLISHED	= TCP_ESTABLISHED,
++};
++
++struct quic_sock {
++	struct inet_sock		inet;
++	struct list_head		reqs;
++};
++
++struct quic6_sock {
++	struct quic_sock	quic;
++	struct ipv6_pinfo	inet6;
++};
++
++static inline struct quic_sock *quic_sk(const struct sock *sk)
++{
++	return (struct quic_sock *)sk;
++}
++
++static inline struct list_head *quic_reqs(const struct sock *sk)
++{
++	return &quic_sk(sk)->reqs;
++}
++
++static inline bool quic_is_serv(const struct sock *sk)
++{
++	return !!sk->sk_max_ack_backlog;
++}
++
++static inline bool quic_is_establishing(struct sock *sk)
++{
++	return sk->sk_state == QUIC_SS_ESTABLISHING;
++}
++
++static inline bool quic_is_established(struct sock *sk)
++{
++	return sk->sk_state == QUIC_SS_ESTABLISHED;
++}
++
++static inline bool quic_is_listen(struct sock *sk)
++{
++	return sk->sk_state == QUIC_SS_LISTENING;
++}
++
++static inline bool quic_is_closed(struct sock *sk)
++{
++	return sk->sk_state == QUIC_SS_CLOSED;
++}
++
++static inline void quic_set_state(struct sock *sk, int state)
++{
++	struct net *net = sock_net(sk);
++	int mib;
++
++	if (sk->sk_state == state)
++		return;
++
++	if (state == QUIC_SS_ESTABLISHED) {
++		mib = quic_is_serv(sk) ? QUIC_MIB_CONN_PASSIVEESTABS :
++					 QUIC_MIB_CONN_ACTIVEESTABS;
++		QUIC_INC_STATS(net, mib);
++		QUIC_INC_STATS(net, QUIC_MIB_CONN_CURRENTESTABS);
++	} else if (quic_is_established(sk)) {
++		QUIC_DEC_STATS(net, QUIC_MIB_CONN_CURRENTESTABS);
++	}
++
++	inet_sk_set_state(sk, state);
++	sk->sk_state_change(sk);
++}
 -- 
 2.47.1
 

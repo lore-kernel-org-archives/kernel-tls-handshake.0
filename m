@@ -1,64 +1,64 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0766288517
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 25 Feb 2026 02:35:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79911E8836
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 25 Feb 2026 04:15:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771986959; cv=none; b=IrhttEGwjM7Zy0EiqMOCdLiy+foxXtqCsPreJamgNJ9uhvZ/63mOatk/Jw6tw/RbBe0nl3JEK8AtbImEaydN100qw6kBGfebRVSoqyQj7QUuU4fGXlC4mtJTgK9J8wsSq/zYh8kTcEdJqoWIIRMLcioZbtfMoL9BZk+jj+jmc40=
+	t=1771992960; cv=none; b=Fbxc8WCVApX9jnGqBq2RhRexJVB363BGV1sD6tAeVATq+jiv0G4zVSn2trB6CMEr9nt20qJdUyQ89jZcku34OSbSh1WCNnRKq+yib5Br4rG9PudHtgk5vUJweo3Gx+3U07Dxg7faQjdszbtIgZWmcVW77Fj9poMuqsBJXMcJ2y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771986959; c=relaxed/simple;
-	bh=QElLQRpIUnAep0n7/4TfJ650i2ko4+f/7YctuqkZAxI=;
+	s=arc-20240116; t=1771992960; c=relaxed/simple;
+	bh=bn88wMnM1xbpqotcLjjrvUDC86mH2VGzM6psEKDPIKU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q8xCbCxfoKsUpRr3c4xZdXvujN5yhtJy1VACrAd67Lc9+4gje/EB8T78BHiKme1A1VDKg0ShfdaCMRdfRlJba66kXqXjjRwGvefxxb8yaYagecW6zOba0NBtnmsxdACuzYhl/ZjpQ1LpBYwBYNPBsH2H+Zjl+E4KNT0Y/638Jpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qilkm1zm; arc=none smtp.client-ip=209.85.219.47
+	 MIME-Version; b=YBlBAg+VltsHMwBOZnLAHwf39GsxsJygomhZ6oGCW4o3u0coI3igHF9IwOu1kw7xkGCA+FYmuiO6wcAFLagWR71ZNBn3Iotgbz0QN5GqcQkpRFkUzC7IAc8KL1wL0/Ybqr/Qx0NUrVmcMAmFQjbpgHUNbVVsTKy4QWNGzxdSmnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=meIoQKsi; arc=none smtp.client-ip=209.85.160.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qilkm1zm"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-895341058b1so77464796d6.3
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 24 Feb 2026 18:35:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="meIoQKsi"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-506989e8516so52280391cf.0
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 24 Feb 2026 20:15:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771986956; x=1772591756; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1771992958; x=1772597758; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9FpZ/2725cRjqKypDQChxQ7vBxxCxsJGEBKt/3z4F5A=;
-        b=Qilkm1zmCuXCt3vGV6WS25v4OeKKBwavLEHMykVLNgp4faEjSVWlhsLcIxNN7aisVD
-         Oli3PX9Hvcoig0uzMItrZCBpR1nEYZ0CnZrW4+taKk7FqWvQxzlyMPyY82RtgfFWNNva
-         GRvHrceyvH1XAyOYrIK7B+IsLmdjFthheFBs5Fitj5NHnOx2fTKXx1CCkHZXmESUPiMh
-         B8DLnvgy4vHnVunyfzTD9BpO9ggEOWUEl1lJQ7F+BhCSBz7MfxOkXs+s1Ou5HG5ZSmbF
-         DhHxj47y+8Xg63gL/acBPsn8IZFzA25m3NxU/8SulGI0ZwjG/Diuf6ArEp/ROYTy8CTp
-         5VGA==
+        bh=B4PuZyXnKwTS0epzNqDICuHBDdpM4bAySzL/nDufbjs=;
+        b=meIoQKsiF7MCCqeg/wF0AwFclgHe5bfYbFvDHFdczbCSfAqSa3zfI86nw/qpOmrfla
+         sRABvTcA2btzNy3MPUl2GsgXqJA8GNoToraXZhkHU+ob/au48gpZ4AZZoNk3F75JoRmB
+         n8v7HgOPf7MNWDcFjHp4kgFQzj3nuuSp1VeBG1aPGwnzzj4inxG1w4Czpp/E8hPNEziu
+         TAQ2tnujouTE2ShdunLUXLtq0JlQLsVJ9QnSKzfk96atJwTYrlx/S3arxlUiUg0UzNHD
+         fc7TTZCM3slwBt9MYlmRV97v6rJg2WFxdv/TZlOuE+fgDj7ytNKfgk8NtN8KqGUw8QcI
+         07Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771986956; x=1772591756;
+        d=1e100.net; s=20230601; t=1771992958; x=1772597758;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=9FpZ/2725cRjqKypDQChxQ7vBxxCxsJGEBKt/3z4F5A=;
-        b=EUD0+JIpKVj9h6fs7iXT1sUDyvUTapU6J+IOamzQlGyPtOmTh8TpFdCbUaJCtEYGYV
-         wB+Zti8HU5c2NVVlfrrhnMBlY2NX/N43VZM7daR5/KtQspONjCMKFbDo+K+uYfg1olQk
-         qBaUu0Nzx0rtM7G5EtKbsijq9a1vLcOPSz2YzwgPfopo0Tez9F05KX8gvRcerznRkGDE
-         ORWsIbGfOKg5IlPncmRA8cxM9Q3HZedFOTYcbAuiVSD4uCdgIy063VwNewQ1yjfDtgfG
-         L1jFRQhOSZP6b3saPoRtHy+Cvj5lHbpbsYrZ8lR5Ucp9zZhgHkhTiDbqG3ddVmhcVRsj
-         2mOg==
-X-Forwarded-Encrypted: i=1; AJvYcCWmyY+faBxsekH2xUZvGyqMwRelWnpKUINf7MRjRIKOCbhbAQ/5pk62pevHdmV0R8TOWwX0MyOZy5rOXbGS7OBxxc264Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxkp9u9dik21yCoNpryrsuv72IEQDFclbQSaDB7b/CJlyshmk3i
-	R8JmdzR8graeEnAyysRVgR/1UjF5TD8CFBGs8qPBeaks6nDpFq1VKx9U
-X-Gm-Gg: ATEYQzyXDWzY3+2vIKZQ0NHPXQ5NNeJq1QyDdkBKG2LwQjVUlJJqeIO3+VItQeWX5pC
-	CyM7Z8VvtRCOwH7M2/CCRzXRdkHntAyah1g/ewxxWmK8gmcQU87LDvOb24Biw86EyhV/UwH2L4n
-	6OTX5GqnVw2Tmyr8kigxxll4uvVHzLoD8ZJ4VHlpui6ZWue0a3GdSB+8g/QurntJyuaFmUcCajx
-	2w8pmgIEvIfECLn9c+OB7pcq905WCCtOz4skFORbE80xXuRKqJntSxATAQl5lvd752IMPUKl1el
-	pQZMYLI7lPSXl5LcZt6i7O4lT45S8uZBTpG8jOTdC8EpqLKIhdxEh7yQrKOv+8DMYDglHgZsP83
-	WgmfI6bHiNt9a/KkASN5+SfuKMbPJhsvsGs3RmBAjV+h5NDVFpuQRLwb0IcwwO5f69ruHOgzqWl
-	N9aCkn7T11jsy4TWxPLlkOjZWNDy4pHANBxYNCFk3v4BLivFd4PI1GzHWjZjULrAGnwdEoI5MBc
-	3HJiBZKUO69UKDs83ftM1VxqsMh1Fb5JiY3pnv58zfXn9/x8DjIONqetjaa9bG7Hw==
-X-Received: by 2002:a05:6214:629:b0:892:70a5:3bfc with SMTP id 6a1803df08f44-899b8c856f2mr10193086d6.63.1771986955327;
-        Tue, 24 Feb 2026 18:35:55 -0800 (PST)
+        bh=B4PuZyXnKwTS0epzNqDICuHBDdpM4bAySzL/nDufbjs=;
+        b=hWJOWjKpitj/5z6NZRuTZ8RprDZwVm8trkwlCMfoFari6LpXkK7GMk3kvpz1lhQ0jw
+         hgoLdzGFm2+DyakSpsET0aERxhPFUC4Yysz3oQVmSFtwdl0tVYxr1XKH3YD8siTIKJne
+         FicOLijsryt4SNglJKHaWt7nnYn8jWr6dKxaa47FFKmUvxsTWxpRffZJr21iEEXiA+Ls
+         GNZaWuvw2uejxD1YZd0sNyxa4ZlAb3NdphaaPhLQQKLRLG4jUG8NUg4r+PKOnnJ3NXYo
+         csKfUC1mT2PyBIKlA0Sy7xxxV/6G3ya7v3xdrJPZN0JK/RYiTiPjk7DGAalwo1wdvMca
+         Puag==
+X-Forwarded-Encrypted: i=1; AJvYcCU1MRYUKUiEZkSzcx3EjduWDMp5igu6d08vevn/981Mvb/JfJ9bxjCGq/VoKgkGWSrRh9rMLzZ25jDn+wzLLaWuCHgaSA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy7mVUr0FehrAj6ZpdZPAHjvju8xws0RVd1NRq86wuceVRkh6ew
+	WDh6UZQgK9PwCD2gDtQLgeNRtD4KHJF0ZAjH5asUtZlaUqD5vYRE18kH
+X-Gm-Gg: ATEYQzzxN24W3NwogRxH+BlDeHvCzFyDTMHfpoeHKR1wDp/k+G3gkOG9jAz3Meh1pV6
+	zWvPLv4Vjxu8nfX35/iRP8UhE0UGXKW/9fCyMfvDG8HeBDCTHivuSt0tu92R5G0l4FxgbYXJf9d
+	roQxUTAU9yJeHLN9J5sYainGWcawFHJa+kwaTghGe+A3y0IROSpNykPlwdb8MD3WXpL5Me3cdxj
+	MOCHs3D3QqU3Fx/FJBPT/z3zWak+5nuwOoZWvFWNsvfNOf/muK/kbHkI7ObqlwI8FMr7IblttTy
+	DkUfjHhCdsgItrz+tcNrvxkt/OBWH6vS7xu8NZKhxCF0jBdB5MNRq644jr1OYRM9VWV8OtywFdn
+	TWnp9q0jaVC2J2E3ux6IwsCaVhmeqbISwltlnVytweTwvJ/pK83pJH0Hn1ujChrUxoWMsrO0JiY
+	9jAu695t0hoMGxB+4p+Q3tjJYsC5u2PF2rBqLoMF84hVs+zIO/TECt6YqqeZ06V+4dRVi4SlrnY
+	5fcBSaCehhbpHJ6UqLNJT6Q6X5eZ85uvL8EgdZy/K7Ji0fhs/LmfipfGkZR1eJEEQ==
+X-Received: by 2002:ac8:5fc1:0:b0:501:5233:2a6f with SMTP id d75a77b69052e-5070bba4d14mr212557311cf.14.1771986952528;
+        Tue, 24 Feb 2026 18:35:52 -0800 (PST)
 Received: from wsfd-netdev58.anl.eng.rdu2.dc.redhat.com ([66.187.232.140])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8997e62f453sm112363586d6.36.2026.02.24.18.35.54
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8997e62f453sm112363586d6.36.2026.02.24.18.35.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 18:35:54 -0800 (PST)
+        Tue, 24 Feb 2026 18:35:52 -0800 (PST)
 From: Xin Long <lucien.xin@gmail.com>
 To: network dev <netdev@vger.kernel.org>,
 	quic@lists.linux.dev
@@ -95,9 +95,9 @@ Cc: davem@davemloft.net,
 	Daniel Stenberg <daniel@haxx.se>,
 	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
 	"Marc E . Fiuczynski" <marc@fiuczynski.com>
-Subject: [PATCH net-next v10 15/15] quic: add packet parser base
-Date: Tue, 24 Feb 2026 21:34:21 -0500
-Message-ID: <08a63705058aff77dd54fb388870f0bca6036c95.1771986861.git.lucien.xin@gmail.com>
+Subject: [PATCH net-next v10 13/15] quic: add timer management
+Date: Tue, 24 Feb 2026 21:34:19 -0500
+Message-ID: <bffaab8d4727991c8dd46c8b57a08507545a25a4.1771986861.git.lucien.xin@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <cover.1771986861.git.lucien.xin@gmail.com>
 References: <cover.1771986861.git.lucien.xin@gmail.com>
@@ -109,973 +109,431 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch uses 'quic_packet' to handle packing of QUIC packets on the
-receive (RX) path.
+This patch introduces 'quic_timer' to unify and manage the five main
+timers used in QUIC: loss detection, delayed ACK, path validation,
+PMTU probing, and pacing. These timers are critical for driving
+retransmissions, connection liveness, and flow control.
 
-It introduces mechanisms to parse the ALPN from client Initial packets
-to determine the correct listener socket. Received packets are then
-routed and processed accordingly. Similar to the TX path, handling for
-application and handshake packets is not yet implemented.
+Each timer type is initialized, started, reset, or stopped using a common
+set of operations.
 
-- quic_packet_parse_alpn()`: Parse the ALPN from a client Initial packet,
-  then locate the appropriate listener using the ALPN.
+- quic_timer_reset(): Reset a timer with type and timeout
 
-- quic_packet_rcv(): Locate the appropriate socket to handle the packet
-  via quic_packet_process().
+- quic_timer_start(): Start a timer with type and timeout
 
-- quic_packet_process()`: Process the received packet.
+- quic_timer_stop(): Stop a timer with type
 
-In addition to packet flow, this patch adds support for ICMP-based MTU
-updates by locating the relevant socket and updating the stored PMTU
-accordingly.
+Although handler functions for each timer are defined, they are currently
+placeholders; their logic will be implemented in upcoming patches for
+packet transmission and outqueue handling.
 
-- quic_packet_rcv_err_pmtu(): Find the socket and update the PMTU via
-  quic_packet_mss_update().
+Deferred timer actions are also integrated through quic_release_cb(),
+which dispatches to the appropriate handler when timers expire.
 
+Signed-off-by: Tyler Fanelli <tfanelli@redhat.com>
 Signed-off-by: Xin Long <lucien.xin@gmail.com>
+Acked-by: Paolo Abeni <pabeni@redhat.com>
 ---
 v5:
-  - In quic_packet_rcv_err(), remove the unnecessary quic_is_listen()
-    check and move quic_get_mtu_info() out of sock lock (suggested
-    by Paolo).
-  - Replace cancel_work_sync() to disable_work_sync() (suggested by
-    Paolo).
-v6:
-  - Fix the loop using skb_dequeue() in quic_packet_backlog_work(), and
-    kfree_skb() when sk is not found (reported by AI Reviews).
-  - Remove skb_pull() from quic_packet_rcv(), since it is now handled
-    in quic_path_rcv().
-  - Note for AI reviews: add if (dst) check in quic_packet_rcv_err_pmtu(),
-    although quic_packet_route() >= 0 already guarantees it is not NULL.
-  - Note for AI reviews: it is safe to do *plen -= QUIC_HLEN in
-    quic_packet_get_version_and_connid(), since quic_packet_get_sock()
-    already checks if (skb->len < QUIC_HLEN).
-  - Note for AI reviews: cb->length - cb->number_len - QUIC_TAG_LEN
-    cannot underflow, because quic_crypto_header_decrypt() already checks
-    if (cb->length < QUIC_PN_MAX_LEN + QUIC_SAMPLE_LEN).
-  - Note for AI reviews: the cast (u16)length in quic_packet_parse_alpn()
-    is safe, as there is a prior check if (length > (u16)len); len is
-    skb->len, which cannot exceed U16_MAX.
-  - Note for AI reviews: it's correct to do if (flags &
-    QUIC_F_MTU_REDUCED_DEFERRED) in quic_release_cb(), since
-    QUIC_MTU_REDUCED_DEFERRED is the bit used with test_and_set_bit().
-  - Note for AI reviews: move skb_cb->backlog = 1 before adding skb to
-    backlog, although it's safe to write skb_cb after adding to backlog
-    with sk_lock.slock, as skb dequeue from backlog requires sk_lock.slock.
-v7:
-  - Pass udp sk to quic_packet_rcv(), quic_packet_rcv_err() and
-    quic_sock_lookup().
-  - Move the call to skb_linearize() and skb_set_owner_sk_safe() to
-    .quic_path_rcv()/quic_packet_rcv().
-v8:
-  - Replace the global ALPN demultiplexing sysctl with the static key in
-    quic_packet_parse_alpn() (noted by Stefan).
-  - Refetch skb->data after decrypt in ALPN parsing, as skb_cow_data()
-    may reallocate the skb data buffer (reported by Syzkaller).
-  - The indirect quic_path_rcv has been removed and call quic_packet_rcv()
-    directly via extern.
-  - Do not restore skb data when QUIC Initial decryption fails, as the
-    caller will free the skb for this failure anyway.
-  - With patch 14 removed, define a temporary QUIC_FRAME_CRYPTO ID when
-    parsing the ALPN.
-v9:
-  - Remove local_bh_disable() in quic_packet_get_listen_sock() as it's now
-    using rcu_read_lock instead of spin_sock in quic_listen_sock_lookup()
-    (noted by Paolo).
-v10:
-  - Return QUIC_PACKET_INVALID (instead of -1) for invalid packet types in
-    quic_packet_version_get_type().
-  - Update the comment to clarify in quic_packet_rcv_err() that ICMP errors
-    embed the original QUIC packet, reversing src/dst addrs when parsed.
-  - Use qn->backlog_list.lock in quic_packet_backlog_schedule() to prevent
-    TOCTOU.
-  - Add check 'len < TLS_CH_RANDOM_LEN + TLS_CH_VERSION_LEN' before parsing
-    ClientHello in quic_packet_get_alpn().
-  - Add more limits in quic_packet_get_alpn() to improve robustness against
-    malformed TLS ClientHello messages.
-  - Move skb_queue_purge() to after disable_work_sync() in quic_net_exit()
-    for clarity and to satisfy AI review.
-  - quic_sock.config.plpmtud_probe_interval has been moved to
-    quic_path_group.plpmtud_interval, so update its usage in
-    quic_packet_rcv_err_pmtu() accordingly.
-  - Remove quic_packet_select_version() and quic_packet_version_change();
-    they will be reintroduced later when needed in the next patch series.
+  - Rename QUIC_TSQ_DEFERRED to QUIC_PACE_DEFERRED.
 ---
- net/quic/packet.c   | 577 ++++++++++++++++++++++++++++++++++++++++++++
- net/quic/packet.h   |  10 +
- net/quic/path.c     |   6 +-
- net/quic/protocol.c |   5 +
- net/quic/protocol.h |   4 +
- net/quic/socket.c   | 134 ++++++++++
- net/quic/socket.h   |   5 +
- 7 files changed, 739 insertions(+), 2 deletions(-)
+ net/quic/Makefile |   2 +-
+ net/quic/socket.c |  33 ++++++++
+ net/quic/socket.h |  33 ++++++++
+ net/quic/timer.c  | 196 ++++++++++++++++++++++++++++++++++++++++++++++
+ net/quic/timer.h  |  47 +++++++++++
+ 5 files changed, 310 insertions(+), 1 deletion(-)
+ create mode 100644 net/quic/timer.c
+ create mode 100644 net/quic/timer.h
 
-diff --git a/net/quic/packet.c b/net/quic/packet.c
-index a56edc745bb1..a23ce99a6656 100644
---- a/net/quic/packet.c
-+++ b/net/quic/packet.c
-@@ -14,6 +14,583 @@
+diff --git a/net/quic/Makefile b/net/quic/Makefile
+index 58bb18f7926d..2ccf01ad9e22 100644
+--- a/net/quic/Makefile
++++ b/net/quic/Makefile
+@@ -6,4 +6,4 @@
+ obj-$(CONFIG_IP_QUIC) += quic.o
  
- #define QUIC_HLEN		1
+ quic-y := common.o family.o protocol.o socket.o stream.o connid.o path.o \
+-	  cong.o pnspace.o crypto.o
++	  cong.o pnspace.o crypto.o timer.o
+diff --git a/net/quic/socket.c b/net/quic/socket.c
+index 74e3e3939c61..93a7abefc226 100644
+--- a/net/quic/socket.c
++++ b/net/quic/socket.c
+@@ -50,6 +50,8 @@ static int quic_init_sock(struct sock *sk)
+ 	quic_conn_id_set_init(quic_dest(sk), 0);
+ 	quic_cong_init(quic_cong(sk));
  
-+#define QUIC_LONG_HLEN(dcid, scid) \
-+	(QUIC_HLEN + QUIC_VERSION_LEN + 1 + (dcid)->len + 1 + (scid)->len)
++	quic_timer_init(sk);
 +
-+#define QUIC_VERSION_NUM	2
+ 	if (quic_stream_init(quic_streams(sk)))
+ 		return -ENOMEM;
+ 
+@@ -65,6 +67,8 @@ static void quic_destroy_sock(struct sock *sk)
+ {
+ 	u8 i;
+ 
++	quic_timer_free(sk);
 +
-+/* Supported QUIC versions and their compatible versions. Used for Compatible Version
-+ * Negotiation in rfc9368#section-2.3.
-+ */
-+static u32 quic_versions[QUIC_VERSION_NUM][4] = {
-+	/* Version,	Compatible Versions */
-+	{ QUIC_VERSION_V1,	QUIC_VERSION_V2,	QUIC_VERSION_V1,	0 },
-+	{ QUIC_VERSION_V2,	QUIC_VERSION_V2,	QUIC_VERSION_V1,	0 },
+ 	for (i = 0; i < QUIC_PNSPACE_MAX; i++)
+ 		quic_pnspace_free(quic_pnspace(sk, i));
+ 	for (i = 0; i < QUIC_CRYPTO_MAX; i++)
+@@ -191,6 +195,35 @@ static int quic_getsockopt(struct sock *sk, int level, int optname,
+ 
+ static void quic_release_cb(struct sock *sk)
+ {
++	/* Similar to tcp_release_cb(). */
++	unsigned long nflags, flags = smp_load_acquire(&sk->sk_tsq_flags);
++
++	do {
++		if (!(flags & QUIC_DEFERRED_ALL))
++			return;
++		nflags = flags & ~QUIC_DEFERRED_ALL;
++	} while (!try_cmpxchg(&sk->sk_tsq_flags, &flags, nflags));
++
++	if (flags & QUIC_F_LOSS_DEFERRED) {
++		quic_timer_loss_handler(sk);
++		__sock_put(sk);
++	}
++	if (flags & QUIC_F_SACK_DEFERRED) {
++		quic_timer_sack_handler(sk);
++		__sock_put(sk);
++	}
++	if (flags & QUIC_F_PATH_DEFERRED) {
++		quic_timer_path_handler(sk);
++		__sock_put(sk);
++	}
++	if (flags & QUIC_F_PMTU_DEFERRED) {
++		quic_timer_pmtu_handler(sk);
++		__sock_put(sk);
++	}
++	if (flags & QUIC_F_PACE_DEFERRED) {
++		quic_timer_pace_handler(sk);
++		__sock_put(sk);
++	}
+ }
+ 
+ static int quic_disconnect(struct sock *sk, int flags)
+diff --git a/net/quic/socket.h b/net/quic/socket.h
+index d7811391cc8b..c5654fdc06b5 100644
+--- a/net/quic/socket.h
++++ b/net/quic/socket.h
+@@ -21,6 +21,7 @@
+ #include "cong.h"
+ 
+ #include "protocol.h"
++#include "timer.h"
+ 
+ extern struct proto quic_prot;
+ extern struct proto quicv6_prot;
+@@ -32,6 +33,31 @@ enum quic_state {
+ 	QUIC_SS_ESTABLISHED	= TCP_ESTABLISHED,
+ };
+ 
++enum quic_tsq_enum {
++	QUIC_MTU_REDUCED_DEFERRED,
++	QUIC_LOSS_DEFERRED,
++	QUIC_SACK_DEFERRED,
++	QUIC_PATH_DEFERRED,
++	QUIC_PMTU_DEFERRED,
++	QUIC_PACE_DEFERRED,
 +};
 +
-+/* Get the compatible version list for a given QUIC version. */
-+u32 *quic_packet_compatible_versions(u32 version)
-+{
-+	u8 i;
++enum quic_tsq_flags {
++	QUIC_F_MTU_REDUCED_DEFERRED	= BIT(QUIC_MTU_REDUCED_DEFERRED),
++	QUIC_F_LOSS_DEFERRED		= BIT(QUIC_LOSS_DEFERRED),
++	QUIC_F_SACK_DEFERRED		= BIT(QUIC_SACK_DEFERRED),
++	QUIC_F_PATH_DEFERRED		= BIT(QUIC_PATH_DEFERRED),
++	QUIC_F_PMTU_DEFERRED		= BIT(QUIC_PMTU_DEFERRED),
++	QUIC_F_PACE_DEFERRED		= BIT(QUIC_PACE_DEFERRED),
++};
 +
-+	for (i = 0; i < QUIC_VERSION_NUM; i++)
-+		if (version == quic_versions[i][0])
-+			return quic_versions[i];
-+	return NULL;
++#define QUIC_DEFERRED_ALL (QUIC_F_MTU_REDUCED_DEFERRED |	\
++			   QUIC_F_LOSS_DEFERRED |		\
++			   QUIC_F_SACK_DEFERRED |		\
++			   QUIC_F_PATH_DEFERRED |		\
++			   QUIC_F_PMTU_DEFERRED |		\
++			   QUIC_F_PACE_DEFERRED)
++
+ struct quic_sock {
+ 	struct inet_sock		inet;
+ 	struct list_head		reqs;
+@@ -47,6 +73,8 @@ struct quic_sock {
+ 	struct quic_cong		cong;
+ 	struct quic_pnspace		space[QUIC_PNSPACE_MAX];
+ 	struct quic_crypto		crypto[QUIC_CRYPTO_MAX];
++
++	struct quic_timer		timers[QUIC_TIMER_MAX];
+ };
+ 
+ struct quic6_sock {
+@@ -119,6 +147,11 @@ static inline struct quic_crypto *quic_crypto(const struct sock *sk, u8 level)
+ 	return &quic_sk(sk)->crypto[level];
+ }
+ 
++static inline void *quic_timer(const struct sock *sk, u8 type)
++{
++	return (void *)&quic_sk(sk)->timers[type];
 +}
 +
-+/* Convert version-specific type to internal standard packet type. */
-+static u8 quic_packet_version_get_type(u32 version, u8 type)
-+{
-+	if (version == QUIC_VERSION_V1)
-+		return type;
+ static inline bool quic_is_establishing(struct sock *sk)
+ {
+ 	return sk->sk_state == QUIC_SS_ESTABLISHING;
+diff --git a/net/quic/timer.c b/net/quic/timer.c
+new file mode 100644
+index 000000000000..6f957385a341
+--- /dev/null
++++ b/net/quic/timer.c
+@@ -0,0 +1,196 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/* QUIC kernel implementation
++ * (C) Copyright Red Hat Corp. 2023
++ *
++ * This file is part of the QUIC kernel implementation
++ *
++ * Initialization/cleanup for QUIC protocol support.
++ *
++ * Written or modified by:
++ *    Xin Long <lucien.xin@gmail.com>
++ */
 +
-+	switch (type) {
-+	case QUIC_PACKET_INITIAL_V2:
-+		return QUIC_PACKET_INITIAL;
-+	case QUIC_PACKET_0RTT_V2:
-+		return QUIC_PACKET_0RTT;
-+	case QUIC_PACKET_HANDSHAKE_V2:
-+		return QUIC_PACKET_HANDSHAKE;
-+	case QUIC_PACKET_RETRY_V2:
-+		return QUIC_PACKET_RETRY;
-+	default:
-+		return QUIC_PACKET_INVALID;
-+	}
++#include "socket.h"
++
++void quic_timer_sack_handler(struct sock *sk)
++{
 +}
 +
-+/* Parse QUIC version and connection IDs (DCID and SCID) from a Long header packet buffer. */
-+static int quic_packet_get_version_and_connid(struct quic_conn_id *dcid, struct quic_conn_id *scid,
-+					      u32 *version, u8 **pp, u32 *plen)
++static void quic_timer_sack_timeout(struct timer_list *t)
 +{
-+	u64 len, v;
++	struct quic_sock *qs = container_of(t, struct quic_sock, timers[QUIC_TIMER_SACK].t);
++	struct sock *sk = &qs->inet.sk;
 +
-+	*pp += QUIC_HLEN;
-+	*plen -= QUIC_HLEN;
-+
-+	if (!quic_get_int(pp, plen, &v, QUIC_VERSION_LEN))
-+		return -EINVAL;
-+	*version = v;
-+
-+	if (!quic_get_int(pp, plen, &len, 1) ||
-+	    len > *plen || len > QUIC_CONN_ID_MAX_LEN)
-+		return -EINVAL;
-+	quic_conn_id_update(dcid, *pp, len);
-+	*plen -= len;
-+	*pp += len;
-+
-+	if (!quic_get_int(pp, plen, &len, 1) ||
-+	    len > *plen || len > QUIC_CONN_ID_MAX_LEN)
-+		return -EINVAL;
-+	quic_conn_id_update(scid, *pp, len);
-+	*plen -= len;
-+	*pp += len;
-+	return 0;
-+}
-+
-+/* Extracts a QUIC token from a buffer in the Client Initial packet. */
-+static int quic_packet_get_token(struct quic_data *token, u8 **pp, u32 *plen)
-+{
-+	u64 len;
-+
-+	if (!quic_get_var(pp, plen, &len) || len > *plen)
-+		return -EINVAL;
-+	quic_data(token, *pp, len);
-+	*plen -= len;
-+	*pp += len;
-+	return 0;
-+}
-+
-+/* Process PMTU reduction event on a QUIC socket. */
-+void quic_packet_rcv_err_pmtu(struct sock *sk)
-+{
-+	struct quic_path_group *paths = quic_paths(sk);
-+	struct quic_packet *packet = quic_packet(sk);
-+	u32 pathmtu, info, taglen;
-+	struct dst_entry *dst;
-+	bool reset_timer;
-+
-+	if (!ip_sk_accept_pmtu(sk))
-+		return;
-+
-+	info = clamp(paths->mtu_info, QUIC_PATH_MIN_PMTU, QUIC_PATH_MAX_PMTU);
-+	/* If PLPMTUD is not enabled, update MSS using the route and ICMP info. */
-+	if (!paths->plpmtud_interval) {
-+		if (quic_packet_route(sk) < 0)
-+			return;
-+
-+		dst = __sk_dst_get(sk);
-+		if (dst)
-+			dst->ops->update_pmtu(dst, sk, NULL, info, true);
-+		quic_packet_mss_update(sk, info - packet->hlen);
-+		return;
-+	}
-+	/* PLPMTUD is enabled: adjust to smaller PMTU, subtract headers and AEAD tag.  Also
-+	 * notify the QUIC path layer for possible state changes and probing.
-+	 */
-+	taglen = quic_packet_taglen(packet);
-+	info = info - packet->hlen - taglen;
-+	pathmtu = quic_path_pl_toobig(paths, info, &reset_timer);
-+	if (reset_timer)
-+		quic_timer_reset(sk, QUIC_TIMER_PMTU, paths->plpmtud_interval);
-+	if (pathmtu)
-+		quic_packet_mss_update(sk, pathmtu + taglen);
-+}
-+
-+/* Handle ICMP Toobig packet and update QUIC socket path MTU. */
-+static int quic_packet_rcv_err(struct sock *sk, struct sk_buff *skb)
-+{
-+	union quic_addr daddr, saddr;
-+	u32 info;
-+
-+	/* ICMP embeds the original outgoing QUIC packet, so saddr/daddr are reversed when
-+	 * parsed. Only address-based socket lookup is possible in this case.
-+	 */
-+	quic_get_msg_addrs(skb, &saddr, &daddr);
-+	sk = quic_sock_lookup(skb, &daddr, &saddr, sk, NULL);
-+	if (!sk)
-+		return -ENOENT;
-+
-+	if (quic_get_mtu_info(skb, &info)) {
-+		sock_put(sk);
-+		return 0;
-+	}
-+
-+	/* Success: update socket path MTU info. */
 +	bh_lock_sock(sk);
-+	quic_paths(sk)->mtu_info = info;
 +	if (sock_owned_by_user(sk)) {
-+		/* Socket is in use by userspace context.  Defer MTU processing to later via
-+		 * tasklet.  Ensure the socket is not dropped before deferral.
-+		 */
-+		if (!test_and_set_bit(QUIC_MTU_REDUCED_DEFERRED, &sk->sk_tsq_flags))
++		if (!test_and_set_bit(QUIC_SACK_DEFERRED, &sk->sk_tsq_flags))
 +			sock_hold(sk);
 +		goto out;
 +	}
-+	/* Otherwise, process the MTU reduction now. */
-+	quic_packet_rcv_err_pmtu(sk);
++
++	quic_timer_sack_handler(sk);
 +out:
 +	bh_unlock_sock(sk);
 +	sock_put(sk);
-+	return 1;
 +}
 +
-+#define QUIC_PACKET_BACKLOG_MAX		4096
-+
-+/* Queue a packet for later processing when sleeping is allowed. */
-+static int quic_packet_backlog_schedule(struct net *net, struct sk_buff *skb)
++void quic_timer_loss_handler(struct sock *sk)
 +{
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	struct quic_net *qn = quic_net(net);
-+	struct sk_buff_head *head;
-+
-+	if (cb->backlog)
-+		return 0;
-+
-+	head = &qn->backlog_list;
-+	spin_lock(&head->lock);
-+	if (head->qlen >= QUIC_PACKET_BACKLOG_MAX) {
-+		spin_unlock(&head->lock);
-+		QUIC_INC_STATS(net, QUIC_MIB_PKT_RCVDROP);
-+		kfree_skb(skb);
-+		return -1;
-+	}
-+	cb->backlog = 1;
-+	__skb_queue_tail(head, skb);
-+	spin_unlock(&head->lock);
-+
-+	queue_work(quic_wq, &qn->work);
-+	return 1;
 +}
 +
-+#define TLS_MT_CLIENT_HELLO	1
-+#define TLS_EXT_alpn		16
-+
-+/*  TLS Client Hello Msg:
-+ *
-+ *    uint16 ProtocolVersion;
-+ *    opaque Random[32];
-+ *    uint8 CipherSuite[2];
-+ *
-+ *    struct {
-+ *        ExtensionType extension_type;
-+ *        opaque extension_data<0..2^16-1>;
-+ *    } Extension;
-+ *
-+ *    struct {
-+ *        ProtocolVersion legacy_version = 0x0303;
-+ *        Random rand;
-+ *        opaque legacy_session_id<0..32>;
-+ *        CipherSuite cipher_suites<2..2^16-2>;
-+ *        opaque legacy_compression_methods<1..2^8-1>;
-+ *        Extension extensions<8..2^16-1>;
-+ *    } ClientHello;
-+ */
-+
-+#define TLS_CH_RANDOM_LEN	32
-+#define TLS_CH_VERSION_LEN	2
-+#define TLS_MAX_EXTENSIONS	128
-+
-+/* Extract ALPN data from a TLS ClientHello message.
-+ *
-+ * Parses the TLS ClientHello handshake message to find the ALPN (Application Layer Protocol
-+ * Negotiation) TLS extension. It validates the TLS ClientHello structure, including version,
-+ * random, session ID, cipher suites, compression methods, and extensions. Once the ALPN
-+ * extension is found, the ALPN protocols list is extracted and stored in @alpn.
-+ *
-+ * Return: 0 on success or no ALPN found, a negative error code on failed parsing.
-+ */
-+static int quic_packet_get_alpn(struct quic_data *alpn, u8 *p, u32 len)
++static void quic_timer_loss_timeout(struct timer_list *t)
 +{
-+	int err = -EINVAL, found = 0, exts = 0;
-+	u64 length, type;
-+
-+	/* Verify handshake message type (ClientHello) and its length. */
-+	if (!quic_get_int(&p, &len, &type, 1) || type != TLS_MT_CLIENT_HELLO)
-+		return err;
-+	if (!quic_get_int(&p, &len, &length, 3) ||
-+	    len < TLS_CH_RANDOM_LEN + TLS_CH_VERSION_LEN ||
-+	    length < TLS_CH_RANDOM_LEN + TLS_CH_VERSION_LEN)
-+		return err;
-+	if (len > (u32)length) /* Limit len to handshake message length if larger. */
-+		len = length;
-+	/* Skip legacy_version (2 bytes) + random (32 bytes). */
-+	p += TLS_CH_RANDOM_LEN + TLS_CH_VERSION_LEN;
-+	len -= TLS_CH_RANDOM_LEN + TLS_CH_VERSION_LEN;
-+	/* legacy_session_id_len must be zero (QUIC requirement). */
-+	if (!quic_get_int(&p, &len, &length, 1) || length)
-+		return err;
-+
-+	/* Skip cipher_suites (2 bytes length + variable data). */
-+	if (!quic_get_int(&p, &len, &length, 2) || length > (u64)len)
-+		return err;
-+	len -= length;
-+	p += length;
-+
-+	/* Skip legacy_compression_methods (1 byte length + variable data). */
-+	if (!quic_get_int(&p, &len, &length, 1) || length > (u64)len)
-+		return err;
-+	len -= length;
-+	p += length;
-+
-+	if (!quic_get_int(&p, &len, &length, 2)) /* Read TLS extensions length (2 bytes). */
-+		return err;
-+	if (len > (u32)length) /* Limit len to extensions length if larger. */
-+		len = length;
-+	while (len > 4) { /* Iterate over extensions to find ALPN (type TLS_EXT_alpn). */
-+		if (!quic_get_int(&p, &len, &type, 2))
-+			break;
-+		if (!quic_get_int(&p, &len, &length, 2))
-+			break;
-+		if (len < (u32)length) /* Incomplete TLS extensions. */
-+			return 0;
-+		if (type == TLS_EXT_alpn) { /* Found ALPN extension. */
-+			if (length > QUIC_ALPN_MAX_LEN)
-+				return err;
-+			len = length;
-+			found = 1;
-+			break;
-+		}
-+		/* Skip non-ALPN extensions. */
-+		p += length;
-+		len -= length;
-+		if (exts++ >= TLS_MAX_EXTENSIONS)
-+			return err;
-+	}
-+	if (!found) { /* no ALPN extension found: set alpn->len = 0 and alpn->data = p. */
-+		quic_data(alpn, p, 0);
-+		return 0;
-+	}
-+
-+	/* Parse ALPN protocols list length (2 bytes). */
-+	if (!quic_get_int(&p, &len, &length, 2) || length > (u64)len)
-+		return err;
-+	quic_data(alpn, p, length); /* Store ALPN protocols list in alpn->data. */
-+	len = length;
-+	while (len) { /* Validate ALPN protocols list format. */
-+		if (!quic_get_int(&p, &len, &length, 1) || length > (u64)len) {
-+			/* Malformed ALPN entry: set alpn->len = 0 and alpn->data = NULL. */
-+			quic_data(alpn, NULL, 0);
-+			return err;
-+		}
-+		len -= length;
-+		p += length;
-+	}
-+	pr_debug("%s: alpn_len: %d\n", __func__, alpn->len);
-+	return 0;
-+}
-+
-+#define QUIC_FRAME_CRYPTO	0x06
-+
-+/* Parse ALPN from a QUIC Initial packet.
-+ *
-+ * This function processes a QUIC Initial packet to extract the ALPN from the TLS ClientHello
-+ * message inside the QUIC CRYPTO frame. It verifies packet type, version compatibility,
-+ * decrypts the packet payload, and locates the CRYPTO frame to parse the TLS ClientHello.
-+ * Finally, it calls quic_packet_get_alpn() to extract the ALPN extension data.
-+ *
-+ * Return: 0 on success or no ALPN found, a negative error code on failed parsing.
-+ */
-+static int quic_packet_parse_alpn(struct sk_buff *skb, struct quic_data *alpn)
-+{
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	struct net *net = sock_net(skb->sk);
-+	struct quic_conn_id dcid, scid;
-+	u32 len = skb->len, version;
-+	struct quic_crypto *crypto;
-+	u8 *p = skb->data, type;
-+	struct quic_data token;
-+	u64 offset, length;
-+	int err = -EINVAL;
-+
-+	if (!static_branch_unlikely(&quic_alpn_demux_key))
-+		return 0;
-+	if (quic_packet_get_version_and_connid(&dcid, &scid, &version, &p, &len))
-+		return err;
-+	if (!quic_packet_compatible_versions(version))
-+		return 0;
-+	/* Only parse Initial packets. */
-+	type = quic_packet_version_get_type(version, quic_hshdr(skb)->type);
-+	if (type != QUIC_PACKET_INITIAL)
-+		return 0;
-+	if (quic_packet_get_token(&token, &p, &len))
-+		return err;
-+	if (!quic_get_var(&p, &len, &length) || length > (u64)len)
-+		return err;
-+	if (!cb->backlog) { /* skb_get() needed as caller will free skb on this path. */
-+		quic_packet_backlog_schedule(net, skb_get(skb));
-+		return -EINPROGRESS;
-+	}
-+	cb->length = (u16)length;
-+
-+	/* Install initial keys for packet decryption to crypto. */
-+	crypto = &quic_net(net)->crypto;
-+	err = quic_crypto_initial_keys_install(crypto, &dcid, version, 1);
-+	if (err)
-+		return err;
-+	cb->number_offset = (u16)(p - skb->data);
-+	err = quic_crypto_decrypt(crypto, skb);
-+	if (err) {
-+		QUIC_INC_STATS(net, QUIC_MIB_PKT_DECDROP);
-+		return err;
-+	}
-+
-+	QUIC_INC_STATS(net, QUIC_MIB_PKT_DECFASTPATHS);
-+	cb->resume = 1; /* Mark this packet as already decrypted. */
-+
-+	/* Find the QUIC CRYPTO frame. */
-+	p = skb->data + cb->number_offset + cb->number_len;
-+	len = cb->length - cb->number_len - QUIC_TAG_LEN;
-+	for (; len && !(*p); p++, len--) /* Skip the padding frame. */
-+		;
-+	if (!len-- || *p++ != QUIC_FRAME_CRYPTO)
-+		return 0;
-+	if (!quic_get_var(&p, &len, &offset) || offset)
-+		return 0;
-+	if (!quic_get_var(&p, &len, &length) || length > (u64)len)
-+		return 0;
-+
-+	/* Parse the TLS CLIENT_HELLO message. */
-+	return quic_packet_get_alpn(alpn, p, length);
-+}
-+
-+/* Extract the Destination Connection ID (DCID) from a QUIC Long header packet. */
-+int quic_packet_get_dcid(struct quic_conn_id *dcid, struct sk_buff *skb)
-+{
-+	u32 plen = skb->len;
-+	u8 *p = skb->data;
-+	u64 len;
-+
-+	if (plen < QUIC_HLEN + QUIC_VERSION_LEN)
-+		return -EINVAL;
-+	plen -= (QUIC_HLEN + QUIC_VERSION_LEN);
-+	p += (QUIC_HLEN + QUIC_VERSION_LEN);
-+
-+	if (!quic_get_int(&p, &plen, &len, 1) ||
-+	    len > plen || len > QUIC_CONN_ID_MAX_LEN)
-+		return -EINVAL;
-+	quic_conn_id_update(dcid, p, len);
-+	return 0;
-+}
-+
-+/* Lookup listening socket for Client Initial packet (in process context). */
-+static struct sock *quic_packet_get_listen_sock(struct sk_buff *skb)
-+{
-+	union quic_addr daddr, saddr;
-+	struct quic_data alpns = {};
-+
-+	quic_get_msg_addrs(skb, &daddr, &saddr);
-+
-+	if (quic_packet_parse_alpn(skb, &alpns))
-+		return NULL;
-+
-+	return quic_listen_sock_lookup(skb, &daddr, &saddr, &alpns);
-+}
-+
-+/* Determine the QUIC socket associated with an incoming packet. */
-+static struct sock *quic_packet_get_sock(struct sk_buff *skb)
-+{
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	struct net *net = sock_net(skb->sk);
-+	struct quic_conn_id dcid, *conn_id;
-+	union quic_addr daddr, saddr;
-+	struct quic_data alpns = {};
-+	struct sock *sk = NULL;
-+
-+	if (skb->len < QUIC_HLEN)
-+		return NULL;
-+
-+	if (!quic_hdr(skb)->form) { /* Short header path. */
-+		if (skb->len < QUIC_HLEN + QUIC_CONN_ID_DEF_LEN)
-+			return NULL;
-+		/* Fast path: look up QUIC connection by fixed-length DCID
-+		 * (Currently, only source CIDs of size QUIC_CONN_ID_DEF_LEN are used).
-+		 */
-+		conn_id = quic_conn_id_lookup(net, skb->data + QUIC_HLEN,
-+					      QUIC_CONN_ID_DEF_LEN);
-+		if (conn_id) {
-+			cb->seqno = quic_conn_id_number(conn_id);
-+			return quic_conn_id_sk(conn_id); /* Return associated socket. */
-+		}
-+
-+		/* Fallback: listener socket lookup
-+		 * (May be used to send a stateless reset from a listen socket).
-+		 */
-+		quic_get_msg_addrs(skb, &daddr, &saddr);
-+		sk = quic_listen_sock_lookup(skb, &daddr, &saddr, &alpns);
-+		if (sk)
-+			return sk;
-+		/* Final fallback: address-based connection lookup
-+		 * (May be used to receive a stateless reset).
-+		 */
-+		return quic_sock_lookup(skb, &daddr, &saddr, skb->sk, NULL);
-+	}
-+
-+	/* Long header path. */
-+	if (quic_packet_get_dcid(&dcid, skb))
-+		return NULL;
-+	/* Fast path: look up QUIC connection by parsed DCID. */
-+	conn_id = quic_conn_id_lookup(net, dcid.data, dcid.len);
-+	if (conn_id) {
-+		cb->seqno = quic_conn_id_number(conn_id);
-+		return quic_conn_id_sk(conn_id); /* Return associated socket. */
-+	}
-+
-+	/* Fallback: address + DCID lookup
-+	 * (May be used for 0-RTT or a follow-up Client Initial packet).
-+	 */
-+	quic_get_msg_addrs(skb, &daddr, &saddr);
-+	sk = quic_sock_lookup(skb, &daddr, &saddr, skb->sk, &dcid);
-+	if (sk)
-+		return sk;
-+	/* Final fallback: listener socket lookup
-+	 * (Used for receiving the first Client Initial packet).
-+	 */
-+	if (quic_packet_parse_alpn(skb, &alpns))
-+		return NULL;
-+	return quic_listen_sock_lookup(skb, &daddr, &saddr, &alpns);
-+}
-+
-+/* Entry point for processing received QUIC packets. */
-+int quic_packet_rcv(struct sock *sk, struct sk_buff *skb, u8 err)
-+{
-+	struct net *net = sock_net(sk);
-+
-+	if (unlikely(err))
-+		return quic_packet_rcv_err(sk, skb);
-+
-+	/* Save the UDP socket to skb->sk for later QUIC socket lookup. */
-+	if (skb_linearize(skb) || !skb_set_owner_sk_safe(skb, sk)) {
-+		QUIC_INC_STATS(net, QUIC_MIB_PKT_RCVDROP);
-+		goto err;
-+	}
-+
-+	/* Look up socket from socket or connection IDs hash tables. */
-+	sk = quic_packet_get_sock(skb);
-+	if (!sk)
-+		goto err;
++	struct quic_sock *qs = container_of(t, struct quic_sock, timers[QUIC_TIMER_LOSS].t);
++	struct sock *sk = &qs->inet.sk;
 +
 +	bh_lock_sock(sk);
 +	if (sock_owned_by_user(sk)) {
-+		/* Socket is busy (owned by user context): queue to backlog. */
-+		QUIC_SKB_CB(skb)->backlog = 1;
-+		if (sk_add_backlog(sk, skb, READ_ONCE(sk->sk_rcvbuf))) {
-+			QUIC_INC_STATS(net, QUIC_MIB_PKT_RCVDROP);
-+			bh_unlock_sock(sk);
-+			sock_put(sk);
-+			goto err;
-+		}
-+		QUIC_INC_STATS(net, QUIC_MIB_PKT_RCVBACKLOGS);
-+	} else {
-+		/* Socket not busy: process immediately. */
-+		QUIC_INC_STATS(net, QUIC_MIB_PKT_RCVFASTPATHS);
-+		sk->sk_backlog_rcv(sk, skb); /* quic_packet_process(). */
-+	}
-+	bh_unlock_sock(sk);
-+	sock_put(sk);
-+	return 0;
-+
-+err:
-+	kfree_skb(skb);
-+	return -EINVAL;
-+}
-+
-+static int quic_packet_listen_process(struct sock *sk, struct sk_buff *skb)
-+{
-+	kfree_skb(skb);
-+	return -EOPNOTSUPP;
-+}
-+
-+static int quic_packet_handshake_process(struct sock *sk, struct sk_buff *skb)
-+{
-+	kfree_skb(skb);
-+	return -EOPNOTSUPP;
-+}
-+
-+static int quic_packet_app_process(struct sock *sk, struct sk_buff *skb)
-+{
-+	kfree_skb(skb);
-+	return -EOPNOTSUPP;
-+}
-+
-+int quic_packet_process(struct sock *sk, struct sk_buff *skb)
-+{
-+	if (quic_is_closed(sk)) {
-+		kfree_skb(skb);
-+		return 0;
-+	}
-+
-+	if (quic_is_listen(sk))
-+		return quic_packet_listen_process(sk, skb);
-+
-+	if (quic_hdr(skb)->form)
-+		return quic_packet_handshake_process(sk, skb);
-+
-+	return quic_packet_app_process(sk, skb);
-+}
-+
-+/* Work function to process packets in the backlog queue. */
-+void quic_packet_backlog_work(struct work_struct *work)
-+{
-+	struct quic_net *qn = container_of(work, struct quic_net, work);
-+	struct sk_buff_head *head = &qn->backlog_list;
-+	struct sk_buff *skb;
-+	struct sock *sk;
-+
-+	while ((skb = skb_dequeue(head)) != NULL) {
-+		sk = quic_packet_get_listen_sock(skb);
-+		if (!sk) {
-+			kfree_skb(skb);
-+			continue;
-+		}
-+
-+		lock_sock(sk);
-+		quic_packet_process(sk, skb);
-+		release_sock(sk);
-+		sock_put(sk);
-+	}
-+}
-+
- /* Make these fixed for easy coding. */
- #define QUIC_PACKET_NUMBER_LEN	QUIC_PN_MAX_LEN
- #define QUIC_PACKET_LENGTH_LEN	4
-diff --git a/net/quic/packet.h b/net/quic/packet.h
-index 8c23be386207..b925e9ab148d 100644
---- a/net/quic/packet.h
-+++ b/net/quic/packet.h
-@@ -57,6 +57,8 @@ struct quic_packet {
- 
- #define QUIC_VERSION_LEN		4
- 
-+#define QUIC_ALPN_MAX_LEN		128
-+
- static inline u8 quic_packet_taglen(struct quic_packet *packet)
- {
- 	return packet->taglen[!!packet->level];
-@@ -98,6 +100,7 @@ static inline void quic_packet_reset(struct quic_packet *packet)
- 	packet->ack_immediate = 0;
- }
- 
-+int quic_packet_process(struct sock *sk, struct sk_buff *skb);
- int quic_packet_config(struct sock *sk, u8 level, u8 path);
- 
- int quic_packet_xmit(struct sock *sk, struct sk_buff *skb);
-@@ -107,3 +110,10 @@ int quic_packet_route(struct sock *sk);
- void quic_packet_mss_update(struct sock *sk, u32 mss);
- void quic_packet_flush(struct sock *sk);
- void quic_packet_init(struct sock *sk);
-+
-+int quic_packet_get_dcid(struct quic_conn_id *dcid, struct sk_buff *skb);
-+u32 *quic_packet_compatible_versions(u32 version);
-+
-+int quic_packet_rcv(struct sock *sk, struct sk_buff *skb, u8 err);
-+void quic_packet_backlog_work(struct work_struct *work);
-+void quic_packet_rcv_err_pmtu(struct sock *sk);
-diff --git a/net/quic/path.c b/net/quic/path.c
-index 9414c4f813c5..655f38af4107 100644
---- a/net/quic/path.c
-+++ b/net/quic/path.c
-@@ -17,6 +17,8 @@
- #include "family.h"
- #include "path.h"
- 
-+extern int quic_packet_rcv(struct sock *sk, struct sk_buff *skb, u8 err);
-+
- static int quic_udp_rcv(struct sock *sk, struct sk_buff *skb)
- {
- 	memset(skb->cb, 0, sizeof(skb->cb));
-@@ -25,13 +27,13 @@ static int quic_udp_rcv(struct sock *sk, struct sk_buff *skb)
- 
- 	skb_pull(skb, sizeof(struct udphdr));
- 	skb_dst_force(skb);
--	kfree_skb(skb);
-+	quic_packet_rcv(sk, skb, 0);
- 	return 0; /* .encap_rcv must return 0 if skb was either consumed or dropped. */
- }
- 
- static int quic_udp_err(struct sock *sk, struct sk_buff *skb)
- {
--	return 0;
-+	return quic_packet_rcv(sk, skb, 1);
- }
- 
- static void quic_udp_sock_put_work(struct work_struct *work)
-diff --git a/net/quic/protocol.c b/net/quic/protocol.c
-index 11a122d84ccb..f1a754556d8d 100644
---- a/net/quic/protocol.c
-+++ b/net/quic/protocol.c
-@@ -265,6 +265,9 @@ static int __net_init quic_net_init(struct net *net)
- 		return err;
- 	}
- 
-+	INIT_WORK(&qn->work, quic_packet_backlog_work);
-+	skb_queue_head_init(&qn->backlog_list);
-+
- #if IS_ENABLED(CONFIG_PROC_FS)
- 	err = quic_net_proc_init(net);
- 	if (err) {
-@@ -283,6 +286,8 @@ static void __net_exit quic_net_exit(struct net *net)
- #if IS_ENABLED(CONFIG_PROC_FS)
- 	quic_net_proc_exit(net);
- #endif
-+	disable_work_sync(&qn->work);
-+	skb_queue_purge(&qn->backlog_list);
- 	quic_crypto_free(&qn->crypto);
- 	free_percpu(qn->stat);
- 	qn->stat = NULL;
-diff --git a/net/quic/protocol.h b/net/quic/protocol.h
-index 850f43806688..6793255604c6 100644
---- a/net/quic/protocol.h
-+++ b/net/quic/protocol.h
-@@ -50,6 +50,10 @@ struct quic_net {
- 	struct proc_dir_entry *proc_net;	/* procfs entry for dumping QUIC socket stats */
- #endif
- 	struct quic_crypto crypto;	/* Context for decrypting Initial packets for ALPN */
-+
-+	/* Queue of packets deferred for processing in process context */
-+	struct sk_buff_head backlog_list;
-+	struct work_struct work;	/* Work scheduled to drain and process backlog_list */
- };
- 
- struct quic_net *quic_net(struct net *net);
-diff --git a/net/quic/socket.c b/net/quic/socket.c
-index 4607f3ae8a7b..006c5b2747fe 100644
---- a/net/quic/socket.c
-+++ b/net/quic/socket.c
-@@ -24,6 +24,134 @@ static void quic_enter_memory_pressure(struct sock *sk)
- 	WRITE_ONCE(quic_memory_pressure, 1);
- }
- 
-+/* Lookup a connected QUIC socket based on address and dest connection ID.
-+ *
-+ * This function searches the established (non-listening) QUIC socket table for a socket that
-+ * matches the source and dest addresses and, optionally, the dest connection ID (DCID). The
-+ * value returned by quic_path_orig_dcid() might be the original dest connection ID from the
-+ * ClientHello or the Source Connection ID from a Retry packet before.
-+ *
-+ * The DCID is provided from a handshake packet when searching by source connection ID fails,
-+ * such as when the peer has not yet received server's response and updated the DCID.
-+ *
-+ * Return: A pointer to the matching connected socket, or NULL if no match is found.
-+ */
-+struct sock *quic_sock_lookup(struct sk_buff *skb, union quic_addr *sa, union quic_addr *da,
-+			      struct sock *usk, struct quic_conn_id *dcid)
-+{
-+	struct net *net = sock_net(usk);
-+	struct quic_path_group *paths;
-+	struct hlist_nulls_node *node;
-+	struct quic_shash_head *head;
-+	struct sock *sk = NULL, *tmp;
-+	unsigned int hash;
-+
-+	hash = quic_sock_hash(net, sa, da);
-+	head = quic_sock_head(hash);
-+
-+	rcu_read_lock();
-+begin:
-+	sk_nulls_for_each_rcu(tmp, node, &head->head) {
-+		if (net != sock_net(tmp))
-+			continue;
-+		paths = quic_paths(tmp);
-+		if (quic_cmp_sk_addr(tmp, quic_path_saddr(paths, 0), sa) &&
-+		    quic_cmp_sk_addr(tmp, quic_path_daddr(paths, 0), da) &&
-+		    quic_path_usock(paths, 0) == usk &&
-+		    (!dcid || !quic_conn_id_cmp(quic_path_orig_dcid(paths), dcid))) {
-+			sk = tmp;
-+			break;
-+		}
-+	}
-+	/* If the nulls value we got at the end of the iteration is different from the expected
-+	 * one, we must restart the lookup as the list was modified concurrently.
-+	 */
-+	if (!sk && get_nulls_value(node) != hash)
-+		goto begin;
-+
-+	if (sk && unlikely(!refcount_inc_not_zero(&sk->sk_refcnt)))
-+		sk = NULL;
-+	rcu_read_unlock();
-+	return sk;
-+}
-+
-+/* Find the listening QUIC socket for an incoming packet.
-+ *
-+ * This function searches the QUIC socket table for a listening socket that matches the dest
-+ * address and port, and the ALPN(s) if presented in the ClientHello.  If multiple listening
-+ * sockets are bound to the same address, port, and ALPN(s) (e.g., via SO_REUSEPORT), this
-+ * function selects a socket from the reuseport group.
-+ *
-+ * Return: A pointer to the matching listening socket, or NULL if no match is found.
-+ */
-+struct sock *quic_listen_sock_lookup(struct sk_buff *skb, union quic_addr *sa, union quic_addr *da,
-+				     struct quic_data *alpns)
-+{
-+	struct net *net = sock_net(skb->sk);
-+	struct hlist_nulls_node *node;
-+	struct sock *sk = NULL, *tmp;
-+	struct quic_shash_head *head;
-+	struct quic_data alpn;
-+	union quic_addr *a;
-+	u32 hash, len;
-+	u64 length;
-+	u8 *p;
-+
-+	hash = quic_listen_sock_hash(net, ntohs(sa->v4.sin_port));
-+	head = quic_listen_sock_head(hash);
-+
-+	rcu_read_lock();
-+begin:
-+	if (!alpns->len) { /* No ALPN entries present or failed to parse the ALPNs. */
-+		sk_nulls_for_each_rcu(tmp, node, &head->head) {
-+			/* If alpns->data != NULL, TLS parsing succeeded but no ALPN was found.
-+			 * In this case, only match sockets that have no ALPN set.
-+			 */
-+			a = quic_path_saddr(quic_paths(tmp), 0);
-+			if (net == sock_net(tmp) && quic_cmp_sk_addr(tmp, a, sa) &&
-+			    quic_path_usock(quic_paths(tmp), 0) == skb->sk &&
-+			    (!alpns->data || !quic_alpn(tmp)->len)) {
-+				sk = tmp;
-+				if (!quic_is_any_addr(a)) /* Prefer specific address match. */
-+					break;
-+			}
-+		}
++		if (!test_and_set_bit(QUIC_LOSS_DEFERRED, &sk->sk_tsq_flags))
++			sock_hold(sk);
 +		goto out;
 +	}
 +
-+	/* ALPN present: loop through each ALPN entry. */
-+	for (p = alpns->data, len = alpns->len; len; len -= length, p += length) {
-+		quic_get_int(&p, &len, &length, 1);
-+		quic_data(&alpn, p, length);
-+		sk_nulls_for_each_rcu(tmp, node, &head->head) {
-+			a = quic_path_saddr(quic_paths(tmp), 0);
-+			if (net == sock_net(tmp) && quic_cmp_sk_addr(tmp, a, sa) &&
-+			    quic_path_usock(quic_paths(tmp), 0) == skb->sk &&
-+			    quic_data_has(quic_alpn(tmp), &alpn)) {
-+				sk = tmp;
-+				if (!quic_is_any_addr(a))
-+					break;
-+			}
-+		}
-+		if (sk)
-+			break;
-+	}
++	quic_timer_loss_handler(sk);
 +out:
-+	/* If the nulls value we got at the end of the iteration is different from the expected
-+	 * one, we must restart the lookup as the list was modified concurrently.
-+	 */
-+	if (!sk && get_nulls_value(node) != hash)
-+		goto begin;
-+
-+	if (sk && sk->sk_reuseport)
-+		sk = reuseport_select_sock(sk, quic_addr_hash(net, da), skb, 1);
-+
-+	if (sk && unlikely(!refcount_inc_not_zero(&sk->sk_refcnt)))
-+		sk = NULL;
-+	rcu_read_unlock();
-+	return sk;
++	bh_unlock_sock(sk);
++	sock_put(sk);
 +}
 +
- static void quic_write_space(struct sock *sk)
- {
- 	struct socket_wq *wq;
-@@ -205,6 +333,10 @@ static void quic_release_cb(struct sock *sk)
- 		nflags = flags & ~QUIC_DEFERRED_ALL;
- 	} while (!try_cmpxchg(&sk->sk_tsq_flags, &flags, nflags));
- 
-+	if (flags & QUIC_F_MTU_REDUCED_DEFERRED) {
-+		quic_packet_rcv_err_pmtu(sk);
-+		__sock_put(sk);
-+	}
- 	if (flags & QUIC_F_LOSS_DEFERRED) {
- 		quic_timer_loss_handler(sk);
- 		__sock_put(sk);
-@@ -254,6 +386,7 @@ struct proto quic_prot = {
- 	.accept		=  quic_accept,
- 	.hash		=  quic_hash,
- 	.unhash		=  quic_unhash,
-+	.backlog_rcv	=  quic_packet_process,
- 	.release_cb	=  quic_release_cb,
- 	.no_autobind	=  true,
- 	.obj_size	=  sizeof(struct quic_sock),
-@@ -284,6 +417,7 @@ struct proto quicv6_prot = {
- 	.accept		=  quic_accept,
- 	.hash		=  quic_hash,
- 	.unhash		=  quic_unhash,
-+	.backlog_rcv	=  quic_packet_process,
- 	.release_cb	=  quic_release_cb,
- 	.no_autobind	=  true,
- 	.obj_size	= sizeof(struct quic6_sock),
-diff --git a/net/quic/socket.h b/net/quic/socket.h
-index 1efc76ec2033..34dbdfd2dedc 100644
---- a/net/quic/socket.h
-+++ b/net/quic/socket.h
-@@ -200,3 +200,8 @@ static inline void quic_set_state(struct sock *sk, int state)
- 	inet_sk_set_state(sk, state);
- 	sk->sk_state_change(sk);
- }
++void quic_timer_path_handler(struct sock *sk)
++{
++}
 +
-+struct sock *quic_listen_sock_lookup(struct sk_buff *skb, union quic_addr *sa, union quic_addr *da,
-+				     struct quic_data *alpns);
-+struct sock *quic_sock_lookup(struct sk_buff *skb, union quic_addr *sa, union quic_addr *da,
-+			      struct sock *usk, struct quic_conn_id *dcid);
++static void quic_timer_path_timeout(struct timer_list *t)
++{
++	struct quic_sock *qs = container_of(t, struct quic_sock, timers[QUIC_TIMER_PATH].t);
++	struct sock *sk = &qs->inet.sk;
++
++	bh_lock_sock(sk);
++	if (sock_owned_by_user(sk)) {
++		if (!test_and_set_bit(QUIC_PATH_DEFERRED, &sk->sk_tsq_flags))
++			sock_hold(sk);
++		goto out;
++	}
++
++	quic_timer_path_handler(sk);
++out:
++	bh_unlock_sock(sk);
++	sock_put(sk);
++}
++
++void quic_timer_reset_path(struct sock *sk)
++{
++	struct quic_cong *cong = quic_cong(sk);
++	u64 timeout = cong->pto * 2;
++
++	/* Calculate timeout based on cong.pto, but enforce a lower bound. */
++	if (timeout < QUIC_MIN_PATH_TIMEOUT)
++		timeout = QUIC_MIN_PATH_TIMEOUT;
++	quic_timer_reset(sk, QUIC_TIMER_PATH, timeout);
++}
++
++void quic_timer_pmtu_handler(struct sock *sk)
++{
++}
++
++static void quic_timer_pmtu_timeout(struct timer_list *t)
++{
++	struct quic_sock *qs = container_of(t, struct quic_sock, timers[QUIC_TIMER_PMTU].t);
++	struct sock *sk = &qs->inet.sk;
++
++	bh_lock_sock(sk);
++	if (sock_owned_by_user(sk)) {
++		if (!test_and_set_bit(QUIC_PMTU_DEFERRED, &sk->sk_tsq_flags))
++			sock_hold(sk);
++		goto out;
++	}
++
++	quic_timer_pmtu_handler(sk);
++out:
++	bh_unlock_sock(sk);
++	sock_put(sk);
++}
++
++void quic_timer_pace_handler(struct sock *sk)
++{
++}
++
++static enum hrtimer_restart quic_timer_pace_timeout(struct hrtimer *hr)
++{
++	struct quic_sock *qs = container_of(hr, struct quic_sock, timers[QUIC_TIMER_PACE].hr);
++	struct sock *sk = &qs->inet.sk;
++
++	bh_lock_sock(sk);
++	if (sock_owned_by_user(sk)) {
++		if (!test_and_set_bit(QUIC_PACE_DEFERRED, &sk->sk_tsq_flags))
++			sock_hold(sk);
++		goto out;
++	}
++
++	quic_timer_pace_handler(sk);
++out:
++	bh_unlock_sock(sk);
++	sock_put(sk);
++	return HRTIMER_NORESTART;
++}
++
++void quic_timer_reset(struct sock *sk, u8 type, u64 timeout)
++{
++	struct timer_list *t = quic_timer(sk, type);
++
++	if (timeout && !mod_timer(t, jiffies + usecs_to_jiffies(timeout)))
++		sock_hold(sk);
++}
++
++void quic_timer_start(struct sock *sk, u8 type, u64 timeout)
++{
++	struct timer_list *t;
++	struct hrtimer *hr;
++
++	if (type == QUIC_TIMER_PACE) {
++		hr = quic_timer(sk, type);
++
++		if (!hrtimer_is_queued(hr)) {
++			hrtimer_start(hr, ns_to_ktime(timeout), HRTIMER_MODE_ABS_PINNED_SOFT);
++			sock_hold(sk);
++		}
++		return;
++	}
++
++	t = quic_timer(sk, type);
++	if (timeout && !timer_pending(t)) {
++		if (!mod_timer(t, jiffies + usecs_to_jiffies(timeout)))
++			sock_hold(sk);
++	}
++}
++
++void quic_timer_stop(struct sock *sk, u8 type)
++{
++	if (type == QUIC_TIMER_PACE) {
++		if (hrtimer_try_to_cancel(quic_timer(sk, type)) == 1)
++			sock_put(sk);
++		return;
++	}
++	if (timer_delete(quic_timer(sk, type)))
++		sock_put(sk);
++}
++
++void quic_timer_init(struct sock *sk)
++{
++	timer_setup(quic_timer(sk, QUIC_TIMER_LOSS), quic_timer_loss_timeout, 0);
++	timer_setup(quic_timer(sk, QUIC_TIMER_SACK), quic_timer_sack_timeout, 0);
++	timer_setup(quic_timer(sk, QUIC_TIMER_PATH), quic_timer_path_timeout, 0);
++	timer_setup(quic_timer(sk, QUIC_TIMER_PMTU), quic_timer_pmtu_timeout, 0);
++	/* Use hrtimer for pace timer, ensuring precise control over send timing. */
++	hrtimer_setup(quic_timer(sk, QUIC_TIMER_PACE), quic_timer_pace_timeout,
++		      CLOCK_MONOTONIC, HRTIMER_MODE_ABS_PINNED_SOFT);
++}
++
++void quic_timer_free(struct sock *sk)
++{
++	quic_timer_stop(sk, QUIC_TIMER_LOSS);
++	quic_timer_stop(sk, QUIC_TIMER_SACK);
++	quic_timer_stop(sk, QUIC_TIMER_PATH);
++	quic_timer_stop(sk, QUIC_TIMER_PMTU);
++	quic_timer_stop(sk, QUIC_TIMER_PACE);
++}
+diff --git a/net/quic/timer.h b/net/quic/timer.h
+new file mode 100644
+index 000000000000..61b094325334
+--- /dev/null
++++ b/net/quic/timer.h
+@@ -0,0 +1,47 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/* QUIC kernel implementation
++ * (C) Copyright Red Hat Corp. 2023
++ *
++ * This file is part of the QUIC kernel implementation
++ *
++ * Written or modified by:
++ *    Xin Long <lucien.xin@gmail.com>
++ */
++
++enum {
++	QUIC_TIMER_LOSS,	/* Loss detection timer: triggers retransmission on packet loss */
++	QUIC_TIMER_SACK,	/* ACK delay timer, also used as idle timer alias */
++	QUIC_TIMER_PATH,	/* Path validation timer: verifies network path connectivity */
++	QUIC_TIMER_PMTU,	/* Packetization Layer Path MTU Discovery probing timer */
++	QUIC_TIMER_PACE,	/* Pacing timer: controls packet transmission pacing */
++	QUIC_TIMER_MAX,
++	QUIC_TIMER_IDLE = QUIC_TIMER_SACK,
++};
++
++struct quic_timer {
++	union {
++		struct timer_list t;
++		struct hrtimer hr;
++	};
++};
++
++#define QUIC_MIN_PROBE_TIMEOUT	5000000
++
++#define QUIC_MIN_PATH_TIMEOUT	1500000
++
++#define QUIC_MIN_IDLE_TIMEOUT	1000000
++#define QUIC_DEF_IDLE_TIMEOUT	30000000
++
++void quic_timer_reset(struct sock *sk, u8 type, u64 timeout);
++void quic_timer_start(struct sock *sk, u8 type, u64 timeout);
++void quic_timer_stop(struct sock *sk, u8 type);
++void quic_timer_init(struct sock *sk);
++void quic_timer_free(struct sock *sk);
++
++void quic_timer_reset_path(struct sock *sk);
++
++void quic_timer_loss_handler(struct sock *sk);
++void quic_timer_pace_handler(struct sock *sk);
++void quic_timer_path_handler(struct sock *sk);
++void quic_timer_sack_handler(struct sock *sk);
++void quic_timer_pmtu_handler(struct sock *sk);
 -- 
 2.47.1
 

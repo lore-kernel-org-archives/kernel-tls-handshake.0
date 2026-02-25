@@ -1,150 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E994031AA96
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 19 Feb 2026 13:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CF7285066
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 25 Feb 2026 02:35:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771509563; cv=none; b=QpxsTCbd8uPoXaohVn0ZnoAGwQof1QiLUWqQffD/gnGEWaAJJQQJsBQ9eepRdpl6P56N98IgWiLtY+CHwDaFSoAm9vB7o8FRVVjx+HswqxdtGuIGvK+O1nvmWGMlXOqvrIMaJb0nb9DkBFb7aTQDhMFM4mKmr3aX8mxx2ypWE3Q=
+	t=1771986937; cv=none; b=rY4kyZunUo6slXuooyNsVRJHbZQWaYRAaXeCMjsKju4MJpw5YKnNp49YmunmKcoZbkn1NBuV9MV4DAxsD0ycDUMUbf/elAlbGJCqCMjg+h2va+TEM76/SpLyKae8Ai5nPELIq80BV/kq8ICby8FsJYDpN39Xuh1oSv1cl9UjGnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771509563; c=relaxed/simple;
-	bh=/Zh/7duqLQtJU9k7Ki6Wite9RkGXoWQXt7rBKvsXCnw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rTFknC1SWlTwph1NZdAFIbrqjSPOihzZ9i+Hvm/DwKA16JpI49HsbDVxDUskNGUak4EtMDz9vdpnN0Vp4BLLZcn6WYYWvvqccP4GMM342i12mPSpjw9/9Mbq6Uimys67gn0jYd0hE+c0KhT6EiEHVSS4gadBsvSn8JfF5U7Jn2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikNRWMER; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771986937; c=relaxed/simple;
+	bh=EmdrmrQatIkWYrWc3Tso6zV2W4IPfCbeSJjTG87cs5k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=W3bz8yc182sWN+Etl9X0rVoshAO2maZn3yOlLxzSSVDylHIK1xUGyXK76CHt6okq5Ubj9fizv3/2sW+PD7U/tpdGxh11am/tacxYwstylJoGHGi9A40kDYEg0/WBQMU8ewVfmIqae0/SdvJn/lZuzu7RWbvT09MyWz1LXzEVXWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DzfdM3UL; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikNRWMER"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 305B6C4CEF7;
-	Thu, 19 Feb 2026 13:59:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771509562;
-	bh=/Zh/7duqLQtJU9k7Ki6Wite9RkGXoWQXt7rBKvsXCnw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ikNRWMERZL+gzv1tvgiKkSRbFoRVTvGILLpRR1NDiVHiAxHukU59TqzoZ7acW8VhL
-	 rSIEdZ3WUcqHDSKpb/V+fhnb/YIl066XeDc0j86dyCZAFzChIEABLecJh5HrrbB1cD
-	 auDPi3vHcdiohnO8I7Dg85+mi0Y7jLYIwOU0ILONH+VcyLS7F/anrEb608wSAMZDAD
-	 ++SlRLhtigKYoyP0Oy/Zb3RaJzthpXZT9Oe3GnQbD25pLSRrsRm5Mpys3oC8jDXwaH
-	 /LqiaPOTDtu1HfF+4NQSGM83ANEWcoTb+T/2QFBh0OiiLjC6oxvh8a490K5POhXSHz
-	 N/+oThFahjoPg==
-Message-ID: <764ae08e-2e7f-4c25-a78b-824b024f6f81@kernel.org>
-Date: Thu, 19 Feb 2026 08:59:20 -0500
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DzfdM3UL"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-896fb37d1f0so43887766d6.2
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 24 Feb 2026 18:35:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771986935; x=1772591735; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0XFWhnozczQdBY9wOF6c5V46t5MOgQ+lGzwQjjTNU9A=;
+        b=DzfdM3ULd1DmHfsSuUlG4EVBUOAEq45wYoeJwk1b/B4fQYumv+P3qDlO7nfBNiXjlm
+         2l5d4+WbNI7bThE51IOa1EqN7gf2tkwPQcPDXPdZQ3ZB4EFwoPoI+tjn4hnIa2MxzR1P
+         DPLfVWSUY8ycmRKUFmORbdX92mQkuVmz0aPF5qlQ/miUH/7MUEYEYMOPpATih5e9fE9f
+         U6VxM3+ylPORarJZKSjcgPHkSbPAuxGOHTPkvfUawQxilmrNYOsVADtarpIjrbKs0ySo
+         MchCfb4o/0GFn6PXbCa68ZwG1qk/Ox4R0Y0mbXlYOTTkM/+WzAOrUsa6gUgjzO4pW49V
+         W3rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771986935; x=1772591735;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0XFWhnozczQdBY9wOF6c5V46t5MOgQ+lGzwQjjTNU9A=;
+        b=Uprxt91/jbh8zwWbGcLI7XyyxpLMh0EohzQpVxZiquyiBLZzx0a7D4NJCPwyRHRav0
+         dyE2WZoIj4x1fjTyjB/bWRZ2rnHJcYoGN4w+grDguJ/kaBJkdsSOztkHM9YZJyvhCpW8
+         qgPA7AcGOinh9eSlyjObVQHwTD3U66P9t/AnrrgMULbwLFD8LPdx+EYul8RnW+irBt4o
+         14nuYNTz6rIxJ7WsWzTG0dbPQzzH6r5976GI1IrJXcQ3EiaGn6zrhWAOggJOlstgdizN
+         Dkec2VcFp+Ejhi8LpnAkx6naoPnVkHCc94ICWTcwFEI86ChbWZGR3K5/yBsxOqoxoldi
+         jTKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVW3a/qvapwSFezjU0Zra6UtDNIPYsvYiT9NctBw3eJROLXwihpfivfWX/CM7wJlOUqe8aZ0X8F8iNGNQhS0k9Lt1/wIw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YymF53qk94o2HGzdvsJiFG0k9FmxQJ2ErRi/eXt6QIGSrPQLVkr
+	+3VPOzcNSJlP6TsoSvoDq7Bxi5rz8EeR9dSQLMm+8k/7rCumHwaWrepJ
+X-Gm-Gg: ATEYQzzqlk9w6GuXQDqYrERe9jskjYb873KlRDY2wo7Q7rUjTCXxg2JUrcCXYKyk/b6
+	qXh6OrzI5SzmmjAF7ssLjHfhCV8RkAA/HCo/qd4wVCl8Q9wOmRx0hR0Cunysj5pabnAcjRhxWWo
+	5JGgMx6TeLiUm/rL6PKrUpBDVWLC3+UduDZ8C7M6tae/XUjxkW4uo/Hgcm4mxkUARRJN7PZE/su
+	XeeeulIaaMM3+w0A98dsW2IDfdsrV/fGj1t51ulxG9UV4ECVbiMZMy/VNuAn3QP/V5x/ArCsDjr
+	AJ8XlEKUPafwF31mBUcUI7OTsHEQ3wXazayaoTO/DDkU85KUh/mkOeq5PKfDGR5gm/1Kyizq7h2
+	LYLjacqy2dFnJvdvA/T9MAeEbysFyypx7fcqKInCiVnbciD9u5o7tdDDQyaHZzWTT0jiU1/xdjU
+	Dk8avXKvMfstWPUNM7KQJtTSuV7OhIzhJOjN/n3QU9faAA1wsUfQbMtwht7ty2MBP590DeTngJA
+	BpWGjSE4hzDJxVBOIyXxH9uIETORoEZk5FY98Ku9k6V+CCIW8LrUTzPRwtk8BBJww==
+X-Received: by 2002:a05:6214:e4e:b0:87c:2c0d:309e with SMTP id 6a1803df08f44-899b8c1ee0bmr10279896d6.37.1771986935317;
+        Tue, 24 Feb 2026 18:35:35 -0800 (PST)
+Received: from wsfd-netdev58.anl.eng.rdu2.dc.redhat.com ([66.187.232.140])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8997e62f453sm112363586d6.36.2026.02.24.18.35.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Feb 2026 18:35:34 -0800 (PST)
+From: Xin Long <lucien.xin@gmail.com>
+To: network dev <netdev@vger.kernel.org>,
+	quic@lists.linux.dev
+Cc: davem@davemloft.net,
+	kuba@kernel.org,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Stefan Metzmacher <metze@samba.org>,
+	Moritz Buhl <mbuhl@openbsd.org>,
+	Tyler Fanelli <tfanelli@redhat.com>,
+	Pengtao He <hepengtao@xiaomi.com>,
+	Thomas Dreibholz <dreibh@simula.no>,
+	linux-cifs@vger.kernel.org,
+	Steve French <smfrench@gmail.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Paulo Alcantara <pc@manguebit.com>,
+	Tom Talpey <tom@talpey.com>,
+	kernel-tls-handshake@lists.linux.dev,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Steve Dickson <steved@redhat.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Alexander Aring <aahringo@redhat.com>,
+	David Howells <dhowells@redhat.com>,
+	Matthieu Baerts <matttbe@kernel.org>,
+	John Ericson <mail@johnericson.me>,
+	Cong Wang <xiyou.wangcong@gmail.com>,
+	"D . Wythe" <alibuda@linux.alibaba.com>,
+	Jason Baron <jbaron@akamai.com>,
+	illiliti <illiliti@protonmail.com>,
+	Sabrina Dubroca <sd@queasysnail.net>,
+	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+	Daniel Stenberg <daniel@haxx.se>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+	"Marc E . Fiuczynski" <marc@fiuczynski.com>
+Subject: [PATCH net-next v10 01/15] net: define IPPROTO_QUIC and SOL_QUIC constants
+Date: Tue, 24 Feb 2026 21:34:07 -0500
+Message-ID: <d2fd583ab20f2c8fb9ed91bd4ef1afb1d75a8797.1771986861.git.lucien.xin@gmail.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <cover.1771986861.git.lucien.xin@gmail.com>
+References: <cover.1771986861.git.lucien.xin@gmail.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/4] net: Introduce read_sock_cmsg proto_ops for
- control message delivery
-To: Hannes Reinecke <hare@suse.de>, Olga Kornievskaia <okorniev@redhat.com>
-Cc: kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>
-References: <20260217222033.1929211-1-cel@kernel.org>
- <20260217222033.1929211-2-cel@kernel.org>
- <29c55055-a7e9-485a-8290-4f0bc1543a59@suse.de>
- <c4c6ac9f-10d0-45ae-a35d-b1266f7a06d9@kernel.org>
- <1330bf39-196c-4ef5-8f36-fd407e7e6605@suse.de>
- <2646cf04-c972-4c1b-a782-00b0d94c603c@app.fastmail.com>
- <bf17b852-06db-4b2e-82a9-c6173adf761c@suse.de>
-Content-Language: en-US
-From: Chuck Lever <cel@kernel.org>
-Organization: kernel.org
-In-Reply-To: <bf17b852-06db-4b2e-82a9-c6173adf761c@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2/19/26 3:10 AM, Hannes Reinecke wrote:
-> On 2/18/26 17:12, Chuck Lever wrote:
->>
->>
->> On Wed, Feb 18, 2026, at 10:52 AM, Hannes Reinecke wrote:
->>> On 2/18/26 15:33, Chuck Lever wrote:
->>>> On 2/18/26 2:29 AM, Hannes Reinecke wrote:
->>
->>>>> The way I see it, ->read_sock() has an advantage when you can work
->>>>> with skbuffs (ie network packets) directly. Then it has the benefit
->>>>> of being paced with the packets arriving as they do on the network.
->>>>>
->>>>> But for TLS this is no longer true; the TLS skbuffs are synthesized
->>>>> on top of the TCP stream, and the boundary of a TLS skbuff is
->>>>> completely
->>>>> decoupled from the TCP skbuff (in theory, at least).
->>>>>
->>>>> This can result in TLS skbuff stalls when waiting for the remainder
->>>>> of the TCP data stream to arrive.
->>>>
->>>> An entire TLS Record has to be present before it can be decrypted and
->>>> passed to the socket consumer. Is that what you mean?
->>>>
->>> Yes. And that makes ->read_sock() a bit pointless (from my POV); looking
->>> at the network stack the skbuffs are assembled/decoded by the TLS layer,
->>> only to be converted into skbuffs again for ->read_sock().
->>> Which seems a bit pointless.
->>
->> Is this true only of the software kTLS implementation? For
->> offload, I'd think the decrypted records are placed directly
->> in the skbs that are handed to consumers.
->>
->>
->>> But the main point with ->read_sock() is that we can only process
->>> skbuffs, ie we have to wait for the TLS layer to assemble the entire
->>> record.
->>> With recvmsg() we at least have a theoretical choice of returning
->>> a short read, allowing the code to do something clever in the meantime.
->>
->> Do you mean that read_sock is always synchronous? Perhaps
->> judicious construction of the consumer can help there; but
->> I expect that plain TCP has similar pathologies during, for
->> instance, a network partition.
->>
->>
->>> Mind you, that is all conjecture. Might well be that ->read_sock()
->>> is beneficial for TLS, too. Or, at least, doesn't do any harm.
->>> It's just that I don't trust the author of the TLS read_sock()
->>> implementation; his network stack knowledge isn't _that_ great.
->>
->> Time to get out our measuring sticks, I suppose.
->>
->>
->>> (Problem is that my performance measurements always ran into
->>> some obnoxious occasional stall, rendering the entire measurement
->>> pretty worthless. So I couldn't tell whether the recvmsg()
->>> implementation delivers a benefit or not)
->>
->> Generally speaking (ie, hand-wave mode) that kind of stall arises
->> because the consumer expects it will get another data_ready and the
->> network layer does not conform with the implementer's expectations.
->>
-> Naa. Tested that one. I've seen stalls affecting _all_ queues at
-> the same time, in regular intervals spaced with the power of 2.
-> Current reasoning is HW-based LLDP frames handling.
-> 
->> So I like the read_sock_cmsg design here because with recvmsg,
->> the CMSG payload can appear in the consumer's data buffer. For
->> direct I/O, that's bad. We also really don't want to place the
->> TLS Alerts in page cache pages. With read_sock_cmsg, the CMSG
->> payload can be efficiently directed to an independent buffer
->> that is never visible to user space.
->>
->> And I prefer having a single receive path for both non-TLS and
->> TLS processing. That's so much less code to deal with.
->>
->> This approach seems to me to be more architecturally sound.
->> We just have to get over the implementation bumps IMO. I think
->> we can certainly examine ->read_sock with software kTLS to see
->> if there's room for improvement.
->>
-> And that, I guess, is the real argument. We've seen with the
-> recent TLS alert CVE that posting TLS messages in the recvmsg
-> payload is a _bad_ idea, as this puts far too many restrictions
-> on the format of the message.
-> 
-> So you see me convinced. I'll give it a go to convert nvme-tcp.
+This patch adds IPPROTO_QUIC and SOL_QUIC constants to the networking
+subsystem. These definitions are essential for applications to set
+socket options and protocol identifiers related to the QUIC protocol.
 
-Some exploration of the code base has shown me the realities of
-the concerns you raised above. I'm going to try to address those
-before pushing forward with read_sock_cmsg. Stand by ...
+QUIC does not possess a protocol number allocated from IANA, and like
+IPPROTO_MPTCP, IPPROTO_QUIC is merely a value used when opening a QUIC
+socket with:
 
+  socket(AF_INET, SOCK_STREAM, IPPROTO_QUIC);
 
+Note we did not opt for UDP ULP for QUIC implementation due to several
+considerations:
+
+- QUIC's connection Migration requires at least 2 UDP sockets for one
+  QUIC connection at the same time, not to mention the multipath
+  feature in one of its draft RFCs.
+
+- In-Kernel QUIC, as a Transport Protocol, wants to provide users with
+  the TCP or SCTP like Socket APIs, like connect()/listen()/accept()...
+  Note that a single UDP socket might even be used for multiple QUIC
+  connections.
+
+The use of IPPROTO_QUIC type sockets over UDP tunnel will effectively
+address these challenges and provides a more flexible and scalable
+solution.
+
+Signed-off-by: Xin Long <lucien.xin@gmail.com>
+Acked-by: Paolo Abeni <pabeni@redhat.com>
+---
+ include/linux/socket.h  | 1 +
+ include/uapi/linux/in.h | 2 ++
+ 2 files changed, 3 insertions(+)
+
+diff --git a/include/linux/socket.h b/include/linux/socket.h
+index ec715ad4bf25..dc80de8d8c50 100644
+--- a/include/linux/socket.h
++++ b/include/linux/socket.h
+@@ -401,6 +401,7 @@ struct ucred {
+ #define SOL_MCTP	285
+ #define SOL_SMC		286
+ #define SOL_VSOCK	287
++#define SOL_QUIC	288
+ 
+ /* IPX options */
+ #define IPX_TYPE	1
+diff --git a/include/uapi/linux/in.h b/include/uapi/linux/in.h
+index ced0fc3c3aa5..34becd90d3a6 100644
+--- a/include/uapi/linux/in.h
++++ b/include/uapi/linux/in.h
+@@ -85,6 +85,8 @@ enum {
+ #define IPPROTO_RAW		IPPROTO_RAW
+   IPPROTO_SMC = 256,		/* Shared Memory Communications		*/
+ #define IPPROTO_SMC		IPPROTO_SMC
++  IPPROTO_QUIC = 261,		/* A UDP-Based Multiplexed and Secure Transport	*/
++#define IPPROTO_QUIC		IPPROTO_QUIC
+   IPPROTO_MPTCP = 262,		/* Multipath TCP connection		*/
+ #define IPPROTO_MPTCP		IPPROTO_MPTCP
+   IPPROTO_MAX
 -- 
-Chuck Lever
+2.47.1
+

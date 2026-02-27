@@ -1,81 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D1C355F4A;
-	Thu, 26 Feb 2026 17:45:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C0419755B
+	for <kernel-tls-handshake@lists.linux.dev>; Fri, 27 Feb 2026 00:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772127903; cv=none; b=Jxsc7KgAnqPQd8gIoLqyHpk596u9aurS8wLHAjgCI1FGN+ygWFa7QqjaBJKH6B5Oq6O1AbV1aVrHY+X7OFdb5G7Y1IDxhqYYNY6rcyQ9ootvO/2A0HaCCnbR66oIa2CvZSFLFef1Dt0EPJlFsAV012h0QHd6R+hqy2ltHNaWJqg=
+	t=1772150880; cv=none; b=mp5Ws2GwoBcu0pQA3n9FrrbT6PFKaog4wKrnzMX/cCBZQTcxlNhGoF4JcP3n3/cqY8BTAO66coxYC1wrBtgGcxl/WSlNG+A2XqrDiYsqwT8NR4ADUNGoRx5vLkLYiv7ok/Mk/Cbj3bIRbPUanxqMwa2l27VYgVGoR6T//zeBHsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772127903; c=relaxed/simple;
-	bh=tannt4lY3Kdup8C/GrObIPOQKpUnEUlTbmhrhsrGr4g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aVgXkLnuMHzBAe0+QBdS9Zfi8KINCInRnJnM7s6GgbAMaZliWoTVzICXKxnyDOqDxhTdtxAhMVpE6oYMDjG1VUl4tzJ+BygudNqJKTAzN8r9DY2y/6pm3B0aFyM6K3pFBLIRpoAT6DfPcTXn2ayXNYnTD3vnh4ZSOIf4dvCDXCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rBD4YB1z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772150880; c=relaxed/simple;
+	bh=KKfWeAfSMYTw6YqbPmajJtN7Du4yXNH1wQhGmbdapdU=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=DaxDrYdxo/BAcSU3z2uwk7+HJzH/gpvU3MY+nteMllLtP38O710+gSlrFJZXR09fPdJ0PKQM094nntiRC+ZVIyZo4KnXRdLLuzc7VfA1ihIG2EtaI0F9Zor2yrTSX7DJmAyTDw0lYpiTGC8PJQuQftMWYaMW0AmTWo06gxpv/eQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=KeJriNgC; arc=none smtp.client-ip=185.70.43.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rBD4YB1z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0CD2C116C6;
-	Thu, 26 Feb 2026 17:45:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772127903;
-	bh=tannt4lY3Kdup8C/GrObIPOQKpUnEUlTbmhrhsrGr4g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rBD4YB1zOn/gj2cwT07DcTYwl9OkPdoVm2NQYGLEwr8NRy0G+RUfZ8Puol5d1AB5R
-	 lkZoJFXO0lagf0WSm1F4iMO00rsH7QURykb6PTqBcHKZtfvQHpt5VnIFIIH/43MycZ
-	 +KF969kf8k3c36QulKKVQSHexmw8AZIg808yWTvrltT1yl9kXpBQjjh8GGtz3ryy/t
-	 0iFxpG4yFP+2OO+69akwGiV4pGDCZoyuK/fdN7wcQvy060kzMaIkBUD/7YsapGLOIO
-	 6RTDRzPT1RyKe6V+U68wBM/eeZbJBtGzFduKgrW6oIyIt46LShvfyll31TiMCJfCrd
-	 OQ788NgIlA9KA==
-Date: Thu, 26 Feb 2026 17:44:58 +0000
-From: Simon Horman <horms@kernel.org>
-To: Leon Kral <leon.j.kral@protonmail.com>
-Cc: john.fastabend@gmail.com, kuba@kernel.org, sd@queasysnail.net,
-	chuck.lever@oracle.com, davem@davemloft.net, edumazet@google.com,
-	pabeni@redhat.com, corbet@lwn.net, skhan@linuxfoundation.org,
-	netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation/networking/tls-handshake.rst: Fix of minor
- grammar mistake
-Message-ID: <aaCGmqqMMPey4nbL@horms.kernel.org>
-References: <20260226000915.27898-1-leon.j.kral@protonmail.com>
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="KeJriNgC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1772150874; x=1772410074;
+	bh=KKfWeAfSMYTw6YqbPmajJtN7Du4yXNH1wQhGmbdapdU=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=KeJriNgCfNeFHN7XmN4qytrS8zVDM18LbmoUlBrkQIUzp+VJrfdPNaakndGudTqgk
+	 AXzpN75tLGf0H5A+mL2jaSp6WPaCO/mlO/40nCxko2Rg8xvhYTik7KD415dQi7mcM5
+	 9wOylN5P95NDy6bqNA30woWrjArwlZheoBe6gs7P2Y31mnm8I8xGE2fuIqEFNf9sd3
+	 o4w2TBvIqMj1JMNdudX8pm3gaQQ1DNhgzh60VCUCoYywerBrL6k3SlWVsbquiFcRhP
+	 9tq+VrDNtcTHphTuM5I/LF/uZlCQFX4Kzrkr2E6gYjqO1tyHsNh3LY4bG8c2+Z67I/
+	 CFh3gkXEFD44A==
+Date: Fri, 27 Feb 2026 00:07:47 +0000
+To: john.fastabend@gmail.com
+From: Leon Kral <leon.j.kral@protonmail.com>
+Cc: kuba@kernel.org, sd@queasysnail.net, chuck.lever@oracle.com, davem@davemloft.net, edumazet@google.com, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Leon Kral <leon.j.kral@protonmail.com>
+Subject: [PATCH net-next v2] net/handshake: Fixed grammar mistake
+Message-ID: <20260227001151.41610-1-leon.j.kral@protonmail.com>
+Feedback-ID: 184191534:user:proton
+X-Pm-Message-ID: 26f61213add1de94c233d76f67e1a18efca4491e
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260226000915.27898-1-leon.j.kral@protonmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 26, 2026 at 12:04:54AM +0000, Leon Kral wrote:
-> The word "a" was used instead of "an" which is grammatically incorrect.
-> Fix by changing from "a" to "an". This improves readability of the
-> documentation.
-> 
-> Signed-off-by: Leon Kral <leon.j.kral@protonmail.com>
+The word "a" was used instead of "an" which is grammatically incorrect.
+Fixed by changing from "a" to "an". This improves readability of the
+documentation.
 
-Hi Leon,
+Signed-off-by: Leon Kral <leon.j.kral@protonmail.com>
+---
+ Documentation/networking/tls-handshake.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Your change looks good to me.
+diff --git a/Documentation/networking/tls-handshake.rst b/Documentation/net=
+working/tls-handshake.rst
+index 6f5ea1646a47..4f7bc1087df9 100644
+--- a/Documentation/networking/tls-handshake.rst
++++ b/Documentation/networking/tls-handshake.rst
+@@ -7,7 +7,7 @@ In-Kernel TLS Handshake
+ Overview
+ =3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-Transport Layer Security (TLS) is a Upper Layer Protocol (ULP) that runs
++Transport Layer Security (TLS) is an Upper Layer Protocol (ULP) that runs
+ over TCP. TLS provides end-to-end data integrity and confidentiality in
+ addition to peer authentication.
+=20
+--=20
+2.53.0
+v2:
+v1: https://lore.kernel.org/netdev/20260226000915.27898-1-leon.j.kral@proto=
+nmail.com/
 
-But looking over git history it seems that an appropriate
-prefix for the patch would be 'net/handshake:'.
-
-And it would be best to set the target tree explicitly,
-in this case net-next seems appropriate. So:
-
-Subject: [PATCH net-next v2] net/handshake: ...
-
-It also might be best to make the subject rest of the subject,
-while not making it too long. But I'll leave that up to you.
-
-Please do make sure that 24h elapses since you posted v1 before posting v2.
-
-For more information on the Netdev development process please
-see: https://www.kernel.org/doc/html/next/process/maintainer-netdev.html
-
-...
-
--- 
-pw-bot: changes-requested

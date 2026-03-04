@@ -1,95 +1,95 @@
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C4E1DFDA1
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  4 Mar 2026 23:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2DB35F60B
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  4 Mar 2026 23:13:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772665409; cv=pass; b=d737DIMRqCN5zC1ooiyydyytUk21xXY/6XcB8+f4n2H7wXCN8e/pX6Ea9E/p7SXvaVRk2/Xr9camcHtHEB/hW9dZCkezcHtfwxWxoSc6jW7QyjshPos9s+wJMyg2BSuMxBgUqCH8387EByRyYw9afcEVut3RYFZYh3FhQOk53sk=
+	t=1772666011; cv=pass; b=IBUiXrNUeHM1uYxbUWysvhjBa88frnDs4rZBDFbMwBAozTnRH6OMIjePkBWPW+0x+yVMr5CsUVK6HOAFEqpX8wQpAMWWE2Ok7Dy2wCKZZrby02jr4EOzkiYoF44IcmliIM+9okR4ZNm5r8mO6wvoWjTFjKTIeskIYZQ+LTyUp2Y=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772665409; c=relaxed/simple;
-	bh=2i+IHSwXdo2vJdP59dU99G2iRMYrlyhf0Di7pAHPdxk=;
+	s=arc-20240116; t=1772666011; c=relaxed/simple;
+	bh=5l7t5GUb2D/4t62FXPSct37+0hReMV23ketRmHriGMw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PV+1tUXT3sC4KYhEIBzQB5K0m5Wnv1wOCR36L+5DHIzhFTj9L6qT+VIyjTrwwR7UYGv3jdKczY4TO8Vu3MgIy/Y+0A6b/fiPVxFmT++qaTBIca6QrbB9Ck8kar4BPErZtrAMsssBUnjfjQYl53T0agbh13MccE0Oxli8VQc3uDs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a4wNfgmD; arc=pass smtp.client-ip=209.85.217.53
+	 To:Cc:Content-Type; b=PD4sCREhiSZUnk9xJsZ94RWse/7vW7HDRqaySeBbh4ampvIrbwYIOQPDJH0D9+JHqVBhtzOiqU5itJj65VzySJcyNTKV2W/0y76XlOVteFwUyMfM/jR9UvqfN1vy2VVYG/KZu3MBe+GnoQW/5DmRTKUfCRTglsdpCFlTxWPVrEQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PWr7CFEL; arc=pass smtp.client-ip=209.85.217.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a4wNfgmD"
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-5ffca37e8cdso20448137.2
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 04 Mar 2026 15:03:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772665406; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PWr7CFEL"
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-5fded42aa7cso5031468137.0
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 04 Mar 2026 15:13:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772666008; cv=none;
         d=google.com; s=arc-20240605;
-        b=dPw56dg1LkadoBZ3+ALp3tL2pKXflxPTdLqP0D0U8I7IpiyI/NdtmJ53EAnhL9RJz0
-         2+VpywItbzj9mGMmsQH5w+TD5rS62b6VeJ+IUs1cWTGIrAYpJyGAC+uzYunONSSfDMM3
-         /M2OtQfrfSB5cDDD7JI9QVl7ah9+7DimS64l8o1JBE0Gn40ksMnspwTQqCty9LTJUz9D
-         O7r6y2RJ70HN3JqxcGKSJf4+vURPyRrqkRivINdoQ6A+EBX/zGYUTWb9jUnpQ/gOZmSn
-         LWqc755YW+enpfSFqrde/soO0ylQaJIDavkmpFOh/zXiFcqdbCrAnvnHUWBHO05MukS3
-         LMVw==
+        b=DcQg6q54IWshHoXetu/RDgncBiiSnrMALMWzeSylnVmZ8y8fyASjI9hMySQ48iaNJs
+         Q0wFfmfyKqBWITXFcpVr/cnG2sii8l+llWLlMXJObMlIudsgOsFUPVOYJ5EwhaKT9xaN
+         33NCbvKDj2h7NKCNy/WL41QIDlNnMojDqbsnIwZH633X8xhIZrkmlTqfD67Qt1L5WhWw
+         m2S/8Onxr1Mzm2VlSNAvm9qnMUMiiW6ns1JWPzd640L1AWd3C8hEAZd1vaEAR1dFD0mB
+         8YBFOOnGOpy+sEpyjc6j9eQ019wDOseyVO6Te9mpmbBXeer8aRPlglagK31vistIk386
+         mgFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Ivkx6puhgdlm/jw1xcgfFyqPx3PkaCKD+eg0EyAqi2E=;
-        fh=y/B1toAJhZHLilhNO/oSGLX7/KsVbVAu72Zst6UdOvE=;
-        b=hXygze02zX4sheSenI4QmGKdJGxh8I8AmPrEz1dR1UdYGHyQN+rA54rKHY5m8jAA+z
-         mex/mkchfTiCuSGD8skR9ps5FhGxn6he74BXJ2VrPSCmWLhLl1WqOUDmF4VJwIBnwqs4
-         mnuiLyNNfsw75fxf8HCs0vC1RyN3NL7Jk+YOywD3rZXMB2lhmSoqjvU8L4owsEaIQ/om
-         UHtYYM5iXpH8/gxqUA42douIialsc+YBo7kAuAsKdeF3brIxQNQCqsI8oIP3clt+vTzN
-         AN44Rq7FPuC2AwcW2cyJSAS7I8CWalablusJvJ/YLKGG5MvCtkuy1HwREzpjz1MymYFZ
-         JuJg==;
+        bh=cT8TknxJNuHJgHXdge5Ni6drCi6rxzjYWQCjsyroxlk=;
+        fh=Tq0BQUIC7knLMg2TqXF636JGPG37Ao0QZCboP+cVwSw=;
+        b=b3wLum309Cy2qouCEqnTg5/l33aSoQSl/SjNJqybcl3grIhTeBe28wh6ZztMmpJE7J
+         vCB1ke9953DpPRsGEIQK4lEKMhBKORAu6ZmLxk8UxpBsDSTERn/8vl+h/TTrjHe5iV8Y
+         cTD79u9ZWvn5sET8rhDXwHgrWXyA6UJPf6WSCt1ev5dR4ymVFt3wayKhimqgOFkWi2l9
+         JGOdpuO7t1p8wOlMXrbZmYQAx3cWIr71MYJ3pv40ggVAs4bZjK8W6PNvYk7tE2YyD1St
+         arvu7brhlHLV+tDpJtrz1O7pr1W0PTnBbLNUIYhl6hXtJsxBby2jwH0KJffdVE9Gzftz
+         nBpA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772665406; x=1773270206; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772666008; x=1773270808; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ivkx6puhgdlm/jw1xcgfFyqPx3PkaCKD+eg0EyAqi2E=;
-        b=a4wNfgmDzP5TxlVgFQEGL45sG2E965xrgAtcQeOORibYvut7TEtHnnJ5F4xjPt175o
-         pqO9dUxJeCX72YMTj5r7HGzei/gSNhgdftJ42fUakslP+rt7dso19Q15Ds0P/prYnLyU
-         X0CBbgwzrqK1hU0LNYHKltSiQoE5tZrIQp9Y28YqHVAPx7FNHcYxRocEUvb18kPLIyjO
-         pK28TCPppkdeK1RyzQxFm9ag+W67062xj9z7usPJ/GyFGDkhAtSRgGjtkSX1ONm/As/j
-         qLu9ERKmQSRkztm4SoIq7yCCA3++OCXQohbDiUohd942yVW3tHJlbDIQoEyvyOVedMpN
-         6ZbA==
+        bh=cT8TknxJNuHJgHXdge5Ni6drCi6rxzjYWQCjsyroxlk=;
+        b=PWr7CFEL4d/SvZHB6fxpSXHBSxetPR2k4BUy7ROWZj1iSXegJkUP9KLzALnQlN4b23
+         8hmsTE7A1L3VtiVRQSlxjP/vzqhlDwVi4d9Bb75v0CJ73x6wxpWpAErlI70BqzzLuHiq
+         L1jV4NyZ3mtlflUSJKt3D0Mrqv4NwnssNm6tJG98qIAi/8io4VdUGuiP68DSXp6kWGMh
+         7fTafrTU9Xvi1K/B7CMvJNeqPuOXXOAWYs/rE9vI6JF8+rb9oSZxGNG3ALPapCmjBs13
+         Ju49eWIg1NW7UCqxcQ9A7wOjIGQLhnxK5zudUpKh0eus/tflgD91mCmwc4OGFEMM5YTF
+         SG0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772665406; x=1773270206;
+        d=1e100.net; s=20230601; t=1772666008; x=1773270808;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Ivkx6puhgdlm/jw1xcgfFyqPx3PkaCKD+eg0EyAqi2E=;
-        b=FcPgHkY1OB7tfw8O+vagg2aVKjbvrYmGGIW1jrB6eBGQ5a8UiYWd3/JQqwJqws7WH2
-         Tzz/TUP2UT94XkI4RVwbU5Q3bmAAAYTRePXgF/vp9YLzwFRDvEUweDPDZqA8FZqSilEs
-         9Dz1lt0Vrh9Wf9eUgJobDBeUmTkbvjsHVplcaP/+DWYUloRZelP5U+K/r5EKtE+wX5ZZ
-         8BxXOxcQexnwq0ayd5SUDByvUz07FVVbCw0tLjpJOWsTm1byoCb/K8Qy/BIIFTw2ygTL
-         iA62zrxpm43mEmqvk3Bij5U7mCPrOdu9V6DPOdxHspxwyOqGGW5f3uktNstLo+jBRpYX
-         WUGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWXsVVwEYSoxTZFurrUmi6yMw44kScXjJP72Ezn2pqLCxofz11a2g1ikD34/fZrr1c77j1uEHSZ3ewPbhEg48DPYyDiQA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyd7LwVSD6YudScDy+eGwZYUB52XyFtb5qGgeomNnC2tYlZW71h
-	DaZDe5oLyZzMriN0fWYvIfEfHqLJlLX+fBrdRMWTbQax05DlAFdu5kApTbFDT/9fl5lcEcMxaPZ
-	l8OyiJdY0ZGyU6ZXv7AO9MHtHT0ZZq1Q=
-X-Gm-Gg: ATEYQzw5ZbKWnsrwkT1o9ZqSM2y4sG8z2jYG+B25cGQxGXNn0OuJCmqqj4jqzdaM32F
-	QGRJ1nyzbLaPk5FbZzRZnsPVerYEyo34XymRwcV/BtyXW46TG5SIg/+sCBoOP/D9DaICv/0jGRJ
-	cY7og+EzOii4+rTFfkY4VpruSzHOEbAG8F80cSMtRRtwLm/YRwjXFL66rMBiI4TRFDiMUfdnO3i
-	IzRWa4PuOuIcEC3Ic69a+fNHllcbWLqtHyUL9/LwZ6gf0t3PQ6sPTU1t1xyX/UI9z7RRkzFNNfj
-	XWxL7GYyaEFdvlx5YSNfNQ1Fcm8cYPCsZFJ+TmxWpCoK/1lSfcPgXbipXPq1Uh8ZBjWCdfjMuDs
-	kYySOkg==
-X-Received: by 2002:a05:6102:26d1:b0:5ee:a8c4:18d4 with SMTP id
- ada2fe7eead31-5ffab04169amr1874568137.35.1772665406379; Wed, 04 Mar 2026
- 15:03:26 -0800 (PST)
+        bh=cT8TknxJNuHJgHXdge5Ni6drCi6rxzjYWQCjsyroxlk=;
+        b=awPTykU2HXn3Q4ngoapwKi6wdQdveEIh+EhPtn1R69ouPT8nZpaurggEK9SYahLato
+         9Mp8tXSF/WSz0smd2yZPIpdyu2zbqtZMUBOzFnALhS2WdrQrp+r36pfkVSOnVGPBKFqt
+         ivp+fLv+wxdT34RgKj6W04N5mAsS+IpH0vUVIzSl/dfWPRyZxVcaRuKP77h+ZTGz6w6I
+         bXDI5URYhjOzj0/eZzD8Y8+J1c8AyVugy4an+yuATOCHu7WuSv8oQNHNbv0WYPHkBl4q
+         9AoyHLiwoFRNJJfpEC/dc6aSHVw9QfKnpuGLs8GKxUnDw6xguNYt3qTNEMoLBho5HHth
+         aE9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUGSN1A0ZoO4Mc5zPAoBthwFNZoQthOoElhN3ULR2N7fNV3mOuN5wwkao4SxyNNbHDtS0+N4nRPnkli2qoQtZMC70qrRg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwiimfouPtkyZHsaF8k2YTOkTOsv8ZfKF3BphONNC2WfLDa3ypk
+	EYN3Iw+vHBqC5LAKyWUhYQ41ky84tyfU9EJ1anuFCbjUTsYyA1aOC1Xt0YM3Dg3IbylNUp9RXeL
+	Bc8gboVEzfl6SC2Hbj5RZKekJLWFmPGE=
+X-Gm-Gg: ATEYQzyAHJ1zsLB1A5E1mZHEvIiQqFMAsPMUbwzj5rcVgAGzSSf6+DGZw2FmPmekQD0
+	fUErmZKuapV/LiMGtk8iqWwQheRDR2AzkLThHuK/T2MmuMaRQnU0cHkKSTYjDAyUy1uOa7utLt7
+	Fnz3jHWI56W/q76rUlcbd72iqQbDtg82msHI/Lnb+H+G1CG4PKOit72xTK9PwCBBxCqSL7TCDuI
+	T8b4NIHeBQ2ZWvNoaPQBIpxXaL/YZkRXldBrXyM2JG/8z1tKOafNFfnkQvfK1Rl6a+XwEMfhFo8
+	k5MSIXdnfGL36t2eOpIik1YZlXEKz3JFw4gfvif970jpL1sBWVFjkxDgRLkkNgoYNo3cFpjWNOt
+	+CUT+61a+mvJQ5DAy
+X-Received: by 2002:a05:6102:5489:b0:5fe:652:5d2e with SMTP id
+ ada2fe7eead31-5ffaaef0e47mr1704970137.24.1772666008447; Wed, 04 Mar 2026
+ 15:13:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <bffaab8d4727991c8dd46c8b57a08507545a25a4.1771986861.git.lucien.xin@gmail.com>
- <20260303083324.35531-1-pabeni@redhat.com>
-In-Reply-To: <20260303083324.35531-1-pabeni@redhat.com>
+References: <e49a24b97a25a9c25bd33411b8212978dd566bd3.1771986861.git.lucien.xin@gmail.com>
+ <20260303083338.35544-1-pabeni@redhat.com>
+In-Reply-To: <20260303083338.35544-1-pabeni@redhat.com>
 From: Xin Long <lucien.xin@gmail.com>
-Date: Wed, 4 Mar 2026 18:03:14 -0500
-X-Gm-Features: AaiRm53WpBr8gTUmyaCTW1p2ySTbZ_Gi0kG47wju22GuqYXLQHQ7psn2_WgPq2w
-Message-ID: <CADvbK_f96OxCWnP9UdKxYtJ9=3xY69_ScTrU=9AQF1iUrBp_Cg@mail.gmail.com>
-Subject: Re: [net-next,v10,13/15] quic: add timer management
+Date: Wed, 4 Mar 2026 18:13:15 -0500
+X-Gm-Features: AaiRm527Z74RAkiN-mCfJkeNg8yTAxvy5WGzpm2A5_gQLEbJOF1OYgOVWbRr1Wc
+Message-ID: <CADvbK_eo-aMrhr39ai6i+QU4d30_-Z=_5Cn4K9Yr2=XQat_51w@mail.gmail.com>
+Subject: Re: [net-next,v10,14/15] quic: add packet builder base
 To: Paolo Abeni <pabeni@redhat.com>
 Cc: hepengtao@xiaomi.com, kuba@kernel.org, jlayton@kernel.org, metze@samba.org, 
 	davem@davemloft.net, kernel-tls-handshake@lists.linux.dev, horms@kernel.org, 
@@ -114,284 +114,128 @@ e:
 > For local reproduction steps see https://netdev-ai.bots.linux.dev/ai-loca=
 l.html
 > ---
-> quic: add timer management
+> quic: add packet builder base
 >
-> This patch introduces 'quic_timer' to unify and manage the five main
-> timers used in QUIC: loss detection, delayed ACK, path validation,
-> PMTU probing, and pacing. These timers are critical for driving
-> retransmissions, connection liveness, and flow control.
+> This patch introduces 'quic_packet' to handle packing of QUIC packets on
+> the transmit path, including frame packing, packet construction,
+> encryption, bundling, and transmission logic.
 >
 > > diff --git a/net/quic/Makefile b/net/quic/Makefile
-> > index 58bb18f7926d..2ccf01ad9e22 100644
+> > index 2ccf01ad9e22..0f903f4a7ff1 100644
 > > --- a/net/quic/Makefile
 > > +++ b/net/quic/Makefile
->
-> [ ... ]
->
-> > diff --git a/net/quic/socket.c b/net/quic/socket.c
-> > index 74e3e3939c61..93a7abefc226 100644
-> > --- a/net/quic/socket.c
-> > +++ b/net/quic/socket.c
->
-> [ ... ]
->
-> > diff --git a/net/quic/socket.h b/net/quic/socket.h
-> > index d7811391cc8b..c5654fdc06b5 100644
-> > --- a/net/quic/socket.h
-> > +++ b/net/quic/socket.h
->
-> [ ... ]
->
-> > diff --git a/net/quic/timer.c b/net/quic/timer.c
+> > @@ -6,4 +6,4 @@
+> >  obj-$(CONFIG_IP_QUIC) +=3D quic.o
+> >
+> >  quic-y :=3D common.o family.o protocol.o socket.o stream.o connid.o pa=
+th.o \
+> > -       cong.o pnspace.o crypto.o timer.o
+> > +       cong.o pnspace.o crypto.o timer.o packet.o
+> > diff --git a/net/quic/packet.c b/net/quic/packet.c
 > > new file mode 100644
-> > index 000000000000..6f957385a341
+> > index 000000000000..a56edc745bb1
 > > --- /dev/null
-> > +++ b/net/quic/timer.c
-> > @@ -0,0 +1,196 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +/* QUIC kernel implementation
-> > + * (C) Copyright Red Hat Corp. 2023
-> > + *
-> > + * This file is part of the QUIC kernel implementation
-> > + *
-> > + * Initialization/cleanup for QUIC protocol support.
-> > + *
-> > + * Written or modified by:
-> > + *    Xin Long <lucien.xin@gmail.com>
+> > +++ b/net/quic/packet.c
+>
+> [ ... ]
+>
+> > +/* Perform routing for the QUIC packet on the specified path, update h=
+eader length and MSS
+> > + * accordingly, reset path and start PMTU timer.
 > > + */
+> > +int quic_packet_route(struct sock *sk)
+> > +{
+> > +     struct quic_path_group *paths =3D quic_paths(sk);
+> > +     struct quic_packet *packet =3D quic_packet(sk);
+> > +     union quic_addr *sa, *da;
+> > +     u32 pmtu;
+> > +     int err;
 > > +
-> > +#include "socket.h"
+> > +     da =3D quic_path_daddr(paths, packet->path);
+> > +     sa =3D quic_path_saddr(paths, packet->path);
+> > +     err =3D quic_flow_route(sk, da, sa, &paths->fl);
+> > +     if (err)
+> > +             return err;
+> > +
+> > +     packet->hlen =3D quic_encap_len(da);
+> > +     pmtu =3D min_t(u32, dst_mtu(__sk_dst_get(sk)), QUIC_PATH_MAX_PMTU=
+);
+> > +     quic_packet_mss_update(sk, pmtu - packet->hlen);
+> > +
+> > +     quic_path_pl_reset(paths);
+> > +     quic_timer_reset(sk, QUIC_TIMER_PMTU, paths->plpmtud_interval);
+> > +     return 0;
+> > +}
+> > +
+> > +/* Configure the QUIC packet header and routing based on encryption le=
+vel and path. */
+> > +int quic_packet_config(struct sock *sk, u8 level, u8 path)
+> > +{
 >
 > [ ... ]
 >
-> > +static void quic_timer_sack_timeout(struct timer_list *t)
-> > +{
-> > +     struct quic_sock *qs =3D container_of(t, struct quic_sock, timers=
-[QUIC_TIMER_SACK].t);
-> > +     struct sock *sk =3D &qs->inet.sk;
 > > +
-> > +     bh_lock_sock(sk);
-> > +     if (sock_owned_by_user(sk)) {
-> > +             if (!test_and_set_bit(QUIC_SACK_DEFERRED, &sk->sk_tsq_fla=
-gs))
-> > +                     sock_hold(sk);
-> > +             goto out;
-> > +     }
-> > +
-> > +     quic_timer_sack_handler(sk);
-> > +out:
-> > +     bh_unlock_sock(sk);
-> > +     sock_put(sk);
+> > +     /* Perform routing and MSS update for the configured packet. */
+> > +     if (quic_packet_route(sk) < 0)
+> > +             return -1;
+> > +     return 0;
 > > +}
+>
+> Should quic_packet_config() propagate the error code from
+> quic_packet_route() instead of returning -1?
+>
+> The function quic_packet_route() returns proper negative errno values
+> (via quic_flow_route()), but quic_packet_config() replaces any error
+> with -1 (which is -EPERM). This could be misleading when diagnosing
+> routing failures.
+Currently quic_packet_config() callers will either skip the process or
+return -ENETUNREACH on the failures. But maybe it's better to use the
+errno from quic_packet_route(). I will try to improve this.
+
+>
+> > diff --git a/net/quic/packet.h b/net/quic/packet.h
+> > new file mode 100644
+> > index 000000000000..8c23be386207
+> > --- /dev/null
+> > +++ b/net/quic/packet.h
 >
 > [ ... ]
 >
-> > +static void quic_timer_loss_timeout(struct timer_list *t)
+> > +static inline u8 quic_packet_taglen(struct quic_packet *packet)
 > > +{
-> > +     struct quic_sock *qs =3D container_of(t, struct quic_sock, timers=
-[QUIC_TIMER_LOSS].t);
-> > +     struct sock *sk =3D &qs->inet.sk;
+> > +     return packet->taglen[!!packet->level];
+> > +}
 > > +
-> > +     bh_lock_sock(sk);
-> > +     if (sock_owned_by_user(sk)) {
-> > +             if (!test_and_set_bit(QUIC_LOSS_DEFERRED, &sk->sk_tsq_fla=
-gs))
-> > +                     sock_hold(sk);
-> > +             goto out;
-> > +     }
+> > +static inline void quic_packet_set_taglen(struct quic_packet *packet, =
+u8 taglen)
+> > +{
+> > +     packet->taglen[0] =3D taglen;
+> > +}
 > > +
-> > +     quic_timer_loss_handler(sk);
-> > +out:
-> > +     bh_unlock_sock(sk);
-> > +     sock_put(sk);
+> > +static inline u32 quic_packet_mss(struct quic_packet *packet)
+> > +{
+> > +     return packet->mss[0] - packet->taglen[!!packet->level];
+> > +}
+> > +
+> > +static inline u32 quic_packet_max_payload(struct quic_packet *packet)
+> > +{
+> > +     return packet->mss[0] - packet->overhead - packet->taglen[!!packe=
+t->level];
+> > +}
+> > +
+> > +static inline u32 quic_packet_max_payload_dgram(struct quic_packet *pa=
+cket)
+> > +{
+> > +     return packet->mss[1] - packet->overhead - packet->taglen[!!packe=
+t->level];
 > > +}
 >
-> [ ... ]
+> This isn't a bug, but quic_packet_mss(), quic_packet_max_payload(),
+> and quic_packet_max_payload_dgram() all repeat the expression
+> 'packet->taglen[!!packet->level]'.
 >
-> > +static void quic_timer_path_timeout(struct timer_list *t)
-> > +{
-> > +     struct quic_sock *qs =3D container_of(t, struct quic_sock, timers=
-[QUIC_TIMER_PATH].t);
-> > +     struct sock *sk =3D &qs->inet.sk;
-> > +
-> > +     bh_lock_sock(sk);
-> > +     if (sock_owned_by_user(sk)) {
-> > +             if (!test_and_set_bit(QUIC_PATH_DEFERRED, &sk->sk_tsq_fla=
-gs))
-> > +                     sock_hold(sk);
-> > +             goto out;
-> > +     }
-> > +
-> > +     quic_timer_path_handler(sk);
-> > +out:
-> > +     bh_unlock_sock(sk);
-> > +     sock_put(sk);
-> > +}
+> Could these use quic_packet_taglen(packet) instead for consistency?
 >
-> [ ... ]
->
-> > +static void quic_timer_pmtu_timeout(struct timer_list *t)
-> > +{
-> > +     struct quic_sock *qs =3D container_of(t, struct quic_sock, timers=
-[QUIC_TIMER_PMTU].t);
-> > +     struct sock *sk =3D &qs->inet.sk;
-> > +
-> > +     bh_lock_sock(sk);
-> > +     if (sock_owned_by_user(sk)) {
-> > +             if (!test_and_set_bit(QUIC_PMTU_DEFERRED, &sk->sk_tsq_fla=
-gs))
-> > +                     sock_hold(sk);
-> > +             goto out;
-> > +     }
-> > +
-> > +     quic_timer_pmtu_handler(sk);
-> > +out:
-> > +     bh_unlock_sock(sk);
-> > +     sock_put(sk);
-> > +}
->
-> This isn't a bug, but the four timer_list-based timeout callbacks
-> (quic_timer_sack_timeout, quic_timer_loss_timeout, quic_timer_path_timeou=
-t,
-> quic_timer_pmtu_timeout) are structurally identical.
->
-> Each extracts the sock via container_of, takes bh_lock_sock, checks
-> sock_owned_by_user to conditionally defer via test_and_set_bit/sock_hold,
-> otherwise calls the handler directly, then bh_unlock_sock/sock_put. They
-> differ only in the timer index constant, the deferred bit name, and the
-> handler function.
->
-> This pattern could be consolidated into a single parameterized timeout
-> callback using a data table that maps timer type to deferred bit and hand=
-ler
-> function pointer, reducing around 60 lines of near-duplicate code to
-> roughly 15 lines. The TCP subsystem uses a similar approach for some of i=
-ts
-> timer infrastructure.
->
-> That said, this follows the existing per-timer-callback pattern used
-> elsewhere in the kernel networking stack (for example, tcp_write_timer,
-> tcp_delack_timer are also separate functions), so this is a minor style
-> observation rather than a defect.
->
-This is a good one. May not add a data table, but a simple helper like this=
-:
-
-static void quic_timer_timeout(struct timer_list *t, int type, int defer,
-                               void (*handler)(struct sock *sk))
-{
-        struct quic_sock *qs =3D container_of(t, struct quic_sock,
-timers[type].t);
-        struct sock *sk =3D &qs->inet.sk;
-
-        bh_lock_sock(sk);
-        if (sock_owned_by_user(sk)) {
-                if (!test_and_set_bit(defer, &sk->sk_tsq_flags))
-                        sock_hold(sk);
-                goto out;
-        }
-
-        handler(sk);
-out:
-        bh_unlock_sock(sk);
-        sock_put(sk);
-}
-
-will reduce quite some dup code.
-
-> > +void quic_timer_reset(struct sock *sk, u8 type, u64 timeout)
-> > +{
-> > +     struct timer_list *t =3D quic_timer(sk, type);
-> > +
-> > +     if (timeout && !mod_timer(t, jiffies + usecs_to_jiffies(timeout))=
-)
-> > +             sock_hold(sk);
-> > +}
->
-> Can this function handle QUIC_TIMER_PACE safely? It unconditionally casts
-> the result of quic_timer() to 'struct timer_list *' and calls mod_timer()=
-.
->
-> Looking at the timer API in this patch:
->
-> Both quic_timer_start() and quic_timer_stop() have explicit QUIC_TIMER_PA=
-CE
-> guards that dispatch to hrtimer APIs:
->
-> quic_timer_start():
->         if (type =3D=3D QUIC_TIMER_PACE) {
->                 hr =3D quic_timer(sk, type);
->                 if (!hrtimer_is_queued(hr)) {
->                         hrtimer_start(hr, ns_to_ktime(timeout), ...);
->                         sock_hold(sk);
->                 }
->                 return;
->         }
->
-> quic_timer_stop():
->         if (type =3D=3D QUIC_TIMER_PACE) {
->                 if (hrtimer_try_to_cancel(quic_timer(sk, type)) =3D=3D 1)
->                         sock_put(sk);
->                 return;
->         }
->
-> However, quic_timer_reset() does not have a similar guard. If a future
-> caller invokes quic_timer_reset(sk, QUIC_TIMER_PACE, timeout), mod_timer(=
-)
-> will operate on memory that is actually a 'struct hrtimer', potentially
-> causing memory corruption.
->
-> Should quic_timer_reset() either add a QUIC_TIMER_PACE guard consistent w=
-ith
-> quic_timer_start()/quic_timer_stop(), or document that this function must
-> only be used with timer_list-based timers?
->
-There will be no callers to quic_timer_reset(QUIC_TIMER_PACE), so no need
-to add a check for QUIC_TIMER_PACE, I will leave a comment there for this.
+OK.
 
 Thanks.
-
-> > +void quic_timer_start(struct sock *sk, u8 type, u64 timeout)
-> > +{
-> > +     struct timer_list *t;
-> > +     struct hrtimer *hr;
-> > +
-> > +     if (type =3D=3D QUIC_TIMER_PACE) {
-> > +             hr =3D quic_timer(sk, type);
-> > +
-> > +             if (!hrtimer_is_queued(hr)) {
-> > +                     hrtimer_start(hr, ns_to_ktime(timeout), HRTIMER_M=
-ODE_ABS_PINNED_SOFT);
-> > +                     sock_hold(sk);
-> > +             }
-> > +             return;
-> > +     }
-> > +
-> > +     t =3D quic_timer(sk, type);
-> > +     if (timeout && !timer_pending(t)) {
-> > +             if (!mod_timer(t, jiffies + usecs_to_jiffies(timeout)))
-> > +                     sock_hold(sk);
-> > +     }
-> > +}
-> > +
-> > +void quic_timer_stop(struct sock *sk, u8 type)
-> > +{
-> > +     if (type =3D=3D QUIC_TIMER_PACE) {
-> > +             if (hrtimer_try_to_cancel(quic_timer(sk, type)) =3D=3D 1)
-> > +                     sock_put(sk);
-> > +             return;
-> > +     }
-> > +     if (timer_delete(quic_timer(sk, type)))
-> > +             sock_put(sk);
-> > +}
->
-> [ ... ]
->
-> > diff --git a/net/quic/timer.h b/net/quic/timer.h
-> > new file mode 100644
-> > index 000000000000..61b094325334
-> > --- /dev/null
-> > +++ b/net/quic/timer.h
->
-> [ ... ]
->

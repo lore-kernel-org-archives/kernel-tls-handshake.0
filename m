@@ -1,281 +1,207 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3CC3537CE
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  4 Mar 2026 11:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55D638642C
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  4 Mar 2026 21:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.181
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772624273; cv=pass; b=nafOM9tM3s6TWP9aOXvQKF74sbWj3od6eOC7bp8SHnPy/KD5HmknfvqCl+NE+H8rJurBAOwG5ZAkIrQdLfQ/094ZOgneKlswHJEYu545ot8mD7Bx9FV+MdPrLn+/9j5AGbgWsx72EhtU7L81CvukQy0zc0996PKp/0h00VAQQ18=
+	t=1772659563; cv=pass; b=HLEnYCwwLoY7NRhU1yqAIICH5BqsvxtKBj19gZWXil5Vxuvcr+Nrb4hSUXEMPhxpSHhBbdQxdHhgyEXQExKWP/eBjpqk1WMXH09E/E49CbJZdtIrhWHKDHPDav1M/9HYaJkSi2MTPIO9LHWfBpz/F6Art0cOi2yY6cD/DG1ak9k=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772624273; c=relaxed/simple;
-	bh=ZaTX/5xZCLp8jX/BNqqW109CaVTKhBe9/NvQKJFvKx0=;
+	s=arc-20240116; t=1772659563; c=relaxed/simple;
+	bh=KLXKEYtmB4SEqI4A4FSyQZAfj2jvvWR0iwdwG84js9E=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DY0bYZND01L1R+IomUOMCHGbc6bF51qrseYCGMCpiDGHIMEE6ADg6P96AgqNfqzE3dqHRL1nEwNa/7TkbKtKgQNFYjJE85p5LObxJxYjmJelWMDt6Yu++HoVwmmNkH9qOCkkIiXSKBDs99KDhXCHQjAe02qhEUdLjYylg5OJhZQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ta/WAUIU; arc=pass smtp.client-ip=209.85.208.49
+	 To:Cc:Content-Type; b=TwW77ltkVxle1YQk7V7aMYOVdm23toWiKdelZaGTQeYZMf7jesd+D0baHeNri+wPMwbdvhXnq9Pbfqa9a3cTtM6Qj8V7umXxidO+bsvBo7M+4LYqA6AYObmsHRS8zD0KqNrUoVdCHC9CFLJfc5ldQAH1LU5J1Oaavg4rH6xLTK0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l2RVyI73; arc=pass smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ta/WAUIU"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-660fb578f8eso735596a12.0
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 04 Mar 2026 03:37:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772624269; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l2RVyI73"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8296dabef74so1294764b3a.1
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 04 Mar 2026 13:26:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772659561; cv=none;
         d=google.com; s=arc-20240605;
-        b=XZxVBxKRJgnINPybk8ORq+oXWc5lNbk/NsQvVkDxPcb73e+j6RzVI5XKqa3tIPZssX
-         8zGfoS57Kahvm4jSjExI4ST93HV4vpPAfgkxViswE6uOwJVnjUJlvojyPB1GcjbvcSrL
-         34i1m/KUlaIyoZBbElF94GCnSemM13CdeewBILBdF/qh293yjJ0JSesQFR5i49f+B4w+
-         QtGRCYnmQ/5eSLiyVdTXbnwbfiDhehqvRksd4pJkc+Sh/hArXqb0A27JAtPPgLCRZo8Q
-         X+7nLspKfOf5HR1bWhrzWWUtYHN/odEAguBJDE6mxZhR+RdrQKro31s4hn3/y10MVrWG
-         Hqcg==
+        b=D9Uk2btpdxjv5SpfSRnZ3cX2jL4CJLenEu0Fa7OeYOaZA80oLqStCa0NDSUiz+43le
+         5EUSL6GI56qUzJ376MAOHARVTvsCg7KQCsqHBPyM/Rgx+OJanIlyJczHc+/AM0lqigDE
+         88MKHbDcb2x9wMu5/c1YGvy1UrseI7m87UrD7vnOdlWseLUmVzOZNB87Yj0fOwBWqwUH
+         glp+R/ZrszBNAY+0FPzU53fav2tug/KhORSZTf/TS/RFDgjZC54TfF0b4SnuKdm8aktU
+         YDndoKHqfEmY+8HkDjHOOsirzi6vcEiBo0kuUXWHEJnzacPRPa+hab9R31Z3XA45U7wb
+         FKog==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=lDZKotLArOoGPbmGkSbdB3knGUn3d/x5zVLs33GH6ak=;
-        fh=ktYtjpNu9EUgXZjf+7Og3fTTaVRW99u1jKxtwdwlHj4=;
-        b=KE63PmdjvsGsqrBBhPjWOR9rTzjxkEivzW00SySr0vkkl/x2WDK9/YD2cGJjyD333l
-         ZnLNn3saZdm4wnUL+gwQN91eg9qYWf43NQJoeMVi229k0faRBLdcvTxVXcfSUZmGGCkU
-         uYnPc2Mz6s65EiV9Ih5hANLGMjDOAVHTNb8m7qxTd17/oAZ+5S0+AlOOYk9ZuxU9fJHp
-         bB2s+WGZq7K5C+awOFt6Q3o0gPXBbgSnyrXuRP7zIJtYy3JsHdV1EKovoCt/L6owhSTG
-         UrGTValCWYUisjizAjl/DuozRcy3CiRtVpHs9Te2JoUvoSnUyUCV1eyja6gm2U5eY+kN
-         rjsg==;
+        bh=yL8TME+Vn0JkBONxs9K32ojI9vGSbFL0WZFBDJPwgpg=;
+        fh=qzM5Y2kuIToApms9m9d+40596hIMZc7xJW7dS4A67zE=;
+        b=L/GmmSz9TbYo3+N4869/eyK6EiE4l7YtHH6j3IGL/KYX81837tmiI4VCoKKeR8xBKx
+         aRdZjKC4riEJVuBfS/C9P6m5zkilP+8AaFnx9nazu36QMkA8BgGCLcJ0pEh50vWhp9na
+         nw74ibKAUkDT1nZ0HnUGHG5ZWMiHX+kZwzpnq33fJtL2ryx1L9CIfYipWC6gYHh1qUrR
+         bTlnBcpzfKT+CdrRDJEKpATz+2c1JthWAUWB9X7rR1YcW3/pF0tb9iyCiwMunXgz2yee
+         67h+IakMMg5S8PBwdE2HH/vOmzLCEOKhBY1Oqi1LERLA/Y4qDTvZ1LdR1sHZgOxYThem
+         rVkA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772624269; x=1773229069; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772659561; x=1773264361; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lDZKotLArOoGPbmGkSbdB3knGUn3d/x5zVLs33GH6ak=;
-        b=Ta/WAUIUvQjYnZToIp7add2j/sBC4Dd4SVYu70m35jc6p2E2Wll41iU2sSibJLRlHJ
-         moxRXmmbteTToQh8xywP8betwDWoyG3Y8HtLaUbeIEqg0KkWmKzi+Ph+vQUHGb3D0lRb
-         lMKsjeMHNicNj3FDqmrh4x9VElDd8iFosv5hILeYjtMf8ZtPLkEVbyXBUhrZTAZ+3sOn
-         +xectrqyktSfW0pNPPcUgE+ky1yU4cJhx3BoYPgQxOZlSRKATvrdBQjbZAWAmDww2oZI
-         ZENn0MZpwKPo8Bbh29+CRaloC9nodfQ6NX6jgKg4dc1RQJNQrKSM5u6XkRDWBgtFtZwB
-         CO9g==
+        bh=yL8TME+Vn0JkBONxs9K32ojI9vGSbFL0WZFBDJPwgpg=;
+        b=l2RVyI73urpkzDG+lsy+UrbXw4PVh1fMhOV4XYYD98huIo9Hemtnn9t8piGg02sqcs
+         Nje/rGtSP/mSos+ureogMf0l0BdTjY2BUWNY/W46Bz3lIEeQrTdhJuAp46OKRelRwgqT
+         qtZeXW92Bs5qvKZaBGvAP0QniueeJcuhsoFRRLpYyfKML3bzKk4HZhJkSGbmuvz6Pwfk
+         hp0XFD+MY61kiwLFyzCJlH6WCP07TlFTFXY7YFGNAr3lFMVTx1UjkS+5LBSRk3u/FAfs
+         Ex2/kSZpb+PG/uOj8vftVSHY/GJ2Ku2+3P61qpfPPph62Y4RRScgYlm/f9eCYnK1RRxW
+         tC0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772624269; x=1773229069;
+        d=1e100.net; s=20230601; t=1772659561; x=1773264361;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=lDZKotLArOoGPbmGkSbdB3knGUn3d/x5zVLs33GH6ak=;
-        b=eEeK2NH/lt68JDwhPnVRZovDLVCel2QyyTqEKO7XfSlyybw48d6TlqYJykDkALCvkW
-         3ugQXXrGu+INgS8JYrx2gNS5bVLGMb31yZKPVI41arttNGj21qZtkggRmfrl1XoieLFo
-         EE/CDCGcA5/qlSWjfxHQmRAsGNfoa1H2s3kBBSN1lgoZbDKMz0qxeRG7efiSbiiYgEtX
-         FOSIXg1e59fBBh4UEhpdNIs1+dzeLY1I5+8/xfl/Xrc0vfTIWQfl0pontPlOBr5E8Zkk
-         DRmeNDVPHcMaW1YxsKJxvlDpXZ2YTtu0J4lxoavtOEm/YTVfoGLQoOkZL/qCj9H5/ZSg
-         U5Bw==
-X-Forwarded-Encrypted: i=1; AJvYcCWV923ttsbCUBGoI6v9qZlr7b/yqyHYsOOnW7oJYcXA7thspH9Jqn/B2pjRKv01oXH8i2VULsH40w4SnfrI1vZtiDv+oQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywr5zIKK5EWfhSnjSgPtFsgGi2uKa8AeiBqVfR7yF9nwTIUbq04
-	3u3K83gc9JkRkgQY4Lt7t7cft5nhOyCBzqI2FmZTjLMgmbGhNk1w/3kxB/K1aNQVN+dqAdBk+CI
-	hRJ7yczAIgVhXrf3C6Txcmkolie+EuJc=
-X-Gm-Gg: ATEYQzyPs7jbxHB4fJcY/5p2ZoJHJRep6iOc073dfwnKGyqQqvATkb51JcP42QwoBx/
-	RovrzLtF4wQg2l19yjuZFKqmyaYBFDTxJE5PttStxQF5k7cJB3acMNaAsx7b/44ZKJxH3lsHp7k
-	lhcpTnp+6J8d9DIFmfk869ntAHayuasW/iXHa2quZmJMWOImYq3VBPXDwL6xaCJuxDow8mbTZCB
-	WGdfs9meiZSOubx3184TO2Z8sFPoETTEyBsYZuGlFb48XwfhcW36a2BB7iqjSMuCPYu75uiK2VA
-	CHqjgopulbV+04NwpYFbwTNf2XPXkg3QNIxaPQ==
-X-Received: by 2002:a05:6402:34c9:b0:65f:80cc:a47a with SMTP id
- 4fb4d7f45d1cf-660ef7797f6mr858539a12.1.1772624269071; Wed, 04 Mar 2026
- 03:37:49 -0800 (PST)
+        bh=yL8TME+Vn0JkBONxs9K32ojI9vGSbFL0WZFBDJPwgpg=;
+        b=b5F8+eJzHLO8K2PVRf870HTDUag7m2nTNGA9u/9S0PTuzgKRUBXtn4o3d2msRB8zK+
+         XjfQZ4gdK+SuwXyIA+WhtLiMrm+GEwTwBPNWbbe1XHEGxI9+w2w1g/07XBYcUVVNVTPu
+         2+SqAvD2WThu08J5ufMhLEfvZc8B05IZh+4R07SamPCpN0JVh8GE2uEjKqWPkzxYSKck
+         Lq2TeaoPLU5JPwrgDbYu1V8fEqa1iIA8oZU0CkeQcHCgN4m+Bt/ESV9wH/XAE4rmnQyv
+         LqMCVTUI1v0Hi4GZBYPEZhqGHQuEvW/XhG5yZj8eJq94kAxMuK9V2sGJRdU3QCTAauGE
+         06JQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU5oP6+zzu3RP0uRiFdXoVKR8fn1P7IhjP/GsHwhZ81/Ju5r5igkGdRsd2eoVoGz/iTQvPAJb6WU7poXPHhcjUGx7fehA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzKEerpMRwRtM0+k2HsF8FNoODWIf7wB/MRFZsDwzulXWO23Gou
+	/AczXKnHIJSg4cpNclRY5ElURGJkMkVacgAt+/5J0bcH9a7fN+b7Aw5FVGzBJi7sgfbwia51RZL
+	boa5CshY3a1Sl6tEvUHgXvzLfdDYpMEc=
+X-Gm-Gg: ATEYQzyXGOgFfXMpEsQ3/1FBdxPmi0KV2Igce3VuIm9ESz1UXpnMaaugHGks1hrWyj+
+	SQ5GHlTHtrfwJqt626tVYPOcMR5Mh0GpgA9poc5eKYA+vgcL+5BJ9X8P0Bn9mvOuiAsPwiBwVGt
+	kRUnlLofmiqrTT9Kx7RTr1FPp7vrw0JKGT/ijupj1dDh+/0DWgqoQQyZNOqhkMWPvVBidLl41IK
+	jMjlr+6sJuxz2I5jqdGQTCx872I4eyQZxait4wlIdKZmPHe0woYPnOX+1QsZjRit+Ls8l0VZOQF
+	WUtiOzQMTZ2KMI5gE4V4yVCP/UEUpQBAvWJuSjPo4UwMNAKbGCsRBRrxBxll4ZMYbP9hP8arU4w
+	Bn6juhXCr/WVvsyc+Z5ZnWBHfKRU7uaTpye9pFkTc
+X-Received: by 2002:a05:6a21:44c8:b0:38b:e9eb:b12c with SMTP id
+ adf61e73a8af0-3982defa8fdmr3188341637.31.1772659561307; Wed, 04 Mar 2026
+ 13:26:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260304053500.590630-1-alistair.francis@wdc.com>
- <20260304053500.590630-5-alistair.francis@wdc.com> <103c958f-d5f9-47d3-9be8-dd7225368fd5@suse.de>
-In-Reply-To: <103c958f-d5f9-47d3-9be8-dd7225368fd5@suse.de>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 4 Mar 2026 21:37:22 +1000
-X-Gm-Features: AaiRm53Rc8hKqaLsyJSSxrm4evktnm3D1AOZXCuqV_7q51qatQHTgMljJH9bALQ
-Message-ID: <CAKmqyKPdJ2bgT2JaXi_38obyFTjRQ_rR5EdGmP81so8MEJNRVw@mail.gmail.com>
-Subject: Re: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
-To: Hannes Reinecke <hare@suse.de>
-Cc: chuck.lever@oracle.com, hare@kernel.org, 
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	Alistair Francis <alistair.francis@wdc.com>
+References: <cover.1771986861.git.lucien.xin@gmail.com> <4e03deebdc944d9c963b0732abe8ba631893d82e.1771986861.git.lucien.xin@gmail.com>
+ <CAF6piC+W=QKU53vix1f8JxxFhRKCcMvXaX1NKBT3kcZLfCydEA@mail.gmail.com>
+In-Reply-To: <CAF6piC+W=QKU53vix1f8JxxFhRKCcMvXaX1NKBT3kcZLfCydEA@mail.gmail.com>
+From: Xin Long <lucien.xin@gmail.com>
+Date: Wed, 4 Mar 2026 16:25:50 -0500
+X-Gm-Features: AaiRm50sq6Q3ttOp0vRNqW0uaev0YqHa-ggFkCiWTmshlDbHcjOdnyr83v7j-LI
+Message-ID: <CADvbK_f84jwQPRq-xztO9mN+m_NWXaf6Q+9Ao-YtDiGQfmudLw@mail.gmail.com>
+Subject: Re: [PATCH net-next v10 08/15] quic: add path management
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev, davem@davemloft.net, 
+	kuba@kernel.org, Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>, 
+	Stefan Metzmacher <metze@samba.org>, Moritz Buhl <mbuhl@openbsd.org>, Tyler Fanelli <tfanelli@redhat.com>, 
+	Pengtao He <hepengtao@xiaomi.com>, Thomas Dreibholz <dreibh@simula.no>, linux-cifs@vger.kernel.org, 
+	Steve French <smfrench@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Paulo Alcantara <pc@manguebit.com>, Tom Talpey <tom@talpey.com>, kernel-tls-handshake@lists.linux.dev, 
+	Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, 
+	Steve Dickson <steved@redhat.com>, Hannes Reinecke <hare@suse.de>, Alexander Aring <aahringo@redhat.com>, 
+	David Howells <dhowells@redhat.com>, Matthieu Baerts <matttbe@kernel.org>, 
+	John Ericson <mail@johnericson.me>, Cong Wang <xiyou.wangcong@gmail.com>, 
+	"D . Wythe" <alibuda@linux.alibaba.com>, Jason Baron <jbaron@akamai.com>, 
+	illiliti <illiliti@protonmail.com>, Sabrina Dubroca <sd@queasysnail.net>, 
+	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, Daniel Stenberg <daniel@haxx.se>, 
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>, 
+	"Marc E . Fiuczynski" <marc@fiuczynski.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 4, 2026 at 5:40=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrote=
-:
+On Tue, Mar 3, 2026 at 3:23=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wrot=
+e:
 >
-> On 3/4/26 06:34, alistair23@gmail.com wrote:
-> > From: Alistair Francis <alistair.francis@wdc.com>
-> >
-> > If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
-> > EKEYEXPIRED then the underlying TLS keys need to be updated. This occur=
-s
-> > on an KeyUpdate event as described in RFC8446
-> > https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3.
-> >
-> > If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
-> > allow the NVMe layer to process the KeyUpdate request and forward the
-> > request to userspace. Userspace must then update the key to keep the
-> > connection alive.
-> >
-> > This patch allows us to handle the NVMe target sending a KeyUpdate
-> > request without aborting the connection. At this time we don't support
-> > initiating a KeyUpdate.
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> > v7:
-> >   - Use read_sock_cmsg instead of recvmsg() to handle KeyUpdate
-> > v6:
-> >   - Don't use `struct nvme_tcp_hdr` to determine TLS_HANDSHAKE_KEYUPDAT=
-E,
-> >     instead look at the cmsg fields.
-> >   - Don't flush async_event_work
-> > v5:
-> >   - Cleanup code flow
-> >   - Check for MSG_CTRUNC in the msg_flags return from recvmsg
-> >     and use that to determine if it's a control message
-> > v4:
-> >   - Remove all support for initiating KeyUpdate
-> >   - Don't call cancel_work() when updating keys
-> > v3:
-> >   - Don't cancel existing handshake requests
-> > v2:
-> >   - Don't change the state
-> >   - Use a helper function for KeyUpdates
-> >   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
-> >   - Remove command message using recvmsg
-> >
-> >   drivers/nvme/host/tcp.c | 59 ++++++++++++++++++++++++++++++++++++++++=
--
-> >   1 file changed, 58 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> > index 8b6172dd1c0f..ade11d2ac9ef 100644
-> > --- a/drivers/nvme/host/tcp.c
-> > +++ b/drivers/nvme/host/tcp.c
-> > @@ -171,6 +171,7 @@ struct nvme_tcp_queue {
-> >       bool                    tls_enabled;
-> >       u32                     rcv_crc;
-> >       u32                     snd_crc;
-> > +     key_serial_t            handshake_session_id;
-> >       __le32                  exp_ddgst;
-> >       __le32                  recv_ddgst;
-> >       struct completion       tls_complete;
-> > @@ -1361,6 +1362,59 @@ static int nvme_tcp_try_send(struct nvme_tcp_que=
-ue *queue)
-> >       return ret;
-> >   }
-> >
-> > +static void update_tls_keys(struct nvme_tcp_queue *queue)
+> On 2/25/26 3:34 AM, Xin Long wrote:
+> > +/* Binds a QUIC path to a local port and sets up a UDP socket. */
+> > +int quic_path_bind(struct sock *sk, struct quic_path_group *paths, u8 =
+path)
 > > +{
-> > +     int qid =3D nvme_tcp_queue_id(queue);
-> > +     int ret;
+> > +     union quic_addr *a =3D quic_path_saddr(paths, path);
+> > +     int rover, low, high, remaining;
+> > +     struct net *net =3D sock_net(sk);
+> > +     struct quic_uhash_head *head;
+> > +     struct quic_udp_sock *us;
+> > +     u16 port;
 > > +
-> > +     dev_dbg(queue->ctrl->ctrl.device,
-> > +             "updating key for queue %d\n", qid);
-> > +
-> > +     ret =3D nvme_tcp_start_tls(&(queue->ctrl->ctrl),
-> > +                              queue, queue->ctrl->ctrl.tls_pskid,
-> > +                              HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
-> > +
-> > +     if (ret < 0) {
-> > +             dev_err(queue->ctrl->ctrl.device,
-> > +                     "failed to update the keys %d\n", ret);
-> > +             nvme_tcp_fail_request(queue->request);
-> > +     }
-> > +}
-> > +
-> > +static int nvme_tcp_recv_cmsg(read_descriptor_t *desc,
-> > +                           struct sk_buff *skb,
-> > +                           unsigned int offset, size_t len,
-> > +                           u8 content_type)
-> > +{
-> > +     struct nvme_tcp_queue *queue =3D desc->arg.data;
-> > +     struct socket *sock =3D queue->sock;
-> > +     struct sock *sk =3D sock->sk;
-> > +
-> > +     switch (content_type) {
-> > +     case TLS_RECORD_TYPE_HANDSHAKE:
-> > +             if (len =3D=3D 5) {
-> > +                     u8 header[5];
-> > +
-> > +                     if (!skb_copy_bits(skb, offset, header,
-> > +                                        sizeof(header))) {
-> > +                             if (header[0] =3D=3D TLS_HANDSHAKE_KEYUPD=
-ATE) {
-> > +                                     dev_err(queue->ctrl->ctrl.device,=
- "KeyUpdate message\n");
-> > +                                     release_sock(sk);
-> > +                                     update_tls_keys(queue);
-> > +                                     lock_sock(sk);
-> > +                                     return 0;
-> > +                             }
+> > +     port =3D ntohs(a->v4.sin_port);
+> > +     if (port) {
+> > +             head =3D quic_udp_sock_head(net, port);
+> > +             mutex_lock(&head->lock);
+> > +             us =3D quic_udp_sock_lookup(sk, a, port);
+> > +             if (us) {
+>
+> When the quick socket is already bound to a local port, reusing an
+> existing udp tunnel sock is allowed, but when the quick socket is not
+> bound, UDP tunnel sock reused is prevented. This looks confusing and not
+> documented, please clarify the behavior and/or make it consistent.
+>
+Yes,
+
+/* Reuse of an existing UDP tunnel socket is allowed,
+* but if it is currently being freed asynchronously by the workqueue,
+* it cannot be used now =E2=80=94 retry later.
+*/
+
+Let me know if it's still not clear.
+>
+> > +                     if (!quic_udp_sock_get(us)) { /* Releasing in wor=
+kqueue; retry later. */
+> > +                             mutex_unlock(&head->lock);
+> > +                             return -EAGAIN;
+>
+> Why not -EADDRINUSE here?
+Because in this case, the us is being released in workqueue, a retry
+will likely succeed.
+
+>
 > > +                     }
-> > +             }
-> > +
-> > +             break;
-> > +     default:
-> > +             break;
+> > +             } else {
+> > +                     us =3D quic_udp_sock_create(sk, a);
+> > +                     if (!us) {
+> > +                             mutex_unlock(&head->lock);
+> > +                             return -EINVAL;
+>
+> It's probably better to propagate an error code (PTR_ERR) from
+> quic_udp_sock_create(), or use -ENOMEM
+>
+Changing to PTR_ERR looks better.
+
+> [...]
+> > @@ -332,6 +333,12 @@ static __init int quic_init(void)
+> >       if (err)
+> >               goto err_hash;
+> >
+> > +     quic_wq =3D create_workqueue("quic_workqueue");
+> > +     if (!quic_wq) {
+> > +             err =3D -ENOMEM;
+> > +             goto err_wq;
 > > +     }
 >
-> I think a simple 'if' condition would be sufficient here, or do you have
-> handling of other TLS record types queued somewhere?
-> And we should log unhandled TLS records.
-
-I like this approach as it makes it really easy to handle more types
-in the future. I don't have any more record types queued anywhere so I
-can change it to an if statement.
-
-Good point about logging unhandled records
-
-Alistair
-
+> AI review noted that:
 >
-> > +
-> > +     return -EAGAIN;
-> > +}
-> > +
-> >   static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
-> >   {
-> >       struct socket *sock =3D queue->sock;
-> > @@ -1372,7 +1426,8 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queu=
-e *queue)
-> >       rd_desc.count =3D 1;
-> >       lock_sock(sk);
-> >       queue->nr_cqe =3D 0;
-> > -     consumed =3D sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb=
-);
-> > +     consumed =3D sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_rec=
-v_skb,
-> > +                                          nvme_tcp_recv_cmsg);
-> >       release_sock(sk);
-> >       return consumed =3D=3D -EAGAIN ? 0 : consumed;
-> >   }
-> > @@ -1708,6 +1763,7 @@ static void nvme_tcp_tls_done(void *data, int sta=
-tus, key_serial_t pskid,
-> >                       ctrl->ctrl.tls_pskid =3D key_serial(tls_key);
-> >               key_put(tls_key);
-> >               queue->tls_err =3D 0;
-> > +             queue->handshake_session_id =3D handshake_session_id;
-> >       }
-> >
-> >   out_complete:
-> > @@ -1737,6 +1793,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *n=
-ctrl,
-> >               keyring =3D key_serial(nctrl->opts->keyring);
-> >       args.ta_keyring =3D keyring;
-> >       args.ta_timeout_ms =3D tls_handshake_timeout * 1000;
-> > +     args.ta_handshake_session_id =3D queue->handshake_session_id;
-> >       queue->tls_err =3D -EOPNOTSUPP;
-> >       init_completion(&queue->tls_complete);
-> >       if (keyupdate =3D=3D HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC)
+> This isn't a bug, but create_workqueue() is a legacy API marked with
+> __WQ_LEGACY in include/linux/workqueue.h. Should new subsystem code use
+> alloc_workqueue() with explicit flags instead?
 >
-> Otherwise looks good.
+> Looking at include/linux/workqueue.h, create_workqueue() implicitly sets
+> WQ_PERCPU, creating per-CPU worker threads. Since quic_wq only handles
+> infrequent UDP socket cleanup via quic_udp_sock_put_work() in path.c, is
+> per-CPU allocation necessary here? Would alloc_workqueue("quic_workqueue"=
+,
+> WQ_MEM_RECLAIM, 0) be more appropriate, or could this simply use system_w=
+q
+> if memory reclaim safety is not required?
 >
-> Cheers,
->
-> Hannes
-> --
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
+This workqueue is also used for processing some backlog packets, which requ=
+ires
+process context.
+
+I will move the infrequent UDP socket cleanup to system_wq as the AI sugges=
+ts,
+and leave this workqueue for the backlog packets processing only.
+Then the allocation becomes:
+
+quic_wq =3D alloc_workqueue("quic_workqueue", WQ_PERCPU, 0);
+
+Thanks.

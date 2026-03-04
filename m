@@ -1,95 +1,95 @@
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0C3371CEA
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  4 Mar 2026 21:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFB239A046
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  4 Mar 2026 22:32:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772661497; cv=pass; b=OprQ59gVvw1dWGCtq8vsATMyi4ZUBqv3HXchPSfDCQTWnsNz9uouyvI9Tlmyy8j2H97Z96Zpjsk1SZW3z7RztWwYLCDeUgm5DVIryXdGP9oXPWQdorVeACqiQ7qh32m5MaNVfD5sbG3OrkOG1GfQ2mROPq3K2lG8Q9QrZA8rWBU=
+	t=1772663534; cv=pass; b=jJs1zHD/LwAPIBXTOYie/1zeYZXn3lk150pYOeX4pnv1fi5yxmcsdF5AOYr7h6vn1vG62HjUAouNw294NDsPUidRM3NUpbJ+zFAyP5gmqz/bSF7uV0Fsor7GgEV92x/u9i6s+PHKnPOlPOsOT/IIoFg4Bptflc8oy72r0T8Pogs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772661497; c=relaxed/simple;
-	bh=uCVtAulQYUleILEJ6PEjL9aQkaLSkuY4rEkEB5Iccc4=;
+	s=arc-20240116; t=1772663534; c=relaxed/simple;
+	bh=KXu//3EBPLrBvO/MghuctSsCjd474Oji/fve+ps6wFU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JDPqtODr1AN11IfuSOwj3HdOgUyDuX0IYMc7wlTewFfd7KqDJLgXBasYCUf5UgZejp7URILcV4WIBHaUT6VIXtrcA4O5b87YX61qfKNlCO+dhsJSUs664dGwTXSsdTREE/vkWTM7fM+8RBSt59grxUyzGBBcby1k/CqWbcTe02I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jTqXrQCm; arc=pass smtp.client-ip=209.85.217.44
+	 To:Cc:Content-Type; b=j2KfqI+Go50OZPWIHsbRqldC7An0bC5cBlAP2fGbTxp8jenfli4I566tL3PFuQKMrMnvATiurfjFDU9AL0/uNfS4cJNWc5wIgEuRIZEZy0duNLduq1UbTFisjvMBXoIabu4gub0X6q0ANIpmt75+JitqLOXjvkmBI6CY3qNm4KY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ul/EFpuV; arc=pass smtp.client-ip=209.85.222.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jTqXrQCm"
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-5ff196450c6so2218772137.2
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 04 Mar 2026 13:58:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772661495; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ul/EFpuV"
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-94dd687e040so1744815241.3
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 04 Mar 2026 14:32:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772663531; cv=none;
         d=google.com; s=arc-20240605;
-        b=e7gXNM4qoT1Su51fpXZgmsNm71ViK27g0tXtCzZuCRFMBBLilrbEz0UnTfs76saQ/I
-         SKrSd7djR0SoiLm9uto0WBKSzayzHo/EqtiNjjm8XGh15ZkkoDuATF82gKe7fiqPlAkn
-         bKOScNaFAdpnW56hzk3Q2yq2MYN14aTf/HYNXnYrUTvROdCNOIpszwjuKy2/08XW82Aw
-         JC08pAGQQEnFIZ3RUWwU1gKh3Ao2EUOb4IqUWOmtUO16iotr0RrMabZwQ3z92iyrcVDG
-         0lU+TzP3NzzJmcpMHv9SVqQzoyQ+V5Ov8Fe0Su/w/S19cmmJMvtTq0MhsxIaPACIHCz9
-         j2lw==
+        b=B9TFwK5dUCP94gMcZomBcCEOU8fpTW1cEIkfjZAuxAzHL/Sgp5EytXpaVEQIOb3v8c
+         XD1sV0U+8kW2VbF/mKlbfh45XuLcM8B/nuAiaI6qDtOtShaVi+EsHnPwtMH63ciSJynX
+         foYQ3g1gLXe2CNBko6VaiEFPqT5yHtKCL8ovJrvO5Pg7q7KZX+7Z+a/S8XR4F+4Ppxw4
+         ZoJwo2T06g/xhTZebkVfPlL8GZuNK2Atrz6jsl4J3PseWszjVYrmmUvI4LO24lce77lC
+         f7KEb5SAVf1mO7DsofaJf+2jj6PxTz2O9ivHLReSFJsT2OWhHFIDXeMsf0R4/ZFkoy2R
+         682g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=QKWCkXz0n+kEHmLabX5g1II5xKBH3YQOX4ZTihzPz58=;
-        fh=GwHZmRIGOtMY5rcuMA2pN4xifyQLwTCTY5qm2+pWsFg=;
-        b=LHrjfoXHJy4cYlnUElAgoe/Wby/rm87v32Lpyk/8F/fDPCj3fgrFtgnK//LhraRuTF
-         7ZqCs/1PYrr65hxecCmdz7fNRDqx6gjIQjP6BgonnP40ALKTdtzbo0RwQUZVi5k6SSzF
-         CjdVT5OY5JiokgAuGkIyQcTYcuMe02UI9PrmpiYSdvgPw+OApfqywLvS/AGa8maOxPbm
-         deE2NVutw5ydV0npsb5OfRo5z1EwLPX1esGO+lAGdN91haFdUIGcuQ8druucIkHxt50W
-         JJkvGnZ4JPzjhLFBZkckA4+9Zp/QAuRqBoqpBFkVV9Jf1d+pg+tFudZkWVl/0Jwrx5BF
-         zuqA==;
+        bh=z/QRphmRzy8FO2fkKgVz78bs8tUVjsFCxQ1wuKvg3pk=;
+        fh=+AKc5/KAdNY4kIjWp5tA3AU7zjddabcxgwh/NFNa8Y8=;
+        b=D7pY4fQXQLJT9h5D0UJyCaRWo19vsSCm465GqS9yNfcg02gZEbfFwJjpKD9WhIsS/t
+         9EgA+iSJ1rEg0CPnR7B0H2JzwMVdUmoGlqvltsMvh5GR4HN4fIODhHYzrh8AdHO2y4zH
+         aIhg6k/JYuY2LXUj3QDZVRENEtgAbTwkrooZENdgl3d4VblCRSdI6dcvOUlr3+ch8Mwk
+         g2LmsZDfBjUfwQs1JapuN61ReE0ioVv+OrDBA2YHl0G1HZY0nqVkQh4BS/9y2YHvfqcq
+         EEwIffqcNgz/l4E046/DGeOZ1Zb1BVKAj28kcrq7p4gn9RCOz4kCh+g7Kiq00AZNNcoS
+         5cwA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772661495; x=1773266295; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772663531; x=1773268331; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QKWCkXz0n+kEHmLabX5g1II5xKBH3YQOX4ZTihzPz58=;
-        b=jTqXrQCmzbehAFRNzzjisLtWiiKoHphe1i96/pKMpyAkeGs9bA84eg+8QaCAKb5msv
-         tKHM8qh3S4K0GitbTmDr/kqR79DmIhpw8Fvvtq+TC7bNGDgcLnTTQNN3cBQu3r/vPCDG
-         D4LDxuhS6DOXIvUgmBTql1yWT/4RVP6oMavT5WKHcralJKq46LnxZjWR4dezuVgMCMDD
-         AYIvjpE8Anc9B3NK0qajUFTgfw8XhmTS0r/JFa5FBVkxJVVUJpY3lKXRJEv6WcqS494D
-         lLc8z96Gm1N9jXQbP3cGMJ8BK1WUJwa/af42RzGH/uKAN4TafgGEhIjGBQ94fR8olBy6
-         0dxQ==
+        bh=z/QRphmRzy8FO2fkKgVz78bs8tUVjsFCxQ1wuKvg3pk=;
+        b=Ul/EFpuVnZ6zTJ2sgvdqiTXgo523TS6VD+ujhJ4rXnyUxHthwOuBaqI6tLwheQ9KLC
+         0qNGJiXe8fuXOZpOH4vMjbJ+Y+mjlqfwKGuE6dWYg8E7hfwL40mVkS5UceUUm7Hk8Y7E
+         PRBhn88EH6k4cFgDLaU1XLT8eJu5ldJenOn4cTZQi7zs2mwLDLLUJk8B2ybgGeBAf+9z
+         94wSZRH8NmNuZXpccFHy9FNBEfmsOqohPwm0CdGvr3kggO/Q0h738/ibQeoCp0mdn+K7
+         lUvAs0JqLSXTFx2REZbZLBOwL8vrNIrXHdZn6j6juyOcw56nh6ZSg2mdRKtTVmWHmkWi
+         dBAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772661495; x=1773266295;
+        d=1e100.net; s=20230601; t=1772663531; x=1773268331;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=QKWCkXz0n+kEHmLabX5g1II5xKBH3YQOX4ZTihzPz58=;
-        b=ZYLCvNr0Ezyqv2bDHuxW0duAW2h2nEBj1BMpP0dII52UuOHZzN9JQI1O0bPmZnIz+6
-         XUW09daclxUo7s+HTmFfSbLhB+GPNDXkpqNjGS52yewBwbtCVeEyOK7IThgglq+Dy6zi
-         +nUsdcyWE/c7E7pLRV9go5F8+2MKMLk2fzBuSC56YBgDLiftc6r72NKLjNJXleXjNmDo
-         csdisnk/zgnO/wDXcBYEnkQ1c+BmAS6721bV5zCxArsokR+ITKS7uEHQO/2j2KdQj8AE
-         pEus9WRHVWqbQ43FhMZHqkDmpALkeTMC9ebjuVhA1ryzLobtQ3RVX9p5pRYObpEKDubg
-         nHOA==
-X-Forwarded-Encrypted: i=1; AJvYcCX1XCnbfPrEx81cV7ctltQLwBqqyFRFyPt2umA8F0ItSqLI8+4JJFOM2nEqBQUbLNM0FL39mkmCk1aqAt3W6h+Ces/BSw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwgqwvpVK1++PYTkG8HRdS3aGNtpd1mDq29HMh3uBovkSfxuTmT
-	g6G59aeY6EUQWqv8uPqf4hjOElszznom6Q6UZ3frutITgogJjMbISxnrN7QxRfmM25lg6WCdCVg
-	kDhMbAUK1KJP6s4haU1j1sr+XwWS3l3c=
-X-Gm-Gg: ATEYQzzQ0XnFIX1n0wi+FFitjquuPLkT+RoiiWSXxyjP1uxBg0+MhEM/bdws2SozS1d
-	E5wi7Cmu38eRdbyZw46+zRagu4YNbbpuKrKnbqc4mI9VbCbw7uSQiuvamK85ulwOdM/DR0mE/RA
-	E9WGObc6dXATsslrMCfTVF2XOInlOvMDUiemidP0fzMHKicLRPuGk7bDwV4UCRAL6gkvvropCQN
-	0aLQVIbVs8knNmXoSk7vY8j8/Xd56U6vD6Tbpxcn7g6Zh1DlsnTkovdEW5rMFJiEFxxXTe2aUvI
-	E3cdSmxA+Coaer1uEZ7BBGkHfX+pk6wZCDfmbQjlHe2q2zjAropUYqwadhFVdtPoA2Xjg3kWaCr
-	Z1upfgUPMxQmRE5EOdQVXsRZ9RLRd8Jxu7G4sAaXq
-X-Received: by 2002:a05:6102:3f43:b0:5fd:fc84:4b0 with SMTP id
- ada2fe7eead31-5ffaaffd485mr1677319137.35.1772661495041; Wed, 04 Mar 2026
- 13:58:15 -0800 (PST)
+        bh=z/QRphmRzy8FO2fkKgVz78bs8tUVjsFCxQ1wuKvg3pk=;
+        b=qjHO8yado8TN70+XF5Aqz14s3wX+Jmm6Wz7sNEFQ+eeWnfYfVo7Ehf87JxVlC0NPKK
+         Fw9smYfWO2siAY4JfqvLqkns3C6Qq9WmHuMgRB49iMrWVMpzLuBzPqYcsoAuN+IwQ6LV
+         PTvbv4/pNb3Y08guvTTMp/7LluIIJdVeERExC/pgcI2NYeA5DAt/Dpbma2in9Sp/vWLB
+         NBNMvJwW1M33DqDVBxoDVzbz1s1pn9s9O1ty0ZMCBFkRkbzm+AQK7WBqZ1TL8evPoBL5
+         f0T25/lLZzXrywk2ihXpjeHn4fEx5SFtyeZuGhYkBnDKvf9Bf6wDB+eCy0JASq3f+a9t
+         AURw==
+X-Forwarded-Encrypted: i=1; AJvYcCVH3uESc8alXxrTgCi4a2nqEWJlg4JFplU/48PFzisO+mq9jCZDU7VyxSsKEiyCiN9bqQH3lhDXtXkauqu+bhkFB8wnZg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxIplBHLNdPCfqE3QRuNreSiuic9EGy6X7uUvFp7thsm7wrmp/F
+	rTcgoHj7EaiVZ4aP0T5/F8gActzpF/EG7+chwZ+Uf8vvlRZjIWaBd1/x9/mZ0PmWY2wCKmGNBRi
+	RCq86XhkHbyL1kTlqD01MNTbkgXT9iU0=
+X-Gm-Gg: ATEYQzxIyllenysPVu5FtSul/d+CHVRzfRKzR8RC9DqrGegnZR53TCxtWk6ybzJLr3p
+	0gxUD0iFlVyLYNpH5AdSiwjdjzkEnmXLT/JpjPJUCxiiGU6wFj8xyoqPnWaEnL+94R3IjYU8ssQ
+	+1GgOx+47Ta/E6BSqhOpxbzyOF7/b88gpvua1Efdc6qh3wRf5vdYhARWzmrOqUiz80aEoso/04a
+	D+Kb2wCO+urrVPKYbWq+FoiyBCmld6FDruu7woS12loPk84BlCqcVjMMdRabd2AQwwP56aGDA5m
+	0ifzVHTaaEXJXVDdplSB5h4rx7CtlE8fdiaLXDeLJG28F47Uz3vubUx482undBSDhmdr+Ywxl5Y
+	X3xCTvA==
+X-Received: by 2002:a05:6102:b0d:b0:5f8:e2c7:a3f2 with SMTP id
+ ada2fe7eead31-5ffaa6f6c3bmr1576946137.0.1772663530592; Wed, 04 Mar 2026
+ 14:32:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <323138c6deed2652a09aa38dfbe322642b6ad150.1771986861.git.lucien.xin@gmail.com>
- <20260303083233.34650-1-pabeni@redhat.com>
-In-Reply-To: <20260303083233.34650-1-pabeni@redhat.com>
+References: <3c6ae7299c2fff0fa689d4dcd43ef916e5697d65.1771986861.git.lucien.xin@gmail.com>
+ <20260303083255.35354-1-pabeni@redhat.com>
+In-Reply-To: <20260303083255.35354-1-pabeni@redhat.com>
 From: Xin Long <lucien.xin@gmail.com>
-Date: Wed, 4 Mar 2026 16:58:01 -0500
-X-Gm-Features: AaiRm50J6ffZdZLFUmhSXQoVur0S3uDqiz0HfuAqGi8QNmmBNRW9dW8AvLSff9M
-Message-ID: <CADvbK_cWP-S1VdsfZJCc_iTxaeVnGTbrXrNsVdWTgYjdqLjwaA@mail.gmail.com>
-Subject: Re: [net-next,v10,11/15] quic: add crypto key derivation and installation
+Date: Wed, 4 Mar 2026 17:31:57 -0500
+X-Gm-Features: AaiRm51Y186obU2AYuGIwk5fISUHhxMUkh7jtjQG4bgQBZwaKmERG0jYjFiCfpA
+Message-ID: <CADvbK_fHhrCh-5zPDY1sh16TEKhJTWhZcUS4-pw=49krocV3SA@mail.gmail.com>
+Subject: Re: [net-next,v10,12/15] quic: add crypto packet encryption and decryption
 To: Paolo Abeni <pabeni@redhat.com>
 Cc: hepengtao@xiaomi.com, kuba@kernel.org, jlayton@kernel.org, metze@samba.org, 
 	davem@davemloft.net, kernel-tls-handshake@lists.linux.dev, horms@kernel.org, 
@@ -114,243 +114,186 @@ e:
 > For local reproduction steps see https://netdev-ai.bots.linux.dev/ai-loca=
 l.html
 > ---
-> quic: add crypto key derivation and installation
+> quic: add crypto packet encryption and decryption
 >
-> This patch introduces 'quic_crypto', a component responsible for QUIC
-> encryption key derivation and installation across the various key
-> levels: Initial, Handshake, 0-RTT (Early), and 1-RTT (Application).
-> It provides helpers to derive and install initial secrets, set traffic
-> secrets and install the corresponding keys, and perform key updates to
-> enable forward secrecy.
+> This patch adds core support for packet-level encryption and decryption
+> using AEAD, including both payload protection and QUIC header protection.
+> It introduces helpers to encrypt and decrypt packets for secure QUIC
+> packet exchange and address validation.
 >
-> > diff --git a/net/quic/Makefile b/net/quic/Makefile
-> > index 9d8e18297911..58bb18f7926d 100644
-> > --- a/net/quic/Makefile
-> > +++ b/net/quic/Makefile
-> > @@ -6,4 +6,4 @@
-> >  obj-$(CONFIG_IP_QUIC) +=3D quic.o
-> >
-> >  quic-y :=3D common.o family.o protocol.o socket.o stream.o connid.o pa=
-th.o \
-> > -       cong.o pnspace.o
-> > +       cong.o pnspace.o crypto.o
 > > diff --git a/net/quic/crypto.c b/net/quic/crypto.c
-> > new file mode 100644
-> > index 000000000000..a9de418e604e
-> > --- /dev/null
+> > index a9de418e604e..a84fd8d7bf93 100644
+> > --- a/net/quic/crypto.c
 > > +++ b/net/quic/crypto.c
 >
 > [ ... ]
 >
-> > +/* Initial Secrets. */
-> > +int quic_crypto_initial_keys_install(struct quic_crypto *crypto, struc=
-t quic_conn_id *conn_id,
-> > +                                  u32 version, bool is_serv)
-> > +{
-> > +     u8 secret[TLS_CIPHER_AES_GCM_128_SECRET_SIZE];
-> > +     struct quic_data salt, s, k, l, dcid, z =3D {};
-> > +     struct quic_crypto_secret srt =3D {};
-> > +     char *tl, *rl, *sal;
-> > +     int err;
-> > +
-> > +     if (is_serv) {
-> > +             rl =3D "client in";
-> > +             tl =3D "server in";
-> > +     } else {
-> > +             tl =3D "client in";
-> > +             rl =3D "server in";
-> > +     }
-> > +     sal =3D QUIC_INITIAL_SALT_V1;
-> > +     if (version =3D=3D QUIC_VERSION_V2)
-> > +             sal =3D QUIC_INITIAL_SALT_V2;
-> > +     quic_data(&salt, sal, QUIC_INITIAL_SALT_LEN);
-> > +     quic_data(&dcid, conn_id->data, conn_id->len);
-> > +     quic_data(&s, secret, TLS_CIPHER_AES_GCM_128_SECRET_SIZE);
-> > +     err =3D quic_crypto_hkdf_extract(crypto->secret_tfm, &salt, &dcid=
-, &s);
->
-> Is crypto->secret_tfm guaranteed to be initialized at this point?
->
-> Looking at the function flow, this line uses crypto->secret_tfm before
-> quic_crypto_set_secret() below gets a chance to initialize the cipher:
->
-> quic_crypto_initial_keys_install() {
->         err =3D quic_crypto_hkdf_extract(crypto->secret_tfm, ...); /* lin=
-e 490 */
->         ...
->         err =3D quic_crypto_set_secret(crypto, &srt, version, 0);  /* lin=
-e 497 */
-> }
->
-> If quic_crypto_set_cipher() hasn't been called on this struct quic_crypto
-> yet, crypto->secret_tfm is NULL.
->
-> This contrasts with quic_crypto_set_secret(), which has lazy initializati=
-on:
->
-> quic_crypto_set_secret() {
->         if (!crypto->cipher) {
->                 err =3D quic_crypto_set_cipher(crypto, srt->type, flag);
->                 if (err)
->                         return err;
->         }
->         ...
-> }
->
-> Without this initialization, quic_crypto_hkdf_extract() flows through
-> hkdf_extract() -> crypto_shash_setkey(NULL, ...), causing a NULL pointer
-> dereference.
->
-> Would it make sense to call quic_crypto_set_cipher() before using
-> secret_tfm, or to reorder the function so quic_crypto_set_secret() is
-> called first?
->
-secret_tfm will always set in quic_connect(), quic_accept() and
-quic_inet_listen(),
-quic_crypto_initial_keys_install() will be only called after one of
-these 3 functions
-is called.
-
-The patchset-2 (the following series) will give you this completeness.
-
-> > +     if (err)
-> > +             goto out;
-> > +
-> > +     quic_data(&l, tl, strlen(tl));
-> > +     quic_data(&k, srt.secret, TLS_CIPHER_AES_GCM_128_SECRET_SIZE);
-> > +     srt.type =3D TLS_CIPHER_AES_GCM_128;
-> > +     srt.send =3D 1;
-> > +     err =3D quic_crypto_hkdf_expand(crypto->secret_tfm, &s, &l, &z, &=
-k);
-> > +     if (err)
-> > +             goto out;
-> > +     err =3D quic_crypto_set_secret(crypto, &srt, version, 0);
-> > +     if (err)
-> > +             goto out;
-> > +
-> > +     quic_data(&l, rl, strlen(rl));
-> > +     quic_data(&k, srt.secret, TLS_CIPHER_AES_GCM_128_SECRET_SIZE);
-> > +     srt.type =3D TLS_CIPHER_AES_GCM_128;
-> > +     srt.send =3D 0;
-> > +     err =3D quic_crypto_hkdf_expand(crypto->secret_tfm, &s, &l, &z, &=
-k);
-> > +     if (err)
-> > +             goto out;
-> > +     err =3D quic_crypto_set_secret(crypto, &srt, version, 0);
-> > +out:
-> > +     memzero_explicit(secret, sizeof(secret));
-> > +     memzero_explicit(&srt, sizeof(srt));
-> > +     return err;
-> > +}
+> > @@ -231,6 +562,137 @@ static struct quic_cipher ciphers[QUIC_CIPHER_MAX=
+ + 1 - QUIC_CIPHER_MIN] =3D {
 >
 > [ ... ]
 >
-> > +/* Derive and install transmission (TX) packet protection keys for the=
- current key phase.
-> > + * This involves generating AEAD encryption key, IV, and optionally he=
-ader protection key.
+> > +/* Encrypts a QUIC packet before transmission.  This function performs=
+ AEAD encryption of
+> > + * the packet payload and applies header protection. It handles key ph=
+ase tracking and key
+> > + * update timing.
+> > + *
+> > + * Return: 0 on success, or a negative error code.
 > > + */
-> > +static int quic_crypto_tx_keys_derive_and_install(struct quic_crypto *=
-crypto)
+> > +int quic_crypto_encrypt(struct quic_crypto *crypto, struct sk_buff *sk=
+b)
 > > +{
-> > +     struct quic_data srt =3D {}, k, iv, hp_k =3D {}, *hp =3D NULL;
-> > +     u8 tx_key[QUIC_KEY_LEN], tx_hp_key[QUIC_KEY_LEN] =3D {};
-> > +     int err, phase =3D crypto->key_phase;
-> > +     u32 keylen, ivlen =3D QUIC_IV_LEN;
+> > +     u8 *iv, cha, ccm, phase =3D crypto->key_phase;
+> > +     struct quic_skb_cb *cb =3D QUIC_SKB_CB(skb);
+> > +     int err;
 > > +
-> > +     keylen =3D crypto->cipher->keylen;
-> > +     quic_data(&srt, crypto->tx_secret, crypto->cipher->secretlen);
-> > +     quic_data(&k, tx_key, keylen);
-> > +     quic_data(&iv, crypto->tx_iv[phase], ivlen);
-> > +     /* Only derive header protection key when not in key update. */
-> > +     if (!crypto->key_pending)
-> > +             hp =3D quic_data(&hp_k, tx_hp_key, keylen);
-> > +     err =3D quic_crypto_keys_derive(crypto->secret_tfm, &srt, &k, &iv=
-, hp, crypto->version);
-> > +     if (err)
+> > +     cb->key_phase =3D phase;
+> > +     iv =3D crypto->tx_iv[phase];
+> > +     /* Packet payload is already encrypted (e.g., resumed from async)=
+, proceed to header
+> > +      * protection only.
+> > +      */
+> > +     if (cb->resume)
 > > +             goto out;
-> > +     err =3D crypto_aead_setauthsize(crypto->tx_tfm[phase], QUIC_TAG_L=
-EN);
+> > +
+> > +     /* If a key update is pending and this is the first packet using =
+the new key, save the
+> > +      * current time. Later used to clear old keys after some time has=
+ passed (see
+> > +      * quic_crypto_decrypt()).
+> > +      */
+> > +     if (crypto->key_pending && !crypto->key_update_send_time)
+> > +             crypto->key_update_send_time =3D quic_ktime_get_us();
+> > +
+> > +     ccm =3D quic_crypto_is_cipher_ccm(crypto);
+> > +     err =3D quic_crypto_payload_encrypt(crypto->tx_tfm[phase], skb, i=
+v, ccm);
 > > +     if (err)
-> > +             goto out;
-> > +     err =3D crypto_aead_setkey(crypto->tx_tfm[phase], tx_key, keylen)=
-;
-> > +     if (err)
-> > +             goto out;
-> > +     if (hp) {
-> > +             err =3D crypto_skcipher_setkey(crypto->tx_hp_tfm, tx_hp_k=
-ey, keylen);
-> > +             if (err)
-> > +                     goto out;
-> > +     }
-> > +     pr_debug("%s: k: %16phN, iv: %12phN, hp_k:%16phN\n", __func__, k.=
-data, iv.data, tx_hp_key);
+> > +             return err;
 > > +out:
-> > +     memzero_explicit(tx_key, sizeof(tx_key));
-> > +     memzero_explicit(tx_hp_key, sizeof(tx_hp_key));
-> > +     return err;
-> > +}
-> > +
-> > +/* Derive and install reception (RX) packet protection keys for the cu=
-rrent key phase.
-> > + * This installs AEAD decryption key, IV, and optionally header protec=
-tion key.
-> > + */
-> > +static int quic_crypto_rx_keys_derive_and_install(struct quic_crypto *=
-crypto)
-> > +{
-> > +     struct quic_data srt =3D {}, k, iv, hp_k =3D {}, *hp =3D NULL;
-> > +     u8 rx_key[QUIC_KEY_LEN], rx_hp_key[QUIC_KEY_LEN] =3D {};
-> > +     int err, phase =3D crypto->key_phase;
-> > +     u32 keylen, ivlen =3D QUIC_IV_LEN;
-> > +
-> > +     keylen =3D crypto->cipher->keylen;
-> > +     quic_data(&srt, crypto->rx_secret, crypto->cipher->secretlen);
-> > +     quic_data(&k, rx_key, keylen);
-> > +     quic_data(&iv, crypto->rx_iv[phase], ivlen);
-> > +     /* Only derive header protection key when not in key update. */
-> > +     if (!crypto->key_pending)
-> > +             hp =3D quic_data(&hp_k, rx_hp_key, keylen);
-> > +     err =3D quic_crypto_keys_derive(crypto->secret_tfm, &srt, &k, &iv=
-, hp, crypto->version);
-> > +     if (err)
-> > +             goto out;
-> > +     err =3D crypto_aead_setauthsize(crypto->rx_tfm[phase], QUIC_TAG_L=
-EN);
-> > +     if (err)
-> > +             goto out;
-> > +     err =3D crypto_aead_setkey(crypto->rx_tfm[phase], rx_key, keylen)=
-;
-> > +     if (err)
-> > +             goto out;
-> > +     if (hp) {
-> > +             err =3D crypto_skcipher_setkey(crypto->rx_hp_tfm, rx_hp_k=
-ey, keylen);
-> > +             if (err)
-> > +                     goto out;
-> > +     }
-> > +     pr_debug("%s: k: %16phN, iv: %12phN, hp_k:%16phN\n", __func__, k.=
-data, iv.data, rx_hp_key);
-> > +out:
-> > +     memzero_explicit(rx_key, sizeof(rx_key));
-> > +     memzero_explicit(rx_hp_key, sizeof(rx_hp_key));
-> > +     return err;
+> > +     cha =3D quic_crypto_is_cipher_chacha(crypto);
+> > +     return quic_crypto_header_encrypt(crypto->tx_hp_tfm, skb, cha);
 > > +}
 >
-> This isn't a bug, but these two functions are nearly identical.
+> This function calls quic_crypto_payload_encrypt(). Looking at that
+> function:
 >
-> quic_crypto_tx_keys_derive_and_install() and
-> quic_crypto_rx_keys_derive_and_install() share the same structure: derive
-> keys via quic_crypto_keys_derive(), set AEAD auth size and key,
-> conditionally set the HP skcipher key, pr_debug, and memzero_explicit the
-> temporaries.
+> > +/* AEAD Usage. */
+> > +static int quic_crypto_payload_encrypt(struct crypto_aead *tfm, struct=
+ sk_buff *skb,
+> > +                                    u8 *tx_iv, bool ccm)
+> > +{
+> > +     struct quic_skb_cb *cb =3D QUIC_SKB_CB(skb);
+> > +     u8 *iv, i, nonce[QUIC_IV_LEN];
+> > +     struct aead_request *req;
+> > +     struct sk_buff *trailer;
+> > +     struct scatterlist *sg;
+> > +     struct quichdr *hdr;
+> > +     u32 nsg, hlen, len;
+> > +     void *ctx;
+> > +     __be64 n;
+> > +     int err;
+> > +
+> > +     len =3D skb->len;
+> > +     err =3D skb_cow_data(skb, QUIC_TAG_LEN, &trailer);
+> > +     if (err < 0)
+> > +             return err;
+> > +     nsg =3D (u32)err;
+> > +     pskb_put(skb, trailer, QUIC_TAG_LEN);
+> > +     hdr =3D quic_hdr(skb);
+> > +     hdr->key =3D cb->key_phase;
+> > +
+> > +     ctx =3D quic_crypto_aead_mem_alloc(tfm, 0, &iv, &req, &sg, nsg);
+> > +     if (!ctx)
+> > +             return -ENOMEM;
 >
-> The only differences are the member names accessed (tx_secret vs
-> rx_secret, tx_iv vs rx_iv, tx_tfm vs rx_tfm, tx_hp_tfm vs rx_hp_tfm).
+> If the kzalloc(GFP_ATOMIC) inside quic_crypto_aead_mem_alloc() fails,
+> this returns -ENOMEM without rolling back the SKB modifications. The
+> SKB is now permanently enlarged by QUIC_TAG_LEN (16 bytes) with a
+> modified hdr->key.
 >
-> Could these be unified into a single static helper that takes
-> direction-specific pointers as parameters?
+> Compare with quic_crypto_payload_decrypt():
 >
-Looks possible, and I will give it a try.
+> > +static int quic_crypto_payload_decrypt(struct crypto_aead *tfm, struct=
+ sk_buff *skb,
+> > +                                    u8 *rx_iv, bool ccm)
+> > +{
+> > +     struct quic_skb_cb *cb =3D QUIC_SKB_CB(skb);
+> > +     u8 *iv, i, nonce[QUIC_IV_LEN];
+> > +     struct aead_request *req;
+> > +     int nsg, hlen, len, err;
+> > +     struct scatterlist *sg;
+> > +     void *ctx;
+> > +     __be64 n;
+> > +
+> > +     len =3D cb->length + cb->number_offset;
+> > +     hlen =3D cb->number_offset + cb->number_len;
+> > +     if (len - hlen < QUIC_TAG_LEN)
+> > +             return -EINVAL;
+> > +     nsg =3D 1; /* skb is already linearized in quic_packet_rcv(). */
+> > +     ctx =3D quic_crypto_aead_mem_alloc(tfm, 0, &iv, &req, &sg, nsg);
+> > +     if (!ctx)
+> > +             return -ENOMEM;
+> > +
+> > +     sg_init_table(sg, nsg);
+> > +     err =3D skb_to_sgvec(skb, sg, 0, len);
+>
+> In the decrypt path, quic_crypto_aead_mem_alloc() is called before any
+> SKB modifications. Should quic_crypto_payload_encrypt() do the same to
+> avoid leaving the SKB in a modified state if allocation fails?
+>
+This is not true.
+
+- firstly, on RX or Decrypt path, skb_cow_data() is called in
+quic_crypto_header_decrypt(), which is called before
+quic_crypto_payload_decrypt() in quic_crypto_decrypt(), so
+skb_cow_data() is called before mem_alloc for both places.
+
+- secondly, even if the mem_alloc is failed, the skb will be dropped,
+no issue could be caused.
+
+> [ ... ]
+>
+> > +     /* Similar logic to quic_crypto_payload_encrypt(). */
+> > +     memcpy(nonce, rx_iv, QUIC_IV_LEN);
+> > +     n =3D cpu_to_be64(cb->number);
+> > +     for (i =3D 0; i < sizeof(n); i++)
+> > +             nonce[QUIC_IV_LEN - sizeof(n) + i] ^=3D ((u8 *)&n)[i];
+>
+> This isn't a bug, but there's duplicated logic between
+> quic_crypto_payload_encrypt() and quic_crypto_payload_decrypt(). The
+> AEAD nonce construction sequence (memcpy nonce from IV, XOR with be64
+> packet number, set CCM byte) appears in both functions.
+>
+> In quic_crypto_payload_encrypt():
+>
+> > +     hlen =3D cb->number_offset + cb->number_len;
+> > +     memcpy(nonce, tx_iv, QUIC_IV_LEN);
+> > +     n =3D cpu_to_be64(cb->number);
+> > +     for (i =3D 0; i < sizeof(n); i++)
+> > +             nonce[QUIC_IV_LEN - sizeof(n) + i] ^=3D ((u8 *)&n)[i];
+> > +
+> > +     /* For CCM based ciphers, first byte of IV is a constant. */
+> > +     iv[0] =3D TLS_AES_CCM_IV_B0_BYTE;
+> > +     memcpy(&iv[ccm], nonce, QUIC_IV_LEN);
+>
+> And in quic_crypto_payload_decrypt():
+>
+> > +     /* Similar logic to quic_crypto_payload_encrypt(). */
+> > +     memcpy(nonce, rx_iv, QUIC_IV_LEN);
+> > +     n =3D cpu_to_be64(cb->number);
+> > +     for (i =3D 0; i < sizeof(n); i++)
+> > +             nonce[QUIC_IV_LEN - sizeof(n) + i] ^=3D ((u8 *)&n)[i];
+> > +
+> > +     iv[0] =3D TLS_AES_CCM_IV_B0_BYTE;
+> > +     memcpy(&iv[ccm], nonce, QUIC_IV_LEN);
+>
+> The AEAD request teardown pattern (EINPROGRESS check, kfree_sensitive,
+> memzero_explicit) is also duplicated. Would a shared static helper for
+> nonce construction reduce the risk of the two copies diverging during
+> maintenance?
+>
+I will see what I can do to dedup a bit for this.
 
 Thanks.

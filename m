@@ -1,64 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFAF30AD0A;
-	Thu,  5 Mar 2026 07:53:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5BBE331204;
+	Thu,  5 Mar 2026 10:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772697215; cv=none; b=QRef379oMsSc0yyeU1ORkJqUzLIC/M5qJk2l4+56BPkAIcnaM0uRRl43E/1PVSW/Eq4B1R3RmOTO61rqCiQIpLwMz1UmffMoP17mT5LobUC9QRLU2j1+amZ5T1SR2ofDBKuUgAY5b01hTl4AI4a4MAuIabB8O4+iChR6jM320ws=
+	t=1772705634; cv=none; b=Xe21PZ2DRjtAwwfJk4T3PVlbpkAYhnVNrPQjKbjEYcKfoIcTQR4QH5IP3oYiqEhMNdBjssPiBtCUTZkK0pXiK+Xh1B15hM6JDOt73lhzACD6hnOSzpDxXK22uhCfNheEUBtI176aBBrTKZfpNWSfmlDoS69O4f+kGRcB6QQmuE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772697215; c=relaxed/simple;
-	bh=0IRCN5orXpBlDp5bbe+hP/a4OpxCZ/kKP/mq46MHsUc=;
+	s=arc-20240116; t=1772705634; c=relaxed/simple;
+	bh=os8pElF8hPySTMJ5OPZITsFHgDhyLLsZZ4pcbD3N9g0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oRww7kr2Xd0TImVHdzFy2PMMb0ksQPvZrY10vder3xolgZ++DfmSDI/a3ZKxTwSVU3pMl7cGIZwRrQyhS89aXsEC8JmlqN2vBk5uCiRnUSTtBE97v0J79uWc1hPH41c9L9ZioX2w714nZEoAhDnDn+3ESyRCVC2syd8FPN6+KrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ku4RhVWj; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xk90E2ftSlZpq0Wp2LO8YoTxhkAZvu27AKLldUI0q29mh+n90JVuGq95L+ywTKd3UqOh47vUg4T8EXx3ZyZ0DYy9oZu5kSvwVAWL8gmYXjaqZHHwLKbuhMCtUPMpH1VrjLUeuSph1K3I4QheCf5ypisVGM+afe0gx/lKyMZikr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mcZdt4c9; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ku4RhVWj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mcZdt4c9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772697214; x=1804233214;
+  t=1772705632; x=1804241632;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0IRCN5orXpBlDp5bbe+hP/a4OpxCZ/kKP/mq46MHsUc=;
-  b=ku4RhVWjH8Y7sbPrjrY2nOl8fKf5gE31ZDAIsoI4ljsRBHenNpCh8mBT
-   vc6QuuKPcgENAVqRadzecw3s3IYWNPcEUkzGmM00lyO+sovbyqb8I2mLe
-   icajiDrmvYFA8914q6AJZ1TOkwlgFI85sHg7VYTZ3v0hfcxE2mqWJu1b9
-   aRh32O4hzRi6KzXTB7aKzd0ty2cdVeZURRrvg/md3kKF6sN64Br5m+EGP
-   DPpx6UcGEnGfPJSJV5zwG2IJs56RU3Yp5WH6mYWlxDT50mSAHOxFCXH4S
-   3G70Ltyj+5DvehKeFJXA3DCQbRF2wJw0NSUMJkUc90i6ZYgBVcfJwv2CM
+  bh=os8pElF8hPySTMJ5OPZITsFHgDhyLLsZZ4pcbD3N9g0=;
+  b=mcZdt4c9THKxnvD+u9bqzG8hmJxx7y+dsBUEyDD4bPzmQxmcuC+5aV98
+   rx9uhfSO99Hhln8O5ZF4tcRYx6HzfxUsP9jReAqOrknTk7t+ekcwCaY8t
+   fTP1mwEr2UiYbQXoZL3stHvwAkd8xEbBoDKaEz116zMcFYasKXXenKupG
+   QeLRZ1vE7ur6ykkGgJp7wxJqPROLP0YmAn/9zaplKONfPeuxDNN9U9C3t
+   xNKXEfWiax3H/v4jRK2hjTkC78mFJUMBYO1LI5bT7BQcGmKkmEQkszzPw
+   VEyhxNuSWOW0Wg9BLh/fOvQnc/Ibol+6jAlguq/8zFnqW7PLLWzUPWvxs
    Q==;
-X-CSE-ConnectionGUID: C0OvAfa8RfyDysZR2qcTUg==
-X-CSE-MsgGUID: YBV/GBd+Q/+PKL21V2GLNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="77646909"
-X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="77646909"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 23:53:32 -0800
-X-CSE-ConnectionGUID: w663kWYfQVa8o27u4O5rSw==
-X-CSE-MsgGUID: kwe5FhppRZ2RDxvcFi9xoA==
+X-CSE-ConnectionGUID: A/m0BSiLRUCfrzhDHCKC0A==
+X-CSE-MsgGUID: sHvmN9G/QNSxiDDpDYmCDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="77391130"
+X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; 
+   d="scan'208";a="77391130"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 02:13:52 -0800
+X-CSE-ConnectionGUID: nICofMrEQPe2MvR9s8A7Xw==
+X-CSE-MsgGUID: Zmo+veC5TJWOCqBPQ7Aaew==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="221500100"
+X-IronPort-AV: E=Sophos;i="6.23,102,1770624000"; 
+   d="scan'208";a="249102013"
 Received: from lkp-server01.sh.intel.com (HELO cadc4577a874) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 04 Mar 2026 23:53:27 -0800
+  by orviesa002.jf.intel.com with ESMTP; 05 Mar 2026 02:13:49 -0800
 Received: from kbuild by cadc4577a874 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vy3WF-000000000Du-3zCf;
-	Thu, 05 Mar 2026 07:53:15 +0000
-Date: Thu, 5 Mar 2026 15:52:39 +0800
+	id 1vy5iD-000000000Sw-0g4v;
+	Thu, 05 Mar 2026 10:13:45 +0000
+Date: Thu, 5 Mar 2026 18:13:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
 	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kbusch@kernel.org,
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com,
-	hare@suse.de, alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
+Cc: oe-kbuild-all@lists.linux.dev, kbusch@kernel.org, axboe@kernel.dk,
+	hch@lst.de, sagi@grimberg.me, kch@nvidia.com, hare@suse.de,
+	alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
 Subject: Re: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
-Message-ID: <202603051502.9qxZ0noK-lkp@intel.com>
+Message-ID: <202603051846.RCN7R5uj-lkp@intel.com>
 References: <20260304053500.590630-5-alistair.francis@wdc.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
@@ -85,22 +84,22 @@ url:    https://github.com/intel-lab-lkp/linux/commits/alistair23-gmail-com/net-
 base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
 patch link:    https://lore.kernel.org/r/20260304053500.590630-5-alistair.francis%40wdc.com
 patch subject: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
-config: x86_64-buildonly-randconfig-006-20260305 (https://download.01.org/0day-ci/archive/20260305/202603051502.9qxZ0noK-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603051502.9qxZ0noK-lkp@intel.com/reproduce)
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260305/202603051846.RCN7R5uj-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260305/202603051846.RCN7R5uj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603051502.9qxZ0noK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603051846.RCN7R5uj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/nvme/host/tcp.c:1429:24: error: no member named 'read_sock_cmsg' in 'struct proto_ops'
+   drivers/nvme/host/tcp.c: In function 'nvme_tcp_try_recv':
+>> drivers/nvme/host/tcp.c:1429:31: error: 'const struct proto_ops' has no member named 'read_sock_cmsg'; did you mean 'read_sock'?
     1429 |         consumed = sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_recv_skb,
-         |                    ~~~~~~~~~  ^
-   1 error generated.
+         |                               ^~~~~~~~~~~~~~
+         |                               read_sock
 
 
 vim +1429 drivers/nvme/host/tcp.c

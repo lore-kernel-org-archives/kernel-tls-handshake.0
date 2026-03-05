@@ -1,191 +1,214 @@
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E8034B437
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  4 Mar 2026 23:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A677D288B8
+	for <kernel-tls-handshake@lists.linux.dev>; Thu,  5 Mar 2026 00:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772667481; cv=pass; b=Npd/RS0fgFlsvTPO/hz2xnKneRtlS2BRHALQO9gNEvG4npScESYtKbIXcwndISR7BLdA2udVvK30vJHcgyilHUFrLQ8AnfUqazKLdQCbS3UahthzKzgNPp3PbXr20PljYiV5mI3Wx0hP4AmP7e9GXWeUpgpqIT99p3R6gCliq3U=
+	t=1772669697; cv=pass; b=j1dbFtp8EB8hAkn09zdPQGvGLPwjXRhD+UzKZHk5ptGopBMt27/2Q4xmK6b9OHgJ9n1uFpzJ7X5ZF/UGbvSfjrXYBwo8cCoxqsy0D/Ov9t3toqULxpGDqjFgxKH4/jByv++e8zavCMxj118UmxDhxj+o7her44nwjBgoNLXb6Ug=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772667481; c=relaxed/simple;
-	bh=w1TG5DyyD/MOa39o2nEmPuagdIYdEe1dCKPHHwXRuCo=;
+	s=arc-20240116; t=1772669697; c=relaxed/simple;
+	bh=SNH6I/hhPmgSL35V+oZOn5ErlBAd3yoW65QFOWZVpMc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pJtudRc0+qli6gPKkPG8AJzomamdj5eom1hBiqqA5KyOt6z3pPO1/eNMfbIR2UM7bFiy0IBW4EzgSlpn5rHJQJF8+EJfSrYX4xfDQ1Z3R0C/HuPpyX0bAvdbK7LskfSp3LsWgCVXvVnaNRJUfZP2Yohp1YOCtAQkZpFGR2eFmBg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KSfHo6su; arc=pass smtp.client-ip=209.85.222.46
+	 To:Cc:Content-Type; b=LgTXRPqpFYXj2IL/gZc7QtPxY3LR1+GqoBnIErzviZKbbfZ54+kyD5evwOpwWW2nKdZNMrZs308J6yNVfMBd2qzXvVLT4wfFqGfAX9deedp1ysypwmr+n2mLlIq3KsVmUIc400uaFOO0s+ePEO74ESLC0Q+kRoL/usvFWQSKfSI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DFJr8a9S; arc=pass smtp.client-ip=209.85.222.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KSfHo6su"
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-94acf9ce1b7so5004051241.2
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 04 Mar 2026 15:38:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772667479; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DFJr8a9S"
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-94e578a0fa5so682524241.0
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 04 Mar 2026 16:14:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772669695; cv=none;
         d=google.com; s=arc-20240605;
-        b=ToN4yIBmOqokl6iJSBTwIMzFghnj5dGPWD2UrBIKufmvH+ReaiFYlnjN/F2Mp/A+lg
-         L1hDfF+59Ja7US49w3koKW8bUhP/Bo0cpp9qc3/TZdMlpf8IENy62qCCdvb4Lkb4XSq2
-         KNy4ErHi5O1QKEOD9WlA8ODHGOZn6Jz0gGWTcPY7QFgLWUGZuOsRlp4rhf5Wx/NCiWOS
-         jsusbLmoah7uyizANVfj2izwvxFZWt8kk7H4lrOh2NRpohHvMD3qdijD0vKKZojlq8O/
-         yn7BxYsteic9BmoFxdX7bGDIqa27t63SJSwJ1ZFqLutAU8d4nUYeCl97yNbY10O6ItGy
-         HXaw==
+        b=Pm2XzmL8NfXAaGhCb8AHDEDIBAEvMi0tlFOhMuQHjcNTb2PNKpU1sk9BiNYa4HNR8Z
+         Al9lHCOi/oDMkWeEHhS7sP0MKb3q9O9dERNYckHhle6/jD+urIgQlUFnGPCrdy/+5F9l
+         9pcWR0HCfDnXXbVrZbUyQXKfXBjszHxFezevcoldwePGoiQv/qWsC7SgJTsXyz9EK8Rz
+         LTharAraZyTP2MGVpI06QLUbt9CgXCZQnWwECgmYVixFtr89H9pMc8l5RoW1pps8voSl
+         j4b2xJJW119ZDcXyLfYIeiGTJEAw30hBmTFMt25QOtGmBg0OiU9iyBAhZBZLUX1INTTq
+         6SUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=f2lsS6J1KrbGRFoggFb+7TwDvtJ+7CgdNNb0+XNMCDA=;
-        fh=IRMneVaj5lYc9uR6F/o0RBSwX9xwYTxfgrRgotyDScw=;
-        b=EMUzxe73+UyKcgfIOmgD9z9U1JPl5Rpu0L3pSWulmWTIyyETEMBwWzZ9HH7hFrfv7/
-         KHTaF7DTSnG6qDQXBgG37gXrDW0MT+JL4EaG0hZxh0e+cwwYG00tdmBcaNHW9tI4U6wt
-         8TqhIPaagxtk1+x5CtlF7djKWhl1cIUu/TLbhXKqsr4j540Zn+X3k5rppDoe7IKxJibP
-         kUnsYIlHfmqXZDvMoHYJokbvS9r7zZcEtSHaTYvu1KA3SA9Fng9mWSsaHE6XaqHDuYiL
-         X4Y3uWPo4TrivEIFaZw6580N+NFAEwoHmYSH6NakROHankC4gza59Zqs+lE5kLkZYugm
-         3bwg==;
+        bh=HSyN+e/bXp99YEHDDoss7T3ytoS/JigyhF1102UzIKE=;
+        fh=tW+1aY163dn16tx+3GM3GCVmyyBj1TpSTnCBRpkuInQ=;
+        b=UgDroDi49hHjHj8hXyXJamDnUsRXOyiPSMwdqnNmOMeXtT+sIgCzxubH6KN2TdUpJT
+         hDL1SpSEn+WYxyHxfvVaCjZp04FhlfY+j/hK7RZsrscjhujGQ+xardZSyK/YvhiLTaFQ
+         hkdLwWai6DGtReDbxQ8fSpP+ioF+R16loGjehZmn05G43nAKRRs/fa7+8jABZRVhcaD+
+         N7Nk6LjBP9nRBWx+8UQkVZN/h7J9GMRNHhOMWxRfym0dJ+wW/uM5NDJIVROdZGDNnIXB
+         3yNupmb4OwB18qn+YiLvP3kqgcpER4+0NO2VVUQsQhox68pmrLfa1UMz+VbyoTG0Q3MP
+         9P4A==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772667479; x=1773272279; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1772669695; x=1773274495; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f2lsS6J1KrbGRFoggFb+7TwDvtJ+7CgdNNb0+XNMCDA=;
-        b=KSfHo6suUzI3B/zQnaRxfVV5tH3NAfsNBiVFDNl9GdKyLnqUK0rp+Ikr4U1Jq5LuCa
-         bhatc3+K0RwmzE+4iUQZKN5LcoAQR7u1CsuCd0yr2OYi8bjyoVQorluKTODsgS9Dg4yZ
-         ax99z+XVtPJmnDBRWbL4sc1JhDMuocvrvDTkjBJAdesTO8SNtq/HEQRDWOHXfrrs5NNO
-         N3fBtJKbxLYbvD8ZfBKtiqfZLySNbAr8FOeq/f59XfBLFWTjm7MjUMuJNI+Ovtlu/kGQ
-         /QLuaf8q7vV5lxI1NLFO5N47Ff9xxUVmbg7Eu12jJhMmkZNk3Xqb/e91l2ERNY04ax3N
-         nqgQ==
+        bh=HSyN+e/bXp99YEHDDoss7T3ytoS/JigyhF1102UzIKE=;
+        b=DFJr8a9SloLlhPPQ2j/MTVi4RIgEGAYD6NAUqVC4PBe8+Egn0wd6Kps7rM3YP32WFt
+         9n+eKU6nniQ0AJBCsXdgKWmEpR3iuGBKwyhnUSWR616Umr2ExhNtaWEymGBNrJznEmRB
+         q/SzRVSfjSDSbNrYvKD/goHmEsB/4zlGSRexzx67IbjM6Ra0op/8uVbTVitYiaAeyc9I
+         gZbu7PDUNOqCNsQHNqWALuoX5Kk/S1Mn3D9HnPj4RuafjV6cytBuiG5RvPuO3LEtopnn
+         OED0jFPP+tkyJtjWw2z6EWKv8hwYl9gS29cfXTSnyGjtHKzxfK42ZSsE5ITkeNCbvERL
+         Obqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772667479; x=1773272279;
+        d=1e100.net; s=20230601; t=1772669695; x=1773274495;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=f2lsS6J1KrbGRFoggFb+7TwDvtJ+7CgdNNb0+XNMCDA=;
-        b=lXYpq5gQHyeMkzCA5QWD/W88PCJBUMJkS5S/+k1ToZz1TW+O0lXwuS2zAeO6P2nNNz
-         xPOXXsyZdtdor+zm35M5wPVqUHLZ7STj2UE/gNmXXncPNYudJjPo5CURsMjf97FR4S0W
-         XJ8roovPgDJWqlk8YJAu+e9aGg1wYgoo8Z0XS1CDpYyv5mTtQrXZkeY+nzHadlgzuqJt
-         0jUuXELML2k9HYjtPHd+tJ/wZ+C9Cu6YNc/Ud1/rl5AveS0OmHV+Cdy7wOREiSHlNadk
-         Kfa+q3xKTVwiNRxGG5n2sPNHlHiXhbqwxqQRAmqKd1y2bZOlUb/5cImoxHiICXqA/QZf
-         JVhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXj8C5HcmtuD/J+xbvYJAFb40HE/Bx4UODe1f56HvdwEDjB3Dbx5h3H24raUSODbCGDJeaAZt0npalcpd8kjcmPQi1HcQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxHZQYnCKDs3z9k7ruatDKJ8fTOPmVEN5MYETkn1oHBLLhR2YBO
-	wKJybeg+r6dNr0Qr+l2NhfWrdZHMvbkiS7ClDPKcOiMML5PFn1Q7UseXSKaIe3dK3blBozCLUKP
-	yFpuaTCUCSmNoTpQEms+r6r5RX7pRSto=
-X-Gm-Gg: ATEYQzzPFjq9GQOzTyxE0r8m2KpKl/OiGlyW1G5D2wv0TNU0TvaLAqcisxNHRvgTtgJ
-	wNZzrMA6Oz5d+O2OCuPPeliMAGAkUjqf3EtvwWBXW7MHU3PItEB7+4W+Xc5GX09bXfLJB+1C5aU
-	C05yUKDYGszFIZxTyNptbp38/OH+rnfZadzYhHpO1MY4sPP3tygJHHLxmnd61tT/KTs2HjQ3ndw
-	ycw4qP+qOwKGF/3hEC9HKcfW1dUowoooXSOMzY1FX6JpjuERdr6XU0TzheCBGJKa3bPoJyXttyO
-	yg1ukrdEoPfrTmx0YV3As/0YOVQSgFjbvko4sYiuaGi1pHNyd5tguYk9LZbAxyHY9Li0tnSX017
-	GxdRHrjiJYwBDR8jY
-X-Received: by 2002:a05:6102:510f:b0:5ff:a34:6ce8 with SMTP id
- ada2fe7eead31-5ffaaf1af3amr1982362137.20.1772667479118; Wed, 04 Mar 2026
- 15:37:59 -0800 (PST)
+        bh=HSyN+e/bXp99YEHDDoss7T3ytoS/JigyhF1102UzIKE=;
+        b=wkIznVrrCNvLwmDLOHwiOVfSFjNSvGqvyONLgDCNiIduZakXg97jnP4Gx39nBcVyZL
+         8OlYa6jGU4vQA9Zgo5t/DErsO1JpAvk6aMBBaNuOPp1Vdl8NVXEb6pHnCK2ON8iyR9pr
+         Fz+eYBonRDYpV4PTMBh+HrOT75Qim/EO2gmmj9m/Rz4pnWOE7XtMpVEIFZ8+QqtiOra2
+         V4MPNoujD2gyfGsm8tS7bqk3urT0sGlFU8jAa5WuNgXfIYas2dP2OalRxx8L+K6JDG1S
+         KBOwTIEiYWQ8DX7ifkuAzL1SFI0TMma7TE9IP1ONET/TPWCLvEaRg1Tbr0OlLOonUraU
+         XObg==
+X-Forwarded-Encrypted: i=1; AJvYcCXTI8CmmlTvXPhseFzVQ6vWK+TPK19vAMkT5ILnybW0h6+7rJeGTefgYwF+aDq4JXyvJalByFvR/zpynvzohpS7KkwICw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YytyvCtAyx6Af1idDA0zT50s2n0kFHjvwAZkJnjKctTDgYjbRlH
+	JMjwfonRX59bVxNriScJQKQKKy6TtGAo5iCNCnvtQrhiO+n5XTH0iwXSfoy+hPy7Y3Oh2gD2szn
+	anowHUDmF7epgSfsN7O5NXS5gxQGhWC8=
+X-Gm-Gg: ATEYQzyeF+CC9gv3Dh7g2xL397Zkd4I2icdsJi2+TM5+W5qyGA9M2pecOX5xS7x3ErZ
+	OYrOkbKRRITtLQHjK5d/HwSFiaGKrcd5zIOF47YiYHjCHo4DLdLwrBVfHIDLAsh1kYYGZCrQSJc
+	Out2lJKHY3yZIIf4QEvw+/FaqxMv4sxPrF2zxwbHZEZIspB5Q8Cfj3ziwSNXAznejVxfjkGnCaM
+	6asbyQM/Xsi6P7Iz/aKu+yVJlugkudyZj27BQ3aktN/w2Kt7I5AyRzVrRk0+7UideZgZMZiZTDa
+	xPTor52QaGaYLxUgAbq6IIhfYDTIF1WE9OGDFOLjKklW0qQ+1pIhXVC2PV66Z2CbL+xoVfej4VS
+	AZ4OMyA==
+X-Received: by 2002:a05:6102:2ace:b0:5ff:8b8:9f8c with SMTP id
+ ada2fe7eead31-5ffaaf4b3bemr1900512137.26.1772669695494; Wed, 04 Mar 2026
+ 16:14:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <08a63705058aff77dd54fb388870f0bca6036c95.1771986861.git.lucien.xin@gmail.com>
- <20260303083351.35558-1-pabeni@redhat.com>
-In-Reply-To: <20260303083351.35558-1-pabeni@redhat.com>
+References: <cover.1771986861.git.lucien.xin@gmail.com> <08a63705058aff77dd54fb388870f0bca6036c95.1771986861.git.lucien.xin@gmail.com>
+ <CAF6piCKOiwMz9Le2vBV4_W3R0NR3TW_je+ow4SCm5eX867awyg@mail.gmail.com>
+In-Reply-To: <CAF6piCKOiwMz9Le2vBV4_W3R0NR3TW_je+ow4SCm5eX867awyg@mail.gmail.com>
 From: Xin Long <lucien.xin@gmail.com>
-Date: Wed, 4 Mar 2026 18:37:46 -0500
-X-Gm-Features: AaiRm51OBlwUOZC4nFNNd6vu4H5gc_uzuMHgB2908jHUlSejY2ws0x0OMALq7Fk
-Message-ID: <CADvbK_e-Tkb8aVzSy4WhVogETvQy16TrFdtWROtf3Y6oC+PczQ@mail.gmail.com>
-Subject: Re: [net-next,v10,15/15] quic: add packet parser base
+Date: Wed, 4 Mar 2026 19:14:43 -0500
+X-Gm-Features: AaiRm50hxZ3LZQ8rWfNDJR5FazO0dRJs8u8F_F7HjgEpz5HRVEpNVToAMcIZlRk
+Message-ID: <CADvbK_dhG7LZaRnz9JihHtboQmTLmudptGF1P+w5gyi=6Ls_2g@mail.gmail.com>
+Subject: Re: [PATCH net-next v10 15/15] quic: add packet parser base
 To: Paolo Abeni <pabeni@redhat.com>
-Cc: hepengtao@xiaomi.com, kuba@kernel.org, jlayton@kernel.org, metze@samba.org, 
-	davem@davemloft.net, kernel-tls-handshake@lists.linux.dev, horms@kernel.org, 
-	hare@suse.de, aahringo@redhat.com, tfanelli@redhat.com, mail@johnericson.me, 
-	andrew.gospodarek@broadcom.com, linkinjeon@kernel.org, dhowells@redhat.com, 
-	matttbe@kernel.org, xiyou.wangcong@gmail.com, dreibh@simula.no, 
-	jbaron@akamai.com, quic@lists.linux.dev, pc@manguebit.com, 
-	marc@fiuczynski.com, edumazet@google.com, alibuda@linux.alibaba.com, 
-	steved@redhat.com, illiliti@protonmail.com, tom@talpey.com, 
-	marcelo.leitner@gmail.com, sd@queasysnail.net, linux-cifs@vger.kernel.org, 
-	netdev@vger.kernel.org, mbuhl@openbsd.org, smfrench@gmail.com, 
-	chuck.lever@oracle.com, daniel@haxx.se
+Cc: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev, davem@davemloft.net, 
+	kuba@kernel.org, Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>, 
+	Stefan Metzmacher <metze@samba.org>, Moritz Buhl <mbuhl@openbsd.org>, Tyler Fanelli <tfanelli@redhat.com>, 
+	Pengtao He <hepengtao@xiaomi.com>, Thomas Dreibholz <dreibh@simula.no>, linux-cifs@vger.kernel.org, 
+	Steve French <smfrench@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Paulo Alcantara <pc@manguebit.com>, Tom Talpey <tom@talpey.com>, kernel-tls-handshake@lists.linux.dev, 
+	Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, 
+	Steve Dickson <steved@redhat.com>, Hannes Reinecke <hare@suse.de>, Alexander Aring <aahringo@redhat.com>, 
+	David Howells <dhowells@redhat.com>, Matthieu Baerts <matttbe@kernel.org>, 
+	John Ericson <mail@johnericson.me>, Cong Wang <xiyou.wangcong@gmail.com>, 
+	"D . Wythe" <alibuda@linux.alibaba.com>, Jason Baron <jbaron@akamai.com>, 
+	illiliti <illiliti@protonmail.com>, Sabrina Dubroca <sd@queasysnail.net>, 
+	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, Daniel Stenberg <daniel@haxx.se>, 
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>, 
+	"Marc E . Fiuczynski" <marc@fiuczynski.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 3, 2026 at 3:34=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wrot=
+On Tue, Mar 3, 2026 at 4:16=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wrot=
 e:
 >
-> This is an AI-generated review of your patch. The human sending this
-> email has considered the AI review valid, or at least plausible.
->
-> For local reproduction steps see https://netdev-ai.bots.linux.dev/ai-loca=
-l.html
-> ---
-> quic: add packet parser base
->
-> This patch uses 'quic_packet' to handle packing of QUIC packets on the
-> receive (RX) path. It introduces mechanisms to parse the ALPN from
-> client Initial packets to determine the correct listener socket.
-> Received packets are then routed and processed accordingly.
->
-> > diff --git a/net/quic/packet.c b/net/quic/packet.c
-> > index a56edc745bb1..a23ce99a6656 100644
-> > --- a/net/quic/packet.c
-> > +++ b/net/quic/packet.c
->
-> [ ... ]
->
-> > +/* Extract the Destination Connection ID (DCID) from a QUIC Long heade=
-r packet. */
-> > +int quic_packet_get_dcid(struct quic_conn_id *dcid, struct sk_buff *sk=
-b)
+> On 2/25/26 3:34 AM, Xin Long wrote:
+> > +/* Find the listening QUIC socket for an incoming packet.
+> > + *
+> > + * This function searches the QUIC socket table for a listening socket=
+ that matches the dest
+> > + * address and port, and the ALPN(s) if presented in the ClientHello. =
+ If multiple listening
+> > + * sockets are bound to the same address, port, and ALPN(s) (e.g., via=
+ SO_REUSEPORT), this
+> > + * function selects a socket from the reuseport group.
+> > + *
+> > + * Return: A pointer to the matching listening socket, or NULL if no m=
+atch is found.
+> > + */
+> > +struct sock *quic_listen_sock_lookup(struct sk_buff *skb, union quic_a=
+ddr *sa, union quic_addr *da,
+> > +                                  struct quic_data *alpns)
 > > +{
-> > +     u32 plen =3D skb->len;
-> > +     u8 *p =3D skb->data;
-> > +     u64 len;
+> > +     struct net *net =3D sock_net(skb->sk);
+> > +     struct hlist_nulls_node *node;
+> > +     struct sock *sk =3D NULL, *tmp;
+> > +     struct quic_shash_head *head;
+> > +     struct quic_data alpn;
+> > +     union quic_addr *a;
+> > +     u32 hash, len;
+> > +     u64 length;
+> > +     u8 *p;
 > > +
-> > +     if (plen < QUIC_HLEN + QUIC_VERSION_LEN)
-> > +             return -EINVAL;
-> > +     plen -=3D (QUIC_HLEN + QUIC_VERSION_LEN);
-> > +     p +=3D (QUIC_HLEN + QUIC_VERSION_LEN);
+> > +     hash =3D quic_listen_sock_hash(net, ntohs(sa->v4.sin_port));
+> > +     head =3D quic_listen_sock_head(hash);
 > > +
-> > +     if (!quic_get_int(&p, &plen, &len, 1) ||
-> > +         len > plen || len > QUIC_CONN_ID_MAX_LEN)
-> > +             return -EINVAL;
-> > +     quic_conn_id_update(dcid, p, len);
-> > +     return 0;
-> > +}
+> > +     rcu_read_lock();
+> > +begin:
+> > +     if (!alpns->len) { /* No ALPN entries present or failed to parse =
+the ALPNs. */
+> > +             sk_nulls_for_each_rcu(tmp, node, &head->head) {
+> > +                     /* If alpns->data !=3D NULL, TLS parsing succeede=
+d but no ALPN was found.
+> > +                      * In this case, only match sockets that have no =
+ALPN set.
+> > +                      */
+> > +                     a =3D quic_path_saddr(quic_paths(tmp), 0);
+> > +                     if (net =3D=3D sock_net(tmp) && quic_cmp_sk_addr(=
+tmp, a, sa) &&
+> > +                         quic_path_usock(quic_paths(tmp), 0) =3D=3D sk=
+b->sk &&
+> > +                         (!alpns->data || !quic_alpn(tmp)->len)) {
+> > +                             sk =3D tmp;
+> > +                             if (!quic_is_any_addr(a)) /* Prefer speci=
+fic address match. */
+> > +                                     break;
+> > +                     }
+> > +             }
+> > +             goto out;
+> > +     }
+> > +
+> > +     /* ALPN present: loop through each ALPN entry. */
+> > +     for (p =3D alpns->data, len =3D alpns->len; len; len -=3D length,=
+ p +=3D length) {
+> > +             quic_get_int(&p, &len, &length, 1);
+> > +             quic_data(&alpn, p, length);
+> > +             sk_nulls_for_each_rcu(tmp, node, &head->head) {
+> > +                     a =3D quic_path_saddr(quic_paths(tmp), 0);
+> > +                     if (net =3D=3D sock_net(tmp) && quic_cmp_sk_addr(=
+tmp, a, sa) &&
+> > +                         quic_path_usock(quic_paths(tmp), 0) =3D=3D sk=
+b->sk &&
+> > +                         quic_data_has(quic_alpn(tmp), &alpn)) {
+> > +                             sk =3D tmp;
+> > +                             if (!quic_is_any_addr(a))
+> > +                                     break;
+> > +                     }
+> > +             }
+> > +             if (sk)
+> > +                     break;
+> > +     }
+> > +out:
+> > +     /* If the nulls value we got at the end of the iteration is diffe=
+rent from the expected
+> > +      * one, we must restart the lookup as the list was modified concu=
+rrently.
+> > +      */
+> > +     if (!sk && get_nulls_value(node) !=3D hash)
+> > +             goto begin;
+> > +
+> > +     if (sk && sk->sk_reuseport)
+> > +             sk =3D reuseport_select_sock(sk, quic_addr_hash(net, da),=
+ skb, 1);
+> > +
+> > +     if (sk && unlikely(!refcount_inc_not_zero(&sk->sk_refcnt)))
+> > +             sk =3D NULL;
 >
-> This parsing logic looks nearly identical to what's already in
-> quic_packet_get_version_and_connid().  Both skip QUIC_HLEN +
-> QUIC_VERSION_LEN, read the length byte, validate against
-> QUIC_CONN_ID_MAX_LEN, and call quic_conn_id_update().
+> Note that you could avoid the refcount if you keep using the sk in an
+> RCU critical section. i.e. plain UDP does that. Same consideration for
+> established lookup.
 >
-> Could quic_packet_get_dcid() call quic_packet_get_version_and_connid()
-> with dummy parameters, or could both share a helper to extract just the
-> DCID portion?
->
-No, they work on different forms of QUIC packet, one for short header and
-the other for long header packets.
-
-> > diff --git a/net/quic/path.c b/net/quic/path.c
-> > index 9414c4f813c5..655f38af4107 100644
-> > --- a/net/quic/path.c
-> > +++ b/net/quic/path.c
-> > @@ -17,6 +17,8 @@
-> >  #include "family.h"
-> >  #include "path.h"
-> >
-> > +extern int quic_packet_rcv(struct sock *sk, struct sk_buff *skb, u8 er=
-r);
->
-> Could this include packet.h instead? The canonical declaration already
-> exists in packet.h (after this patch). Using 'extern' here creates a
-> duplicate signature.
->
-> If the signature in packet.h changes later, this extern could silently
-> become stale depending on calling conventions. Since packet.h has no
-> include directives and wouldn't create a circular dependency, including
-> it would keep the declaration in sync.
->
-No, let's not have this dependency for now.
+Doesn't seem easy to adjust the code for this, I will leave it as it is for=
+ now.
 
 Thanks.
-> > +
-> >  static int quic_udp_rcv(struct sock *sk, struct sk_buff *skb)
-> >  {
-> >       memset(skb->cb, 0, sizeof(skb->cb));
->

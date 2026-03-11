@@ -1,224 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C7231E83A;
-	Wed, 11 Mar 2026 00:20:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1DC33ADB3
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 11 Mar 2026 17:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773188407; cv=none; b=jLeLO2GHTM3vz0Ncvcr/VqQvckgl0jXsXvPt4LPxKOFS9T7l/N/yi1SzRzYPlxZUXnEMKpsI9fPrQD9wGT2Cmbe3eXP3GfdluPy5TaRspB/PE8ygOp3s9Uj4+6Zyl533v94yhRHYO0jD0xTtGPk8otXXMxN2iXobnQpHjRJJq4s=
+	t=1773249881; cv=none; b=nnlua/Aklec03ly3Mh76EZe2tzyC2XTGWIJwjPYUluAeCqEOcu7Mj2V2ott4fTCX9Zmsuzo4fyft/0KoVIp1tOYnTsmFBvR09D3JCZIGyojRIIvZD1v51kP41BcnQKwMHBrbeavs+kMMZEyqO3neU52HVuGNYIMbcsnY4o1r2Kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773188407; c=relaxed/simple;
-	bh=1LZZbq0+cSxFvf8KzrdAgm9SfNlqLHeKWtCA6Qu4oys=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h0uaZPTPEf/cCE7XFZXwkQpSx0k0UvE/+hpSlkY1E/t5hxpOpWvUXl7nL3PwL6WfbrXVIctPuE/Zk622iaUTJ4frMcdvfqvQtrwSb19f595DrcWwwF0NkdXxwcYOzOn9fdnKmTQifAe/iPxytocKf5FP0z+lnT+/aFTf1eJFFjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kETbLBSY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773249881; c=relaxed/simple;
+	bh=TSRbPisBjlJ8TPFgxRbcN7Z0vch8gpyxlAjB71W7V0k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nuw0HNzzbuoExbfsF2S775dnyJDt407HEHDFKwwRsMDMGThBi4o8MLXksD1CQqM8pxfS0dw84CSJifRnIE+XhtAU8HuU7qboLkBm0oxMTmyAw3wmTqWSbfOKiGCxWE6Y2cDKWtFKKx3EDyWeH/HeqR7aJomiVFWYHdaSXPmDgOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OGGdr7Sb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pgEi3Cr3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OGGdr7Sb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pgEi3Cr3; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kETbLBSY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 425B8C19423;
-	Wed, 11 Mar 2026 00:20:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773188406;
-	bh=1LZZbq0+cSxFvf8KzrdAgm9SfNlqLHeKWtCA6Qu4oys=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kETbLBSY15xk9MliFfg/U1SodNwgBFXjiuyHuDHRxex0ueX4tDnM2GaUs3/snQwoN
-	 /DGrE0190KjEyF0NO1oY2VE4zvkgg1ZLGpQkTCv9PLkqVTyO84YNRuWiMU+lA8m1OB
-	 J5HfMkb7yvCU/Htaa5F/HD2pw9SHGcPDSNhgT5HR1SVGHFizOcrTQeSEGk3WSMyoy+
-	 1trye1wM4CR6nXBt5NyYUySNtRv3m0578s+XWelQzwrGluzGNc8dVyuyxC4G8hiNoG
-	 FmbwIKK+1KQZKKZOXdi3djI+QNSSMHYKmmcjSckjMFzbH5brCkF9rwvl0D6tWpxdHK
-	 YaXnaORk5++Sw==
-From: Chuck Lever <cel@kernel.org>
-To: john.fastabend@gmail.com,
-	kuba@kernel.org,
-	sd@queasysnail.net
-Cc: netdev@vger.kernel.org,
-	kernel-tls-handshake@lists.linux.dev,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Hannes Reinecke <hare@suse.de>
-Subject: [PATCH v2 8/8] tls: Enable batch async decryption in read_sock
-Date: Tue, 10 Mar 2026 20:19:52 -0400
-Message-ID: <20260311001952.57059-9-cel@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260311001952.57059-1-cel@kernel.org>
-References: <20260311001952.57059-1-cel@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OGGdr7Sb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pgEi3Cr3";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OGGdr7Sb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pgEi3Cr3"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0CC865BCC8;
+	Wed, 11 Mar 2026 17:24:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773249878; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EsXSBSsWFackrErRFk1u9TiV0UR1/knFbBI/BSAoNHI=;
+	b=OGGdr7SbmX4SU3OqP0IJPpDOm4K1YQva8rm5vcvuY5C+P5i+b9yYaWhHVr4Ck6ZG9scijB
+	naolFBMYdDtcRVKxnZ9q1LMWF3CUJuB82966AWLfNNsRvkBlTJzseJ/iwm7+JRNrXBtvWK
+	3u8UvqA8vteQB8ReP+mN1lkEHEHyuuw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773249878;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EsXSBSsWFackrErRFk1u9TiV0UR1/knFbBI/BSAoNHI=;
+	b=pgEi3Cr3jj3JS+PnDVx5TrgSRyve+jH097t8Ec3aXO/JGJ7FgF+hLGYMyQREVVQRmX+O80
+	c6tueoLJqzQIsADA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773249878; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EsXSBSsWFackrErRFk1u9TiV0UR1/knFbBI/BSAoNHI=;
+	b=OGGdr7SbmX4SU3OqP0IJPpDOm4K1YQva8rm5vcvuY5C+P5i+b9yYaWhHVr4Ck6ZG9scijB
+	naolFBMYdDtcRVKxnZ9q1LMWF3CUJuB82966AWLfNNsRvkBlTJzseJ/iwm7+JRNrXBtvWK
+	3u8UvqA8vteQB8ReP+mN1lkEHEHyuuw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773249878;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EsXSBSsWFackrErRFk1u9TiV0UR1/knFbBI/BSAoNHI=;
+	b=pgEi3Cr3jj3JS+PnDVx5TrgSRyve+jH097t8Ec3aXO/JGJ7FgF+hLGYMyQREVVQRmX+O80
+	c6tueoLJqzQIsADA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C28513FB23;
+	Wed, 11 Mar 2026 17:24:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8llILlWlsWn6UwAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 11 Mar 2026 17:24:37 +0000
+Message-ID: <a3dbc990-e6e8-4b0a-95ed-64004ce82a8a@suse.de>
+Date: Wed, 11 Mar 2026 18:24:37 +0100
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/8] tls: Factor tls_decrypt_async_drain() from recvmsg
+To: Chuck Lever <cel@kernel.org>, john.fastabend@gmail.com, kuba@kernel.org,
+ sd@queasysnail.net
+Cc: netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
+ Chuck Lever <chuck.lever@oracle.com>
+References: <20260311001952.57059-1-cel@kernel.org>
+ <20260311001952.57059-2-cel@kernel.org>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260311001952.57059-2-cel@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,queasysnail.net];
+	TAGGED_RCPT(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
+X-Spam-Flag: NO
 
-From: Chuck Lever <chuck.lever@oracle.com>
-
-tls_sw_read_sock() decrypts one TLS record at a time, blocking until
-each AEAD operation completes before proceeding. Hardware async
-crypto engines depend on pipelining multiple operations to achieve
-full throughput, and the one-at-a-time model prevents that. Kernel
-consumers such as NVMe-TCP and NFSD (when using TLS) are therefore
-unable to benefit from hardware offload.
-
-When ctx->async_capable is true, the submit phase now loops up to
-TLS_READ_SOCK_BATCH (16) records. The first record waits via
-tls_rx_rec_wait(); subsequent iterations use tls_strp_msg_ready()
-and tls_strp_check_rcv() to collect records already queued on the
-socket without blocking. Each record is submitted with darg.async
-set, and all resulting skbs are appended to rx_list.
-
-After the submit loop, a single tls_decrypt_async_drain() collects
-all pending AEAD completions before the deliver phase passes
-cleartext records to the consumer. The batch bound of 16 limits
-concurrent memory consumption to 16 cleartext skbs plus their AEAD
-contexts. If async_capable is false, the loop exits after one
-record and the async wait is skipped, preserving prior behavior.
-
+On 3/11/26 01:19, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
+> 
+> The recvmsg path pairs tls_decrypt_async_wait() with
+> __skb_queue_purge(&ctx->async_hold). Bundling the two into
+> tls_decrypt_async_drain() gives later patches a single call for
+> async teardown.
+> 
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> ---
+>   net/tls/tls_sw.c | 15 +++++++++++++--
+>   1 file changed, 13 insertions(+), 2 deletions(-)
+> 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
----
- net/tls/tls_sw.c | 95 +++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 78 insertions(+), 17 deletions(-)
 
-diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-index 535c856d64e0..0e2b7d285d06 100644
---- a/net/tls/tls_sw.c
-+++ b/net/tls/tls_sw.c
-@@ -261,6 +261,12 @@ static int tls_decrypt_async_drain(struct tls_sw_context_rx *ctx)
- 	return ret;
- }
- 
-+/* Submit an AEAD decrypt request.  On success with darg->async set,
-+ * the caller must not touch aead_req; the completion handler frees
-+ * it.  Every error return clears darg->async and guarantees no
-+ * in-flight AEAD operation remains -- callers rely on this to
-+ * safely free aead_req and to skip async drain on error paths.
-+ */
- static int tls_do_decryption(struct sock *sk,
- 			     struct scatterlist *sgin,
- 			     struct scatterlist *sgout,
-@@ -2347,6 +2353,13 @@ ssize_t tls_sw_splice_read(struct socket *sock,  loff_t *ppos,
- 	goto splice_read_end;
- }
- 
-+/* Bound on concurrent async AEAD submissions per read_sock
-+ * call.  Chosen to fill typical hardware crypto pipelines
-+ * without excessive memory consumption (each in-flight record
-+ * holds one cleartext skb plus its AEAD request context).
-+ */
-+#define TLS_READ_SOCK_BATCH	16
-+
- int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
- 		     sk_read_actor_t read_actor)
- {
-@@ -2358,6 +2371,7 @@ int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
- 	struct sk_psock *psock;
- 	size_t flushed_at = 0;
- 	bool released = true;
-+	bool async = false;
- 	struct tls_msg *tlm;
- 	ssize_t copied = 0;
- 	ssize_t decrypted;
-@@ -2380,31 +2394,68 @@ int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
- 	decrypted = 0;
- 	for (;;) {
- 		struct tls_decrypt_arg darg;
-+		int nr_async = 0;
- 
--		/* Phase 1: Submit -- decrypt one record onto rx_list.
-+		/* Phase 1: Submit -- decrypt records onto rx_list.
- 		 * Flush the backlog first so that segments that
- 		 * arrived while the lock was held appear on
- 		 * sk_receive_queue before tls_rx_rec_wait waits
- 		 * for a new record.
- 		 */
- 		if (skb_queue_empty(&ctx->rx_list)) {
--			sk_flush_backlog(sk);
--			err = tls_rx_rec_wait(sk, NULL, true, released);
--			if (err <= 0)
-+			while (nr_async < TLS_READ_SOCK_BATCH) {
-+				if (nr_async == 0) {
-+					sk_flush_backlog(sk);
-+					err = tls_rx_rec_wait(sk, NULL,
-+							      true,
-+							      released);
-+					if (err <= 0)
-+						goto read_sock_end;
-+				} else {
-+					if (!tls_strp_msg_ready(ctx)) {
-+						tls_strp_check_rcv_quiet(&ctx->strp);
-+						if (!tls_strp_msg_ready(ctx))
-+							break;
-+					}
-+					if (!tls_strp_msg_load(&ctx->strp,
-+							       released))
-+						break;
-+				}
-+
-+				memset(&darg.inargs, 0, sizeof(darg.inargs));
-+				darg.async = ctx->async_capable;
-+
-+				err = tls_rx_decrypt_record(sk, NULL,
-+							    &darg);
-+				if (err < 0)
-+					goto read_sock_end;
-+
-+				async |= darg.async;
-+				released = tls_read_flush_backlog(sk, prot,
-+								  INT_MAX,
-+								  0,
-+								  decrypted,
-+								  &flushed_at);
-+				decrypted += strp_msg(darg.skb)->full_len;
-+				tls_rx_rec_release(ctx);
-+				__skb_queue_tail(&ctx->rx_list, darg.skb);
-+				nr_async++;
-+
-+				if (!ctx->async_capable)
-+					break;
-+			}
-+		}
-+
-+		/* Async wait -- collect pending AEAD completions */
-+		if (async) {
-+			int ret = tls_decrypt_async_drain(ctx);
-+
-+			async = false;
-+			if (ret) {
-+				__skb_queue_purge(&ctx->rx_list);
-+				err = ret;
- 				goto read_sock_end;
--
--			memset(&darg.inargs, 0, sizeof(darg.inargs));
--
--			err = tls_rx_decrypt_record(sk, NULL, &darg);
--			if (err < 0)
--				goto read_sock_end;
--
--			released = tls_read_flush_backlog(sk, prot, INT_MAX,
--							  0, decrypted,
--							  &flushed_at);
--			decrypted += strp_msg(darg.skb)->full_len;
--			tls_rx_rec_release(ctx);
--			__skb_queue_tail(&ctx->rx_list, darg.skb);
-+			}
- 		}
- 
- 		/* Phase 2: Deliver -- drain rx_list to read_actor */
-@@ -2442,6 +2493,16 @@ int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
- 	}
- 
- read_sock_end:
-+	if (async) {
-+		int ret = tls_decrypt_async_drain(ctx);
-+
-+		__skb_queue_purge(&ctx->rx_list);
-+		/* Preserve the error that triggered early exit;
-+		 * a crypto drain error is secondary.
-+		 */
-+		if (ret && !err)
-+			err = ret;
-+	}
- 	tls_strp_check_rcv(&ctx->strp);
- 	tls_rx_reader_release(sk, ctx);
- 	return copied ? : err;
+Cheers,
+
+Hannes
 -- 
-2.53.0
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich

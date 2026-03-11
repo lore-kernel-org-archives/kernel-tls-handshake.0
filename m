@@ -1,61 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA773B8920;
-	Tue, 10 Mar 2026 03:14:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CAF31AF1B;
+	Wed, 11 Mar 2026 00:19:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773112488; cv=none; b=GSfdoUMpeOM25tGGneoLQymXVEDKzeu9jWPcKr4LeHtr6g4JC2QCOyJW6hYbeT1Idj9FFjj32eXugAew0TsRT+69VAga06RO8VOPsQnBCxMVDQcYSh3v72rDYdbEaPv1IU6AXZItkxE0VbIA/oZM/1utTQE01C6wo1XpkkIGP6o=
+	t=1773188400; cv=none; b=rnxzrbKEuC8iXuRTNDhvCoTm6Z9HimMy4QolSgOd59pmRsUs6CPma2EIhpHb9j6sEOmK+Xsj6T1G4+1ez0QDqNaSUeFAy0+vvDogvo81LH6YeGsedcKui992bhenqRP+6+qG/RHZgYhVH5UByY/sxcNJWmxSIBRhK+Nn8yU/sQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773112488; c=relaxed/simple;
-	bh=KWwgmJ31cx7H8q/1ETyeAo45S86SvVyT2Kvku18GGJA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mWzoupbQXm9if/mQLjLIUwJ+QgyQB43VMxdkhVJuJ9g1qU0V/gvmTiUBs/EG6BhPrbNLSdopXZ3uX5xA6K0bTf9iRFXjVz+F9+tXUrDiFwtp3TP161CUr6R574WV0gvnYMBxJIt6BqUl34ztMQSYhpESNvUc2cCmrMCdVL+rrW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sUTfncbQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773188400; c=relaxed/simple;
+	bh=GL5j6EBn8e7PiwvxkxPwtJQFu27gagZNFuIBqE5fhco=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bUpmQREhoUXItYrWXX0bx05RBNwqE43dksXuA8ImN7kkgMgQeU7BDRbjn3cq5vZbTmwE2Xt6QZCd9GR9KghyWloGA28ue82gwQm8or0EBfMbF846YhFXi3DhmjttJF5hom2o/j1FZyxxwrhwhi9RArujxF7/gBBevNTcsLMDaUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J4/H9U0U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sUTfncbQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D54BDC4CEF7;
-	Tue, 10 Mar 2026 03:14:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J4/H9U0U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00A96C2BCB0;
+	Wed, 11 Mar 2026 00:19:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773112488;
-	bh=KWwgmJ31cx7H8q/1ETyeAo45S86SvVyT2Kvku18GGJA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=sUTfncbQjnzfZ28bFWiED/g0tOVc+3JVksJE7ArOTdbnI5nUjSf81ArkoiifxKsCa
-	 RnVF4liyp2PG30aRPbRt+HAfqVPzLoUEdVszmEr+NWrv3zTCp9KlgPhgMSKij4j9AD
-	 AGkcx7Y6JiYs1yW0cEjI5T032AXj9kVFGBYl6SF+5L1SRqFNVKl4MFRRs3CzN8hecB
-	 MUQTR9Hv/JxaSSzFVaGSLMUyO6UEupJTuepjqV6mPRCWpAjShkaQ6g7OQrp7dLE7vV
-	 LWg4PICDaOj+qiY07JeULl/URkDkQS3SBEzSV7ybgMTMhOtXHO/zkzGWJvhVOMLTp6
-	 nZlzy00pcekhw==
-Date: Mon, 9 Mar 2026 20:14:47 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Chuck Lever <cel@kernel.org>
-Cc: john.fastabend@gmail.com, sd@queasysnail.net, <netdev@vger.kernel.org>,
- <kernel-tls-handshake@lists.linux.dev>, Chuck Lever
- <chuck.lever@oracle.com>
-Subject: Re: [PATCH v1 0/6] TLS read_sock performance scalability
-Message-ID: <20260309201447.56dbb14f@kernel.org>
-In-Reply-To: <20260305211402.39408-1-cel@kernel.org>
-References: <20260305211402.39408-1-cel@kernel.org>
+	s=k20201202; t=1773188399;
+	bh=GL5j6EBn8e7PiwvxkxPwtJQFu27gagZNFuIBqE5fhco=;
+	h=From:To:Cc:Subject:Date:From;
+	b=J4/H9U0U36BgfAPpk2KvttJ8D5ErUg93ot78AVvWHeTtIPbrndqgU3q7K85JXr60l
+	 MAyrj6ywGV1/S7rlOPYtcD3aLih2LK6iIAOQqZAbEr1oFUzQc/uGquxAIYZmVVTzlL
+	 zijGZMvj9xVeusQpP76otHHDczRwZ68au+LNXFqh8AhUvXaApVz9HQQkMK1ng7yD8L
+	 Rwa5Sd9PAJ2nS+L+hRLUQelY/g8xD8U3AhDWqO6nzP0+cNxS6o7fzuTFIjOT0L8xfa
+	 eYHG3/kpduSYElM3nu938YO9SS48Mdl6dM6LWkMfoJ9ka7UdSLBzigtQ+6xSmLOq3q
+	 D2xLOXDoxl6Iw==
+From: Chuck Lever <cel@kernel.org>
+To: john.fastabend@gmail.com,
+	kuba@kernel.org,
+	sd@queasysnail.net
+Cc: netdev@vger.kernel.org,
+	kernel-tls-handshake@lists.linux.dev,
+	Chuck Lever <chuck.lever@oracle.com>
+Subject: [PATCH v2 0/8] TLS read_sock performance scalability
+Date: Tue, 10 Mar 2026 20:19:44 -0400
+Message-ID: <20260311001952.57059-1-cel@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu,  5 Mar 2026 16:13:56 -0500 Chuck Lever wrote:
-> I'd like to encourage in-kernel kTLS consumers (i.e., NFS and
-> NVMe/TCP) to coalesce on the use of read_sock. When I suggested
-> this to Hannes, he reported a number of nagging performance
-> scalability issues with read_sock. This series is an attempt to
-> run these issues down and get them fixed before we convert the
-> above sock_recvmsg consumers over to read_sock.
+From: Chuck Lever <chuck.lever@oracle.com>
 
-This series seems to be lacking polish:
- - every patch which complicates the codebase should come with clear
-   characterization of the perf win
- - increasing duplication / copy paste between recv and read sock paths
- - wouldn't the data_ready suppression equally apply to the recvmsg
-   path?
+I'd like to encourage in-kernel kTLS consumers (i.e., NFS and
+NVMe/TCP) to coalesce on the use of read_sock. When I suggested
+this to Hannes, he reported a number of nagging performance
+scalability issues with read_sock. This series is an attempt to run
+these issues down and get them fixed before we convert the above
+sock_recvmsg consumers over to read_sock.
+
+While I assemble performance data, let's nail down the preferred
+code structure.
+
+Base commit: 05e059510edf ("Merge branch 'eth-fbnic-add-fbnic-self-tests'")
+---
+
+Changes since v1:
+- Add C11 reference
+- Extend data_ready reduction to recvmsg and splice
+- Restructure read_sock and recvmsg using shared helpers
+
+Chuck Lever (8):
+  tls: Factor tls_decrypt_async_drain() from recvmsg
+  tls: Factor tls_rx_decrypt_record() helper
+  tls: Fix dangling skb pointer in tls_sw_read_sock()
+  tls: Factor tls_strp_msg_release() from tls_strp_msg_done()
+  tls: Suppress spurious saved_data_ready on all receive paths
+  tls: Flush backlog before tls_rx_rec_wait in read_sock
+  tls: Restructure tls_sw_read_sock() into submit/deliver phases
+  tls: Enable batch async decryption in read_sock
+
+ net/tls/tls.h      |   3 +-
+ net/tls/tls_strp.c |  34 ++++++--
+ net/tls/tls_sw.c   | 212 ++++++++++++++++++++++++++++++++-------------
+ 3 files changed, 183 insertions(+), 66 deletions(-)
+
+-- 
+2.53.0
+

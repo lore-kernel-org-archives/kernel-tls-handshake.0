@@ -1,55 +1,55 @@
 Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24769352FB0
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 16 Mar 2026 10:13:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9659E38E132
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 16 Mar 2026 10:20:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773656042; cv=none; b=eWxYhHiza1+ql0qckFUrM1JoquN8MYKKwRCYCzgawgH0exkmR8JLpLC7+zAF6OU1TeiY/irGhsdyYU0usHH1eLiYOPbS4v+di2BVkQScU0hqcRfrRSPhXrPJIwAmSfrF+giyGGp7ND1B6+nlmOF8Hospu2+KGIz80VjdDdTg2vU=
+	t=1773656412; cv=none; b=Xa51J84l4J3nx2tEivLkHVnSzxxDIn4zALIpZpgSbZAcO/81uUF+sbzqhzWTUL5eVNHzfa4dLz+byp/+D8Gi3LYnlzsg08emVyst/P/odGJRAeGVqJ2XJ1SMKWDxjj2lOtPnhGEc/RcSmjOLpdKYVomA+tazKR69Ir3NYEROfT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773656042; c=relaxed/simple;
-	bh=9UVAHyAbT5Sl+MiwTQMn4EfKjFoBsfxG62joT2TEEqU=;
+	s=arc-20240116; t=1773656412; c=relaxed/simple;
+	bh=JGQlKOPxTkO9R0O7gX7BAtUmSLbfOsilMJFgJEgCkss=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i9HJssbhNyLTtISbC6DlyjVU2t0OQ2eE6DQ5P/y2IM3Hl/DaKVybQzJsIDOYfL8lSfvFtRK8Y4STIYaXirYJQTEP5z+qrG/awugz09DSV0YRkG8j4jYhMth3/8Mj6xoc/TfRTfmlxZ+AEAiaKxEGFBxmNIQHZ/ZNdk59Xp9HkGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=WTeO48+c; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fQAsmXCy; arc=none smtp.client-ip=202.12.124.150
+	 Content-Type:Content-Disposition:In-Reply-To; b=mm0kQ4rio14Tla7UqP3s0qxi24Z1wEnC3lXhVdd7qUc/L4dCKnM+N6nqBdxMUsGuRkngZbNE7FNUZdIRka2UL7/sHD6ZkhvyLi52pxudqkA6qvz+JkJCz0Z8jNtFafG8GZBuw0gApTZ3wIpJCnU9mj8A2LujNaTq/W/8RozfkUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=c25vflDx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZgH98OaX; arc=none smtp.client-ip=202.12.124.150
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="WTeO48+c";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fQAsmXCy"
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfout.stl.internal (Postfix) with ESMTP id 3DB4B1D0004A;
-	Mon, 16 Mar 2026 06:13:59 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Mon, 16 Mar 2026 06:13:59 -0400
+	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="c25vflDx";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZgH98OaX"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id C58D41D0013B;
+	Mon, 16 Mar 2026 06:20:09 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Mon, 16 Mar 2026 06:20:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
 	 h=cc:cc:content-type:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1773656038; x=
-	1773742438; bh=1q+7/EaTjQmDo/ZmOZRbd0ZccTDZu8hG3QPNlueC+aQ=; b=W
-	TeO48+cucFO5iv3RkV0uJKgrQiEqT6mQuBKfpxS/FUqNyihesKOGueY2T4RADPnz
-	x8prxOAI4veSOXKh4sRs8Zu5HcZAZgJSzFi2jptAN6/770OgU5C0j+UOthycVsBk
-	dbJq8jo4jJfshh3yvgLQBP4sM4AVOuRvdMHExgIH97P86oBMw7BGq43iW76T7bI+
-	fGvLIWV5rPkQ8gBLn1odvGiL4FyTY1lcHE9YiR7lYJxNz3AFFkZB6lL+rGjvgpbs
-	8mga+Q1o2rdcY9T0GPZMWwG4HvH8ptujEiWkHBp/OR+iwJr67Dw2WXQlNAvF/7lh
-	+zinf+9S04iJnZQaSMahQ==
+	:reply-to:subject:subject:to:to; s=fm2; t=1773656409; x=
+	1773742809; bh=7ukkIiEnAsgNzn5j+mMo/7NOTfk+Abk1hiqyuMAG3Kc=; b=c
+	25vflDxqmRneN1BfyVvT8equ9jwCHMHIXB/RZKjpz6TrpZI311kqY98MBCH55yhq
+	pNFrnw5u96bjcywO8PUWY6PrlWgJBHH2TjxusJ24jxveBsWUqPyr4ZjwvCz8z/7s
+	fqfOGRoiqQ3vB+ilDtNq+aizHylunQE/sWsKoTFx6H2ko0pWWBCgDQjZr5xnSeR7
+	0KYPDZ2ev6x53poIXweyIl04y4AIYXr9SdbTzdrfKsmEsuvy6XSQ6eT0ol+GDPkG
+	ITYlLMhEdQLzWgpCCcX+HIAQEQva5Ka8dxWfQnbxkCE2NOOJgGzsuWsQ39WE1z+e
+	6ZpVhCoMefHzpeB8qdHEA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1773656038; x=1773742438; bh=1q+7/EaTjQmDo/ZmOZRbd0ZccTDZu8hG3QP
-	NlueC+aQ=; b=fQAsmXCywf0eDhkC/VU5EKJJLMEcLDl8e3FNmgegH6h0aiRdU9Q
-	IMaVXptoBftMW2KJ7nvapHZMKdZ/M4YBsv/5uPjnKFQe0iZRSBP94ybAOon6gJ+S
-	Gz12KwbMh7iUsMEC3iC0xlM1wuD2u//+AZwaSiCV9J/5amkWW7QICE8kNd99UhJ/
-	MjT8TEoSzuOEiS+mqrv8lj12sfcf6BORO5P8JM6oQHWzlTFxHh+7nMnKAqdcjISw
-	+yqa3FwwP2Cb8MZqvjLpI1OSlhcZhkw3USl6HDFZ/VSYcUvUd8/DLSMDWeifgpQI
-	4eU+RzSrIazsmfpkgIV3AEN6r7N/Id02KhQ==
-X-ME-Sender: <xms:5te3aQBpQLGvdKO-1JDzFWQWli-MoZ9MeKTrfwcgEoUIbrlq6ZBOIQ>
-    <xme:5te3aTMjcrG9uJqlDCT1E80nktbfxtiT5ls7SNNeZuz8onE_0YamRwTLZeEhNIE-6
-    VGtr_HVRLJu0FLn5vzcLs_Bt2fSF4HunsxphmtWTeju7SX0G9PnjFI>
-X-ME-Received: <xmr:5te3aRyj8Q17Iz86Qvus3LRt2ZMisTXgfRz_Z5d_LjiQqHKQLagt51zr7ubb>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvleekudduucetufdoteggodetrf
+	1773656409; x=1773742809; bh=7ukkIiEnAsgNzn5j+mMo/7NOTfk+Abk1hiq
+	yuMAG3Kc=; b=ZgH98OaXZBkuSfZAWiBa/ry8ba0/b0BTMqwI4NxylHm8YfqHMhd
+	O7fO0VNDGVf9iY7CjojUBidJ9kdpWvUJ9sB61/BYVACW5cKCfuY31HU0X3W+lynb
+	6jruoq7sZXv7sIwMsitvUig2xcks1cAYC11UUAczUoXwNoz9bweiDSFGuIqcFCZY
+	AC3uUbRFdITelTtvZMG8Vs7gsZSz5thudBmmAlbf1EO8ZMvZH+kNRXh25oyKhydR
+	rhVhO86twk9Ik9LKjKOus1nW5R/9C6IIaVa7zb5DbqHXu6LcUs6Wn22pToaQjSBw
+	i1+O+fFaSNFRkfQNSl/zmbp2qzODPahPo0w==
+X-ME-Sender: <xms:Wdm3aZOMFSmfMfP_0ZQzm4Mat6m7zv9QueMbXP7k0VWys1K7AoLylw>
+    <xme:Wdm3acparHqu249NoFyI8XVLUqyUWPQi0I7_J0xbHGuSTa9ZuBIr7CWNSXUkvPgva
+    6847yniNIHkkzGrxJUgvQv_DgXxJSZt7eG-RSGbqV8QqtGDTs0MKA>
+X-ME-Received: <xmr:Wdm3aWf44DpLdKWa8nwrFpcEJ64tTlTdYrrEsUTTXymP3PLGouIO0RpP4oZx>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvleekuddvucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepufgrsghrihhn
@@ -63,25 +63,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvleekudduucetufdote
     drkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgvrhhnvghlqdhtlhhsqdhhrghnughs
     hhgrkhgvsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheptghhuhgtkhdrlh
     gvvhgvrhesohhrrggtlhgvrdgtohhmpdhrtghpthhtohephhgrrhgvsehsuhhsvgdruggv
-X-ME-Proxy: <xmx:5te3abX6igAwktcE2waiUXdUvPQFH5H3zdUK3LZWeB0I00192t8MmA>
-    <xmx:5te3abO4IaHNLRMIVLoZKfWBLmhugCOJwfQihzaf956aeUnFZcf4EA>
-    <xmx:5te3aVBxufTrXNwEXivfw36Xx1Lx3yh27b-SkbGLGn-K3bYc9lSWMA>
-    <xmx:5te3aQfdDzgczGb-fY6vFQWy38aSOGppDcTu38aRPw6wM_TI9ansUw>
-    <xmx:5te3aY6uSiRqtX8W0V7XQ-Ti0OQmWjztdxK9vKiwgvxwfW2dl-PkifCD>
+X-ME-Proxy: <xmx:Wdm3aaStN9RDkS3ql5v61AGvrtcbFntPfo1Q-qr8vvzRJsvXlV3yFw>
+    <xmx:Wdm3aXaiwCCjcr2YG_H_yXqa1bCC0TSl7xiT8mrhQS6Vyb-ppZhGzA>
+    <xmx:Wdm3aVcrLKu7iI0aRXHN5AuiC0_tk245HabAiFASF8y0L5KpCj39Iw>
+    <xmx:Wdm3aQJcf4pV8ELUHn4TP45GZYskVGHA8ZdxE_lFRPBnZNXq580-5A>
+    <xmx:Wdm3aa0pKtTvpeMpNycXmTVZPtqKBx1XbKXu6bLp-mH4dfxWjm-pmuhZ>
 Feedback-ID: i934648bf:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 16 Mar 2026 06:13:57 -0400 (EDT)
-Date: Mon, 16 Mar 2026 11:13:56 +0100
+ 16 Mar 2026 06:20:08 -0400 (EDT)
+Date: Mon, 16 Mar 2026 11:20:07 +0100
 From: Sabrina Dubroca <sd@queasysnail.net>
 To: Chuck Lever <cel@kernel.org>
 Cc: john.fastabend@gmail.com, kuba@kernel.org, netdev@vger.kernel.org,
 	kernel-tls-handshake@lists.linux.dev,
 	Chuck Lever <chuck.lever@oracle.com>,
 	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH v3 1/8] tls: Factor tls_decrypt_async_drain() from recvmsg
-Message-ID: <abfX5FOJRaIMkjTi@krikkit>
+Subject: Re: [PATCH v3 2/8] tls: Factor tls_rx_decrypt_record() helper
+Message-ID: <abfZVw216f_YU-9e@krikkit>
 References: <20260312014804.5083-1-cel@kernel.org>
- <20260312014804.5083-2-cel@kernel.org>
+ <20260312014804.5083-3-cel@kernel.org>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -90,23 +90,27 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260312014804.5083-2-cel@kernel.org>
+In-Reply-To: <20260312014804.5083-3-cel@kernel.org>
 
-2026-03-11, 21:47:57 -0400, Chuck Lever wrote:
+2026-03-11, 21:47:58 -0400, Chuck Lever wrote:
 > From: Chuck Lever <chuck.lever@oracle.com>
 > 
-> The recvmsg path pairs tls_decrypt_async_wait() with
-> __skb_queue_purge(&ctx->async_hold). Bundling the two into
-> tls_decrypt_async_drain() gives later patches a single call for
-> async teardown.
+> recvmsg, read_sock, and splice_read each open-code the
+> same sequence: zero-initialize the decrypt arguments, call
+> tls_rx_one_record(), and abort the connection on failure.
+> 
+> Extract tls_rx_decrypt_record() so each receive path shares
+> a single decrypt-and-abort primitive. Each call site still
+> initializes darg.inargs separately, since recvmsg sets zc
+> and async between the memset and the decrypt call.
 
-I was wondering if tls_decrypt_async_wait() without
-__skb_queue_purge() is ever the right thing. Once we've waited for all
-pending decryptions, async_hold's job is done, we don't need to keep
-all that memory around anymore.
+Is there any reason to keep tls_rx_one_record()? You're replacing all
+existing callers, and not introducing new users in this series. Seems
+like what you want is just move the tls_err_abort() into
+tls_rx_one_record().
 
-Should we just move recvmsg's __skb_queue_purge() into
-tls_decrypt_async_wait()?
+(I'm not convinced that "abort the connection on every error (decrypt
+fail or ENOMEM or whatever)" is right, but that's a separate question)
 
 -- 
 Sabrina

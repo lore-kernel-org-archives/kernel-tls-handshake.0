@@ -1,55 +1,55 @@
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C6A154425
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 23 Mar 2026 22:48:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61867330650
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 23 Mar 2026 23:08:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774306091; cv=none; b=usXw7VxccbPCMOrqPCfKsNPu1/TJJ6tVpp4AJbzeZKszJEL9ABgM8CV/0AxKj6eDQMTSJxCl/9eIHHOuS6W7+9kSoIlW4xGrqS3/FDstWz1SxlQt9Y0MVuxiEmLRz+n4GYoWAcW0bXVxAbIME38/IQ2C2DbmPHXUAypi5rV/o/Y=
+	t=1774307309; cv=none; b=W5m6UwTW0cwhTZAWOATlQ4NQb6DnE6O1IAp/lJKZKZ0T4dBCXyzjIxRCJAo8XXCoK/K9CGzxYvR4qgkt733DR24PpA8n5Ooe3OsymUIEtulpc/uvK7yNM6zGgRC6PrQKuWqZIwJ7tpbM7XDffyNayxWZLFWQyp2caeVv+83oxb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774306091; c=relaxed/simple;
-	bh=RLO6AJNyX9XJAF0DBbn/Uhcvy5YavrF7k5CQc+hxjUw=;
+	s=arc-20240116; t=1774307309; c=relaxed/simple;
+	bh=RnfdW/9pBIpKQVUicB6bsMgC6DCsPPoPFYdYVOYBrPw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fFHzxlIo5eF+41ocbRgkb8r8ilWoXsoTPZGyxg9u/lVTTEVNkMqnxhPEIIw/rcWggvTdH6BTrQpYtQMcw4LcVrEZk/5JrN22WKnmhRaS9LO6NYaNdo2zGWy/i0SNeqFgFkd43wR6XYu3FOWd2EgS1YWZMpTAY5bSbUseVUSfCBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=vBqhYo/+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vN9zCqiM; arc=none smtp.client-ip=103.168.172.147
+	 Content-Type:Content-Disposition:In-Reply-To; b=G6FfP8gpQpJLDMpk8zXu6TQmPXhUK/iE20ofEALDDUDXXUvStjxxbyzYSgXaYYHHMCeORR9+sDJhGZJMQuSisNLjnmtcLw9iuh/tm1MPs5umSndxIcuNkj0pVQZj6DpaNOJbCs6RLClLYoXmNAavdv6OyjppsPqbz6jASF85uG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=vSYGVvmo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Yi0gZHbz; arc=none smtp.client-ip=103.168.172.156
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="vBqhYo/+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vN9zCqiM"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 5991FEC01AD;
-	Mon, 23 Mar 2026 18:48:07 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Mon, 23 Mar 2026 18:48:07 -0400
+	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="vSYGVvmo";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Yi0gZHbz"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 88304140023C;
+	Mon, 23 Mar 2026 19:08:26 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Mon, 23 Mar 2026 19:08:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
 	 h=cc:cc:content-type:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1774306087; x=
-	1774392487; bh=2yCnX6k580YaFLlM7722Ft5nCmkBkVP/WzIu2z0gYWs=; b=v
-	BqhYo/+0aQgvb3d+U9Ofn/o1NMRn5qcOEZpF9FN2UmlYRrei1O7aQwaXEo+GQY1y
-	IQmPOPb7BmZnVt4YScDKALH9J1GrDp2hELauWtjvUr56SPBcDa3878KE3JZTEjUG
-	4anvnrAVybe095RlJtsul6NDFn4FHx0kxmLY0tHSltMT0nil/pSn24bQpwzQuCo4
-	N9bvjNmSU/3HiyOybtAbyja87LWNbx9o0uBqDzObGdPYCB+ZuaWIbir4IIuX5LTz
-	AhN3cTjab6nZa1eGJYqpUeOYe2w2Pov474QouxBtFBn8DdrzIcVglsw7kMQ/fW+v
-	gCRZ7SNhZSNIEWKkxau0w==
+	:reply-to:subject:subject:to:to; s=fm2; t=1774307306; x=
+	1774393706; bh=kNO80lxUmDbPxGe1NY815tnXyLm4pm/WkvKISCnpC6M=; b=v
+	SYGVvmokV8lJJRtCDXzYuM1s/FmgkNZOs1fiL8zCfnw62GMEaVYGEs2ypzr+lEb+
+	4o4rOf4ohFRQlyBRMR/4Ge/lKRv48It7zSJKTupx6/Frzqef3DD4lb8Zjs48GNYO
+	9Bk+wsZkoAW887O3Gy8gM1EtDtFUU1f1csEE8I6QJwXbSTYaEHi0O9dnnkr4kw1n
+	uiK87tW1a5+iM6Xve8uSjgN71m/7OWzweX/4fQMf+jXpPdwFUrxudnht4DzZAH+c
+	pPusl3QaczXlkXS3zSL+n0Q8IDURTFxZKPZHt96dZYKJ7qXX6w+zPqYIYZ1lWnT1
+	HxUbkuE45Oqet+HZU0KJw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1774306087; x=1774392487; bh=2yCnX6k580YaFLlM7722Ft5nCmkBkVP/WzI
-	u2z0gYWs=; b=vN9zCqiMGxRmr0WXy7NjhkwfMAdJ7fQsuH6UCyBhKCgfUKJyGTs
-	v0SDGcgWQzFXmLyDk02Tevl2ZhB5eV0ozZNVldgTnukrNEZKRTlAwp63lZ3ZVr73
-	291pPx7pkgixkoAOPKF72rTYsoiw5VvC7ctYAauktvhIxloaDjqLcW8pJZS6ftle
-	INAMDJWmjPWI1H1lsSZS2s1J0AbUvmq/smmhxQWKQbEj6DR24YmBXeIp85yXwlV1
-	R/hD+jcu2G38UgD7krVX/2mgbq1LYv8MVFWmIfmeOhpUaDH1QZGVsdstcQ6kUOSP
-	fxXg5D3Rt0ctr/PmNYnrsQCDDpVwVaelT6w==
-X-ME-Sender: <xms:J8PBabn_Fsd-yQHRnAJU9X1KoCcndmXU6Fss97H0Ge_Va4rkBv_zkA>
-    <xme:J8PBafiFxiluk2RbvqtYmuVaD5d2Bqwaj1nak0ib9RWf15cItyX7DBeqJWVPTI-2K
-    _i_84uNfexpHETT5Ek5ljyXWG2_CAmqrOF_hh_nQHdY6FOW_hF9_qY>
-X-ME-Received: <xmr:J8PBaf2uOP4S7o4rjoaquD-lElHVeSRz7Q2K1IyH1e9jHVlWgbY_HnfwXQYO>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefudelleehucetufdoteggodetrf
+	1774307306; x=1774393706; bh=kNO80lxUmDbPxGe1NY815tnXyLm4pm/WkvK
+	ISCnpC6M=; b=Yi0gZHbzXd2+y3It+vT6cVyZcF+X6eou4vm1faYEJGmRtJxdPfJ
+	rzwKfnYlHf/QXfnNhJyN0fq6vqX4TT6CkP5wAR2WVrKk7Y+9xpz3WhphOWDVs+7i
+	yXgJujls/AKAYxfSsSUMmSDhNnTaU6x+dexxeJ04jr+7H9ka/wmqs6nmUZ3FIaab
+	Gi6R1KRSjJQm5jQfinQMuJe7KBiDwsooEG0Rz2qA+LV5pDAa+Tp1MR91B9idZ1W+
+	ZqGoXQMvtsPQU+RhWHznlv6HSfsgnhlZ4/YpaL5s+fvEESmfs/KIXilt5ZFa6L6W
+	++N0vYOmbYv8T746LdzJQJL1b1X3uqH15pQ==
+X-ME-Sender: <xms:6sfBafmKvCLEo8Ooe_vsRKwPHDVBVZG9Vh_3nUWeT4_-z4XfjeksPg>
+    <xme:6sfBaThQXskTEtmOYHgW1qaNcVmEMLNrpf-TH3oAHolMLeQRITH36hd8TfYwvrBDS
+    dDt0tbCXnz_BKkGVVrrc9PHHSLg4Yy-iI9e5BcPMFzaf5fs0Z6JGg>
+X-ME-Received: <xmr:6sfBaT1Mj0Q-mQoPm305zyHKARvfWFEDdMicyz6ScBeCKJC1Noikz6_bfwsF>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefudelleelucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepufgrsghrihhn
@@ -63,15 +63,15 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefudelleehucetufdote
     drkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgvrhhnvghlqdhtlhhsqdhhrghnughs
     hhgrkhgvsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheptghhuhgtkhdrlh
     gvvhgvrhesohhrrggtlhgvrdgtohhmpdhrtghpthhtohephhgrrhgvsehsuhhsvgdruggv
-X-ME-Proxy: <xmx:J8PBaYIv4zQDRQvK7BhyOZdY_fRQF0J4rfeYfAt5RKPcGZhrKXm6OA>
-    <xmx:J8PBafxhHJ1Oin78Xh52CfMUBBiimBCaQi1akr-MrWFrGV0LiQ_khA>
-    <xmx:J8PBaWUb188BmZjoS75Fsf5ZAAPpna8br6buHBXptgNRncnNtKDgmg>
-    <xmx:J8PBafgl3CvCOmkqRWLhuNuOBZtwRlOydmLF2uTJkbCOhYa1Z2NlCA>
-    <xmx:J8PBaev7Sb85V-FVyHd8nvVrR8B9sVuTDyKDfUG8wDXentAEiR5qzVzR>
+X-ME-Proxy: <xmx:6sfBacKjC3AsYFQeGvekSbgvWV_tQ8QGvd-klvoAXvIxfY4IPk1-xw>
+    <xmx:6sfBaTxhx9Bnk_SqWkTj3BaEXcu_-GmkOAGXt0dTzryLoFhZ8jm8qw>
+    <xmx:6sfBaaVJ-T-QqsmD2ERgccU5OAeIRcRyFbiIT_TrYnWGbjF7A5tkIw>
+    <xmx:6sfBaThX98IInSEl2FIsKQLlxAqtz8EuoxiP2qLFqXU-IOEV1aBlaw>
+    <xmx:6sfBaStk14P6JPJ2fJh0YWfabs2px5uvTvscguOL65loGPnvEUspqp5d>
 Feedback-ID: i934648bf:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 23 Mar 2026 18:48:06 -0400 (EDT)
-Date: Mon, 23 Mar 2026 23:48:04 +0100
+ 23 Mar 2026 19:08:25 -0400 (EDT)
+Date: Tue, 24 Mar 2026 00:08:24 +0100
 From: Sabrina Dubroca <sd@queasysnail.net>
 To: Chuck Lever <cel@kernel.org>
 Cc: john.fastabend@gmail.com, Jakub Kicinski <kuba@kernel.org>,
@@ -80,10 +80,11 @@ Cc: john.fastabend@gmail.com, Jakub Kicinski <kuba@kernel.org>,
 	Hannes Reinecke <hare@suse.de>
 Subject: Re: [PATCH PATCH net-next v4 8/8] tls: Enable batch async decryption
  in read_sock
-Message-ID: <acHDJNNqZlFIm84n@krikkit>
+Message-ID: <acHH6NVykWZo5Q3Q@krikkit>
 References: <20260317-tls-read-sock-v4-0-ab1086ec600f@oracle.com>
  <20260317-tls-read-sock-v4-8-ab1086ec600f@oracle.com>
- <0cf288bb-6ab1-4f2b-8a7f-727b3e1fe0d2@app.fastmail.com>
+ <acFK4DWAD5h_Oc0f@krikkit>
+ <5190a4bf-cc66-424e-9c67-ffb3ddb58030@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -92,36 +93,49 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0cf288bb-6ab1-4f2b-8a7f-727b3e1fe0d2@app.fastmail.com>
+In-Reply-To: <5190a4bf-cc66-424e-9c67-ffb3ddb58030@app.fastmail.com>
 
-2026-03-23, 17:28:27 -0400, Chuck Lever wrote:
+2026-03-23, 11:04:16 -0400, Chuck Lever wrote:
 > 
-> On Tue, Mar 17, 2026, at 11:04 AM, Chuck Lever wrote:
-> > From: Chuck Lever <chuck.lever@oracle.com>
+> On Mon, Mar 23, 2026, at 10:14 AM, Sabrina Dubroca wrote:
+> > 2026-03-17, 11:04:21 -0400, Chuck Lever wrote:
+> >> +/* Bound on concurrent async AEAD submissions per read_sock
+> >> + * call.  Chosen to fill typical hardware crypto pipelines
+> >> + * without excessive memory consumption (each in-flight record
+> >> + * holds one cleartext skb plus its AEAD request context).
+> >> + */
+> >> +#define TLS_READ_SOCK_BATCH	16
 > >
-> > tls_sw_read_sock() decrypts one TLS record at a time, blocking until
-> > each AEAD operation completes before proceeding. Hardware async
-> > crypto engines depend on pipelining multiple operations to achieve
-> > full throughput, and the one-at-a-time model prevents that. Kernel
-> > consumers such as NVMe-TCP and NFSD (when using TLS) are therefore
-> > unable to benefit from hardware offload.
-> >
-> > When ctx->async_capable is true, the submit phase now loops up to
-> > TLS_READ_SOCK_BATCH (16) records.
+> > I suspect that at some point, we'll have a request to make this
+> > configurable (maybe system-wide, maybe by socket?).
 > 
-> It appears that async_capable is always false for TLSv1.3. Since
-> TLSv1.3 is a hard requirement for both NVMe/TCP and RPC-with-TLS,
-> patch 8/8 is moot for us. For the moment, I'm going to drop this
-> one from the series.
+> I appreciate your careful and close review. The series has
+> improved significantly.
+> 
+> I will admit that the current value (16) is arbitrary. I agree
+> that someone might want to modify this value. At this point,
+> however, the constant is straightforward and it is still quite
+> easy to promote to a tunable later if that proves to be needed.
 
-Then 7/8 is also not useful, and the series boils down to a few small
-improvements (tls_decrypt_async_drain, spurious wakeups, checking the
-backlog), which are not limited to read_sock. [nothing wrong with
-that, it's just a different focus from what you started with]
+Agreed.
 
-> Once Alistair's KeyUpdate work is merged, we can revisit.
+> The right interface for this depends on kTLS consumer needs
+> that aren't clear (to me) yet.
 
-Are you planning to add support for async crypto with TLS1.3?
+In this case (read_sock), the kTLS consumer is NVMe/TCP etc, and
+specifically users of those features with crypto acceleration
+cards. I'm not familiar with either.
+
+> But let me know if you have a
+> preferred API mechanism or a specific use case in mind, or if
+> there is a netdev policy that should guide the introduction
+> of a suitable API for this purpose.
+
+Nothing specific, I just thought I'd mention it since I was replying
+to the patch anyway. I think at this stage "it seems easy to promote
+to a tunable later" is enough consideration (just to avoid getting
+trapped in some API (or lack thereof) and unable to change it, but I
+agree that it shouldn't be a problem here).
 
 -- 
 Sabrina

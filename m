@@ -1,90 +1,88 @@
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE3C37CD26
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 23 Mar 2026 10:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F810370D47
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 23 Mar 2026 11:31:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774261942; cv=none; b=qNXC5ZwVaUqQTJRS6wXhMi4WI+v8QKiyd9Sph2VJTZ93ocfm5aZS7pZ+U0pDciNjNPjIGwr+KgI5OpNEsmsUIiaTxKKwqC/RHSrGCQ1E+4g+c1+HyNP5b80z20XQ3TUlFSOkUOoIZJnP+8MHR1a3FnWVO+IUY8RMFWeH+q0ZtAo=
+	t=1774265488; cv=none; b=Hv6fIn7JObOH9KhTOSDK2eAKUI1iEe6PgnlnYGXGtCZAt8hLSXWNnvbX/CfRjMgCM1EtiO1MAyNdxuJJhceALpSpF8G9ws3kx2dT+o/u5Kx+cJ5ffrQq0onqTXjKMERWtWp0au5PovJdeUJCLmWl9djR7a3voA6fUmgbduStZAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774261942; c=relaxed/simple;
-	bh=Jbm3gL9m+5ehEdpaNRD6Q+tk2vD2OrCJCif7iJG7zlI=;
+	s=arc-20240116; t=1774265488; c=relaxed/simple;
+	bh=UJcEnc5AWCHo1mHbu9Gr+oY1HftJroueaHxJIUNHybA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S7Xyk+nz617VImQjPUE3ljWyj8/V1YWP6D+kaytFYExxFQ5DsQtfm+PJdTCq2uRAFbPI4WOwd1GMrPyK8qKM5oUpf9U3JtohDJdVkCuUQgRgP7bQJWirjQCPBiZB7/+lYiSQRYaFioY3CorRNqjFZ743qgUmLgxCMP+5QotABzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=KH5kXMzR; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KwA12vbP; arc=none smtp.client-ip=103.168.172.145
+	 Content-Type:Content-Disposition:In-Reply-To; b=MV6opgyMPuHzEjorWaCGvsqpmP9JlF8iBUf4sHbGqP71VPzdABlkWb4gUV7Zovafg1A1lDpJcvjMdtZDjy3fFJowLU9PNtm3VVkLAgFBiKvVJ/PXHJ+hZe4/3eiw5Qb4BvESDmz3efSVW+4tY7vLir9z+yUDOfzs9yuqHwM6MKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=htFl5Xkc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=1kD77AOa; arc=none smtp.client-ip=103.168.172.156
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="KH5kXMzR";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KwA12vbP"
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfout.phl.internal (Postfix) with ESMTP id C4286EC0128;
-	Mon, 23 Mar 2026 06:32:19 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="htFl5Xkc";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="1kD77AOa"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6FD321400082;
+	Mon, 23 Mar 2026 07:31:25 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Mon, 23 Mar 2026 06:32:19 -0400
+  by phl-compute-06.internal (MEProxy); Mon, 23 Mar 2026 07:31:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
 	 h=cc:cc:content-type:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1774261939; x=
-	1774348339; bh=hJduocjrXMFZdNZhvfojWfHM8U/AGpgvy3BJBMoTKxE=; b=K
-	H5kXMzRJLCRfKUx7xm9MpURHHqr3pewIUOO+/z4FBwNYkU1njyUbv6vGG8B+OkIA
-	A00SYtxt61lmb+9eD8GdqoCaufUyD3IUiqwXHLID53sIl2RiME+kgZPb4S7GWJcc
-	ngHv5Yzxap9NMfbXO3FUHe/CkVxcW8Lv0EQ+DWVhSEuLsuxnYRVwyIPniGJLnPLb
-	i+6dW+awYUxIpMV+qCCtVyUftVYHDJzDEGo7VHG1iIifbJeWBTUU4H5AaxNcQzRI
-	qg/PzwqcF3RTwqQOQBNiaIfjQNHLrW7KAJkwz741+RbwL7JI1A1/9r8TqkkACZ/3
-	BHqYpXPjckz/y2TDEa8bw==
+	:reply-to:subject:subject:to:to; s=fm2; t=1774265485; x=
+	1774351885; bh=vRsmg8gaC0t46C47uqnzqJL9EPThq2kwCz/1WO6apZs=; b=h
+	tFl5XkcYnDjsA0RfCekZL84JZO62jgzanvxAdZV4gb/Y5+Jadcqi0Jyf1atsPpmI
+	L8XUNYu2o5ltjnAQy9oz8eTRPyiXn/1MR9Zo8TQTNylo34a29ClSmmIhEJfplkkH
+	yLZ/+wXkW+6RhDR6pudEEfnPsMGrraJnkvndtASQq//R1ai8Qo4NoCn68Aqb+j93
+	3gMzEBAC3+Jk2xQc0eIDUZjyy7IuL2pdGf1Gl8IgbS5TFsAI/KyxiQQibDb8QA0k
+	bmHA9uJmBecKI34vr7ey8lJobuRbVfgRL2+dBkx3sCTH5zsk9ZEsdJ/hM/+W7WBD
+	h+qSsT1z3/yKDFsIIRt3w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1774261939; x=1774348339; bh=hJduocjrXMFZdNZhvfojWfHM8U/AGpgvy3B
-	JBMoTKxE=; b=KwA12vbPnobgmBTINviBQc0sZ6Gs8d2Vqf3Hg4t9diV0UP1Q0X6
-	pSQA1Feaoxuit7rw0hgA2SVwgJcEFTX1nOcq+BfkrCEHXeVJQamMyulNQt5Aw7WQ
-	V5rGtVwdX8YD5IndRMGcmab9vpeUGl4GLvAfX6oDaIEhZCHU2hPtqXj/gxFpD6Zk
-	JMYQulgN8LzhddTc5xeir02Ksx0IhMNRBGgDWkTG3/Y6cQhtW2EuZbEe07gJTaBt
-	IAD+jOcvfD1xsnw9O/mVwTcvTsQNwU6c6MpVVMLBUVFd0HFjdLCjVlJt1wU7doUP
-	cMVlWOPLujoVRpGFR7V7PEkUyPMCf5yqi9g==
-X-ME-Sender: <xms:sxbBad6-KzjXQzGArpRJEKYiXEoTkQEQELVgyABF521khGEsxh7Cag>
-    <xme:sxbBaU7WrCUy7dskj7vNRBD83XcUKN2lP9iRY3NdzGprLfOMNzjp-bbu6Ydb07aig
-    rld6SdW6y1C28h0MuFh9f65vHYSGLmaJlTfTXbqG8BBv37VIuYUZ9Vo>
-X-ME-Received: <xmr:sxbBabHhR6-mGeECY53f50Qq0sy_QETVEBB0OJPeMygSynNC8PkcilIKcauv>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefudekgeekucetufdoteggodetrf
+	1774265485; x=1774351885; bh=vRsmg8gaC0t46C47uqnzqJL9EPThq2kwCz/
+	1WO6apZs=; b=1kD77AOaOInma6GRlt+l9GZFMovJEu7ppKM5Ad0pPxpFm0yGEw3
+	SJJkaaybW03YL2t2+U1/VMvS1Uect+0bxfvuh482iUTFhizUKHim8sQUzv+dOuw7
+	N8v2MDgbbZdc+uMI2q1TSLutFNar5KYdRI3ON5emkaqkg1MO6719/6tytM/nUUeN
+	hAyd9yXsTn4haroMRMl4Otpi3KlN1atiXjcrxfdzPD9h/cFdso0zvk1eCAzgNKna
+	WOpBYmVB9hVMvJuMZ4xO12PU2mZRxLwh07ovnLNlFuWwDOH11s7nmi/r/UXCcYr2
+	lWkoBMJT4ojmhxIYgtFBxv5T37UA3Pv7Rfw==
+X-ME-Sender: <xms:jCTBade-XD8TcMNkej4lNEyz7zlq82-3CfK_oCbWklxVv6Tn3InI8w>
+    <xme:jCTBab7Z1Tykoke6PQWy3_ar0MAZnqaJ11VO5lbVRI5Q7WQAtTlDnJo3a7dUvmxsp
+    1IOy0ZI9oV4Ovoparmo5qqOUSMbzWUk7JBu15DvzsdoC9i_g6vEOv5R>
+X-ME-Received: <xmr:jCTBaUs-i88ztYURTyEn9sO3whGpR0dz9-lVZ6uPmwbKiHnQp_HFC76LyPJc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefudekiedtucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepufgrsghrihhn
     rgcuffhusghrohgtrgcuoehsugesqhhuvggrshihshhnrghilhdrnhgvtheqnecuggftrf
     grthhtvghrnhepuefhhfffgfffhfefueeiudegtdefhfekgeetheegheeifffguedvueff
     fefgudffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshgusehquhgvrghshihsnhgrihhlrdhnvghtpdhnsggprhgtphhtthhopeekpdhmohgu
+    epshgusehquhgvrghshihsnhgrihhlrdhnvghtpdhnsggprhgtphhtthhopeejpdhmohgu
     vgepshhmthhpohhuthdprhgtphhtthhopegtvghlsehkvghrnhgvlhdrohhrghdprhgtph
     htthhopehjohhhnhdrfhgrshhtrggsvghnugesghhmrghilhdrtghomhdprhgtphhtthho
     pehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvthguvghvsehvghgvrh
     drkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgvrhhnvghlqdhtlhhsqdhhrghnughs
     hhgrkhgvsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheptghhuhgtkhdrlh
-    gvvhgvrhesohhrrggtlhgvrdgtohhmpdhrtghpthhtoheprghlihhsthgrihhrrdhfrhgr
-    nhgtihhsseifuggtrdgtohhmpdhrtghpthhtohephhgrrhgvsehsuhhsvgdruggv
-X-ME-Proxy: <xmx:sxbBaUUcRKQHp3AJ3mhyYLWlwAL23TY2CylV68gH0YZS7dgAXVz2kw>
-    <xmx:sxbBafVXxYqtytoDDvxVGCKasEoA28FHZV-wJR6mhqQOs4qG6dw68w>
-    <xmx:sxbBaaJxnCEYpKW3yB-n0uoSWyXvgPDAmS_EpEJlGr-4_CN3ttI9mw>
-    <xmx:sxbBafDCKaJTTLHjwnUfwVNDWGcGsV4F6oPq6PT3AlxwG1R41vs_LQ>
-    <xmx:sxbBaZqjAON9OzSwlUmxNHZiJUj-BfmPDRU54vNs6hrbyN4tnSo4Y6hN>
+    gvvhgvrhesohhrrggtlhgvrdgtohhmpdhrtghpthhtohephhgrrhgvsehsuhhsvgdruggv
+X-ME-Proxy: <xmx:jSTBabhHskHiqIwCjY8gXx9uHsffUyPXfa7W7wf4p_wQDjkg4D_-kA>
+    <xmx:jSTBafo00kbDqaOXxirBPqe0zmPx8E3qQ_haGGIUEngYN7672bRHgg>
+    <xmx:jSTBaYsl-jP2Wh7RKlo9iOFh8Tbd7Zj4PLPnK1TV7EkhCNjM2sdsNg>
+    <xmx:jSTBaSac7ZjD6-M7_wVaw-go0rkmxWkykUBkF9M0i5nWpPCazH-X0g>
+    <xmx:jSTBaQF86X203klVYStzGXEU7IvGJu3c9OnwMyVpkYX7oj7a3-zUgadP>
 Feedback-ID: i934648bf:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 23 Mar 2026 06:32:19 -0400 (EDT)
-Date: Mon, 23 Mar 2026 11:32:17 +0100
+ 23 Mar 2026 07:31:24 -0400 (EDT)
+Date: Mon, 23 Mar 2026 12:31:22 +0100
 From: Sabrina Dubroca <sd@queasysnail.net>
 To: Chuck Lever <cel@kernel.org>
 Cc: john.fastabend@gmail.com, kuba@kernel.org, netdev@vger.kernel.org,
 	kernel-tls-handshake@lists.linux.dev,
 	Chuck Lever <chuck.lever@oracle.com>,
-	Alistair Francis <alistair.francis@wdc.com>,
 	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH PATCH net-next v4 5/8] tls: Suppress spurious
- saved_data_ready on all receive paths
-Message-ID: <acEWsQOtWq3B62yi@krikkit>
+Subject: Re: [PATCH PATCH net-next v4 7/8] tls: Restructure
+ tls_sw_read_sock() into submit/deliver phases
+Message-ID: <acEkik8Bt_PILxPL@krikkit>
 References: <20260317-tls-read-sock-v4-0-ab1086ec600f@oracle.com>
- <20260317-tls-read-sock-v4-5-ab1086ec600f@oracle.com>
+ <20260317-tls-read-sock-v4-7-ab1086ec600f@oracle.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -93,111 +91,74 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260317-tls-read-sock-v4-5-ab1086ec600f@oracle.com>
+In-Reply-To: <20260317-tls-read-sock-v4-7-ab1086ec600f@oracle.com>
 
-2026-03-17, 11:04:18 -0400, Chuck Lever wrote:
+2026-03-17, 11:04:20 -0400, Chuck Lever wrote:
 > From: Chuck Lever <chuck.lever@oracle.com>
 > 
-> Each record release via tls_strp_msg_done() triggers
-> tls_strp_check_rcv(), which calls tls_rx_msg_ready() and
-> fires saved_data_ready(). During a multi-record receive,
-> the first N-1 wakeups are pure overhead: the caller is
-> already running and will pick up subsequent records on
-> the next loop iteration. The same waste occurs on the
-> recvmsg and splice_read paths.
-
-nit: splice_read is less of a problem since it doesn't loop over
-records?
-
-
-[...]
-> +void tls_strp_check_rcv_quiet(struct tls_strparser *strp)
-> +{
-> +	if (unlikely(strp->stopped) || strp->msg_ready)
-> +		return;
-> +
-> +	if (tls_strp_read_sock(strp) == -ENOMEM)
-> +		queue_work(tls_strp_wq, &strp->work);
-> +}
-
-c/p of tls_strp_check_rcv isn't nice. Add a 'bool wake_up' argument
-instead? [but see the comment about recvmsg]
-
-
->  void tls_strp_check_rcv(struct tls_strparser *strp)
->  {
->  	if (unlikely(strp->stopped) || strp->msg_ready)
-> @@ -551,6 +566,8 @@ void tls_strp_check_rcv(struct tls_strparser *strp)
->  
->  	if (tls_strp_read_sock(strp) == -ENOMEM)
->  		queue_work(tls_strp_wq, &strp->work);
-> +	else if (strp->msg_ready)
-> +		tls_rx_msg_ready(strp);
-
-Since that's now the only caller of tls_rx_msg_ready, and all that
-does is call saved_data_ready, inline it here?
-
+> Pipelining multiple AEAD operations requires separating decryption
+> from delivery so that several records can be submitted before any
+> are passed to the read_actor callback. The main loop in
+> tls_sw_read_sock() is split into two explicit phases: a submit
+> phase that decrypts one record onto ctx->rx_list, and a deliver
+> phase that drains rx_list and passes each cleartext skb to the
+> read_actor callback.
+> 
+> With a single record per submit phase, behavior is identical to the
+> previous code. A subsequent patch will extend the submit phase to
+> pipeline multiple AEAD operations.
+> 
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> ---
+>  net/tls/tls_sw.c | 70 +++++++++++++++++++++++++++++---------------------------
+>  1 file changed, 36 insertions(+), 34 deletions(-)
+> 
 > diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-> index 07f4a3d1a6f854acc7762608cc7741b3de95c195..381a723b6cacc669e333752af34f051f296d6f52 100644
+> index 5b154afbd7ac2ddd51b46d8d6bef0a7a41f0a841..5ae7e0c026e4437fe442c3a77b0a6d9623816ce1 100644
 > --- a/net/tls/tls_sw.c
 > +++ b/net/tls/tls_sw.c
-> @@ -1384,7 +1384,10 @@ tls_rx_rec_wait(struct sock *sk, struct sk_psock *psock, bool nonblock,
->  			return ret;
->  
->  		if (!skb_queue_empty(&sk->sk_receive_queue)) {
-> -			tls_strp_check_rcv(&ctx->strp);
-> +			/* tls_strp_check_rcv() is called at each receive
-> +			 * path's exit before the socket lock is released.
-> +			 */
+> @@ -2346,8 +2346,8 @@ int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
+>  	struct tls_context *tls_ctx = tls_get_ctx(sk);
+>  	struct tls_sw_context_rx *ctx = tls_sw_ctx_rx(tls_ctx);
+>  	struct tls_prot_info *prot = &tls_ctx->prot_info;
+> -	struct strp_msg *rxm = NULL;
+>  	struct sk_buff *skb = NULL;
+> +	struct strp_msg *rxm;
 
-I'm not convinced this comment will make sense to someone reading the
-code outside of reviewing this series.
+nit: networking tries to follow the "reverse xmas tree" ordering (a
+bit broken in ktls because of context structs).
 
-> +			tls_strp_check_rcv_quiet(&ctx->strp);
->  			if (tls_strp_msg_ready(ctx))
->  				break;
->  		}
-> @@ -1867,9 +1870,9 @@ static int tls_record_content_type(struct msghdr *msg, struct tls_msg *tlm,
->  	return 1;
->  }
->  
-> -static void tls_rx_rec_done(struct tls_sw_context_rx *ctx)
-> +static void tls_rx_rec_release(struct tls_sw_context_rx *ctx)
->  {
-> -	tls_strp_msg_done(&ctx->strp);
-> +	tls_strp_msg_release(&ctx->strp);
->  }
->  
->  /* This function traverses the rx_list in tls receive context to copies the
-> @@ -2150,7 +2153,7 @@ int tls_sw_recvmsg(struct sock *sk,
->  		err = tls_record_content_type(msg, tls_msg(darg.skb), &control);
->  		if (err <= 0) {
->  			DEBUG_NET_WARN_ON_ONCE(darg.zc);
-> -			tls_rx_rec_done(ctx);
-> +			tls_rx_rec_release(ctx);
->  put_on_rx_list_err:
->  			__skb_queue_tail(&ctx->rx_list, darg.skb);
->  			goto recv_end;
-> @@ -2164,7 +2167,8 @@ int tls_sw_recvmsg(struct sock *sk,
->  		/* TLS 1.3 may have updated the length by more than overhead */
->  		rxm = strp_msg(darg.skb);
->  		chunk = rxm->full_len;
-> -		tls_rx_rec_done(ctx);
-> +		tls_rx_rec_release(ctx);
-> +		tls_strp_check_rcv_quiet(&ctx->strp);
+[or just leave this alone because setting it to NULL doesn't hurt?]
 
-This one worries me: if tls_strp_check_rcv_quiet() sets msg_ready=1
-without calling saved_data_ready. If we break out of the loop after
-this, the final tls_strp_check_rcv() just before returning from
-tls_sw_recvmsg() will do:
 
-void tls_strp_check_rcv(struct tls_strparser *strp, bool wake_up)
-{
-	if (unlikely(strp->stopped) || strp->msg_ready)
-		return;
 [...]
+> +		/* Phase 2: Deliver -- drain rx_list to read_actor */
+> +		while ((skb = __skb_dequeue(&ctx->rx_list)) != NULL) {
+>  			rxm = strp_msg(skb);
+>  			tlm = tls_msg(skb);
+> -			decrypted += rxm->full_len;
+>  
+[...]
+> +			copied += used;
+> +			if (used < rxm->full_len) {
+> +				rxm->offset += used;
+> +				rxm->full_len -= used;
+> +				if (!desc->count)
+> +					goto read_sock_requeue;
+> +			} else {
+> +				consume_skb(skb);
+> +				skb = NULL;
+> +			}
+>  		}
+> +		/* Drain all of rx_list before honoring !desc->count */
+> +		if (!desc->count)
+> +			break;
 
-and not call saved_data_ready?
+I'm not really familiar with the read_sock users, why is it ok to
+ignore desc->count reaching 0 while we're in the rx_list loop?
+
+>  	}
 
 -- 
 Sabrina

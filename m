@@ -1,103 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C913FA5DF;
-	Tue, 24 Mar 2026 12:54:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DAE361642;
+	Tue, 24 Mar 2026 13:18:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774356845; cv=none; b=jhgmLrDiDNhGrIkTTLe+esAIlr8CZVt6zkUkiiguRWeeqjoJYtNHsDx1yuqZfpcYV7lVLM95f+UoujJJlRgs6TUCVDgOv+ErmPTP6mf6aJvNEhOwAgs+kyKggwandsodOGQ1A6KGT6UhHGLfJLAuM8cIWbA3xuFCneJOpZmEsBU=
+	t=1774358281; cv=none; b=I6nqmN1pwH8Qv49XzR8xjFFSnXTeA9kvl39FZacaoJhBKOToDxfSDleinRqfN36iUG3d5puljja7xQYtex+iMazvGwOvN/+vlACAgoZnHn1Paj6p5D4eFiaZl+STlcg3TQOiql40Jj0fk/B2yc0xci9+16bzM/hi6AvoURc1SeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774356845; c=relaxed/simple;
-	bh=1VJEnpw2CrDV2ySqSsp5pd8INZnr9epy9e6tlLxTpM4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GEOlyEW45+kh8CHyJ0l1vHpbKmf27IDposWxkvqmgmGRG8qCOl3dv2zHlG7Zh+ibsox4FlWa3W2gTuZInuT5qlAO/THtqkQUAjAS/6B42J4e+OYgrY/eRdb4umG4aVHrChZ2N8Lf825wYzn6nwy4VSPOasoLg04I3LFDgtEMD8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tlj9+vxT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774358281; c=relaxed/simple;
+	bh=HpLBCnCa1xKeSeAwPwZvfU+iZI2wQruNJBD/Bjtt7xs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=o+beL4VEnlWEl0Ybu6Ox50vRj5fnkoot2iEUwM3809R4SD92JQyTlwyreJAYhWvmKy2lzH7Wzze8LeXD4QTjS3wYNLByhnnaNbtC9tT2RYYCloYMhE2sR76EAMx7p9v/RL+1MO1OG7ap5i6BruEDXDvJ0D0XuFSGi4OfSd83+Ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SgKkkKaw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tlj9+vxT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74231C19424;
-	Tue, 24 Mar 2026 12:54:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SgKkkKaw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC1CDC19424;
+	Tue, 24 Mar 2026 13:17:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774356845;
-	bh=1VJEnpw2CrDV2ySqSsp5pd8INZnr9epy9e6tlLxTpM4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=tlj9+vxThPyvTzUEjL1L6UEDSlCrK+ewqvhGzfm20vkS5/ROTJUwNzpv0M3xhoaRI
-	 8zbHXoyCBN1+Ypoqx0DG+ZOXlx8mOE+gOOi71Mua3mHV0rk+9YH2voM9Tpa0yAWLjI
-	 wqcQ7N8807qpjEnsyXJlnJ9pcFWK4kdW7G0dVNMPub9/+UMOtZ6K/ypbzMIG6aZ019
-	 Y9xY3qjdhsa3ceWmYS45aL8hoaJL6NbBjTv9Algj4n2hU1w1FPBWs1BvrJ6uc3W7TP
-	 hmAu3rcea8/s5OLyKVRutdiLQQze37xQC3J0F06X8+aUZO7Csm2rJjuuRppNqd4Eeg
-	 dj0/EUagA6DCA==
-From: Chuck Lever <cel@kernel.org>
-Date: Tue, 24 Mar 2026 08:53:28 -0400
-Subject: [PATCH net-next v5 6/6] tls: Flush backlog before waiting for a
- new record
+	s=k20201202; t=1774358280;
+	bh=HpLBCnCa1xKeSeAwPwZvfU+iZI2wQruNJBD/Bjtt7xs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SgKkkKawaLyaRSyyYzCRV8n53IrfhlExirYkmudIsRcPrVUShRbEoG7tJSpdIjP4n
+	 abcb7cMTrrpqhSqHSyhmi0306RqDE86h0/FsAsg7A1V7kklJN9AxwWvmLOdBgjTmeC
+	 C1+hwKp8sZ/uoyRIF8QFuwtbAiL6zKniR2evCXsFioBUil+TpXFbWbN+s0NzvFPILV
+	 AVcdBxDVyoegkq7g6ojkPaKVQ8RBRC3pQPNA2zAFbDUgz8W1PexVkK2iGnZMSct0ri
+	 mazOqv/Ye+oknsXXrZ5IkZb/dah7+FiIiII5nuxd3+jC789HflgXzaJVwBikBrUgi0
+	 0pao3CRtXiYOQ==
+Message-ID: <b48d4311-51f2-4e71-8324-303af224bac6@kernel.org>
+Date: Tue, 24 Mar 2026 09:17:57 -0400
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260324-tls-read-sock-v5-6-5408befe5774@oracle.com>
-References: <20260324-tls-read-sock-v5-0-5408befe5774@oracle.com>
-In-Reply-To: <20260324-tls-read-sock-v5-0-5408befe5774@oracle.com>
-To: john.fastabend@gmail.com, kuba@kernel.org, sd@queasysnail.net
-Cc: netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH PATCH net-next v4 8/8] tls: Enable batch async decryption
+ in read_sock
+To: Sabrina Dubroca <sd@queasysnail.net>
+Cc: john.fastabend@gmail.com, Jakub Kicinski <kuba@kernel.org>,
+ netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
  Chuck Lever <chuck.lever@oracle.com>, Hannes Reinecke <hare@suse.de>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1271;
- i=chuck.lever@oracle.com; h=from:subject:message-id;
- bh=Q9HeG6URrjYSsIA7gBIoeZ9jxTU+oAcN7zrguFtCKMY=;
- b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBpwolncd9Ql45GkPVNCsC1WdiPes1WgnQpkQlAG
- sJc9TZTcp2JAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCacKJZwAKCRAzarMzb2Z/
- lxtQEACdEyduQFbBz3pbOSbYTM6tZ2oXJZzbgjnTGEblywOulIt7Ha+sKxNOmeeWSyuVZrRwNd9
- i4W/XiUBugLSjuFBfXG7LV5dgTf2Eo5g2J4prUvAueF5j7GJ5Noee4fc1+s+o4SSLySMg2YGwhi
- eTxuNqFzAzcUqW8CnAz2ablzQp/9E3QqFmOkgdZ/2Y40UcgWrOoQv0m4lN3ZuqlD8nlSrHHMzc5
- APM2Blq/gkp311bJJIrWT9F/W84wus+ZfNYAIa9Q/FeWYGOtZL5+rR2zvnKSp8JK7OC4Rv9AO+3
- DZ1f761W2htzgBuuvn3WEyj3o96vdKwvc7p5FFS7KPZrTMlPkQS1Kq3gbt/IS2txNFREqS5UkR0
- mH7oW/NpcQUQauzzISzEed8l0aV3Z8CjzFf2yaeZN5WxpYyIXSM/rKtTpWiScGjaVqv2PlGcmZl
- WRFqG8F0+fcX/fo0y0DDmd3QcyzGoNr1EpMXkV67ZqxT2s2hqG3y9wOC285yEQBuZpDEPSrVyML
- oMGgwWdyy+XzvyXv3zqaO6LkUoujHAd3MqPw2Gl9dJmHuUvIjxqH1+SzJcVYY1D4netXT8KC6R8
- YSzTDdzNY/tKVmUSwBgCy5/w3+1Vfn30fiFjg7QlhIU313VzHiowJDNgy5kWFuJPUZE5ZFh6Vg4
- /VPA1PGfOwdWvTQ==
-X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
- fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
+References: <20260317-tls-read-sock-v4-0-ab1086ec600f@oracle.com>
+ <20260317-tls-read-sock-v4-8-ab1086ec600f@oracle.com>
+ <acFK4DWAD5h_Oc0f@krikkit>
+ <5190a4bf-cc66-424e-9c67-ffb3ddb58030@app.fastmail.com>
+ <acHH6NVykWZo5Q3Q@krikkit>
+Content-Language: en-US
+From: Chuck Lever <cel@kernel.org>
+Organization: kernel.org
+In-Reply-To: <acHH6NVykWZo5Q3Q@krikkit>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Chuck Lever <chuck.lever@oracle.com>
+On 3/23/26 7:08 PM, Sabrina Dubroca wrote:
+> 2026-03-23, 11:04:16 -0400, Chuck Lever wrote:
+>>
+>> On Mon, Mar 23, 2026, at 10:14 AM, Sabrina Dubroca wrote:
+>>> 2026-03-17, 11:04:21 -0400, Chuck Lever wrote:
+>>>> +/* Bound on concurrent async AEAD submissions per read_sock
+>>>> + * call.  Chosen to fill typical hardware crypto pipelines
+>>>> + * without excessive memory consumption (each in-flight record
+>>>> + * holds one cleartext skb plus its AEAD request context).
+>>>> + */
+>>>> +#define TLS_READ_SOCK_BATCH	16
+>>>
+>>> I suspect that at some point, we'll have a request to make this
+>>> configurable (maybe system-wide, maybe by socket?).
+>>
+>> I appreciate your careful and close review. The series has
+>> improved significantly.
+>>
+>> I will admit that the current value (16) is arbitrary. I agree
+>> that someone might want to modify this value. At this point,
+>> however, the constant is straightforward and it is still quite
+>> easy to promote to a tunable later if that proves to be needed.
+> 
+> Agreed.
+> 
+>> The right interface for this depends on kTLS consumer needs
+>> that aren't clear (to me) yet.
+> 
+> In this case (read_sock), the kTLS consumer is NVMe/TCP etc, and
+> specifically users of those features with crypto acceleration
+> cards. I'm not familiar with either.
+> 
+>> But let me know if you have a
+>> preferred API mechanism or a specific use case in mind, or if
+>> there is a netdev policy that should guide the introduction
+>> of a suitable API for this purpose.
+> 
+> Nothing specific, I just thought I'd mention it since I was replying
+> to the patch anyway. I think at this stage "it seems easy to promote
+> to a tunable later" is enough consideration (just to avoid getting
+> trapped in some API (or lack thereof) and unable to change it, but I
+> agree that it shouldn't be a problem here).
 
-While lock_sock is held, incoming TCP segments land on
-sk->sk_backlog rather than sk->sk_receive_queue.
-tls_rx_rec_wait() inspects only sk_receive_queue, so
-backlog data remains invisible. For non-blocking callers
-(read_sock, and recvmsg or splice_read with MSG_DONTWAIT)
-this causes a spurious -EAGAIN. For blocking callers it
-forces an unnecessary sleep/wakeup cycle.
+I looked into this a little more yesterday before noticing that
+async crypto was disabled for TLS 1.3.
 
-Flush the backlog inside tls_rx_rec_wait() before checking
-sk_receive_queue so the strparser can parse newly-arrived
-segments immediately.
+The hardware crypto engines do not surface a concurrency limit to
+their consumers, but their ring sizes are typically much larger than
+the batch limit of 16 I've chosen here. We can't rely on them to
+tell kTLS where to set that limit.
 
-Fixes: 20ffc7adf53a ("net/tls: missing received data after fast remote close")
-Suggested-by: Sabrina Dubroca <sd@queasysnail.net>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
----
- net/tls/tls_sw.c | 1 +
- 1 file changed, 1 insertion(+)
+However, the loop was structured to continue until the batch limit
+was hit or reading gets -EBUSY. Either way 16 seems to be a safe
+but fairly conservative setting. For the larger rings it might cause
+a decrypt pipeline bubble.
 
-diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-index 8fb2f2a93846..84c4ae0330d1 100644
---- a/net/tls/tls_sw.c
-+++ b/net/tls/tls_sw.c
-@@ -1372,6 +1372,7 @@ tls_rx_rec_wait(struct sock *sk, struct sk_psock *psock, bool nonblock,
- 		if (ret < 0)
- 			return ret;
- 
-+		sk_flush_backlog(sk);
- 		if (!skb_queue_empty(&sk->sk_receive_queue)) {
- 			/* Defer notification to the exit point;
- 			 * this thread will consume the record
+So the true purpose of the low limit is to constrain the amount of
+memory tls_read_sock sets aside for decryption in progress. That's
+going to be about 256KB per socket. Yes, that could be made larger
+or contingent upon TCP socket buffer sizes, for example.
+
 
 -- 
-2.53.0
-
+Chuck Lever

@@ -1,119 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DAE361642;
-	Tue, 24 Mar 2026 13:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC713EC2E6
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 24 Mar 2026 16:18:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774358281; cv=none; b=I6nqmN1pwH8Qv49XzR8xjFFSnXTeA9kvl39FZacaoJhBKOToDxfSDleinRqfN36iUG3d5puljja7xQYtex+iMazvGwOvN/+vlACAgoZnHn1Paj6p5D4eFiaZl+STlcg3TQOiql40Jj0fk/B2yc0xci9+16bzM/hi6AvoURc1SeE=
+	t=1774369097; cv=none; b=qqhdxU6SwrxWLKqY+R4+A3DXUJzlByLAlIvNpS0h/vc/sDkf1yKqCiA2VfeANuX2WLxw4GiNSvIsEK+P9t//vt+eCaF3BhND5wSVIv6G+9pbJfFts61m1wQRjzA8EGZR+e75fjm76WxoBVm1O2c5lj2TmPrSbTxD5Edwe49Ae80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774358281; c=relaxed/simple;
-	bh=HpLBCnCa1xKeSeAwPwZvfU+iZI2wQruNJBD/Bjtt7xs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o+beL4VEnlWEl0Ybu6Ox50vRj5fnkoot2iEUwM3809R4SD92JQyTlwyreJAYhWvmKy2lzH7Wzze8LeXD4QTjS3wYNLByhnnaNbtC9tT2RYYCloYMhE2sR76EAMx7p9v/RL+1MO1OG7ap5i6BruEDXDvJ0D0XuFSGi4OfSd83+Ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SgKkkKaw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774369097; c=relaxed/simple;
+	bh=8C/DjBp39jYkBAqNxvGamQZqh1deDXx2p5oGCfa56L0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CLMfD3N+jatmxSz4yOtAaFvY7YXPdPplEWu3/Q5rITDzWVSkEdCkWXXFyksPlicaxZ6c9qX8sCzaQnp9TKGfmQnpCVfs6dJzT3UUnJhG2G4VLSgt8SfM/R446zOJbwVcEZzR3S2exddP+7DbBG7HqosIA1RNRBtUVC2hkhAjynk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=D4/fbmV/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hNWNiVrH; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SgKkkKaw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC1CDC19424;
-	Tue, 24 Mar 2026 13:17:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774358280;
-	bh=HpLBCnCa1xKeSeAwPwZvfU+iZI2wQruNJBD/Bjtt7xs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SgKkkKawaLyaRSyyYzCRV8n53IrfhlExirYkmudIsRcPrVUShRbEoG7tJSpdIjP4n
-	 abcb7cMTrrpqhSqHSyhmi0306RqDE86h0/FsAsg7A1V7kklJN9AxwWvmLOdBgjTmeC
-	 C1+hwKp8sZ/uoyRIF8QFuwtbAiL6zKniR2evCXsFioBUil+TpXFbWbN+s0NzvFPILV
-	 AVcdBxDVyoegkq7g6ojkPaKVQ8RBRC3pQPNA2zAFbDUgz8W1PexVkK2iGnZMSct0ri
-	 mazOqv/Ye+oknsXXrZ5IkZb/dah7+FiIiII5nuxd3+jC789HflgXzaJVwBikBrUgi0
-	 0pao3CRtXiYOQ==
-Message-ID: <b48d4311-51f2-4e71-8324-303af224bac6@kernel.org>
-Date: Tue, 24 Mar 2026 09:17:57 -0400
+	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="D4/fbmV/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hNWNiVrH"
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailfout.phl.internal (Postfix) with ESMTP id AA425EC01C6;
+	Tue, 24 Mar 2026 12:18:13 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-08.internal (MEProxy); Tue, 24 Mar 2026 12:18:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1774369093; x=
+	1774455493; bh=Vp4gyJHp4EnpMatG4byhKohMN8YYHeEtYBPYsAxo4N4=; b=D
+	4/fbmV/2xaEQUi2GFrkcykd0K4l/Mq8czbEjPZOUtDfwY/faC12L3jFJHMENhLX0
+	NwXN9oy61rAj2P3TubRxJ/Sk6qArVuxTQ+KEn+bjDoNqNTf8zefiK7TKEz9ndWu5
+	u7c8XEclgs78QZfYDiUMM+B5vPTrofvxBsycsv/8GQ80zZ+TDkdJYbgmXN89BdWg
+	9prAQQVJH1j4UP5B546+loyB+J4uZFY9SJiCtWKUH/Z9pKfk8nL63cGJgpGSp4Gj
+	so1Ga9DLq3JS8K3zjznlTRsgIc25xHUz2+/qPkhbQWSv3s+tGk86t4F4mg4o3jqM
+	peVzpDGTb3DYNCQ6zlGuw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1774369093; x=1774455493; bh=Vp4gyJHp4EnpMatG4byhKohMN8YYHeEtYBP
+	YsAxo4N4=; b=hNWNiVrHJn9+ORahaDBKAiSeensm0b4SHVRuH6try9r1XoAMPjp
+	g2L4nn1rJt8u5GvOet8YuiEJ576gzeUbfDcuIZpTW95yP3h8z/VZm6Vq2DeMc5pH
+	85CT1xFso1XUgzcsGzkBjhe/WCXJ8MJnSOzL4s4+4odFE79DV5TtLz5toql+S9kL
+	9x0xT+3IZj52uQsJ325trofpQlH31qfcQL8/iOLY/s1EzKHgXLv7tNOU8rGmo5wv
+	YTW+pLnuB/tpT88HPM3Xaag01NDmkij3owL3h/xgTVC/AqcHuH3Ukzaxt/mWfFYJ
+	G+qSEbmVdvFkcn3mnJopNtlbz8qGW6jFBGw==
+X-ME-Sender: <xms:RbnCaQ-BSZSUD5a0ytmT9Jm8PSfbqzbYrbxrjFevDhi0ybex-wJhZA>
+    <xme:RbnCaZbbwreVU6HBGGbAjeQIDM8Z-gNCfOIuzyFEFCbV8ug1f4p6YSDctaYYmwBrH
+    BMytu-BYVR2Afm0lk3i4vF7UQVNCCZjT-deD1rWtuc4Wfnp2NbC-EI>
+X-ME-Received: <xmr:RbnCaUMXPRkRsXiA94-TlAwQ4WUypXf77cMrwwsIJEXGndvwUveq-W3tHgRW>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvddvtdegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepufgrsghrihhn
+    rgcuffhusghrohgtrgcuoehsugesqhhuvggrshihshhnrghilhdrnhgvtheqnecuggftrf
+    grthhtvghrnhepuefhhfffgfffhfefueeiudegtdefhfekgeetheegheeifffguedvueff
+    fefgudffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgusehquhgvrghshihsnhgrihhlrdhnvghtpdhnsggprhgtphhtthhopeejpdhmohgu
+    vgepshhmthhpohhuthdprhgtphhtthhopegtvghlsehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehjohhhnhdrfhgrshhtrggsvghnugesghhmrghilhdrtghomhdprhgtphhtthho
+    pehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvthguvghvsehvghgvrh
+    drkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgvrhhnvghlqdhtlhhsqdhhrghnughs
+    hhgrkhgvsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheptghhuhgtkhdrlh
+    gvvhgvrhesohhrrggtlhgvrdgtohhmpdhrtghpthhtohephhgrrhgvsehsuhhsvgdruggv
+X-ME-Proxy: <xmx:RbnCaVB5-n8msAh7Z3vjBJzsFOs-3aZAwSc_UnlLH5tjnRcjU7LYcQ>
+    <xmx:RbnCabLiPTB7OxoaILKqhtOAGxJO_ia8_D0RaueApeyX0Mg-Q-GLpQ>
+    <xmx:RbnCaeNshgpVTrbIXbUq51NkfGWpF_STMgIWvzmYrFzuOs9qHxKrIA>
+    <xmx:RbnCaZ4M4Q8yPBYogg4ZV4p65RG5DNQuvm7pVdJlj6w-pSz_MeczGA>
+    <xmx:RbnCaRlp6JtnzLiSDBwpehtFFyrCvoaqt0YnLBGusqr9ZbJNOhii2BNx>
+Feedback-ID: i934648bf:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 24 Mar 2026 12:18:12 -0400 (EDT)
+Date: Tue, 24 Mar 2026 17:18:10 +0100
+From: Sabrina Dubroca <sd@queasysnail.net>
+To: Chuck Lever <cel@kernel.org>
+Cc: john.fastabend@gmail.com, kuba@kernel.org, netdev@vger.kernel.org,
+	kernel-tls-handshake@lists.linux.dev,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH net-next v5 6/6] tls: Flush backlog before waiting for a
+ new record
+Message-ID: <acK5Qj-F0wGFLUhj@krikkit>
+References: <20260324-tls-read-sock-v5-0-5408befe5774@oracle.com>
+ <20260324-tls-read-sock-v5-6-5408befe5774@oracle.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH PATCH net-next v4 8/8] tls: Enable batch async decryption
- in read_sock
-To: Sabrina Dubroca <sd@queasysnail.net>
-Cc: john.fastabend@gmail.com, Jakub Kicinski <kuba@kernel.org>,
- netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
- Chuck Lever <chuck.lever@oracle.com>, Hannes Reinecke <hare@suse.de>
-References: <20260317-tls-read-sock-v4-0-ab1086ec600f@oracle.com>
- <20260317-tls-read-sock-v4-8-ab1086ec600f@oracle.com>
- <acFK4DWAD5h_Oc0f@krikkit>
- <5190a4bf-cc66-424e-9c67-ffb3ddb58030@app.fastmail.com>
- <acHH6NVykWZo5Q3Q@krikkit>
-Content-Language: en-US
-From: Chuck Lever <cel@kernel.org>
-Organization: kernel.org
-In-Reply-To: <acHH6NVykWZo5Q3Q@krikkit>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260324-tls-read-sock-v5-6-5408befe5774@oracle.com>
 
-On 3/23/26 7:08 PM, Sabrina Dubroca wrote:
-> 2026-03-23, 11:04:16 -0400, Chuck Lever wrote:
->>
->> On Mon, Mar 23, 2026, at 10:14 AM, Sabrina Dubroca wrote:
->>> 2026-03-17, 11:04:21 -0400, Chuck Lever wrote:
->>>> +/* Bound on concurrent async AEAD submissions per read_sock
->>>> + * call.  Chosen to fill typical hardware crypto pipelines
->>>> + * without excessive memory consumption (each in-flight record
->>>> + * holds one cleartext skb plus its AEAD request context).
->>>> + */
->>>> +#define TLS_READ_SOCK_BATCH	16
->>>
->>> I suspect that at some point, we'll have a request to make this
->>> configurable (maybe system-wide, maybe by socket?).
->>
->> I appreciate your careful and close review. The series has
->> improved significantly.
->>
->> I will admit that the current value (16) is arbitrary. I agree
->> that someone might want to modify this value. At this point,
->> however, the constant is straightforward and it is still quite
->> easy to promote to a tunable later if that proves to be needed.
+2026-03-24, 08:53:28 -0400, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
 > 
-> Agreed.
+> While lock_sock is held, incoming TCP segments land on
+> sk->sk_backlog rather than sk->sk_receive_queue.
+> tls_rx_rec_wait() inspects only sk_receive_queue, so
+> backlog data remains invisible. For non-blocking callers
+> (read_sock, and recvmsg or splice_read with MSG_DONTWAIT)
+> this causes a spurious -EAGAIN. For blocking callers it
+> forces an unnecessary sleep/wakeup cycle.
 > 
->> The right interface for this depends on kTLS consumer needs
->> that aren't clear (to me) yet.
+> Flush the backlog inside tls_rx_rec_wait() before checking
+> sk_receive_queue so the strparser can parse newly-arrived
+> segments immediately.
 > 
-> In this case (read_sock), the kTLS consumer is NVMe/TCP etc, and
-> specifically users of those features with crypto acceleration
-> cards. I'm not familiar with either.
+> Fixes: 20ffc7adf53a ("net/tls: missing received data after fast remote close")
+
+How did you pick that Fixes tag? That commit mentions FIN/connection
+closing, which doesn't seem related to the local backlog.
+
+And it's quite possible there was a similar problem when kTLS was
+using the generic strparser, but the code has changed so much with
+84c61fe1a75b ("tls: rx: do not use the standard strparser") and the
+work around that, that blaming something older probably doesn't make
+too much sense.
+
+> Suggested-by: Sabrina Dubroca <sd@queasysnail.net>
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> ---
+>  net/tls/tls_sw.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
->> But let me know if you have a
->> preferred API mechanism or a specific use case in mind, or if
->> there is a netdev policy that should guide the introduction
->> of a suitable API for this purpose.
-> 
-> Nothing specific, I just thought I'd mention it since I was replying
-> to the patch anyway. I think at this stage "it seems easy to promote
-> to a tunable later" is enough consideration (just to avoid getting
-> trapped in some API (or lack thereof) and unable to change it, but I
-> agree that it shouldn't be a problem here).
+> diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+> index 8fb2f2a93846..84c4ae0330d1 100644
+> --- a/net/tls/tls_sw.c
+> +++ b/net/tls/tls_sw.c
+> @@ -1372,6 +1372,7 @@ tls_rx_rec_wait(struct sock *sk, struct sk_psock *psock, bool nonblock,
+>  		if (ret < 0)
+>  			return ret;
+>  
+> +		sk_flush_backlog(sk);
 
-I looked into this a little more yesterday before noticing that
-async crypto was disabled for TLS 1.3.
+Do we need to update released when this returns true, like callers of
+tls_read_flush_backlog() do? I also wonder if we'd want to update the
+caller's flushed_at to avoid bypassing the "smart checks" in
+tls_read_flush_backlog().
 
-The hardware crypto engines do not surface a concurrency limit to
-their consumers, but their ring sizes are typically much larger than
-the batch limit of 16 I've chosen here. We can't rely on them to
-tell kTLS where to set that limit.
-
-However, the loop was structured to continue until the batch limit
-was hit or reading gets -EBUSY. Either way 16 seems to be a safe
-but fairly conservative setting. For the larger rings it might cause
-a decrypt pipeline bubble.
-
-So the true purpose of the low limit is to constrain the amount of
-memory tls_read_sock sets aside for decryption in progress. That's
-going to be about 256KB per socket. Yes, that could be made larger
-or contingent upon TCP socket buffer sizes, for example.
-
+>  		if (!skb_queue_empty(&sk->sk_receive_queue)) {
+>  			/* Defer notification to the exit point;
+>  			 * this thread will consume the record
 
 -- 
-Chuck Lever
+Sabrina

@@ -1,149 +1,152 @@
-Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC713EC2E6
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 24 Mar 2026 16:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FBB6382390
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 24 Mar 2026 19:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774369097; cv=none; b=qqhdxU6SwrxWLKqY+R4+A3DXUJzlByLAlIvNpS0h/vc/sDkf1yKqCiA2VfeANuX2WLxw4GiNSvIsEK+P9t//vt+eCaF3BhND5wSVIv6G+9pbJfFts61m1wQRjzA8EGZR+e75fjm76WxoBVm1O2c5lj2TmPrSbTxD5Edwe49Ae80=
+	t=1774379242; cv=none; b=e/cDa1laLdt0SFkYUVHdbAXcMOYjJMkCulHqyJiQDd4Zq/MHodt7nD28DgvhNWGiXwaVNdJIqQ71lWVI92qQZyfTpz8OR01rFCobT1K63GwrsPcZAsISdJQU7N8/CQUocruGk/TpKP3xggvKe6l8JX+P/8E5AI6a/SsXkAibz9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774369097; c=relaxed/simple;
-	bh=8C/DjBp39jYkBAqNxvGamQZqh1deDXx2p5oGCfa56L0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CLMfD3N+jatmxSz4yOtAaFvY7YXPdPplEWu3/Q5rITDzWVSkEdCkWXXFyksPlicaxZ6c9qX8sCzaQnp9TKGfmQnpCVfs6dJzT3UUnJhG2G4VLSgt8SfM/R446zOJbwVcEZzR3S2exddP+7DbBG7HqosIA1RNRBtUVC2hkhAjynk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=D4/fbmV/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hNWNiVrH; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
+	s=arc-20240116; t=1774379242; c=relaxed/simple;
+	bh=K66xp1mThxZBb716Y4QF9sTnen6rnGdVq5eWC4X7axM=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=uaJZjtBlqHhgBaURI5rMa7FDPBakiRfvoLqKg3x1Z9kGXOdlcgr8QQDFKZ4fBwQhofNbEZptKN9WMoe9Xa5x6peLpX9aj9w3iGqnOI/2PvEmBVxBEcxZ9JNTbMG/cYNYi86WmpYnHKL2w7J4MKViQn/Bjz2WlzZFU1vDB4GVqI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CTFmjFP/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="D4/fbmV/";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hNWNiVrH"
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfout.phl.internal (Postfix) with ESMTP id AA425EC01C6;
-	Tue, 24 Mar 2026 12:18:13 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Tue, 24 Mar 2026 12:18:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1774369093; x=
-	1774455493; bh=Vp4gyJHp4EnpMatG4byhKohMN8YYHeEtYBPYsAxo4N4=; b=D
-	4/fbmV/2xaEQUi2GFrkcykd0K4l/Mq8czbEjPZOUtDfwY/faC12L3jFJHMENhLX0
-	NwXN9oy61rAj2P3TubRxJ/Sk6qArVuxTQ+KEn+bjDoNqNTf8zefiK7TKEz9ndWu5
-	u7c8XEclgs78QZfYDiUMM+B5vPTrofvxBsycsv/8GQ80zZ+TDkdJYbgmXN89BdWg
-	9prAQQVJH1j4UP5B546+loyB+J4uZFY9SJiCtWKUH/Z9pKfk8nL63cGJgpGSp4Gj
-	so1Ga9DLq3JS8K3zjznlTRsgIc25xHUz2+/qPkhbQWSv3s+tGk86t4F4mg4o3jqM
-	peVzpDGTb3DYNCQ6zlGuw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1774369093; x=1774455493; bh=Vp4gyJHp4EnpMatG4byhKohMN8YYHeEtYBP
-	YsAxo4N4=; b=hNWNiVrHJn9+ORahaDBKAiSeensm0b4SHVRuH6try9r1XoAMPjp
-	g2L4nn1rJt8u5GvOet8YuiEJ576gzeUbfDcuIZpTW95yP3h8z/VZm6Vq2DeMc5pH
-	85CT1xFso1XUgzcsGzkBjhe/WCXJ8MJnSOzL4s4+4odFE79DV5TtLz5toql+S9kL
-	9x0xT+3IZj52uQsJ325trofpQlH31qfcQL8/iOLY/s1EzKHgXLv7tNOU8rGmo5wv
-	YTW+pLnuB/tpT88HPM3Xaag01NDmkij3owL3h/xgTVC/AqcHuH3Ukzaxt/mWfFYJ
-	G+qSEbmVdvFkcn3mnJopNtlbz8qGW6jFBGw==
-X-ME-Sender: <xms:RbnCaQ-BSZSUD5a0ytmT9Jm8PSfbqzbYrbxrjFevDhi0ybex-wJhZA>
-    <xme:RbnCaZbbwreVU6HBGGbAjeQIDM8Z-gNCfOIuzyFEFCbV8ug1f4p6YSDctaYYmwBrH
-    BMytu-BYVR2Afm0lk3i4vF7UQVNCCZjT-deD1rWtuc4Wfnp2NbC-EI>
-X-ME-Received: <xmr:RbnCaUMXPRkRsXiA94-TlAwQ4WUypXf77cMrwwsIJEXGndvwUveq-W3tHgRW>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvddvtdegucetufdoteggodetrf
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CTFmjFP/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCC4FC19424;
+	Tue, 24 Mar 2026 19:07:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774379242;
+	bh=K66xp1mThxZBb716Y4QF9sTnen6rnGdVq5eWC4X7axM=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=CTFmjFP/I0iSCaqQWt92FcXRCROgJ+OmJVfUm/V+hpnV1L3hnDcq5l04fFaKkeW+y
+	 TnrOj7vmiVrfC1wa2y1N1fgHws8DV5Seduh9Tna9bbrQW6D3Kr1CBdSdkg77/ANKrl
+	 4RueH7i02bnkYrf4SjKItQ2Z9y1ADVmXDuu11YcePg2qPH9K5YirwsIDA7mVFnTVFR
+	 9URkgtzweB2j5i1KpgWnEZ5WV+Faod55hY2C5KyvWL21L0rcWd1x/227sE6Rd2PnUP
+	 my2USfER+3wNDhoIC9qGGAYA9za4O9frUX0NjBJMEThmfhSqBdsY6s8uEq03tTGlug
+	 JHLhESkAiia0w==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id C4684F4006F;
+	Tue, 24 Mar 2026 15:07:20 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Tue, 24 Mar 2026 15:07:20 -0400
+X-ME-Sender: <xms:6ODCacP0j8AKPpVCkBiDSSQRrW3oCjZUS1YRquho04etOHmE0aINyw>
+    <xme:6ODCadw8hexXFM4VO2jsXOGdzXAZC7s9stJKT7TUoirr8CXuvDNtIKpUZCIWpRLZO
+    N3m0T0XXzpr4MJ8IXz8Ksy6MRLNZ3mgm_0Jvs9mq01T9iaaCPEij70>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdefvddvfeekucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepufgrsghrihhn
-    rgcuffhusghrohgtrgcuoehsugesqhhuvggrshihshhnrghilhdrnhgvtheqnecuggftrf
-    grthhtvghrnhepuefhhfffgfffhfefueeiudegtdefhfekgeetheegheeifffguedvueff
-    fefgudffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshgusehquhgvrghshihsnhgrihhlrdhnvghtpdhnsggprhgtphhtthhopeejpdhmohgu
-    vgepshhmthhpohhuthdprhgtphhtthhopegtvghlsehkvghrnhgvlhdrohhrghdprhgtph
-    htthhopehjohhhnhdrfhgrshhtrggsvghnugesghhmrghilhdrtghomhdprhgtphhtthho
-    pehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvthguvghvsehvghgvrh
-    drkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgvrhhnvghlqdhtlhhsqdhhrghnughs
-    hhgrkhgvsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheptghhuhgtkhdrlh
-    gvvhgvrhesohhrrggtlhgvrdgtohhmpdhrtghpthhtohephhgrrhgvsehsuhhsvgdruggv
-X-ME-Proxy: <xmx:RbnCaVB5-n8msAh7Z3vjBJzsFOs-3aZAwSc_UnlLH5tjnRcjU7LYcQ>
-    <xmx:RbnCabLiPTB7OxoaILKqhtOAGxJO_ia8_D0RaueApeyX0Mg-Q-GLpQ>
-    <xmx:RbnCaeNshgpVTrbIXbUq51NkfGWpF_STMgIWvzmYrFzuOs9qHxKrIA>
-    <xmx:RbnCaZ4M4Q8yPBYogg4ZV4p65RG5DNQuvm7pVdJlj6w-pSz_MeczGA>
-    <xmx:RbnCaRlp6JtnzLiSDBwpehtFFyrCvoaqt0YnLBGusqr9ZbJNOhii2BNx>
-Feedback-ID: i934648bf:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 24 Mar 2026 12:18:12 -0400 (EDT)
-Date: Tue, 24 Mar 2026 17:18:10 +0100
-From: Sabrina Dubroca <sd@queasysnail.net>
-To: Chuck Lever <cel@kernel.org>
-Cc: john.fastabend@gmail.com, kuba@kernel.org, netdev@vger.kernel.org,
-	kernel-tls-handshake@lists.linux.dev,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH net-next v5 6/6] tls: Flush backlog before waiting for a
- new record
-Message-ID: <acK5Qj-F0wGFLUhj@krikkit>
-References: <20260324-tls-read-sock-v5-0-5408befe5774@oracle.com>
- <20260324-tls-read-sock-v5-6-5408befe5774@oracle.com>
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
+    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpefhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutg
+    hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
+    leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
+    hilhdrtghomhdpnhgspghrtghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepjhhohhhnrdhfrghsthgrsggvnhgusehgmhgrihhlrdgtohhmpdhrtghpthhtoh
+    epkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkvghrnhgvlhdqthhlshdq
+    hhgrnhgushhhrghkvgeslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopegthh
+    hutghkrdhlvghvvghrsehorhgrtghlvgdrtghomhdprhgtphhtthhopehsugesqhhuvggr
+    shihshhnrghilhdrnhgvthdprhgtphhtthhopehhrghrvgesshhushgvrdguvgdprhgtph
+    htthhopehnvghtuggvvhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:6ODCaV1rWb9z1kUfCuPpnsu1Afq8EXIfOmA0nY2mNQNBbs2Bn5RLNw>
+    <xmx:6ODCaWKkkcGr-rD7tcNqxMjOrh8rimeIE7Lv_HcHvK9K6eGqdqjNVQ>
+    <xmx:6ODCaVxl5T7CNolBg22Pw-Y9NkyL_Z_fy4u8aXxpRqSPSKKMO4F38w>
+    <xmx:6ODCaUXL9afrgqmVn_Pd6zT2FV5qFgi4aW8VRxdiMdU720XvtR4knA>
+    <xmx:6ODCaVhIcCWO9UKWFVlQe_1rgwjbtNWXlLpXZnmrA4vtsIsanoKUMcXd>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 9D073780070; Tue, 24 Mar 2026 15:07:20 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260324-tls-read-sock-v5-6-5408befe5774@oracle.com>
+X-ThreadId: AJdrMbW-WYaB
+Date: Tue, 24 Mar 2026 15:07:00 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Sabrina Dubroca" <sd@queasysnail.net>
+Cc: john.fastabend@gmail.com, "Jakub Kicinski" <kuba@kernel.org>,
+ netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
+ "Chuck Lever" <chuck.lever@oracle.com>, "Hannes Reinecke" <hare@suse.de>
+Message-Id: <66157d87-2cb8-4cd7-b8cd-1e2086825995@app.fastmail.com>
+In-Reply-To: <acK5Qj-F0wGFLUhj@krikkit>
+References: <20260324-tls-read-sock-v5-0-5408befe5774@oracle.com>
+ <20260324-tls-read-sock-v5-6-5408befe5774@oracle.com>
+ <acK5Qj-F0wGFLUhj@krikkit>
+Subject: Re: [PATCH net-next v5 6/6] tls: Flush backlog before waiting for a new record
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-2026-03-24, 08:53:28 -0400, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
-> 
-> While lock_sock is held, incoming TCP segments land on
-> sk->sk_backlog rather than sk->sk_receive_queue.
-> tls_rx_rec_wait() inspects only sk_receive_queue, so
-> backlog data remains invisible. For non-blocking callers
-> (read_sock, and recvmsg or splice_read with MSG_DONTWAIT)
-> this causes a spurious -EAGAIN. For blocking callers it
-> forces an unnecessary sleep/wakeup cycle.
-> 
-> Flush the backlog inside tls_rx_rec_wait() before checking
-> sk_receive_queue so the strparser can parse newly-arrived
-> segments immediately.
-> 
-> Fixes: 20ffc7adf53a ("net/tls: missing received data after fast remote close")
 
-How did you pick that Fixes tag? That commit mentions FIN/connection
-closing, which doesn't seem related to the local backlog.
 
-And it's quite possible there was a similar problem when kTLS was
-using the generic strparser, but the code has changed so much with
-84c61fe1a75b ("tls: rx: do not use the standard strparser") and the
-work around that, that blaming something older probably doesn't make
-too much sense.
+On Tue, Mar 24, 2026, at 12:18 PM, Sabrina Dubroca wrote:
+> 2026-03-24, 08:53:28 -0400, Chuck Lever wrote:
+>> From: Chuck Lever <chuck.lever@oracle.com>
+>> 
+>> While lock_sock is held, incoming TCP segments land on
+>> sk->sk_backlog rather than sk->sk_receive_queue.
+>> tls_rx_rec_wait() inspects only sk_receive_queue, so
+>> backlog data remains invisible. For non-blocking callers
+>> (read_sock, and recvmsg or splice_read with MSG_DONTWAIT)
+>> this causes a spurious -EAGAIN. For blocking callers it
+>> forces an unnecessary sleep/wakeup cycle.
+>> 
+>> Flush the backlog inside tls_rx_rec_wait() before checking
+>> sk_receive_queue so the strparser can parse newly-arrived
+>> segments immediately.
+>> 
+>> Fixes: 20ffc7adf53a ("net/tls: missing received data after fast remote close")
+>
+> How did you pick that Fixes tag? That commit mentions FIN/connection
+> closing, which doesn't seem related to the local backlog.
 
-> Suggested-by: Sabrina Dubroca <sd@queasysnail.net>
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-> ---
->  net/tls/tls_sw.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-> index 8fb2f2a93846..84c4ae0330d1 100644
-> --- a/net/tls/tls_sw.c
-> +++ b/net/tls/tls_sw.c
-> @@ -1372,6 +1372,7 @@ tls_rx_rec_wait(struct sock *sk, struct sk_psock *psock, bool nonblock,
->  		if (ret < 0)
->  			return ret;
->  
-> +		sk_flush_backlog(sk);
+20ffc7adf53a introduced the sk_receive_queue check inside the
+wait loop (then called tls_wait_data(), later refactored into
+tls_rx_rec_wait()).
 
-Do we need to update released when this returns true, like callers of
-tls_read_flush_backlog() do? I also wonder if we'd want to update the
-caller's flushed_at to avoid bypassing the "smart checks" in
-tls_read_flush_backlog().
+When lock_sock is held, incoming TCP will segments land on
+sk->sk_backlog, not sk->sk_receive_queue. The sk_receive_queue
+check introduced by 20ffc7adf53a doesn't see backlog data.
 
->  		if (!skb_queue_empty(&sk->sk_receive_queue)) {
->  			/* Defer notification to the exit point;
->  			 * this thread will consume the record
+
+>> diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+>> index 8fb2f2a93846..84c4ae0330d1 100644
+>> --- a/net/tls/tls_sw.c
+>> +++ b/net/tls/tls_sw.c
+>> @@ -1372,6 +1372,7 @@ tls_rx_rec_wait(struct sock *sk, struct sk_psock *psock, bool nonblock,
+>>  		if (ret < 0)
+>>  			return ret;
+>>  
+>> +		sk_flush_backlog(sk);
+>
+> Do we need to update released when this returns true, like callers of
+> tls_read_flush_backlog() do?
+
+Good catch. v6 will do that.
+
+
+> I also wonder if we'd want to update the
+> caller's flushed_at to avoid bypassing the "smart checks" in
+> tls_read_flush_backlog().
+
+The flush in tls_rx_rec_wait() only fires when the loop finds
+no ready message, which is the cold path. The redundant flush
+from tls_read_flush_backlog() on the next iteration is wasteful
+but harmless. I'm not sure the additional complexity would be
+worth it, but if you believe it will add some value, let me
+know and I will add it.
+
+
+>>  		if (!skb_queue_empty(&sk->sk_receive_queue)) {
+>>  			/* Defer notification to the exit point;
+>>  			 * this thread will consume the record
+>
+> -- 
+> Sabrina
 
 -- 
-Sabrina
+Chuck Lever

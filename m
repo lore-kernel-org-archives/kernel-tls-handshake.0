@@ -1,105 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD84033556E;
-	Sat, 28 Mar 2026 15:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B91D3CA49E
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 30 Mar 2026 12:17:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774711045; cv=none; b=IU2VpXR2r9DmzrmC4Or7romFhLOREZvDeRSLeiyXQ2ZCUlyzAd0tYelXR8G7BaSaWm317KVZNu4bKrgKRO4OE9aiGx8X8HSSYCwPr5Xpm1vlEWlvimUfATSSYWB923T9s3Iea52zytsd80577jUj5jJIfA9YjEGNQviiOpJdx+k=
+	t=1774873034; cv=none; b=U0UaBoPGqKoOtj7adzp0am7JxPMoJIQrHIVxsnoUVVUTi+nPHynNZDHkxxHFPu0dCE5EweSoTzKO/RdolckAHONRd5y2wIMuh1eZ3tI44Xqk9YqzrcjEaP1OnOSRSnYsw39cV6TBLOdFnsWe+A2K3xUnwQLWka7l18uQQLV1M88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774711045; c=relaxed/simple;
-	bh=jiLVEzDzHDZPGnoP7mb55lkJ+Rbb62sBUfVjghFNLAI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=c0iTd6y7pDkXsgF9nsBeVplf8LQaHGlJbT/B1S1FxnhS4WBPXZ8fgDV0Sda7AM87CZcoeO3GTJlWazpXRBH2zVbnb8P7dK9qIIahoR41gdG+2KJG8IiCSND/VpDWX2BNrauopukTFU1UxrlL8SCqoEMnU07Dl4RBEcYmASEF0KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jwbkbQHL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774873034; c=relaxed/simple;
+	bh=oeIljEcpEVllYLXaDWQ51cTnXqMSV8r236BtfoZZqKk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l+fxGarsSQymUndN0TWyn00hVpYGcae0kAZn4uSJR6CyJ5rIgfdii75AAeP5jlNoNY5iSkJgJSZ2md2tN2MzgBbh5icSNUyAlXICHoN57QYJn6e49evOCZMwP4MbqllzwF9JrjNFuChO4mDc1a7f9bRL5q2A1AdQupaC7+FyyMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=CuZOFdyI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ovGUldBi; arc=none smtp.client-ip=202.12.124.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jwbkbQHL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BDE2C2BC86;
-	Sat, 28 Mar 2026 15:17:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774711045;
-	bh=jiLVEzDzHDZPGnoP7mb55lkJ+Rbb62sBUfVjghFNLAI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=jwbkbQHLG2zCOD9oVKv1dybwMzg5HORdk3d5SJpEHxmjst0fP8+hZXpc5Ij58/77Z
-	 GjpK3vtyX6kgm/kJ6UVX8GqVstjSqRYVWQluCd1lRZJBhdV8XGwr24BD9Bg3Hdb0hV
-	 3sNUJsVP3KXceCjQipI+MANGBqha3zyR7FUy1sVnFaeHIFVOifPGwQCdgGLqLpyQrp
-	 C7VbQ+O2AcBIZ9QguQP9GXRuJuXkzG3kgyd2vFMysdcLwV+6aU76IJc7wp9oFJ7bry
-	 PM+ta/KI4t5rgwfWTB6VqcGQUYTF3tnHFXFchJbzt7K3A7c+XqyYpg7VELfMqDrjEz
-	 z8mfHbuKZS99w==
-From: Chuck Lever <cel@kernel.org>
-Date: Sat, 28 Mar 2026 11:17:12 -0400
-Subject: [PATCH net-next v7 5/5] tls: Flush backlog before waiting for a
- new record
+	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="CuZOFdyI";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ovGUldBi"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 853EB7A034D;
+	Mon, 30 Mar 2026 08:17:10 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Mon, 30 Mar 2026 08:17:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1774873030; x=
+	1774959430; bh=X8dWxIjsyoY0CUR/3yMkGz/2NEc2cULzzVR/QRpLG2c=; b=C
+	uZOFdyIL4szx31UwBaGLJEwCqP9ECYJke2KDeUq37gSMMquahQOir7ntw/UTiewH
+	RtR983FH9G5A1LEj6KWuu58mnmsta91gd+D6NO+1xOODdrVpAH5vvFNIzq+yQn68
+	0m6HnasajZ21I2v4jhhzemXAXUnf0tTLRKO/8ubA/178wsXfYgjM99Hznid+qwjW
+	R8GhSYxiT9usr/2K18wxoyYJ6YEMzKYycsG3iSctQJITebznZyOawe7hfgWb2ENz
+	oLIVZOsf6U4g2M7uRgIysmoADmC8avaykzYpO+eCpaJGi/ezl/jAINBUj8PLkrgk
+	cOcBgSuyFRXTzQeenXfkQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1774873030; x=1774959430; bh=X8dWxIjsyoY0CUR/3yMkGz/2NEc2cULzzVR
+	/QRpLG2c=; b=ovGUldBiXogK6/+bsa0YFrgV6kRRfyaxR1GIHfSPHBf2UUGipQV
+	incQpE8yDU2HxOhVWcKdpoTi7q5UkdVu08kMzYfjR3SYRQGgjDb9LqpxpQgRApAd
+	Fdabk1CoHZPz+qHWQkQHx6T5BnCQjYOvrycQuTxCRs7TMVeRz5u2Oy8PICWRO38V
+	PRj/KCThYDq2eT+vJSssy3eEf0W9eeqIZA3aXrzfiCLSTiTTJAHIHiszykRVHU0h
+	LB6Vf7+gfyMHt7RcaZonjTDGmnLHMB7+strZx2S9Hr9iAtW8WxgR+y6b+lHqCcPU
+	bWkBdYjrzQIo9OfnQ269EhDgCJ/Aq7nD6kw==
+X-ME-Sender: <xms:xWnKacWF1bdXba25FYVQTgTiEHnLUXDgdavjh2GiYWBhBpUmbrBVOw>
+    <xme:xWnKaakQnrgiMAxxGxlD3gTtqsb1aO_4JnmphAleo37F_eVfU5XzyIXsRAo_xOgTe
+    TVpD3LEctVtYAj7YceKTH9AcR284Ju1QppE3P0bURm2s9_2aRGU2vE>
+X-ME-Received: <xmr:xWnKaXB8T7CCsgUaQew8wO7edWEp6GifoaV-r4rFnLJYZymEbgPT_cY3iANw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeffeekleeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepufgrsghrihhn
+    rgcuffhusghrohgtrgcuoehsugesqhhuvggrshihshhnrghilhdrnhgvtheqnecuggftrf
+    grthhtvghrnhepuefhhfffgfffhfefueeiudegtdefhfekgeetheegheeifffguedvueff
+    fefgudffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgusehquhgvrghshihsnhgrihhlrdhnvghtpdhnsggprhgtphhtthhopeekpdhmohgu
+    vgepshhmthhpohhuthdprhgtphhtthhopegtvghlsehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehjohhhnhdrfhgrshhtrggsvghnugesghhmrghilhdrtghomhdprhgtphhtthho
+    pehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvthguvghvsehvghgvrh
+    drkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgvrhhnvghlqdhtlhhsqdhhrghnughs
+    hhgrkhgvsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheptghhuhgtkhdrlh
+    gvvhgvrhesohhrrggtlhgvrdgtohhmpdhrtghpthhtohephhgrrhgvsehsuhhsvgdruggv
+    pdhrtghpthhtoheprghlihhsthgrihhrrdhfrhgrnhgtihhsseifuggtrdgtohhm
+X-ME-Proxy: <xmx:xWnKaZiZnDOpMCtZZpysxQ_IXLI4R8MHPayUIRGyqgjISaGuQIDIKQ>
+    <xmx:xWnKaUxGj5aZVXv3Oe7F1vjiFSzTb6PF87Neb_P3qwn6pH7fVu3TxA>
+    <xmx:xWnKaa0W7bx2gW6rIRdVD7iUqu-FiP0UA6YF9nx14SLZm5ShuurCBQ>
+    <xmx:xWnKaZ_q6-eKBLZ_xur2w-3B56U9Nyv91o71vRPWGRurqysE81KhnQ>
+    <xmx:xmnKaWH-hb5kfIH60YfHVpCMY-VFQGGRDaA-DHpUbaTv8uL-hfiD17Ln>
+Feedback-ID: i934648bf:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 30 Mar 2026 08:17:09 -0400 (EDT)
+Date: Mon, 30 Mar 2026 14:17:07 +0200
+From: Sabrina Dubroca <sd@queasysnail.net>
+To: Chuck Lever <cel@kernel.org>
+Cc: john.fastabend@gmail.com, kuba@kernel.org, netdev@vger.kernel.org,
+	kernel-tls-handshake@lists.linux.dev,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: Re: [PATCH net-next v7 2/5] tls: Fix dangling skb pointer in
+ tls_sw_read_sock()
+Message-ID: <acppwzU7-TgWbd5f@krikkit>
+References: <20260328-tls-read-sock-v7-0-15678415dfc1@oracle.com>
+ <20260328-tls-read-sock-v7-2-15678415dfc1@oracle.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260328-tls-read-sock-v7-5-15678415dfc1@oracle.com>
-References: <20260328-tls-read-sock-v7-0-15678415dfc1@oracle.com>
-In-Reply-To: <20260328-tls-read-sock-v7-0-15678415dfc1@oracle.com>
-To: john.fastabend@gmail.com, kuba@kernel.org, sd@queasysnail.net
-Cc: netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, 
- Chuck Lever <chuck.lever@oracle.com>, Hannes Reinecke <hare@suse.de>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1346;
- i=chuck.lever@oracle.com; h=from:subject:message-id;
- bh=zVo2aWZU16cWfzKR5efuUXrBNgjYfftgJHVqojqViVA=;
- b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBpx/EAv/cggZoCHhEPgArnxF4GpC6+wm32M1cng
- lhgmzTQMG2JAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCacfxAAAKCRAzarMzb2Z/
- l0ceD/wOrCxusF6VIV50QsnySaNSAQHrf3xKiygtiEV4BN1ufmzem7iTLvnhvLGFPqsL6sB4E75
- +SfRhdLCQvaXLsU93adk2jbhOVSvgsWm/TpeqcFL7xMGbJ3fbdRXKO8G6j02XxjDtjcN+pFcYkV
- XaYlPC+0RFpzxYt0dejM/OpRtFTEZP2xow1k3T/jGFS5tTsY+49i4VKRWBQonUWtCzE4OxJTG6n
- Kiq/Te32C+cBIEgSeYiubDkHxGT8FpxF2O7K/B/dljIFThVGptADCixKDOet30FRQbc5b6EoJ2D
- bqlHyB9WeoD17qwtojJcRZ+xCq6DamUVn8LtFuf/sUGBMpIXMGAbVM+qMo445BivfKd+2yiGmNE
- liobd+zov+KLskZ3wqqYN9MTbr5CpMqMN2kT9feC6AG53EYcaiUdYg6crDj9NDvAuPb0IAutRLF
- cS4rlyj6UsxtegVGZ3ROYaVAjiP6rTdN7tweHfzaZJiJDIZL9wQXi2HIqKBR13ZJOQlX7pgpBsr
- pZ27/qUduB8GaN6Tif7HNUhTfrtx3owCvfa8jK0fzj/DNlg9AXbzQcQvT/5J+uqQ/8LBbXW8Q+K
- HTBGcioL+pCjRw4arxnEw8xlwCKy9x7bqZyUMz2rwfskcTh7OH3PWEVSUIdbd4HEOmQhIzU53F6
- s0oCmhAes1cCnvA==
-X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
- fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260328-tls-read-sock-v7-2-15678415dfc1@oracle.com>
 
-From: Chuck Lever <chuck.lever@oracle.com>
+2026-03-28, 11:17:09 -0400, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
+> 
+> Per ISO/IEC 9899:2011 section 6.2.4p2, a pointer value becomes
+> indeterminate when the object it points to reaches the end of its
+> lifetime; Annex J.2 classifies the use of such a value as undefined
+> behavior. In tls_sw_read_sock(), consume_skb(skb) in the
+> fully-consumed path frees the skb, but the "do { } while (skb)"
+> loop condition then evaluates that freed pointer. Although the
+> value is never dereferenced -- the loop either continues and
+> overwrites skb, or exits -- any future change that adds a
+> dereference between consume_skb() and the loop condition would
+> produce a silent use-after-free.
+> 
+> Fixes: 662fbcec32f4 ("net/tls: implement ->read_sock()")
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> ---
+>  net/tls/tls_sw.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 
-While lock_sock is held, incoming TCP segments land on
-sk->sk_backlog rather than sk->sk_receive_queue.
-tls_rx_rec_wait() inspects only sk_receive_queue, so
-backlog data remains invisible. For non-blocking callers
-(read_sock, and recvmsg or splice_read with MSG_DONTWAIT)
-this causes a spurious -EAGAIN. For blocking callers it
-forces an unnecessary sleep/wakeup cycle.
-
-Flush the backlog inside tls_rx_rec_wait() before checking
-sk_receive_queue so the strparser can parse newly-arrived
-segments immediately. On the next loop iteration
-tls_read_flush_backlog() may redundantly flush, but this
-path is cold and the cost is negligible.
-
-Suggested-by: Sabrina Dubroca <sd@queasysnail.net>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
----
- net/tls/tls_sw.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-index 8fb2f2a93846..e15adf250d78 100644
---- a/net/tls/tls_sw.c
-+++ b/net/tls/tls_sw.c
-@@ -1372,6 +1372,8 @@ tls_rx_rec_wait(struct sock *sk, struct sk_psock *psock, bool nonblock,
- 		if (ret < 0)
- 			return ret;
- 
-+		if (sk_flush_backlog(sk))
-+			released = true;
- 		if (!skb_queue_empty(&sk->sk_receive_queue)) {
- 			/* Defer notification to the exit point;
- 			 * this thread will consume the record
+Reviewed-by: Sabrina Dubroca <sd@queasysnail.net>
 
 -- 
-2.53.0
-
+Sabrina

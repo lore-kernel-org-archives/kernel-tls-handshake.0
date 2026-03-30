@@ -1,55 +1,55 @@
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB1D35B632
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 30 Mar 2026 12:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C6B2E7BD3
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 30 Mar 2026 14:43:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774873281; cv=none; b=CWFwN0RRMcOfUdmBf3d49Zx0DTaiOSCzmE2LIhDyYPpmUGC3Rkq4vvj8iE4HZf3Nq5IGF9RqHX1Z8Ekxn86s9SLeU+ozQONYKa/2ngqQz/4rGId0DoHakEZ2ZN59zx7NXz6TvoN7qb5SI47TVO156Ic0c3RXSS9dMpeI74FmbZg=
+	t=1774881836; cv=none; b=e8BvlvlyEqrj+kCM8NJr6x8bOSAZMy8bM/VAQgJruHWDw3ANNwjtjNDj8YA1/k0tLWgy0w8tmOvCm1mfK6+++daEKVqrbeGVoAms/WosAoqtf8D+RYR9dnx27hPo2fSm3Grwb/pZ+kGDfSHmMEwCgTZo8ROQL6OQVG4aHJDpTG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774873281; c=relaxed/simple;
-	bh=H58ZOxAA8Prrsxvn0rvvpv6/79jQvckRmc43jSqh4eE=;
+	s=arc-20240116; t=1774881836; c=relaxed/simple;
+	bh=bMwMT7lON0y7CIGbcCN9vu9X2Xfdqp7xMQNiMGzPsQY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=av9nySfvwLEYSsxSa7HkIzjGf3VfoHOs4boUbTirmMkQQBiSr676hGFddj/ftF/ZEk6Rb7wcKJiFssFlzT6l2hhuLJO6i7EZvmu17wsV5jsUnDX/s+zXbKMEA7AhRyMVx81qmSR9s7+Ga+UHKcaTaYbJ2JlU+vtKKuiYF70Mw+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=Cn1Cx6iy; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=sDfwG2rm; arc=none smtp.client-ip=202.12.124.157
+	 Content-Type:Content-Disposition:In-Reply-To; b=QFMXOnDMYgY648GkorHbegEStos0OSAHMsVORfOCPMWeaWTJtIogHk8BfUTCVNDJyGp9sT0PYDdDdsI0ozpxdokpMbUvvN4wl8oU6KpHdPb8E+le6CB06lot4qtbAnUPoRV1eJT/RoovQWN3nnbwYKFNpKCrOsRyi6/d1OwXtek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=LFIcGSfZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iJ/W+yCt; arc=none smtp.client-ip=202.12.124.158
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="Cn1Cx6iy";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="sDfwG2rm"
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id CBE587A0350;
-	Mon, 30 Mar 2026 08:21:18 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="LFIcGSfZ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iJ/W+yCt"
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id CFB817A0181;
+	Mon, 30 Mar 2026 10:43:52 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Mon, 30 Mar 2026 08:21:19 -0400
+  by phl-compute-12.internal (MEProxy); Mon, 30 Mar 2026 10:43:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
 	 h=cc:cc:content-type:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1774873278; x=
-	1774959678; bh=iDGXxnYuZkuyWCiJ5MY8Rgi9ZzEn0kbLlYEcYgsUFbw=; b=C
-	n1Cx6iyDD3aBb+Rwh9Non/vhKtzYUzkRTqUsXwmN7KiFDP47uD7h3Y0etnfI88YV
-	mkteGC6mKfHKWthIA7p3LdeiKjZ6pBCpG2MGbQyHiLUss9bDZDnVYAevObegVgbg
-	CTyxe5sVQHFm2/m74sE9mIoOGgz76awAtXu2pDSLN/mVCsdq/16YBThMeCKH6u84
-	AUlJhAbc/aVWX2dfjiYCWxGRdYPCEtrsZ118E0llxZbtQhVBsoHiPtqqtamSlENe
-	6yvjl/wtRvnSNMlAsw1fI0aMQpig2qVpxqfEhgaIRJ+PYOQYlYjAASORBYQT/eRt
-	hLseejNIa7sz+Du38NG9w==
+	:reply-to:subject:subject:to:to; s=fm3; t=1774881832; x=
+	1774968232; bh=TVgwWzC98O9JJ07tqs/JeVGRYZaiUT/cn6TNW2863Ms=; b=L
+	FIcGSfZqMYQQr5kouaQ61avt77Wg6EctHDNtDvUuHuoAAZFDRIgAzPQFNZYgJ9lZ
+	JalIV4PLPerEWPLOTXvMfKQHWmW9hQzhMd8z4X1uUl+u4o46exkSDkiKJXRcui+f
+	es4qPjN3w2yv/kJ3S3ylz9OMR+tS/pycDPMNf01qUYhSr4RWBR1hpmwGILEzQxQg
+	gLKpdSmUvHrT/RduAAbj5h2/pRntgY34x5GxPlYAo7ZXcQg0X1SJUstQIZ84sMc4
+	BDd5iqP1fAWKuxMnPXeUX2lgp5+8XOokDBEO7Cdk6ybHhG/MUKIUdNdXGw2/4iNg
+	++XJlH4WKTL9ASTrcQSTw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1774873278; x=1774959678; bh=iDGXxnYuZkuyWCiJ5MY8Rgi9ZzEn0kbLlYE
-	cYgsUFbw=; b=sDfwG2rmzgg9vAlMsEDxyNyIWyV6fudYRv5mexnBb/SWlPqhRYc
-	enYzFDKYXtpaen3SlxMWt50Lc6OVj5da6jUY5XkIxWyP2miJUriDoXIIeld1i4DN
-	0kqDdi94sD0m+A4ipuRBIErIWm0croGOPYSSgZ/LkGLXeeJA6uuwHEvc0j2lgz32
-	T/6a7Lp7AJx+p3wew+rsaM5G7vYtASeRJFD+X8h2IDALPcLhck2NiX0mXa5eu0AU
-	HKystryGDLk/AMXufA2DAZ+sQlf5Qe2TJ/BEFrE2k3etpme5sQHVL837WrWoRzcf
-	eGYNagGwubwB+gvkzOc3OV4rK9gIfbcawcg==
-X-ME-Sender: <xms:vmrKaXNS8AptPSEaDlYSEZx6219rZMgeGLMrty-3ZNmb9paOEfwzmw>
-    <xme:vmrKab-KU8Mp2lVEQB_xweRnJ_KxifdGC9TRU_dTdCXqFJ9-cvlO_0gzmDnZ3z0qA
-    gCFYCfhBXy829yzZMYB7rd5kbUdP_4xYwMF68xi1xV1Rj8CqA0F8s8>
-X-ME-Received: <xmr:vmrKac47jOtWCIsAZkeiVRCQHiHmJt9AVxCEerXs9g_4FBvWY4D0ctkKJfXn>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeffeekleeiucetufdoteggodetrf
+	1774881832; x=1774968232; bh=TVgwWzC98O9JJ07tqs/JeVGRYZaiUT/cn6T
+	NW2863Ms=; b=iJ/W+yCtv2CaNm5YgShrcyeL113ekUw3pAGUiUoORvESgflwb0A
+	fWQek/OOvnySU82x7XsWgzsA6FQ4K9HvoHDCDTUMKd7QCC70FPwfUZk6AGImqCFv
+	fWAyyfTAgTFWviZEn16qPkMkuK0EWAUEC5oxlvmIS+kx57yp++UsN5rLd4bZhCcM
+	IRBXGO53uPby0I/u0w7empySiaSP8SYKjtFYNay4WPS9RmvNLQs050b0juwzFRLp
+	sk/Fy72WAHn5ifxBjp2MVdGjy6FGmkl4bgWQSWFJ3IQDpojEcIdZAfYdJ3aC/0pW
+	pD0hJ3EsWK2ctGg4ULGfrPvceRBkzCcl18g==
+X-ME-Sender: <xms:J4zKaSC2VvzmjgyU9diwKTVFtVKfQgtyFOzejFQ0Xouy9sTztGSPBQ>
+    <xme:J4zKaWhp9XLthw9o2yjnTc1DmhE_HfYQNRo9SfmOw0tpXjrvtsfAkmOsFjxLXmJ8q
+    wpRzPWcoZlaUVIFOxsmnU3UgbJfGr-AiQI4RLLALEr7FDlv3GnyWfYd>
+X-ME-Received: <xmr:J4zKacPfT_NbxQ7xXZhm1lNo-s9IZOMVd7ToWo1LfKRuiE4Yvt8kO9mzMAAQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeffeelvdehucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepufgrsghrihhn
@@ -62,29 +62,29 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeffeekleeiucetufdote
     pehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvthguvghvsehvghgvrh
     drkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgvrhhnvghlqdhtlhhsqdhhrghnughs
     hhgrkhgvsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheptghhuhgtkhdrlh
-    gvvhgvrhesohhrrggtlhgvrdgtohhmpdhrtghpthhtohephhgrrhgvsehsuhhsvgdruggv
-    pdhrtghpthhtoheprghlihhsthgrihhrrdhfrhgrnhgtihhsseifuggtrdgtohhm
-X-ME-Proxy: <xmx:vmrKaZ6IEO9Qu3b4mLx8ayvHXODrxt0ZH2ARXtqg0UlTBFQlY2pDKQ>
-    <xmx:vmrKadpvMx3ox6nh4VlQl8XsFp8zv_2A87XCFVAtN6oaEl9XyfLL4A>
-    <xmx:vmrKaSNcEAEbqAriRawZrNhlwNnoG40W3gda2SNOodFTg3fdt1qpoQ>
-    <xmx:vmrKad2BIPhS3liHhy0kfAOEYpOuPg3UAwT-XY4TkD4QKIFqvWv2fQ>
-    <xmx:vmrKac-uWF5mMCea_8QcPyFdtUuo0oDD07HldPs1COC2jDqgCmhUMY8k>
+    gvvhgvrhesohhrrggtlhgvrdgtohhmpdhrtghpthhtoheprghlihhsthgrihhrrdhfrhgr
+    nhgtihhsseifuggtrdgtohhmpdhrtghpthhtohephhgrrhgvsehsuhhsvgdruggv
+X-ME-Proxy: <xmx:J4zKae91h573YcszvwSK3S60_TlNpkmnFzjdkuRdNXLqLe60KI9piw>
+    <xmx:KIzKaVdBubC464yJFGKzDKvKraZl5tgZtcHlAM3w52EC7N3p-hEPYA>
+    <xmx:KIzKaVzcfJCCXSoyBTAYn0kzN8ds0l_kGDGmyAWOZnCuHe3v91gekw>
+    <xmx:KIzKaSJQEicjy-63PHCiAodJ1d0jo3LOkySsQTsGluVfbNYdBLGlKA>
+    <xmx:KIzKaRwl9SWiVbLlz7ZfOjBdHcaGSnCNoq1GLmYVKtknLSzMzt0RrYBb>
 Feedback-ID: i934648bf:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 30 Mar 2026 08:21:17 -0400 (EDT)
-Date: Mon, 30 Mar 2026 14:21:16 +0200
+ 30 Mar 2026 10:43:51 -0400 (EDT)
+Date: Mon, 30 Mar 2026 16:43:44 +0200
 From: Sabrina Dubroca <sd@queasysnail.net>
 To: Chuck Lever <cel@kernel.org>
 Cc: john.fastabend@gmail.com, kuba@kernel.org, netdev@vger.kernel.org,
 	kernel-tls-handshake@lists.linux.dev,
 	Chuck Lever <chuck.lever@oracle.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: Re: [PATCH net-next v7 3/5] tls: Factor tls_strp_msg_release() from
- tls_strp_msg_done()
-Message-ID: <acpqvDQEaQ0nE0u6@krikkit>
+	Alistair Francis <alistair.francis@wdc.com>,
+	Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH net-next v7 4/5] tls: Suppress spurious saved_data_ready
+ on all receive paths
+Message-ID: <acqMIKWFmx6B1lD8@krikkit>
 References: <20260328-tls-read-sock-v7-0-15678415dfc1@oracle.com>
- <20260328-tls-read-sock-v7-3-15678415dfc1@oracle.com>
+ <20260328-tls-read-sock-v7-4-15678415dfc1@oracle.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -93,27 +93,121 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260328-tls-read-sock-v7-3-15678415dfc1@oracle.com>
+In-Reply-To: <20260328-tls-read-sock-v7-4-15678415dfc1@oracle.com>
 
-2026-03-28, 11:17:10 -0400, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
-> 
-> tls_strp_msg_done() conflates releasing the current record with
-> checking for the next one via tls_strp_check_rcv(). Batch
-> processing requires releasing a record without immediately
-> triggering that check, so the release step is separated into
-> tls_strp_msg_release(). tls_strp_msg_done() is preserved as a
-> wrapper for existing callers.
-> 
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-> ---
->  net/tls/tls.h      |  1 +
->  net/tls/tls_strp.c | 15 ++++++++++++++-
->  2 files changed, 15 insertions(+), 1 deletion(-)
+2026-03-28, 11:17:11 -0400, Chuck Lever wrote:
+> diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+> index 5fdd43a55f1e..8fb2f2a93846 100644
+> --- a/net/tls/tls_sw.c
+> +++ b/net/tls/tls_sw.c
+> @@ -1373,7 +1373,11 @@ tls_rx_rec_wait(struct sock *sk, struct sk_psock *psock, bool nonblock,
+>  			return ret;
+>  
+>  		if (!skb_queue_empty(&sk->sk_receive_queue)) {
+> -			tls_strp_check_rcv(&ctx->strp);
+> +			/* Defer notification to the exit point;
+> +			 * this thread will consume the record
+> +			 * directly.
+> +			 */
 
-Reviewed-by: Sabrina Dubroca <sd@queasysnail.net>
+That's a really nice improvement over the comment you had here
+before. Thanks.
+
+> +			tls_strp_check_rcv(&ctx->strp, false);
+>  			if (tls_strp_msg_ready(ctx))
+>  				break;
+>  		}
+
+[...]
+> @@ -2142,7 +2146,7 @@ int tls_sw_recvmsg(struct sock *sk,
+>  		err = tls_record_content_type(msg, tls_msg(darg.skb), &control);
+>  		if (err <= 0) {
+>  			DEBUG_NET_WARN_ON_ONCE(darg.zc);
+> -			tls_rx_rec_done(ctx);
+> +			tls_rx_rec_release(ctx);
+>  put_on_rx_list_err:
+>  			__skb_queue_tail(&ctx->rx_list, darg.skb);
+>  			goto recv_end;
+> @@ -2156,7 +2160,8 @@ int tls_sw_recvmsg(struct sock *sk,
+>  		/* TLS 1.3 may have updated the length by more than overhead */
+>  		rxm = strp_msg(darg.skb);
+>  		chunk = rxm->full_len;
+> -		tls_rx_rec_done(ctx);
+> +		tls_rx_rec_release(ctx);
+> +		tls_strp_check_rcv(&ctx->strp, false);
+
+Not strictly an objection against your patch, but after those changes,
+calling tls_strp_check_rcv() at this point in tls_sw_recvmsg() is
+starting to look like a leftover from the transition from generic strp
+to custom strp. We're not going to do anything with the next record
+until we call tls_rx_rec_wait(), so it seems it would fit better
+before the loop in tls_rx_rec_wait().
+
+
+[...]
+> @@ -2290,7 +2296,7 @@ ssize_t tls_sw_splice_read(struct socket *sock,  loff_t *ppos,
+>  		if (err < 0)
+>  			goto splice_read_end;
+>  
+> -		tls_rx_rec_done(ctx);
+> +		tls_rx_rec_release(ctx);
+>  		skb = darg.skb;
+>  	}
+>  
+> @@ -2317,6 +2323,7 @@ ssize_t tls_sw_splice_read(struct socket *sock,  loff_t *ppos,
+>  	consume_skb(skb);
+>  
+>  splice_read_end:
+> +	tls_strp_check_rcv(&ctx->strp, true);
+
+This is in effect adding a
+
+if (strp->msg_ready)
+    tls_rx_msg_ready(strp);
+
+[a bit more than that]
+in case we dequeue from the rx_list but don't use the record (or only
+part of it).
+
+I wonder if that should be seen as a problem (another spurious wakeup)
+or an improvement (wake up because there's data ready)? Or if we
+should wake up anyway if we exit with rx_list non-empty, regardless or
+the parser's state, since there is data to read (tls_sk_poll looks at
+both rx_list and msg_ready).
+
+[this applies to all 3 RX functions, but this one is the simplest,
+which makes it more visible]
+
+>  	tls_rx_reader_unlock(sk, ctx);
+>  	return copied ? : err;
+>  
+> @@ -2382,7 +2389,7 @@ int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
+>  			tlm = tls_msg(skb);
+>  			decrypted += rxm->full_len;
+>  
+> -			tls_rx_rec_done(ctx);
+> +			tls_rx_rec_release(ctx);
+
+With this, there's no tls_strp_check_rcv() call inside the
+tls_sw_read_sock() loop, so in the next iteration, tls_rx_rec_wait()
+will have to go for at least one round of its own loop. [this points
+back to the recvmsg comment above, and a bit to the "cold path"
+discussion we had earlier]
+
+
+(Sorry that I'm only thinking about all this at v7...)
+
+>  		}
+>  
+>  		/* read_sock does not support reading control messages */
+> @@ -2412,6 +2419,7 @@ int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
+>  	}
+>  
+>  read_sock_end:
+> +	tls_strp_check_rcv(&ctx->strp, true);
+>  	tls_rx_reader_release(sk, ctx);
+>  	return copied ? : err;
+
 
 -- 
 Sabrina

@@ -1,56 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793411E89C;
-	Thu, 23 Apr 2026 02:08:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8475FE555;
+	Sat, 25 Apr 2026 20:16:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776910097; cv=none; b=P0t1qrOKw6+0IbIQ3o4YxFVNDfdhqXP7GXUnNc+OtJTTcVNWp5a48vtxmGxVa+ZbcH0lCQRdRs/7Jtc8rpxuljamTjftIeQEQJUOVPIQvVMsfMLfckUpmzq2wAKcX5xq3AknV20hgTsoqWKqtDBM4X7cbmvgPFeGKGiUUw22XpU=
+	t=1777148163; cv=none; b=Irv237OwwiEGZqWnnj5+bD0+SAZSZZHswHrUN1qZ/klf2K++/Y2fI5Ykun/P5+A+6JF9uEBTVriTd0bdYxvjCSBZxyzZZCZE3ETjP9DM7bP7vkHWqgXPulG88vKaQOJkmMJ7Pgkx8DvW/V0f5E/yxMQy/OMZmwIGF1Zw7OEx9zY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776910097; c=relaxed/simple;
-	bh=p+OgDUIpCkl+jhXsDz8GorMNIQCQGargERqzgVxIdFk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RvhC0A5ID5EA0C4veiOEJ0++ryN/mgczC33X/8VV9LkbOW5vvaOK2AJJnn8/Mo7lB7002PAPvzHl8JTOdtzVmxCwjrMz2UIKQYMj+hC3UXtYc/Ble3pWopJIBc+2fTOLgbCg+N0SoypFRIjpiG0NSPvfomyO0KIPJw0nYnrzq4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h3jS/UUT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777148163; c=relaxed/simple;
+	bh=rLa50qL98+ez6OtlPEZ2OTIxU2VSfQEVMNz8bk5lpSw=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=JYcIFBnYkSt4nHYPKVq1a21/HcN55W+sP3oezWbxmKUJDaWA2cXNngbhVrEUGUeL4sCYvDj4UF7oItLgiFxok5L5KZBKSPSKHxT3oFlhfMTzMuqPyr++9YR/Rv4Z9qHAwIc4My89ONYUYVjERBndecXFxPYuYr4on5nC0bGjOCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cFX2e1uZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h3jS/UUT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C08AEC19425;
-	Thu, 23 Apr 2026 02:08:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cFX2e1uZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C12C6C2BCB0;
+	Sat, 25 Apr 2026 20:16:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776910097;
-	bh=p+OgDUIpCkl+jhXsDz8GorMNIQCQGargERqzgVxIdFk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=h3jS/UUT1OHTaOqRftSz2f8Ihn21LIkTLlbV6RWycUDjJCSQfISCXtg4YnE6DJ1Fo
-	 HXrxpwYNA8rqtgAetjpAS+1e1KIz/stCgGQI1sXzBYznMsyDtd257gdp9ywL2GijvY
-	 w3ljPDNk6UV3+5+d5UjHjNkjd7elS3UDacMt2TduJZcjgU3ifhswC37l+JJdg6wBwz
-	 xFpA54i9aWHAtMjMQEkOUEV5WNiPKbNDIIPzzdQphqPePnaug6zp5dlhPitY+7i9wJ
-	 4X55SAghGYJYRCyh8zEB4M8LbjwUlPzjNJ1hCO0xkrPna0Hcsy2Ze+wIFAn9wRHfON
-	 z20vNnh3vRx1Q==
-Date: Wed, 22 Apr 2026 19:08:15 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: "Chuck Lever" <cel@kernel.org>
-Cc: john.fastabend@gmail.com, "Sabrina Dubroca" <sd@queasysnail.net>,
- netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, "Chuck Lever"
- <chuck.lever@oracle.com>, "Hannes Reinecke" <hare@suse.de>, "Alistair
- Francis" <alistair.francis@wdc.com>
-Subject: Re: [PATCH net-next v7 0/5] TLS read_sock performance scalability
-Message-ID: <20260422190815.7f678ad6@kernel.org>
-In-Reply-To: <3fc31ab1-23de-4381-b85c-5faa39169ad9@app.fastmail.com>
-References: <20260328-tls-read-sock-v7-0-15678415dfc1@oracle.com>
-	<3fc31ab1-23de-4381-b85c-5faa39169ad9@app.fastmail.com>
+	s=k20201202; t=1777148163;
+	bh=rLa50qL98+ez6OtlPEZ2OTIxU2VSfQEVMNz8bk5lpSw=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=cFX2e1uZk2F5BWXHEFxHM7YltQ4P2c48QUla5QCoHQjXXSfPtWVIdke1aNj0wKivO
+	 ZoM9EbW+QUlQzfC4/m7i+Z8B2bcK0iAXwnwK6o5QfkYmb198GC4bHQODOEPryl4x1h
+	 1+U2DiYUXwP/Zi+UQHx+fHENKctEcJCH39vwHELNdYp4ouCL1z4ve8z6hnywvSeD+J
+	 frSFKAZGzHWBpoTEOBNCdTqQX3Mc08xhM1IFn6JSGX86GpOmK4xqcW4ghFj8t7d2Xa
+	 QC7Nxno9Sb1s5LpFHm9ht7ePP6VjVPyJx8L0BBMuEhJi4II3NzSXUPv1t58PEUNQ45
+	 DxGSafEWITfAA==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id A53E8F40074;
+	Sat, 25 Apr 2026 16:16:01 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Sat, 25 Apr 2026 16:16:01 -0400
+X-ME-Sender: <xms:ASHtaWrEjYtanfQsUQPw0r9YajNDL3Ff_5VykkGJhuxFGfBlvtVvIQ>
+    <xme:ASHtafewGqMcpHKBl2gXHObRyMgG-wBmi-C0iRwLwNcfok1Z-cazx33t0ZoMUD3ww
+    SZHIk3bJ_3Kw7sxGw2qoK5K8M6IqgYTVlJhMj1sQOZ1Yqyp5aCFgg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejfeekgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdevhhhutghk
+    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
+    ephfffkefffedtgfehieevkeduuefhvdejvdefvdeuuddvgeelkeegtefgudfhfeelnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghhuhgtkh
+    hlvghvvghrodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieefgeelleel
+    heelqdefvdelkeeggedvfedqtggvlheppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrih
+    hlrdgtohhmpdhnsggprhgtphhtthhopeekpdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopehjohhhnhdrfhgrshhtrggsvghnugesghhmrghilhdrtghomhdprhgtphhtthhope
+    hkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgvrhhnvghlqdhtlhhsqdhh
+    rghnughshhgrkhgvsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheptghhuh
+    gtkhdrlhgvvhgvrhesohhrrggtlhgvrdgtohhmpdhrtghpthhtohepshgusehquhgvrghs
+    hihsnhgrihhlrdhnvghtpdhrtghpthhtohephhgrrhgvsehsuhhsvgdruggvpdhrtghpth
+    htohepnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghl
+    ihhsthgrihhrrdhfrhgrnhgtihhsseifuggtrdgtohhm
+X-ME-Proxy: <xmx:ASHtaWowm66cmvBOmPkBPUlHryKWXbei1CXArbam6AMoO62ntBrGcA>
+    <xmx:ASHtaQrXAjQlo1rIopxHhWUp9gLXydf2Us1uDJq-y0hVMUJHtwnKCA>
+    <xmx:ASHtadbbYx42rf4ASWLB22KV9ugkyJdCrbLF8Ennh8RDK2WZ5XkiHA>
+    <xmx:ASHtaW--AhhjPUWErmfXoLzCbckqMUFEJ4C_JkbIlwZWUn8SYor55w>
+    <xmx:ASHtaTmktAeNfZJMU-sbRvlXwpNSeKd3oP5AnIeiWEPVcDEKNOEJ_mDP>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 83AF0780070; Sat, 25 Apr 2026 16:16:01 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+X-ThreadId: A5XFUYgNEVqc
+Date: Sat, 25 Apr 2026 16:15:41 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Jakub Kicinski" <kuba@kernel.org>
+Cc: john.fastabend@gmail.com, "Sabrina Dubroca" <sd@queasysnail.net>,
+ netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
+ "Chuck Lever" <chuck.lever@oracle.com>, "Hannes Reinecke" <hare@suse.de>,
+ "Alistair Francis" <alistair.francis@wdc.com>
+Message-Id: <4a802e09-d1af-4af3-8f02-3e2c8d25e734@app.fastmail.com>
+In-Reply-To: <20260422190815.7f678ad6@kernel.org>
+References: <20260328-tls-read-sock-v7-0-15678415dfc1@oracle.com>
+ <3fc31ab1-23de-4381-b85c-5faa39169ad9@app.fastmail.com>
+ <20260422190815.7f678ad6@kernel.org>
+Subject: Re: [PATCH net-next v7 0/5] TLS read_sock performance scalability
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-On Wed, 22 Apr 2026 12:41:43 -0400 Chuck Lever wrote:
-> I see that this series is currently not in v7.1. What is left to do?
 
-It's marked as Changes requested in patchwork, possibly due to
-mis-reading of the discussion on patch 4. We process patches within 
-few days (well, we used to before the AI swarm) so if in doubt you
-should ask sooner :S
+On Wed, Apr 22, 2026, at 10:08 PM, Jakub Kicinski wrote:
+> On Wed, 22 Apr 2026 12:41:43 -0400 Chuck Lever wrote:
+>> I see that this series is currently not in v7.1. What is left to do?
+>
+> It's marked as Changes requested in patchwork, possibly due to
+> mis-reading of the discussion on patch 4. We process patches within 
+> few days (well, we used to before the AI swarm) so if in doubt you
+> should ask sooner :S
+
+Thanks for the pointer to the netdevbpf patchworks instance. Anything
+I can do to move this series to "Awaiting upsteam" ?
+
+-- 
+Chuck Lever

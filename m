@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6693946AEFC;
-	Tue, 28 Apr 2026 13:31:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EEFF199385;
+	Wed, 29 Apr 2026 21:48:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777383072; cv=none; b=c7BWxP/E8sgY1CplV2tGpuCFMJvll57dyBvEP9rjNxK9HczS9J1gBwJieFokOj1TcQmvAg+yM+qrXq21WNbWhKfS3kxFvXwvo9zMDtNMhLdVxGgFe8AuSRQltgOGmE2hfM8BcA989sxvtODdu6BJhYgOXbF78SNzFWUT1hk7ZEE=
+	t=1777499304; cv=none; b=ljLFnxt0pfyre/1wZGZM6yrc9ktxu0/+gsE6j5zvhHG/KNocQeUCpM/fDpgDyer4TU/nGllo0lAWjEK+vVSIkcSg8MRxXBXZtbbNxxlJTMZIGFANtuhjgz25FSGo3MSN4+FBhAz8RGkTpnt/UcB5LUsN2DlZOrYWOU6Ubjuu0vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777383072; c=relaxed/simple;
-	bh=kexGPkwBq/MmeW6brrHJUOJsHICwBMZXSkjERL4IfyQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Nkm7BURHKfpAc6ao7cRmV/G5wRfWR6xky/m4epx+TyycnixShWWBe4naHAT44ZmAA2ss+bEBsR8N+u4PBmi/KMJOkR0FFtp2eiKegbsyS6Of2Amkthp4l/zb0jFBM4/mFRJHM6JIby5YsHcNr7XcwuTWHsa1P09zE3HPY9HHCTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a6R1lEcL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777499304; c=relaxed/simple;
+	bh=voeHaowYz2pxyMUh8jyhIMaW8L+v6/oCL2aL6We98yA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=rJKhXy/JooUrxKX8c0IDoEY+vwWmvP1m1ghk7oCyCwaobcjvZvzNvueAwX1q80L/wgIvYWwiG+H2jX8FG4U4pQkokqFpP6KE4zl8h052MnRiFYR8CzrZRIEkB+I9WXOts1pn3b3CMJLL5vUYCu7z1IuvcvZU/OUdb1ZUQSdmYr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MA0gQvzN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a6R1lEcL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2F7AC2BCB5;
-	Tue, 28 Apr 2026 13:31:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MA0gQvzN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1957C19425;
+	Wed, 29 Apr 2026 21:48:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777383072;
-	bh=kexGPkwBq/MmeW6brrHJUOJsHICwBMZXSkjERL4IfyQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=a6R1lEcL2LFNbQWoLyScajxzl1WPRJ7GmfJGc+6UKL3l8mChnzYpFfBWjDnZRNeyo
-	 ZE4uUaRabGLSSzSTf2ih2r16CEKfcr7Vl4vgpqqR7JbzYE8zofO//7QFAztp2GqRmM
-	 hktbWkhS/b/hlmcENBA5IDf1AJq61Z30SeqD/BO3tZ37qZp/b2IJQSVzwvF6BIXADP
-	 pZ3iUpzFGssoWqij8i0yx80LUIvsGTurelweUW3qEGC2BZuQ94UIUidxB9UwdSOSzI
-	 zC6H2d4iO2oGfv+Mz81wbugUHc5EuGg+6rW/Sni9BLVINlO9aHMbSeGXkDW8nTQslg
-	 bjK77KhzWI/0Q==
+	s=k20201202; t=1777499303;
+	bh=voeHaowYz2pxyMUh8jyhIMaW8L+v6/oCL2aL6We98yA=;
+	h=From:Subject:Date:To:Cc:From;
+	b=MA0gQvzNxnSYm4eBt+92WVkNpuvRPVgK7pHgN/wf/MSb0QatlJ15zn3789VqCuNvS
+	 Hw8k/7IW98UdXmuRUly/Z5X5dFIUbqkM1ncyb+u5EfTdEoON30Vjms9+zOwMJTMAKe
+	 Jambue4sz9Z79XLVEPEQEfLzLiTBxKOConn71+3yc8Fvx0hZ8dLPtpiWaBntq9Eyg2
+	 QgADiJmRwrW4/HUx72XNZJRrdGW+JjmhV6v4hVH5e460+jtVLbVKR8m+SSljMHIK2F
+	 GLmLQRaCm9Wa57JffHHOcFi+noViGV3Fj/YVX3EpysVmITTVN5pyNas1wYvtzKFYZN
+	 zQtG+crPo5Peg==
 From: Chuck Lever <cel@kernel.org>
-Date: Tue, 28 Apr 2026 09:30:50 -0400
-Subject: [PATCH net-next v8 5/5] tls: Flush backlog before waiting for a
- new record
+Subject: [PATCH net-next v9 0/5] TLS read_sock performance scalability
+Date: Wed, 29 Apr 2026 17:48:07 -0400
+Message-Id: <20260429-tls-read-sock-v9-0-39e71aa7810f@oracle.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -38,68 +37,119 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260428-tls-read-sock-v8-5-85f96c7df24c@oracle.com>
-References: <20260428-tls-read-sock-v8-0-85f96c7df24c@oracle.com>
-In-Reply-To: <20260428-tls-read-sock-v8-0-85f96c7df24c@oracle.com>
-To: john.fastabend@gmail.com, kuba@kernel.org, sd@queasysnail.net
-Cc: netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, 
- Chuck Lever <chuck.lever@oracle.com>, Hannes Reinecke <hare@suse.de>
+X-B4-Tracking: v=1; b=H4sIAJd88mkC/3XQTWrDMBAF4KsErat2pOrPXfUeoQtJHtWiiRQkY
+ xKC717FUOradPl4fDPD3EnFErGSt8OdFJxijTm10D0diB9s+kQa+5YJB67glWk6niotaHtas/+
+ iFoBz3/WBK0mauRQM8brMO5KEI014HclHa5ytSF2xyQ+PeT/dy9nG9JBDrGMut+WQSSz+n52To
+ ECtY2AUegUQ3nOx/oTPPp+XVZNccS62XDYuBRiHAaXWYsfVmqstV42H3hjtOtQB1I7rNTdbrht
+ nUmkjmOyDZztufrnYc9O4kaFTXrenC/+Hz/P8DdkRCujRAQAA
+X-Change-ID: 20260317-tls-read-sock-a0022c9df265
+To: John Fastabend <john.fastabend@gmail.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Sabrina Dubroca <sd@queasysnail.net>
+Cc: Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, 
+ kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>, 
+ Hannes Reinecke <hare@suse.de>, Alistair Francis <alistair.francis@wdc.com>
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1346;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3294;
  i=chuck.lever@oracle.com; h=from:subject:message-id;
- bh=ezWifH+oKfKGExNghNzuceCnWpXRHJGt1UG1MBt2Ci0=;
- b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBp8LabH51pK8HEawoqzDOV6L8Zl9xk/XFsDBOax
- doRrW/WF16JAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCafC2mwAKCRAzarMzb2Z/
- l1B5D/0eLqXUtI00vyk4Z7V5SzDN7iX89FGBtiEujDOzdz4PnkvEd1H9GyGIilmEDQnnqM/8L24
- /7U5b6z8AqvhDZunqmXndw6GO64mih7nlBFYWammTdQ3aKBy2zHfUNuT1gf6FkpjKN6kVZ0n2sk
- A0ttw3mS9+wWNtOzee0f6bnDQSQMuIHUQ7yUNAWaRKxnxVqJ28kFX3DgeVIko7h+nqdTJz1mqmy
- E4e0LE5K1t5JGFcpjGrnaRqf3cc73eCsV/dW2NERivsexyOOElelgBK5H3IfJFQ8/twjcDgjuZF
- Iq7yzDGFd+EO6F00rZgc9GHee3PHSzfDXzKZaZyFJMFMSj8BHROE5CpqRuhzJkQxjtf2cJLK1JF
- 0DW730xt/DgrSuWvdWXtmCkEbpj7sgday+cxMX1cgsF8R1Fs/4Rty/UvsjTAqmS+D9cEdSzaeQp
- MpZMQZTa8Ti3qw60I/ORqv54+ZhTGflorWAgd5b2OzfQqUoa6Y5T3Sjtr5gfqQgzEecPVg1eZN5
- tMQAJBn3V3xZ00icLFx+FYAdco71IRIxrfduqikALM01YtSKD+mgjeZhnNr4rj5lM7j49c6jcZ+
- ccqvKW9qhVm/vDfMz6QbO78upSzwA4IfiAZ3/tL+szTSfWqn0nOo8n7l1Qg7/PIAKIaYnxQ5yCg
- K2Yr0GdaZabi+oA==
+ bh=voeHaowYz2pxyMUh8jyhIMaW8L+v6/oCL2aL6We98yA=;
+ b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBp8nycVllwTOmLsl5nMX/mh/2XHhc5gxs+8i9Bq
+ 6qBL5CKgVOJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCafJ8nAAKCRAzarMzb2Z/
+ l3DeD/wOVOPYiMLg32C2dwA/KJ/mRqWkr35Rx332x29/bV5ptH70cODTfK/+n9gEqWQL/1KTKMY
+ jP64vZaCtRM11wxdYLeomGPsFIvd6l0QBOEfN0ejde+7Nv5V3FCghUXCS1iWj6MqXLvlqJ0PJX8
+ f1le31+2eo2ALCYxqp/Tbu+og74J+ygaTNi6rEZjzXLjCg/3elGWsMCdvc1fV2Byx0Zlt1+zr06
+ d6aUXnI/ERkJ03u7K9TJo5LiFRpClZUiR1MfZOVJuxwXAGGqrEGX3XO6nhWoyBm/DWbaaRN5wF7
+ DIn/YN6vEPjUaS3iX38twZRVOw0dqbVyqNfZYyQXvr9sTTsizNCyyKEBsNrEOwXicja/DvE/2zH
+ 0pctrQXDGnmUSIm6Ewr6xrzDREkfuXLtts1ETXZij1Wj4G/YjGRkRBFyGtFmyMGfLcGRBWVpeen
+ FKrPoy/Z0vQItMV0Ez2/FyYslPUsrK7HhrJMIuIsuPcvAO+4aeWj1iodykwl2WMsmAV2mF7I0YO
+ ZZe1WJVZssJiSmGr05rb5Oq0maxS51ddweggzlQnUjQIJL0zvOTZXKU9u66gZ5ZQBY9ySNjyq3l
+ YEHgRSPFBosoeWWdSql5/hbr+9BI0ACmuXYwyOXTept7yIVhE1NC9AD104/vrFxO/NgzCMkpJVP
+ IceF38Gd6wAXcQQ==
 X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
  fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 
-From: Chuck Lever <chuck.lever@oracle.com>
+I'd like to encourage in-kernel kTLS consumers (i.e., NFS and
+NVMe/TCP) to coalesce on the use of read_sock. When I suggested
+this to Hannes, he reported a few performance scalability issues
+with read_sock. However, batch async decryption and its
+submit/deliver scaffolding were dropped from this series because
+async_capable is always false for TLS 1.3, the TLS version that
+NFS and NVMe/TCP both require. Async crypto support for TLS 1.3
+is a prerequisite for revisiting that work.
 
-While lock_sock is held, incoming TCP segments land on
-sk->sk_backlog rather than sk->sk_receive_queue.
-tls_rx_rec_wait() inspects only sk_receive_queue, so
-backlog data remains invisible. For non-blocking callers
-(read_sock, and recvmsg or splice_read with MSG_DONTWAIT)
-this causes a spurious -EAGAIN. For blocking callers it
-forces an unnecessary sleep/wakeup cycle.
+This series is now only a set of clean-ups. Support for async
+has been deferred until after TLS KeyUpdate has been merged.
 
-Flush the backlog inside tls_rx_rec_wait() before checking
-sk_receive_queue so the strparser can parse newly-arrived
-segments immediately. On the next loop iteration
-tls_read_flush_backlog() may redundantly flush, but this
-path is cold and the cost is negligible.
-
-Suggested-by: Sabrina Dubroca <sd@queasysnail.net>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 ---
- net/tls/tls_sw.c | 2 ++
- 1 file changed, 2 insertions(+)
+Changes since v8:
+- Address review comments from sashiko
+  - Patch 2: Requeue partially consumed skb to prevent leak
+  - Patch 5: Re-check sk_err so RST during flush surfaces as
+    -ECONNRESET instead of EOF
+- Address review comments from gpt-5.5
+  - Patch 4: Restore msg_ready early-return in tls_strp_check_rcv()
+    so the queued strp_work doesn't double-wake the consumer
+  - Patch 4: Add tls_strparser msg_announced bit so the recvmsg
+    exit-point handoff doesn't re-fire saved_data_ready() for a
+    record BH or the worker already announced (rx_list-only drain
+    path)
 
-diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-index a16f2954d393..0f365cc944a7 100644
---- a/net/tls/tls_sw.c
-+++ b/net/tls/tls_sw.c
-@@ -1382,6 +1382,8 @@ tls_rx_rec_wait(struct sock *sk, struct sk_psock *psock, bool nonblock,
- 		if (ret < 0)
- 			return ret;
- 
-+		if (sk_flush_backlog(sk))
-+			released = true;
- 		if (!skb_queue_empty(&sk->sk_receive_queue)) {
- 			/* Defer notification to the exit point;
- 			 * this thread will consume the record
+Changes since v7:
+- Rebased on net-next (v7.1-rc1)
 
--- 
-2.53.0
+Changes since v6:
+- Rebased on net-next, v5's 1/6 was merged upstream
+
+Changes since v5:
+- Patch 6: Set released = true when sk_flush_backlog() returns
+  true, so tls_strp_msg_load() knows the socket lock was
+  released (Sabrina)
+- Patch 6: Drop Fixes tag; submit bug fix separately via net
+  if warranted (Sabrina)
+- Patch 6: Note redundant flush on cold path in commit message
+  (Sabrina)
+
+Changes since v4:
+- Drop batch async decryption and submit/deliver restructure:
+  async_capable is always false for TLS 1.3, so the new code
+  was unreachable for NFS and NVMe/TCP
+- Purge async_hold directly in tls_decrypt_async_wait() and drop
+  the tls_decrypt_async_drain() wrapper
+- Merge tls_strp_check_rcv_quiet() into tls_strp_check_rcv() with
+  a bool wake parameter; fix lost wakeup on the recvmsg exit path
+
+Changes since v3:
+- Clarify why tls_decrypt_async_drain() is separate from _wait()
+- Fold tls_err_abort() into tls_rx_one_record(), drop tls_rx_decrypt_record()
+- Move backlog flush into tls_rx_rec_wait() so all RX paths benefit
+
+Changes since v2:
+- Fix short read self tests
+
+Changes since v1:
+- Add C11 reference
+- Extend data_ready reduction to recvmsg and splice
+- Restructure read_sock and recvmsg using shared helpers
+
+---
+Chuck Lever (5):
+      tls: Abort the connection on decrypt failure
+      tls: Fix dangling skb pointer in tls_sw_read_sock()
+      tls: Factor tls_strp_msg_release() from tls_strp_msg_done()
+      tls: Suppress spurious saved_data_ready on all receive paths
+      tls: Flush backlog before waiting for a new record
+
+ include/net/tls.h  |  4 +++
+ net/tls/tls.h      |  4 +--
+ net/tls/tls_main.c |  2 +-
+ net/tls/tls_strp.c | 36 ++++++++++++++++++++------
+ net/tls/tls_sw.c   | 76 ++++++++++++++++++++++++++++++++++++------------------
+ 5 files changed, 86 insertions(+), 36 deletions(-)
+---
+base-commit: 09942ddedcb960f9e78fd817ec33f501d1040c5b
+change-id: 20260317-tls-read-sock-a0022c9df265
+
+Best regards,
+--  
+Chuck Lever
 

@@ -1,126 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8E32749D6;
-	Wed, 29 Apr 2026 21:48:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE81285CB3;
+	Wed, 29 Apr 2026 23:13:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777499308; cv=none; b=KohgTtjjYLYtE4yCVGrANNyNx1Mgr0HGd/WzkjD5jVQqHAPaR8dz3qPbkS5CSugdF9cSkOTguvoSXGriX7Hyo4+7Crkx1ffnqlOj6BqyQ72nbPgkc49VcBgFwkGeWC/qEV8ioBq+oZKLVfcTnSR1863adoR6l0qxqj91elVWLNs=
+	t=1777504420; cv=none; b=kmFn7gkNp/Zqfg4AcPymLENi29sAJ13EWgBKaTTvgi91KYSfK9CYCvsbyZzG3FWylRQdbCxp93VUMnVpo9rnpi949sk9cS04zkZpUKRFW2m0EXeWUn7YThNubyBdCyLp4lvOFsuYPFBjQRqIvrOXMp/2YAmtDOiTxnxoD2/dCwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777499308; c=relaxed/simple;
-	bh=K3xdO/kgOqIE1mhISVtQeKuEWHiIfcP9hRjIw787Kzw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=b3+A48OKOxTbFZx66EWECBGwfmvIbmg1vSQH2vWreSGY/8HYDPlkHId0HWu9YSmUQXRErX8biz+ib2lm5dePGgLvDSCEyLTPvmEZh65GcaZEYwieh9S2SvXXYVPSpMGCzqu2u7RU2IUZpL/dYBQpAYQFcJlc1ju5Y8202Zw2kT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JXI4D2+N; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777504420; c=relaxed/simple;
+	bh=r4aaCFBW8CcUna0et0rF+jA1Bp0/Pd1s9hFrnRnuB6Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FhmMtGnrECNbum2MnwYKPhJQhAwNqASt37nSJncXlkJVcnrj36DgTvc1EwZN8nHq9se1a+hn3IZ7sIs+TazdGtjiFTkkFediLYPgV9QiRPUHoIJDGFbSl/YTjz0izTqMYuAwG6SX0eSrWKcuqB+rk1MK24A34CYXUWJPR7jzwnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nQ4uBzl0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JXI4D2+N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C744EC2BCB4;
-	Wed, 29 Apr 2026 21:48:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nQ4uBzl0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BE5BC19425;
+	Wed, 29 Apr 2026 23:13:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777499308;
-	bh=K3xdO/kgOqIE1mhISVtQeKuEWHiIfcP9hRjIw787Kzw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=JXI4D2+ND5L6GVQlQxCEWXorBvEiyfHXC4hS9i2RQUYw9wtLH+bmQ9jjSLd5RKzAa
-	 UYtQ4LxhiDa2vR1dL0Dyekh5DwpbomSp5UsK/sOW+Q9tg0wJu3YoYF5DmtANqPwakT
-	 Ls2zTzvfWbaqRWziaFs/FHoDR5pcsBpZ4ZeXN+2uk2pztbvfCQpr6NA+mF1zFADW1a
-	 GoDUXimA2GIL8mMLCByMAzET3EuBRux7f/i8XjIG9ZuhBomidANDwKAHY20nqFsTdF
-	 1QM7bA4+FwEJRFyrTkgNto84xy0143Gbq4CMYMOl2A1uIAg7WU7EZNNyZ5ej+DxOp9
-	 LAynWEOgGnu0w==
-From: Chuck Lever <cel@kernel.org>
-Date: Wed, 29 Apr 2026 17:48:12 -0400
-Subject: [PATCH net-next v9 5/5] tls: Flush backlog before waiting for a
- new record
+	s=k20201202; t=1777504419;
+	bh=r4aaCFBW8CcUna0et0rF+jA1Bp0/Pd1s9hFrnRnuB6Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=nQ4uBzl0Oj+OkgzUT/eS7cy3+JOq2OLci3pu5RHAHV5GjdXVZpGI+PjooyjQ34MhC
+	 NRFM9XAVZjrs90G0q4neprR8gVnflsRhGiQCpvvSpC+Vc6EZz14Az5vjCCbmzKX8yp
+	 GumfHpUIdw8LrgZLh6JZqWUnLrf7YnkgowVc83VstR/lckz73FwkZ5vB1rLz2ODueO
+	 CSzD3TGLuhGR/1xMFuf2huLaowACSEt51Yog75hcXsQ20luwWqAmSru9F8gfywxB/z
+	 asxuJUjg5EUPWhUitYtfql+Gcuamngj2XEvDACxzwfCN3owc5G74B+XyOm2LnDVLxO
+	 cljKtiyfMoL+w==
+Date: Wed, 29 Apr 2026 16:13:38 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Chuck Lever <cel@kernel.org>
+Cc: John Fastabend <john.fastabend@gmail.com>, Sabrina Dubroca
+ <sd@queasysnail.net>, Eric Dumazet <edumazet@google.com>, Simon Horman
+ <horms@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, Chuck Lever
+ <chuck.lever@oracle.com>, Hannes Reinecke <hare@suse.de>, Alistair Francis
+ <alistair.francis@wdc.com>
+Subject: Re: [PATCH net-next v9 0/5] TLS read_sock performance scalability
+Message-ID: <20260429161338.6da2b22d@kernel.org>
+In-Reply-To: <20260429-tls-read-sock-v9-0-39e71aa7810f@oracle.com>
+References: <20260429-tls-read-sock-v9-0-39e71aa7810f@oracle.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260429-tls-read-sock-v9-5-39e71aa7810f@oracle.com>
-References: <20260429-tls-read-sock-v9-0-39e71aa7810f@oracle.com>
-In-Reply-To: <20260429-tls-read-sock-v9-0-39e71aa7810f@oracle.com>
-To: John Fastabend <john.fastabend@gmail.com>, 
- Jakub Kicinski <kuba@kernel.org>, Sabrina Dubroca <sd@queasysnail.net>
-Cc: Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, 
- kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>, 
- Hannes Reinecke <hare@suse.de>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2029;
- i=chuck.lever@oracle.com; h=from:subject:message-id;
- bh=suBWFXmLddudAaKNeZeInfibTXDoWcvDMLZDzodb/LI=;
- b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBp8nymAulfatNFKXDCEPLolubMkSmuuJXWlcEED
- A4Wuess0x+JAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCafJ8pgAKCRAzarMzb2Z/
- l2rtEACpdgmmJnkUebKmUisCNQ0Wg4+YNGJt87Yp3mijxNjSUozswCYQjTAQBF7/82zKNrNsrXG
- +9k65+ySSGjYZ2pgbwWHYr+PjgK6QZI+xs613hJ7PIhYOiFmFz9vNcRRQ5g4C76Dm6/F6W+/wFI
- ZLpBNNfFh+re+oq8aw/SAvvQsUGEiOUyn1qr9GuyjRNIf2IJd2BKTNmKySsqIVX1U+ttNEHj8rJ
- Yi6TRJje0MfdrOzBG8LtVxRfE3936cllHN/Gauw8V0FF6ejSjAJZuh1YcjrXRSuBVr1GFObZyFv
- Y5e6tDknONL99mhc03hyStTvsFtOAjSEsdAKHGNNqSSMDxyeOEbz+B5MTmsOgVtxKMJ5h1b55EV
- CL4Bvf4YEn7xk/9h1ajW4KfRhcPSEGsUMHKgYmqW6qj9OFw1cAAIpMqICRLkvgkj8qrw5s7IakH
- knQ1jzgIyq7Yo5XmveOwsbRsn7+jwMJW+HJ6kShcwwElb0VrcxxzAQlq171vpIzhDL7iE62yQRh
- VUhbeQEOj2aCG5o+sWvdWb4zHal2wimLV8MbKyDl0CYpAuTCIHNXFGWaVwzR0qZXpjSatTaQaG2
- /Wtmie0xY3SFPSp5wOE7GMt0LMUyEYXL/vQCbKSYMCtwZXah6sbjxLiKL6GbpbYnqCJk0nwortt
- gA+4Ry+ofUuNn/g==
-X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
- fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 
-From: Chuck Lever <chuck.lever@oracle.com>
+On Wed, 29 Apr 2026 17:48:07 -0400 Chuck Lever wrote:
+> Changes since v8:
+> - Address review comments from sashiko
+>   - Patch 2: Requeue partially consumed skb to prevent leak
+>   - Patch 5: Re-check sk_err so RST during flush surfaces as
+>     -ECONNRESET instead of EOF
+> - Address review comments from gpt-5.5
 
-While lock_sock is held, incoming TCP segments land on
-sk->sk_backlog rather than sk->sk_receive_queue.
-tls_rx_rec_wait() inspects only sk_receive_queue, so backlog
-data remains invisible. For non-blocking callers (read_sock,
-and recvmsg or splice_read with MSG_DONTWAIT) this causes a
-spurious -EAGAIN. For blocking callers it forces an
-unnecessary sleep/wakeup cycle.
+Is someone running gpt-5.5 on the public submissions?
 
-Flush the backlog inside tls_rx_rec_wait() before checking
-sk_receive_queue so the strparser can parse newly-arrived
-segments immediately. On the next loop iteration
-tls_read_flush_backlog() may redundantly flush, but this
-path is cold and the cost is negligible.
-
-Backlog processing can run tcp_reset(), which sets both
-sk->sk_err = ECONNRESET and (via tcp_done()) sk->sk_shutdown
-= SHUTDOWN_MASK. The pre-existing top-of-loop sk_err check
-already ran before the flush, so without further care the
-freshly-set error would be masked by the next-line
-sk_shutdown test returning 0 (EOF). Re-check sk_err
-immediately before the sk_shutdown test so a connection
-abort surfaces as -ECONNRESET rather than a clean EOF.
-
-Suggested-by: Sabrina Dubroca <sd@queasysnail.net>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
----
- net/tls/tls_sw.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-index cbb068266bab..b888aaa505c0 100644
---- a/net/tls/tls_sw.c
-+++ b/net/tls/tls_sw.c
-@@ -1382,6 +1382,8 @@ tls_rx_rec_wait(struct sock *sk, struct sk_psock *psock, bool nonblock,
- 		if (ret < 0)
- 			return ret;
- 
-+		if (sk_flush_backlog(sk))
-+			released = true;
- 		if (!skb_queue_empty(&sk->sk_receive_queue)) {
- 			/* Defer notification to the exit point;
- 			 * this thread will consume the record
-@@ -1392,6 +1394,8 @@ tls_rx_rec_wait(struct sock *sk, struct sk_psock *psock, bool nonblock,
- 				break;
- 		}
- 
-+		if (sk->sk_err)
-+			return sock_error(sk);
- 		if (sk->sk_shutdown & RCV_SHUTDOWN)
- 			return 0;
- 
-
--- 
-2.53.0
-
+>   - Patch 4: Restore msg_ready early-return in tls_strp_check_rcv()
+>     so the queued strp_work doesn't double-wake the consumer
+>   - Patch 4: Add tls_strparser msg_announced bit so the recvmsg
+>     exit-point handoff doesn't re-fire saved_data_ready() for a
+>     record BH or the worker already announced (rx_list-only drain
+>     path)

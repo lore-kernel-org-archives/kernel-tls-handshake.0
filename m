@@ -1,65 +1,62 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5375236493C
-	for <kernel-tls-handshake@lists.linux.dev>; Mon,  4 May 2026 15:59:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2983EAC8A
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  5 May 2026 08:16:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777910375; cv=none; b=AeVlqoJ2rhh5zWudeKJkW+oIF/UrK0MqM77WYN4Hg3cyauQ0BPAZXnyntghvnYAwFxeOH5OTXxmlcIrowxMiBIUC6PhADc+pugVhr0fyLE+cg/oLWvqS5gcQrp8kkrJKAKb6/+JnumqFnoZMjLcHFIHM2ot6skF6c/yqM/SayOY=
+	t=1777968970; cv=none; b=kXaomf0Xxypwlirg0nrlLA04WhZLoaOblfKHuGpFSpfQuRVnEIfNB1d1oZlWQvbiAzXdoyQkemluZV/ue8SGwGNLhYGQIQQtJo9Idrmfoa4J7q5Jomo2NjEonax7ePStQG98uIZxhE1GVTiHaBzpx2h+9dMDN6yb7vasSIiYJi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777910375; c=relaxed/simple;
-	bh=xTd/dv1zHBWY+66Qs0Ea3v57289kHiF5l1lPTZVm1mI=;
+	s=arc-20240116; t=1777968970; c=relaxed/simple;
+	bh=iZjLEaVYOGNfiw6+ZITdYPUtOq2jyt4Nbckk5ZpL+20=;
 	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=UvmxWbmfPZN3KwUH5Aiv8D5V5W7PFpUbeBszhtG/muNP7Uxb6nxU8ju17uJgSVTiMdNrXKPY1HHnj3A+X/4K9lnUPPVMAFWSMquYv4+H5qcL8qgM51ahMvW99suiIYWx3BNwHpYc0vNNctBnrCovg+AOg5uIrEh3esrutPsy0bA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OBWaWdaj; arc=none smtp.client-ip=10.30.226.201
+	 Subject:Content-Type; b=hjotz9uCMjVfzZdowgOEE1YydmcTpuR6g7wpZ/CcuIDKGZVBcTCDl05m1mg7x2Z0yWGaJnnOKe86FY1Rcj9/7ly5o2r8fWVi4wzlYkIRGt2ENMh3ZJ1zDvDYj00n23R8rsy2qqOrimWBWHCw90Hgdn2Fh5+tGIfuMzYL/mdAZ64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U+ueopS4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OBWaWdaj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEE65C4AF09;
-	Mon,  4 May 2026 15:59:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U+ueopS4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7958EC2BCB9;
+	Tue,  5 May 2026 08:16:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777910375;
-	bh=xTd/dv1zHBWY+66Qs0Ea3v57289kHiF5l1lPTZVm1mI=;
+	s=k20201202; t=1777968969;
+	bh=iZjLEaVYOGNfiw6+ZITdYPUtOq2jyt4Nbckk5ZpL+20=;
 	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=OBWaWdajTeiOwbQCy/9FBz3ml5nHfzL+zbmaLo5fw6f76ZBmacsixqNc2yhpM7TQd
-	 1LNggXGChiTi0jqGGaxXPi5LvmEw/mghSb97IWwG6RqQfm5KJxtXP8JsmyW50A/rn8
-	 zRXEdcNGddSnuq77VkM9xmx/lbWm0LwSO2irNNZwR9jP4xSTyrJ7H+FLdy+pTc6/VM
-	 TnMJNPSpT58Gt57qXa5SYmKwi7jfShX4Sn89ZFwm9sp1moJwxxGPOWJKgG/f1/h0Xk
-	 OFdVTBIrvfOKSTcFt5SM600S/rlhvCLaD5XYClgbJrfxm/aL2yhb1hm6ys1gqKQLJO
-	 FOzfIUD3nYbtQ==
+	b=U+ueopS4woIo3raPyV32JXX7OvBY6TGnUySxMrR5dld9qk4ucyqRF854UD+OWeXTw
+	 WD1ewRSkdyPpzQbs+HgWz8RVVvgF0ZNu1+7h84T6ZGhx2afv9381G0GcGSEgUyNhd1
+	 Dnu83GxH06xXxcd3ENtNKOI1vitHYX7eRu540Q64NUjMZimyBJIyZTDoL4y5hpNU+t
+	 +zTCUvwaUQZeCgk2d5x+keYgwofdZnpkmeIC/iXd3szuLU9x5n6ydonoS2laAdTEmq
+	 P8inaIbnMSCwM6A18Lz2VN74uONfBHSOtnJGjOlTPILkpAPl9jqPytanDcmm81lAcg
+	 qGz9bLdszkgCA==
 Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id D4F32F40085;
-	Mon,  4 May 2026 11:59:33 -0400 (EDT)
+	by mailfauth.phl.internal (Postfix) with ESMTP id 6D5F7F4006C;
+	Tue,  5 May 2026 04:16:08 -0400 (EDT)
 Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Mon, 04 May 2026 11:59:33 -0400
-X-ME-Sender: <xms:ZcL4aanZV0puZ_o_ahyYIf8VrzGY51XbZ9vAdXRTL2x7qPeYda0NWA>
-    <xme:ZcL4acpWUKZe1nL13raeefQyhPBumHI7kYNBVlLOzNz6AthyyR5izVch664pYKM4d
-    r0MZkDeS42cVS4LQ27BxKRQ8mRNropKOdVF8YPG6uv7mF_Ep6lv4Z_X>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdelledviecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdevhhhutghk
-    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
-    ephfffkefffedtgfehieevkeduuefhvdejvdefvdeuuddvgeelkeegtefgudfhfeelnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghhuhgtkh
-    hlvghvvghrodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieefgeelleel
-    heelqdefvdelkeeggedvfedqtggvlheppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrih
-    hlrdgtohhmpdhnsggprhgtphhtthhopeduuddpmhhouggvpehsmhhtphhouhhtpdhrtghp
-    thhtohepjhhohhhnrdhfrghsthgrsggvnhgusehgmhgrihhlrdgtohhmpdhrtghpthhtoh
-    epvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehhohhrmhhssehk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepkhgvrhhnvghlqdhtlhhsqdhhrghnughshhgrkhgvsehlihhsthhsrdhlihhn
-    uhigrdguvghvpdhrtghpthhtoheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgvrdgtoh
-    hmpdhrtghpthhtohepshgusehquhgvrghshihsnhgrihhlrdhnvghtpdhrtghpthhtohep
-    phgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopehhrghrvgesshhushgvrd
-    guvg
-X-ME-Proxy: <xmx:ZcL4aeBaDX56RUn0swi2CbHqlnf_xuQneFIOQSqWfqCVaIdOqjfrRw>
-    <xmx:ZcL4aXsMoIG30dxNpwGxylfdWsSRUQ3D3ga6KTyhxilV6HFYJKTKkg>
-    <xmx:ZcL4aUQ98eSqO_o2VX_JKJeZzLnpLWAfGrqBRFtV2okOIZYoqmxoGA>
-    <xmx:ZcL4aWJnw3IR6f2biOpR3BO7lH1SPJngCfDDkw77unKf0mHLDnAUJA>
-    <xmx:ZcL4aftNG-nPKeoxjkzupnd5mByvlkexJ3NjwFtsv0_vlS1ULGTUaRv8>
+  by phl-compute-10.internal (MEProxy); Tue, 05 May 2026 04:16:08 -0400
+X-ME-Sender: <xms:SKf5abVfz6YQ-9Cnttjw7o9t61qlexixXSOC0ZvFxUVauWx7ZFQGyQ>
+    <xme:SKf5aeYxs2LwQES5Wq9vrdmewiuoqTfAwXzseUEgEkk4zReqiyfq0T3YPAQcAsvq3
+    fscyz8jsvbbLBOMobO5Q_yXp-ZN6CLT9a1R01vg33CxwWTqll2bNQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdduvdduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
+    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpefhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutg
+    hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
+    leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
+    hilhdrtghomhdpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepshgrghhisehgrhhimhgsvghrghdrmhgvpdhrtghpthhtohepkhgvrhhnvghlqd
+    htlhhsqdhhrghnughshhgrkhgvsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthht
+    oheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgvrdgtohhmpdhrtghpthhtohepshhmrg
+    ihhhgvfiesrhgvughhrghtrdgtohhmpdhrtghpthhtoheplhhinhhugidqnhhfshesvhhg
+    vghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:SKf5afhNuvpuPD0RC48ZEFuGYk3LaQqZHOd8SyKVgHhzx_LXtaIPmA>
+    <xmx:SKf5aU9c_BfpnCnOBlGcU2h6F_1PRqjP7ded36HZW8MozfbT7Soy-Q>
+    <xmx:SKf5aaqPb-LpJBC51qrJogs449jegFMcL-xd6qLT5_VdSzgE6SuoYg>
+    <xmx:SKf5acUovHi6wgkYor77KLXf6BiCiK0JVu3mGLnXc2Q9-0xgYaReFQ>
+    <xmx:SKf5aZC0HSl3C5PmMUO3Ze8vSrxyoYF-thwIHBkOdSWtZozco6eLjaHw>
 Feedback-ID: ifa6e4810:Fastmail
 Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id ADE90780070; Mon,  4 May 2026 11:59:33 -0400 (EDT)
+	id 48BFC780070; Tue,  5 May 2026 04:16:08 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
@@ -67,79 +64,39 @@ List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: A6DWjhiQzWgR
-Date: Mon, 04 May 2026 17:59:12 +0200
+X-ThreadId: Ak5ktnwSWV1c
+Date: Tue, 05 May 2026 10:15:48 +0200
 From: "Chuck Lever" <cel@kernel.org>
-To: "Sabrina Dubroca" <sd@queasysnail.net>
-Cc: "Jakub Kicinski" <kuba@kernel.org>,
- "John Fastabend" <john.fastabend@gmail.com>,
- "Eric Dumazet" <edumazet@google.com>, "Simon Horman" <horms@kernel.org>,
- "Paolo Abeni" <pabeni@redhat.com>, netdev@vger.kernel.org,
- kernel-tls-handshake@lists.linux.dev, "Chuck Lever" <chuck.lever@oracle.com>,
- "Hannes Reinecke" <hare@suse.de>,
- "Alistair Francis" <alistair.francis@wdc.com>
-Message-Id: <4f3e1e36-1678-4e5a-b7d4-81eba2e1df11@app.fastmail.com>
-In-Reply-To: <afigKenambAyKkhu@krikkit>
-References: <20260429-tls-read-sock-v9-0-39e71aa7810f@oracle.com>
- <20260502180415.0b0bf12b@kernel.org>
- <2d2b5da3-3bfc-4882-8886-8f20b61254e3@kernel.org> <afigKenambAyKkhu@krikkit>
-Subject: Re: [PATCH net-next v9 0/5] TLS read_sock performance scalability
+To: "Sagi Grimberg" <sagi@grimberg.me>, "Scott Mayhew" <smayhew@redhat.com>
+Cc: "Chuck Lever" <chuck.lever@oracle.com>,
+ "Linux NFS Mailing List" <linux-nfs@vger.kernel.org>,
+ kernel-tls-handshake@lists.linux.dev
+Message-Id: <4797a5a7-ac88-48a5-8707-b9e33a899da6@app.fastmail.com>
+In-Reply-To: <ce60fc54-5082-44a4-99ae-dccbbb25eb88@app.fastmail.com>
+References: <fd4aaf4e-b1b7-4ca2-bc93-955c31fab317@grimberg.me>
+ <92a53963-1e4b-42eb-af81-6be9f63f9e43@app.fastmail.com>
+ <afUKzeUYPhb97DX4@aion>
+ <7c6516be-adb9-4d0d-ba7c-fa107fd4a865@app.fastmail.com>
+ <e55cd958-6d86-4c6b-abc6-5be83fc53b0b@grimberg.me>
+ <98a865cb-94e3-4f57-8b9e-0634c43098b9@app.fastmail.com>
+ <2330c9c6-de7e-4cac-b991-3ffcfdc23858@grimberg.me>
+ <ce60fc54-5082-44a4-99ae-dccbbb25eb88@app.fastmail.com>
+Subject: Re: Breakage in ktls-utils with nfs keyring?
 Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
 
+On Mon, May 4, 2026, at 8:44 AM, Chuck Lever wrote:
+> What you are asking for, then, is a 1.3.0 dot release for this fix. I
+> still don't feel there is a strong requirement for that, given that
+> distributions apply fixes to packages all the time. But I haven't made
+> a final call on that.
 
-On Mon, May 4, 2026, at 3:33 PM, Sabrina Dubroca wrote:
-> 2026-05-03, 21:34:01 +0200, Chuck Lever wrote:
->> On 5/3/26 3:04 AM, Jakub Kicinski wrote:
->> > On Wed, 29 Apr 2026 17:48:07 -0400 Chuck Lever wrote:
->> >> I'd like to encourage in-kernel kTLS consumers (i.e., NFS and
->> >> NVMe/TCP) to coalesce on the use of read_sock. When I suggested
->> >> this to Hannes, he reported a few performance scalability issues
->> >> with read_sock. 
->> > 
->> > Meaning, this series achieves.. what right now?
->> > I mean - the headline is "performance scalability" and there's no
->> > performance testing result in any of the messages :S
->> > Patch 5 for instance "seems logical" but how much difference does
->> > it make?
->> 
->> The cover Subject: line has not been changed so all the revisions of
->> this series can be located easily.
->
-> (not to bikeshed, links to lore also do that)
->
->> The cover letter makes it clear that the series is now only a clean-up
->> series. Since async_capable is set to false for TLSv1.3, there is no
->> performance benefit to these changes, so I don't intend to post a
->> motivation for it based on performance.
->
-> Maybe I misunderstood, but I thought there was a somewhat noticeable
-> benefit to the "suppress spurious wakeups" patch (not +20%, but at
-> least improved behavior for some users of kTLS), and maybe the "flush
-> backlog" one.
->
-> Patch 2 may still be beneficial (though it's now mixing 2 separate
-> changes), and patch 1 is a very reasonable code cleanup.
->
-> Patch 4 does feel like a pretty large amount of churn if it has no
-> observable benefit.
-
-There is potential benefit to eliminating spurious wake-ups,
-but nothing I've found to be observable at the application
-level.
-
-
->> We'd really like
->> to get TLS KeyUpdate working for in-kernel TLS consumers, so anything
->> that can move this process forward is welcome.
->
-> But net/tls doesn't need any changes for that, right?
-
->> 1. The in-kernel TLS consumers need to reliably and securely handle TLS
->>   Alerts. That is coming in the next series I plan to post.
-
-This series will make changes to net/tls/. 
+After auditing the commit history between ktls-utils-1.3.0 and 1.4.0,
+there are enough fixes to bundle together and release a 1.3.1 that
+includes the fix for the keyring-based NFS mount failure. I've created
+a branch ktls-utils-1.3-fixes that can be tagged and released once the
+keyring fix is merged into main.
 
 
 -- 

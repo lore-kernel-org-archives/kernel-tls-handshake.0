@@ -1,78 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2983EAC8A
-	for <kernel-tls-handshake@lists.linux.dev>; Tue,  5 May 2026 08:16:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6492264CA
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  5 May 2026 08:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777968970; cv=none; b=kXaomf0Xxypwlirg0nrlLA04WhZLoaOblfKHuGpFSpfQuRVnEIfNB1d1oZlWQvbiAzXdoyQkemluZV/ue8SGwGNLhYGQIQQtJo9Idrmfoa4J7q5Jomo2NjEonax7ePStQG98uIZxhE1GVTiHaBzpx2h+9dMDN6yb7vasSIiYJi4=
+	t=1777969958; cv=none; b=Fm3utxL+0S0mIWLpUTSz5T+fxzJaB+oTm2eQcQkA94DR0GXy1JloE42HsZ01dfbnwbYSiat7RQGEwJiPsdQNLTBZkz4j4043eQ/QuRj2QPRuAq6VVm3+s1EzE/u1BkqFFgWbXgtjVHSmrWiFBVVe0VpTWfeRkxH61R5Ao3Ezr/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777968970; c=relaxed/simple;
-	bh=iZjLEaVYOGNfiw6+ZITdYPUtOq2jyt4Nbckk5ZpL+20=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=hjotz9uCMjVfzZdowgOEE1YydmcTpuR6g7wpZ/CcuIDKGZVBcTCDl05m1mg7x2Z0yWGaJnnOKe86FY1Rcj9/7ly5o2r8fWVi4wzlYkIRGt2ENMh3ZJ1zDvDYj00n23R8rsy2qqOrimWBWHCw90Hgdn2Fh5+tGIfuMzYL/mdAZ64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U+ueopS4; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U+ueopS4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7958EC2BCB9;
-	Tue,  5 May 2026 08:16:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777968969;
-	bh=iZjLEaVYOGNfiw6+ZITdYPUtOq2jyt4Nbckk5ZpL+20=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=U+ueopS4woIo3raPyV32JXX7OvBY6TGnUySxMrR5dld9qk4ucyqRF854UD+OWeXTw
-	 WD1ewRSkdyPpzQbs+HgWz8RVVvgF0ZNu1+7h84T6ZGhx2afv9381G0GcGSEgUyNhd1
-	 Dnu83GxH06xXxcd3ENtNKOI1vitHYX7eRu540Q64NUjMZimyBJIyZTDoL4y5hpNU+t
-	 +zTCUvwaUQZeCgk2d5x+keYgwofdZnpkmeIC/iXd3szuLU9x5n6ydonoS2laAdTEmq
-	 P8inaIbnMSCwM6A18Lz2VN74uONfBHSOtnJGjOlTPILkpAPl9jqPytanDcmm81lAcg
-	 qGz9bLdszkgCA==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 6D5F7F4006C;
-	Tue,  5 May 2026 04:16:08 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Tue, 05 May 2026 04:16:08 -0400
-X-ME-Sender: <xms:SKf5abVfz6YQ-9Cnttjw7o9t61qlexixXSOC0ZvFxUVauWx7ZFQGyQ>
-    <xme:SKf5aeYxs2LwQES5Wq9vrdmewiuoqTfAwXzseUEgEkk4zReqiyfq0T3YPAQcAsvq3
-    fscyz8jsvbbLBOMobO5Q_yXp-ZN6CLT9a1R01vg33CxwWTqll2bNQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdduvdduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedfvehhuhgt
-    khcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
-    hnpefhffekffeftdfgheeiveekudeuhfdvjedvfedvueduvdegleekgeetgfduhfefleen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegthhhutg
-    hklhgvvhgvrhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeifeegleel
-    leehledqfedvleekgeegvdefqdgtvghlpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrg
-    hilhdrtghomhdpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghp
-    thhtohepshgrghhisehgrhhimhgsvghrghdrmhgvpdhrtghpthhtohepkhgvrhhnvghlqd
-    htlhhsqdhhrghnughshhgrkhgvsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthht
-    oheptghhuhgtkhdrlhgvvhgvrhesohhrrggtlhgvrdgtohhmpdhrtghpthhtohepshhmrg
-    ihhhgvfiesrhgvughhrghtrdgtohhmpdhrtghpthhtoheplhhinhhugidqnhhfshesvhhg
-    vghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:SKf5afhNuvpuPD0RC48ZEFuGYk3LaQqZHOd8SyKVgHhzx_LXtaIPmA>
-    <xmx:SKf5aU9c_BfpnCnOBlGcU2h6F_1PRqjP7ded36HZW8MozfbT7Soy-Q>
-    <xmx:SKf5aaqPb-LpJBC51qrJogs449jegFMcL-xd6qLT5_VdSzgE6SuoYg>
-    <xmx:SKf5acUovHi6wgkYor77KLXf6BiCiK0JVu3mGLnXc2Q9-0xgYaReFQ>
-    <xmx:SKf5aZC0HSl3C5PmMUO3Ze8vSrxyoYF-thwIHBkOdSWtZozco6eLjaHw>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 48BFC780070; Tue,  5 May 2026 04:16:08 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1777969958; c=relaxed/simple;
+	bh=G1IAbDpD34zFs/zr3HeiJ5rHOg/8nMo4BlbsC8iXbrQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ksHsr/EIIbwuWsKt6d4PwifS2Nd4O67xBFQVFUXBWriHh8ZxPsVrh58zuHTs/88YPWlUPCZkdYn+WR1F2QrD+AMO9GPnEtp7rCJTt28tdXLaLKJ4xgjT9TEfEVb1OAGSB9/mh2IX8dGKgRNBmmQ09LZsmrFkxtcsQCtX9U4c4a4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43fe62837baso2641344f8f.3
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 05 May 2026 01:32:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777969956; x=1778574756;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G1IAbDpD34zFs/zr3HeiJ5rHOg/8nMo4BlbsC8iXbrQ=;
+        b=ojfu2oFSY2Y/fmLZxAf2ApWVfzbMiI5ydMeytq583XxNBqRbhij+mAsdgkPOfWhL2E
+         FHvUNPWhVNxm9+3b9syqqWq+yumxXfPP7/flPXMOTUip2aciQnhNZ2TFZAxUXiWE78gt
+         kyLDca8tPzoBOjC+Kzakz/9NbuENBKjSZsZYtZsKRolEUe9A4geQPzL6FBxDIyhDTLsL
+         SnJ4+spf6YCsPyeXS64OUKMO0wBMpwnFilqBEmzd4moVVBdLwdT1E1PaiI632Y5LZwWY
+         FFxuXsOF9pSbp2gXaILBRy16Z+a8lgJZECT722sMqzRdqpHntGNMBlJzOITnXOVpPCpj
+         Cktg==
+X-Forwarded-Encrypted: i=1; AFNElJ9iyt3i3WGxIoejWTnZAsocG1AFC1T2nVRCms2SCxonlgpoGwgqDIFjE8/DppB9PArzyWIN3UJy6VYWyP78/XxG8L8JAQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyHLxPqEvbgv/MBe/+ej79nDXOPNI777Hv/uRGvjk1n8RilY50v
+	yK+sQpf917sHCI7KmgUwOZ8Hinocdjr9bddKxs4YmQyE8OJ+HvZ2ahUS
+X-Gm-Gg: AeBDievxqkWsGCVLWUPikcoU479BXSbJ0Fxy++qL+es84ofl6GZvm/oaokn9Xilr6DR
+	Y2kEN6DnoWNNGYRa7lSIodP3q3sSlBlAef2bd8RCNXaUJGBZWNvU93X95br2SnJzFv8Utelipn2
+	LLLQe1fDOnUZACPyr5YE/BCL311pic+jOEmBwVYghq0A+/gyd0dKaVISGgaXfelzB0S4HpcxnGR
+	AfioxdNpSObFcZ17KybaH1x3armfuu7dv6VQg+OfTd6qzR7Ok399/zTfccocUmAK4udFrIT5byu
+	p/WO9+PDLDaRKFqsjpRYUYr/wqo0fOamTzsjaq5y0lnSojuZM7Ac2BiyJRrGU6dMuhir/bv0Unj
+	/31OOnnuNegxOJCadx26Sp//5nyrmobU0T0Q6HIWEwRnJbW3nFMohzuoiYZPpXFpUScERiAHGcL
+	nIOi8T2eyWUl11CPFotvtpUlycllgPNycK5tspO5KXAVcDJaMTIcml3VlZKskpQw/68p13P5a6G
+	A==
+X-Received: by 2002:a05:6000:228a:b0:43d:67f4:91aa with SMTP id ffacd0b85a97d-4500670ae2dmr3456562f8f.40.1777969955517;
+        Tue, 05 May 2026 01:32:35 -0700 (PDT)
+Received: from [10.50.5.21] (bzq-84-110-32-226.static-ip.bezeqint.net. [84.110.32.226])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4504f4857ffsm2802418f8f.0.2026.05.05.01.32.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 May 2026 01:32:34 -0700 (PDT)
+Message-ID: <f4c22c54-f760-4b60-9acb-dbeb32071285@grimberg.me>
+Date: Tue, 5 May 2026 11:32:33 +0300
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: Ak5ktnwSWV1c
-Date: Tue, 05 May 2026 10:15:48 +0200
-From: "Chuck Lever" <cel@kernel.org>
-To: "Sagi Grimberg" <sagi@grimberg.me>, "Scott Mayhew" <smayhew@redhat.com>
-Cc: "Chuck Lever" <chuck.lever@oracle.com>,
- "Linux NFS Mailing List" <linux-nfs@vger.kernel.org>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: Breakage in ktls-utils with nfs keyring?
+To: Chuck Lever <cel@kernel.org>, Scott Mayhew <smayhew@redhat.com>
+Cc: Chuck Lever <chuck.lever@oracle.com>,
+ Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
  kernel-tls-handshake@lists.linux.dev
-Message-Id: <4797a5a7-ac88-48a5-8707-b9e33a899da6@app.fastmail.com>
-In-Reply-To: <ce60fc54-5082-44a4-99ae-dccbbb25eb88@app.fastmail.com>
 References: <fd4aaf4e-b1b7-4ca2-bc93-955c31fab317@grimberg.me>
  <92a53963-1e4b-42eb-af81-6be9f63f9e43@app.fastmail.com>
  <afUKzeUYPhb97DX4@aion>
@@ -81,23 +68,25 @@ References: <fd4aaf4e-b1b7-4ca2-bc93-955c31fab317@grimberg.me>
  <98a865cb-94e3-4f57-8b9e-0634c43098b9@app.fastmail.com>
  <2330c9c6-de7e-4cac-b991-3ffcfdc23858@grimberg.me>
  <ce60fc54-5082-44a4-99ae-dccbbb25eb88@app.fastmail.com>
-Subject: Re: Breakage in ktls-utils with nfs keyring?
-Content-Type: text/plain
+ <4797a5a7-ac88-48a5-8707-b9e33a899da6@app.fastmail.com>
+Content-Language: en-US
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <4797a5a7-ac88-48a5-8707-b9e33a899da6@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-On Mon, May 4, 2026, at 8:44 AM, Chuck Lever wrote:
-> What you are asking for, then, is a 1.3.0 dot release for this fix. I
-> still don't feel there is a strong requirement for that, given that
-> distributions apply fixes to packages all the time. But I haven't made
-> a final call on that.
 
-After auditing the commit history between ktls-utils-1.3.0 and 1.4.0,
-there are enough fixes to bundle together and release a 1.3.1 that
-includes the fix for the keyring-based NFS mount failure. I've created
-a branch ktls-utils-1.3-fixes that can be tagged and released once the
-keyring fix is merged into main.
+On 05/05/2026 11:15, Chuck Lever wrote:
+> On Mon, May 4, 2026, at 8:44 AM, Chuck Lever wrote:
+>> What you are asking for, then, is a 1.3.0 dot release for this fix. I
+>> still don't feel there is a strong requirement for that, given that
+>> distributions apply fixes to packages all the time. But I haven't made
+>> a final call on that.
+> After auditing the commit history between ktls-utils-1.3.0 and 1.4.0,
+> there are enough fixes to bundle together and release a 1.3.1 that
+> includes the fix for the keyring-based NFS mount failure. I've created
+> a branch ktls-utils-1.3-fixes that can be tagged and released once the
+> keyring fix is merged into main.
 
-
--- 
-Chuck Lever
+Thanks Chuck.

@@ -1,124 +1,142 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24EF3DFC78
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 14 May 2026 15:09:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB1F1625;
+	Mon, 18 May 2026 18:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778771342; cv=none; b=QwBWkT4LdFmYygi3F65EEDUzcefYmFp0VIz/ezZUFLwpQCk1I8WzzyWDd1/wiRjl91Ww3n7jzKVB7+/8Gocic+WqFNCE8UwnD2j75hldGdiNRI1jTjv0CCC6YFq2iMEE8IAEYY5QhBb21eVaAMHqSZo8c1br3wH2WbKMAazsNdc=
+	t=1779128694; cv=none; b=idL8553o4SeRx/Llvjj+HX5ZfT1v0dyqdE2aPia8UuZWNDH2JTrGEilWrdEomjwH4GaxDkenpZ0oREqvQj5mO/pMXtPnBwrQtOpthTS3tgdlIsj222bPlxWHNv/dzp5p/HxwUX+3Pq4DkC1RXLEuUUCKtIbVvwpUX8DOnjGW5II=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778771342; c=relaxed/simple;
-	bh=g/JC5WBmN/pQiTiAqX2Hd3AHi3K9BWzImhYECieHJfc=;
-	h=MIME-Version:Date:From:To:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=GuYFk/w3E6BYx7t/SvpCOnVdZZdp4rK0+MvAtz779IbLd042LmEkUeO83S15c4qbaa0sWStfHhlq8x86Hz5l4Mdn/dPySe+pf0ktslxLGxDbx/Pk3EgN1pZ+BQpOD2Zhk9hdIDrMtJ0tO9TSVZnRQ6szXFEleVCjN06MBofrCCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oS0Wh6F4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779128694; c=relaxed/simple;
+	bh=ICq74QYSGfn+DbiH3jetJoVA4QqCjQcEg51Lvf7bhyU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=QQ5ZB5KW8VguujErj0jNiCCDfhCQwQ2MD35YU4MlCgKi9bbeBdXkZrbw5cUGxrGVEiEtJKqkT+N6HZ8vRuGTN3lzzVe26w2+Zvgd87dOWXKqjUSG+YL77XD8ErRN8Id7ytLefuLcV//bCf9RPjptsE4SkElAulsBVEuu9zEz59Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vH7rhVM+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oS0Wh6F4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66991C2BCB8
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 14 May 2026 15:09:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vH7rhVM+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90A22C2BCB7;
+	Mon, 18 May 2026 18:24:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778771341;
-	bh=g/JC5WBmN/pQiTiAqX2Hd3AHi3K9BWzImhYECieHJfc=;
-	h=Date:From:To:In-Reply-To:References:Subject:From;
-	b=oS0Wh6F4yb+tx4oblEliTJycJeTtZPGZaPB1VFXtMzbKizikspSExK9+eAoUi508P
-	 ZCOmP3pEcQWxn+kEACqh5RHT5KTJwycoV+sp385BFA7d1CTuVp3LKvfY2cRlfc0OrD
-	 eOw1cccApUT+nx6EkJyjG0j984oQjDCrGa27iKreGxUbnFB2WxIPJJD79FO47teu39
-	 euqxSasDMb/40ErD2X+Ebhykh1kxz+1u+FY7HtCMshXIYkUnar1qJwzu/D1pn8bZdK
-	 Bv2ETqofa2671i/Ky3IVxjaRH17+ThUVeMaB/CFBlANBTvV3U0alOhPkeCvYy26hYb
-	 laQaD2WQLNVfg==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 80695F40068
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 14 May 2026 11:09:00 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Thu, 14 May 2026 11:09:00 -0400
-X-ME-Sender: <xms:jOUFauJQOJ_QLOR3XLImuAw1AS3BEBb-3-rMeq3YAjdK39rqHR2fEg>
-    <xme:jOUFag9QjMvTpaAdxZyEBiIhBNWEDZtb6Ox2jmxw22jvyEz9C3MT8tzCJXNgWFQoF
-    H1mPNlI5NSPDsnS8oXOlNff1Ke-UpqlBb0YEeb8s5n3nqKWKV0Y23o>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvdejkeegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefoggffhffvkfgjfhfutgfgsehtjeertd
-    ertddtnecuhfhrohhmpedfvehhuhgtkhcunfgvvhgvrhdfuceotggvlheskhgvrhhnvghl
-    rdhorhhgqeenucggtffrrghtthgvrhhnpeevieekveehudeiledvueevkefgleeffeeiud
-    efuddtudekkeeuhfffleduueevudenucffohhmrghinhepghhithhhuhgsrdgtohhmnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghhuhgtkh
-    hlvghvvghrodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieefgeelleel
-    heelqdefvdelkeeggedvfedqtggvlheppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrih
-    hlrdgtohhmpdhnsggprhgtphhtthhopedupdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehkvghrnhgvlhdqthhlshdqhhgrnhgushhhrghkvgeslhhishhtshdrlhhinhhugi
-    druggvvh
-X-ME-Proxy: <xmx:jOUFasbFMOzMXt3JgPdD8kgR9dvbsxK6URVQR2d-lr4BlM6K_FOsyg>
-    <xmx:jOUFanWacdGQG3Cb6tC2TW4XDFo68njfHAyNu_Gp6qpuKaVYaWprXA>
-    <xmx:jOUFaj3XJLkT1lFO25MQ3Q9Cu3n9f_Sl1behV0LFY-uqsG2wsST4dQ>
-    <xmx:jOUFauZf9wHzN4P19Ru6WP2Bl1ox_lY9B4doN7EWEU-2reP2x0_h6Q>
-    <xmx:jOUFamqCgwH-SB86EJtAbsdm6nun2VPOlJyGVRX9je4JYZ2_eA9dtRuA>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 60E71780075; Thu, 14 May 2026 11:09:00 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20201202; t=1779128694;
+	bh=ICq74QYSGfn+DbiH3jetJoVA4QqCjQcEg51Lvf7bhyU=;
+	h=From:Subject:Date:To:Cc:From;
+	b=vH7rhVM+5k4PPeXUnaPQ0XdMbzFvEcDU8zaKAM4cNYJVUIc46N6zKHCXql5CYZ6mx
+	 7/oiK8zdpqHPBHG+VazNJsJl1WKGYrUuSjvt2I6kCeEG5KC4b6iSaTLvfcLxqRnbbF
+	 GgIWEdNxdh3PsHfRaq8NHiXnQB8aSAPFP/BsHFrvmBCXTR+iYuBgjwkrqh9vmEuR+y
+	 +yXVlT8YPAR2KswIEaO7SAJb3jmpC2mcbC2hkrSPL/4H1+e0B+AoKpFZvjPRBp3/ma
+	 jPjt2Ygz6JKvsmhR92jrDlFFy3ImgN0iBlzmBr9ZRv+3aDjRfrgLVBgVH/aCEMsmrz
+	 p3DD5xKO831wA==
+From: Chuck Lever <cel@kernel.org>
+Subject: [PATCH net 0/7] net/handshake: anchor request lifetime to a pinned
+ file reference
+Date: Mon, 18 May 2026 14:24:27 -0400
+Message-Id: <20260518-handshake-file-pin-v1-0-4bbcb7e62fda@oracle.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AIzCGia1teGo
-Date: Thu, 14 May 2026 11:08:39 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: kernel-tls-handshake@lists.linux.dev
-Message-Id: <9f728094-4bd9-46ee-84eb-c0c4dc862504@app.fastmail.com>
-In-Reply-To: <232eab54-6aad-4b95-b1b5-97874644619e@app.fastmail.com>
-References: <232eab54-6aad-4b95-b1b5-97874644619e@app.fastmail.com>
-Subject: Re: Fwd: [oracle/ktls-utils] Enable and prioritize post quantum EC groups (PR
- #147)
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMywrCMBBFf6XM2mAepKC/Ii6SdGLGx1gyVYTSf
+ zfR5Tmce1cQrIQCx2GFim8SenIDsxsglcAXVDQ1BqvtqL0ZVZOTlHBDlemOaiZW1riDzj47bxy
+ 04Vwx0+d3egLGBc5/Ka94xbT0u57FIKhiDZxKVy3cPwIxbNsXXPE4i5YAAAA=
+X-Change-ID: 20260516-handshake-file-pin-21390f5f3513
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
+Cc: Chris Mason <clm@meta.com>, Christian Brauner <brauner@kernel.org>, 
+ kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org, 
+ netdev@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>
+X-Mailer: b4 0.16-dev-da966
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3571;
+ i=chuck.lever@oracle.com; h=from:subject:message-id;
+ bh=ICq74QYSGfn+DbiH3jetJoVA4QqCjQcEg51Lvf7bhyU=;
+ b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBqC1lssaawL1jX/ZeYbto+ndmc5xzOZnkE+97P/
+ GBB0re55JuJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCagtZbAAKCRAzarMzb2Z/
+ l61kD/oCelse4nGqq4sw249opZri7bPOzwkmp87vrC1+Ua+0aN3EQykm1gWsY7vh1ou9IEGO3oO
+ Tkf6VPg5/noh0gSWAjZzNDHVKo7n591L1n4kTsC632jBXIjsjNH6Yr9Bl21WZ+oFij6PbV/DRUR
+ 6tYXZTlFpi9DU7TLuPqRY2Oih4eS0GaOZfKEsSahd2C6mxm2GHnnQQf9LG81uaTKpTEBCd9W2Iv
+ nhIWsjT2MY2WsK/0RqT4eZsBSgKXLYU0J+6/fYNhdk/JLNbiE5NV+dlPuw+esXoFWxbunDkPiAd
+ d56SkY8Vv230IkBUWqmArrcOx8uiPUlvz5bcM43kLHKhygfEuihZGiztVafAMlcwpyh+GIwDIK0
+ xgaJtD41N9lvhaSAlUPqpq9WCNr+oOGsFwyy+ZoMPrvVXtbIrz4Si9I0q9+XOc0KztKm7SUJazV
+ r+bJtm95G4PFqpS873nqQ+JXYpbVbAxvz0oOWQrdZrRFQ0tto9lYXdG4qVHeFuYfSYojF75pXFF
+ CNY9ufLLtmS5SyFOPVRrjdY/m2BFok3ykNzgEQVmH23pPvMTWtwRuPTjiR4hkMpWKVREKlXGzPK
+ K/3JcLbaMUqnFR23zFh05ABORhj5MZLuIrRM/JkCpnOpQF4LjZ0qGvAxg5dlwUqnIJzfWt3Uc4Q
+ cRYS8JLCha7Owwg==
+X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
+ fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 
-Ping? Scott?
+handshake_nl_accept_doit() has accumulated four follow-on fixes
+since 3b3009ea8abb ("net/handshake: Create a NETLINK service for
+handling handshake requests"): 7ea9c1ec66bc, 7798b59409c3,
+fe67b063f687, and dabac51b8102.  Each was a local refcount or
+NULL-check correction; none moved where the file reference is
+owned, and the same code keeps producing the same class of bug.
+Reworking the ownership is what breaks the pattern.
 
-On Mon, May 4, 2026, at 3:06 AM, Chuck Lever wrote:
-> This proposal needs some review / comment from people who are closer to
-> distributions than I am.
->
-> ----- Original message -----
-> From: Leo <notifications@github.com>
-> To: oracle/ktls-utils <ktls-utils@noreply.github.com>
-> Cc: Subscribed <subscribed@noreply.github.com>
-> Subject: [oracle/ktls-utils] Enable and prioritize post quantum EC 
-> groups (PR #147)
-> Date: Monday, May 04, 2026 7:20 AM
->
-> this patch enables and prioritizes post-quantum elliptic curve groups. 
-> (i.e. those which suffixed with `-MLKEM768` or `-MLKEM1024`)
->
-> &quot;store-now-decrypt-later&quot; attack conducted by adversaries who 
-> have access to quantum computers could be mitigated by enable 
-> quantum-safe key exchange algorithms, which strengthened security for 
-> RPC-TLS.
-> You can view, comment on, or merge this pull request online at:
->
->   https://github.com/oracle/ktls-utils/pull/147
->
-> -- Commit Summary --
->
->   * feat: prioritize post quantum EC groups
->
-> -- File Changes --
->
->     M src/tlshd/ktls.c (9)
->
-> -- Patch Links --
->
-> https://github.com/oracle/ktls-utils/pull/147.patchhttps://github.com/oracle/ktls-utils/pull/147.diff
-> -- 
-> Reply to this email directly or view it on GitHub:
-> https://github.com/oracle/ktls-utils/pull/147
-> You are receiving this because you are subscribed to this thread.
->
-> Message ID: &lt;oracle/ktls-utils/pull/147@github.com&gt;
->
->
-> -- 
-> Chuck Lever
+For the duration of a request, sock->file has no single owner.
+Submit publishes the request without taking a file reference;
+accept_doit acquires one inside the handler, after the request
+has already left the pending list.  The consumer can drop its
+own reference at any time, including the moment between
+handshake_req_next() popping the request and accept_doit
+reaching get_file().  The submit-side sock_hold() pins only
+struct sock; struct socket and sock->file remain under the
+consumer's control via the file descriptor.
 
--- 
-Chuck Lever
+This series places the file reference under unambiguous
+ownership.  handshake_req_submit() pins it on the request and
+completion or cancel drops it (patches 4-5); the submit-side
+sock_hold() then becomes redundant, and dropping it also closes
+a publish-before-pin race the late sock_hold itself opened
+(patch 6).  Patch 3 normalizes the errno sign convention across
+the handshake_complete() API and its consumers, and patch 2 is
+the matching correction in nvme-tcp.  Patch 1 fixes an unrelated
+netns-exit leak.  Patch 7 adds KUnit file-count assertions to
+verify the new refcount contract.
+
+Three things in this restructuring want a careful look.  In
+handshake_complete(), the fput() of the request's file
+reference has to come after hp_done() and after the sock_put()
+that may free sk -- fput() can transitively run
+handshake_sk_destruct() and free the request, so the patch
+stashes hr_file in a local first.  handshake_sk_destruct()
+itself is kept on purpose: it owns rhashtable removal and
+kfree, and remains the backstop if a consumer path bypasses
+handshake_complete() entirely.  Third, handshake_req_next() now
+returns its request with an extra get_file() held under
+hn_lock; accept_doit must consume that reference (FD_PREPARE on
+success, explicit fput on the fdf.err path), and any future
+caller has to honor the same contract.
+
+Patches 1, 3, 5, and 6 carry Fixes: 3b3009ea8abb and should
+travel to stable together.  Patch 2 carries Fixes: be8e82caa685.
+
+Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+
+---
+Chuck Lever (7):
+      net/handshake: Drain pending requests at net namespace exit
+      nvme-tcp: store negative errno in queue->tls_err
+      net/handshake: Pass negative errno through handshake_complete()
+      net/handshake: Take a long-lived file reference at submit
+      net/handshake: hand off the pinned file reference to accept_doit
+      net/handshake: Close the submit-side sock_hold race
+      net/handshake: Verify file-reference balance in submit paths
+
+ drivers/nvme/host/tcp.c        |  2 +-
+ net/handshake/handshake-test.c | 38 +++++++++++++++++++++++++++++++-
+ net/handshake/handshake.h      |  6 +++--
+ net/handshake/netlink.c        | 26 ++++++++++------------
+ net/handshake/request.c        | 50 ++++++++++++++++++++++++++++++++++--------
+ net/handshake/tlshd.c          |  4 ++--
+ 6 files changed, 96 insertions(+), 30 deletions(-)
+---
+base-commit: f5b2772d14884f4be9e718644f1203d4d0e6f0d6
+change-id: 20260516-handshake-file-pin-21390f5f3513
+
+Best regards,
+--  
+Chuck Lever <chuck.lever@oracle.com>
+

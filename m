@@ -1,280 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7A8625;
-	Mon, 18 May 2026 18:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550083DA7EA
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 19 May 2026 07:34:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779128701; cv=none; b=XuBo+Fnk7iEu58M8lfZB1P52VpKrPm3c4/kRZ+9dxRTk1NW8uaoIyQyR943Y3iV2hlBfSxFM1U1MtiLXTTKDWw5DVoE/Dbke2buICAkbhkghcpzuchLxgaOVxOuaHj1tGulVk04/4+4uhPwlZqWj0mOjqWHsnd2hqcZqrIZDIVQ=
+	t=1779176048; cv=none; b=qKqi51s5xx7Z2gwvurn9SvTzGGeYYiYhuWiccnPKPHa/IGqjkNSzh/bZwkcrCpx+bJn0uv/j/EUt9tNtRB2K/A1hMIoPzs4/avPNhhkuCCBeT23Xqw9TNHtVN3vmyDBtWGugCoBnNyL9Mxb5GrH/qYb/uhEf+e0Nqjo4GWnQ+fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779128701; c=relaxed/simple;
-	bh=qw9+M3MIeM5f8YHwlznUziNytSNKkjRFV/R2qseBh2g=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lqf33NS2l1ceeZ99q2LuZsPkZ1CyDtQK1k4ViQrlXXatbjKe9ziT8Mig5qzRPiGJWFvKWaT4ECrmmyjOHg3Un+63tiHrHGSucmJFF5+59FRi/lXw4lr4Q4hXBuxR3HviM0hxo/w9Jsa0PzreUWIv3UGfyruMQL/Bfrm93mCYq7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a3hvs5kh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779176048; c=relaxed/simple;
+	bh=/T/L34l0ybueJLJN5wUhediWSB/vVYizfN2TNN4ytJQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EeVc+1FN89JbuMnXYtuY4DILqgqJdG642lz6Bb8jBx+SxO5JjS74ehZxcqkEcCek+LytfvXqaRjtMCFhR3dYc0oFp/HgLIeui5dqkzmBHhJdC5XqLnnZGEO9Daav+XqwGbrxj1EnH84wY+Nrw18uoLX3DBhKUA0fM45nSumcJR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QBDzXkkf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=o4AxXcA6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QBDzXkkf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=o4AxXcA6; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a3hvs5kh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC56BC2BCC6;
-	Mon, 18 May 2026 18:25:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779128701;
-	bh=qw9+M3MIeM5f8YHwlznUziNytSNKkjRFV/R2qseBh2g=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=a3hvs5khVYl3K8KRhqn3NcViKjBwOqdl/Hrj3wdjR9alzXcHFiSsTuZkfqK17tpTL
-	 tysk4rhdrITAhQpPZ0YfJylBWXdwt5QJF+IfnBT2H9XRKS+C7KrPSBUj59sC7dFY22
-	 Ii39l/WMPgmaozsilgl+E2WDld7QwL+1icffygXsMcCumf2JLBufj7l/OLohqfVGSc
-	 A63+CmqDsWN73/nCgNCX3jdBkg04hEN+syFbNuRaFvMDYrqQlj3vhPS7uhRJITq/cj
-	 qBvh8AqfqJ2M4cfM0arnwfJr+SrFmy0xjBYZ0BFJRxaxoqIZPQDAiqM1epXv29L8sf
-	 IIFVX1dc8HOmA==
-From: Chuck Lever <cel@kernel.org>
-Date: Mon, 18 May 2026 14:24:34 -0400
-Subject: [PATCH net 7/7] net/handshake: Verify file-reference balance in
- submit paths
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QBDzXkkf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o4AxXcA6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QBDzXkkf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o4AxXcA6"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A8C035CAFC;
+	Tue, 19 May 2026 07:34:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779176042; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BajQC+5sYEP4FXnTqsvlmtfnE6e07wzfI4oyozjDq5Q=;
+	b=QBDzXkkflDQ3fPEoqG74bx8JlDg3d/ooyJjIbA/hyw+13Z9TX/Iw7hReSlxFVIieeBcjfO
+	jI1pZ5PqgyheXRXYW65Vwyvlku7j4ERmm1K1ykViGggAV1mL/8Z4FFhOvnaIMcRIdjUzTJ
+	pqARPDLDMYYHu7kJofPSuPtQq48XUgU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779176042;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BajQC+5sYEP4FXnTqsvlmtfnE6e07wzfI4oyozjDq5Q=;
+	b=o4AxXcA6pdV7qnI0Pp4guyU4qjVdsa8idy08+oRWy2tezgyYRSVvbiusFeaNkVz8xyA9qU
+	S+173QmmY5huXsBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779176042; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BajQC+5sYEP4FXnTqsvlmtfnE6e07wzfI4oyozjDq5Q=;
+	b=QBDzXkkflDQ3fPEoqG74bx8JlDg3d/ooyJjIbA/hyw+13Z9TX/Iw7hReSlxFVIieeBcjfO
+	jI1pZ5PqgyheXRXYW65Vwyvlku7j4ERmm1K1ykViGggAV1mL/8Z4FFhOvnaIMcRIdjUzTJ
+	pqARPDLDMYYHu7kJofPSuPtQq48XUgU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779176042;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BajQC+5sYEP4FXnTqsvlmtfnE6e07wzfI4oyozjDq5Q=;
+	b=o4AxXcA6pdV7qnI0Pp4guyU4qjVdsa8idy08+oRWy2tezgyYRSVvbiusFeaNkVz8xyA9qU
+	S+173QmmY5huXsBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 83832593A8;
+	Tue, 19 May 2026 07:34:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4cdGH2oSDGrmVQAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 19 May 2026 07:34:02 +0000
+Message-ID: <556f3d0c-8e69-49cc-84ce-3358eb3996b8@suse.de>
+Date: Tue, 19 May 2026 09:33:58 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260518-handshake-file-pin-v1-7-4bbcb7e62fda@oracle.com>
-References: <20260518-handshake-file-pin-v1-0-4bbcb7e62fda@oracle.com>
-In-Reply-To: <20260518-handshake-file-pin-v1-0-4bbcb7e62fda@oracle.com>
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net 1/7] net/handshake: Drain pending requests at net
+ namespace exit
+To: Chuck Lever <cel@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
  Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
-Cc: Chris Mason <clm@meta.com>, Christian Brauner <brauner@kernel.org>, 
- kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org, 
+Cc: Chris Mason <clm@meta.com>, Christian Brauner <brauner@kernel.org>,
+ kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org,
  netdev@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>
-X-Mailer: b4 0.16-dev-da966
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7019;
- i=chuck.lever@oracle.com; h=from:subject:message-id;
- bh=PEFq5HNyYLcLzwmMNOTvg2Ovws7QwB/EmrAjy+g+g1w=;
- b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBqC1l1f3gnLtCZplPsiFQoEHVkke10t/Zt3LBu8
- MHt0zV2rBKJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCagtZdQAKCRAzarMzb2Z/
- l9wSD/0QBdfSC5SPvJZQOJwFI212POxHcfDDgCmO0aimcR+cNY+w2Elw1QN6gOjc4DD4MB7vUxQ
- OvsSFn6Ix4U01G3jkngbMA6bF9Hpf5Bs2BatUa0lpkhfHvPHaB5mICXPqyOoTXWycThyilfmRtV
- bDCIGCOkdDf+1XdA/BHnXb+W9W6zRO/GX7C7qfl1HtqgY48VSLhu+XjUO0PDaYJIugdyWMMBJA0
- K1A62QQxJnLq7M81Ws3PFtG26gWPWb330jjqS1dqJPPDORY9PgpEOEquvy2k9knWJYZwWuIKY3D
- u7KvYLTxJeE/NTszDiay/F3iN1rFG8WMuiRt/0gJAsKWJY9hl/22JF2gqhd9183TNIOkyO/cr99
- 8Bk6Lw3sSXiO+CI0YS9siqwQxC8JM6MvTccW24ZgIxUJju1qy7QUEuLoQECrGbA/u2wOmFGvtNY
- 7ks+euYPrqVmzKb7OXI6m43HQG2cg7N+khzI0xiR4gZm+A/Prfa64Tss0viq64yYUAsoWXpROG2
- AjhhMtyIrgNDx7fls/yniRD8EDKQys4WKdwDETSE2OIe0DQfwucz+A22+h3xEDSx+0qxKABCxcM
- 2tNhGsO+trKGn2+0M2t3n14ErloVKJCoKqnM7A3BznI4M5oiidvAIhVHpgA0qwqRdmP9nIo1x2S
- Jndklf19fxj78gQ==
-X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
- fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
+References: <20260518-handshake-file-pin-v1-0-4bbcb7e62fda@oracle.com>
+ <20260518-handshake-file-pin-v1-1-4bbcb7e62fda@oracle.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260518-handshake-file-pin-v1-1-4bbcb7e62fda@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
+X-Spam-Level: 
 
-From: Chuck Lever <chuck.lever@oracle.com>
+On 5/18/26 20:24, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
+> 
+> The arguments to list_splice_init() in handshake_net_exit() are
+> reversed. The call moves the local empty "requests" list onto
+> hn->hn_requests, leaving the local list empty, so the subsequent
+> drain loop runs zero iterations. Pending handshake requests that
+> had not yet been accepted are not torn down when the net namespace
+> is destroyed; each one keeps a reference on a socket file and on
+> the handshake_req allocation.
+> 
+> Pass the source and destination in the documented order
+> (list_splice_init(list, head) moves list onto head) so the pending
+> list is transferred to the local scratch list and drained through
+> handshake_complete().
+> 
+> Fixing the splice direction exposes a list-corruption race. After
+> the splice each req->hr_list still has non-empty link pointers,
+> threading the stack-local scratch list rather than hn_requests.
+> A concurrent handshake_req_cancel() -- for example, from sunrpc's
+> TLS timeout on a kernel socket whose netns reference was not
+> taken -- finds the request through the rhashtable, calls
+> remove_pending(), and sees !list_empty(&req->hr_list).
+> __remove_pending_locked() then list_del_init()s an entry off the
+> scratch list while the drain iterates, corrupting it. The same
+> call arriving after the drain loop has run list_del() on an
+> entry hits LIST_POISON instead.
+> 
+> Have remove_pending() check HANDSHAKE_F_NET_DRAINING under
+> hn_lock and report not-found when drain is in progress. The
+> drain has already taken ownership; handshake_complete()'s
+> existing test_and_set on HANDSHAKE_F_REQ_COMPLETED still
+> arbitrates between drain and cancel for who calls the consumer's
+> hp_done. Use list_del_init() rather than list_del() in the drain
+> so req->hr_list does not carry LIST_POISON after drain releases
+> the entry.
+> 
+> Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for handling handshake requests")
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> ---
+>   net/handshake/netlink.c | 4 ++--
+>   net/handshake/request.c | 3 ++-
+>   2 files changed, 4 insertions(+), 3 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
-The new file-reference contract on struct handshake_req is silently
-breakable: a missing get_file() at submit or a missing fput() on an
-error path leaves the file leaked but does not crash the test, so
-the existing absence-of-crash checks pass either way.
+Cheers,
 
-Snapshot file_count(filp) before each handshake_req_submit() in
-the submit-success, EAGAIN, EBUSY, and cancel tests, and assert
-the expected balance after submit and again after cancel. The
-already-completed cancel test also asserts the post-complete
-balance, which pins down that handshake_complete() drops the
-reference and that the subsequent cancel does not double-fput.
-The destroy test gets the same treatment before __fput_sync(),
-which double-checks that cancel's fput() ran and the only
-remaining reference is the one sock_alloc_file() established.
-
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
----
- net/handshake/handshake-test.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
-
-diff --git a/net/handshake/handshake-test.c b/net/handshake/handshake-test.c
-index 9cc7a95f4120..3dd507470d5f 100644
---- a/net/handshake/handshake-test.c
-+++ b/net/handshake/handshake-test.c
-@@ -208,6 +208,7 @@ static void handshake_req_submit_test3(struct kunit *test)
- static void handshake_req_submit_test4(struct kunit *test)
- {
- 	struct handshake_req *req, *result;
-+	unsigned long fcount_before;
- 	struct socket *sock;
- 	struct file *filp;
- 	int err;
-@@ -224,8 +225,10 @@ static void handshake_req_submit_test4(struct kunit *test)
- 	KUNIT_ASSERT_NOT_NULL(test, sock->sk);
- 	sock->file = filp;
- 
-+	fcount_before = file_count(filp);
- 	err = handshake_req_submit(sock, req, GFP_KERNEL);
- 	KUNIT_ASSERT_EQ(test, err, 0);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
- 
- 	/* Act */
- 	result = handshake_req_hash_lookup(sock->sk);
-@@ -235,11 +238,13 @@ static void handshake_req_submit_test4(struct kunit *test)
- 	KUNIT_EXPECT_PTR_EQ(test, req, result);
- 
- 	handshake_req_cancel(sock->sk);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
- 	fput(filp);
- }
- 
- static void handshake_req_submit_test5(struct kunit *test)
- {
-+	unsigned long fcount_before;
- 	struct handshake_req *req;
- 	struct handshake_net *hn;
- 	struct socket *sock;
-@@ -265,12 +270,14 @@ static void handshake_req_submit_test5(struct kunit *test)
- 
- 	saved = hn->hn_pending;
- 	hn->hn_pending = hn->hn_pending_max + 1;
-+	fcount_before = file_count(filp);
- 
- 	/* Act */
- 	err = handshake_req_submit(sock, req, GFP_KERNEL);
- 
- 	/* Assert */
- 	KUNIT_EXPECT_EQ(test, err, -EAGAIN);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
- 
- 	fput(filp);
- 	hn->hn_pending = saved;
-@@ -279,6 +286,7 @@ static void handshake_req_submit_test5(struct kunit *test)
- static void handshake_req_submit_test6(struct kunit *test)
- {
- 	struct handshake_req *req1, *req2;
-+	unsigned long fcount_before;
- 	struct socket *sock;
- 	struct file *filp;
- 	int err;
-@@ -296,21 +304,26 @@ static void handshake_req_submit_test6(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
- 	KUNIT_ASSERT_NOT_NULL(test, sock->sk);
- 	sock->file = filp;
-+	fcount_before = file_count(filp);
- 
- 	/* Act */
- 	err = handshake_req_submit(sock, req1, GFP_KERNEL);
- 	KUNIT_ASSERT_EQ(test, err, 0);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
- 	err = handshake_req_submit(sock, req2, GFP_KERNEL);
- 
- 	/* Assert */
- 	KUNIT_EXPECT_EQ(test, err, -EBUSY);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
- 
- 	handshake_req_cancel(sock->sk);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
- 	fput(filp);
- }
- 
- static void handshake_req_cancel_test1(struct kunit *test)
- {
-+	unsigned long fcount_before;
- 	struct handshake_req *req;
- 	struct socket *sock;
- 	struct file *filp;
-@@ -329,8 +342,10 @@ static void handshake_req_cancel_test1(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
- 	sock->file = filp;
- 
-+	fcount_before = file_count(filp);
- 	err = handshake_req_submit(sock, req, GFP_KERNEL);
- 	KUNIT_ASSERT_EQ(test, err, 0);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
- 
- 	/* NB: handshake_req hasn't been accepted */
- 
-@@ -339,12 +354,14 @@ static void handshake_req_cancel_test1(struct kunit *test)
- 
- 	/* Assert */
- 	KUNIT_EXPECT_TRUE(test, result);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
- 
- 	fput(filp);
- }
- 
- static void handshake_req_cancel_test2(struct kunit *test)
- {
-+	unsigned long fcount_before;
- 	struct handshake_req *req, *next;
- 	struct handshake_net *hn;
- 	struct socket *sock;
-@@ -365,8 +382,10 @@ static void handshake_req_cancel_test2(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
- 	sock->file = filp;
- 
-+	fcount_before = file_count(filp);
- 	err = handshake_req_submit(sock, req, GFP_KERNEL);
- 	KUNIT_ASSERT_EQ(test, err, 0);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
- 
- 	net = sock_net(sock->sk);
- 	hn = handshake_pernet(net);
-@@ -385,12 +404,14 @@ static void handshake_req_cancel_test2(struct kunit *test)
- 
- 	/* Assert */
- 	KUNIT_EXPECT_TRUE(test, result);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
- 
- 	fput(filp);
- }
- 
- static void handshake_req_cancel_test3(struct kunit *test)
- {
-+	unsigned long fcount_before;
- 	struct handshake_req *req, *next;
- 	struct handshake_net *hn;
- 	struct socket *sock;
-@@ -411,8 +432,10 @@ static void handshake_req_cancel_test3(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
- 	sock->file = filp;
- 
-+	fcount_before = file_count(filp);
- 	err = handshake_req_submit(sock, req, GFP_KERNEL);
- 	KUNIT_ASSERT_EQ(test, err, 0);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
- 
- 	net = sock_net(sock->sk);
- 	hn = handshake_pernet(net);
-@@ -428,12 +451,14 @@ static void handshake_req_cancel_test3(struct kunit *test)
- 
- 	/* Pretend to complete this request */
- 	handshake_complete(next, -ETIMEDOUT, NULL);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
- 
- 	/* Act */
- 	result = handshake_req_cancel(sock->sk);
- 
- 	/* Assert */
- 	KUNIT_EXPECT_FALSE(test, result);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
- 
- 	fput(filp);
- }
-@@ -454,6 +479,7 @@ static struct handshake_proto handshake_req_alloc_proto_destroy = {
- 
- static void handshake_req_destroy_test1(struct kunit *test)
- {
-+	unsigned long fcount_before;
- 	struct handshake_req *req;
- 	struct socket *sock;
- 	struct file *filp;
-@@ -473,10 +499,12 @@ static void handshake_req_destroy_test1(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
- 	sock->file = filp;
- 
-+	fcount_before = file_count(filp);
- 	err = handshake_req_submit(sock, req, GFP_KERNEL);
- 	KUNIT_ASSERT_EQ(test, err, 0);
- 
- 	handshake_req_cancel(sock->sk);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
- 
- 	/* Act */
- 	/* Ensure the close/release/put process has run to
-
+Hannes
 -- 
-2.54.0
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich

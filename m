@@ -1,149 +1,127 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8F63115AF
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 20 May 2026 02:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779245987; cv=pass; b=j6dkDRzC3B4F+9uIC+OO/uWphYPvkQuK3GPdanceD9VJknrjReiVHqc3TZrawgoiYjTb6lfWsYVaHvjnyp3Lri44ifL30V6NYyAky2BdTbmqddyTHgcMP/B2ZBtxcx6z0/yqjsYjK9sdG9tmEprrfZpZgJRl/4ZlqTgouYkqGr0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779245987; c=relaxed/simple;
-	bh=gkg5apv26kveK8ieeIvoayv5d9V0BHoYpJWe0U0l4RY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UTEW32E6pwD3ZjUxzIDMdQlQfsyzlIFWwyWOsPo7OTQp4qkjIKukpf1z+KLWW0jLbG5qZmZGgrGswSjNAK6wJQ2dwArGgf9A0qYwxY+ZKneXCQ4aq2vww//sp2nGFdSeJ3DJBJAJNTUMqp2syK2IfAsKkGP5JXnqLt1mtVaz82I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FScllV7G; arc=pass smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67AF3783AE;
+	Thu, 21 May 2026 02:39:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779331197; cv=none; b=gLCqz0eyIt0XXpTycxFHp3OA1DhjId1BoAlmBJTp+6sPCP4AdWOcd6b0RejCLQoEryfVJQouPxgj1ihXr4MmkffenOo3TIOV3d5iZwMiIPsiPJiNHk1/eILGN2gSREr9rL6Mb3LGROJUvgwBdiraffctYvP1XWWoESklGK6NnoI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779331197; c=relaxed/simple;
+	bh=5cVK05PEcA6CIcb26iVWaOL7bkg5UVjtbcg151aabvQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MjYYuGWzJ0PTZSmUG9B7efdDDUFcTSv2vdW/6Haxpwbr1nHilkzH/qO5H5QvzVrviroWluydaCMk5q0TtqUCNB9xCcAt8y1od9O9BwF4zKWpgkrxWfdSD4d1PkpVks4cYo0mcvYfgnDhepls2+kdergO4eqfrxFTxxXbadc9a9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HiiwEuFg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FScllV7G"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-bcda7765d64so1035418066b.1
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 19 May 2026 19:59:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779245984; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Tv7GCfZG7nQCLBNdC4uokRCJufctMaGinGqlBVH0m/IWFV7i0yH5T/C3DP/MBkJ+dz
-         FCAMNbi9OtTH/KqNpA4L4qKYhVaRVwLIEhtv1sw4Mt8edJDWQ7lYAaMwdKpeZwqex7Hf
-         F0HrMvZLQM5PhBlTexw81CWW1sTw6UrIyhvYDGde8Q3OH73RFpSnMz2IYxPaSOUaWZrH
-         4clST3eRydQEAPBIf+jX9NH9WUupZNVoj11JfbE/VS7hl/7aJvsxyiI0sjJvyo4nubjS
-         q0Vp0b2eZ0tdu6uIPaO2l83yAV3q6lQBEi2MpIh+nkDnc+3CA5/dS7YCO7YMWPKLFAAz
-         /5EA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Nm6CIpHH9aBKYNyn4RB4weM0wPhHggfU/Ja8w2ciW80=;
-        fh=gVdlaufuZoOs5VrhOKWRzkT2DjPYxUF/4mnlAfmSyO4=;
-        b=AWPHGRLFEb9Im1rOdCwnNG0mgBvucoHQ4E769HW7ltzeqIsBUiOxA0ilioGZxLUUHA
-         ISanHndWjaUxUyINqDtAMghLjjmpuF3HfBBnVg3fVJj3eJLZQBSnwXTo2+F793P3ojYZ
-         Difb95x2zmbCsVfCK/FGuBLgiHPNgQcMhe+y7kQyj9+UHEXD9HOIir1JDUwjmrgKPg+a
-         gB/rfNDfYja3bz1dh/hA4jbQhD2Lfv7h6ClNj9dpJ3v7Rzle4IwqqeGSvt/DOeg+2oBo
-         SoWXSdmd/Sak1R8+rOVShBpXr8VA+RSoyjjvudv5JcefJACcXy+ut/bgF4A5afuXdE3O
-         yUcg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779245984; x=1779850784; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Nm6CIpHH9aBKYNyn4RB4weM0wPhHggfU/Ja8w2ciW80=;
-        b=FScllV7G2k+D1v8PmOdDwC6T7gygxarhik/mjdQDEwoVhE9nFjPrV4UCCUX6QlrFgI
-         jbcP1qg3UZSlCKOlZR5G4xaWcS6hn4OPQjeZ5sZAdUKtP/kxvHPwJl4GoxPdtnxcOUmL
-         51Zh+RTpTrgR0Odz/qWf9At506XFbsQ6cinzqjVns6MUNqhNUvptHP385mn3mAeY9SM4
-         lEKqtiTj7rFHveelEBN1FCmOWMxDvDdB82wLSgxjK2HgQH7jRD5DAbvPa99ZVxQ+2ZPY
-         7ucxHr1+zuTpFLRehRJ/bMHEpkPoqXikH3514aQxnQSLY9zzj1N0HtJvz80IiF6XyrsJ
-         +i3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779245984; x=1779850784;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Nm6CIpHH9aBKYNyn4RB4weM0wPhHggfU/Ja8w2ciW80=;
-        b=LN4Zuw6fJX9N+Ww534cwe478inoF/hWUjQhnKcVHr9OvlHhH/uPYcZBXAjWvpDRQ4Y
-         aJioQ2Xaefg6bnmjK3TR7uuuNOUPtKwNBouYG5xg3eoTuSclpXTWkc3RcErkb35lPGXh
-         4eYw/5zVye/koGMaAs1UIRsnMdi+W6tzKUnulwc0Gs4SC2u5hFZKwoNx6MbsaNDyR+/F
-         DDAqHBQQSH7IyftF19DYhE+cGwl0SyXOn6D4QgF1pFS8/fwtf8DxMGFpF6hC27sONP3K
-         274KGJcXdwOsxIW98tx+/ynE/X28Vnb0gHQjHZvETuZ3Vtrdgx9keq0dFxWDd/MYZV/7
-         PAAg==
-X-Forwarded-Encrypted: i=1; AFNElJ9/6S6XvADbsSNAivhrQmHDjihDsZLz6/UJ9sWYx8Eh3+6hCF9AJzObpdIHhe6ZRMwPoy6UVjEMDi0Xe3dKuFrRXLUOow==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx6k47GtpM/Du6pdAosUobtvEXxg7oNbZ0Y2tbx0+sdtHSvkO8U
-	Ei68LcllEJIHEfk3fp/KNVtyl1rP7UY6mxcw6B2ybzdAA0De/wbJqgqypTgD2isYUxe4hi0jy/I
-	mLXSRou9sViowcDB03msdX4wJ+fkOUaI=
-X-Gm-Gg: Acq92OGjeDMFPVChZXjZ6wFfpHwRjhQmzoKpFcHV6PA+mOulpV9I9kup9MC/x6BQtd8
-	6AIZZPLoIL9nFrQjk4p6B1VomGNhXW1XVJDL543WGV2pfgxGMWrsVxbPMitoECg/kLvwUzaZrqS
-	DNzGQ9Y7tG6orrgUDMM2i0Lvk0nCGo2YxhWKpHzrC93jwrkyatMMU7G03Y/Nu4lheeOBbIopcuf
-	oLIorW5YudC2O/AUBnzGBFYBiLSUPnddqHWm35xk54SGcYuCe6SQJhUAHa6u41S8PwPeyb6tUp6
-	ndmB4BpGFDJ4D6j+fbUJfSS7BEuIAwm/Gh9tL2DFKWUPPyxy4cj6sJjfhUw=
-X-Received: by 2002:a17:907:9611:b0:bd9:e001:fbc2 with SMTP id
- a640c23a62f3a-bd9e0020955mr188644066b.30.1779245983230; Tue, 19 May 2026
- 19:59:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HiiwEuFg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F17471F000E9;
+	Thu, 21 May 2026 02:39:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779331192;
+	bh=U6Q8xj489RtrXIm3D1Cyqo7DlIfd9zKBGghkGDH9x+Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=HiiwEuFgSSmUI/4Pl3sAqOvhcRfK40zCwLovVZP8NigLWeZaVdp/ufhFtBUbCscDg
+	 UcZVp98KxeO8dTkHeoP2RmQKqyxqh601h28ivi6MVztBAMQYS5c0UTkMmjEPLakAf1
+	 T97ehoHRGLyML9a+rS0ZCgh12PL/H7FmEJdIwx2voYGEGO/vLBxtgxH81y0qwGKPPN
+	 4o2lne+PwZLCl3hmyB2Bogw3gBqvE+DZK+NpRDHvJkALLyz8Ev3uA0Wb+zE+5wt2V9
+	 1uciGHwuNEbw1Mtdicfp/ScasmxtdX/OhA33fTBoa8TyAi0fhgRo5OKSnSNHfbHPmm
+	 5mXYtx2q4c7hA==
+Date: Wed, 20 May 2026 19:39:46 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Chuck Lever <cel@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Chris Mason <clm@meta.com>, Christian Brauner
+ <brauner@kernel.org>, kernel-tls-handshake@lists.linux.dev,
+ linux-nvme@lists.infradead.org, netdev@vger.kernel.org, Chuck Lever
+ <chuck.lever@oracle.com>
+Subject: Re: [PATCH net 3/7] net/handshake: Pass negative errno through
+ handshake_complete()
+Message-ID: <20260520193946.0d56882b@kernel.org>
+In-Reply-To: <20260518-handshake-file-pin-v1-3-4bbcb7e62fda@oracle.com>
+References: <20260518-handshake-file-pin-v1-0-4bbcb7e62fda@oracle.com>
+	<20260518-handshake-file-pin-v1-3-4bbcb7e62fda@oracle.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260518-handshake-file-pin-v1-0-4bbcb7e62fda@oracle.com> <20260518-handshake-file-pin-v1-2-4bbcb7e62fda@oracle.com>
-In-Reply-To: <20260518-handshake-file-pin-v1-2-4bbcb7e62fda@oracle.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 20 May 2026 12:59:16 +1000
-X-Gm-Features: AVHnY4LterXSqMooW_fn189c4rCYxZ0LkAk9IW_2wIKW6Yl8XwJEA0sFFAXx2F0
-Message-ID: <CAKmqyKOvK+MVuVy=tMgyVEPoM6gyQGzc2XCxxgRBK8aqRXM=3A@mail.gmail.com>
-Subject: Re: [PATCH net 2/7] nvme-tcp: store negative errno in queue->tls_err
-To: Chuck Lever <cel@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Chris Mason <clm@meta.com>, Christian Brauner <brauner@kernel.org>, kernel-tls-handshake@lists.linux.dev, 
-	linux-nvme@lists.infradead.org, netdev@vger.kernel.org, 
-	Chuck Lever <chuck.lever@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 19, 2026 at 4:29=E2=80=AFAM Chuck Lever <cel@kernel.org> wrote:
->
-> From: Chuck Lever <chuck.lever@oracle.com>
->
-> nvme_tcp_tls_done() assigns queue->tls_err in three branches.  The
-> ENOKEY lookup failure and the EOPNOTSUPP initializer both store
-> negative errnos.  The third branch, reached when the handshake
-> layer reports a non-zero status, stores -status.
->
-> The handshake layer delivers status to the consumer callback as a
-> negative errno; the other in-tree consumers --
-> xs_tls_handshake_done() and the nvmet target callback -- treat
-> their status argument that way.  The extra negation in
-> nvme_tcp_tls_done() flips the sign, leaving tls_err as a positive
-> value (for instance, +EIO), which nvme_tcp_start_tls() then
-> returns to its caller.
->
-> Drop the extra negation so queue->tls_err uniformly carries a
-> negative errno on failure.
->
-> Fixes: be8e82caa685 ("nvme-tcp: enable TLS handshake upcall")
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+On Mon, 18 May 2026 14:24:30 -0400 Chuck Lever wrote:
+> -	if (info->attrs[HANDSHAKE_A_DONE_STATUS])
+> -		status = nla_get_u32(info->attrs[HANDSHAKE_A_DONE_STATUS]);
+> +	if (info->attrs[HANDSHAKE_A_DONE_STATUS]) {
+> +		u32 val = nla_get_u32(info->attrs[HANDSHAKE_A_DONE_STATUS]);
+> +
+> +		/* Values above MAX_ERRNO would overflow on negation. */
+> +		if (val <= MAX_ERRNO)
+> +			status = -(int)val;
+> +	}
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Why not set a policy so that user space can't pass invalid stuff?
 
-Alistair
+(note - sashiko has some more comments but AFAICT they are either
+addressed throughout the series or false positives)
 
-> ---
->  drivers/nvme/host/tcp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> index 15d36d6a728e..68a1d7640494 100644
-> --- a/drivers/nvme/host/tcp.c
-> +++ b/drivers/nvme/host/tcp.c
-> @@ -1702,7 +1702,7 @@ static void nvme_tcp_tls_done(void *data, int statu=
-s, key_serial_t pskid)
->                 qid, pskid, status);
->
->         if (status) {
-> -               queue->tls_err =3D -status;
-> +               queue->tls_err =3D status;
->                 goto out_complete;
->         }
->
->
-> --
-> 2.54.0
->
->
+diff --git a/Documentation/netlink/specs/handshake.yaml b/Documentation/netlink/specs/handshake.yaml
+index 95c3fade7a8d..1024297b3851 100644
+--- a/Documentation/netlink/specs/handshake.yaml
++++ b/Documentation/netlink/specs/handshake.yaml
+@@ -12,6 +12,12 @@ protocol: genetlink
+ doc: Netlink protocol to request a transport layer security handshake.
+ 
+ definitions:
++  -
++    type: const
++    name: max-errno
++    value: 4095
++    header: linux/err.h
++    scope: kernel
+   -
+     type: enum
+     name: handler-class
+@@ -80,6 +86,8 @@ doc: Netlink protocol to request a transport layer security handshake.
+       -
+         name: status
+         type: u32
++        checks:
++          max: max-errno
+       -
+         name: sockfd
+         type: s32
+diff --git a/net/handshake/genl.h b/net/handshake/genl.h
+index 8d3e18672daf..46b65f131669 100644
+--- a/net/handshake/genl.h
++++ b/net/handshake/genl.h
+@@ -11,6 +11,7 @@
+ #include <net/genetlink.h>
+ 
+ #include <uapi/linux/handshake.h>
++#include <linux/err.h>
+ 
+ int handshake_nl_accept_doit(struct sk_buff *skb, struct genl_info *info);
+ int handshake_nl_done_doit(struct sk_buff *skb, struct genl_info *info);
+diff --git a/net/handshake/genl.c b/net/handshake/genl.c
+index 870612609491..4b20cd9cdd0e 100644
+--- a/net/handshake/genl.c
++++ b/net/handshake/genl.c
+@@ -10,6 +10,7 @@
+ #include "genl.h"
+ 
+ #include <uapi/linux/handshake.h>
++#include <linux/err.h>
+ 
+ /* HANDSHAKE_CMD_ACCEPT - do */
+ static const struct nla_policy handshake_accept_nl_policy[HANDSHAKE_A_ACCEPT_HANDLER_CLASS + 1] = {
+@@ -18,7 +19,7 @@ static const struct nla_policy handshake_accept_nl_policy[HANDSHAKE_A_ACCEPT_HAN
+ 
+ /* HANDSHAKE_CMD_DONE - do */
+ static const struct nla_policy handshake_done_nl_policy[HANDSHAKE_A_DONE_REMOTE_AUTH + 1] = {
+-	[HANDSHAKE_A_DONE_STATUS] = { .type = NLA_U32, },
++	[HANDSHAKE_A_DONE_STATUS] = NLA_POLICY_MAX(NLA_U32, MAX_ERRNO),
+ 	[HANDSHAKE_A_DONE_SOCKFD] = { .type = NLA_S32, },
+ 	[HANDSHAKE_A_DONE_REMOTE_AUTH] = { .type = NLA_U32, },
+ };

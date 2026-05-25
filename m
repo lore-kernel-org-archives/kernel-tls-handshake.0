@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C145137AA83;
-	Thu, 21 May 2026 14:47:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AE22BF3D7;
+	Mon, 25 May 2026 16:51:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779374850; cv=none; b=RUt6Ld+d5X0MR6P0WPhro7rtTzuNTOSRXfYdz9mWDwQKjjVKFofVZRjXHeXPJhHP1+fmfVq84R+D+CxaHf/frSjoYgKik6CV0SKj69V13Nqe8vcyOb2eDG+3M9ccN8y3jUYrhaeQZm8eQOgmQn1FgXbUOBBcb0FB9Na3r7Utoqw=
+	t=1779727893; cv=none; b=nHPkaMRYm/NACq/pHU44zgrlMRM1XBYKrQYq9JHCLQ3KEY/mYHf4jVf2MJ5sTBTm3aq4qAufMDIotiIRlasj6UT3E9hA7zzU8PR8gRHlQxF+BgS2QpihX5LmrpqyACt8D7UJqVVKCAMR0Mr0DYM240bbUZS9Li3j0EtUpUywyco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779374850; c=relaxed/simple;
-	bh=RMSy++T+n+ADdPvDQT2ZwjkX3SvSS2RKeaUWi0ixpqA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rHhi3AY++NDoHTaRvi7UXJ56NEhcuv2fTqjG8X0LJorJ3AypNbwRo1hrNRxEEzahaSvnSBc72Q6oBPgEI0dlXXLPT/Pwq4uhsOXcmosaiMn5UsglQ1YthZQ4naEaAEEUSWLS5WhKKmPwWYhG7Gr5v7CqQyBDhxOxAnuExbocTVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ktw9x9gD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779727893; c=relaxed/simple;
+	bh=GvTDjam6ruQwEDM6OVKE0WQabQyhk+Y0lXRkOjTpfEw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=QC6bni2mBVg1eYiBPiLr/qVGyrx5gb2B5WvnlJkPXex6Je0rbglPcLXHVRL6v/m4N2FaF556kB9LHwdSkr0+RKuIYdsVc9IE6NJjl7OyGRq51sROCNsm7iVk/OYGNxiJ7+pRQVtY3gcFpTh0VhrPbbxycVqKuGiBxto1NAj8AKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CS9iD+vq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ktw9x9gD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1DAC1F00ADE;
-	Thu, 21 May 2026 14:47:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CS9iD+vq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8E641F000E9;
+	Mon, 25 May 2026 16:51:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779374848;
-	bh=3PAX9LpNs8aLmCbckkPaxLO0qgmKZE461iQecMNq/vc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Ktw9x9gD9Mm/xHKLRa4n+wFmYqI1BvLqIXhdfavlqk6f6+LoVVfLwvP3xXy4+Ug6A
-	 9dfZ3p3i+7Lfq83/UC0f9pJ1D2STprwvj+FCCF/O4DCwEmcK/gcwvPF3Xbwjok3GI/
-	 NG0EO3BEwkUNV/o7uI2iM9jpnmXZvU4r5/ppm3sbcygGeqZey1Zr+RVQ4tR+U/rNIn
-	 jVGFRx+Kgz9lA4CM3+zkpxGRFnUoQBK7CbdEifxzSe7X4F5ltW+pvbV64WS/PvdYQw
-	 Q4GP6O7LR2kTd+66v9czS1sqUZeqhRmp8qiHmKKx1A7dyK7wX36BIyoU4VwaKjKXSr
-	 QR22Q9KxnFWHw==
+	s=k20260515; t=1779727891;
+	bh=FbcGJkRkbagmQAlyIHUAsEmLq39wb78AB89XfL80OeI=;
+	h=From:Subject:Date:To:Cc;
+	b=CS9iD+vqjHrmh4orujpwww76w5tDcVoPNm/1HQCyDFBw+doetdYK4Lsd/SEu9XNQm
+	 9c2EpKY8x/I23kaLV2nUxUeTmKRsJPE+hw/Dlpi0qjGhM2HXCi+txr7IjMYPreRr9p
+	 +5DwH+0u/wURjeeoQ5JicHyopYPPSgcuWyOAiU5PAYO/teWHoPrgUTtDyK3POr8B7k
+	 KhUPhwLMsN/aNQfXSSm/XRI1FgOsK8il1GMqXBk/8wXGhH/gl1Iui33zMTgs6zT+2c
+	 BlJ9IZfSpGklXRaIq1nSJjtjE7JHdCD6wteJlOznhhf7eBEoCD9OUyNXDcP/81PKav
+	 WtLVCCtmKAL9g==
 From: Chuck Lever <cel@kernel.org>
-Date: Thu, 21 May 2026 10:47:13 -0400
-Subject: [PATCH net v2 7/7] net/handshake: Verify file-reference balance in
- submit paths
+Subject: [PATCH net v3 0/8] net/handshake: anchor request lifetime to a
+ pinned file reference
+Date: Mon, 25 May 2026 12:51:14 -0400
+Message-Id: <20260525-handshake-file-pin-v3-0-66c616906ead@oracle.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -38,245 +38,120 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260521-handshake-file-pin-v2-7-b9dadc472840@oracle.com>
-References: <20260521-handshake-file-pin-v2-0-b9dadc472840@oracle.com>
-In-Reply-To: <20260521-handshake-file-pin-v2-0-b9dadc472840@oracle.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22OzQ7CIBCEX6XhLAr0V0++h/HAz2JXKxiojcb03
+ aXVgyY9zuzMt/MiEQJCJLvsRQIMGNG7JPJVRnQr3QkomqSJYKJiJa9oMk1s5QWoxQ7oDR0VPN8
+ yW9q85DlJxVsAi48ZeiAOenL8mPGuzqD7CTfFlIxAVZBOt5OVgpurRDedWoy9D8951cBnzndAs
+ zRg4JTRQimtaqiENXLvg9QdrLW/zs8H8cMQfJEhEkNtjTS6qEVTsD/GOI5v3Gw1aisBAAA=
+X-Change-ID: 20260516-handshake-file-pin-21390f5f3513
 To: "David S. Miller" <davem@davemloft.net>, 
  Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
  Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
 Cc: Chris Mason <clm@meta.com>, Christian Brauner <brauner@kernel.org>, 
  kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org, 
  netdev@vger.kernel.org, Chuck Lever <chuck.lever@oracle.com>, 
- Hannes Reinecke <hare@kernel.org>
+ Hannes Reinecke <hare@kernel.org>, 
+ Alistair Francis <alistair.francis@wdc.com>
 X-Mailer: b4 0.16-dev-da966
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7067;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4296;
  i=chuck.lever@oracle.com; h=from:subject:message-id;
- bh=nCAvZ2Oci4lXVc/4ZoCdnie10corqh91J3ksH3YwEd4=;
- b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBqDxr3ej67sVntZ41isnfSY+qOHrC6o/k8qDrgY
- ZQV4l2R2cWJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCag8a9wAKCRAzarMzb2Z/
- l4TWD/9C0EmRQsjiwP3zWyj+Ym9qdf3fSoODN3IzLXJJyOMcD2aidsuPn90zTXPyDg/sc7JuQqS
- eq6tGSlG6B3ukOQs7s5SBfLLCgNMGlyYXNVJA8LcMQC7oiMl2R3V/AEaY1I9+a4vb0qsDAyUFgm
- WVuez1/nBjBhadQtKqJyFf+MvYiVGjdBk4j2QzaNAsTFN2YTlxB5L6fLPH85BxD9ZVP1UvzhUZw
- Up6HghUx2bn+GrSWzxHv7E9vAo85IWPYvltodygpW/IBPv3t27SRNhptoQ9v4sWY87JI2rf02LA
- VxMJvWPWqHstotG6wisnShEdAVg26NEE3NfJWXtGOtBZ5qC0WlkJ4KAAfgUiROIiD44jZ1RQiPB
- kCSvdZCjHnCDzYY33oZjni4ct1ViCcc+hmRKzHlwH+RcZbulHv/L0W2FodAbIErzT7N97hG8ZX+
- nQzt6WgSquSWGDlv20jAA+K9pA7yATwAj/+7F6Me/AGp0wpGi3LhySLJCVmj/cjviKSk9QQ3OoI
- EPfko/pGKoYiOFdVuet5wNgz7rSy4WNKc4JwxUcnlmpvVBFiuictNDIwO+sF7lwVuiqzShmeVvv
- BX51Csg2/Lo9audocPNvswANNROPfsPCZ61XZLJIcxTxsBEegmQuQhoesD1ox1QQFyY/aGjLNAH
- rPRyW+Pk+vIvTiQ==
+ bh=GvTDjam6ruQwEDM6OVKE0WQabQyhk+Y0lXRkOjTpfEw=;
+ b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBqFH4K+n3aOBrQb+kVVmywjVPaGmJfJ+56t9uqq
+ qExmpm9UeuJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCahR+CgAKCRAzarMzb2Z/
+ l/Y4EACKXt9PB65+GRACXl/7hBSiKwiKZXsV2dktTDJpjJKWaHVLTXFr7ufpXPGoWmJxtacyWdN
+ yOraX3Z3C6yfOrQohiCtWarUuHu4Hi38aELwbCZrvZDOzWnEKg5j09SxE8yCSvM4s/v9plLhOb8
+ mNxWFxbH7vnK39AtcCvsO+kdMLMkNSDw7z+ZWjtJZFDKN/08ifvnMceCiIfHoKmMDy8gbig7zmr
+ pvx6XPqOsKFni5XR8HJ03yh71qGZEHk6j8YAazXpg0eHrfWRYiH6vNeAnXGSnSswQPJhd7lMhtb
+ zpNDOulgi6TWTRfaVL9T2Wo1O2tDAQN9gF4MhVUHfjQfy+GvR/NPc/vStFmbjXq2x3vjzuOCM1m
+ g02loLQ8BF0dfgXqM502ClX3wn/IhcEbZ22dX+tdmNuBGmSezB5HePqN2qIRWdrNEMOlObLqWMS
+ LryOSk+QtRVulXVTxghUqBVaCwrr2q5A6DRCa0Jp4HeZw78mtgpr4grgYavkyXq8zIAut1cPjSP
+ jSLq/+gEVNmN5v/Wa1uK1teIllL3TzUS1fp5QUfs8Wp743RGW7AlpK3CJ4C7ivcMe0Lcr84qWAY
+ BK8UnI7vgXk3nZGM30WBqFepjLyIopGZ6gfGzi8ssi609J7SzeSf7wMyW4hv0gRVocYsgjD9u+m
+ Z+mS3L5KGbraKPA==
 X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
  fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 
-From: Chuck Lever <chuck.lever@oracle.com>
+handshake_nl_accept_doit() has accumulated four follow-on fixes
+since 3b3009ea8abb ("net/handshake: Create a NETLINK service for
+handling handshake requests"): 7ea9c1ec66bc, 7798b59409c3,
+fe67b063f687, and dabac51b8102.  Each was a local refcount or
+NULL-check correction; none moved where the file reference is
+owned, and the same code keeps producing the same class of bug.
+Reworking the ownership is what breaks the pattern.
 
-The new file-reference contract on struct handshake_req is silently
-breakable: a missing get_file() at submit or a missing fput() on an
-error path leaves the file leaked but does not crash the test, so
-the existing absence-of-crash checks pass either way.
+For the duration of a request, sock->file has no single owner.
+Submit publishes the request without taking a file reference;
+accept_doit acquires one inside the handler, after the request
+has already left the pending list.  The consumer can drop its
+own reference at any time, including the moment between
+handshake_req_next() popping the request and accept_doit
+reaching get_file().  The submit-side sock_hold() pins only
+struct sock; struct socket and sock->file remain under the
+consumer's control via the file descriptor.
 
-Snapshot file_count(filp) before each handshake_req_submit() in
-the submit-success, EAGAIN, EBUSY, and cancel tests, and assert
-the expected balance after submit and again after cancel. The
-already-completed cancel test also asserts the post-complete
-balance, which pins down that handshake_complete() drops the
-reference and that the subsequent cancel does not double-fput.
-The destroy test gets the same treatment before __fput_sync(),
-which double-checks that cancel's fput() ran and the only
-remaining reference is the one sock_alloc_file() established.
+This series places the file reference under unambiguous
+ownership.  handshake_req_submit() pins it on the request and
+completion or cancel drops it (patches 4-5); the submit-side
+sock_hold() then becomes redundant, and dropping it also closes
+a publish-before-pin race the late sock_hold itself opened
+(patch 6).  The handshake_complete() API and its consumers move
+to a uniform negative-errno sign convention (patch 3), with the
+matching sign correction in nvme-tcp (patch 2).  Patch 1
+hardens hn_lock for BH context, the netns-exit drain fix
+builds on the new file-pin infrastructure (patch 8), and new
+KUnit file-count assertions verify the refcount contract
+(patch 7).
 
-Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
+Three things in this restructuring want a careful look.  In
+handshake_complete(), the fput() of the request's file
+reference has to come after hp_done() -- fput() can transitively
+run handshake_sk_destruct() and free the request, so the patch
+stashes hr_file in a local first.  handshake_sk_destruct()
+itself is kept on purpose: it owns rhashtable removal and
+kfree, and remains the backstop if a consumer path bypasses
+handshake_complete() entirely.  Third, handshake_req_next() now
+returns its request with an extra get_file() held under
+hn_lock; accept_doit must consume that reference (FD_PREPARE on
+success, explicit fput on the fdf.err path), and any future
+caller has to honor the same contract.
+
 ---
- net/handshake/handshake-test.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+Changes in v3:
+- Gate submit error path fput with test_and_set_bit to prevent double fput from concurrent cancel
+- Convert hn->hn_lock to spin_lock_bh (cancel reachable from softirq via nvmet-tcp)
+- Pin file references during netns drain to prevent use-after-free on local list
+- Series re-ordered to improve bisectability
+- Link to v2: https://patch.msgid.link/20260521-handshake-file-pin-v2-0-b9dadc472840@oracle.com
 
-diff --git a/net/handshake/handshake-test.c b/net/handshake/handshake-test.c
-index 9cc7a95f4120..3dd507470d5f 100644
---- a/net/handshake/handshake-test.c
-+++ b/net/handshake/handshake-test.c
-@@ -208,6 +208,7 @@ static void handshake_req_submit_test3(struct kunit *test)
- static void handshake_req_submit_test4(struct kunit *test)
- {
- 	struct handshake_req *req, *result;
-+	unsigned long fcount_before;
- 	struct socket *sock;
- 	struct file *filp;
- 	int err;
-@@ -224,8 +225,10 @@ static void handshake_req_submit_test4(struct kunit *test)
- 	KUNIT_ASSERT_NOT_NULL(test, sock->sk);
- 	sock->file = filp;
- 
-+	fcount_before = file_count(filp);
- 	err = handshake_req_submit(sock, req, GFP_KERNEL);
- 	KUNIT_ASSERT_EQ(test, err, 0);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
- 
- 	/* Act */
- 	result = handshake_req_hash_lookup(sock->sk);
-@@ -235,11 +238,13 @@ static void handshake_req_submit_test4(struct kunit *test)
- 	KUNIT_EXPECT_PTR_EQ(test, req, result);
- 
- 	handshake_req_cancel(sock->sk);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
- 	fput(filp);
- }
- 
- static void handshake_req_submit_test5(struct kunit *test)
- {
-+	unsigned long fcount_before;
- 	struct handshake_req *req;
- 	struct handshake_net *hn;
- 	struct socket *sock;
-@@ -265,12 +270,14 @@ static void handshake_req_submit_test5(struct kunit *test)
- 
- 	saved = hn->hn_pending;
- 	hn->hn_pending = hn->hn_pending_max + 1;
-+	fcount_before = file_count(filp);
- 
- 	/* Act */
- 	err = handshake_req_submit(sock, req, GFP_KERNEL);
- 
- 	/* Assert */
- 	KUNIT_EXPECT_EQ(test, err, -EAGAIN);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
- 
- 	fput(filp);
- 	hn->hn_pending = saved;
-@@ -279,6 +286,7 @@ static void handshake_req_submit_test5(struct kunit *test)
- static void handshake_req_submit_test6(struct kunit *test)
- {
- 	struct handshake_req *req1, *req2;
-+	unsigned long fcount_before;
- 	struct socket *sock;
- 	struct file *filp;
- 	int err;
-@@ -296,21 +304,26 @@ static void handshake_req_submit_test6(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
- 	KUNIT_ASSERT_NOT_NULL(test, sock->sk);
- 	sock->file = filp;
-+	fcount_before = file_count(filp);
- 
- 	/* Act */
- 	err = handshake_req_submit(sock, req1, GFP_KERNEL);
- 	KUNIT_ASSERT_EQ(test, err, 0);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
- 	err = handshake_req_submit(sock, req2, GFP_KERNEL);
- 
- 	/* Assert */
- 	KUNIT_EXPECT_EQ(test, err, -EBUSY);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
- 
- 	handshake_req_cancel(sock->sk);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
- 	fput(filp);
- }
- 
- static void handshake_req_cancel_test1(struct kunit *test)
- {
-+	unsigned long fcount_before;
- 	struct handshake_req *req;
- 	struct socket *sock;
- 	struct file *filp;
-@@ -329,8 +342,10 @@ static void handshake_req_cancel_test1(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
- 	sock->file = filp;
- 
-+	fcount_before = file_count(filp);
- 	err = handshake_req_submit(sock, req, GFP_KERNEL);
- 	KUNIT_ASSERT_EQ(test, err, 0);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
- 
- 	/* NB: handshake_req hasn't been accepted */
- 
-@@ -339,12 +354,14 @@ static void handshake_req_cancel_test1(struct kunit *test)
- 
- 	/* Assert */
- 	KUNIT_EXPECT_TRUE(test, result);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
- 
- 	fput(filp);
- }
- 
- static void handshake_req_cancel_test2(struct kunit *test)
- {
-+	unsigned long fcount_before;
- 	struct handshake_req *req, *next;
- 	struct handshake_net *hn;
- 	struct socket *sock;
-@@ -365,8 +382,10 @@ static void handshake_req_cancel_test2(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
- 	sock->file = filp;
- 
-+	fcount_before = file_count(filp);
- 	err = handshake_req_submit(sock, req, GFP_KERNEL);
- 	KUNIT_ASSERT_EQ(test, err, 0);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
- 
- 	net = sock_net(sock->sk);
- 	hn = handshake_pernet(net);
-@@ -385,12 +404,14 @@ static void handshake_req_cancel_test2(struct kunit *test)
- 
- 	/* Assert */
- 	KUNIT_EXPECT_TRUE(test, result);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
- 
- 	fput(filp);
- }
- 
- static void handshake_req_cancel_test3(struct kunit *test)
- {
-+	unsigned long fcount_before;
- 	struct handshake_req *req, *next;
- 	struct handshake_net *hn;
- 	struct socket *sock;
-@@ -411,8 +432,10 @@ static void handshake_req_cancel_test3(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
- 	sock->file = filp;
- 
-+	fcount_before = file_count(filp);
- 	err = handshake_req_submit(sock, req, GFP_KERNEL);
- 	KUNIT_ASSERT_EQ(test, err, 0);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before + 1);
- 
- 	net = sock_net(sock->sk);
- 	hn = handshake_pernet(net);
-@@ -428,12 +451,14 @@ static void handshake_req_cancel_test3(struct kunit *test)
- 
- 	/* Pretend to complete this request */
- 	handshake_complete(next, -ETIMEDOUT, NULL);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
- 
- 	/* Act */
- 	result = handshake_req_cancel(sock->sk);
- 
- 	/* Assert */
- 	KUNIT_EXPECT_FALSE(test, result);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
- 
- 	fput(filp);
- }
-@@ -454,6 +479,7 @@ static struct handshake_proto handshake_req_alloc_proto_destroy = {
- 
- static void handshake_req_destroy_test1(struct kunit *test)
- {
-+	unsigned long fcount_before;
- 	struct handshake_req *req;
- 	struct socket *sock;
- 	struct file *filp;
-@@ -473,10 +499,12 @@ static void handshake_req_destroy_test1(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, filp);
- 	sock->file = filp;
- 
-+	fcount_before = file_count(filp);
- 	err = handshake_req_submit(sock, req, GFP_KERNEL);
- 	KUNIT_ASSERT_EQ(test, err, 0);
- 
- 	handshake_req_cancel(sock->sk);
-+	KUNIT_EXPECT_EQ(test, file_count(filp), fcount_before);
- 
- 	/* Act */
- 	/* Ensure the close/release/put process has run to
+Changes in v2:
+- Patch 3: move HANDSHAKE_A_DONE_STATUS upper bound into netlink policy (Jakub)
+- Link to v1: https://patch.msgid.link/20260518-handshake-file-pin-v1-0-4bbcb7e62fda@oracle.com
 
--- 
-2.54.0
+---
+Chuck Lever (8):
+      net/handshake: Use spin_lock_bh for hn_lock
+      nvme-tcp: store negative errno in queue->tls_err
+      net/handshake: Pass negative errno through handshake_complete()
+      net/handshake: Take a long-lived file reference at submit
+      net/handshake: hand off the pinned file reference to accept_doit
+      net/handshake: Close the submit-side sock_hold race
+      net/handshake: Verify file-reference balance in submit paths
+      net/handshake: Drain pending requests at net namespace exit
+
+ Documentation/netlink/specs/handshake.yaml |  8 +++
+ drivers/nvme/host/tcp.c                    |  2 +-
+ net/handshake/genl.c                       |  3 +-
+ net/handshake/genl.h                       |  1 +
+ net/handshake/handshake-test.c             | 38 +++++++++++++-
+ net/handshake/handshake.h                  |  6 ++-
+ net/handshake/netlink.c                    | 29 +++++------
+ net/handshake/request.c                    | 81 ++++++++++++++++++++++--------
+ net/handshake/tlshd.c                      |  6 ++-
+ 9 files changed, 129 insertions(+), 45 deletions(-)
+---
+base-commit: 87a1e0fe7776da7ab411be332b4be58ac8840d10
+change-id: 20260516-handshake-file-pin-21390f5f3513
+
+Best regards,
+--  
+Chuck Lever <chuck.lever@oracle.com>
 

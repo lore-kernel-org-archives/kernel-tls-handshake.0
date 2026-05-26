@@ -1,68 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0051C33C53F;
-	Mon, 25 May 2026 18:35:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC922E1EE7;
+	Tue, 26 May 2026 01:56:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779734136; cv=none; b=aMYsbMwya3THLImqpGFWp3pI+ztAc9R27LbjWvBOiPVpqN5h7sfpcEh/5CawETtTY1FN7O5LGV1mM1+JrIcAccjkj2whh6Viee5hO24OmFHtuQKqwd8zLiFQJm1O+ND0O2U174b5uG9ZEGwjQYyX2WYcYCxY73P/DQuQJLv+PB4=
+	t=1779760570; cv=none; b=ANlmjT5eleIkmE6q+ifMSaAN0A1uAqbK9ug7rhjHaJM5tM6Ocmv03Hv9vwTgfCi7eJchbXo2OFgdi1tj/E9lK6yb+R1+psqQB6hmtwmsFt9vxu77A+ldfgCq08mGwnn6TXzWx/6f5yZ9am6JsvtJixUIsUPXyiznHNnAMqQCPCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779734136; c=relaxed/simple;
-	bh=RzsUrrhf9Q7ZCKFY6m0O4XIZT4ksovgXMtC8Ldrz/k8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NKzQFcxpbfGnhuiDI7RY9h0eJy3FvbIsjZsGpENkl2Rsova63LTN6h/SREwIFsAEygxEJdG5kP14lwB2VX3XBtjDQ8t+jDcPHok1qqzI/KnJMiatwp5B50Oe5ed2NP4uSHETGKyMEcinRe80SQObFLPYAt3yYUwd3L488i8ojTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h5hqwouB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779760570; c=relaxed/simple;
+	bh=6os/Xfj3SzbXje4NUPmryhL7exGQHfw4jvft+lClqyo=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Upd0zwND7FE6gaql3qWvbGWLO0soQyKPK4hq3eDc2Nucinurk9rVwmOuvROBIhxDY8DgjBWxayv3gLvT+EcQhzauKgN3eAVbAqs3onjgfUG4Jvv2cWmBO2cIT9Hw5nohVvCrfUZimubJcPVEEHQDsKkpy0iJpVMHQWa6FnCO6Q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JrDDNp8J; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h5hqwouB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 110DF1F000E9;
-	Mon, 25 May 2026 18:35:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JrDDNp8J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9136E1F00A3C;
+	Tue, 26 May 2026 01:55:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779734134;
-	bh=mEvp6E1uZYwArkSwoi+Vn08rs5/YXn8OrbytPCNf47Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=h5hqwouB/XaiUavPuT1WP/R1PBl7lwm33dHIHA04m10yywq7BEH5AAqxRaRYNtYFx
-	 VPD6EVLU192q+09/AtaArq24xoRD5Uv9sG+MqTO1+6Kbp0EsnyHWyOhtf6q5Lviier
-	 uLCjuqCGt5kpiuVXm2yeh7YraNj9/XyyX4rO0LRCGMdXZpAeGUOgHCahBHKeobEkRz
-	 6xiJKyMpqVYjDF3R+ZfRe3F7JRQ/Mhzy2hIgLao5EynYOvH+bzBtQyaNr86cO5Bpya
-	 dJd8bjUL/g6Zlx3F6Y1gWqZa3KEnYGLYH/SfULjmT2NFRbA/0UHDEBNKziBsCffTl/
-	 R9sZmP9IPb5FA==
-Date: Mon, 25 May 2026 11:35:33 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Chuck Lever <cel@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, Chris Mason <clm@meta.com>, Christian Brauner
- <brauner@kernel.org>, kernel-tls-handshake@lists.linux.dev,
- linux-nvme@lists.infradead.org, netdev@vger.kernel.org, Chuck Lever
- <chuck.lever@oracle.com>, Hannes Reinecke <hare@kernel.org>, Alistair
- Francis <alistair.francis@wdc.com>
-Subject: Re: [PATCH net v2 0/7] net/handshake: anchor request lifetime to a
- pinned file reference
-Message-ID: <20260525113533.6405efa0@kernel.org>
-In-Reply-To: <20260521-handshake-file-pin-v2-0-b9dadc472840@oracle.com>
-References: <20260521-handshake-file-pin-v2-0-b9dadc472840@oracle.com>
+	s=k20260515; t=1779760560;
+	bh=Jjaxy3vPb3Iq0OfsTFhVODUECJM4OU1Hc8Vi+5XFf3E=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=JrDDNp8JfycFbJ3a+MnTil4yhOmh1BsqhYFxVFOpQCSVX26YCDkz6b8qLAGxVqla+
+	 B9FGfa9MuV9/8jFiz5fJiTO3JSii4hkuyioB1k374jZSxlvZxWIwq7bZDhv4XArqgV
+	 GKhq1mSK6ZcWZ1b1bDe8H6rCKWVyf1kVHRtC/AChsmTA0VahwASduKzxB1v6WMcpDP
+	 sIJJss4nCD0ArSQd+wp0n+baKfOkUuSqWWPn0ZKDYWxFivE/hacB5MTvIrdEUcOHbx
+	 SpL+yLSic6DJMTh5hk2LnAougnvfxV9hMRLQ6d5oovGWHr/Wh0vQblN9qSHx2/MLt0
+	 cJCejMkaN13UA==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id C0E83F40070;
+	Mon, 25 May 2026 21:55:58 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Mon, 25 May 2026 21:55:58 -0400
+X-ME-Sender: <xms:rv0UakhIEp1UNd3GE6bVzjXuI7KBQN-kN-hv7URAP9TWLkKoh8U_Bw>
+    <xme:rv0Uan1KqDsTaFCUzTRDPmntBf9YjHcQgDJZkB0RWEHFGVsBOIGQ9_YYiI37gfwrh
+    OGuXDhwb614nwTKSYR4ryWSLSHuXDAna1NDB8zrDK5eI6mX1hmuVA>
+X-ME-Proxy-Cause: dmFkZTGXsvjcirJAQreEsH50lgfnh9IpoZLP114BrPQUZNXxaqSPq+f513h0UYwF8aVf11
+    VMXwH/tS5V9kixZmjUn5S1rbgJRYgGwsPwtUiwHQJMRk5HF+MmmZ9ZlfqFPuMzX67RbeA8
+    aaBPTONFldqn+HnYtbV7GKS77P275ZRiHZPC9xMHR586n2on9uDoZVzwqVfjm39DN1ty8f
+    PGW/OpeK6NaEe3At+fcVXYwSPadYXROvOJxgEuPt0+5SN3uCla/tQKOwQAge9bVFfflPu3
+    7iMYAWTOt5UQZp6SzJsR/PZWzi8wc+DPqP3QokILfOGQeBOvADTj5/9DvCiD4BVwDFFehh
+    bbox9RZvW0g2KBkMHLrBdd8Plm8AlFNyCzsnNkvtgk/lty0zvKjSi6WpOCX82bSasJgSQf
+    MqX4EeUEPICzilTCqauFaJEpYgdCbG2vl73CTtkVDU4aaci6tOwYtMEx3kXzAeGQqfb+eF
+    KuuYvjJokwFx5SKDd6dpnLGymJlAuC6rnYonmMuyXJ2CgBQSIt2lzYZbvnhXUwEkEF4we7
+    sP5XGvQo2Z7/qAtFzmlZdiCGdHOnQC2bnohrdlYuSYCc1ix5GFZfDs2jOrpsgMP8FJ+Ou9
+    GMssxbyF9Gq35VyctIHo/MXqUqm73i2D/NAC/q9uqOUGAKoxd25CH4zRLGAA
+X-ME-Proxy: <xmx:rv0UatS8R7Hg0zIMAVWWzide51QsjwSsQxL1hXH17YhJiA1g2QD9Tw>
+    <xmx:rv0UaqfRZ3i6JEl5zco1PUiq-b4aBvuGoBYuQtfhM2xSlnYicggyPg>
+    <xmx:rv0Uareb-2kyh6Pu9ezpjgnkqwQIhtYHdT5UwJeByMjw-GnmN-bPzw>
+    <xmx:rv0Uamb-O53YBad3ufcnxoNeZfMkC_aTZpn5WS4EMwNFXSDEPgkt_g>
+    <xmx:rv0Uan59jfLVG1K-5oWxsWQd3LMsuv0xQPHsXI2YYZzPd_P0qjRvAM7Y>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 9C44478007B; Mon, 25 May 2026 21:55:58 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Date: Mon, 25 May 2026 21:55:38 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Jakub Kicinski" <kuba@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Paolo Abeni" <pabeni@redhat.com>,
+ "Simon Horman" <horms@kernel.org>, "Chris Mason" <clm@meta.com>,
+ "Christian Brauner" <brauner@kernel.org>,
+ kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, "Chuck Lever" <chuck.lever@oracle.com>,
+ "Hannes Reinecke" <hare@kernel.org>,
+ "Alistair Francis" <alistair.francis@wdc.com>
+Message-Id: <f7aaa5b3-5447-4f32-89e7-4e9e9ce01c6d@app.fastmail.com>
+In-Reply-To: <20260525113533.6405efa0@kernel.org>
+References: <20260521-handshake-file-pin-v2-0-b9dadc472840@oracle.com>
+ <20260525113533.6405efa0@kernel.org>
+Subject: Re: [PATCH net v2 0/7] net/handshake: anchor request lifetime to a pinned file
+ reference
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 21 May 2026 10:47:06 -0400 Chuck Lever wrote:
-> Three things in this restructuring want a careful look.  In
-> handshake_complete(), the fput() of the request's file
-> reference has to come after hp_done() -- fput() can transitively
-> run handshake_sk_destruct() and free the request, so the patch
-> stashes hr_file in a local first.  handshake_sk_destruct()
-> itself is kept on purpose: it owns rhashtable removal and
-> kfree, and remains the backstop if a consumer path bypasses
-> handshake_complete() entirely.  Third, handshake_req_next() now
-> returns its request with an extra get_file() held under
-> hn_lock; accept_doit must consume that reference (FD_PREPARE on
-> success, explicit fput on the fdf.err path), and any future
-> caller has to honor the same contract.
 
-Sashiko indicates races with handshake_req_cancel() remain,
-and impact the code re-written by this series. What's your take?
+On Mon, May 25, 2026, at 2:35 PM, Jakub Kicinski wrote:
+> On Thu, 21 May 2026 10:47:06 -0400 Chuck Lever wrote:
+>> Three things in this restructuring want a careful look.  In
+>> handshake_complete(), the fput() of the request's file
+>> reference has to come after hp_done() -- fput() can transitively
+>> run handshake_sk_destruct() and free the request, so the patch
+>> stashes hr_file in a local first.  handshake_sk_destruct()
+>> itself is kept on purpose: it owns rhashtable removal and
+>> kfree, and remains the backstop if a consumer path bypasses
+>> handshake_complete() entirely.  Third, handshake_req_next() now
+>> returns its request with an extra get_file() held under
+>> hn_lock; accept_doit must consume that reference (FD_PREPARE on
+>> success, explicit fput on the fdf.err path), and any future
+>> caller has to honor the same contract.
+>
+> Sashiko indicates races with handshake_req_cancel() remain,
+> and impact the code re-written by this series. What's your take?
+
+I examined the v2 reviews over the weekend and reworked the series
+to address those concerns. v3 was posted earlier today, but sashiko
+has it marked embargoed at the moment.
+
+I=E2=80=99m aware of a couple of pre-existing issues that are not addres=
+sed,
+as they are a bit out of scope.
+
+
+--=20
+Chuck Lever

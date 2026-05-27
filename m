@@ -1,176 +1,161 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808203E63A2
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 27 May 2026 09:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C5F413D96;
+	Wed, 27 May 2026 14:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779875487; cv=none; b=HqtecGdGyOjbBHep9JVN/VGFICz+TViJppRV5YB41YLFAEUebdt7fJ6SDhujjY9ENqo5QGXRYs8+58/bpaLraqtExYoocWUUejXA6cHIZ4PGocZNXer7SkJ6whh5vNEwZPUlhaSaVYT2XKAEotiD6tCMxkIhjT0hzrcP/2EGbIw=
+	t=1779891875; cv=none; b=RbtqPdrlGBxfwk/83gSZscgvnrxh+SZuvEH/UzVte3y4R/sY+kT839w/zJpWgvSJl2wcg3Ex59NQLqFK5P78oiN4kF6jS3CtRyDqDM30Zs3HrWgTsnDddkq+yR/Bt3q3WYaASP+5mp24gA9HfWTc9V5Xu6jdHJqaRIKf4lqL1p0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779875487; c=relaxed/simple;
-	bh=ZiLx+nwXbAzw55MofB7jcB/7mAUOEnbPtGIwaOTJwf8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ppe8XQ+/mEbm8auXFS0uoSRIvTChJrRG5iAbrvaKSv/Yvji9jZoAq65kIxrl0fNjN++59wTaiMU0p03RYvOqpC1SiihsTe0n1HCPndE3dYL5mdgnHYQEYf75PJrD55FcITZ0i/GZdxF5pljHj4Pm0fTLr2Q65BDn42rZEkdqdak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=f4Bo7e8K; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NWie4Znc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Y4wswlU6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sYAtsh/p; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1779891875; c=relaxed/simple;
+	bh=BwH8CQ8PUe+19zdMpT4Z73/ZwLBEFQe+3wiFosM6adI=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=HWEoezxHUWfvgNGpi40x4DnH6toi1pzJFaQCZA/nDc+1tNdrvswoWfJ2j6P9i0HCnnqJ2rHIzYUfHYYkNEfGk8vGHW5wThM5OpvafNQ35RfNQjeDNtuuywdBjFUSfrX+zeGHcIJer4dfgkwfenvConJW9B3i6cCOabY32kwmRt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bLUGKfn1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="f4Bo7e8K";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NWie4Znc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Y4wswlU6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sYAtsh/p"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9F69166DA9;
-	Wed, 27 May 2026 09:51:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779875483; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k2H4Ds2xHRFPE6LU/zFl+RiPaXvfcANNxLP9YZsqiDM=;
-	b=f4Bo7e8KQTaVhDEBtHmrHfdQoUkQ4EgKHaTD4Z3TVbk+yW6f/zViVenDQ0ENZUs6wYPcg9
-	b1SIrc8KL80jVlRhizNnvRMovUM3XC1YNRy1oFME+EbJ4A8jwJuiTDsIqwu2PsiQctcJV9
-	U91HdhlREqSbd+UOH8ULgQ4QtDjzngU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779875483;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k2H4Ds2xHRFPE6LU/zFl+RiPaXvfcANNxLP9YZsqiDM=;
-	b=NWie4Znc2aHUq+allxUAXf1WwzUMoFi4IwRPwGzNf8ivSLACfy1tPfwHd6MBq+9s05JM9I
-	bisCb/FN2HW380Dw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779875482; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k2H4Ds2xHRFPE6LU/zFl+RiPaXvfcANNxLP9YZsqiDM=;
-	b=Y4wswlU6aywgHssrQz6TFQALP69d1knBgssqu2U00wnpcDSHm/j7ZobxINjFwEGtNH2M7X
-	HEQbQFlbPTjuJ4uIfKHwR5j3YEnFVFr1apj/6mrWgrXALlCPE3E5CowUGtteVfDoGcCpY9
-	bJocVrtT17RBPA5s9XsqjfVv/4vyrmM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779875482;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k2H4Ds2xHRFPE6LU/zFl+RiPaXvfcANNxLP9YZsqiDM=;
-	b=sYAtsh/p3pmX3jzlv3UVVgXUWsE9bzrIWvVfxHla4qPLdAHGugPtcaDKtJqhgAVtvMySCT
-	wiYL5H7hAOXHzKDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 776845A782;
-	Wed, 27 May 2026 09:51:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VKFrHJq+FmpxRgAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 27 May 2026 09:51:22 +0000
-Message-ID: <15b63b82-1572-418d-9ed9-8ccc11217beb@suse.de>
-Date: Wed, 27 May 2026 11:51:22 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bLUGKfn1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 272D91F00A3E;
+	Wed, 27 May 2026 14:24:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779891872;
+	bh=TPU49W2hwaIaGf+pDDgyJSSdFTnXEcdNkRBctuZHsJg=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=bLUGKfn1I3aM9RNqHphi8bVB4PHi5hEmYxJ7dWFDv1srbKu8Ey6qt9vuPBVrO8kNX
+	 Ok4ya71W9mBAaH3kwypKTiZsZzOE9QvkpVDbJQ8cFlZVghWsdz3Iit1kXVMSboqBq7
+	 dCOZIlzQB9hmb6lQ9PS36Lzv3kDyVL1PiBpmbPIl+W8VZ+WBWyodkBPEERhZEJSHix
+	 AchiZhkfM570bXPuhtNDTfSEFy+NAvhcqgIqAIg++F3jg8E8s0jj+vOnkNAb/84tKN
+	 UqGYPotcd3/GaS29RTV0jxnUlP4ZtdDN+P/aCdjx/hoYN7412BeVMI07Txg7NlNK8Q
+	 L2Vvgml0hZvQg==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 589D7F40074;
+	Wed, 27 May 2026 10:24:31 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Wed, 27 May 2026 10:24:31 -0400
+X-ME-Sender: <xms:n_4Waldm0F6Iy00U_W_wyBpr_F4NkrY9YN8DZIQugU-tAceZBhDqgA>
+    <xme:n_4WauCQcEDJv8EW3FNK9CN72oDAY8nm9IgSr1dl9neH3BOuwi9vGDiSdnn8EMv_P
+    HLpZuYUWiNZsReuV2eHsDMX7TFSUwmH5F3TEMZzwDyV15pgyNXSNqo>
+X-ME-Proxy-Cause: dmFkZTFkiGgRNatvhpg/n6hWRe4iphBkR6LbmxVXxr5lu/ub+8c9VoiQl27L8zv87bQ+EI
+    5oMIGijjhLLpIWOZxBhgevrAUKKTUiPP8qjXpZNFuFExctanYfD+CVUUedhh/ORUS2QnkO
+    GBpfW+ofXIiUYXJWdW5LT0mUDt23VZ/qy8Uq9upz6yiZ5YRWhmDxWsdSCDCXa6prIj105V
+    Z+dkhWNitSWwRj9wbkS5LcKvlqyC6EtPFNO+Z1X8GCgMDH4r0UzJEC/OnBMdZ1AJvCoqi0
+    bkeQiGCQylK+aU39FPsfiIJpE5p8XEKf+iGbn3CS1o1llBQofG21vMuVsxD8yCsaX6ciV6
+    xIHRBphWC8b+VdHcj36ExVw8+wFToy4pSwaah2f6p3VO22S1p/4FTFGunhF/tdxFHQ9WUe
+    lVIJbXEvgfaNlXT+0vpjwXpvDMT7l2yFZ/e+rlSJkNYsHHA0rWPaf2bnduTUDFzRM5w87m
+    FwZq+qhfxS2VuLI9J0b/NfauLgtNgJJeueJy8ELXQn3vFW4al+h0wed+fR0IUyWDZXRCpP
+    Xf4++E8gUZEuc4ybHQFUcYx6RchxpsPCerBUj+hwbo3rbLxQo3o3V9jFUAwjmgMhyz5ynJ
+    t5bAmBIXwww/1snZYixhQ/BZSnvCw5+mJhrSINo3IXmhT4HylE21sjQE6rkA
+X-ME-Proxy: <xmx:n_4WalYKMK-TXvg0uVe6A7cV79kvIgenhrn1ozYvS1bmCb1PIB_alw>
+    <xmx:n_4WaiwpcC4q-m5oUdINOywjC8EOb-YaPtuqOxrm1ebTmhwXP7kdFA>
+    <xmx:n_4WakMxPyRr-ZtOz0nnEK9D_UQbQRUlf2j-lzXZLLTgC-cpM8rLRg>
+    <xmx:n_4WahfLWx5S-psgl_YH4yTgIjg0kNbqjwAkfwtN9jOj2_mpFZ36Uw>
+    <xmx:n_4WapQtqikmRpWxM7KRkThODh_Pcf2NKX72Dy9d6R4CVcM9DOHpqGVi>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 324CE780077; Wed, 27 May 2026 10:24:31 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v11 5/6] tls: Suppress spurious saved_data_ready
- on all receive paths
-To: Chuck Lever <cel@kernel.org>, John Fastabend <john.fastabend@gmail.com>,
- Jakub Kicinski <kuba@kernel.org>, Sabrina Dubroca <sd@queasysnail.net>
-Cc: Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
- kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>
-References: <20260526-tls-read-sock-v11-0-244fe1dc4abd@oracle.com>
- <20260526-tls-read-sock-v11-5-244fe1dc4abd@oracle.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260526-tls-read-sock-v11-5-244fe1dc4abd@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.995];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,queasysnail.net];
-	TAGGED_RCPT(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,oracle.com:email,imap1.dmz-prg2.suse.org:helo]
+X-ThreadId: AnKL6hs-MIXF
+Date: Wed, 27 May 2026 10:24:11 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Hannes Reinecke" <hare@suse.de>, "David S. Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>
+Cc: "Chris Mason" <clm@meta.com>, "Christian Brauner" <brauner@kernel.org>,
+ kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, "Chuck Lever" <chuck.lever@oracle.com>
+Message-Id: <eb4de53b-f96c-4905-b67a-90790d5e4007@app.fastmail.com>
+In-Reply-To: <41835be9-ef00-42c7-a5d3-258f092b59eb@suse.de>
+References: <20260525-handshake-file-pin-v3-0-66c616906ead@oracle.com>
+ <20260525-handshake-file-pin-v3-1-66c616906ead@oracle.com>
+ <41835be9-ef00-42c7-a5d3-258f092b59eb@suse.de>
+Subject: Re: [PATCH net v3 1/8] net/handshake: Use spin_lock_bh for hn_lock
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On 5/26/26 16:21, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
-> 
-> Each record release via tls_strp_msg_done() triggered
-> tls_strp_check_rcv(), which called tls_rx_msg_ready() and
-> fired saved_data_ready(). During a multi-record receive, the
-> first N-1 wakeups are pure overhead: the caller is already
-> running and will pick up subsequent records on the next loop
-> iteration. The recvmsg and splice_read paths share this waste.
-> 
-> Suppress per-record notifications and emit a single one on
-> reader exit. tls_rx_rec_done() releases the current record
-> and parses the next without announcing; tls_strp_check_rcv()
-> gains a bool announce parameter so callers can request the
-> quiet form. tls_rx_reader_release() fires the deferred
-> announce on exit through tls_rx_msg_maybe_announce(), an
-> idempotent helper that calls saved_data_ready() only when a
-> record is parsed and has not yet been announced.
-> 
-> To keep the final notification idempotent against records that
-> the BH or the worker has already announced, tls_strparser gains
-> a msg_announced bit. tls_rx_msg_maybe_announce() sets the bit
-> when firing saved_data_ready(); the bit is cleared whenever
-> the parsed record is wiped, by tls_strp_msg_consume() on
-> consumption or by tls_strp_msg_load() when the lower socket
-> loses bytes from under the parse. A second call for the same
-> parsed record -- as when recvmsg() satisfies the request from
-> ctx->rx_list without touching the strparser -- becomes a
-> no-op.
-> 
-> With no remaining callers, tls_strp_msg_done() is removed.
-> 
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-> ---
->   include/net/tls.h  |  5 +++++
->   net/tls/tls.h      |  5 ++---
->   net/tls/tls_main.c |  2 +-
->   net/tls/tls_strp.c | 23 ++++++++++++-----------
->   net/tls/tls_sw.c   | 27 ++++++++++++++++++++++++---
->   5 files changed, 44 insertions(+), 18 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
-Cheers,
 
-Hannes
+On Wed, May 27, 2026, at 4:59 AM, Hannes Reinecke wrote:
+> On 5/25/26 18:51, Chuck Lever wrote:
+>> From: Chuck Lever <chuck.lever@oracle.com>
+>> 
+>> nvmet_tcp_state_change(), a socket callback that runs in BH context,
+>> can reach handshake_req_cancel() via nvmet_tcp_schedule_release_queue()
+>> and tls_handshake_cancel().  handshake_req_cancel() acquires
+>> hn->hn_lock with plain spin_lock().  If a process-context thread on
+>> the same CPU holds hn->hn_lock when a softirq invokes the cancel path,
+>> the lock attempt deadlocks.  This is the only caller that invokes
+>> tls_handshake_cancel() from BH context; every other consumer calls it
+>> from process context.
+>> 
+>> Deferring the cancel to process context in the NVMe target is not
+>> straightforward: nvmet_tcp_schedule_release_queue() must call
+>> tls_handshake_cancel() atomically with its state transition to
+>> DISCONNECTING.  If the cancel were deferred, the handshake completion
+>> callback could fire in the window before the cancel runs, observe the
+>> unexpected state, and return without dropping its kref on the queue.
+>> Reworking that interlock is considerably more invasive than hardening
+>> the handshake lock.  Convert all hn->hn_lock acquisitions from
+>> spin_lock/spin_unlock to spin_lock_bh/spin_unlock_bh so the lock is
+>> never taken with softirqs enabled.
+>> 
+>> Fixes: 675b453e0241 ("nvmet-tcp: enable TLS handshake upcall")
+>> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+>> ---
+>>   net/handshake/netlink.c |  4 ++--
+>>   net/handshake/request.c | 14 +++++++-------
+>>   net/handshake/tlshd.c   |  2 ++
+>>   3 files changed, 11 insertions(+), 9 deletions(-)
+>> 
+> ... and there is always the question whather we should be calling
+> tls_handshake_cancel() in the first place.
+> We already call 'tls_handshake_cancel()' from the handshake timeout
+> handler, and this instance of 'tls_handshake_cancel()' is called
+> from a socket callback (ie when the soecket is closed or something).
+> I would have expected that the handshake code cleans up outstanding
+> requests on socket close already; if so, we can delete the cancel
+> here.
+
+The handshake layer doesn't auto-cancel on socket close.
+
+handshake_sk_destruct() fires when the sock refcount reaches
+zero, but it only frees the handshake_req and removes it from
+the hash table. It does not set HANDSHAKE_F_REQ_COMPLETED or
+invoke the consumer's done callback. It assumes the request
+was already completed or canceled before the socket reached
+final destruction.
+
+The timeout handler and the state-change path cover different
+failure modes. The timeout fires when tlshd is slow or absent.
+The state-change callback fires when the remote peer resets or
+closes the connection while the handshake is still in
+progress -- that can happen well before the timeout expires.
+
+Without the cancel in nvmet_tcp_schedule_release_queue(), the
+race plays out as follows: the state-change callback
+transitions the queue to DISCONNECTING and drops its kref.
+Then tlshd finishes and the handshake layer calls
+nvmet_tcp_tls_handshake_done(). That callback sees the queue
+is not in TLS_HANDSHAKE state, hits the WARN_ON, and returns
+without dropping its own kref -- leaking the queue.
+
+The cancel makes the teardown race-free: either cancel wins
+and the completion callback never fires, or completion already
+won and cancel returns false. Either way, exactly one side
+drops the kref.
+
+The SunRPC consumers (client and server) avoid this problem by
+blocking a thread on wait_for_completion() during the
+handshake. A socket state change wakes the waiter indirectly
+through the completion callback, and the waiter handles
+cleanup. nvme-tcp's handshake is fully asynchronous -- there
+is no blocked thread to wake, so the state-change callback is
+the only context that can cancel the handshake before queue
+teardown begins.
+
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Chuck Lever

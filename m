@@ -1,81 +1,80 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0770C274B5F
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 27 May 2026 09:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808203E63A2
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 27 May 2026 09:51:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779875343; cv=none; b=u9ko4Kcwdv7sPwsH4tChD/3qwgzISdk/piTqTzVFCg+r5MMUsUOx/D/IfavPPMixoKE1N9p9jQk3anS5aJu8pohI5MVK3cYb6FdLOET1kl9tqwY2oKqZNvx58wLANxfXvHtw4LFESV6g1mwGmKHF/3o4fQlmYcJY15hyUZd5PNg=
+	t=1779875487; cv=none; b=HqtecGdGyOjbBHep9JVN/VGFICz+TViJppRV5YB41YLFAEUebdt7fJ6SDhujjY9ENqo5QGXRYs8+58/bpaLraqtExYoocWUUejXA6cHIZ4PGocZNXer7SkJ6whh5vNEwZPUlhaSaVYT2XKAEotiD6tCMxkIhjT0hzrcP/2EGbIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779875343; c=relaxed/simple;
-	bh=DA68zz1aR0f04tI/zt35rwbvJ3ARxlpW3iIbrY0Xwhk=;
+	s=arc-20240116; t=1779875487; c=relaxed/simple;
+	bh=ZiLx+nwXbAzw55MofB7jcB/7mAUOEnbPtGIwaOTJwf8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h2s2n+FgtvuOk5k/dtaGCHR3K8OcGxnJaAGaApUDA0ppzRve7J0kQ/OJJowJaGIlLmNA6KzFhmnkHmhgNuUeNawrFDGQRfyqy88vnYMtnRWwaJJGGfnxnNaNLSmPRTBOFi7RHK3t452LL1U+YOY97J8ul5zVZVm5oOCOl5himEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XaKYu9z0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eQq0LEOe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XaKYu9z0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eQq0LEOe; arc=none smtp.client-ip=195.135.223.130
+	 In-Reply-To:Content-Type; b=Ppe8XQ+/mEbm8auXFS0uoSRIvTChJrRG5iAbrvaKSv/Yvji9jZoAq65kIxrl0fNjN++59wTaiMU0p03RYvOqpC1SiihsTe0n1HCPndE3dYL5mdgnHYQEYf75PJrD55FcITZ0i/GZdxF5pljHj4Pm0fTLr2Q65BDn42rZEkdqdak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=f4Bo7e8K; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NWie4Znc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Y4wswlU6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sYAtsh/p; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XaKYu9z0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eQq0LEOe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XaKYu9z0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eQq0LEOe"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="f4Bo7e8K";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NWie4Znc";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Y4wswlU6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sYAtsh/p"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4FF4F6A87C;
-	Wed, 27 May 2026 09:49:00 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9F69166DA9;
+	Wed, 27 May 2026 09:51:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779875340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779875483; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iA0Z5lg0Y048+dDZG9woYw9lX9oN508Zv868mII7sQQ=;
-	b=XaKYu9z0bzfDtEhAxT+IxfboJcIbfumaspQketaD482+05F9iYDrfacalgiX4b0N/81tjn
-	BLeSHalwiMDehgPb3FpiOYCIEpORv/Z4NtoTw5zRIvJ9W6YIJlNge6H8HR9f/CUjNt3/4A
-	+c/q0INAt4gPz5/C/AELIEdHMQnenrY=
+	bh=k2H4Ds2xHRFPE6LU/zFl+RiPaXvfcANNxLP9YZsqiDM=;
+	b=f4Bo7e8KQTaVhDEBtHmrHfdQoUkQ4EgKHaTD4Z3TVbk+yW6f/zViVenDQ0ENZUs6wYPcg9
+	b1SIrc8KL80jVlRhizNnvRMovUM3XC1YNRy1oFME+EbJ4A8jwJuiTDsIqwu2PsiQctcJV9
+	U91HdhlREqSbd+UOH8ULgQ4QtDjzngU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779875340;
+	s=susede2_ed25519; t=1779875483;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iA0Z5lg0Y048+dDZG9woYw9lX9oN508Zv868mII7sQQ=;
-	b=eQq0LEOeJXw9RUseK6sW7mlIMtfGj9QMjUTzB1/ApWZ2dhzdeeIPeiGlopDUlau8JI0CI3
-	4tjJffZdq+ztheAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XaKYu9z0;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=eQq0LEOe
+	bh=k2H4Ds2xHRFPE6LU/zFl+RiPaXvfcANNxLP9YZsqiDM=;
+	b=NWie4Znc2aHUq+allxUAXf1WwzUMoFi4IwRPwGzNf8ivSLACfy1tPfwHd6MBq+9s05JM9I
+	bisCb/FN2HW380Dw==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779875340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779875482; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iA0Z5lg0Y048+dDZG9woYw9lX9oN508Zv868mII7sQQ=;
-	b=XaKYu9z0bzfDtEhAxT+IxfboJcIbfumaspQketaD482+05F9iYDrfacalgiX4b0N/81tjn
-	BLeSHalwiMDehgPb3FpiOYCIEpORv/Z4NtoTw5zRIvJ9W6YIJlNge6H8HR9f/CUjNt3/4A
-	+c/q0INAt4gPz5/C/AELIEdHMQnenrY=
+	bh=k2H4Ds2xHRFPE6LU/zFl+RiPaXvfcANNxLP9YZsqiDM=;
+	b=Y4wswlU6aywgHssrQz6TFQALP69d1knBgssqu2U00wnpcDSHm/j7ZobxINjFwEGtNH2M7X
+	HEQbQFlbPTjuJ4uIfKHwR5j3YEnFVFr1apj/6mrWgrXALlCPE3E5CowUGtteVfDoGcCpY9
+	bJocVrtT17RBPA5s9XsqjfVv/4vyrmM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779875340;
+	s=susede2_ed25519; t=1779875482;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iA0Z5lg0Y048+dDZG9woYw9lX9oN508Zv868mII7sQQ=;
-	b=eQq0LEOeJXw9RUseK6sW7mlIMtfGj9QMjUTzB1/ApWZ2dhzdeeIPeiGlopDUlau8JI0CI3
-	4tjJffZdq+ztheAA==
+	bh=k2H4Ds2xHRFPE6LU/zFl+RiPaXvfcANNxLP9YZsqiDM=;
+	b=sYAtsh/p3pmX3jzlv3UVVgXUWsE9bzrIWvVfxHla4qPLdAHGugPtcaDKtJqhgAVtvMySCT
+	wiYL5H7hAOXHzKDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1B7595A780;
-	Wed, 27 May 2026 09:49:00 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 776845A782;
+	Wed, 27 May 2026 09:51:22 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +48PBgy+FmqwRAAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 27 May 2026 09:49:00 +0000
-Message-ID: <c3ec9726-6d51-4aad-b652-f284c7f03941@suse.de>
-Date: Wed, 27 May 2026 11:48:59 +0200
+	id VKFrHJq+FmpxRgAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 27 May 2026 09:51:22 +0000
+Message-ID: <15b63b82-1572-418d-9ed9-8ccc11217beb@suse.de>
+Date: Wed, 27 May 2026 11:51:22 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
@@ -83,95 +82,87 @@ List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v11 2/6] tls: Re-present partially-consumed
- records in tls_sw_read_sock()
+Subject: Re: [PATCH net-next v11 5/6] tls: Suppress spurious saved_data_ready
+ on all receive paths
 To: Chuck Lever <cel@kernel.org>, John Fastabend <john.fastabend@gmail.com>,
  Jakub Kicinski <kuba@kernel.org>, Sabrina Dubroca <sd@queasysnail.net>
 Cc: Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
  Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
- kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>,
- Sagi Grimberg <sagi@grimberg.me>
+ kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>
 References: <20260526-tls-read-sock-v11-0-244fe1dc4abd@oracle.com>
- <20260526-tls-read-sock-v11-2-244fe1dc4abd@oracle.com>
+ <20260526-tls-read-sock-v11-5-244fe1dc4abd@oracle.com>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260526-tls-read-sock-v11-2-244fe1dc4abd@oracle.com>
+In-Reply-To: <20260526-tls-read-sock-v11-5-244fe1dc4abd@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
 X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 4FF4F6A87C
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.995];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FREEMAIL_TO(0.00)[kernel.org,gmail.com,queasysnail.net];
+	TAGGED_RCPT(0.00)[];
 	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,oracle.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,oracle.com:email,imap1.dmz-prg2.suse.org:helo]
 
 On 5/26/26 16:21, Chuck Lever wrote:
 > From: Chuck Lever <chuck.lever@oracle.com>
 > 
-> The tls_sw_read_sock() loop releases the current skb whether
-> read_actor() consumed the full record or only a prefix. When
-> the actor takes only part of the record and leaves desc->count
-> non-zero, the remainder is lost: skb is neither requeued nor
-> freed, and the next iteration overwrites it during dequeue or
-> tls_rx_rec_wait().
+> Each record release via tls_strp_msg_done() triggered
+> tls_strp_check_rcv(), which called tls_rx_msg_ready() and
+> fired saved_data_ready(). During a multi-record receive, the
+> first N-1 wakeups are pure overhead: the caller is already
+> running and will pick up subsequent records on the next loop
+> iteration. The recvmsg and splice_read paths share this waste.
 > 
-> No mainline consumer reaches this path today. The only
-> in-tree TLS read_sock user is nvme/tcp, whose actor
-> nvme_tcp_recv_skb() loops until the input length is exhausted
-> and returns either the full length or a negative error.
+> Suppress per-record notifications and emit a single one on
+> reader exit. tls_rx_rec_done() releases the current record
+> and parses the next without announcing; tls_strp_check_rcv()
+> gains a bool announce parameter so callers can request the
+> quiet form. tls_rx_reader_release() fires the deferred
+> announce on exit through tls_rx_msg_maybe_announce(), an
+> idempotent helper that calls saved_data_ready() only when a
+> record is parsed and has not yet been announced.
 > 
-> The path becomes reachable with the upcoming NFSD svcsock
-> receive built on read_sock_cmsg. Its data actor,
-> svc_tcp_recv_actor(), parses an RPC fragment stream
-> incrementally and returns at fragment boundaries. When a TLS
-> record carries the tail of one RPC fragment plus the head of
-> the next, the actor returns fewer bytes than offered while
-> leaving desc->count non-zero, and without re-presentation the
-> trailing fragment header vanishes.
+> To keep the final notification idempotent against records that
+> the BH or the worker has already announced, tls_strparser gains
+> a msg_announced bit. tls_rx_msg_maybe_announce() sets the bit
+> when firing saved_data_ready(); the bit is cleared whenever
+> the parsed record is wiped, by tls_strp_msg_consume() on
+> consumption or by tls_strp_msg_load() when the lower socket
+> loses bytes from under the parse. A second call for the same
+> parsed record -- as when recvmsg() satisfies the request from
+> ctx->rx_list without touching the strparser -- becomes a
+> no-op.
 > 
-> __tcp_read_sock() handles the equivalent case for plain TCP
-> by leaving the unread bytes available for the next iteration
-> to re-present, via sequence-number re-lookup. Adopt the same
-> loop-level behavior: when read_actor() consumes only part of
-> the record, update rxm->offset and rxm->full_len and requeue
-> the skb to the head of rx_list so the next iteration
-> re-presents the unread bytes. Switch the open-ended for-loop
-> to "while (desc->count)" so the partial- and full-consume
-> arms share a single exit check and read_actor() is not
-> re-invoked once desc->count is exhausted.
+> With no remaining callers, tls_strp_msg_done() is removed.
 > 
-> Cc: Sagi Grimberg <sagi@grimberg.me>
 > Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
 > ---
->   net/tls/tls_sw.c | 7 ++-----
->   1 file changed, 2 insertions(+), 5 deletions(-)
+>   include/net/tls.h  |  5 +++++
+>   net/tls/tls.h      |  5 ++---
+>   net/tls/tls_main.c |  2 +-
+>   net/tls/tls_strp.c | 23 ++++++++++++-----------
+>   net/tls/tls_sw.c   | 27 ++++++++++++++++++++++++---
+>   5 files changed, 44 insertions(+), 18 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@kernel.org>
 

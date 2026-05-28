@@ -1,138 +1,94 @@
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F413A3809
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 28 May 2026 09:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8015731E848;
+	Thu, 28 May 2026 11:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779959718; cv=none; b=PJYLY1WWG62gwetCWYYFn6I8MLaQaZSJeFvpAq6T8VDe915LwvzNJTYCo8XEFC+36djj0egA3Z9ZFb0J2eYDd4ZSJ5TfjvG25C58XFM7jFhwe5x7v8vy6DFN7ZOBLuPYCwtosw4pAvwPcBkcL5fYQlEnEbHl1OgUEZbA0kLfduI=
+	t=1779969020; cv=none; b=hBsHpLrGfS9+d0npUcd1eLHAX0qocBUZJyjVWWaHSssRz5Q3sqSnmDaHwee+NdcHCiGP54Shl4w0zPwLKG4ySvbOFwF5YcYcs6ppXONrrNSMyEYarDypVmiC41YrTAV7VFM6taPGJ43ibTgV4tK+Jf7zM5hZEwyNEeH357tA/h4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779959718; c=relaxed/simple;
-	bh=rsKE2ntFZgsoNAYlxykrOehP1Ly+cVLd31XcodFdt3c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=upLZevZ9mxs5gTXaM8rKT31+tArxmrIrDNw9ewEtcRPgKunIHhG+LTV+5kO81GKgqfkiz/jYRkuAIAY9xT/f0MrYphRWCLvPcE2mRswicDAwLo1gf7E3DRfiRHYcftuIHTh0OecnPWpIIu6I2b7tnU1Qd2WYQB+5rRLcCMOKYOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=g0Nu1mcV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gkuKP4RU; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
+	s=arc-20240116; t=1779969020; c=relaxed/simple;
+	bh=T5lpdSKsoEaXIxJpnBr/2q7vWZCB7q0zqz3tMazoVrg=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=pCDsq60/5qk5A8oZtic593kkEtC5fbLF7TB4ZCQGywShlaz3wbBMJ3lMHYlpq39sDiuylvPK7dIsvADvu5JtVR/LWY4XJtHqLpU8+59yGr7GtFz55hUAVMf6bEUPGFB16BHSEjkP6eupUfo3TQ6+ksLEqygT0jQno3yya4xehoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bzl248sX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="g0Nu1mcV";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gkuKP4RU"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id A9399140015F;
-	Thu, 28 May 2026 05:15:14 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Thu, 28 May 2026 05:15:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1779959714; x=
-	1780046114; bh=8TKMosZtoNCLawfUgM4vlnC/yxtsCh7j5xlUZtgwYJs=; b=g
-	0Nu1mcV/Gov7UYaASYQMC6LFRABAM1tMc+wqUfH1XUHGhknYbRcmfONc7RbWJwkk
-	W7DwX72mjX5n0PrJCt2od2tqO48wkCrW8WmgyGCAUujXYP+RfRGPwl9o1ngu1bl7
-	7Toc7wBpOAnOfQnz182+lvkCwMt0c+pNtBtl2mm2aB0k2lsU6aND/kg9mu3TBRtL
-	gdF3e3MOVNL/Y4msFsTTphq8vIU80WOHAdCAQspjAF7mNqCbxngDYyEnqVhGoWIp
-	jqIRT35vW4hjsic37OWvb4Co7A54deYTf34qJo8TLMQNJ0efmB2cyhsQ2RPSzLkZ
-	k597AcGB5e2dT7Yfu7Acg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1779959714; x=1780046114; bh=8TKMosZtoNCLawfUgM4vlnC/yxtsCh7j5xl
-	UZtgwYJs=; b=gkuKP4RUOICFJywd8zdocS1tmkuoVPrZpfJSfwvrzmpVvXtHKVi
-	BlvimM5QQkT6apyTkDI7LcvmXE3CdayOgdBt1izAP0OapN+8cXjQEz0hsfrkNwM5
-	KV96X1X68H8kYkmsHEeRnZZSf6PKtEw5QHTxHoWfIQYHSNbD2RSXPKmjqFatHg9T
-	61nczh9DL1G1KPCG7Cf46SAxrcxOZEANJ9Xax1XMNc6J1cL7sQzF7dJkVlA9E0AB
-	wpN/UCNTrJbpg2Rj+4OfEfsR4pwCJU/VT1nm2u2LbaDDNvljowkYa8MMm3i0PsKW
-	XrGUlhY8MO91nfyGcBSrmckaKCidvr3PYZA==
-X-ME-Sender: <xms:ogcYanaLyAx3tjZjLuZHcxna4ySLeobTRWBpRFGJrBOt6YdZsaJJNg>
-    <xme:ogcYarUaBJHHvteZhLijl70fkW3giwgScLkr862AOWXR51mI3pSA_g3ctvNCKlCrA
-    tDSB62P-Q3WSRMDGje8tia1wPn93b88TNH2TlxCbpC4sn4d7gIYfD9u>
-X-ME-Received: <xmr:ogcYauMsGoXdSyhWYLopGjGzHNNz6EiagY4OjmncO3wh6tkJDtQUJ9a8dFXDCwCxh_hlXcn9BRHlnQbcqKt38M0>
-X-ME-Proxy-Cause: dmFkZTFQiGLwr+by7AW6vFTILuHsMzDswvh+KiHXyxjz8ZUfe2AJ+Zj3cSAaoCZ5lcmfpc
-    zC/3t6rdo8rNpbCVcuxtjkmBoJEtByJNl6MvveZagwWsZqwznrRmJgHjUY8agCSOBX20Yc
-    3KRjnCM0LYoqI9FUCx/540FxaoM0UkNDCgDEnqpS5D4mIhp5QZTY6/Lf72fh1pQJV8r76H
-    1kJ4b963exyCXkRR/uF63QJjcIrgCLoDmSIF68ri6Uu1TpQcHpsLLimOANsOeOKtOqSgbu
-    FEVS2CmJh0hVzGJmxiyZIN7DLXbFULjZCS00hw9FQAqPKWEha1VDy4sRMDVXiMDZ0HCoUp
-    LlnA1sVbWrJWdYwc14XYiCA8tIexGHMkXOL4VI13CwGf2nZ/5m4amRZ1H8k4sJZyqIEYcY
-    B7tweAWhfyhQH2uRjwk/oF7kyjbQQ4c4tQyeWU0onsQhlfj51hBGOo6zW9vANOEMfqEixQ
-    JDcXGvi3dn/me5l9c1FGcme7g/4+b3P0vd9lmvO3czE8fqOIqeL/71HyE4LMuMVpEq1FEt
-    88+YsgbeplsmePvkYnkGG9Bnmo2E0k3Zw2Pvx1IVfpTYkRH26r7X/ysFtqOQ/a56DFpFwU
-    OBZIIon8lkmiCcHYh4EE3ZfWtzStdyY8HvFvtcJsm3vob0QtPX4ZmPnkB6Fg
-X-ME-Proxy: <xmx:ogcYatbEXn33Cz7_D-KrJcmcTDmCZmPQHWUvy6EzfBArf4snQWP3KA>
-    <xmx:ogcYal8PgViMRXEPYvrZug9rdsGlFDkCCR742_CvdAbGY0zzYpu8vA>
-    <xmx:ogcYamTMIqjVNOTVutaQkM5maOU1HrZgR66Lhb2CVAPKxBHoLdpg6Q>
-    <xmx:ogcYancXSXL7h74uvdSGAdPQnX8m3AvDC1Fwq3IjfgIY_Xq5GfO-AA>
-    <xmx:ogcYar_8fxZ_66awg65TMcqbG02cc6FPC6dGdayZI_ctejrJOG4L52Is>
-Feedback-ID: i934648bf:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 May 2026 05:15:13 -0400 (EDT)
-Date: Thu, 28 May 2026 11:15:12 +0200
-From: Sabrina Dubroca <sd@queasysnail.net>
-To: Chuck Lever <cel@kernel.org>
-Cc: John Fastabend <john.fastabend@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
-	kernel-tls-handshake@lists.linux.dev,
-	Chuck Lever <chuck.lever@oracle.com>
-Subject: Re: [PATCH net-next v11 5/6] tls: Suppress spurious saved_data_ready
- on all receive paths
-Message-ID: <ahgHoCb5H6SO4bLg@krikkit>
-References: <20260526-tls-read-sock-v11-0-244fe1dc4abd@oracle.com>
- <20260526-tls-read-sock-v11-5-244fe1dc4abd@oracle.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bzl248sX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A0E51F000E9;
+	Thu, 28 May 2026 11:50:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779969019;
+	bh=iTEH889qdyjQuOYuPdCeZWG7mcxcunl8XrScgzNxwwU=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=bzl248sXAa3UsUsND4J7ufxCXCDIAJLLAS1Yyacj2SFB2yMB1pgqsluRZZAnRpWr8
+	 eImQq13Vtp7mGv6oTx03e+E4Pxjbs2jdXeVFE2PWTa6D6jRNQTpw2nqfS0XCrnpIR8
+	 3KLau5qSkgb1Q9wq/hsXd9yTKOud5hKtJehVQGTGQX3QNNTfOn5WJecXaNLkupaCpa
+	 qRBuoq48kftWLRZHUUnSVPfZQZqQL90R9do9pBaKMS1S40nXWHIm2asI8Mgz/NaFNk
+	 Bf84uKsWyZsl+wL3qWzlLpr2pUWHxvjIKVd1BC6oo5bACVccXDuK9dU/raQwEW0yo5
+	 K2KPGK6gFcEEA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 19CC53811959;
+	Thu, 28 May 2026 11:50:25 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260526-tls-read-sock-v11-5-244fe1dc4abd@oracle.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v3 0/8] net/handshake: anchor request lifetime to a
+ pinned file reference
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <177996902389.890175.13707702597875560897.git-patchwork-notify@kernel.org>
+Date: Thu, 28 May 2026 11:50:23 +0000
+References: <20260525-handshake-file-pin-v3-0-66c616906ead@oracle.com>
+In-Reply-To: <20260525-handshake-file-pin-v3-0-66c616906ead@oracle.com>
+To: Chuck Lever <cel@kernel.org>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, clm@meta.com, brauner@kernel.org,
+ kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org,
+ netdev@vger.kernel.org, chuck.lever@oracle.com, hare@kernel.org,
+ alistair.francis@wdc.com
 
-2026-05-26, 10:21:35 -0400, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
-> 
-> Each record release via tls_strp_msg_done() triggered
-> tls_strp_check_rcv(), which called tls_rx_msg_ready() and
-> fired saved_data_ready(). During a multi-record receive, the
-> first N-1 wakeups are pure overhead: the caller is already
-> running and will pick up subsequent records on the next loop
-> iteration. The recvmsg and splice_read paths share this waste.
-> 
-> Suppress per-record notifications and emit a single one on
-> reader exit. tls_rx_rec_done() releases the current record
-> and parses the next without announcing; tls_strp_check_rcv()
-> gains a bool announce parameter so callers can request the
-> quiet form. tls_rx_reader_release() fires the deferred
-> announce on exit through tls_rx_msg_maybe_announce(), an
-> idempotent helper that calls saved_data_ready() only when a
-> record is parsed and has not yet been announced.
-> 
-> To keep the final notification idempotent against records that
-> the BH or the worker has already announced, tls_strparser gains
-> a msg_announced bit. tls_rx_msg_maybe_announce() sets the bit
-> when firing saved_data_ready(); the bit is cleared whenever
-> the parsed record is wiped, by tls_strp_msg_consume() on
-> consumption or by tls_strp_msg_load() when the lower socket
-> loses bytes from under the parse. A second call for the same
-> parsed record -- as when recvmsg() satisfies the request from
-> ctx->rx_list without touching the strparser -- becomes a
-> no-op.
-> 
-> With no remaining callers, tls_strp_msg_done() is removed.
-> 
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-> ---
->  include/net/tls.h  |  5 +++++
->  net/tls/tls.h      |  5 ++---
->  net/tls/tls_main.c |  2 +-
->  net/tls/tls_strp.c | 23 ++++++++++++-----------
->  net/tls/tls_sw.c   | 27 ++++++++++++++++++++++++---
->  5 files changed, 44 insertions(+), 18 deletions(-)
+Hello:
 
-Reviewed-by: Sabrina Dubroca <sd@queasysnail.net>
+This series was applied to netdev/net.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
 
+On Mon, 25 May 2026 12:51:14 -0400 you wrote:
+> handshake_nl_accept_doit() has accumulated four follow-on fixes
+> since 3b3009ea8abb ("net/handshake: Create a NETLINK service for
+> handling handshake requests"): 7ea9c1ec66bc, 7798b59409c3,
+> fe67b063f687, and dabac51b8102.  Each was a local refcount or
+> NULL-check correction; none moved where the file reference is
+> owned, and the same code keeps producing the same class of bug.
+> Reworking the ownership is what breaks the pattern.
+> 
+> [...]
+
+Here is the summary with links:
+  - [net,v3,1/8] net/handshake: Use spin_lock_bh for hn_lock
+    https://git.kernel.org/netdev/net/c/cc993e0927ec
+  - [net,v3,2/8] nvme-tcp: store negative errno in queue->tls_err
+    https://git.kernel.org/netdev/net/c/9015985b5eb1
+  - [net,v3,3/8] net/handshake: Pass negative errno through handshake_complete()
+    https://git.kernel.org/netdev/net/c/6b22d433aa13
+  - [net,v3,4/8] net/handshake: Take a long-lived file reference at submit
+    https://git.kernel.org/netdev/net/c/09dba37eee70
+  - [net,v3,5/8] net/handshake: hand off the pinned file reference to accept_doit
+    https://git.kernel.org/netdev/net/c/f4251190e58b
+  - [net,v3,6/8] net/handshake: Close the submit-side sock_hold race
+    https://git.kernel.org/netdev/net/c/5da98f55b131
+  - [net,v3,7/8] net/handshake: Verify file-reference balance in submit paths
+    https://git.kernel.org/netdev/net/c/204a5efde5ed
+  - [net,v3,8/8] net/handshake: Drain pending requests at net namespace exit
+    https://git.kernel.org/netdev/net/c/ea5fe6a73ca5
+
+You are awesome, thank you!
 -- 
-Sabrina
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

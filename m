@@ -1,1199 +1,493 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D001638E8A2
-	for <kernel-tls-handshake@lists.linux.dev>; Sun, 31 May 2026 13:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780233105; cv=none; b=LzANq8ccwRpJCjBIt4heGzOqWB6IcUfcS1RVfAis937N+94tsWfsLpQmUNcspC+S/7yC5C1T4Ot0Awdv/yx9GtcvQnuuobTxGp11EvHLrSiu5vj7hxZ17o8LP1CsWvBzgePy9VMsmzlYqguUjF3a06gd80xy5ZMmIJ1YPyFIJFw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780233105; c=relaxed/simple;
-	bh=fjs0ZLYn0u19a9joZEZuGf1ap2RvxcWyNHAuj6ADkIA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KeU/HRJPfJGRA1EaKh22k+eELZ+Pfp7pjOpiGiwsfFkBPacFx/TxcdHhIOUw75e1tI/aSSJRjZcXMMI1xsBwlH45lkHWNbk84omAJUXydTF7YfcwkCnFHY4mpJvH5L5sQ/zYwqpUi3CI38g+gisY0pIT+KTqN0lXqbHJpPmRP3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nJmnIXI/; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB4F3DB334
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  2 Jun 2026 13:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780405965; cv=pass; b=AG5ISDS2IQp6TMynJ5l+VeXk+NbvP+iKxqg3F0VlwrIrID/oYH3kkRMNQIVnGHUZBDBbmm931b9qW2vbMUNtLJKeAKI9GJ+i4LSjMqJcLUrFk5/Sa4r/NwxOrqpgc+Rih9na4o5rRxfv+Zdi89OM1fntCVunw4nsXLUbwRPxTv4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780405965; c=relaxed/simple;
+	bh=HvcFcdJQ69pGQBms/0AL1wbrnOeVimOcmUxRPVgGMEA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NoQCt7/ScfDpFCmf9/KyT2/rlOBDrmJ6dFhAVhkXe/HeFpbCizCx/DF5Fz4o5apxtDFc+dCxCnQntk4HJ8oWiRu0BMRsAoIWMvlhI9A2ttMpIHyQczSTaxYxTIjL/mozfD/pIbmNcCgZ1I44tcYWLgOvCoi/xyWaAgs4WCljYyo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nLXD8zxy; arc=pass smtp.client-ip=209.85.215.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nJmnIXI/"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-8ccedaf0b54so11434206d6.0
-        for <kernel-tls-handshake@lists.linux.dev>; Sun, 31 May 2026 06:11:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nLXD8zxy"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c8584e80bd3so1311817a12.3
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 02 Jun 2026 06:12:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780405963; cv=none;
+        d=google.com; s=arc-20240605;
+        b=iOZwt4lLmboQ+DqLZebtWnu0hMd3xvCwXaT/OSrXtWG/P7kB9U3WB1N3L41T+nlMSf
+         StHmgpzlDuarrXWwPSNaP2SmXXsCeXp4/66nC/ut2tAcA1QwdFfLlk9ynsIKEt7ZrYfR
+         jtn98zbToBdBvoNLYnh6AZCQ4Wbdj6HS7SZW+F4KyS3KkDo3slejXuaSLKTRHf6xDfU8
+         6JYqr4+wJw9UaJuc2l8klK7uMIyEoQN1Cowcn0z0ZZa7uXd/7FHNr3TYGSpcW9Z3xLc/
+         TtTP2MwKWApszSRU/vv4KwAWjAP7as/SaEmbzlK7f0G7w/KKQtZltQ+8+aqg7rblueje
+         jDwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HvcFcdJQ69pGQBms/0AL1wbrnOeVimOcmUxRPVgGMEA=;
+        fh=BMTpoY5zWtD2argTxx59OCZVY2AlKTCCHjcEjgm32dE=;
+        b=AcLTVXiooJiAlD3MuXkkwQ2rLzNdXj38nB4fBPfznf3XpenD2XfIMICKp65RjRB3nw
+         Q9mCi0jF+a5dyB/FUzKvDnrEn/Y02G55MbHlG5CrKqVsJ8DrW7NQNSSKxO2N89i3f2sp
+         SXs8IOuX8n7sgZ4aNvcayJaPTA9FVtVz9MXWPxFWY+E35MYDVcW43sZrmPD9rTWAT68c
+         02fsSXr5s65ueQrIG1GvRaL76gL421+YVfwzaJyJLFL+SJsQ5tc7KhODlLH/VJJbpj6h
+         7sibhjcCfkOFgE8+RQqH21Y2k6c1CPx1cr/9MgJKE3H+fXPZ9dL8lZX99Dm38G/U7u4f
+         ajRA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780233101; x=1780837901; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780405963; x=1781010763; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hSop99x2PPp3vQMNdcDIzwZKSEglDbwkDbPDaTtylfY=;
-        b=nJmnIXI/Qr93QbdjYCefZq9+rBLSM+UD/aiM3PEe9E+TF9cSj0b0+B2XOQzHk9rEw9
-         tqNVJSZ2B/FPzdowmZtJntfW67Y1cvcCgAXGpxVDx8u5HMLqyxJk+/V9gJgvK7Bpt5F8
-         CyT1L9Tq0n5HCIzKhh1NkxPCvKk8yRqfyvfT+tZ9vhYKCe/LcdyxKtaWiDK8G35DAPSm
-         eYAJJkggdREIFPSqoSionGxbB9b4+DxexViTlTLH3zlP+O/6aQrpaKJViPaqiTfFdoUI
-         zv4kZgRSnVTaPCyWRkzLiHbmv3H+jsWd/PNH0uGhOiRi+7+kFpgl66fIWGN2cIrpOWTy
-         n4jg==
+        bh=HvcFcdJQ69pGQBms/0AL1wbrnOeVimOcmUxRPVgGMEA=;
+        b=nLXD8zxy9tl2yAZW+hsmrkgdamniagNuLUIoporo/uY/ludR8oI3+P1x/6dm/JqjFu
+         Y/jdaphuFFTTLarxq++r/CbExPFr1iyOkTQI6WAUA6QXbF/HoqzL06KBE9ssSXYQ4GVa
+         3O5xp1vdySTitVeivNBrMGLUKAmsbzy5aa4vAG3A0hJp/3kzk86khI9OLsNValeaFsjk
+         XjzG7u/2jRzZkEGeHdejdAwPwUBBhelUgQOdPZS2IEq7q1Q+MEU1rtUmAslMDzMyU3nr
+         OajkNYEa5IENaR58msldOeq1zTwDqt+voR3kaua8UXLdeaCj2WJB8nzN7xOsgBB0YqqB
+         CKoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780233101; x=1780837901;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1780405963; x=1781010763;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=hSop99x2PPp3vQMNdcDIzwZKSEglDbwkDbPDaTtylfY=;
-        b=V1PolU/2wkk0ygV/x/Snc4EAQ2I0zNAxSOh4Y0/F3gGIN9WE0p5OFTqsWoQNxlcPnC
-         L04d7hyHnf/sofPr9om+t385oay+bXspj/h8x6bX4X8YzMPU1nlAyxet9JW68axNVMOR
-         KdR7I1p6zpVe6Yi584C9Y9QNKaDkg69wAYpBaCND1Z/QQ50R9R2mMKfVJBFsQRu9uBY3
-         C9YBYIlIbbMQjJPgNDCIt6iwTV877n2Ld5zGTYbN+FAXJAbI8WDA2ZQqQBGg+6zOIUaS
-         m9WW6qUw3eJAwAHJUHNveB1z/le/LFWOF0xuovui6EyRvPfn3QOPCNlWemwUUwNjVzzk
-         VoNQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/kudBuHcKihECpY+Xlv6fyJVhn+fSlZEAVcRFJc+nacdoMekt+gJTjCp4NnRXAEuCTosQPU81WRJ4BpNfwrrJlTmF5SA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxag9LoMIcO5Tu+f+V9Xz968YPPX/HBGbfrvpYP+k8gwAAkpU2T
-	pgP6Au8D5L3jLTov57UchUxj25zJ44LZxVIxRcoW0UltrAmxpxHcT0Vu
-X-Gm-Gg: Acq92OFWgWb+2SkOH1zxcH1YmuXa+DQVHWGIAKgiedQjhNSw3hC4n5dW+3e9M0Mk/4d
-	tbmgEfYMY+0oaQrM+7RiYVWIqsJkYzUIIEIOcqpFFpq7VDf0b3dSF/2Pgf5SYo9IO1BDIDv9ePG
-	+sJCu/EW/6orE/fyX9lVdfaH0/squ0IjeqsvlbqTGYUqY9R/OWR10y5PGYsR7EM33b8fPTx2+55
-	lr0NIllu1ILl2VxN+Dg6teq7nELCKwWvPHQhoWhka52cD2gIXBEXsA2BXQT0WssOgYsTE8O4YHA
-	/WGFnerTi1inM6guACpff7EA5S/FbzI6omr3rz/hf33D1l3yehm8I4fMWvRfE59eRAt5CuFr8t7
-	qjJP+gLhzIXZ0bwORptQYD9qf7+vJYeJY7CXLgpT8oyzOzzOJaumQ3wUe+Vg43xclaZoj2R+iIu
-	w3AR351Tojqv19dxVUUIUOFEAEHAuNifpBCH1YnR7X6iqB8Npmtd7hpv3C5b8gzCiL7lRgwyvLc
-	0+OLYqT8EGxKkArdwzcshAfusk2j/yZ7t2XTGDmInWA4qGf5jxloZ41WatRYNeQHgBMbHRRzNhv
-X-Received: by 2002:a05:6214:3304:b0:8cd:7c6a:8d9e with SMTP id 6a1803df08f44-8cd7c6a90bcmr66520016d6.44.1780233100503;
-        Sun, 31 May 2026 06:11:40 -0700 (PDT)
-Received: from wsfd-netdev58.anl.eng.rdu2.dc.redhat.com ([66.187.232.140])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ccea2163b0sm69609746d6.38.2026.05.31.06.11.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2026 06:11:39 -0700 (PDT)
-From: Xin Long <lucien.xin@gmail.com>
-To: network dev <netdev@vger.kernel.org>,
-	quic@lists.linux.dev
-Cc: davem@davemloft.net,
-	kuba@kernel.org,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Stefan Metzmacher <metze@samba.org>,
-	Moritz Buhl <mbuhl@openbsd.org>,
-	Tyler Fanelli <tfanelli@redhat.com>,
-	Pengtao He <hepengtao@xiaomi.com>,
-	Thomas Dreibholz <dreibh@simula.no>,
-	linux-cifs@vger.kernel.org,
-	Steve French <smfrench@gmail.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Tom Talpey <tom@talpey.com>,
-	kernel-tls-handshake@lists.linux.dev,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Steve Dickson <steved@redhat.com>,
-	Hannes Reinecke <hare@suse.de>,
-	Alexander Aring <aahringo@redhat.com>,
-	David Howells <dhowells@redhat.com>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	John Ericson <mail@johnericson.me>,
-	Cong Wang <xiyou.wangcong@gmail.com>,
-	"D . Wythe" <alibuda@linux.alibaba.com>,
-	Jason Baron <jbaron@akamai.com>,
-	illiliti <illiliti@protonmail.com>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-	Daniel Stenberg <daniel@haxx.se>,
-	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
-	mef@scarletmail.rutgers.edu,
-	paul@jakma.org
-Subject: [PATCH net-next v12 15/15] quic: add packet parser base
-Date: Sun, 31 May 2026 09:08:51 -0400
-Message-ID: <4480d06115409ff8607e20bde5b93aeb9c9e6480.1780232931.git.lucien.xin@gmail.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <cover.1780232930.git.lucien.xin@gmail.com>
-References: <cover.1780232930.git.lucien.xin@gmail.com>
+        bh=HvcFcdJQ69pGQBms/0AL1wbrnOeVimOcmUxRPVgGMEA=;
+        b=nZUeX6wOA5xD6yhrdIEnBqrUr73c3/cPA218x/nu3mPGApHO9wFMD91jfh8pAK95YQ
+         EjHnKmSHikdwJ1IJn8bvucsHoeLUnK56kawlUMotiEeyhmhdghaWHtw96jNeQ5sl+xIz
+         pEXDdl/BsMRO3VDUyVCYlJ0EUcwg3PLZ7ydha64TPSJEyq2ylazBzndjn8WdVUB4YZ/p
+         DMsP5+6Wu9V1np0jnEWoDq3ubbHMwtmHU3Olih0K0bxEywK485me4F8VAM4VQkb9VA8d
+         VR7K+HM970pR5nwsxObkjzSGhcUDJM+NAaBNbJOwf0ZKzb+DYZckwZXXvmUbbdiuMLJO
+         Y13w==
+X-Forwarded-Encrypted: i=1; AFNElJ/ZcwmyYXAdp1BmgcBUWwfoeDXhDW1G2DxtN3K04R5Q/lIQKhI3JCnl3Bmf7AdyvL4OmG5rXebIzE9bNfcLDQfuJwfi7w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz2MhhgzpimfflMsV/HaCPQsVaSi2BGWFNVY6SgrjHX8xO2EeD9
+	/A+PL2Sfa5RarPqqUQQCC8CWP01K83ih6N4rm9RoTUSIQOpTA4pvnX/+ELKkPmwv+TToQmZif8o
+	t8yCHHqPKNhZQvvyJSzSIVCHhcrIun9Y=
+X-Gm-Gg: Acq92OF3a+Z91ApKONezSn2fcrcNtDAJbdbckSH42klVoziZ63NNVDclcilC0KJPAjp
+	XNW+7O9VZThBFhVz1p0W7nYCgDkzm1I1wy1lOEvg8Uc9omBAD8Em82S5zdy6Yw/XqEabcHaWzfP
+	7ZRjT+jedqi9Sl3TP+uoRwe5v8DyvF/mGkVMe00qR8CqaX1pdFiQM2y92yf/5PbIC51GBA+uDOA
+	iFXTwaxWXYu8EcovDYkzCu1FjZfCzPy0kj9HPBu0ZFp2GmmBGnODGQxGSqvbSkixXXh6+x5w2Vo
+	a7qhjtfxG2TAcf5CUUm0DBpl08zHFJQV+1jdKYbP8dzn8ppLoYjxF9b55TCtu2XQMbp+qYuoncf
+	Gu2GZQ9us7lG1dxAO
+X-Received: by 2002:a05:6a21:7107:b0:3aa:ec27:e5f7 with SMTP id
+ adf61e73a8af0-3b4282ff034mr17559942637.42.1780405962470; Tue, 02 Jun 2026
+ 06:12:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1780232930.git.lucien.xin@gmail.com>
+In-Reply-To: <cover.1780232930.git.lucien.xin@gmail.com>
+From: Xin Long <lucien.xin@gmail.com>
+Date: Tue, 2 Jun 2026 09:12:30 -0400
+X-Gm-Features: AVHnY4Jwqfb3S6gJPabh7jfx72xVOKxwzP_UiAN-x-9qcYRUWSO4KjtCjXhsEHM
+Message-ID: <CADvbK_fBbLCwY61HXsNeGCA8MhiBKcbvE0BvSZppohJgtXO+2g@mail.gmail.com>
+Subject: Re: [PATCH net-next v12 00/15] net: introduce QUIC infrastructure and
+ core subcomponents
+To: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev
+Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Stefan Metzmacher <metze@samba.org>, Moritz Buhl <mbuhl@openbsd.org>, Tyler Fanelli <tfanelli@redhat.com>, 
+	Pengtao He <hepengtao@xiaomi.com>, Thomas Dreibholz <dreibh@simula.no>, linux-cifs@vger.kernel.org, 
+	Steve French <smfrench@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>, Tom Talpey <tom@talpey.com>, 
+	kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>, 
+	Jeff Layton <jlayton@kernel.org>, Steve Dickson <steved@redhat.com>, Hannes Reinecke <hare@suse.de>, 
+	Alexander Aring <aahringo@redhat.com>, David Howells <dhowells@redhat.com>, 
+	Matthieu Baerts <matttbe@kernel.org>, John Ericson <mail@johnericson.me>, 
+	Cong Wang <xiyou.wangcong@gmail.com>, "D . Wythe" <alibuda@linux.alibaba.com>, 
+	Jason Baron <jbaron@akamai.com>, illiliti <illiliti@protonmail.com>, 
+	Sabrina Dubroca <sd@queasysnail.net>, Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, 
+	Daniel Stenberg <daniel@haxx.se>, Andy Gospodarek <andrew.gospodarek@broadcom.com>, 
+	mef@scarletmail.rutgers.edu, paul@jakma.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-This patch uses 'quic_packet' to handle packing of QUIC packets on the
-receive (RX) path.
-
-It introduces mechanisms to parse the ALPN from client Initial packets
-to determine the correct listener socket. Received packets are then
-routed and processed accordingly. Similar to the TX path, handling for
-application and handshake packets is not yet implemented.
-
-- quic_packet_parse_alpn()`: Parse the ALPN from a client Initial packet,
-  then locate the appropriate listener using the ALPN.
-
-- quic_packet_rcv(): Locate the appropriate socket to handle the packet
-  via quic_packet_process().
-
-- quic_packet_process()`: Process the received packet.
-
-In addition to packet flow, this patch adds support for ICMP-based MTU
-updates by locating the relevant socket and updating the stored PMTU
-accordingly.
-
-- quic_packet_rcv_err_pmtu(): Find the socket and update the PMTU via
-  quic_packet_mss_update().
-
-Signed-off-by: Xin Long <lucien.xin@gmail.com>
----
-v5:
-  - In quic_packet_rcv_err(), remove the unnecessary quic_is_listen()
-    check and move quic_get_mtu_info() out of sock lock (suggested
-    by Paolo).
-  - Replace cancel_work_sync() to disable_work_sync() (suggested by
-    Paolo).
-v6:
-  - Fix the loop using skb_dequeue() in quic_packet_backlog_work(), and
-    kfree_skb() when sk is not found (reported by AI Reviews).
-  - Remove skb_pull() from quic_packet_rcv(), since it is now handled
-    in quic_path_rcv().
-  - Note for AI reviews: add if (dst) check in quic_packet_rcv_err_pmtu(),
-    although quic_packet_route() >= 0 already guarantees it is not NULL.
-  - Note for AI reviews: it is safe to do *plen -= QUIC_HLEN in
-    quic_packet_get_version_and_connid(), since quic_packet_get_sock()
-    already checks if (skb->len < QUIC_HLEN).
-  - Note for AI reviews: cb->length - cb->number_len - QUIC_TAG_LEN
-    cannot underflow, because quic_crypto_header_decrypt() already checks
-    if (cb->length < QUIC_PN_MAX_LEN + QUIC_SAMPLE_LEN).
-  - Note for AI reviews: the cast length in quic_packet_parse_alpn()
-    is safe, as there is a prior check if (length > (u16)len); len is
-    skb->len, which cannot exceed U16_MAX for UDP packet with QUIC.
-  - Note for AI reviews: it's correct to do if (flags &
-    QUIC_F_MTU_REDUCED_DEFERRED) in quic_release_cb(), since
-    QUIC_MTU_REDUCED_DEFERRED is the bit used with test_and_set_bit().
-  - Note for AI reviews: move skb_cb->backlog = 1 before adding skb to
-    backlog, although it's safe to write skb_cb after adding to backlog
-    with sk_lock.slock, as skb dequeue from backlog requires sk_lock.slock.
-v7:
-  - Pass udp sk to quic_packet_rcv(), quic_packet_rcv_err() and
-    quic_sock_lookup().
-  - Move the call to skb_linearize() and skb_set_owner_sk_safe() to
-    .quic_path_rcv()/quic_packet_rcv().
-v8:
-  - Replace the global ALPN demultiplexing sysctl with the static key in
-    quic_packet_parse_alpn() (noted by Stefan).
-  - Refetch skb->data after decrypt in ALPN parsing, as skb_cow_data()
-    may reallocate the skb data buffer (reported by Syzkaller).
-  - The indirect quic_path_rcv has been removed and call quic_packet_rcv()
-    directly via extern.
-  - Do not restore skb data when QUIC Initial decryption fails, as the
-    caller will free the skb for this failure anyway.
-  - With patch 14 removed, define a temporary QUIC_FRAME_CRYPTO ID when
-    parsing the ALPN.
-v9:
-  - Remove local_bh_disable() in quic_packet_get_listen_sock() as it's now
-    using rcu_read_lock instead of spin_sock in quic_listen_sock_lookup()
-    (noted by Paolo).
-v10:
-  - Return QUIC_PACKET_INVALID (instead of -1) for invalid packet types in
-    quic_packet_version_get_type().
-  - Update the comment to clarify in quic_packet_rcv_err() that ICMP errors
-    embed the original QUIC packet, reversing src/dst addrs when parsed.
-  - Use qn->backlog_list.lock in quic_packet_backlog_schedule() to
-    prevent a TOCTOU race between the head->qlen check and its update in
-    __skb_queue_tail().
-  - Add check 'len < TLS_CH_RANDOM_LEN + TLS_CH_VERSION_LEN' before parsing
-    ClientHello in quic_packet_get_alpn().
-  - Add more limits in quic_packet_get_alpn() to improve robustness against
-    malformed TLS ClientHello messages.
-  - Move skb_queue_purge() to after disable_work_sync() in quic_net_exit()
-    for clarity and to satisfy AI review.
-  - quic_sock.config.plpmtud_probe_interval has been moved to
-    quic_path_group.plpmtud_interval, so update its usage in
-    quic_packet_rcv_err_pmtu() accordingly.
-  - Remove quic_packet_select_version() and quic_packet_version_change();
-    they will be reintroduced later when needed in the next patch series.
-v11:
-  - Note for AI review: refcount increments in quic_listen_sock_lookup()
-    and quic_sock_lookup() are left unchanged due to code complexity.
-  - Set maximum line length to 80 characters.
-  - Do not mark backlog packets as sleepable (cb->backlog = 1) in
-    sk_add_backlog path; Replace spin_(un)lock() with spin_(un)lock_bh()
-    in quic_packet_backlog_schedule().
-  - Return -ENOBUFS instead of -1 in quic_packet_backlog_schedule().
-  - Change err parameter type from u8 to bool (icmp) in quic_packet_rcv().
-  - Propagate errors from quic_packet_get_sock() and sk_add_backlog() in
-    quic_packet_rcv().
-  - Propagate errors from quic_packet_get_dcid() and
-    quic_packet_parse_alpn() in quic_packet_get_sock() via ERR_PTR().
-  - Propagate errors from quic_packet_parse_alpn() in
-    quic_packet_get_listen_sock() via ERR_PTR().
-  - Propagate errors from quic_packet_get_version_and_connid() and
-    quic_packet_get_token() in quic_packet_parse_alpn().
-  - Do not hold skb when calling quic_packet_backlog_schedule() in
-    quic_packet_parse_alpn(); do not free skb when returning
-    -EINPROGRESS from quic_packet_get_sock() in quic_packet_rcv().
-  - Move the quic_packet_rcv() declaration from packet.h to path.h,
-    as it's only called in path.c (noted by AI review).
-  - Merge quic_packet_get_dcid() and quic_packet_get_version_and_connid()
-    into quic_packet_get_long_header() and extract quic_packet_get_connid()
-    (noted by AI review).
-v12:
-  - Check quic_is_closed() in quic_packet_rcv_err_pmtu().
-  - Remove the ip_sk_accept_pmtu() check from quic_packet_rcv_err_pmtu(),
-    and check quic_sk_accept_pmtu() in quic_packet_rcv_err().
-  - Call cond_resched() in the loop inside quic_packet_backlog_work().
-  - Update the comment for the get_nulls_value(node) check in
-    quic_sock_lookup(), and remove the unnecessary get_nulls_value(node)
-    check and add comment for it in quic_listen_sock_lookup().
-  - Improve matching order: specific address > ANY address (same family) >
-    ANY address (different family) in quic_listen_sock_lookup().
-  - Defer quic_alpn destruction from quic_destroy_sock() to
-    quic_sock_destruct(), as it may still be accessed in
-    quic_listen_sock_lookup() under rcu_read_lock().
-  - Initialize dcid/scid variables at declaration in quic_packet_get_sock()
-    and quic_packet_parse_alpn().
-  - Set packet->level before calling quic_packet_taglen() in
-    quic_packet_rcv_err_pmtu().
-  - Set cb->sync to 1 to ensure decryption runs in sync mode.
----
- net/quic/packet.c   | 608 ++++++++++++++++++++++++++++++++++++++++++++
- net/quic/packet.h   |   8 +
- net/quic/path.c     |   4 +-
- net/quic/path.h     |   2 +
- net/quic/protocol.c |   5 +
- net/quic/protocol.h |   4 +
- net/quic/socket.c   | 157 +++++++++++-
- net/quic/socket.h   |   7 +
- 8 files changed, 792 insertions(+), 3 deletions(-)
-
-diff --git a/net/quic/packet.c b/net/quic/packet.c
-index ba5204aceda6..8d08a4b79d4c 100644
---- a/net/quic/packet.c
-+++ b/net/quic/packet.c
-@@ -14,6 +14,614 @@
- 
- #define QUIC_HLEN		1
- 
-+#define QUIC_LONG_HLEN(dcid, scid) \
-+	(QUIC_HLEN + QUIC_VERSION_LEN + 1 + (dcid)->len + 1 + (scid)->len)
-+
-+#define QUIC_VERSION_NUM	2
-+
-+/* Supported QUIC versions and their compatible versions. Used for Compatible
-+ * Version Negotiation in rfc9368#section-2.3.
-+ */
-+static u32 quic_versions[QUIC_VERSION_NUM][4] = {
-+	/* Version,	Compatible Versions */
-+	{ QUIC_VERSION_V1, QUIC_VERSION_V2, QUIC_VERSION_V1, 0 },
-+	{ QUIC_VERSION_V2, QUIC_VERSION_V2, QUIC_VERSION_V1, 0 },
-+};
-+
-+/* Get the compatible version list for a given QUIC version. */
-+u32 *quic_packet_compatible_versions(u32 version)
-+{
-+	u8 i;
-+
-+	for (i = 0; i < QUIC_VERSION_NUM; i++)
-+		if (version == quic_versions[i][0])
-+			return quic_versions[i];
-+	return NULL;
-+}
-+
-+/* Convert version-specific type to internal standard packet type. */
-+static u8 quic_packet_version_get_type(u32 version, u8 type)
-+{
-+	if (version == QUIC_VERSION_V1)
-+		return type;
-+
-+	switch (type) {
-+	case QUIC_PACKET_INITIAL_V2:
-+		return QUIC_PACKET_INITIAL;
-+	case QUIC_PACKET_0RTT_V2:
-+		return QUIC_PACKET_0RTT;
-+	case QUIC_PACKET_HANDSHAKE_V2:
-+		return QUIC_PACKET_HANDSHAKE;
-+	case QUIC_PACKET_RETRY_V2:
-+		return QUIC_PACKET_RETRY;
-+	default:
-+		return QUIC_PACKET_INVALID;
-+	}
-+}
-+
-+/* Extracts a QUIC Connection ID from a buffer in the long header packet. */
-+static int quic_packet_get_connid(struct quic_conn_id *connid, u8 **pp,
-+				  u32 *plen)
-+{
-+	u64 len;
-+
-+	if (!quic_get_int(pp, plen, &len, 1) ||
-+	    len > *plen || len > QUIC_CONN_ID_MAX_LEN)
-+		return -EINVAL;
-+
-+	quic_conn_id_update(connid, *pp, len);
-+	*plen -= len;
-+	*pp += len;
-+	return 0;
-+}
-+
-+/* Parse QUIC version and connection IDs (DCID and SCID) from a Long header
-+ * packet buffer.
-+ */
-+static int quic_packet_get_long_header(struct quic_conn_id *dcid,
-+				       struct quic_conn_id *scid, u32 *version,
-+				       u8 **pp, u32 *plen)
-+{
-+	int err;
-+	u64 v;
-+
-+	*pp += QUIC_HLEN;
-+	*plen -= QUIC_HLEN;
-+
-+	if (!quic_get_int(pp, plen, &v, QUIC_VERSION_LEN))
-+		return -EINVAL;
-+	if (version)
-+		*version = v;
-+
-+	err = quic_packet_get_connid(dcid, pp, plen);
-+	if (err)
-+		return err;
-+	if (!scid)
-+		return 0;
-+	return quic_packet_get_connid(scid, pp, plen);
-+}
-+
-+/* Extracts a QUIC token from a buffer in the Client Initial packet. */
-+static int quic_packet_get_token(struct quic_data *token, u8 **pp, u32 *plen)
-+{
-+	u64 len;
-+
-+	if (!quic_get_var(pp, plen, &len) || len > *plen)
-+		return -EINVAL;
-+	quic_data(token, *pp, len);
-+	*plen -= len;
-+	*pp += len;
-+	return 0;
-+}
-+
-+/* Process PMTU reduction event on a QUIC socket. */
-+void quic_packet_rcv_err_pmtu(struct sock *sk)
-+{
-+	struct quic_path_group *paths = quic_paths(sk);
-+	struct quic_packet *packet = quic_packet(sk);
-+	u32 pathmtu, info, taglen;
-+	struct dst_entry *dst;
-+	bool reset_timer;
-+
-+	if (quic_is_closed(sk))
-+		return;
-+
-+	info = clamp(paths->mtu_info, QUIC_PATH_MIN_PMTU, QUIC_PATH_MAX_PMTU);
-+	/* If PLPMTUD is not enabled, update MSS using route and ICMP info. */
-+	if (!paths->plpmtud_interval) {
-+		if (quic_packet_route(sk))
-+			return;
-+
-+		dst = __sk_dst_get(sk);
-+		if (dst)
-+			dst->ops->update_pmtu(dst, sk, NULL, info, true);
-+		quic_packet_mss_update(sk, info - packet->hlen);
-+		return;
-+	}
-+	/* PLPMTUD is enabled: adjust to smaller PMTU, subtract headers and
-+	 * AEAD tag.  Also notify the QUIC path layer for possible state
-+	 * changes and probing.
-+	 */
-+	packet->level = QUIC_CRYPTO_APP;
-+	taglen = quic_packet_taglen(packet);
-+	info = info - packet->hlen - taglen;
-+	pathmtu = quic_path_pl_toobig(paths, info, &reset_timer);
-+	if (reset_timer)
-+		quic_timer_reset(sk, QUIC_TIMER_PMTU, paths->plpmtud_interval);
-+	if (pathmtu)
-+		quic_packet_mss_update(sk, pathmtu + taglen);
-+}
-+
-+/* Handle ICMP Toobig packet and update QUIC socket path MTU. */
-+static int quic_packet_rcv_err(struct sock *sk, struct sk_buff *skb)
-+{
-+	union quic_addr daddr, saddr;
-+	u32 info;
-+
-+	/* ICMP embeds the original outgoing QUIC packet, so saddr/daddr are
-+	 * reversed when parsed. Only address-based socket lookup is possible
-+	 * in this case.
-+	 */
-+	quic_get_msg_addrs(skb, &saddr, &daddr);
-+	sk = quic_sock_lookup(skb, &daddr, &saddr, sk, NULL);
-+	if (!sk)
-+		return -ENOENT;
-+
-+	if (quic_get_mtu_info(skb, &info) || !quic_sk_accept_pmtu(sk, skb)) {
-+		sock_put(sk);
-+		return 0;
-+	}
-+
-+	/* Success: update socket path MTU info. */
-+	bh_lock_sock(sk);
-+	quic_paths(sk)->mtu_info = info;
-+	if (sock_owned_by_user(sk)) {
-+		/* Socket locked by userspace. Defer MTU processing via
-+		 * release_cb. Hold socket reference to prevent it being
-+		 * freed before deferral.
-+		 */
-+		if (!test_and_set_bit(QUIC_MTU_REDUCED_DEFERRED,
-+				      &sk->sk_tsq_flags))
-+			sock_hold(sk);
-+		goto out;
-+	}
-+	/* Otherwise, process the MTU reduction now. */
-+	quic_packet_rcv_err_pmtu(sk);
-+out:
-+	bh_unlock_sock(sk);
-+	sock_put(sk);
-+	return 1;
-+}
-+
-+#define QUIC_PACKET_BACKLOG_MAX		4096
-+
-+/* Queue a packet for later processing when sleeping is allowed. */
-+static int quic_packet_backlog_schedule(struct net *net, struct sk_buff *skb)
-+{
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	struct quic_net *qn = quic_net(net);
-+	struct sk_buff_head *head;
-+
-+	if (cb->backlog)
-+		return 0;
-+
-+	head = &qn->backlog_list;
-+	spin_lock_bh(&head->lock);
-+	if (head->qlen >= QUIC_PACKET_BACKLOG_MAX) {
-+		spin_unlock_bh(&head->lock);
-+		QUIC_INC_STATS(net, QUIC_MIB_PKT_RCVDROP);
-+		kfree_skb(skb);
-+		return -ENOBUFS;
-+	}
-+	cb->backlog = 1;
-+	__skb_queue_tail(head, skb);
-+	spin_unlock_bh(&head->lock);
-+
-+	queue_work(quic_wq, &qn->work);
-+	return 1;
-+}
-+
-+#define TLS_MT_CLIENT_HELLO	1
-+#define TLS_EXT_alpn		16
-+
-+/*  TLS Client Hello Msg:
-+ *
-+ *    uint16 ProtocolVersion;
-+ *    opaque Random[32];
-+ *    uint8 CipherSuite[2];
-+ *
-+ *    struct {
-+ *        ExtensionType extension_type;
-+ *        opaque extension_data<0..2^16-1>;
-+ *    } Extension;
-+ *
-+ *    struct {
-+ *        ProtocolVersion legacy_version = 0x0303;
-+ *        Random rand;
-+ *        opaque legacy_session_id<0..32>;
-+ *        CipherSuite cipher_suites<2..2^16-2>;
-+ *        opaque legacy_compression_methods<1..2^8-1>;
-+ *        Extension extensions<8..2^16-1>;
-+ *    } ClientHello;
-+ */
-+
-+#define TLS_CH_RANDOM_LEN	32
-+#define TLS_CH_VERSION_LEN	2
-+#define TLS_MAX_EXTENSIONS	128
-+
-+/* Extract ALPN data from a TLS ClientHello message.
-+ *
-+ * Parses the TLS ClientHello handshake message to find the ALPN (Application
-+ * Layer Protocol Negotiation) TLS extension. It validates the TLS ClientHello
-+ * structure, including version, random, session ID, cipher suites, compression
-+ * methods, and extensions. Once the ALPN extension is found, the ALPN
-+ * protocols list is extracted and stored in @alpn.
-+ *
-+ * Return: 0 on success or no ALPN found, a negative error code on failed
-+ * parsing.
-+ */
-+static int quic_packet_get_alpn(struct quic_data *alpn, u8 *p, u32 len)
-+{
-+	int err = -EINVAL, found = 0, exts = 0;
-+	u64 length, type;
-+
-+	/* Verify handshake message type (ClientHello) and its length. */
-+	if (!quic_get_int(&p, &len, &type, 1) || type != TLS_MT_CLIENT_HELLO)
-+		return err;
-+	if (!quic_get_int(&p, &len, &length, 3) ||
-+	    len < TLS_CH_RANDOM_LEN + TLS_CH_VERSION_LEN ||
-+	    length < TLS_CH_RANDOM_LEN + TLS_CH_VERSION_LEN)
-+		return err;
-+	if (len > (u32)length) /* Cap len to handshake msg length. */
-+		len = length;
-+	/* Skip legacy_version (2 bytes) + random (32 bytes). */
-+	p += TLS_CH_RANDOM_LEN + TLS_CH_VERSION_LEN;
-+	len -= TLS_CH_RANDOM_LEN + TLS_CH_VERSION_LEN;
-+	/* legacy_session_id_len must be zero (QUIC requirement). */
-+	if (!quic_get_int(&p, &len, &length, 1) || length)
-+		return err;
-+
-+	/* Skip cipher_suites (2 bytes length + variable data). */
-+	if (!quic_get_int(&p, &len, &length, 2) || length > (u64)len)
-+		return err;
-+	len -= length;
-+	p += length;
-+
-+	/* Skip legacy_compression_methods (1 byte length + variable data). */
-+	if (!quic_get_int(&p, &len, &length, 1) || length > (u64)len)
-+		return err;
-+	len -= length;
-+	p += length;
-+
-+	/* Read TLS extensions length (2 bytes). */
-+	if (!quic_get_int(&p, &len, &length, 2))
-+		return err;
-+	if (len > (u32)length) /* Limit len to extensions length if larger. */
-+		len = length;
-+	while (len > 4) { /* Scan extensions for ALPN (TLS_EXT_alpn) */
-+		if (!quic_get_int(&p, &len, &type, 2))
-+			break;
-+		if (!quic_get_int(&p, &len, &length, 2))
-+			break;
-+		if (len < (u32)length) /* Incomplete TLS extensions. */
-+			return 0;
-+		if (type == TLS_EXT_alpn) { /* Found ALPN extension. */
-+			if (length > QUIC_ALPN_MAX_LEN)
-+				return err;
-+			len = length;
-+			found = 1;
-+			break;
-+		}
-+		/* Skip non-ALPN extensions. */
-+		p += length;
-+		len -= length;
-+		if (exts++ >= TLS_MAX_EXTENSIONS)
-+			return err;
-+	}
-+	if (!found) { /* No ALPN ext: set alpn->len = 0 and alpn->data = p. */
-+		quic_data(alpn, p, 0);
-+		return 0;
-+	}
-+
-+	/* Parse ALPN protocols list length (2 bytes). */
-+	if (!quic_get_int(&p, &len, &length, 2) || length > (u64)len)
-+		return err;
-+	quic_data(alpn, p, length); /* Store ALPN list in alpn->data. */
-+	len = length;
-+	while (len) { /* Validate ALPN protocols list format. */
-+		if (!quic_get_int(&p, &len, &length, 1) || length > (u64)len) {
-+			/* Bad ALPN: set alpn->len = 0, alpn->data = NULL. */
-+			quic_data(alpn, NULL, 0);
-+			return err;
-+		}
-+		len -= length;
-+		p += length;
-+	}
-+	pr_debug("%s: alpn_len: %d\n", __func__, alpn->len);
-+	return 0;
-+}
-+
-+#define QUIC_FRAME_CRYPTO	0x06
-+
-+/* Parse ALPN from a QUIC Initial packet.
-+ *
-+ * This function processes a QUIC Initial packet to extract the ALPN from the
-+ * TLS ClientHello message inside the QUIC CRYPTO frame. It verifies packet
-+ * type, version compatibility, decrypts the packet payload, and locates the
-+ * CRYPTO frame to parse the TLS ClientHello.  Finally, it calls
-+ * quic_packet_get_alpn() to extract the ALPN extension data.
-+ *
-+ * Return: 0 on success or no ALPN found, a negative error code on failed
-+ * parsing.
-+ */
-+static int quic_packet_parse_alpn(struct sk_buff *skb, struct quic_data *alpn)
-+{
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	struct quic_conn_id dcid = {}, scid = {};
-+	struct net *net = sock_net(skb->sk);
-+	u32 len = skb->len, version;
-+	struct quic_crypto *crypto;
-+	u8 *p = skb->data, type;
-+	struct quic_data token;
-+	u64 offset, length;
-+	int err;
-+
-+	if (!static_branch_unlikely(&quic_alpn_demux_key))
-+		return 0;
-+	err = quic_packet_get_long_header(&dcid, &scid, &version, &p, &len);
-+	if (err)
-+		return err;
-+	if (!quic_packet_compatible_versions(version))
-+		return 0;
-+	/* Only parse Initial packets. */
-+	type = quic_packet_version_get_type(version, quic_hshdr(skb)->type);
-+	if (type != QUIC_PACKET_INITIAL)
-+		return 0;
-+	err = quic_packet_get_token(&token, &p, &len);
-+	if (err)
-+		return err;
-+	if (!quic_get_var(&p, &len, &length) || length > (u64)len)
-+		return -EINVAL;
-+	if (quic_packet_backlog_schedule(net, skb))
-+		return -EINPROGRESS;
-+	cb->length = (u16)length;
-+
-+	/* Install initial keys for packet decryption to crypto. */
-+	crypto = &quic_net(net)->crypto;
-+	err = quic_crypto_initial_keys_install(crypto, &dcid, version, 1);
-+	if (err)
-+		return err;
-+	cb->number_offset = (u16)(p - skb->data);
-+	cb->sync = 1;
-+	err = quic_crypto_decrypt(crypto, skb);
-+	if (err) {
-+		QUIC_INC_STATS(net, QUIC_MIB_PKT_DECDROP);
-+		return err;
-+	}
-+
-+	QUIC_INC_STATS(net, QUIC_MIB_PKT_DECFASTPATHS);
-+	cb->resume = 1; /* Mark this packet as already decrypted. */
-+
-+	/* Find the QUIC CRYPTO frame. */
-+	p = skb->data + cb->number_offset + cb->number_len;
-+	len = cb->length - cb->number_len - QUIC_TAG_LEN;
-+	for (; len && !(*p); p++, len--) /* Skip the padding frame. */
-+		;
-+	if (!len-- || *p++ != QUIC_FRAME_CRYPTO)
-+		return 0;
-+	if (!quic_get_var(&p, &len, &offset) || offset)
-+		return 0;
-+	if (!quic_get_var(&p, &len, &length) || length > (u64)len)
-+		return 0;
-+
-+	/* Parse the TLS CLIENT_HELLO message. */
-+	return quic_packet_get_alpn(alpn, p, length);
-+}
-+
-+/* Lookup listening socket for Client Initial packet (in process context). */
-+static struct sock *quic_packet_get_listen_sock(struct sk_buff *skb)
-+{
-+	union quic_addr daddr, saddr;
-+	struct quic_data alpns = {};
-+	struct sock *sk;
-+	int err;
-+
-+	quic_get_msg_addrs(skb, &daddr, &saddr);
-+
-+	err = quic_packet_parse_alpn(skb, &alpns);
-+	if (err)
-+		return ERR_PTR(err);
-+
-+	sk = quic_listen_sock_lookup(skb, &daddr, &saddr, &alpns);
-+	if (!sk)
-+		return ERR_PTR(-ENOENT);
-+	return sk;
-+}
-+
-+/* Determine the QUIC socket associated with an incoming packet. */
-+static struct sock *quic_packet_get_sock(struct sk_buff *skb)
-+{
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	struct quic_conn_id dcid = {}, *conn_id;
-+	struct net *net = sock_net(skb->sk);
-+	union quic_addr daddr, saddr;
-+	struct quic_data alpns = {};
-+	struct sock *sk = NULL;
-+	u32 len = skb->len;
-+	u8 *p = skb->data;
-+	int err;
-+
-+	if (skb->len < QUIC_HLEN)
-+		return ERR_PTR(-EINVAL);
-+
-+	if (quic_hdr(skb)->form == QUIC_PACKET_FORM_SHORT) {
-+		/* Short header path. */
-+		if (skb->len < QUIC_HLEN + QUIC_CONN_ID_DEF_LEN)
-+			return ERR_PTR(-EINVAL);
-+		/* Fast path: look up QUIC connection by fixed-length DCID
-+		 * (Currently, only QUIC_CONN_ID_DEF_LEN-length SCIDs are used).
-+		 */
-+		conn_id = quic_conn_id_lookup(net, skb->data + QUIC_HLEN,
-+					      QUIC_CONN_ID_DEF_LEN);
-+		if (conn_id) {
-+			cb->seqno = quic_conn_id_number(conn_id);
-+			/* Return associated socket. */
-+			return quic_conn_id_sk(conn_id);
-+		}
-+
-+		/* Fallback: listener socket lookup
-+		 * (May be used to send a stateless reset from a listen socket).
-+		 */
-+		quic_get_msg_addrs(skb, &daddr, &saddr);
-+		sk = quic_listen_sock_lookup(skb, &daddr, &saddr, &alpns);
-+		if (sk)
-+			return sk;
-+		/* Final fallback: address-based connection lookup
-+		 * (May be used to receive a stateless reset).
-+		 */
-+		sk = quic_sock_lookup(skb, &daddr, &saddr, skb->sk, NULL);
-+		if (!sk)
-+			return ERR_PTR(-ENOENT);
-+		return sk;
-+	}
-+
-+	/* Long header path. */
-+	err = quic_packet_get_long_header(&dcid, NULL, NULL, &p, &len);
-+	if (err)
-+		return ERR_PTR(err);
-+	/* Fast path: look up QUIC connection by parsed DCID. */
-+	conn_id = quic_conn_id_lookup(net, dcid.data, dcid.len);
-+	if (conn_id) {
-+		cb->seqno = quic_conn_id_number(conn_id);
-+		return quic_conn_id_sk(conn_id); /* Return associated socket. */
-+	}
-+
-+	/* Fallback: address + DCID lookup
-+	 * (May be used for 0-RTT or a follow-up Client Initial packet).
-+	 */
-+	quic_get_msg_addrs(skb, &daddr, &saddr);
-+	sk = quic_sock_lookup(skb, &daddr, &saddr, skb->sk, &dcid);
-+	if (sk)
-+		return sk;
-+	/* Final fallback: listener socket lookup
-+	 * (Used for receiving the first Client Initial packet).
-+	 */
-+	err = quic_packet_parse_alpn(skb, &alpns);
-+	if (err)
-+		return ERR_PTR(err);
-+	sk = quic_listen_sock_lookup(skb, &daddr, &saddr, &alpns);
-+	if (!sk)
-+		return ERR_PTR(-ENOENT);
-+	return sk;
-+}
-+
-+/* Entry point for processing received QUIC packets. */
-+int quic_packet_rcv(struct sock *sk, struct sk_buff *skb, bool icmp)
-+{
-+	struct net *net = sock_net(sk);
-+	int err;
-+
-+	if (unlikely(icmp))
-+		return quic_packet_rcv_err(sk, skb);
-+
-+	/* Save the UDP socket to skb->sk for later QUIC socket lookup. */
-+	if (skb_linearize(skb) || !skb_set_owner_sk_safe(skb, sk)) {
-+		err = -EINVAL;
-+		goto err;
-+	}
-+
-+	/* Look up socket from socket or connection IDs hash tables. */
-+	sk = quic_packet_get_sock(skb);
-+	if (IS_ERR(sk)) {
-+		err = PTR_ERR(sk);
-+		if (err == -EINPROGRESS)
-+			return 0;
-+		goto err;
-+	}
-+
-+	bh_lock_sock(sk);
-+	if (sock_owned_by_user(sk)) {
-+		/* Socket is busy (owned by user context): queue to backlog. */
-+		err = sk_add_backlog(sk, skb, READ_ONCE(sk->sk_rcvbuf));
-+		if (err) {
-+			bh_unlock_sock(sk);
-+			sock_put(sk);
-+			goto err;
-+		}
-+		QUIC_INC_STATS(net, QUIC_MIB_PKT_RCVBACKLOGS);
-+	} else {
-+		/* Socket not busy: process immediately. */
-+		QUIC_INC_STATS(net, QUIC_MIB_PKT_RCVFASTPATHS);
-+		sk->sk_backlog_rcv(sk, skb); /* quic_packet_process(). */
-+	}
-+	bh_unlock_sock(sk);
-+	sock_put(sk);
-+	return 0;
-+err:
-+	pr_debug("%s: failed, len: %d, err: %d\n", __func__, skb->len, err);
-+	QUIC_INC_STATS(net, QUIC_MIB_PKT_RCVDROP);
-+	kfree_skb(skb);
-+	return err;
-+}
-+
-+static int quic_packet_listen_process(struct sock *sk, struct sk_buff *skb)
-+{
-+	kfree_skb(skb);
-+	return -EOPNOTSUPP;
-+}
-+
-+static int quic_packet_handshake_process(struct sock *sk, struct sk_buff *skb)
-+{
-+	kfree_skb(skb);
-+	return -EOPNOTSUPP;
-+}
-+
-+static int quic_packet_app_process(struct sock *sk, struct sk_buff *skb)
-+{
-+	kfree_skb(skb);
-+	return -EOPNOTSUPP;
-+}
-+
-+int quic_packet_process(struct sock *sk, struct sk_buff *skb)
-+{
-+	if (quic_is_closed(sk)) {
-+		kfree_skb(skb);
-+		return 0;
-+	}
-+
-+	if (quic_is_listen(sk))
-+		return quic_packet_listen_process(sk, skb);
-+
-+	if (quic_hdr(skb)->form == QUIC_PACKET_FORM_LONG)
-+		return quic_packet_handshake_process(sk, skb);
-+
-+	return quic_packet_app_process(sk, skb);
-+}
-+
-+/* Work function to process packets in the backlog queue. */
-+void quic_packet_backlog_work(struct work_struct *work)
-+{
-+	struct quic_net *qn = container_of(work, struct quic_net, work);
-+	struct sk_buff_head *head = &qn->backlog_list;
-+	struct sk_buff *skb;
-+	struct sock *sk;
-+
-+	while ((skb = skb_dequeue(head)) != NULL) {
-+		sk = quic_packet_get_listen_sock(skb);
-+		if (IS_ERR(sk)) {
-+			QUIC_INC_STATS(sock_net(skb->sk), QUIC_MIB_PKT_RCVDROP);
-+			kfree_skb(skb);
-+			continue;
-+		}
-+
-+		lock_sock(sk);
-+		quic_packet_process(sk, skb);
-+		release_sock(sk);
-+		sock_put(sk);
-+		cond_resched();
-+	}
-+}
-+
- /* Make these fixed for easy coding. */
- #define QUIC_PACKET_NUMBER_LEN	QUIC_PN_MAX_LEN
- #define QUIC_PACKET_LENGTH_LEN	4
-diff --git a/net/quic/packet.h b/net/quic/packet.h
-index ba28e9572aad..78aa6e9eab75 100644
---- a/net/quic/packet.h
-+++ b/net/quic/packet.h
-@@ -54,6 +54,8 @@ struct quic_packet {
- 
- #define QUIC_VERSION_LEN		4
- 
-+#define QUIC_ALPN_MAX_LEN		128
-+
- #define QUIC_PACKET_MSS_NORMAL		0
- #define QUIC_PACKET_MSS_DGRAM		1
- 
-@@ -101,6 +103,7 @@ static inline void quic_packet_reset(struct quic_packet *packet)
- 	packet->ack_immediate = 0;
- }
- 
-+int quic_packet_process(struct sock *sk, struct sk_buff *skb);
- u16 quic_packet_overhead(struct sock *sk, u8 level, u8 path);
- int quic_packet_config(struct sock *sk, u8 level, u8 path);
- 
-@@ -110,3 +113,8 @@ int quic_packet_route(struct sock *sk);
- void quic_packet_mss_update(struct sock *sk, u32 mss);
- void quic_packet_flush(struct sock *sk);
- void quic_packet_init(struct sock *sk);
-+
-+u32 *quic_packet_compatible_versions(u32 version);
-+
-+void quic_packet_backlog_work(struct work_struct *work);
-+void quic_packet_rcv_err_pmtu(struct sock *sk);
-diff --git a/net/quic/path.c b/net/quic/path.c
-index f21b424c54d1..3a88704d82a7 100644
---- a/net/quic/path.c
-+++ b/net/quic/path.c
-@@ -27,14 +27,14 @@ static int quic_udp_rcv(struct sock *sk, struct sk_buff *skb)
- 
- 	skb_pull(skb, sizeof(struct udphdr));
- 	skb_dst_force(skb);
--	kfree_skb(skb);
-+	quic_packet_rcv(sk, skb, false);
- 	/* .encap_rcv must return 0 if skb was either consumed or dropped. */
- 	return 0;
- }
- 
- static int quic_udp_err(struct sock *sk, struct sk_buff *skb)
- {
--	return 0;
-+	return quic_packet_rcv(sk, skb, true);
- }
- 
- static void quic_udp_sock_put_work(struct work_struct *work)
-diff --git a/net/quic/path.h b/net/quic/path.h
-index c08d0aa3a9e3..a7eedfa2f022 100644
---- a/net/quic/path.h
-+++ b/net/quic/path.h
-@@ -167,6 +167,8 @@ quic_path_orig_dcid(struct quic_path_group *paths)
- 	return paths->retry ? &paths->retry_dcid : &paths->orig_dcid;
- }
- 
-+int quic_packet_rcv(struct sock *sk, struct sk_buff *skb, bool icmp);
-+
- bool quic_path_detect_alt(struct quic_path_group *paths, union quic_addr *sa,
- 			  union quic_addr *da, struct sock *sk);
- int quic_path_bind(struct sock *sk, struct quic_path_group *paths, u8 path);
-diff --git a/net/quic/protocol.c b/net/quic/protocol.c
-index 1225cd4a212c..e6aa4e295f9a 100644
---- a/net/quic/protocol.c
-+++ b/net/quic/protocol.c
-@@ -245,6 +245,9 @@ static int __net_init quic_net_init(struct net *net)
- 		return err;
- 	}
- 
-+	INIT_WORK(&qn->work, quic_packet_backlog_work);
-+	skb_queue_head_init(&qn->backlog_list);
-+
- #if IS_ENABLED(CONFIG_PROC_FS)
- 	err = quic_net_proc_init(net);
- 	if (err) {
-@@ -263,6 +266,8 @@ static void __net_exit quic_net_exit(struct net *net)
- #if IS_ENABLED(CONFIG_PROC_FS)
- 	quic_net_proc_exit(net);
- #endif
-+	disable_work_sync(&qn->work);
-+	skb_queue_purge(&qn->backlog_list);
- 	quic_crypto_free(&qn->crypto);
- 	free_percpu(qn->stat);
- 	qn->stat = NULL;
-diff --git a/net/quic/protocol.h b/net/quic/protocol.h
-index b8584e72ff14..25001aaaad4a 100644
---- a/net/quic/protocol.h
-+++ b/net/quic/protocol.h
-@@ -51,6 +51,10 @@ struct quic_net {
- #endif
- 	/* Context for decrypting Initial packets for ALPN */
- 	struct quic_crypto crypto;
-+
-+	/* Queue of packets deferred for processing in process context */
-+	struct sk_buff_head backlog_list;
-+	struct work_struct work; /* Work to drain/process backlog_list */
- };
- 
- struct quic_net *quic_net(struct net *net);
-diff --git a/net/quic/socket.c b/net/quic/socket.c
-index 72cb0cc384cf..d55f04eb6386 100644
---- a/net/quic/socket.c
-+++ b/net/quic/socket.c
-@@ -24,6 +24,154 @@ static void quic_enter_memory_pressure(struct sock *sk)
- 	WRITE_ONCE(quic_memory_pressure, 1);
- }
- 
-+/* Lookup a connected QUIC socket based on address and dest connection ID.
-+ *
-+ * This function searches the established (non-listening) QUIC socket table for
-+ * a socket that matches the source and dest addresses and, optionally, the
-+ * dest connection ID (DCID). The value returned by quic_path_orig_dcid() might
-+ * be the original dest connection ID from the ClientHello or the Source
-+ * Connection ID from a Retry packet before.
-+ *
-+ * The DCID is provided from a handshake packet when searching by source
-+ * connection ID fails, such as when the peer has not yet received server's
-+ * response and updated the DCID.
-+ *
-+ * Return: A pointer to the matching connected socket, or NULL if no match is
-+ * found.
-+ */
-+struct sock *quic_sock_lookup(struct sk_buff *skb, union quic_addr *sa,
-+			      union quic_addr *da, struct sock *usk,
-+			      struct quic_conn_id *dcid)
-+{
-+	struct net *net = sock_net(usk);
-+	struct quic_path_group *paths;
-+	struct hlist_nulls_node *node;
-+	struct quic_shash_head *head;
-+	struct sock *sk = NULL, *tmp;
-+	struct quic_conn_id *odcid;
-+	unsigned int hash;
-+
-+	hash = quic_sock_hash(net, sa, da);
-+	head = quic_sock_head(hash);
-+
-+	rcu_read_lock();
-+begin:
-+	sk_nulls_for_each_rcu(tmp, node, &head->head) {
-+		if (net != sock_net(tmp))
-+			continue;
-+		paths = quic_paths(tmp);
-+		odcid = quic_path_orig_dcid(paths);
-+		if (quic_cmp_sk_addr(tmp, quic_path_saddr(paths, 0), sa) &&
-+		    quic_cmp_sk_addr(tmp, quic_path_daddr(paths, 0), da) &&
-+		    quic_path_usock(paths, 0) == usk &&
-+		    (!dcid || !quic_conn_id_cmp(odcid, dcid))) {
-+			sk = tmp;
-+			break;
-+		}
-+	}
-+	/* If the final nulls value differs from the expected one, restart the
-+	 * lookup as the node may have been rehashed (e.g., due to connection
-+	 * migration).
-+	 */
-+	if (!sk && get_nulls_value(node) != hash)
-+		goto begin;
-+
-+	if (sk && unlikely(!refcount_inc_not_zero(&sk->sk_refcnt)))
-+		sk = NULL;
-+	rcu_read_unlock();
-+	return sk;
-+}
-+
-+/* Find the listening QUIC socket for an incoming packet.
-+ *
-+ * This function searches the QUIC socket table for a listening socket that
-+ * matches the dest address and port, and the ALPN(s) if presented in the
-+ * ClientHello.  If multiple listening sockets are bound to the same address,
-+ * port, and ALPN(s) (e.g., via SO_REUSEPORT), this function selects a socket
-+ * from the reuseport group.
-+ *
-+ * Return: A pointer to the matching listening socket, or NULL if no match is
-+ * found.
-+ */
-+struct sock *quic_listen_sock_lookup(struct sk_buff *skb, union quic_addr *sa,
-+				     union quic_addr *da,
-+				     struct quic_data *alpns)
-+{
-+	struct net *net = sock_net(skb->sk);
-+	struct hlist_nulls_node *node;
-+	struct sock *sk = NULL, *tmp;
-+	struct quic_shash_head *head;
-+	struct quic_data alpn;
-+	union quic_addr *a;
-+	u32 hash, len;
-+	u64 length;
-+	u8 *p;
-+
-+	hash = quic_listen_sock_hash(net, ntohs(sa->v4.sin_port));
-+	head = quic_listen_sock_head(hash);
-+
-+	rcu_read_lock();
-+	if (!alpns->len) { /* No ALPNs or parse failed */
-+		sk_nulls_for_each_rcu(tmp, node, &head->head) {
-+			/* If alpns->data != NULL, TLS parsing succeeded but no
-+			 * ALPN was found.  In this case, only match sockets
-+			 * that have no ALPN set.
-+			 */
-+			a = quic_path_saddr(quic_paths(tmp), 0);
-+			if (net == sock_net(tmp) &&
-+			    quic_cmp_sk_addr(tmp, a, sa) &&
-+			    quic_path_usock(quic_paths(tmp), 0) == skb->sk &&
-+			    (!alpns->data || !quic_alpn(tmp)->len)) {
-+				if (!quic_is_any_addr(a)) {
-+					sk = tmp;
-+					break; /* Prefer specific addr match. */
-+				}
-+				/* Prefer ipv4 ANY over ipv6 ANY for v4 addr. */
-+				if (!sk || a->sa.sa_family == sa->sa.sa_family)
-+					sk = tmp;
-+			}
-+		}
-+		/* No need to check get_nulls_value(node) != hash for !sk, as
-+		 * hashtable size is fixed and a listen sk can not rehashed.
-+		 */
-+		goto out;
-+	}
-+
-+	/* ALPN present: loop through each ALPN entry. */
-+	for (p = alpns->data, len = alpns->len; len;
-+	     len -= length, p += length) {
-+		quic_get_int(&p, &len, &length, 1);
-+		quic_data(&alpn, p, length);
-+		sk_nulls_for_each_rcu(tmp, node, &head->head) {
-+			a = quic_path_saddr(quic_paths(tmp), 0);
-+			if (net == sock_net(tmp) &&
-+			    quic_cmp_sk_addr(tmp, a, sa) &&
-+			    quic_path_usock(quic_paths(tmp), 0) == skb->sk &&
-+			    quic_data_has(quic_alpn(tmp), &alpn)) {
-+				if (!quic_is_any_addr(a)) {
-+					sk = tmp;
-+					break;
-+				}
-+				if (!sk || a->sa.sa_family == sa->sa.sa_family)
-+					sk = tmp;
-+			}
-+		}
-+		/* No need to check get_nulls_value(node) != hash for !sk, as
-+		 * hashtable size is fixed and a listen sk can not rehashed.
-+		 */
-+		if (sk)
-+			break;
-+	}
-+out:
-+	if (sk && sk->sk_reuseport)
-+		sk = reuseport_select_sock(sk, quic_addr_hash(net, da), skb, 1);
-+
-+	if (sk && unlikely(!refcount_inc_not_zero(&sk->sk_refcnt)))
-+		sk = NULL;
-+	rcu_read_unlock();
-+	return sk;
-+}
-+
- static void quic_write_space(struct sock *sk)
- {
- 	__poll_t mask = EPOLLOUT | EPOLLWRNORM | EPOLLWRBAND;
-@@ -47,6 +195,8 @@ static void quic_sock_destruct(struct sock *sk)
- 	for (i = 0; i < QUIC_CRYPTO_MAX; i++)
- 		quic_crypto_free(quic_crypto(sk, i));
- 
-+	quic_data_free(quic_alpn(sk));
-+
- 	quic_sk_destruct(sk);
- }
- 
-@@ -99,7 +249,6 @@ static void quic_destroy_sock(struct sock *sk)
- 
- 	quic_data_free(quic_ticket(sk));
- 	quic_data_free(quic_token(sk));
--	quic_data_free(quic_alpn(sk));
- 
- 	sk_sockets_allocated_dec(sk);
- 	sock_prot_inuse_add(sock_net(sk), sk->sk_prot, -1);
-@@ -226,6 +375,10 @@ static void quic_release_cb(struct sock *sk)
- 		nflags = flags & ~QUIC_DEFERRED_ALL;
- 	} while (!try_cmpxchg(&sk->sk_tsq_flags, &flags, nflags));
- 
-+	if (flags & QUIC_F_MTU_REDUCED_DEFERRED) {
-+		quic_packet_rcv_err_pmtu(sk);
-+		__sock_put(sk);
-+	}
- 	if (flags & QUIC_F_LOSS_DEFERRED) {
- 		quic_timer_loss_handler(sk);
- 		__sock_put(sk);
-@@ -275,6 +428,7 @@ struct proto quic_prot = {
- 	.accept		=  quic_accept,
- 	.hash		=  quic_hash,
- 	.unhash		=  quic_unhash,
-+	.backlog_rcv	=  quic_packet_process,
- 	.release_cb	=  quic_release_cb,
- 	.no_autobind	=  true,
- 	.obj_size	=  sizeof(struct quic_sock),
-@@ -305,6 +459,7 @@ struct proto quicv6_prot = {
- 	.accept		=  quic_accept,
- 	.hash		=  quic_hash,
- 	.unhash		=  quic_unhash,
-+	.backlog_rcv	=  quic_packet_process,
- 	.release_cb	=  quic_release_cb,
- 	.no_autobind	=  true,
- 	.obj_size	= sizeof(struct quic6_sock),
-diff --git a/net/quic/socket.h b/net/quic/socket.h
-index 1efc76ec2033..3c1bea767be9 100644
---- a/net/quic/socket.h
-+++ b/net/quic/socket.h
-@@ -200,3 +200,10 @@ static inline void quic_set_state(struct sock *sk, int state)
- 	inet_sk_set_state(sk, state);
- 	sk->sk_state_change(sk);
- }
-+
-+struct sock *quic_listen_sock_lookup(struct sk_buff *skb, union quic_addr *sa,
-+				     union quic_addr *da,
-+				     struct quic_data *alpns);
-+struct sock *quic_sock_lookup(struct sk_buff *skb, union quic_addr *sa,
-+			      union quic_addr *da, struct sock *usk,
-+			      struct quic_conn_id *dcid);
--- 
-2.47.1
-
+T24gU3VuLCBNYXkgMzEsIDIwMjYgYXQgOToxMeKAr0FNIFhpbiBMb25nIDxsdWNpZW4ueGluQGdt
+YWlsLmNvbT4gd3JvdGU6DQo+DQo+IEludHJvZHVjdGlvbg0KPiA9PT09PT09PT09PT0NCj4NCj4g
+VGhlIFFVSUMgcHJvdG9jb2wsIGRlZmluZWQgaW4gUkZDIDkwMDAsIGlzIGEgc2VjdXJlLCBtdWx0
+aXBsZXhlZCB0cmFuc3BvcnQNCj4gYnVpbHQgb24gdG9wIG9mIFVEUC4gSXQgZW5hYmxlcyBsb3ct
+bGF0ZW5jeSBjb25uZWN0aW9uIGVzdGFibGlzaG1lbnQsDQo+IHN0cmVhbS1iYXNlZCBjb21tdW5p
+Y2F0aW9uIHdpdGggZmxvdyBjb250cm9sLCBhbmQgc3VwcG9ydHMgY29ubmVjdGlvbg0KPiBtaWdy
+YXRpb24gYWNyb3NzIG5ldHdvcmsgcGF0aHMsIHdoaWxlIGVuc3VyaW5nIGNvbmZpZGVudGlhbGl0
+eSwgaW50ZWdyaXR5LA0KPiBhbmQgYXZhaWxhYmlsaXR5Lg0KPg0KPiBUaGlzIGltcGxlbWVudGF0
+aW9uIGludHJvZHVjZXMgUVVJQyBzdXBwb3J0IGluIExpbnV4IEtlcm5lbCwgb2ZmZXJpbmcNCj4g
+c2V2ZXJhbCBrZXkgYWR2YW50YWdlczoNCj4NCj4gLSBJbi1LZXJuZWwgUVVJQyBTdXBwb3J0IGZv
+ciBTdWJzeXN0ZW1zOiBFbmFibGVzIGtlcm5lbCBzdWJzeXN0ZW1zDQo+ICAgc3VjaCBhcyBTTUIg
+YW5kIE5GUyB0byBvcGVyYXRlIG92ZXIgUVVJQyB3aXRoIG1pbmltYWwgY2hhbmdlcy4gT25jZSB0
+aGUNCj4gICBoYW5kc2hha2UgaXMgY29tcGxldGUgdmlhIHRoZSBuZXQvaGFuZHNoYWtlIEFQSXMs
+IGRhdGEgZXhjaGFuZ2UgcHJvY2VlZHMNCj4gICBvdmVyIHN0YW5kYXJkIGluLWtlcm5lbCB0cmFu
+c3BvcnQgaW50ZXJmYWNlcy4NCj4NCj4gLSBTdGFuZGFyZCBTb2NrZXQgQVBJIFNlbWFudGljczog
+SW1wbGVtZW50cyBjb3JlIHNvY2tldCBvcGVyYXRpb25zDQo+ICAgKGxpc3RlbigpLCBhY2NlcHQo
+KSwgY29ubmVjdCgpLCBzZW5kbXNnKCksIHJlY3Ztc2coKSwgY2xvc2UoKSwNCj4gICBnZXRzb2Nr
+b3B0KCksIHNldHNvY2tvcHQoKSwgZ2V0c29ja25hbWUoKSwgYW5kIGdldHBlZXJuYW1lKCkpLA0K
+PiAgIGFsbG93aW5nIHVzZXIgc3BhY2UgdG8gaW50ZXJhY3Qgd2l0aCBRVUlDIHNvY2tldHMgaW4g
+YSBmYW1pbGlhciwNCj4gICBQT1NJWC1jb21wbGlhbnQgd2F5Lg0KPg0KPiAtIEFMUE4tQmFzZWQg
+Q29ubmVjdGlvbiBEaXNwYXRjaGluZzogU3VwcG9ydHMgaW4ta2VybmVsIEFMUE4NCj4gICAoQXBw
+bGljYXRpb24tTGF5ZXIgUHJvdG9jb2wgTmVnb3RpYXRpb24pIHJvdXRpbmcsIGFsbG93aW5nIGRl
+bXVsdGlwbGV4aW5nDQo+ICAgb2YgUVVJQyBjb25uZWN0aW9ucyBhY3Jvc3MgZGlmZmVyZW50IHVz
+ZXItc3BhY2UgcHJvY2Vzc2VzIGJhc2VkDQo+ICAgb24gdGhlIEFMUE4gaWRlbnRpZmllcnMuDQo+
+DQo+IC0gUGVyZm9ybWFuY2UgRW5oYW5jZW1lbnRzOiBIYW5kbGVzIGFsbCBjb250cm9sIG1lc3Nh
+Z2VzIGluLWtlcm5lbA0KPiAgIHRvIHJlZHVjZSBzeXNjYWxsIG92ZXJoZWFkLCBpbmNvcnBvcmF0
+ZXMgemVyby1jb3B5IG1lY2hhbmlzbXMgc3VjaCBhcw0KPiAgIHNlbmRmaWxlKCkgdG8gbWluaW1p
+emUgZGF0YSBtb3ZlbWVudCwgYW5kIGlzIGFsc28gc3RydWN0dXJlZCB0byBzdXBwb3J0DQo+ICAg
+ZnV0dXJlIGNyeXB0byBoYXJkd2FyZSBvZmZsb2Fkcy4NCj4NCj4gVGhpcyBpbXBsZW1lbnRhdGlv
+biBvZmZlcnMgZnVuZGFtZW50YWwgc3VwcG9ydCBmb3IgdGhlIGZvbGxvd2luZyBSRkNzOg0KPg0K
+PiAtIFJGQzkwMDAgLSBRVUlDOiBBIFVEUC1CYXNlZCBNdWx0aXBsZXhlZCBhbmQgU2VjdXJlIFRy
+YW5zcG9ydA0KPiAtIFJGQzkwMDEgLSBVc2luZyBUTFMgdG8gU2VjdXJlIFFVSUMNCj4gLSBSRkM5
+MDAyIC0gUVVJQyBMb3NzIERldGVjdGlvbiBhbmQgQ29uZ2VzdGlvbiBDb250cm9sDQo+IC0gUkZD
+OTIyMSAtIEFuIFVucmVsaWFibGUgRGF0YWdyYW0gRXh0ZW5zaW9uIHRvIFFVSUMNCj4gLSBSRkM5
+Mjg3IC0gR3JlYXNpbmcgdGhlIFFVSUMgQml0DQo+IC0gUkZDOTM2OCAtIENvbXBhdGlibGUgVmVy
+c2lvbiBOZWdvdGlhdGlvbiBmb3IgUVVJQw0KPiAtIFJGQzkzNjkgLSBRVUlDIFZlcnNpb24gMg0K
+Pg0KPiBUaGUgc29ja2V0IEFQSXMgZm9yIFFVSUMgZm9sbG93IHRoZSBSRkMgZHJhZnQgWzFdOg0K
+Pg0KPiAtIFRoZSBTb2NrZXRzIEFQSSBFeHRlbnNpb25zIGZvciBJbi1rZXJuZWwgUVVJQyBJbXBs
+ZW1lbnRhdGlvbnMNCj4NCj4gSW1wbGVtZW50YXRpb24NCj4gPT09PT09PT09PT09PT0NCj4NCj4g
+VGhlIGNlbnRyYWwgZGVzaWduIGlzIHRvIGltcGxlbWVudCBRVUlDIHdpdGhpbiB0aGUga2VybmVs
+IHdoaWxlIGRlbGVnYXRpbmcNCj4gdGhlIGhhbmRzaGFrZSB0byB1c2Vyc3BhY2UuDQo+DQo+IE9u
+bHkgdGhlIHByb2Nlc3NpbmcgYW5kIGNyZWF0aW9uIG9mIHJhdyBUTFMgSGFuZHNoYWtlIE1lc3Nh
+Z2VzIGFyZSBoYW5kbGVkDQo+IGluIHVzZXJzcGFjZSwgZmFjaWxpdGF0ZWQgYnkgYSBUTFMgbGli
+cmFyeSBsaWtlIEdudVRMUy4gVGhlc2UgbWVzc2FnZXMgYXJlDQo+IGV4Y2hhbmdlZCBiZXR3ZWVu
+IGtlcm5lbCBhbmQgdXNlcnNwYWNlIHZpYSBzZW5kbXNnKCkgYW5kIHJlY3Ztc2coKSwgd2l0aA0K
+PiBjcnlwdG9ncmFwaGljIGRldGFpbHMgY29udmV5ZWQgdGhyb3VnaCBjb250cm9sIG1lc3NhZ2Vz
+IChjbXNnKS4NCj4NCj4gVGhlIGVudGlyZSBRVUlDIHByb3RvY29sLCBhc2lkZSBmcm9tIHRoZSBU
+TFMgSGFuZHNoYWtlIE1lc3NhZ2VzIHByb2Nlc3NpbmcNCj4gYW5kIGNyZWF0aW9uLCBpcyBtYW5h
+Z2VkIGluIHRoZSBrZXJuZWwuIFJhdGhlciB0aGFuIHVzaW5nIGFuIFVwcGVyIExheWVyDQo+IFBy
+b3RvY29sIChVTFApIGxheWVyLCB0aGlzIGltcGxlbWVudGF0aW9uIGVzdGFibGlzaGVzIGEgc29j
+a2V0IG9mIHR5cGUNCj4gSVBQUk9UT19RVUlDIChzaW1pbGFyIHRvIElQUFJPVE9fTVBUQ1ApLCBv
+cGVyYXRpbmcgb3ZlciBVRFAgdHVubmVscy4NCj4NCj4gRm9yIGtlcm5lbCBjb25zdW1lcnMsIHRo
+ZXkgY2FuIGluaXRpYXRlIGEgaGFuZHNoYWtlIHJlcXVlc3QgZnJvbSB0aGUga2VybmVsDQo+IHRv
+IHVzZXJzcGFjZSB1c2luZyB0aGUgZXhpc3RpbmcgbmV0L2hhbmRzaGFrZSBuZXRsaW5rLiBUaGUg
+dXNlcnNwYWNlDQo+IGNvbXBvbmVudCwgc3VjaCBhcyB0bHNoZCBzZXJ2aWNlIFsyXSwgdGhlbiBt
+YW5hZ2VzIHRoZSBwcm9jZXNzaW5nDQo+IG9mIHRoZSBRVUlDIGhhbmRzaGFrZSByZXF1ZXN0Lg0K
+Pg0KPiAtIEhhbmRzaGFrZSBBcmNoaXRlY3R1cmU6DQo+DQo+ICAg4pSM4pSA4pSA4pSA4pSA4pSA
+4pSA4pSQICDilIzilIDilIDilIDilIDilIDilIDilJANCj4gICDilIIgQVBQMSDilIIgIOKUgiBB
+UFAyIOKUgiAuLi4NCj4gICDilJTilIDilIDilIDilIDilIDilIDilJggIOKUlOKUgOKUgOKUgOKU
+gOKUgOKUgOKUmA0KPiAgIOKUjOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUkA0KPiAgIOKUgiAgICAge3F1aWNfY2xp
+ZW50L3NlcnZlcl9oYW5kc2hha2UoKX0gICAgIOKUgjzilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilJANCj4gICDilJTilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilJggICAgICAg4pSM4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSQDQo+ICAgIHtzZW5kL3JlY3Ztc2co
+KX0gICAgICB7c2V0L2dldHNvY2tvcHQoKX0gICAgICAgICAg4pSCICAgIHRsc2hkICAgIOKUgg0K
+PiAgICBbQ01TRyBoYW5kc2hha2VfaW5mb10gW1NPQ0tPUFRfQ1JZUFRPX1NFQ1JFVF0gICAgIOKU
+lOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUmA0KPiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgW1NPQ0tPUFRfVFJBTlNQT1JUX1BBUkFNX0VYVF0gICAg4pSCICAgXg0K
+PiAgICAgICAgICAgICAgICAg4pSCIF4gICAgICAgICAgICAgICAgICDilIIgXiAgICAgICAgICAg
+ICAgICAgIOKUgiAgIOKUgg0KPiAgIFVzZXJzcGFjZSAgICAg4pSCIOKUgiAgICAgICAgICAgICAg
+ICAgIOKUgiDilIIgICAgICAgICAgICAgICAgICDilIIgICDilIINCj4gICDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilILilIDilILilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilILilIDilILilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilILilIDilIDilIDilILi
+lIDilIDilIDilIDilIDilIDilIANCj4gICBLZXJuZWwgICAgICAgIOKUgiDilIIgICAgICAgICAg
+ICAgICAgICDilIIg4pSCICAgICAgICAgICAgICAgICAg4pSCICAg4pSCDQo+ICAgICAgICAgICAg
+ICAgICB2IOKUgiAgICAgICAgICAgICAgICAgIHYg4pSCICAgICAgICAgICAgICAgICAgdiAgIOKU
+gg0KPiAgIOKUjOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUrOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUkCAgICAgICDilIzilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilJANCj4gICDilIIgcHJvdG9jb2wsIHRpbWVyLCDilIIgc29ja2V0
+IChJUFBST1RPX1FVSUMpIOKUgjzilIDilIDilJAgICDilIIgaGFuZHNoYWtlICAg4pSCDQo+ICAg
+4pSCICAgICAgICAgICAgICAgICAg4pSc4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSkICAg4pSCICAg4pSCbmV0bGlu
+ayBBUElzIOKUgg0KPiAgIOKUgiBjb21tb24sIGZhbWlseSwgIOKUgiBvdXRxdWV1ZSAgfCAgaW5x
+dWV1ZSAg4pSCICAg4pSCICAg4pSU4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSYDQo+ICAg4pSCICAgICAgICAgICAgICAgICAg4pSc4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSkICAg4pSC
+ICAgICAg4pSCICAgICAgIOKUgg0KPiAgIOKUgiBzdHJlYW0sIGNvbm5pZCwgIOKUgiAgICAgICAg
+IGZyYW1lICAgICAgICAg4pSCICAg4pSCICAg4pSM4pSA4pSA4pSA4pSA4pSA4pSQIOKUjOKUgOKU
+gOKUgOKUgOKUgOKUkA0KPiAgIOKUgiAgICAgICAgICAgICAgICAgIOKUnOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+pCAgIOKUgiAgIOKUgiAgICAg4pSCIOKUgiAgICAg4pSCDQo+ICAg4pSCIHBhdGgsIHBuc3BhY2Us
+ICAg4pSCICAgICAgICAgcGFja2V0ICAgICAgICDilIIgICDilILilIDilIDilIDilIIgU01CIOKU
+giDilIIgTkZTIOKUgi4uLg0KPiAgIOKUgiAgICAgICAgICAgICAgICAgIOKUnOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUpCAgIOKUgiAgIOKUgiAgICAg4pSCIOKUgiAgICAg4pSCDQo+ICAg4pSCIGNvbmcsIGNyeXB0
+byAgICAg4pSCICAgICAgIFVEUCB0dW5uZWxzICAgICDilIIgICDilIIgICDilJTilIDilIDilIDi
+lIDilIDilJgg4pSU4pSA4pSA4pSA4pSA4pSA4pSYDQo+ICAg4pSU4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pS04pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSYICAg
+4pSU4pSA4pSA4pSA4pSA4pSA4pSA4pS04pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSYDQo+DQo+IC0g
+VXNlciBEYXRhIEFyY2hpdGVjdHVyZToNCj4NCj4gICDilIzilIDilIDilIDilIDilIDilIDilJAg
+IOKUjOKUgOKUgOKUgOKUgOKUgOKUgOKUkA0KPiAgIOKUgiBBUFAxIOKUgiAg4pSCIEFQUDIg4pSC
+IC4uLg0KPiAgIOKUlOKUgOKUgOKUgOKUgOKUgOKUgOKUmCAg4pSU4pSA4pSA4pSA4pSA4pSA4pSA
+4pSYDQo+ICAgIHtzZW5kL3JlY3Ztc2coKX0gICB7c2V0L2dldHNvY2tvcHQoKX0gICAgICAgICAg
+ICAgIHtyZWN2bXNnKCl9DQo+ICAgIFtDTVNHIHN0cmVhbV9pbmZvXSBbU09DS09QVF9LRVlfVVBE
+QVRFXSAgICAgICAgICAgIFtFVkVOVCBjb25uIHVwZGF0ZV0NCj4gICAgICAgICAgICAgICAgICAg
+ICAgIFtTT0NLT1BUX0NPTk5FQ1RJT05fTUlHUkFUSU9OXSAgW0VWRU5UIHN0cmVhbSB1cGRhdGVd
+DQo+ICAgICAgICAgICAgICAgICAgICAgICBbU09DS09QVF9TVFJFQU1fT1BFTi9SRVNFVC9TVE9Q
+XQ0KPiAgICAgICAgICAgICAgICAg4pSCIF4gICAgICAgICAgICAgICDilIIgXiAgICAgICAgICAg
+ICAgICAgICAgIF4NCj4gICBVc2Vyc3BhY2UgICAgIOKUgiDilIIgICAgICAgICAgICAgICDilIIg
+4pSCICAgICAgICAgICAgICAgICAgICAg4pSCDQo+ICAg4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSC4pSA4pSC4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSC4pSA4pSC4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSC4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSADQo+ICAgS2VybmVsICAgICAgICDilIIg4pSCICAgICAgICAgICAgICAg4pSCIOKU
+giAgICAgICAgICAgICAgICAgICAgIOKUgg0KPiAgICAgICAgICAgICAgICAgdiDilIIgICAgICAg
+ICAgICAgICB2IOKUgiAg4pSM4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSYDQo+ICAg4pSM4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSs4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSQDQo+ICAg4pSCIHByb3Rv
+Y29sLCB0aW1lciwg4pSCIHNvY2tldCAoSVBQUk9UT19RVUlDKSDilII84pSA4pSA4pSQe2tlcm5l
+bF9zZW5kL3JlY3Ztc2coKX0NCj4gICDilIIgICAgICAgICAgICAgICAgICDilJzilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilKQgICDilIJ7a2VybmVsX3NldC9nZXRzb2Nrb3B0KCl9DQo+ICAg4pSCIGNvbW1vbiwgZmFt
+aWx5LCAg4pSCIG91dHF1ZXVlICB8ICBpbnF1ZXVlICDilIIgICDilIJ7a2VybmVsX3JlY3Ztc2co
+KX0NCj4gICDilIIgICAgICAgICAgICAgICAgICDilJzilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilKQgICDilIINCj4g
+ICDilIIgc3RyZWFtLCBjb25uaWQsICDilIIgICAgICAgICBmcmFtZSAgICAgICAgIOKUgiAgIOKU
+giAgIOKUjOKUgOKUgOKUgOKUgOKUgOKUkCDilIzilIDilIDilIDilIDilIDilJANCj4gICDilIIg
+ICAgICAgICAgICAgICAgICDilJzilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilKQgICDilIIgICDilIIgICAgIOKUgiDi
+lIIgICAgIOKUgg0KPiAgIOKUgiBwYXRoLCBwbnNwYWNlLCAgIOKUgiAgICAgICAgIHBhY2tldCAg
+ICAgICAg4pSCICAg4pSC4pSA4pSA4pSA4pSCIFNNQiDilIIg4pSCIE5GUyDilIIuLi4NCj4gICDi
+lIIgICAgICAgICAgICAgICAgICDilJzilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilKQgICDilIIgICDilIIgICAgIOKU
+giDilIIgICAgIOKUgg0KPiAgIOKUgiBjb25nLCBjcnlwdG8gICAgIOKUgiAgICAgICBVRFAgdHVu
+bmVscyAgICAg4pSCICAg4pSCICAg4pSU4pSA4pSA4pSA4pSA4pSA4pSYIOKUlOKUgOKUgOKUgOKU
+gOKUgOKUmA0KPiAgIOKUlOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUtOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUmCAgIOKUlOKUgOKUgOKUgOKUgOKUgOKUgOKU
+tOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUmA0KPg0KPiBJbnRlcmZhY2UNCj4gPT09PT09PT09DQo+
+DQo+IFRoaXMgaW1wbGVtZW50YXRpb24gc3VwcG9ydHMgYSBtYXBwaW5nIG9mIFFVSUMgaW50byBz
+b2NrZXRzIEFQSXMuIFNpbWlsYXINCj4gdG8gVENQIGFuZCBTQ1RQLCBhIHR5cGljYWwgU2VydmVy
+IGFuZCBDbGllbnQgdXNlIHRoZSBmb2xsb3dpbmcgc3lzdGVtIGNhbGwNCj4gc2VxdWVuY2UgdG8g
+Y29tbXVuaWNhdGU6DQo+DQo+ICAgICBDbGllbnQgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IFNlcnZlcg0KPiAgIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgA0KPiAg
+IHNvY2tmZCA9IHNvY2tldChJUFBST1RPX1FVSUMpICAgICAgbGlzdGVuZmQgPSBzb2NrZXQoSVBQ
+Uk9UT19RVUlDKQ0KPiAgIGJpbmQoc29ja2ZkKSAgICAgICAgICAgICAgICAgICAgICAgYmluZChs
+aXN0ZW5mZCkNCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxpc3Rlbihs
+aXN0ZW5mZCkNCj4gICBjb25uZWN0KHNvY2tmZCkNCj4gICBxdWljX2NsaWVudF9oYW5kc2hha2Uo
+c29ja2ZkKQ0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc29ja2ZkID0g
+YWNjZXB0KGxpc3RlbmZkKQ0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+cXVpY19zZXJ2ZXJfaGFuZHNoYWtlKHNvY2tmZCwgY2VydCkNCj4NCj4gICBzZW5kbXNnKHNvY2tm
+ZCkgICAgICAgICAgICAgICAgICAgIHJlY3Ztc2coc29ja2ZkKQ0KPiAgIGNsb3NlKHNvY2tmZCkg
+ICAgICAgICAgICAgICAgICAgICAgY2xvc2Uoc29ja2ZkKQ0KPiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgY2xvc2UobGlzdGVuZmQpDQo+DQo+IFBsZWFzZSBub3RlIHRoYXQg
+cXVpY19jbGllbnRfaGFuZHNoYWtlKCkgYW5kIHF1aWNfc2VydmVyX2hhbmRzaGFrZSgpDQo+IGZ1
+bmN0aW9ucyBhcmUgY3VycmVudGx5IHNvdXJjZWQgZnJvbSBsaWJxdWljIFszXS4gVGhlc2UgZnVu
+Y3Rpb25zIGFyZQ0KPiByZXNwb25zaWJsZSBmb3IgcmVjZWl2aW5nIGFuZCBwcm9jZXNzaW5nIHRo
+ZSByYXcgVExTIGhhbmRzaGFrZSBtZXNzYWdlcw0KPiB1bnRpbCB0aGUgY29tcGxldGlvbiBvZiB0
+aGUgaGFuZHNoYWtlIHByb2Nlc3MuDQo+DQo+IEZvciB1dGlsaXphdGlvbiBieSBrZXJuZWwgY29u
+c3VtZXJzLCBpdCBpcyBlc3NlbnRpYWwgdG8gaGF2ZSB0bHNoZA0KPiBzZXJ2aWNlIFsyXSBpbnN0
+YWxsZWQgYW5kIHJ1bm5pbmcgaW4gdXNlcnNwYWNlLiBUaGlzIHNlcnZpY2UgcmVjZWl2ZXMNCj4g
+YW5kIG1hbmFnZXMga2VybmVsIGhhbmRzaGFrZSByZXF1ZXN0cyBmb3Iga2VybmVsIHNvY2tldHMu
+IEluIHRoZSBrZXJuZWwsDQo+IHRoZSBBUElzIGNsb3NlbHkgcmVzZW1ibGUgdGhvc2UgdXNlZCBp
+biB1c2Vyc3BhY2U6DQo+DQo+ICAgICBDbGllbnQgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IFNlcnZlcg0KPiAgIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gA0KPiAgIF9fc29ja19jcmVhdGUoSVBQUk9UT19RVUlDLCAmc29jaykgIF9fc29ja19jcmVhdGUo
+SVBQUk9UT19RVUlDLCAmc29jaykNCj4gICBrZXJuZWxfYmluZChzb2NrKSAgICAgICAgICAgICAg
+ICAgICBrZXJuZWxfYmluZChzb2NrKQ0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIGtlcm5lbF9saXN0ZW4oc29jaykNCj4gICBrZXJuZWxfY29ubmVjdChzb2NrKQ0KPiAg
+IHRsc19jbGllbnRfaGVsbG9feDUwOShhcmdzOntzb2NrfSkNCj4gICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBrZXJuZWxfYWNjZXB0KHNvY2ssICZuZXdzb2NrKQ0KPiAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRsc19zZXJ2ZXJfaGVsbG9feDUwOShh
+cmdzOntuZXdzb2NrfSkNCj4NCj4gICBrZXJuZWxfc2VuZG1zZyhzb2NrKSAgICAgICAgICAgICAg
+ICBrZXJuZWxfcmVjdm1zZyhuZXdzb2NrKQ0KPiAgIHNvY2tfcmVsZWFzZShzb2NrKSAgICAgICAg
+ICAgICAgICAgIHNvY2tfcmVsZWFzZShuZXdzb2NrKQ0KPiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHNvY2tfcmVsZWFzZShzb2NrKQ0KPg0KPiBQbGVhc2UgYmUgYXdhcmUg
+dGhhdCB0bHNfY2xpZW50X2hlbGxvX3g1MDkoKSBhbmQgdGxzX3NlcnZlcl9oZWxsb194NTA5KCkN
+Cj4gYXJlIEFQSXMgZnJvbSBuZXQvaGFuZHNoYWtlLy4gVGhleSBhcmUgdXNlZCB0byBkaXNwYXRj
+aCB0aGUgaGFuZHNoYWtlDQo+IHJlcXVlc3QgdG8gdGhlIHVzZXJzcGFjZSB0bHNoZCBzZXJ2aWNl
+IGFuZCBzdWJzZXF1ZW50bHkgYmxvY2sgdW50aWwgdGhlDQo+IGhhbmRzaGFrZSBwcm9jZXNzIGlz
+IGNvbXBsZXRlZC4NCj4NCj4gVXNlIENhc2VzDQo+ID09PT09PT09PQ0KPg0KPiAtIFNhbWJhDQo+
+DQo+ICAgU3RlZmFuIE1ldHptYWNoZXIgaGFzIGludGVncmF0ZWQgTGludXggUVVJQyBpbnRvIFNh
+bWJhIGZvciBib3RoIGNsaWVudA0KPiAgIGFuZCBzZXJ2ZXIgcm9sZXMgWzRdLg0KPg0KPiAtIHRs
+c2hkDQo+DQo+ICAgVGhlIHRsc2hkIGRhZW1vbiBbMl0gZmFjaWxpdGF0ZXMgTGludXggUVVJQyBo
+YW5kc2hha2UgcmVxdWVzdHMgZnJvbQ0KPiAgIGtlcm5lbCBzb2NrZXRzLiBUaGlzIGlzIGVzc2Vu
+dGlhbCBmb3IgZW5hYmxpbmcgcHJvdG9jb2xzIGxpa2UgU01CDQo+ICAgYW5kIE5GUyBvdmVyIFFV
+SUMuDQo+DQo+IC0gY3VybA0KPg0KPiAgIExpbnV4IFFVSUMgaXMgYmVpbmcgaW50ZWdyYXRlZCBp
+bnRvIGN1cmwgWzVdIGZvciBIVFRQLzMuIEV4YW1wbGUgdXNhZ2U6DQo+DQo+ICAgIyBjdXJsIC0t
+aHR0cDMtb25seSBodHRwczovL25naHR0cDIub3JnOjQ0MzMvDQo+ICAgIyBjdXJsIC0taHR0cDMt
+b25seSBodHRwczovL3d3dy5nb29nbGUuY29tLw0KPiAgICMgY3VybCAtLWh0dHAzLW9ubHkgaHR0
+cHM6Ly9mYWNlYm9vay5jb20vDQo+ICAgIyBjdXJsIC0taHR0cDMtb25seSBodHRwczovL291dGxv
+b2sub2ZmaWNlLmNvbS8NCj4gICAjIGN1cmwgLS1odHRwMy1vbmx5IGh0dHBzOi8vY2xvdWRmbGFy
+ZS1xdWljLmNvbS8NCj4NCj4gLSBodHRwZC1wb3J0YWJsZQ0KPg0KPiAgIE1vcml0eiBCdWhsIGhh
+cyBkZXBsb3llZCBhbiBIVFRQLzMgc2VydmVyIG92ZXIgTGludXggUVVJQyBbNl0gdGhhdCBpcw0K
+PiAgIGFjY2Vzc2libGUgdmlhIEZpcmVmb3ggYW5kIGN1cmw6DQo+DQo+ICAgaHR0cHM6Ly9kLm1v
+cml0emJ1aGwuZGUvcHViDQo+DQo+IC0gTmV0UGVyZk1ldGVyDQo+DQo+ICAgVGhlIGxhdGVzdCBO
+ZXRQZXJmTWV0ZXIgcmVsZWFzZSBzdXBwb3J0cyBMaW51eCBRVUlDIGFuZCBjYW4gYmUgdXNlZCB0
+bw0KPiAgIHJ1biBwZXJmb3JtYW5jZSBldmFsdWF0aW9ucyBbMTBdLg0KPg0KPiBUZXN0IENvdmVy
+YWdlDQo+ID09PT09PT09PT09PT0NCj4NCj4gVGhlIENvdmVyYWdlIChnY292KSBvZiBGdW5jdGlv
+bmFsIGFuZCBJbnRlcm9wIFRlc3RzOg0KPg0KPiBodHRwczovL2QubW9yaXR6YnVobC5kZS9sY292
+DQo+DQo+IC0gRnVuY3Rpb25hbCBUZXN0cw0KPg0KPiAgIFRoZSBsaWJxdWljIHNlbGYtdGVzdHMg
+KG1ha2UgY2hlY2spIHBhc3Mgb24gYWxsIG1ham9yIGFyY2hpdGVjdHVyZXM6DQo+ICAgeDg2XzY0
+LCBpMzg2LCBzMzkweCwgYWFyY2g2NCwgcHBjNjRsZS4NCj4NCj4gLSBJbnRlcm9wIHRlc3RzDQo+
+DQo+ICAgSW50ZXJvcGVyYWJpbGl0eSB3YXMgdmFsaWRhdGVkIHVzaW5nIHRoZSBRVUlDIEludGVy
+b3AgUnVubmVyIFs3XSBhZ2FpbnN0DQo+ICAgYWxsIG1ham9yIHVzZXJsYW5kIFFVSUMgc3RhY2tz
+LiBSZXN1bHRzIGFyZSBhdmFpbGFibGUgYXQ6DQo+DQo+ICAgaHR0cHM6Ly9kLm1vcml0emJ1aGwu
+ZGUvDQo+DQo+IC0gRnV6emluZyB2aWEgU3l6a2FsbGVyDQo+DQo+ICAgU3l6a2FsbGVyIGhhcyBi
+ZWVuIHJ1bm5pbmcga2VybmVsIGZ1enppbmcgd2l0aCBRVUlDIGZvciB3ZWVrcyB1c2luZw0KPiAg
+IHRlc3RzL3N5emthbGxlci8gaW4gbGlicXVpYyBbM10uDQo+DQo+IC0gUGVyZm9ybWFuY2UgVGVz
+dGluZw0KPg0KPiAgIFBlcmZvcm1hbmNlIHdhcyBiZW5jaG1hcmtlZCB1c2luZyBpcGVyZiBbOF0g
+b3ZlciBhIDEwMEcgTklDIHVzaW5nDQo+ICAgdmFyaW91cyBNVFVzIGFuZCBwYWNrZXQgc2l6ZXM6
+DQo+DQo+ICAgLSBRVUlDIHZzLiBrVExTOg0KPg0KPiAgICAgVU5JVCAgICAgICAgc2l6ZToxMDI0
+ICAgICAgc2l6ZTo0MDk2ICAgICAgc2l6ZToxNjM4NCAgICAgc2l6ZTo2NTUzNg0KPiAgICAgR2Jp
+dHMvc2VjICAgUVVJQyB8IGtUTFMgICAgUVVJQyB8IGtUTFMgICAgUVVJQyB8IGtUTFMgICAgUVVJ
+QyB8IGtUTFMNCj4gICAgIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgA0KPiAgICAg
+bXR1OjE1MDAgICAgMi4yNyB8IDMuMjYgICAgMy4wMiB8IDYuOTcgICAgMy4zNiB8IDkuNzQgICAg
+My40OCB8IDEwLjgNCj4gICAgIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgA0KPiAg
+ICAgbXR1OjkwMDAgICAgMy42NiB8IDMuNzIgICAgNS44NyB8IDguOTIgICAgNy4wMyB8IDExLjIg
+ICAgOC4wNCB8IDExLjQNCj4NCj4gICAtIFFVSUMoZGlzYWJsZV8xcnR0X2VuY3J5cHRpb24pIHZz
+LiBUQ1A6DQo+DQo+ICAgICBVTklUICAgICAgICBzaXplOjEwMjQgICAgICBzaXplOjQwOTYgICAg
+ICBzaXplOjE2Mzg0ICAgICBzaXplOjY1NTM2DQo+ICAgICBHYml0cy9zZWMgICBRVUlDIHwgVENQ
+ICAgICBRVUlDIHwgVENQICAgICBRVUlDIHwgVENQICAgICBRVUlDIHwgVENQDQo+ICAgICDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIANCj4gICAgIG10dToxNTAwICAgIDMuMDkgfCA0
+LjU5ICAgIDQuNDYgfCAxNC4yICAgIDUuMDcgfCAyMS4zICAgIDUuMTggfCAyMy45DQo+ICAgICDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIANCj4gICAgIG10dTo5MDAwICAgIDQuNjAg
+fCA0LjY1ICAgIDguNDEgfCAxNC4wICAgIDExLjMgfCAyOC45ICAgIDEzLjUgfCAzOS4yDQo+DQo+
+DQo+ICAgVGhlIHBlcmZvcm1hbmNlIGdhcCBiZXR3ZWVuIFFVSUMgYW5kIGtUTFMgbWF5IGJlIGF0
+dHJpYnV0ZWQgdG86DQo+DQo+ICAgLSBUaGUgYWJzZW5jZSBvZiBHZW5lcmljIFNlZ21lbnRhdGlv
+biBPZmZsb2FkIChHU08pIGZvciBRVUlDLg0KPiAgIC0gQW4gYWRkaXRpb25hbCBkYXRhIGNvcHkg
+b24gdGhlIHRyYW5zbWlzc2lvbiAoVFgpIHBhdGguDQo+ICAgLSBFeHRyYSBlbmNyeXB0aW9uIHJl
+cXVpcmVkIGZvciBoZWFkZXIgcHJvdGVjdGlvbiBpbiBRVUlDLg0KPiAgIC0gQSBsb25nZXIgaGVh
+ZGVyIGxlbmd0aCBmb3IgdGhlIHN0cmVhbSBkYXRhIGluIFFVSUMuDQo+DQo+IFBhdGNoZXMNCj4g
+PT09PT09PQ0KPg0KPiBOb3RlOiBUaGlzIGltcGxlbWVudGF0aW9uIGlzIG9yZ2FuaXplZCBpbnRv
+IGZpdmUgcGFydHMgYW5kIHN1Ym1pdHRlZCBhY3Jvc3MNCj4gdHdvIHBhdGNoc2V0cyBmb3IgcmV2
+aWV3LiBUaGlzIHBhdGNoc2V0IGluY2x1ZGVzIFBhcnRzIDHigJMyLCB3aGlsZSBQYXJ0cyAz4oCT
+NQ0KPiB3aWxsIGJlIHN1Ym1pdHRlZCBpbiBhIHN1YnNlcXVlbnQgcGF0Y2hzZXQuIEZvciBjb21w
+bGV0ZSBzZXJpZXMsIHNlZSBbOV0uDQo+DQo+IDEuIEluZnJhc3RydWN0dXJlICgyKToNCj4NCj4g
+ICBuZXQ6IGRlZmluZSBJUFBST1RPX1FVSUMgYW5kIFNPTF9RVUlDIGNvbnN0YW50cw0KPiAgIG5l
+dDogYnVpbGQgc29ja2V0IGluZnJhc3RydWN0dXJlIGZvciBRVUlDIHByb3RvY29sDQo+DQo+IDIu
+IFN1YmNvbXBvbmVudHMgKDEzKToNCj4NCj4gICBxdWljOiBwcm92aWRlIGNvbW1vbiB1dGlsaXRp
+ZXMgYW5kIGRhdGEgc3RydWN0dXJlcw0KPiAgIHF1aWM6IHByb3ZpZGUgZmFtaWx5IG9wcyBmb3Ig
+YWRkcmVzcyBhbmQgcHJvdG9jb2wNCj4gICBxdWljOiBwcm92aWRlIHF1aWMuaCBoZWFkZXIgZmls
+ZXMgZm9yIGtlcm5lbCBhbmQgdXNlcnNwYWNlDQo+ICAgcXVpYzogYWRkIHN0cmVhbSBtYW5hZ2Vt
+ZW50DQo+ICAgcXVpYzogYWRkIGNvbm5lY3Rpb24gaWQgbWFuYWdlbWVudA0KPiAgIHF1aWM6IGFk
+ZCBwYXRoIG1hbmFnZW1lbnQNCj4gICBxdWljOiBhZGQgY29uZ2VzdGlvbiBjb250cm9sDQo+ICAg
+cXVpYzogYWRkIHBhY2tldCBudW1iZXIgc3BhY2UNCj4gICBxdWljOiBhZGQgY3J5cHRvIGtleSBk
+ZXJpdmF0aW9uIGFuZCBpbnN0YWxsYXRpb24NCj4gICBxdWljOiBhZGQgY3J5cHRvIHBhY2tldCBl
+bmNyeXB0aW9uIGFuZCBkZWNyeXB0aW9uDQo+ICAgcXVpYzogYWRkIHRpbWVyIG1hbmFnZW1lbnQN
+Cj4gICBxdWljOiBhZGQgcGFja2V0IGJ1aWxkZXIgYmFzZQ0KPiAgIHF1aWM6IGFkZCBwYWNrZXQg
+cGFyc2VyIGJhc2UNCj4NCj4gMy4gRGF0YSBQcm9jZXNzaW5nICg4KToNCj4NCj4gICBxdWljOiBh
+ZGQgZnJhbWUgZW5jb2RlciBhbmQgZGVjb2RlciBiYXNlDQo+ICAgcXVpYzogaW1wbGVtZW50IG91
+dHF1ZXVlIHRyYW5zbWlzc2lvbiBhbmQgZmxvdyBjb250cm9sDQo+ICAgcXVpYzogaW1wbGVtZW50
+IG91dHF1ZXVlIHNhY2sgYW5kIHJldHJhbnNtaXNzaW9uDQo+ICAgcXVpYzogaW1wbGVtZW50IGlu
+cXVldWUgcmVjZWl2aW5nIGFuZCBmbG93IGNvbnRyb2wNCj4gICBxdWljOiBpbXBsZW1lbnQgZnJh
+bWUgY3JlYXRpb24gZnVuY3Rpb25zDQo+ICAgcXVpYzogaW1wbGVtZW50IGZyYW1lIHByb2Nlc3Np
+bmcgZnVuY3Rpb25zDQo+ICAgcXVpYzogaW1wbGVtZW50IHBhY2tldCBjcmVhdGlvbiBmdW5jdGlv
+bnMNCj4gICBxdWljOiBpbXBsZW1lbnQgcGFja2V0IHByb2Nlc3NpbmcgZnVuY3Rpb25zDQo+DQo+
+IDQuIFNvY2tldCBBUElzICg2KToNCj4NCj4gICBxdWljOiBzdXBwb3J0IGJpbmQvbGlzdGVuL2Nv
+bm5lY3QvYWNjZXB0L2Nsb3NlKCkNCj4gICBxdWljOiBzdXBwb3J0IHNlbmRtc2coKSBhbmQgcmVj
+dm1zZygpDQo+ICAgcXVpYzogc3VwcG9ydCBzb2NrZXQgb3B0aW9ucyByZWxhdGVkIHRvIGludGVy
+YWN0aW9uIGFmdGVyIGhhbmRzaGFrZQ0KPiAgIHF1aWM6IHN1cHBvcnQgc29ja2V0IG9wdGlvbnMg
+cmVsYXRlZCB0byBzZXR0aW5ncyBwcmlvciB0byBoYW5kc2hha2UNCj4gICBxdWljOiBzdXBwb3J0
+IHNvY2tldCBvcHRpb25zIHJlbGF0ZWQgdG8gc2V0dXAgZHVyaW5nIGhhbmRzaGFrZQ0KPiAgIHF1
+aWM6IHN1cHBvcnQgc29ja2V0IGlvY3RscyBhbmQgc29ja2V0IGR1bXAgdmlhIHByb2Nmcw0KPg0K
+PiA1LiBEb2N1bWVudGF0aW9uIGFuZCBTZWxmdGVzdHMgKDMpOg0KPg0KPiAgIERvY3VtZW50YXRp
+b246IGRlc2NyaWJlIFFVSUMgcHJvdG9jb2wgaW50ZXJmYWNlIGluIHF1aWMucnN0DQo+ICAgcXVp
+YzogY3JlYXRlIHNhbXBsZSB0ZXN0IHVzaW5nIGhhbmRzaGFrZSBBUElzIGZvciBrZXJuZWwgY29u
+c3VtZXJzDQo+ICAgc2VsZnRlc3RzOiBuZXQ6IGFkZCB0ZXN0cyBmb3IgUVVJQyBwcm90b2NvbA0K
+Pg0KPiBOb3RpY2U6IFRoZSBRVUlDIG1vZHVsZSBpcyBjdXJyZW50bHkgbGFiZWxlZCBhcyAiRVhQ
+RVJJTUVOVEFMIi4NCj4NCj4gQWxsIGNvbnRyaWJ1dG9ycyBhcmUgcmVjb2duaXplZCBpbiB0aGUg
+cmVzcGVjdGl2ZSBwYXRjaGVzIHdpdGggdGhlIHRhZyBvZg0KPiAnU2lnbmVkLW9mZi1ieTonLiBT
+cGVjaWFsIHRoYW5rcyB0byBNb3JpdHogQnVobCBhbmQgU3RlZmFuIE1ldHptYWNoZXIgd2hvc2UN
+Cj4gcHJhY3RpY2FsIHVzZSBjYXNlcyBhbmQgaW5zaWdodGZ1bCBmZWVkYmFjayBoYXZlIGJlZW4g
+aW5zdHJ1bWVudGFsIGluDQo+IHNoYXBpbmcgdGhlIGRlc2lnbiBhbmQgYWR2YW5jaW5nIHRoZSBk
+ZXZlbG9wbWVudC4NCj4NCj4gUmVmZXJlbmNlcw0KPiA9PT09PT09PT09DQo+DQo+IFsxXSAgaHR0
+cHM6Ly9kYXRhdHJhY2tlci5pZXRmLm9yZy9kb2MvaHRtbC9kcmFmdC1seGluLXF1aWMtc29ja2V0
+LWFwaXMNCj4gWzJdICBodHRwczovL2dpdGh1Yi5jb20vb3JhY2xlL2t0bHMtdXRpbHMNCj4gWzNd
+ICBodHRwczovL2dpdGh1Yi5jb20vbHhpbi9xdWljDQo+IFs0XSAgaHR0cHM6Ly9naXRsYWIuY29t
+L3NhbWJhLXRlYW0vc2FtYmEvLS9tZXJnZV9yZXF1ZXN0cy80MDE5DQo+IFs1XSAgaHR0cHM6Ly9n
+aXRodWIuY29tL21vcml0emJ1aGwvY3VybC90cmVlL2xpbnV4X2N1cmwNCj4gWzZdICBodHRwczov
+L2dpdGh1Yi5jb20vbW9yaXR6YnVobC9odHRwZC1wb3J0YWJsZQ0KPiBbN10gIGh0dHBzOi8vZ2l0
+aHViLmNvbS9xdWljLWludGVyb3AvcXVpYy1pbnRlcm9wLXJ1bm5lcg0KPiBbOF0gIGh0dHBzOi8v
+Z2l0aHViLmNvbS9seGluL2lwZXJmDQo+IFs5XSAgaHR0cHM6Ly9naXRodWIuY29tL2x4aW4vbmV0
+LW5leHQvY29tbWl0cy9xdWljLw0KPiBbMTBdIGh0dHBzOi8vd3d3Lm5udGIubm8vfmRyZWliaC9u
+ZXRwZXJmbWV0ZXIvDQo+DQo+IENoYW5nZXMgaW4gdjItdjEyOiBTZWUgaW5kaXZpZHVhbCBwYXRj
+aCBjaGFuZ2Vsb2dzIGZvciBkZXRhaWxzLg0KPg0KPiBYaW4gTG9uZyAoMTUpOg0KPiAgIG5ldDog
+ZGVmaW5lIElQUFJPVE9fUVVJQyBhbmQgU09MX1FVSUMgY29uc3RhbnRzDQo+ICAgbmV0OiBidWls
+ZCBzb2NrZXQgaW5mcmFzdHJ1Y3R1cmUgZm9yIFFVSUMgcHJvdG9jb2wNCj4gICBxdWljOiBwcm92
+aWRlIGNvbW1vbiB1dGlsaXRpZXMgYW5kIGRhdGEgc3RydWN0dXJlcw0KPiAgIHF1aWM6IHByb3Zp
+ZGUgZmFtaWx5IG9wcyBmb3IgYWRkcmVzcyBhbmQgcHJvdG9jb2wNCj4gICBxdWljOiBwcm92aWRl
+IHF1aWMuaCBoZWFkZXIgZmlsZXMgZm9yIGtlcm5lbCBhbmQgdXNlcnNwYWNlDQo+ICAgcXVpYzog
+YWRkIHN0cmVhbSBtYW5hZ2VtZW50DQo+ICAgcXVpYzogYWRkIGNvbm5lY3Rpb24gaWQgbWFuYWdl
+bWVudA0KPiAgIHF1aWM6IGFkZCBwYXRoIG1hbmFnZW1lbnQNCj4gICBxdWljOiBhZGQgY29uZ2Vz
+dGlvbiBjb250cm9sDQo+ICAgcXVpYzogYWRkIHBhY2tldCBudW1iZXIgc3BhY2UNCj4gICBxdWlj
+OiBhZGQgY3J5cHRvIGtleSBkZXJpdmF0aW9uIGFuZCBpbnN0YWxsYXRpb24NCj4gICBxdWljOiBh
+ZGQgY3J5cHRvIHBhY2tldCBlbmNyeXB0aW9uIGFuZCBkZWNyeXB0aW9uDQo+ICAgcXVpYzogYWRk
+IHRpbWVyIG1hbmFnZW1lbnQNCj4gICBxdWljOiBhZGQgcGFja2V0IGJ1aWxkZXIgYmFzZQ0KPiAg
+IHF1aWM6IGFkZCBwYWNrZXQgcGFyc2VyIGJhc2UNCj4NCj4gIERvY3VtZW50YXRpb24vbmV0d29y
+a2luZy9pcC1zeXNjdGwucnN0IHwgICAzOSArDQo+ICBNQUlOVEFJTkVSUyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICB8ICAgIDkgKw0KPiAgaW5jbHVkZS9saW51eC9xdWljLmggICAgICAgICAg
+ICAgICAgICAgfCAgIDI0ICsNCj4gIGluY2x1ZGUvbGludXgvc29ja2V0LmggICAgICAgICAgICAg
+ICAgIHwgICAgMSArDQo+ICBpbmNsdWRlL3VhcGkvbGludXgvaW4uaCAgICAgICAgICAgICAgICB8
+ICAgIDIgKw0KPiAgaW5jbHVkZS91YXBpL2xpbnV4L3F1aWMuaCAgICAgICAgICAgICAgfCAgMjQx
+ICsrKysrDQo+ICBuZXQvS2NvbmZpZyAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgIDEg
+Kw0KPiAgbmV0L01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICAxICsNCj4g
+IG5ldC9xdWljL0tjb25maWcgICAgICAgICAgICAgICAgICAgICAgIHwgICAzNSArDQo+ICBuZXQv
+cXVpYy9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgICB8ICAgIDkgKw0KPiAgbmV0L3F1aWMv
+Y29tbW9uLmMgICAgICAgICAgICAgICAgICAgICAgfCAgNTU5ICsrKysrKysrKysrDQo+ICBuZXQv
+cXVpYy9jb21tb24uaCAgICAgICAgICAgICAgICAgICAgICB8ICAyMjAgKysrKysNCj4gIG5ldC9x
+dWljL2NvbmcuYyAgICAgICAgICAgICAgICAgICAgICAgIHwgIDMzMyArKysrKysrDQo+ICBuZXQv
+cXVpYy9jb25nLmggICAgICAgICAgICAgICAgICAgICAgICB8ICAxMzAgKysrDQo+ICBuZXQvcXVp
+Yy9jb25uaWQuYyAgICAgICAgICAgICAgICAgICAgICB8ICAyNTYgKysrKysNCj4gIG5ldC9xdWlj
+L2Nvbm5pZC5oICAgICAgICAgICAgICAgICAgICAgIHwgIDE4MiArKysrDQo+ICBuZXQvcXVpYy9j
+cnlwdG8uYyAgICAgICAgICAgICAgICAgICAgICB8IDEyNDggKysrKysrKysrKysrKysrKysrKysr
+KysrDQo+ICBuZXQvcXVpYy9jcnlwdG8uaCAgICAgICAgICAgICAgICAgICAgICB8ICAgODkgKysN
+Cj4gIG5ldC9xdWljL2ZhbWlseS5jICAgICAgICAgICAgICAgICAgICAgIHwgIDQ1MiArKysrKysr
+KysNCj4gIG5ldC9xdWljL2ZhbWlseS5oICAgICAgICAgICAgICAgICAgICAgIHwgICA0NCArDQo+
+ICBuZXQvcXVpYy9wYWNrZXQuYyAgICAgICAgICAgICAgICAgICAgICB8ICA4ODcgKysrKysrKysr
+KysrKysrKysNCj4gIG5ldC9xdWljL3BhY2tldC5oICAgICAgICAgICAgICAgICAgICAgIHwgIDEy
+MCArKysNCj4gIG5ldC9xdWljL3BhdGguYyAgICAgICAgICAgICAgICAgICAgICAgIHwgIDU2OCAr
+KysrKysrKysrKw0KPiAgbmV0L3F1aWMvcGF0aC5oICAgICAgICAgICAgICAgICAgICAgICAgfCAg
+MTkwICsrKysNCj4gIG5ldC9xdWljL3Buc3BhY2UuYyAgICAgICAgICAgICAgICAgICAgIHwgIDI1
+MyArKysrKw0KPiAgbmV0L3F1aWMvcG5zcGFjZS5oICAgICAgICAgICAgICAgICAgICAgfCAgMjAx
+ICsrKysNCj4gIG5ldC9xdWljL3Byb3RvY29sLmMgICAgICAgICAgICAgICAgICAgIHwgIDQxOCAr
+KysrKysrKw0KPiAgbmV0L3F1aWMvcHJvdG9jb2wuaCAgICAgICAgICAgICAgICAgICAgfCAgIDYz
+ICsrDQo+ICBuZXQvcXVpYy9zb2NrZXQuYyAgICAgICAgICAgICAgICAgICAgICB8ICA0NzUgKysr
+KysrKysrDQo+ICBuZXQvcXVpYy9zb2NrZXQuaCAgICAgICAgICAgICAgICAgICAgICB8ICAyMDkg
+KysrKw0KPiAgbmV0L3F1aWMvc3RyZWFtLmMgICAgICAgICAgICAgICAgICAgICAgfCAgNDE2ICsr
+KysrKysrDQo+ICBuZXQvcXVpYy9zdHJlYW0uaCAgICAgICAgICAgICAgICAgICAgICB8ICAxMzEg
+KysrDQo+ICBuZXQvcXVpYy90aW1lci5jICAgICAgICAgICAgICAgICAgICAgICB8ICAxNTQgKysr
+DQo+ICBuZXQvcXVpYy90aW1lci5oICAgICAgICAgICAgICAgICAgICAgICB8ICAgNDUgKw0KPiAg
+dXNyL2luY2x1ZGUvTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgfCAgICAxICsNCj4gIDM1IGZp
+bGVzIGNoYW5nZWQsIDgwMDYgaW5zZXJ0aW9ucygrKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGlu
+Y2x1ZGUvbGludXgvcXVpYy5oDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS91YXBpL2xp
+bnV4L3F1aWMuaA0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG5ldC9xdWljL0tjb25maWcNCj4gIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBuZXQvcXVpYy9NYWtlZmlsZQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0
+IG5ldC9xdWljL2NvbW1vbi5jDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgbmV0L3F1aWMvY29tbW9u
+LmgNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBuZXQvcXVpYy9jb25nLmMNCj4gIGNyZWF0ZSBtb2Rl
+IDEwMDY0NCBuZXQvcXVpYy9jb25nLmgNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBuZXQvcXVpYy9j
+b25uaWQuYw0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG5ldC9xdWljL2Nvbm5pZC5oDQo+ICBjcmVh
+dGUgbW9kZSAxMDA2NDQgbmV0L3F1aWMvY3J5cHRvLmMNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBu
+ZXQvcXVpYy9jcnlwdG8uaA0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG5ldC9xdWljL2ZhbWlseS5j
+DQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgbmV0L3F1aWMvZmFtaWx5LmgNCj4gIGNyZWF0ZSBtb2Rl
+IDEwMDY0NCBuZXQvcXVpYy9wYWNrZXQuYw0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG5ldC9xdWlj
+L3BhY2tldC5oDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgbmV0L3F1aWMvcGF0aC5jDQo+ICBjcmVh
+dGUgbW9kZSAxMDA2NDQgbmV0L3F1aWMvcGF0aC5oDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgbmV0
+L3F1aWMvcG5zcGFjZS5jDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgbmV0L3F1aWMvcG5zcGFjZS5o
+DQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgbmV0L3F1aWMvcHJvdG9jb2wuYw0KPiAgY3JlYXRlIG1v
+ZGUgMTAwNjQ0IG5ldC9xdWljL3Byb3RvY29sLmgNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBuZXQv
+cXVpYy9zb2NrZXQuYw0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG5ldC9xdWljL3NvY2tldC5oDQo+
+ICBjcmVhdGUgbW9kZSAxMDA2NDQgbmV0L3F1aWMvc3RyZWFtLmMNCj4gIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBuZXQvcXVpYy9zdHJlYW0uaA0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG5ldC9xdWljL3Rp
+bWVyLmMNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBuZXQvcXVpYy90aW1lci5oDQo+DQo+IC0tDQo+
+IDIuNDcuMQ0KPg0KDQpOb3RlOiBJJ3ZlIHJ1biBTYXNoaWtvIG9uIHRoaXMgcGF0Y2hzZXQgbWFu
+eSB0aW1lcyBsb2NhbGx5IG92ZXIgdGhlIHBhc3QNCm1vbnRoIGFuZCBhZGRyZXNzZWQgYWxsIHRo
+ZSByZWFsIGlzc3VlcyBpdCBmb3VuZC4gSSBkb24ndCBzZWUgYW55IG5ldyByZWFsDQppc3N1ZXMg
+YmVpbmcgcmVwb3J0ZWQgb246DQoNCmh0dHBzOi8vc2FzaGlrby5kZXYvIy9wYXRjaHNldC9jb3Zl
+ci4xNzgwMjMyOTMwLmdpdC5sdWNpZW4ueGluJTQwZ21haWwuY29tDQoNClRoYW5rcy4NCg==

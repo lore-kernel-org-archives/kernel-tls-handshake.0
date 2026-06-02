@@ -1,219 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D36366046;
-	Tue,  2 Jun 2026 15:47:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD1F35F8D2;
+	Tue,  2 Jun 2026 18:18:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780415265; cv=none; b=M7kfw1vyXIvXieQvIL8YUoxANm44vE/3ssjKSGwgrFcPsjmFpWT010vGjRcNOsFT4NCeReow7pEqAl0Ws15kIAVVnYxMsXZZkN2xDnFfVoiV0YPCH6qzVPM2uODNEq45zaq/s1C74/onzParP+WFWOUXiIrzeG+fYF3YvpOglVY=
+	t=1780424306; cv=none; b=CDSp+pGw6JUfa7pVI2Z+WrAOR91BsvUFe9zI2fqxb3LyG3yXK7sqVkjPPbfS+rlW4JtksD/DAf6Gv3Cw+F1/bR3p1ccXM8M9lgk32tMGaeQzxTsCOqZ+RypzECZ7bI55WBxPZKkdWvy1zWDvDeTNYRB9UDiT6Cm/ZHiXEc/5NYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780415265; c=relaxed/simple;
-	bh=hi12WezZwD1WzYU1hlhwt5AiplPaczFeXs61kDWRjHA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ng/PT+/COvrFXeQJGmAnWBVC29YDt9JLfrkf7IWctA67vuPaVA3UfLm7OUnkdMtZ6+dQ/qWaia0qYl1tHhs7sqAmBCCdyVBZwaH48uy34dq+cpAPET0vr11FoubQKGN4+zWdIyrrUtPeWpsoLpajtzg/hWwGH6Nsz+8bkz6XGek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZQSj2Oh5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780424306; c=relaxed/simple;
+	bh=kaiP5nlmx+o6J5dZn3NEtFmE+/1HE1JUKqGhpXDCNTk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=f3mSxbpF/6gxs8peUdyKPCRHvNVFdxZZOxgQrTq4JH/aKagjoCsvvRSS8bJdxec9QzaOc9E/mx6WKEc8fG7n1lRImV1Cx87GrSP81SyAOt7QlkWPVZUGfe+b4X+nmKofWkWLQiEcuAUwXVuCxhGclOPs5EoO4wKTgnOMjpz9jtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nTzLFTrT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZQSj2Oh5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 704951F00893;
-	Tue,  2 Jun 2026 15:47:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nTzLFTrT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB3181F00893;
+	Tue,  2 Jun 2026 18:18:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780415263;
-	bh=wLutiSegTJHA+jOz/grm9866m5nuAjpYHl81oTHKovM=;
-	h=From:To:Cc:Subject:Date;
-	b=ZQSj2Oh5tKjNbhIIGe99RwvQlsqwNkefrPnoo5XygIkfKYK48wxoy33nXLklLeAIW
-	 UjGofUmSx6GSxATbGem0cK3dmcUhmoQiO9Xr0ZloUgpEU3jFCGYnSBaQEQzI00cSGT
-	 ZvNaAWTGVYuJgpkbcRF9b5AekMr4YLY2S2qBYx3cSvvDeokEg+coAq6jMhR3Cy8GPO
-	 M1SgWZP8LE7d9+yaU03bXzQN26BV5EpcJjNrhzA4ahHZcACEVoh+bNSoEjoItF38Cy
-	 vUlThpwtXAbsrzU6CvsEyFTjqSGFMR+reBNle3Kmir8Ko8eRh9mHYWYBKcJxqVwhal
-	 yiGh3U04OiM3Q==
-From: Chuck Lever <cel@kernel.org>
-To: linux-nfs@vger.kernel.org
-Cc: keyrings@vger.kernel.org,
-	kernel-tls-handshake@lists.linux.dev,
-	netdev@vger.kernel.org,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Hannes Reinecke <hare@suse.de>,
-	David Howells <dhowells@redhat.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>
-Subject: [RFC] NFS: named client identities for mTLS mounts and a per-namespace .nfs keyring
-Date: Tue,  2 Jun 2026 11:47:37 -0400
-Message-ID: <20260602154740.49861-1-cel@kernel.org>
-X-Mailer: git-send-email 2.54.0
+	s=k20260515; t=1780424305;
+	bh=tDyACb5/KqIGSD/zVzhz+P1a4GYNHCqoT3JaADnFHhQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=nTzLFTrTFDNrds9z+BHs394zIpMQnncSZ4LXYu1cjVIecgdX4KfmqViJq75KQHnuK
+	 abGBei3kUWObVS5dyh9mXuz/K5Fam0en2eakjVz/HigNAtrrNMiKcM8y1XZ554HLPF
+	 4Ak4VGu63ZFHb6m3S/mvcQOViokzTcoWHewkWPfmS1QNHvpiHVeomNowhbIFYRWbsv
+	 7KumAtMzFLELe/cAzhLLDVPj6BbSQJSphC1PbbT+HrKjTxlheI12ZAyyZkQi+wyq2C
+	 1c/8QxH7mL4uPjYRAMQqivEvJX3FcdLJ1VD4RbAph4syzrxg2BYhJoMqH/xgNTgjei
+	 lqyacgx2jzZWg==
+Date: Tue, 2 Jun 2026 11:18:23 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Xin Long <lucien.xin@gmail.com>
+Cc: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev,
+ davem@davemloft.net, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Stefan Metzmacher
+ <metze@samba.org>, Moritz Buhl <mbuhl@openbsd.org>, Tyler Fanelli
+ <tfanelli@redhat.com>, Pengtao He <hepengtao@xiaomi.com>, Thomas Dreibholz
+ <dreibh@simula.no>, linux-cifs@vger.kernel.org, Steve French
+ <smfrench@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>, Tom Talpey
+ <tom@talpey.com>, kernel-tls-handshake@lists.linux.dev, Chuck Lever
+ <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, Steve Dickson
+ <steved@redhat.com>, Hannes Reinecke <hare@suse.de>, Alexander Aring
+ <aahringo@redhat.com>, David Howells <dhowells@redhat.com>, Matthieu Baerts
+ <matttbe@kernel.org>, John Ericson <mail@johnericson.me>, Cong Wang
+ <xiyou.wangcong@gmail.com>, "D . Wythe" <alibuda@linux.alibaba.com>, Jason
+ Baron <jbaron@akamai.com>, illiliti <illiliti@protonmail.com>, Sabrina
+ Dubroca <sd@queasysnail.net>, Marcelo Ricardo Leitner
+ <marcelo.leitner@gmail.com>, Daniel Stenberg <daniel@haxx.se>, Andy
+ Gospodarek <andrew.gospodarek@broadcom.com>, mef@scarletmail.rutgers.edu,
+ paul@jakma.org
+Subject: Re: [PATCH net-next v12 00/15] net: introduce QUIC infrastructure
+ and core subcomponents
+Message-ID: <20260602111823.0b1129d6@kernel.org>
+In-Reply-To: <CADvbK_fBbLCwY61HXsNeGCA8MhiBKcbvE0BvSZppohJgtXO+2g@mail.gmail.com>
+References: <cover.1780232930.git.lucien.xin@gmail.com>
+	<CADvbK_fBbLCwY61HXsNeGCA8MhiBKcbvE0BvSZppohJgtXO+2g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Today, exactly one x.509 certificate and private key pair can be
-used at a time for all NFS mounts. The location of that pair is
-set in /etc/tlshd/config.
+On Tue, 2 Jun 2026 09:12:30 -0400 Xin Long wrote:
+> Note: I've run Sashiko on this patchset many times locally over the past
+> month and addressed all the real issues it found. I don't see any new real
+> issues being reported on:
 
-We currently have an awkward experimental mechanism for specifying
-an alternative x.509 certificate and private key for an xprtsec=mtls
-NFS mount, but it needs to be completed so it can be documented and
-advertised for use.
+Coccinelle had a report tho:
 
-I asked Claude to write a rough draft of a design document that
-outlines what needs to be done to finish the work. I would like
-input on the kernel-side mechanism in particular for the
-per-network-namespace keyring and the way userspace reaches it.
+The NIPA CI coccicheck run flagged a new Coccinelle warning introduced by
+this patch:
 
+  net/quic/crypto.c:1164:13-20: WARNING opportunity for kmemdup
 
-Problem
-=======
+At line 1164 of the newly introduced net/quic/crypto.c, there is a
+kmalloc() call immediately followed by a memcpy() into the allocated
+buffer.  Coccinelle's memdup checker suggests replacing this two-step
+pattern with a single kmemdup() call, which is the preferred kernel idiom.
 
-NFS mutual-TLS mounts (xprtsec=mtls) need the client to present an
-x.509 certificate and prove possession of its private key. The
-handshake runs in userspace in tlshd; the kernel hands tlshd the
-credentials by keyring serial number over the handshake genetlink
-upcall.
+The fix is straightforward - replacing:
 
-The only front end today is two undocumented integer mount options:
+  p = kmalloc(len, gfp);
+  if (!p)
+      return -ENOMEM;
+  memcpy(p, src, len);
 
-    mount -o xprtsec=mtls,cert_serial=723847,privkey_serial=723848 \
-          server:/export /mnt
+with:
 
-The administrator must load the cert and key into the keyring out of
-band, discover the integer serials, and paste them onto the command
-line. Serials are opaque, non-reproducible across boots, and easy to
-transpose. There is also no isolation: nfs_tls_key_verify() does a
-global key_lookup() on the serial, and the .nfs keyring created in
-fs/nfs/inode.c is module-global and never referenced again -- any tlshd
-that learns a serial can read the key.
+  p = kmemdup(src, len, gfp);
+  if (!p)
+      return -ENOMEM;
 
-This RFC proposes a named, per-mount client-identity interface backed
-by a provisioning CLI, and fixes the keyring to isolate credentials per
-network namespace. The kernel handshake ABI (integer serials over
-genetlink) does not change.
-
-
-The cross-subsystem ask: a per-netns .nfs keyring
-=================================================
-
-Network namespace is the correct isolation domain. tlshd is bound to a
-network namespace, not a user namespace: it services sockets passed up
-from the kernel over the per-netns handshake genetlink socket, and one
-tlshd runs per network namespace that needs TLS-protected mounts.
-
-  - Replace the dead module-global .nfs keyring with one keyring per
-    network namespace, held in struct nfs_net (fs/nfs/netns.h) and
-    allocated at nfs_net_init(). The keys subsystem otherwise
-    namespaces on user_namespace, so this is a kernel-held object
-    referenced from nfs_net (like today's global keyring, but one per
-    netns). The DNS resolver's per-netns key scoping (net->key_domain,
-    request_key_net()) is precedent that netns-scoped key handling is
-    acceptable.
-
-  - tlshd attaches at handshake time, not at launch. This matters: the
-    keyring may be empty or freshly created when tlshd starts, so
-    linking it by name at startup is the wrong model. Instead NFS sets
-    ta_keyring to the netns .nfs keyring serial in
-    xs_tls_handshake_sync(), the kernel sends it as
-    HANDSHAKE_A_ACCEPT_KEYRING, and tlshd links that serial into its
-    session keyring per handshake -- the path tlshd already implements.
-    Linking grants tlshd possession of the keyring and, through it, of
-    the possessor-scoped cert and privkey keys.
-
-  - Credential keys are created possessor-readable only (no
-    KEY_USR_READ). That is what makes isolation enforceable rather
-    than advisory: a key provisioned in namespace A is absent from B's
-    keyring and unreadable by B's tlshd even if its serial leaks.
-
-Open question, and where I most want input: userspace -- the
-provisioning CLI and mount.nfs -- needs to name the kernel-held netns
-keyring in order to add and search keys. Candidates, modeled on
-KEYCTL_GET_PERSISTENT (security/keys/persistent.c):
-
-  (a) a new keyctl command that links the caller's netns .nfs keyring
-      into a destination keyring and returns its serial;
-  (b) an NFS-specific request_key key type the module instantiates to
-      point at the netns keyring;
-  (c) a per-netns serial exported via procfs or netlink.
-
-The per-netns keyring decision itself I consider settled; the retrieval
-primitive is the open one. There is also a user_namespace accounting
-nuance: keys added by userspace are quota-charged against a key_user
-keyed by user_namespace even though the keyring lives in nfs_net. I
-would like the keyrings folks to confirm the quota and ownership
-interaction is sane when the user_ns and net_ns boundaries do not
-coincide.
-
-
-Userspace front end
-===================
-
-With the keyring in place the front end is straightforward and follows
-the nvme-cli / cifscreds pattern.
-
-A new nfs-utils tool -- working name nfstlskey, fitting the nfsidmap /
-nfsconf family -- manages x.509 client identities:
-
-    nfstlskey add  <identity> --cert cert.pem --key key.pem
-    nfstlskey list
-    nfstlskey remove <identity>
-
-The add subcommand reads the PEM cert and key, converts each to DER,
-and creates two "user" keys on the netns .nfs keyring ("user" because
-tlshd consumes raw DER via keyctl_read_alloc()), with possessor-only
-read. Description convention:
-
-    nfs:x509:<identity>:cert
-    nfs:x509:<identity>:privkey
-
-The mount command names the identity:
-
-    mount -o xprtsec=mtls,tls_identity=<identity> server:/export /mnt
-
-mount.nfs runs in the caller's namespace, searches the .nfs keyring for
-the two descriptions, and passes the existing cert_serial= and
-privkey_serial= options to the kernel. tls_identity= is purely a
-userspace convenience that resolves a name to the serials the kernel
-already accepts; the raw serial options remain as a documented escape
-hatch. Both get documented in nfs(5), with a new nfstlskey(8) page.
-
-tlshd changes are minimal: confirm the per-handshake link of the passed
-keyring happens before the cert and privkey serials are read, and
-retire the now-unnecessary .nfs entry in the keyrings= startup path.
-
-
-Future work: mTLS-protected NFSROOT
-===================================
-
-NFSROOT mounts run in the kernel at boot, in the initial network
-namespace, before any userspace mount.nfs, nfstlskey, or possibly tlshd
-exists. mTLS for NFSROOT therefore cannot rely on userspace
-provisioning: the kernel must obtain the client cert and key itself --
-the leading candidate is extracting key material from a TPM -- and
-place it on the initial-netns .nfs keyring before the handshake, with a
-tlshd available early (initramfs). The kernel-owned per-netns keyring
-chosen here is a prerequisite: a userspace-created keyring could not be
-populated at NFSROOT time. Out of scope for the initial work, but the
-design must not foreclose it, and the same TPM-resident-key path would
-inform an eventual PKCS#11/TPM identity-naming scheme.
-
-
-Alternatives considered
-=======================
-
-  - request-key upcall keyed by server name (the nfsidmap model): most
-    NFS-native and needs no mount option, but makes selection automatic
-    rather than per-mount explicit. Worth revisiting if per-server
-    auto-selection is ever wanted.
-
-  - File paths in the mount options (strongSwan / wpa_supplicant model):
-    forces mount.nfs to read key files and load the keyring on every
-    mount and offers no reusable provisioned identity.
-
-  - Document the raw serials only: does nothing for namespacing.
-
-
-Comments welcome, particularly on the keyring retrieval primitive and
-whether network namespace is the binding you would expect.
-
---
-Chuck Lever
+Please update the patch to use kmemdup() at that location.

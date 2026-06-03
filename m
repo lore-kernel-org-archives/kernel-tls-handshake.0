@@ -1,256 +1,155 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583A337D125
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  3 Jun 2026 01:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780450779; cv=none; b=pp4ZcUWUiXtFr/zt5nKD/GrtrG2mmzsDpUotQblFKf1roQCcRP9ezLO4FtTm3dh5qdpCeFdIXAEa6SFRkzyVMpCCVBFLQAg2nGcruh6F8CRS3uT/IYeLK+bKpn1OXHo2r+abuPgiciKv7p7/cafpqDGhMwkUKNdFg72XZ/OgjL8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780450779; c=relaxed/simple;
-	bh=5HcWzLOokug6iikYbScKJhYWgjZK1l9OFwzzKIxzq8k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gnDlo3fceJ0Sk+qSd3QvjPGoLzgBXkmfLycEaeFGFyAzIkBfN/7GHK+X++nWqHk43jXp/sLc0FHdguLM1rkI++7jMgKjT3CEEf/hdciNHA1w1C/m+QZSZazvkiSpZNc7GZi1cKryYpafsDDFemUh2Bbnj8FTCelfZnNoJXsews4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uLPGvZLr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YYToeL5A; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=C6PkykUy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yospuRuU; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA85449EA8
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  3 Jun 2026 14:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780496080; cv=pass; b=ZBMWSvsB9HBy7FVlF/VOZMJF2GrolO21vW4HHavI96eIDbkK1HrS44Z1Ljj76TMBGREr4t/6V1lhQd6jdIl+FS4+DxcepidzyVOs4mS3g8qR028hQfTDffgUSiws0f0P2eW92f3YZ49UhfBpqFPiMg07DwGmQmjUur44yieVXhs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780496080; c=relaxed/simple;
+	bh=GVn5Lv9HKRp9C9WqvkbPPVBvO9kfeaXDD5rNKVVFxPo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Zy6PZZ7QI/5OryUrKtcCxnEax58flU+JhfugwxBBoeihbgCtJbr+SjChC7V3/a7/tUmU/KqEHQmsHZEk6jg4uRpj7fx0mTwez7JUpcrAiGIM65rMy0O1czdjfDPk2cfRHKF9dd5DIBUHZ032SiDcHg6iTekNFSxl6rTpXhDs+JU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l+CPMoLt; arc=pass smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uLPGvZLr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YYToeL5A";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="C6PkykUy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yospuRuU"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 57AF56A862;
-	Wed,  3 Jun 2026 01:39:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780450775; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KVVIyJhDZZrxxAK4B5W3PDZAF5znuJjtYYyBBhB9Ntw=;
-	b=uLPGvZLriQpbnxb4SFuDw6b8vI1zbyuKSGLYa5hQJ13R8A1HAgga/G24t9FwZMskoNmGIB
-	hxwxZd+1b9LJhALV+cb4zMhqS/p4lc1Y6xhp4adP2XXFz5zqC0bQQWaurUylq2pfpELBWH
-	DqbSzokvOXnFiCxbsL/d6iAYsbb0eZQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780450775;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KVVIyJhDZZrxxAK4B5W3PDZAF5znuJjtYYyBBhB9Ntw=;
-	b=YYToeL5APnZnHeGvmIz9syRvvVz++MPe4v8bNddgc+uKBlqa398UZpxnGc85LCmFh8PZNF
-	Bp7hxG3R76NWb6Cw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=C6PkykUy;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yospuRuU
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780450774; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KVVIyJhDZZrxxAK4B5W3PDZAF5znuJjtYYyBBhB9Ntw=;
-	b=C6PkykUyfPJPrTORLk1r6OKeOHStYonayI6J5xMEvrLNp4dEqaHMByryIVsmGFtMzrfxc3
-	YAMwlTlohLia2rwkgpePQb0yhgEiVGCoDaS+35nKZxQyFfyC+HeUcRD0auUPXzXXDvsPJ7
-	6MlcRvTKTxutj/DyTr2M8lo2GeZPjzE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780450774;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KVVIyJhDZZrxxAK4B5W3PDZAF5znuJjtYYyBBhB9Ntw=;
-	b=yospuRuUVdxxle8tq/Fe1qzyQX7EZFa+I+uJw2U8c2fANsVXBiT6sFuYXkFPmKWabyfncb
-	igs+wwsfEf9IWbBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E28DC779A7;
-	Wed,  3 Jun 2026 01:39:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QaWEK9OFH2r6ZAAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 03 Jun 2026 01:39:31 +0000
-Message-ID: <bb9a872a-d4aa-467a-b4c9-7bca174a6bbc@suse.de>
-Date: Wed, 3 Jun 2026 03:39:29 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l+CPMoLt"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-842848fd613so771812b3a.3
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 03 Jun 2026 07:14:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780496077; cv=none;
+        d=google.com; s=arc-20240605;
+        b=azChsrVtPoESafJgS3L/dorfxc7S6mD5ff0KllZuOUYZqTgAgt3ODsKI0xhN/cQH8V
+         P7tm5kL8SjbHocSfHwZBKSCV/YiPuIpNJsYt0fsYgP2igUpWlqiPQSSomQKzIgyGju3M
+         FCHnuHXW8TEm+NOGpWkeRq/7AxVQpMjAtcVohCseL/o7iBNBHAdpke0O/XLDL16r55F0
+         bZnitdi+SkThDCLYGjxjS+HY83gkwJYkscI2609RnWy/yG/UEz5tQMvb8yStCHg0YjNB
+         COSBKYUvIVVZkRwoD4a/j2gm3K6gbt0Rdpqtu0OvliOlzOb8DTIZ6ymRRjcKd5G+ZuMl
+         FVQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=g99l8PDbJRSNZV5R5cNDHmMYBg+Zr6LEVHFcaCRVgy4=;
+        fh=l3meqc/zbQ1YiCoA641kM6BTu+5k4SxLM/izblxKkY4=;
+        b=E494RKeeC+nuDvoiO92auidnEHtjCBp/nP2loZjz58HhFMZw1RVCRMZ+5PkwE3Mz35
+         h6euOdUHfEgSDaLjQZxVRHxhPJQQHN06g7HCoiRNVMRDe872WlzCiKMZBupxdhnoSRza
+         mrhxnVPCRFTiPgTFGY9RuKQQBRF3QspENwe23z8LefG3wmdwQlvPUXnQiUOJKH98kZqD
+         XNm2R0LE7Vt6XabTlI0pTDaA5zRHGPovl86EwC0xFtrI3gbKYLAS7IVCvI8tDVaJQ0/0
+         4BhHszvB4Wj50XDccIEtiso/s+1JLlnyjO+4G2bjWRgh7DkQNF7yHGY7cB1TkGZz/DgQ
+         LPHw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780496077; x=1781100877; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g99l8PDbJRSNZV5R5cNDHmMYBg+Zr6LEVHFcaCRVgy4=;
+        b=l+CPMoLtT6Jv3r9hXUn7h1MHbptF6J6+hfSbFjwwj5k1XDTsyFmwnAZicUMW3h/KZM
+         lB7B8eA88lhMd1s6TOk2uFbPtT56k+JlbCtUwmgm9Y1zldiRvrk3hdTqOduY20wVpNbw
+         6fK0dU/KevqI9dHlNG3RVR7GNE4/HP2f/nn+tqPiH0rEHK2ZwD0swW3KovLmdqNMqTGF
+         etwToRMEG+/tdVWVe1uY9Kj4ba+3gv4QE0aiuvvlq/od09AbLT54T9wPNC27PhvqrYg6
+         6++T+NXDoHTwczW2E4UBfRNJHDPc7a1knbkXUlMLTF1gCU6JO1VDiMnuBr9gFKfbzlEC
+         L9HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780496077; x=1781100877;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=g99l8PDbJRSNZV5R5cNDHmMYBg+Zr6LEVHFcaCRVgy4=;
+        b=r6jF2NnCb5oo02fvR4a+7nFNoe1LMPxgdbPs17OWMMXhv7Tc8k/4cVxvOXYK/68D38
+         I6e1YEmIxMDcp9mAkritf6xO+UXAtkXJ/svMeM9BEE9N9Yy5fohsv7Q4yuASWhoE1Hzk
+         cqPMwJSS1kOpoAMH9w4zR1sUu+lEC3+NMXM5PZlyEEg1o2+bhn7ni5GYSbTzpNf/nWOF
+         nAMawLnrC6sK5Ze9g82CFpceaJNYbupxZurGqj6MwCD6SDiDM8R/r/5xQaLIpDCe2ri5
+         lJ1/vtcwNw5MPqiHo6xg97PL5rqMOpq55yOk02JSZgTm81kJA3PZLSvTv8JsX5aZXp0q
+         Q/ng==
+X-Forwarded-Encrypted: i=1; AFNElJ9Ng7Bk2Cs2f4kUcWOUJ+rrBB5ST3AsRPF3IEtZj0SPLOHO8UULzaz15pGylGjYHcqcSwF9xiheOMrEnuWlqeSf/AqnCA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwRdXvNc1y4WLwcqL4FvG0AatwWaGWCKlyT2AU57ss1g6GqF0Gf
+	Q4pmDP3chZiRR5EXnztbHIz/AyVv92Nls2tPIc22i9uYY8IA2m+aR4GRz5y4LRJ6n0JgUgMX6Ue
+	VDNsyla5RFjGqvl+lkF5VTk+9X15psJY=
+X-Gm-Gg: Acq92OFdu1M+RK7IqMgqlvWIgtfLuRi2WiUz2MJ0phbs8A4elx1LR+rt/THl7ne0qNt
+	N7B5dv9ryaBPVmcZJLLb3J/VlKF+zZre1c7LC6J1Tjgp2IEFsO33OIDcykT2lBilt6KZKxPf1bw
+	pWCzvv56/qnqE4hPrwwl+QIAL0kCe0NmaSjucPr5bTZOVNetOCriaFZ48la0Z4igc9+4umxM9I2
+	u0mUGqsa0hGkZn0Pgg7VvyE1VYa/jXuBZyKhVP45wPxgrUPxFjiWAaG8JAd0j6YfAAB9v2+MU3f
+	r6rwSI0C370423FAR3LyVOkbkYw9BM56dWjTsEfzzI+uoVuHv7zINqAyJpEx7WoQAhi7tPXTSVU
+	ewMsE8eT3U+IMV5moCjEAP9ttzqWPh2KAZRXIBXzGMh0pd2Ss
+X-Received: by 2002:a05:6a00:1491:b0:835:366f:5da2 with SMTP id
+ d2e1a72fcca58-84284f3f96dmr3416839b3a.37.1780496077086; Wed, 03 Jun 2026
+ 07:14:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] NFS: named client identities for mTLS mounts and a
- per-namespace .nfs keyring
-To: Chuck Lever <cel@kernel.org>, linux-nfs@vger.kernel.org
-Cc: keyrings@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
- netdev@vger.kernel.org, Trond Myklebust <trondmy@kernel.org>,
- Anna Schumaker <anna@kernel.org>, Christoph Hellwig <hch@lst.de>,
- David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>
-References: <20260602154740.49861-1-cel@kernel.org>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260602154740.49861-1-cel@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 57AF56A862
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+References: <cover.1780232930.git.lucien.xin@gmail.com> <CADvbK_fBbLCwY61HXsNeGCA8MhiBKcbvE0BvSZppohJgtXO+2g@mail.gmail.com>
+ <20260602111823.0b1129d6@kernel.org>
+In-Reply-To: <20260602111823.0b1129d6@kernel.org>
+From: Xin Long <lucien.xin@gmail.com>
+Date: Wed, 3 Jun 2026 10:14:24 -0400
+X-Gm-Features: AVHnY4LQ8snWAMk7idEx52eDDVjzE-lgA4L_Uyr30iAlUILJ8Ee2UHGsNH5YNQ4
+Message-ID: <CADvbK_e7T=Yfb800TbO+BcpDEp=Sf6rbtiy2daLaskFAjeg=Ww@mail.gmail.com>
+Subject: Re: [PATCH net-next v12 00/15] net: introduce QUIC infrastructure and
+ core subcomponents
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev, davem@davemloft.net, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Stefan Metzmacher <metze@samba.org>, Moritz Buhl <mbuhl@openbsd.org>, Tyler Fanelli <tfanelli@redhat.com>, 
+	Pengtao He <hepengtao@xiaomi.com>, Thomas Dreibholz <dreibh@simula.no>, linux-cifs@vger.kernel.org, 
+	Steve French <smfrench@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>, Tom Talpey <tom@talpey.com>, 
+	kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>, 
+	Jeff Layton <jlayton@kernel.org>, Steve Dickson <steved@redhat.com>, Hannes Reinecke <hare@suse.de>, 
+	Alexander Aring <aahringo@redhat.com>, David Howells <dhowells@redhat.com>, 
+	Matthieu Baerts <matttbe@kernel.org>, John Ericson <mail@johnericson.me>, 
+	Cong Wang <xiyou.wangcong@gmail.com>, "D . Wythe" <alibuda@linux.alibaba.com>, 
+	Jason Baron <jbaron@akamai.com>, illiliti <illiliti@protonmail.com>, 
+	Sabrina Dubroca <sd@queasysnail.net>, Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, 
+	Daniel Stenberg <daniel@haxx.se>, Andy Gospodarek <andrew.gospodarek@broadcom.com>, 
+	mef@scarletmail.rutgers.edu, paul@jakma.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/2/26 17:47, Chuck Lever wrote:
-> Today, exactly one x.509 certificate and private key pair can be
-> used at a time for all NFS mounts. The location of that pair is
-> set in /etc/tlshd/config.
-> 
-> We currently have an awkward experimental mechanism for specifying
-> an alternative x.509 certificate and private key for an xprtsec=mtls
-> NFS mount, but it needs to be completed so it can be documented and
-> advertised for use.
-> 
-> I asked Claude to write a rough draft of a design document that
-> outlines what needs to be done to finish the work. I would like
-> input on the kernel-side mechanism in particular for the
-> per-network-namespace keyring and the way userspace reaches it.
-> 
-> 
-> Problem
-> =======
-> 
-> NFS mutual-TLS mounts (xprtsec=mtls) need the client to present an
-> x.509 certificate and prove possession of its private key. The
-> handshake runs in userspace in tlshd; the kernel hands tlshd the
-> credentials by keyring serial number over the handshake genetlink
-> upcall.
-> 
-> The only front end today is two undocumented integer mount options:
-> 
->      mount -o xprtsec=mtls,cert_serial=723847,privkey_serial=723848 \
->            server:/export /mnt
-> 
-> The administrator must load the cert and key into the keyring out of
-> band, discover the integer serials, and paste them onto the command
-> line. Serials are opaque, non-reproducible across boots, and easy to
-> transpose. There is also no isolation: nfs_tls_key_verify() does a
-> global key_lookup() on the serial, and the .nfs keyring created in
-> fs/nfs/inode.c is module-global and never referenced again -- any tlshd
-> that learns a serial can read the key.
-> 
-> This RFC proposes a named, per-mount client-identity interface backed
-> by a provisioning CLI, and fixes the keyring to isolate credentials per
-> network namespace. The kernel handshake ABI (integer serials over
-> genetlink) does not change.
-> 
-> 
-> The cross-subsystem ask: a per-netns .nfs keyring
-> =================================================
-> 
-> Network namespace is the correct isolation domain. tlshd is bound to a
-> network namespace, not a user namespace: it services sockets passed up
-> from the kernel over the per-netns handshake genetlink socket, and one
-> tlshd runs per network namespace that needs TLS-protected mounts.
-> 
->    - Replace the dead module-global .nfs keyring with one keyring per
->      network namespace, held in struct nfs_net (fs/nfs/netns.h) and
->      allocated at nfs_net_init(). The keys subsystem otherwise
->      namespaces on user_namespace, so this is a kernel-held object
->      referenced from nfs_net (like today's global keyring, but one per
->      netns). The DNS resolver's per-netns key scoping (net->key_domain,
->      request_key_net()) is precedent that netns-scoped key handling is
->      acceptable.
-> 
->    - tlshd attaches at handshake time, not at launch. This matters: the
->      keyring may be empty or freshly created when tlshd starts, so
->      linking it by name at startup is the wrong model. Instead NFS sets
->      ta_keyring to the netns .nfs keyring serial in
->      xs_tls_handshake_sync(), the kernel sends it as
->      HANDSHAKE_A_ACCEPT_KEYRING, and tlshd links that serial into its
->      session keyring per handshake -- the path tlshd already implements.
->      Linking grants tlshd possession of the keyring and, through it, of
->      the possessor-scoped cert and privkey keys.
-> 
->    - Credential keys are created possessor-readable only (no
->      KEY_USR_READ). That is what makes isolation enforceable rather
->      than advisory: a key provisioned in namespace A is absent from B's
->      keyring and unreadable by B's tlshd even if its serial leaks.
-> 
-> Open question, and where I most want input: userspace -- the
-> provisioning CLI and mount.nfs -- needs to name the kernel-held netns
-> keyring in order to add and search keys. Candidates, modeled on
-> KEYCTL_GET_PERSISTENT (security/keys/persistent.c):
-> 
->    (a) a new keyctl command that links the caller's netns .nfs keyring
->        into a destination keyring and returns its serial;
->    (b) an NFS-specific request_key key type the module instantiates to
->        point at the netns keyring;
->    (c) a per-netns serial exported via procfs or netlink.
-> 
-> The per-netns keyring decision itself I consider settled; the retrieval
-> primitive is the open one. There is also a user_namespace accounting
-> nuance: keys added by userspace are quota-charged against a key_user
-> keyed by user_namespace even though the keyring lives in nfs_net. I
-> would like the keyrings folks to confirm the quota and ownership
-> interaction is sane when the user_ns and net_ns boundaries do not
-> coincide.
+On Tue, Jun 2, 2026 at 2:18=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wro=
+te:
 >
+> On Tue, 2 Jun 2026 09:12:30 -0400 Xin Long wrote:
+> > Note: I've run Sashiko on this patchset many times locally over the pas=
+t
+> > month and addressed all the real issues it found. I don't see any new r=
+eal
+> > issues being reported on:
+>
+> Coccinelle had a report tho:
+>
+> The NIPA CI coccicheck run flagged a new Coccinelle warning introduced by
+> this patch:
+>
+>   net/quic/crypto.c:1164:13-20: WARNING opportunity for kmemdup
+>
+> At line 1164 of the newly introduced net/quic/crypto.c, there is a
+> kmalloc() call immediately followed by a memcpy() into the allocated
+> buffer.  Coccinelle's memdup checker suggests replacing this two-step
+> pattern with a single kmemdup() call, which is the preferred kernel idiom=
+.
+>
+> The fix is straightforward - replacing:
+>
+>   p =3D kmalloc(len, gfp);
+>   if (!p)
+>       return -ENOMEM;
+>   memcpy(p, src, len);
+>
+> with:
+>
+>   p =3D kmemdup(src, len, gfp);
+>   if (!p)
+>       return -ENOMEM;
+>
+> Please update the patch to use kmemdup() at that location.
 
-I am all for making keyrings namespace-aware. Logically I _think_ they
-should be tagged per user-namespace, as this really is about the 
-filesystem (and as such would warrant to be tagged per mount ns).
-Tagging it per net-namespace is not a great fit (well, for me, at 
-least), as also block devices might require keys to present the
-bdev (eg nvme authentication)
+Will address it in v13.
 
-I might be okay to have it tagged per net-namespace, though, as all
-current users are in some shape or form being network related.
-But I'm not sure if that stays that way, so I am worried if we're
-not restricting ourselves to much by that choice.
-As really, the question is: what is the driving the namespace selection?
-Is it the _requesting_ layer, ie the layer issuing the mount() call?
-Or is it the _providing_ layer, ie the layer providing the 
-devices/interfaces where the mount() call is operating on?
-If it's the former, then we need to tag is as
-net-namespace. If it's the latter, then we need to tag it as a
-user-namespace / mount-ns.
+BTW, is there a public link to the Coccinelle check results?
+I don't see them showing up on Patchwork.
 
-We should probably ask Christian ...
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Thanks.

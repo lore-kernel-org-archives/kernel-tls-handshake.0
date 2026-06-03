@@ -1,116 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78606481677;
-	Wed,  3 Jun 2026 14:27:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB074358367;
+	Wed,  3 Jun 2026 17:39:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780496865; cv=none; b=PNx9bsMldIiQ4B+lTDo4BoqOYgvj7AFj+OMcexO8rI/an1QqxggklnFD6vGdaQF+kPfZ0ld5vXMTuTBJYThuwghUscDv5AQILAthdPOHdHdlSJpCw4N1f0cYt8U90CMkP1NK/q/+e99kg/OXYRC6gTfd/HgAQ4JcWtFi6+POru0=
+	t=1780508367; cv=none; b=XOlve//2XT+LJMSX8ICTpSmVzh0W0QNa6y9qkoMhKqqRPEeNGOm2p9dqYXbqyiK9nx+ZxBVj8Hk/Had2TpdyjvzovQqeVFFQvtHcZgjUYdyqlBHyr8d2yoAILCyL5jz/FcCsA4LKCNgHJd8ek5trcz7V++sAnrHrnEkeXkuwPlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780496865; c=relaxed/simple;
-	bh=4yf/iDMHPPuwrHwZQBzjb/RozjRScuFF+dadggoTuos=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=c6AnfwBVdp/e4ilPhotuA3bPCb7YQzVZVBzsQJGBH04uaczOxmdzsnjgIxuP1J7DOJkW/fYivZ6q+8XDbxf1j3+4bbXzMJrp07JQyvPjuzQpLNaJMVO6Sa6OEaWlDMiRp4yPmeDzpU/X3qIoPNGvngysxuXoGmS4rHGpz/DrQk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BNv5tWRT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780508367; c=relaxed/simple;
+	bh=AlotTfEWBpnwR/nJztsU/+NMEc2X1AkYjzc64RpIc7E=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=X1ZEFHXgsIx+IyY0vMLRYFFXmrOxX1VYuMWVjcAiBOVMrbsp3mPtfbJMsIxfBrASWZqyTAi8PMP5z3rVEFFIYKDhEnWdtQIWGj2SNDDBd02QJh0f88h4scVrgyZed9XlAeSunt3BXWjyz1AMGEeQEoADyfGsJkyxNyVgwpkQqjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lpYdJ9t7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BNv5tWRT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C904A1F00898;
-	Wed,  3 Jun 2026 14:27:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lpYdJ9t7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE7FA1F00893;
+	Wed,  3 Jun 2026 17:39:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780496864;
-	bh=X9k0ZKde1df7umdEWko/fUWiCcJY9ed+xctbWrHAaFo=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=BNv5tWRT6G16v9/nyr69m2WlCOtC97YeqGC7vjsByMD4NbtH9D9/sdYlehkqqVR+j
-	 jSct4vYBm4DcaI1aC4JRsL+XIzVWQSJYNiRbFTiOESfm0gLLIDR3w8GDaScGN6sHs/
-	 uVVGAhmvn/DewO8xv0XrbFjIlsnJbToA1hM2t7nU3qk719GmAosjv+ttdg4KYm7R0a
-	 BbzzF1G9o7guCaGcuJkr2cONgB2TeFEO1ZiRhLyOsncjibruBaIqPwcAMJriC+SV6U
-	 DNSgWqU2gR7OL0ZSctd60Mv54ks5cWeuxC3tMeWKwTf0J1VoFxFsPxMScNgBxWIZ9n
-	 mCVbWZ9g+853g==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id BEF40F40078;
-	Wed,  3 Jun 2026 10:27:42 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Wed, 03 Jun 2026 10:27:42 -0400
-X-ME-Sender: <xms:3jkgakDK-qZ4h80Vxz-7eU5-iE6gdV01JmBpUK89M7for8FBqj-5cg>
-    <xme:3jkgahVxDDnEr0DNBvlkNPRXx8k6Kq5W1s4gF99tE1w5snucZBoYGDxs6e5-w2bYo
-    UfCkkz0sVMO32Q6g4LJdeDxPZ6V9eYreJbEPofD1T3oLkyNKvd_o952>
-X-ME-Proxy-Cause: dmFkZTE2lsB7YPrQcTSGDnyrTSvE10E4Y/lR8bdFvpgWTUm3xnZeZ3OUISWZUFpfRcVIZS
-    Ws5zdg/jHRTAE12CA3Bmg3xS1S+Rr1s7xgavj041oC51E+Ve5kkPuSIGSO/aExVeTHoy96
-    Sg/prauf2YLewYXHUpkt8uoTFbfwl6dn4UvP/tO3U7kX5fkYez07Lpz78glnR4sI9WNLKO
-    ARvyuldb+lg7yP2qYVeCeCvy22hTeFVqp/UW9CRthN6I0Cq4/N+4OA3tAMI0eQC/UbWKij
-    EOQ3zqaevaiYOqheJfqlu5Cpw1bChBPlxWGPXVF3KdWN4THuzaz4YdiC5joOgXcLthB3Rh
-    iZcC+Tc7a46UocMF/TENtt3tWhZj8LYqFRYeojIFHEo1ZpACjftNHJDsHRS7jpazJ1DLo9
-    rIGEVmvYdyS/vQyh/3Mvbd4fpncdf9dZ+4sppca8mCIj8v5rCRyqKNOHPb0J7aJrACnVzW
-    LncpFJpLpkHod5bloWS9J1/JwL0Op+nnJ2yz+Twtu0yVKrs9CkTzmR2n/C6Y63PO0WsNpu
-    S6l5FIG/f2jEz2zKHSmDPiN5d99+oX0sBCasYr9hCFPZJXE/p8GWBe7DVC5Py0ibWbKITg
-    NwLWB8F/UcIijeLN2E5EJzXyDydBPXnKGdjbBQ8UruzoRhvCfbrNh0LlDeBg
-X-ME-Proxy: <xmx:3jkgaknjotcVbrh0-YNqI39lZqkeqZAHZkCe90paaujyZrTuVBQMuQ>
-    <xmx:3jkgalaZiDAV3Y7buUh8Oa1IhHnJJhG-J2UZ_46anwF9j4b4GP9WnQ>
-    <xmx:3jkgah4kv5mldtIbdJdG4zI427u43W8pnp0jFGJgetl4gSXGVJBYvQ>
-    <xmx:3jkganAmfKt6EClsm6nsV97ghSnQNeiJ7u_I6ZLmBaEX9E_xKR0UEQ>
-    <xmx:3jkgan8LPufZ-dQ3vB1F_dnhpjIM1cJmWywu9PJgG_9pku7ggXmPeIg->
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 9BE0E780070; Wed,  3 Jun 2026 10:27:42 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20260515; t=1780508366;
+	bh=lfVv+INkqeHy9m8x8ugZxyD8ug0jrqBPnkR5DLA25HY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=lpYdJ9t7d590bXJYPnnsTJPhVKDDbn5RvlUvLRXYnMrSpMUGpvd+GwW4Pe3a6RLpx
+	 3nr0ybw7Qrk+BKMtQ+VkEPayeAtb9oNgrqFbTUF/cfdJiyJrIes+hUlvb/K5i8BfgB
+	 hVchvoCO71SZzurWizGQQBqTGz7V26cxiiAoFQJHfcNManzOcMo8KqR7vCXtggEVG7
+	 LB903FQIO0dkyIuzVCJLc2V3q/LUOCd2jGWHQP2aQNucqjyECLpYfb3Om2rGdkNXbc
+	 El0To/pVTkHNAjtzOInK29sdj7vhByr89KAwc9DsIAzpTQuWDBFJjhmHvwHnBtYsic
+	 0vlkmAeHBcOzw==
+Date: Wed, 3 Jun 2026 10:39:24 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Xin Long <lucien.xin@gmail.com>
+Cc: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev,
+ davem@davemloft.net, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Stefan Metzmacher
+ <metze@samba.org>, Moritz Buhl <mbuhl@openbsd.org>, Tyler Fanelli
+ <tfanelli@redhat.com>, Pengtao He <hepengtao@xiaomi.com>, Thomas Dreibholz
+ <dreibh@simula.no>, linux-cifs@vger.kernel.org, Steve French
+ <smfrench@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>, Tom Talpey
+ <tom@talpey.com>, kernel-tls-handshake@lists.linux.dev, Chuck Lever
+ <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, Steve Dickson
+ <steved@redhat.com>, Hannes Reinecke <hare@suse.de>, Alexander Aring
+ <aahringo@redhat.com>, David Howells <dhowells@redhat.com>, Matthieu Baerts
+ <matttbe@kernel.org>, John Ericson <mail@johnericson.me>, Cong Wang
+ <xiyou.wangcong@gmail.com>, "D . Wythe" <alibuda@linux.alibaba.com>, Jason
+ Baron <jbaron@akamai.com>, illiliti <illiliti@protonmail.com>, Sabrina
+ Dubroca <sd@queasysnail.net>, Marcelo Ricardo Leitner
+ <marcelo.leitner@gmail.com>, Daniel Stenberg <daniel@haxx.se>, Andy
+ Gospodarek <andrew.gospodarek@broadcom.com>, mef@scarletmail.rutgers.edu,
+ paul@jakma.org
+Subject: Re: [PATCH net-next v12 00/15] net: introduce QUIC infrastructure
+ and core subcomponents
+Message-ID: <20260603103924.643f1ea4@kernel.org>
+In-Reply-To: <CADvbK_e7T=Yfb800TbO+BcpDEp=Sf6rbtiy2daLaskFAjeg=Ww@mail.gmail.com>
+References: <cover.1780232930.git.lucien.xin@gmail.com>
+	<CADvbK_fBbLCwY61HXsNeGCA8MhiBKcbvE0BvSZppohJgtXO+2g@mail.gmail.com>
+	<20260602111823.0b1129d6@kernel.org>
+	<CADvbK_e7T=Yfb800TbO+BcpDEp=Sf6rbtiy2daLaskFAjeg=Ww@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AAPZyXKTxCYB
-Date: Wed, 03 Jun 2026 07:27:22 -0700
-From: "Chuck Lever" <cel@kernel.org>
-To: "Hannes Reinecke" <hare@suse.de>, linux-nfs@vger.kernel.org
-Cc: keyrings@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
- netdev@vger.kernel.org, "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>, "Christoph Hellwig" <hch@lst.de>,
- "David Howells" <dhowells@redhat.com>, "Jarkko Sakkinen" <jarkko@kernel.org>,
- "Sagi Grimberg" <sagi@grimberg.me>
-Message-Id: <b38b0983-7a63-4e77-a549-2d8859752cb9@app.fastmail.com>
-In-Reply-To: <bb9a872a-d4aa-467a-b4c9-7bca174a6bbc@suse.de>
-References: <20260602154740.49861-1-cel@kernel.org>
- <bb9a872a-d4aa-467a-b4c9-7bca174a6bbc@suse.de>
-Subject: Re: [RFC] NFS: named client identities for mTLS mounts and a per-namespace
- .nfs keyring
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Wed, 3 Jun 2026 10:14:24 -0400 Xin Long wrote:
+> Will address it in v13.
+> 
+> BTW, is there a public link to the Coccinelle check results?
+> I don't see them showing up on Patchwork.
 
-On Tue, Jun 2, 2026, at 6:39 PM, Hannes Reinecke wrote:
-> I am all for making keyrings namespace-aware. Logically I _think_ they
-> should be tagged per user-namespace, as this really is about the 
-> filesystem (and as such would warrant to be tagged per mount ns).
-> Tagging it per net-namespace is not a great fit (well, for me, at 
-> least), as also block devices might require keys to present the
-> bdev (eg nvme authentication)
-
-My understanding of the proposal is that there is one keyring on the
-system for .nfs and the keys in it are visible only in the namespace
-where they were created.
-
-Therefore the consumer (say, NFS, or NFSD) is running in a particular
-network namespace. It will create keys on the one .nfs keyring, but
-only the tlshd in that same network namespace will have access to
-those keys.
-
-
-> I might be okay to have it tagged per net-namespace, though, as all
-> current users are in some shape or form being network related.
-> But I'm not sure if that stays that way, so I am worried if we're
-> not restricting ourselves to much by that choice.
-> As really, the question is: what is the driving the namespace selection?
-> Is it the _requesting_ layer, ie the layer issuing the mount() call?
-> Or is it the _providing_ layer, ie the layer providing the 
-> devices/interfaces where the mount() call is operating on?
-> If it's the former, then we need to tag is as
-> net-namespace. If it's the latter, then we need to tag it as a
-> user-namespace / mount-ns.
-
-tlshd is a network layer service, so it doesn't make sense to bind
-it to a user or mount namespace, IMHO.
-
-
--- 
-Chuck Lever
+They are part of the CI that runs ksft because they are very slow.
+So they should show up if you click on the "contest" check in patchwork.
+(caveat - I haven't actually check if that still works :))

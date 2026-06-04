@@ -1,128 +1,122 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B3438BF9C
-	for <kernel-tls-handshake@lists.linux.dev>; Wed,  3 Jun 2026 18:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780510514; cv=pass; b=skyukbXuigSeXvB69SQlGM9eL6UkRSZrncBVETjp5jQhYxKmi7dmsMk2br8Cpfc6ikljpHE68aB2DvNx0Nmqu7UEtrSnyfcS7+rHUc9MruTW80gKmdhR55WW+59wSxT2a82kjAyw7iErtsCwqGimfXMqRaG/60mbeuBBSJdXddY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780510514; c=relaxed/simple;
-	bh=bc8yf+vDwLYZktVpT0wu1uj2q7kMRTlyg5TCqNOarGo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ug8fC6kaU/UXugBx9fhkqeipFrC0Clq7KTcGdAybxYCfoUBGB0ZuKAIz3etOuRZw2WU1SbZ10saOd9z3uHzw5GjMe9f3w6o8BRTVg7CXl/9E+71INpfXtkmjfmLONMIAwiDqZSpjyG5hRbmc9rvc48HYSJPfNufpVomhdjt6zzA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kkc2Dbos; arc=pass smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B764BCAB5;
+	Thu,  4 Jun 2026 17:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780595322; cv=none; b=bmI2xvTFxCUIO8o8ZnTd3Pz6O2OBJOPDVTkqtjGA1PCr6BRXAfRebkYyVbT1+8NIeUUEzibzdOcvToJyL9yu7ZtCYBUXzCe7DAK53om0ZN66ftbKDxj0iIQbIlxq0SjBWQFm8Et1KJO9dANeRHQmkVNGp/cWl+oatCV9bcwy6Ls=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780595322; c=relaxed/simple;
+	bh=qMYGD3EBxIqebJ0hK+ekeTxweXzm1I7/C13o3mt3qco=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=WAQCHvioSA0e4gqH5oqjU0WmJadEmqycsIWN5ZJ6IiXBCSqFmZI85Jv21UvszZTNpneBVfKW5XzwPTzNH0PANjoLgJViayUtS1dPafuwa7j50ntW6RJTCeNz+2R22dMuDruQNLj5tiT1lwYy4ayDshq+Wi5gTxaepgmueVuN/fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KLfqgcf5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kkc2Dbos"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-36babe2c4bdso3813158a91.1
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 03 Jun 2026 11:15:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780510512; cv=none;
-        d=google.com; s=arc-20240605;
-        b=FHZ7h9bKLBEeMRE2o/jRmTGCaVhJLQLsdg6SwaBv5HgIT8zegrulK227sVxZvtLNYS
-         YcYSw9yu9ezO5+oaGu3iMCjhYz4g8Xw44QFO/ELDRARXhe4/mf+3dlmKF/VMBNhRvVap
-         DGQV2NdRILY8txFib2vmZvdPTdvJopRI6dpx8jXk7b0wwHaCdgf12Hmk99yegMITbWPb
-         VC40Un6jHNxePkSNWsqjOF1jmwTLxUvMjxOyG5p2G+5nbeEA5pD1UZpJDAS3igP0zwdU
-         gilzwJLnocipebgx+EQiQaxA62lds5goyOrPJG5pyq+72XCIkqgZn22lKTYenx8UGnJN
-         AiAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=bc8yf+vDwLYZktVpT0wu1uj2q7kMRTlyg5TCqNOarGo=;
-        fh=ATbQurLGT5yqiCPWkBstzATulluY9QX3CDOZG9cMeXc=;
-        b=SzuRpibEldOHEQ8jgLTZxzrnLdMHjIMDSgHoy+MZeMfOmJKlBnJgezqaSFAFlZuOdT
-         8SFh9bsZ0xhF0yBsPvlfvrtijk6rksBvinT8D45XKX2AktQK4nwkKmMq7mLSPfmuEdcU
-         4Iogkn7EI4ZlL/LHlyoOkoSjZRP5loPe8FtFtuFos2pwzl5iNgp6R72+XmrQOzs4hZ6R
-         81UB2bibOnCDBXmKSTf73tnuLJjvkolxkFyL3yPN64JUPwx61NQkRGVaJ41oGGZAnhJw
-         owZaTRt02MloTRi+59iy1nc+gqGN08puewFHIKtVy6PCzu7YRW3uj/E2Rh4qimaW9IA/
-         kKBA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780510512; x=1781115312; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bc8yf+vDwLYZktVpT0wu1uj2q7kMRTlyg5TCqNOarGo=;
-        b=kkc2DbosJFKQzwxDADLpLyGoNr+NEc8ZCnZ9MRj1ART9t3T5ttEV6/tZnNYSB7h8Yu
-         opGWzH3JqjM96M8yXNdSNwHvYF4ujApycwHXu+SWKZ3wCLw9kFBPx30jOXYhmuOALx+0
-         qeVs1cfVlF8qZPZtrlX3fMxZjGbxC7v4liQqn0SuIt2I0hx+sQT3yOLH5WQ2SuvynElm
-         8YM8QNK3ZR+jd3xfu1Wo2wIPH6Fha0pO6ClFzOEmciFTGsFYyEvJZLV9QHbs+x5Fwd9y
-         MyJevuczAP1I5x5bKVttwuyGLdFF/dw1cN8ILZqPPzspS2wXftQmxkFHObUnmxrB5VC/
-         c/qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780510512; x=1781115312;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bc8yf+vDwLYZktVpT0wu1uj2q7kMRTlyg5TCqNOarGo=;
-        b=RXRzyEMifkj2N/MZCYKQ0y3EEp+qLCUxhBg/1p5J5MB6ebNL9WayyGyyt2ivG+rSUX
-         8aWDLjWMhWBl8MkG8eZfpWh8wkeWqKorzygSjTMTaB58rdtrquVzmQ3/MKdRmdu8p4uc
-         2Uw20MaE53oAyqsKeQnSvhTkrBqLIH1oICzJ0o2kTZRb/H/IYj4bsPW4S3SBjbZtjwbe
-         drlA/fPEP214+iGfcg7PJTvTyZ4InWbbz5sGl00nMtHwCOR1BgzJF8cNXNok7WROlWv1
-         Z/earu14xe0e/EhyJqVbKXvKOcAubSho8TBPzel2C3VwLRrsLh+L0E/DnXppDc7kPMGE
-         U91Q==
-X-Forwarded-Encrypted: i=1; AFNElJ+ptyF65K5n+teI8EYNXCpaXTGDkcnS78ERdh7R1QKXGbgSHXzhq42kBQ3g//3tyVwGCx4BvNMAhp8YgLP21KEWRavwLw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx8nc69Q+iKP1sc2sW3oInqSLpHmJSjt7INuCw9P7r+QeKV2KbN
-	akFQ9fBlEIsbUSx8riftIhKsYYnhWHr180zvRxhg0lceOgBoiqCcr0H2jLmXH4j0WqzIHUFtvnG
-	57ZdAqh3vnyQFOfAIfIdzrjDlPiWzOmc=
-X-Gm-Gg: Acq92OENG7a8tYKw8L5UoeJ38tT97jDk49QpdUDqdnibLclMxFJXCklyGGtWdHSkgDy
-	aScdMV1VWKQ+Z5yWTGNPTrnreNrdgovw8ua5ld7DrqeT2XnIYwIH2+zTbW3d8TYa0vSpbn5xgG9
-	ejLjSN1HXQMQxCUsLoIdCTnZ/nT6mZ/jGFGaH37XuBk+9375C0mz0PTspnVZBFNuiFnpqwEjakB
-	MRRF3gV7Je2GpXFO0h1IQMSDHPWT8MLeEptXlUtQqJhIsbO0ppCzFdUzphBNfEVfFuG4awu4cIB
-	N1hW8bs1Z46jSuYdLBQAQhOunLd/tH5YmncSfeRLve4FpMSkstGSZ4hr7VzEWAmh+l9qvXkUY0s
-	WNTNDlzIMZfoT7RG1+Q==
-X-Received: by 2002:a17:90b:3f90:b0:36b:71e6:3de3 with SMTP id
- 98e67ed59e1d1-36e308379b2mr4410234a91.3.1780510512536; Wed, 03 Jun 2026
- 11:15:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KLfqgcf5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 996001F00898;
+	Thu,  4 Jun 2026 17:48:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780595321;
+	bh=t5QuJAJ+c1HX7XZVKmvLYUN9W0/ZGp49fsN/dgTevis=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=KLfqgcf59usIsleHEZDffqDhRZD4sqpTWpNWtKgBbkP+tdiZtvNxPjkKNbcGv9wwo
+	 1RYEemLOg19HnFO0fvUfKE+ruLymual1YNKtcIScA0Jlt0r7SFySlHVR8zzAFW2/pJ
+	 MjJp50RKuDg3tAFvjvr/qwh5dLSEwOJqdFmGaAVNMwo2tXNu/XkKzapsNR/uf61+V3
+	 hY91J3UUOh5PQll+ZO9qGLzIKYtfB44+K8yJ4W7oJyRtekkGtvJhPF2+BZ3m0Uy195
+	 4GWHtZ8uzD+ummxcouMDNYiNSWAZcwPFEEOH1TLKwXKamGwMurIGlN3NAOxvUIN9aE
+	 x0yeiFdFW+rGQ==
+From: Chuck Lever <cel@kernel.org>
+Date: Thu, 04 Jun 2026 13:48:24 -0400
+Subject: [PATCH net-next v12 1/6] tls: Avoid evaluating freed skb in
+ tls_sw_read_sock() loop
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1780232930.git.lucien.xin@gmail.com> <CADvbK_fBbLCwY61HXsNeGCA8MhiBKcbvE0BvSZppohJgtXO+2g@mail.gmail.com>
- <20260602111823.0b1129d6@kernel.org> <CADvbK_e7T=Yfb800TbO+BcpDEp=Sf6rbtiy2daLaskFAjeg=Ww@mail.gmail.com>
- <20260603103924.643f1ea4@kernel.org>
-In-Reply-To: <20260603103924.643f1ea4@kernel.org>
-From: Xin Long <lucien.xin@gmail.com>
-Date: Wed, 3 Jun 2026 14:15:01 -0400
-X-Gm-Features: AVHnY4Iv1uP_QmOrLNz1hlCQg2FIUIb0L_vtpgS-GxknImKiY2MQj6lnEeZbzQ4
-Message-ID: <CADvbK_eSh_b7kVRkkgXoRwygCVoxuwB=Dg3qxEbYdW5cscSfHg@mail.gmail.com>
-Subject: Re: [PATCH net-next v12 00/15] net: introduce QUIC infrastructure and
- core subcomponents
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev, davem@davemloft.net, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Stefan Metzmacher <metze@samba.org>, Moritz Buhl <mbuhl@openbsd.org>, Tyler Fanelli <tfanelli@redhat.com>, 
-	Pengtao He <hepengtao@xiaomi.com>, Thomas Dreibholz <dreibh@simula.no>, linux-cifs@vger.kernel.org, 
-	Steve French <smfrench@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>, Tom Talpey <tom@talpey.com>, 
-	kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>, 
-	Jeff Layton <jlayton@kernel.org>, Steve Dickson <steved@redhat.com>, Hannes Reinecke <hare@suse.de>, 
-	Alexander Aring <aahringo@redhat.com>, David Howells <dhowells@redhat.com>, 
-	Matthieu Baerts <matttbe@kernel.org>, John Ericson <mail@johnericson.me>, 
-	Cong Wang <xiyou.wangcong@gmail.com>, "D . Wythe" <alibuda@linux.alibaba.com>, 
-	Jason Baron <jbaron@akamai.com>, illiliti <illiliti@protonmail.com>, 
-	Sabrina Dubroca <sd@queasysnail.net>, Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, 
-	Daniel Stenberg <daniel@haxx.se>, Andy Gospodarek <andrew.gospodarek@broadcom.com>, 
-	mef@scarletmail.rutgers.edu, paul@jakma.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260604-tls-read-sock-v12-1-b114efa6e3e2@oracle.com>
+References: <20260604-tls-read-sock-v12-0-b114efa6e3e2@oracle.com>
+In-Reply-To: <20260604-tls-read-sock-v12-0-b114efa6e3e2@oracle.com>
+To: John Fastabend <john.fastabend@gmail.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Sabrina Dubroca <sd@queasysnail.net>
+Cc: Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, 
+ kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>, 
+ Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@kernel.org>
+X-Mailer: b4 0.16-dev-da966
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1715;
+ i=chuck.lever@oracle.com; h=from:subject:message-id;
+ bh=9B0CXUbhTqWYS+ZD3rmXmWPrCidVCn7xrxqwLuGowGI=;
+ b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBqIbp32i7c5sAXQvbZsQjCuxf1s4vWYxFD9bFa1
+ jTxCwHnvEyJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCaiG6dwAKCRAzarMzb2Z/
+ l2rSEACaCVsMfcL5fcZmVSHfJQPkiSBYkn2OjCa7cBropABN60LriCZUlYaQqTmkpCL5IiYz3NT
+ RHRK5a7Ff2aussCJBYnyP0srL4wi62lRAECVJVUXc7rUAOZ49IvAE2yMTq+C6pXPca+5kM2pfjU
+ W3JgUw1lulCqPhJYKDFQVpmYzOPrIN2zYjW809sPyHgSO+AmgTZuk7eLwkblCIua6K5svN01Sap
+ hS52/xxK/5SwPhzETjmVc/Qb4MuNNgMTBxtYanQmGYtk7pt1woiA5VS4q4uv/WkgZeaY3R8l4Ik
+ Jqhsrb/jdg/OaFL1kVulN4GAuV0T5WxJk9WYZaT25cFPdlmxS78fzf1+7pQqlatWoroh9PyNlzx
+ e6aGM7APU/IivGRWSkLaEKW3ZnEwWcBicQNvZqnbFZ58O4E7MrIIyMgbQA6LjSEHUKCiMbNfHQm
+ R3dtmQoeHZ0VgcZpmL8ts+WCnBmRHxidHuMxNcqFyVQjH6sVoZ3v7aneQj/ETN664gM7Zx7WwVZ
+ NtWe4k0FtK9WA0fnH3VuIyuz2oBPlJ0cFtw641HqCDsRYsE8bqyXgn2J1IEbTrQG6Wrn9f2+pxb
+ +rpudKn6FolVtwzxSfx+aBk62gYpgIbHtljiXjztuMxyczPZY+WkgGRASDxXwJq41toUoZbj15a
+ E4l+ccykZcF2pwg==
+X-Developer-Key: i=chuck.lever@oracle.com; a=openpgp;
+ fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 
-On Wed, Jun 3, 2026 at 1:39=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wro=
-te:
->
-> On Wed, 3 Jun 2026 10:14:24 -0400 Xin Long wrote:
-> > Will address it in v13.
-> >
-> > BTW, is there a public link to the Coccinelle check results?
-> > I don't see them showing up on Patchwork.
->
-> They are part of the CI that runs ksft because they are very slow.
-> So they should show up if you click on the "contest" check in patchwork.
-> (caveat - I haven't actually check if that still works :))
+From: Chuck Lever <chuck.lever@oracle.com>
 
-I can see it from "contest" now, and it's a long list.
+tls_sw_read_sock() ends its receive loop with while (skb), but
+the else branch in the body calls consume_skb(skb) before the
+predicate is re-evaluated. A pointer becomes indeterminate when
+the object it points to reaches end-of-lifetime (C2011 6.2.4p2),
+and using an indeterminate value is undefined behavior (Annex
+J.2). The pointer is not dereferenced today -- the predicate
+either exits the loop or skb is overwritten at the top of the
+next iteration -- but any future change that adds a dereference
+between consume_skb() and the predicate would silently introduce
+a use-after-free.
 
-Thanks!
+Replace the do/while form with an explicit for(;;) loop so
+termination happens through a break statement rather than
+predicate evaluation of a freed pointer.
+
+Cc: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
+Reviewed-by: Sabrina Dubroca <sd@queasysnail.net>
+---
+ net/tls/tls_sw.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+index 964ebc268ee4..8e4e57721335 100644
+--- a/net/tls/tls_sw.c
++++ b/net/tls/tls_sw.c
+@@ -2383,7 +2383,7 @@ int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
+ 		goto read_sock_end;
+ 
+ 	decrypted = 0;
+-	do {
++	for (;;) {
+ 		if (!skb_queue_empty(&ctx->rx_list)) {
+ 			skb = __skb_dequeue(&ctx->rx_list);
+ 			rxm = strp_msg(skb);
+@@ -2435,9 +2435,9 @@ int tls_sw_read_sock(struct sock *sk, read_descriptor_t *desc,
+ 		} else {
+ 			consume_skb(skb);
+ 			if (!desc->count)
+-				skb = NULL;
++				break;
+ 		}
+-	} while (skb);
++	}
+ 
+ read_sock_end:
+ 	tls_rx_reader_release(sk, ctx);
+
+-- 
+2.54.0
+

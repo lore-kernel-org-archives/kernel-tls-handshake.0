@@ -1,65 +1,64 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9211630B517
-	for <kernel-tls-handshake@lists.linux.dev>; Sun,  7 Jun 2026 18:04:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADDE2D7DF8
+	for <kernel-tls-handshake@lists.linux.dev>; Sun,  7 Jun 2026 18:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780855443; cv=none; b=ar9QKzcgXmg9AhkBUa0FTArQqKRnSaOGGaxMwCyIu0mrMsdqKXJ0voip/p+YcisNzDfW4e06VNf51DKuZMA9hUklw7bquVddvnWc9IOIcysjfN0BcidCg7HcTycH2a4nhBApIOCym9IWzD/PQMiBrVXQDVBJkPlWzZzTYB1396A=
+	t=1780855445; cv=none; b=Me03OGGWhKegG1iqqdx/baLo8T4hQx33o9Mr/wsNSFMuXsujytxsgUa5j2c//E1tgm6+MSG1aiqHleD0fBkmgB0JLo/lgAIfBmYVbrOUD/OQLMWsibXcBRtD2n4/qmr+SNsRPdfs5t2EBRMUJwq3+3FB4JN2oB/nwutZrMhS6Fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780855443; c=relaxed/simple;
-	bh=d7cwmLuU8DPcUc1FCZ2DhdRQstWaclxKqzo4j1syt74=;
+	s=arc-20240116; t=1780855445; c=relaxed/simple;
+	bh=JF/pgNZCkXu4wXlAWdQjqxXGAx6CPb5fjygxwGf5yg0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hHDr57Xxa40h92Bwkfpo8w06ZTt5wmiF9i2AxyBP9Afa/zgzccJMszGPWhDZ6NNw6mK35IExR/hj+EZZZ+P1jRlbZ6vfAURo9kMeeEjySG+xlPFKi+FIISoCyJITrH8SORy3NKLWf+kvfiQzLJa4kbumbTI6OFNk4Ex7ZtWksQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LYcU3jyg; arc=none smtp.client-ip=209.85.222.180
+	 MIME-Version; b=MCxQtMtFYihxR/GQn3rpB5fceGMaoFPX1Eu60wpBsgOIvVhrbZQZbAQAydayGKB0E7Ux2cRb3Orxp5F/ESlV18ektlAfBJO+giyd4ATeExQm8NOnEbKPG27usYdO3h6JJbpFEC6ypaIZqvmLQTYTfVLp634x+k2DK8v7M2ZnJNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UDqeUi5D; arc=none smtp.client-ip=209.85.222.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LYcU3jyg"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-91562bf6c12so461285385a.2
-        for <kernel-tls-handshake@lists.linux.dev>; Sun, 07 Jun 2026 11:04:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UDqeUi5D"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-9159da9bba5so253263785a.1
+        for <kernel-tls-handshake@lists.linux.dev>; Sun, 07 Jun 2026 11:04:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780855441; x=1781460241; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1780855442; x=1781460242; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HnHJ1SdTyxPyyUDg7Xpf2wB8swfy4FQOMOiIFtxDsP0=;
-        b=LYcU3jygvxxvnEVWPtxu0TMv0QmZqC9PLnvXMtsmQqSl4feX7I3FAeBb/8RPmPCHZ3
-         onPJY1DCTq+msY22xUic5MJ8nRiJzUWjsEV87U8z47izRXmRmyw9PmWQHWI8r9MOX2uI
-         EFMY9oJXI3rgMANG6+T2n3qo63y5CzAR+E5h7hF33IMRwajPpPgD9qsmFrz/gRNjQw+p
-         2Psv1oMDLfNsotbCK46WC6G3bIV4XTJK+YsiuULJIlgfRD6RMIUqMRxH18oEuoEbzsPY
-         gtOMAEftoXb9Fr4k6l1MY7aN9yk4NM6bBbMPdwCJuWCro6oq6FJj44Z6iM1C4pzrii9R
-         OUZQ==
+        bh=UD8h+hRorSLm84XfqZyhJ5Cq6OE+HPlA39Bu3CUHqSM=;
+        b=UDqeUi5DCGMBc4trnGv/S4Pj30lS4DBnJxK2pdQXIhA49aQHUFqyawPTD2ss44Q1uM
+         YGDcqHWe3sVsHALFVis9mp4d5oKU4jjRdHUQt5bv+yW1kmiujRxVqHoAanHGNlp6CeGV
+         SOX+GJKnXIxEG984T/WX9DBNpw6OW+elpDKSNGboaKeESv5JRzAIv96swIq9bmfi6VCI
+         h0B/IhMWERlckfE1grVdn7rNYsflXgMSGrvngttXydwfwDCpagLf/PNzPch2Sr17Zwnb
+         2SmBoItZ614c/fCIkmpvTy67DYKead3qGTsWdbYi/AL/T2ECNFpOAXZRTUMsn3kqH9jb
+         AQkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780855441; x=1781460241;
+        d=1e100.net; s=20251104; t=1780855442; x=1781460242;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=HnHJ1SdTyxPyyUDg7Xpf2wB8swfy4FQOMOiIFtxDsP0=;
-        b=MLE0Q7/pZLuIGyfJmvkhddp9MLprhqWeacqcXs312+UBDifgFtcEK7LTtLrqofVU+d
-         mx4yliiUOJ1NFlNAjMbhckX9R5SxrKiZeW2jdEVJW9UYaDdckous2sZW7dYv2Afx2Naq
-         lWfKdG4FT/Wu+pWwZmvLhWdicgKrYZM5dF0nniWx/9s75uGeobvZ9aAxtJahhF5+UvUk
-         ir8T6yWuaAOKYjUhH1FDYjkxpeLBzf76z5yxwJPSJeQ/ilPE6x/d2U3jHNdsgplngD4+
-         fjBfAdhkjT1fv5tplfLYnZWqBcgQ2eW2185NVAZzugIdXeek6j047Pr0Twlc7eLbImA8
-         wD7Q==
-X-Forwarded-Encrypted: i=1; AFNElJ9EUldxKOxYmJdmM0VqrLZs2KmOIAyMKWXKwnh5cjKBKIdSACX0cerTnjgJvPe6UjalSwn96acknpYsWEpMiUbshI5ANA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywfr1efH3SkgdMU4wT7X3lWnco+AOUWAvZZ59qxiG2GpG2GcQ1J
-	G4sSyqbHSEa8cLIaSxeHK2hHVGUlzBOgsbGVDj9pbeW4FuUmZ4QruR2v
-X-Gm-Gg: Acq92OHHht//zcSNWqg9L2edHlaEPGs2YGNgjpPugwakzVQc9h+JspouzZmkPlvmJrJ
-	WJ3ZJgSshpOMuM1l9xuWK0YEok1r/X4phQAWNFX3VDnj8fk+TNHW3xqyDE1OKhKheDK6gz0Gwlt
-	9dlxwizwAmALBK5emGIS0MupUWs3kpvdDuoIv0V5RIi8U/NP+X27N3l5EdU6vIAbZNNIV1JRSM/
-	BxuSjMkYZAsGuErOtkT/r2M9Xq5r/o+Crrd/mjlizY9WEi2DOwQYAP7YMRJnKs1nPTk7XS5IrFz
-	jfHMJxuTw7P5DbnlUQWEYmEvkbv8Gj5K7q+9+AxLMn+za++OIZe9MnUxxwTDSW7HIbjqVvn+Gx/
-	QuUGw1reDBYPg1PJmMdUPy3UVb/MHRixDnBetRoiDIAObC5wv9WX8ngY/hEDLH0HbTqxPwGfkRS
-	httLlF6kjqaR4sUaTrJgiPOaWQ5ZaG4WNVddg9GSW7wX+DVstwBGVS9sG3HsIEw4he3kHPBFxQ4
-	pCT6Rddlb2wUFrPtA44iJ10cz5wGFgPDu1K5pXsghUs+S5UPt3Tg4u9q/pQrHcuLHBxgSZMt1+u
-	o/913LwCxrc=
-X-Received: by 2002:a05:620a:a0c9:10b0:915:b9f6:7191 with SMTP id af79cd13be357-915b9f67384mr707007185a.32.1780855440594;
-        Sun, 07 Jun 2026 11:04:00 -0700 (PDT)
+        bh=UD8h+hRorSLm84XfqZyhJ5Cq6OE+HPlA39Bu3CUHqSM=;
+        b=UDaV3Fgaq67gSQSZOQAJ6azBPxw8aF0bH54FkzGo3+M1uA3MNsIr8O5SupB4h1uWzS
+         3knLuN14m/sGhGOo9o4iumHqfW8PMIW+6hfvjYAjCMXIQhJa2NFGFUA0lxUDhl3rdSJT
+         jZxiypsftiPERCXDS4AjuFsB+v7mn9Dx/qrHQ1dWgAPcoc9tUJJScN+pN7bFbWIwdwUy
+         joj6xnLm3c3GeC6sGQdoLSwX6dmy6vgkScfpJh3aPSQ5EmgrbUvdA0BqcOOnWkmQkJiI
+         JSNdsNmv6eyGj9h3X54Ed8SnmeoX2l5jWB8bH8K6hbvpeNGijUbajQI7eeG2NXMWSi5T
+         5YPw==
+X-Forwarded-Encrypted: i=1; AFNElJ/3OEnCrekvVfQvPV7ZuzW0FTOCt5lFWc3tLdNP8M1njhMnljAGkr0U/0Fr31J1Z/aqwsaiHIJDhaDa5b98lSC855nNmQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx0kUddBLjfBcYuhcOQ+fooCIltJMeE3PJ30cuCjCmUfx/4OhBa
+	2TbcF9+VE7BuLKO5igB8TSpA/V0vYFQ5X1+hmBLjmfVu7R1TP76+sGyt
+X-Gm-Gg: Acq92OGuZ+z31wncOAslMuIH7OynbpDYQEoT9rKwwf4xVVuJIU/xgGrWnC4tapW1vg+
+	WxnUM3B5E+71UZ5iU+3lSM9Gmw0R57hoZJ7lf29EmUWMMBHR0qvwYu9wBRqAKAQ7K9P48qivABB
+	w/b4y5fFyViM+MN7cUVIycSeDGOXmN8O4OmmsVUOpCEiy5YdWs/QTafRJMUyttlm0gEkplz+6np
+	CyUM0pRLmVh9es3+pGDKvzBN5Ianh8fzTkMzMhrRs4v5UR5trbPlGsGsuBkRYItsBL2WcHCgf90
+	tAoIRaBPObwmS1po8pTnZ9ncDx27S3XnwMLDzt0kQeNwXAHKYM3DHh3zUkOlUIqy5TzcaC7kWIq
+	8eLr6YXnvWFNyIV2kWVTlrlU8SzeWss/tPrN3qXYPWan12+ueCeg9pzAHItAYZj9wYQ8QRWZGpi
+	N85HUN2Z//xWMZRBL6A4DO91hTTEOiQEnEO0PrF5D7WwWJinIAYRhRJN8lFQOLgwTqxDvrPCnCG
+	FpbbBOzI73jm5QaNxeeD326O4557886K8+3ioNMsi/STvU4jNd8pa76kXlKtHZKM6Qgkqq99r3i
+X-Received: by 2002:a05:620a:4456:b0:8f0:f1a5:680c with SMTP id af79cd13be357-915a9d614d6mr2113123185a.29.1780855442364;
+        Sun, 07 Jun 2026 11:04:02 -0700 (PDT)
 Received: from wsfd-netdev58.anl.eng.rdu2.dc.redhat.com ([66.187.232.140])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a2359ecsm1489771785a.14.2026.06.07.11.03.59
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a2359ecsm1489771785a.14.2026.06.07.11.04.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2026 11:04:00 -0700 (PDT)
+        Sun, 07 Jun 2026 11:04:01 -0700 (PDT)
 From: Xin Long <lucien.xin@gmail.com>
 To: network dev <netdev@vger.kernel.org>,
 	quic@lists.linux.dev
@@ -96,9 +95,9 @@ Cc: davem@davemloft.net,
 	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
 	mef@scarletmail.rutgers.edu,
 	paul@jakma.org
-Subject: [PATCH net-next v13 09/15] quic: add congestion control
-Date: Sun,  7 Jun 2026 14:01:31 -0400
-Message-ID: <465489e5fafa9326b4a21c4851e420d344bbfdfe.1780855297.git.lucien.xin@gmail.com>
+Subject: [PATCH net-next v13 10/15] quic: add packet number space
+Date: Sun,  7 Jun 2026 14:01:32 -0400
+Message-ID: <68de259081a0deae3ec6959ae72e11d21ed3a2a6.1780855297.git.lucien.xin@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <cover.1780855296.git.lucien.xin@gmail.com>
 References: <cover.1780855296.git.lucien.xin@gmail.com>
@@ -110,102 +109,108 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch introduces 'quic_cong' for RTT measurement and congestion
-control. The 'quic_cong_ops' is added to define the congestion
-control algorithm.
+This patch introduces 'quic_pnspace', which manages per packet number
+space members.
 
-It implements a congestion control state machine with slow start,
-congestion avoidance, and recovery phases, and currently introduces
-the New Reno algorithm only.
+It maintains the next packet number to assign, tracks the total length of
+frames currently in flight, and records the time when the next packet may
+be considered lost. It also keeps track of the largest acknowledged packet
+number, the time it was acknowledged, and when the most recent ack
+eliciting packet was sent. These fields are useful for loss detection,
+RTT estimation, and congestion control.
 
-The implementation updates RTT estimates when packets are acknowledged,
-reacts to loss and ECN signals, and adjusts the congestion window
-accordingly during packet transmission and acknowledgment processing.
+To support ACK frame generation, quic_pnspace includes a packet number
+acknowledgment map (pn_ack_map) that tracks received packet numbers.
+Supporting functions are provided to validate and mark received packet
+numbers and compute the number of gap blocks needed during ACK frame
+construction.
 
-- quic_cong_rtt_update(): Performs RTT measurement, invoked when a
-  packet is acknowledged by the largest number in the ACK frame.
+- quic_pnspace_check(): Validates a received packet number.
 
-- quic_cong_on_packet_acked(): Invoked when a packet is acknowledged.
+- quic_pnspace_mark(): Marks a received packet number in the ACK map.
 
-- quic_cong_on_packet_lost(): Invoked when a packet is marked as lost.
+- quic_pnspace_num_gabs(): Returns the gap ACK blocks for constructing
+  ACK frames.
 
-- quic_cong_on_process_ecn(): Invoked when an ACK_ECN frame is received.
-
-- quic_cong_on_packet_sent(): Invoked when a packet is transmitted.
-
-- quic_cong_on_ack_recv(): Invoked when an ACK frame is received.
+Note QUIC uses separate packet number spaces for each encryption level
+(APP, INITIAL, HANDSHAKE, EARLY) except EARLY and all generations of
+APP keys use the same packet number space, as describe in
+rfc9002#section-4.1.
 
 Signed-off-by: Xin Long <lucien.xin@gmail.com>
+Acked-by: Paolo Abeni <pabeni@redhat.com>
 ---
-v4:
-  - Remove the CUBIC congestion algorithm support for this version
-    (suggested by Paolo).
 v5:
-  - Do not update the pacing rate when !cong->smoothed_rtt in
-    quic_cong_pace_update() (suggested by Paolo).
-  - Change timestamp variables from u32 to u64, as RTT is measured in
-    microseconds and u64 provides sufficient precision for timestamps
-    in microsecond.
+  - Change timestamp variables from u32 to u64 and use quic_ktime_get_us()
+    to set max_pn_acked_time, as jiffies_to_usecs() is not accurate enough.
+  - Reorder some members in quic_pnspace to reduce 32-bit holes (noted
+    by Paolo).
+v6:
+  - Note for AI reviews: it's safe to do cast (u16)(pn - space->base_pn)
+    in quic_pnspace_mark(), as the pn < base_pn + QUIC_PN_MAP_SIZE (4096)
+    validation is always done in quic_pnspace_check(), which will always
+    be called before quic_pnspace_mark() in a later patchset.
+  - Note for AI reviews: failures in quic_pnspace_init() do not result in a
+    pn_map leak in quic_init_sock(), because quic_destroy_sock() is always
+    called to free it in err path, either via inet/6_create() or through
+    quic_accept() in a later patchset.
 v8:
-  - Add a comment in quic_reno_on_packet_acked() clarifying cong->window
-    is never zero (noted by AI review).
-v9:
-  - Use abs_diff() to simplify RTT variance calculation (noted by AI
-    review).
-  - Fix a small typo in the comment for struct quic_cong::time (noted
-    by AI review).
-  - Fix another small typo in quic_cong_check_persistent_congestion().
+  - Replace bitfields with plain u8 in struct quic_pnspace.
 v10:
-  - Note for AI reviews: cong->time will always be set before processing
-    the packet on the RX path in the future patch series.
-  - Add initial_srtt and algo to struct quic_cong to store the initial
-    smoothed RTT and congestion control algorithm, previously kept in
-    quic_sock.config.
+  - Fix a grammar error in the comment of quic_pnspace_check().
 v11:
-  - Note for AI reviews: later patches guarantee cong->time is set
-    before any quic_cong function uses it.
-  - Note for AI reviews: RFC 9002 section 5.3 does NOT specify that
-    rttvar_sample must use the previous smoothed_rtt value.
+  - Note for AI reviews: RFC 9000 does not define integer IDs for packet
+    number spaces. In this implementation, App=0, Initial=1,
+    Handshake=2, and Early maps to 0 (3 % 3).
   - Set maximum line length to 80 characters.
-  - Change return type of quic_cong_check_persistent_congestion() to bool.
-  - Add a check for algo in quic_cong_set_algo().
-  - Extract quic_reno_handle_packet_lost() from quic_reno_on_packet_lost()
-    and quic_reno_on_process_ecn() (noted by AI review).
+  - clear space->pn_map pointer after free in quic_pnspace_free().
+  - Change quic_pnspace_grow() to return negative errno on failure or 0
+    on success.
+  - Change return type of quic_pnspace_next_gap_ack() and
+    quic_pnspace_set_ecn_count() to bool.
+  - Return -EINVAL instead of -1 on failure in quic_pnspace_check().
 v12:
-  - Delete the unnecessary WRITE_ONCE() and READ_ONCE() for
-    cong->pacing_rate, as it's always used under sock lock.
-  - Set cong->max_window to S32_MAX / 4 instead of S32_MAX / 2.
-  - Add pc_start_time in struct quic_cong to track persistent congestion
-    start time more precisely and improve persistent congestion detection;
-    move its handling into quic_cong_on_packet_lost() and
-    quic_cong_on_packet_acked().
+  - Initialize max_pn_acked_seen to -1 in quic_pnspace_init().
+  - Allow large packet number jumps when processing higher PN values
+    (>= base_pn + QUIC_PN_MAP_SIZE) in quic_pnspace_check(),
+    quic_pnspace_mark(), and quic_pnspace_grow().
+  - Call quic_pnspace_has_gap() before updating max_pn_seen in
+    quic_pnspace_mark().
+  - Rename ECN-related helpers:
+    quic_pnspace_set_ecn_count() -> quic_pnspace_set_ecn_peer(),
+    quic_pnspace_has_ecn_count() -> quic_pnspace_has_ecn_local(),
+    quic_pnspace_inc_ecn_count() -> quic_pnspace_inc_ecn_local().
+  - Add QUIC_ECN_ACKED and introduce quic_pnspace_inc_ecn_acked(),
+    quic_pnspace_reset_ecn_acked(), and quic_pnspace_validate_ecn() for
+    validating ECN counts in ACKs.
+  - Add sack_pending field in struct quic_pnspace for later use in sack
+    piggybacking.
 ---
- net/quic/Makefile |   3 +-
- net/quic/cong.c   | 333 ++++++++++++++++++++++++++++++++++++++++++++++
- net/quic/cong.h   | 130 ++++++++++++++++++
- net/quic/socket.c |   1 +
- net/quic/socket.h |   7 +
- 5 files changed, 473 insertions(+), 1 deletion(-)
- create mode 100644 net/quic/cong.c
- create mode 100644 net/quic/cong.h
+ net/quic/Makefile  |   2 +-
+ net/quic/pnspace.c | 253 +++++++++++++++++++++++++++++++++++++++++++++
+ net/quic/pnspace.h | 201 +++++++++++++++++++++++++++++++++++
+ net/quic/socket.c  |  12 +++
+ net/quic/socket.h  |   7 ++
+ 5 files changed, 474 insertions(+), 1 deletion(-)
+ create mode 100644 net/quic/pnspace.c
+ create mode 100644 net/quic/pnspace.h
 
 diff --git a/net/quic/Makefile b/net/quic/Makefile
-index 1565fb5cef9d..4d4a42c6d565 100644
+index 4d4a42c6d565..9d8e18297911 100644
 --- a/net/quic/Makefile
 +++ b/net/quic/Makefile
-@@ -5,4 +5,5 @@
- 
+@@ -6,4 +6,4 @@
  obj-$(CONFIG_IP_QUIC) += quic.o
  
--quic-y := common.o family.o protocol.o socket.o stream.o connid.o path.o
-+quic-y := common.o family.o protocol.o socket.o stream.o connid.o path.o \
-+	  cong.o
-diff --git a/net/quic/cong.c b/net/quic/cong.c
+ quic-y := common.o family.o protocol.o socket.o stream.o connid.o path.o \
+-	  cong.o
++	  cong.o pnspace.o
+diff --git a/net/quic/pnspace.c b/net/quic/pnspace.c
 new file mode 100644
-index 000000000000..6bb2b05fe070
+index 000000000000..46ce143a026b
 --- /dev/null
-+++ b/net/quic/cong.c
-@@ -0,0 +1,333 @@
++++ b/net/quic/pnspace.c
+@@ -0,0 +1,253 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +/* QUIC kernel implementation
 + * (C) Copyright Red Hat Corp. 2023
@@ -218,333 +223,253 @@ index 000000000000..6bb2b05fe070
 + *    Xin Long <lucien.xin@gmail.com>
 + */
 +
-+#include <linux/quic.h>
++#include <linux/slab.h>
 +
 +#include "common.h"
-+#include "cong.h"
++#include "pnspace.h"
 +
-+/* NEW RENO APIs */
-+static void quic_reno_handle_packet_lost(struct quic_cong *cong)
++int quic_pnspace_init(struct quic_pnspace *space)
 +{
-+	switch (cong->state) {
-+	case QUIC_CONG_SLOW_START:
-+		pr_debug("%s: slow_start -> recovery, cwnd: %u, ssth: %u\n",
-+			 __func__, cong->window, cong->ssthresh);
-+		break;
-+	case QUIC_CONG_RECOVERY_PERIOD:
-+		return;
-+	case QUIC_CONG_CONGESTION_AVOIDANCE:
-+		pr_debug("%s: cong_avoid -> recovery, cwnd: %u, ssth: %u\n",
-+			 __func__, cong->window, cong->ssthresh);
-+		break;
-+	default:
-+		pr_debug("%s: wrong congestion state: %d\n", __func__,
-+			 cong->state);
-+		return;
++	if (!space->pn_map) {
++		space->pn_map = kzalloc(BITS_TO_BYTES(QUIC_PN_MAP_INITIAL),
++					GFP_KERNEL);
++		if (!space->pn_map)
++			return -ENOMEM;
++		space->pn_map_len = QUIC_PN_MAP_INITIAL;
++	} else {
++		bitmap_zero(space->pn_map, space->pn_map_len);
 +	}
 +
-+	cong->recovery_time = cong->time;
-+	cong->state = QUIC_CONG_RECOVERY_PERIOD;
-+	cong->ssthresh = max(cong->window >> 1U, cong->min_window);
-+	cong->window = cong->ssthresh;
++	space->max_time_limit = QUIC_PNSPACE_TIME_LIMIT;
++	space->next_pn = QUIC_PNSPACE_NEXT_PN;
++	space->max_pn_acked_seen = -1;
++	space->base_pn = -1;
++	return 0;
 +}
 +
-+static void quic_reno_on_packet_lost(struct quic_cong *cong, u64 time,
-+				     u32 bytes, s64 number)
++void quic_pnspace_free(struct quic_pnspace *space)
 +{
-+	quic_reno_handle_packet_lost(cong);
++	space->pn_map_len = 0;
++	kfree(space->pn_map);
++	space->pn_map = NULL;
 +}
 +
-+static void quic_reno_on_packet_acked(struct quic_cong *cong, u64 time,
-+				      u32 bytes, s64 number)
-+{
-+	switch (cong->state) {
-+	case QUIC_CONG_SLOW_START:
-+		cong->window = min_t(u32, cong->window + bytes,
-+				     cong->max_window);
-+		if (cong->window < cong->ssthresh)
-+			break;
-+		cong->state = QUIC_CONG_CONGESTION_AVOIDANCE;
-+		pr_debug("%s: slow_start -> cong_avoid, cwnd: %u, ssth: %u\n",
-+			 __func__, cong->window, cong->ssthresh);
-+		break;
-+	case QUIC_CONG_RECOVERY_PERIOD:
-+		if (cong->recovery_time >= time)
-+			break;
-+		cong->state = QUIC_CONG_CONGESTION_AVOIDANCE;
-+		pr_debug("%s: recovery -> cong_avoid, cwnd: %u, ssth: %u\n",
-+			 __func__, cong->window, cong->ssthresh);
-+		break;
-+	case QUIC_CONG_CONGESTION_AVOIDANCE:
-+		/* cong->window is never zero; it is initialized by
-+		 * quic_packet_route() during connect/accept.
-+		 */
-+		cong->window += cong->mss * bytes / cong->window;
-+		break;
-+	default:
-+		pr_debug("%s: wrong congestion state: %d\n", __func__,
-+			 cong->state);
-+		return;
-+	}
-+}
-+
-+static void quic_reno_on_process_ecn(struct quic_cong *cong)
-+{
-+	quic_reno_handle_packet_lost(cong);
-+}
-+
-+static void quic_reno_on_init(struct quic_cong *cong)
-+{
-+}
-+
-+static struct quic_cong_ops quic_congs[] = {
-+	{ /* QUIC_CONG_ALG_RENO */
-+		.on_packet_acked = quic_reno_on_packet_acked,
-+		.on_packet_lost = quic_reno_on_packet_lost,
-+		.on_process_ecn = quic_reno_on_process_ecn,
-+		.on_init = quic_reno_on_init,
-+	},
-+};
-+
-+static bool quic_cong_check_persistent_congestion(struct quic_cong *cong,
-+						  u64 time)
-+{
-+	u32 ssthresh;
-+
-+	time -= cong->pc_start_time;
-+
-+	/* rfc9002#section-7.6.1:
-+	 *   (smoothed_rtt + max(4*rttvar, kGranularity) + max_ack_delay) *
-+	 *      kPersistentCongestionThreshold
-+	 */
-+	ssthresh = cong->smoothed_rtt +
-+		   max(4 * cong->rttvar, QUIC_KGRANULARITY);
-+	ssthresh = (ssthresh + cong->max_ack_delay) *
-+		   QUIC_KPERSISTENT_CONGESTION_THRESHOLD;
-+
-+	return time > ssthresh;
-+}
-+
-+/* COMMON APIs */
-+void quic_cong_on_packet_lost(struct quic_cong *cong, u64 time, u32 bytes,
-+			      s64 number)
-+{
-+	if (cong->pc_start_time && time > cong->pc_start_time &&
-+	    quic_cong_check_persistent_congestion(cong, time)) {
-+		cong->pc_start_time = 0;
-+		cong->min_rtt_valid = 0;
-+		cong->window = cong->min_window;
-+		cong->state = QUIC_CONG_SLOW_START;
-+		return;
-+	}
-+
-+	if (!cong->pc_start_time && cong->is_rtt_set)
-+		cong->pc_start_time = time;
-+
-+	cong->ops->on_packet_lost(cong, time, bytes, number);
-+}
-+
-+void quic_cong_on_packet_acked(struct quic_cong *cong, u64 time, u32 bytes,
-+			       s64 number)
-+{
-+	/* When a packet is acked, if time - cong->pc_start_time <= duration
-+	 * threshold, it means the acked packet was sent within the persistent
-+	 * congestion window.
-+	 *
-+	 * This breaks the condition in rfc9002#section-7.6.2:
-+	 *
-+	 * - across all packet number spaces, none of the packets sent between
-+	 *   the send times of these two packets are acknowledged;
-+	 *
-+	 * so pc_start_time is reset to 0.
-+	 */
-+	if (cong->pc_start_time && time > cong->pc_start_time &&
-+	    !quic_cong_check_persistent_congestion(cong, time))
-+		cong->pc_start_time = 0;
-+
-+	cong->ops->on_packet_acked(cong, time, bytes, number);
-+}
-+
-+void quic_cong_on_process_ecn(struct quic_cong *cong)
-+{
-+	cong->ops->on_process_ecn(cong);
-+}
-+
-+/* Update Probe Timeout (PTO) and loss detection delay based on RTT stats. */
-+static void quic_cong_pto_update(struct quic_cong *cong)
-+{
-+	u32 pto, loss_delay;
-+
-+	/* rfc9002#section-6.2.1:
-+	 *   PTO = smoothed_rtt + max(4*rttvar, kGranularity) + max_ack_delay
-+	 */
-+	pto = cong->smoothed_rtt + max(4 * cong->rttvar, QUIC_KGRANULARITY);
-+	cong->pto = pto + cong->max_ack_delay;
-+
-+	/* rfc9002#section-6.1.2:
-+	 *   max(kTimeThreshold * max(smoothed_rtt, latest_rtt), kGranularity)
-+	 */
-+	loss_delay = QUIC_KTIME_THRESHOLD(max(cong->smoothed_rtt,
-+					      cong->latest_rtt));
-+	cong->loss_delay = max(loss_delay, QUIC_KGRANULARITY);
-+
-+	pr_debug("%s: update pto: %u\n", __func__, pto);
-+}
-+
-+/* Update pacing timestamp after sending 'bytes' bytes.
++/* Expand the bitmap tracking received packet numbers.  Ensures the pn_map
++ * bitmap can cover at least @size packet numbers.  Allocates a larger bitmap,
++ * copies existing data, and updates metadata.
 + *
-+ * This function tracks when the next packet is allowed to be sent based on
-+ * pacing rate.
++ * Return: 0 on success, or a negative errno value on failure.
 + */
-+static void quic_cong_update_pacing_time(struct quic_cong *cong, u32 bytes)
++static int quic_pnspace_grow(struct quic_pnspace *space, u16 size)
 +{
-+	u64 prior_time, credit, len_ns, rate = cong->pacing_rate;
++	u16 len, inc, offset;
++	unsigned long *new;
 +
-+	if (!rate)
-+		return;
++	inc = ALIGN((size - space->pn_map_len), BITS_PER_LONG) +
++	      QUIC_PN_MAP_INCREMENT;
++	len = (u16)min(space->pn_map_len + inc, QUIC_PN_MAP_SIZE);
 +
-+	prior_time = cong->pacing_time;
-+	cong->pacing_time = max(cong->pacing_time, ktime_get_ns());
-+	credit = cong->pacing_time - prior_time;
++	new = kzalloc(BITS_TO_BYTES(len), GFP_ATOMIC);
++	if (!new)
++		return -ENOMEM;
 +
-+	/* take into account OS jitter */
-+	len_ns = div64_ul((u64)bytes * NSEC_PER_SEC, rate);
-+	len_ns -= min_t(u64, len_ns / 2, credit);
-+	cong->pacing_time += len_ns;
++	offset = (u16)(space->max_pn_seen + 1 - space->base_pn);
++	bitmap_copy(new, space->pn_map, offset);
++	kfree(space->pn_map);
++	space->pn_map = new;
++	space->pn_map_len = len;
++
++	return 0;
 +}
 +
-+/* Compute and update the pacing rate based on congestion window and smoothed
-+ * RTT.
++/* Check if a packet number has been received.
++ *
++ * Returns: 0 if the packet number has not been received.  1 if it has already
++ * been received. -EINVAL if the packet number is too old to track.
 + */
-+static void quic_cong_pace_update(struct quic_cong *cong, u32 bytes,
-+				  u64 max_rate)
++int quic_pnspace_check(struct quic_pnspace *space, s64 pn)
 +{
-+	u64 rate;
++	if (space->base_pn == -1) /* No packet number received yet. */
++		return 0;
 +
-+	if (unlikely(!cong->smoothed_rtt))
-+		return;
++	if (pn < space->min_pn_seen)
++		return -EINVAL;
 +
-+	/* rate = N * congestion_window / smoothed_rtt */
-+	rate = div64_ul((u64)cong->window * USEC_PER_SEC * 2,
-+			cong->smoothed_rtt);
++	if (pn < space->base_pn)
++		return 1;
++	if (pn - space->base_pn < space->pn_map_len &&
++	    test_bit(pn - space->base_pn, space->pn_map))
++		return 1;
 +
-+	cong->pacing_rate = min_t(u64, rate, max_rate);
-+	pr_debug("%s: update pacing rate: %llu, max rate: %llu, srtt: %u\n",
-+		 __func__, cong->pacing_rate, max_rate, cong->smoothed_rtt);
++	return 0;
 +}
 +
-+void quic_cong_on_packet_sent(struct quic_cong *cong, u64 time, u32 bytes,
-+			      s64 number)
++/* Advance base_pn past contiguous received packet numbers.  Finds the next gap
++ * (unreceived packet) beyond @pn, shifts the bitmap, and updates base_pn
++ * accordingly.
++ */
++static void quic_pnspace_move(struct quic_pnspace *space, s64 pn)
 +{
-+	if (!bytes)
-+		return;
-+	if (cong->ops->on_packet_sent)
-+		cong->ops->on_packet_sent(cong, time, bytes, number);
-+	quic_cong_update_pacing_time(cong, bytes);
++	u16 offset;
++
++	offset = (u16)(pn + 1 - space->base_pn);
++	offset = (u16)find_next_zero_bit(space->pn_map, space->pn_map_len,
++					 offset);
++	space->base_pn += offset;
++	bitmap_shift_right(space->pn_map, space->pn_map, offset,
++			   space->pn_map_len);
 +}
 +
-+void quic_cong_on_ack_recv(struct quic_cong *cong, u32 bytes, u64 max_rate)
++/* Mark a packet number as received. Updates the packet number map to record
++ * reception of @pn.  Advances base_pn if possible, and updates max/min/last
++ * seen fields as needed.
++ *
++ * Returns: 0 on success or if the packet was already marked, or a negative
++ * error returned by bitmap growth when expanding the map.
++ */
++int quic_pnspace_mark(struct quic_pnspace *space, s64 pn)
 +{
-+	if (!bytes)
-+		return;
-+	if (cong->ops->on_ack_recv)
-+		cong->ops->on_ack_recv(cong, bytes, max_rate);
-+	quic_cong_pace_update(cong, bytes, max_rate);
-+}
++	s64 last_max_pn_seen, off;
++	u64 last_max_pn_time;
++	bool has_gap;
++	int err;
 +
-+/* rfc9002#section-5: Estimating the Round-Trip Time */
-+void quic_cong_rtt_update(struct quic_cong *cong, u64 time, u32 ack_delay)
-+{
-+	u32 adjusted_rtt, rttvar_sample;
-+
-+	/* Ignore RTT sample if ACK delay is suspiciously large. */
-+	if (ack_delay > cong->max_ack_delay * 2)
-+		return;
-+
-+	/* rfc9002#section-5.1:
-+	 *   latest_rtt = ack_time - send_time_of_largest_acked
-+	 */
-+	cong->latest_rtt = cong->time - time;
-+
-+	/* rfc9002#section-5.2: Estimating min_rtt */
-+	if (!cong->min_rtt_valid) {
-+		cong->min_rtt = cong->latest_rtt;
-+		cong->min_rtt_valid = 1;
-+	}
-+	if (cong->min_rtt > cong->latest_rtt)
-+		cong->min_rtt = cong->latest_rtt;
-+
-+	if (!cong->is_rtt_set) {
-+		/* rfc9002#section-5.3:
-+		 *   smoothed_rtt = latest_rtt
-+		 *   rttvar = latest_rtt / 2
++	if (space->base_pn == -1) {
++		/* Initialize base_pn based on the peer's first packet number
++		 * since peer's packet numbers may start at a non-zero value.
 +		 */
-+		cong->smoothed_rtt = cong->latest_rtt;
-+		cong->rttvar = cong->smoothed_rtt / 2;
-+		quic_cong_pto_update(cong);
-+		cong->is_rtt_set = 1;
-+		return;
++		quic_pnspace_set_base_pn(space, pn + 1);
++		return 0;
 +	}
 +
-+	/* rfc9002#section-5.3:
-+	 *   adjusted_rtt = latest_rtt
-+	 *   if (latest_rtt >= min_rtt + ack_delay):
-+	 *     adjusted_rtt = latest_rtt - ack_delay
-+	 *   smoothed_rtt = 7/8 * smoothed_rtt + 1/8 * adjusted_rtt
-+	 *   rttvar_sample = abs(smoothed_rtt - adjusted_rtt)
-+	 *   rttvar = 3/4 * rttvar + 1/4 * rttvar_sample
++	/* Ignore packets with number less than current base (already
++	 * processed).
 +	 */
-+	adjusted_rtt = cong->latest_rtt;
-+	if (cong->latest_rtt >= cong->min_rtt + ack_delay)
-+		adjusted_rtt = cong->latest_rtt - ack_delay;
++	if (pn < space->base_pn)
++		return 0;
 +
-+	cong->smoothed_rtt = (cong->smoothed_rtt * 7 + adjusted_rtt) / 8;
-+	rttvar_sample = abs_diff(cong->smoothed_rtt, adjusted_rtt);
-+	cong->rttvar = (cong->rttvar * 3 + rttvar_sample) / 4;
-+	quic_cong_pto_update(cong);
-+
-+	if (cong->ops->on_rtt_update)
-+		cong->ops->on_rtt_update(cong);
-+}
-+
-+void quic_cong_set_algo(struct quic_cong *cong, u8 algo)
-+{
-+	/* The caller must ensure algo < QUIC_CONG_ALG_MAX. */
-+	if (WARN_ON_ONCE(algo >= QUIC_CONG_ALG_MAX))
-+		return;
-+	cong->algo = algo;
-+	cong->state = QUIC_CONG_SLOW_START;
-+	cong->ssthresh = U32_MAX;
-+	cong->ops = &quic_congs[algo];
-+	cong->ops->on_init(cong);
-+}
-+
-+void quic_cong_set_srtt(struct quic_cong *cong, u32 srtt)
-+{
-+	/* rfc9002#section-5.3:
-+	 *   smoothed_rtt = kInitialRtt
-+	 *   rttvar = kInitialRtt / 2
++	/* If offset is beyond current map length, try to grow the bitmap to
++	 * accommodate.
 +	 */
-+	cong->initial_srtt = srtt;
-+	cong->latest_rtt = srtt;
-+	cong->smoothed_rtt = cong->latest_rtt;
-+	cong->rttvar = cong->smoothed_rtt / 2;
-+	quic_cong_pto_update(cong);
++	off = pn - space->base_pn;
++	if (off >= space->pn_map_len) {
++		if (off >= QUIC_PN_MAP_SIZE) {
++			bitmap_zero(space->pn_map, space->pn_map_len);
++			quic_pnspace_set_base_pn(space, pn + 1);
++			return 0;
++		}
++		err = quic_pnspace_grow(space, off + 1);
++		if (err)
++			return err;
++	}
++
++	has_gap = quic_pnspace_has_gap(space);
++	if (space->max_pn_seen < pn) {
++		space->max_pn_seen = pn;
++		space->max_pn_time = space->time;
++	}
++
++	if (space->base_pn == pn) { /* PN is next expected packet. */
++		if (has_gap) /* Advance to next gap. */
++			quic_pnspace_move(space, pn);
++		else /* Fast path: increment base_pn if no gaps. */
++			space->base_pn++;
++	} else { /* Mark this packet as received in the bitmap. */
++		set_bit(off, space->pn_map);
++	}
++
++	/* Only update min and last_max_pn_seen if this packet is the current
++	 * max_pn.
++	 */
++	if (space->max_pn_seen != pn)
++		return 0;
++
++	/* Check if enough time has elapsed or enough packets have been
++	 * received to update tracking.
++	 */
++	last_max_pn_seen = min_t(s64, space->last_max_pn_seen, space->base_pn);
++	last_max_pn_time = space->last_max_pn_time;
++	if (space->max_pn_time < last_max_pn_time + space->max_time_limit &&
++	    space->max_pn_seen <= last_max_pn_seen + QUIC_PN_MAP_LIMIT)
++		return 0;
++
++	/* Advance base_pn if last_max_pn_seen is ahead of current base_pn.
++	 * This is needed because QUIC doesn't retransmit packets;
++	 * retransmitted frames are carried in new packets, so we move forward.
++	 */
++	if (space->last_max_pn_seen + 1 > space->base_pn)
++		quic_pnspace_move(space, space->last_max_pn_seen);
++
++	space->min_pn_seen = space->last_max_pn_seen;
++	space->last_max_pn_seen = space->max_pn_seen;
++	space->last_max_pn_time = space->max_pn_time;
++	return 0;
 +}
 +
-+void quic_cong_init(struct quic_cong *cong)
++/* Find the next gap in received packet numbers. Scans pn_map for a gap
++ * starting from *@iter. A gap is a contiguous block of unreceived packets
++ * between received ones.
++ *
++ * Returns: true if a gap was found, false if no more gaps exist or are
++ * relevant.
++ */
++static bool quic_pnspace_next_gap_ack(const struct quic_pnspace *space,
++				      s64 *iter, u16 *start, u16 *end)
 +{
-+	cong->max_ack_delay = QUIC_DEF_ACK_DELAY;
-+	cong->max_window = S32_MAX / 4;
-+	quic_cong_set_algo(cong, QUIC_CONG_ALG_RENO);
-+	quic_cong_set_srtt(cong, QUIC_RTT_INIT);
++	u16 start_ = 0, end_ = 0, offset = (u16)(*iter - space->base_pn);
++
++	start_ = (u16)find_next_zero_bit(space->pn_map, space->pn_map_len,
++					 offset);
++	if (space->max_pn_seen <= space->base_pn + start_)
++		return false;
++
++	end_ = (u16)find_next_bit(space->pn_map, space->pn_map_len, start_);
++	if (space->max_pn_seen <= space->base_pn + end_ - 1)
++		return false;
++
++	*start = start_ + 1;
++	*end = end_;
++	*iter = space->base_pn + *end;
++	return true;
 +}
-diff --git a/net/quic/cong.h b/net/quic/cong.h
++
++/* Generate gap acknowledgment blocks (GABs).  GABs describe ranges of
++ * unacknowledged packets between received ones, and are used in ACK frames.
++ *
++ * Returns: Number of generated GABs (up to QUIC_PN_MAP_MAX_GABS).
++ */
++u16 quic_pnspace_num_gabs(struct quic_pnspace *space,
++			  struct quic_gap_ack_block *gabs)
++{
++	u16 start, end, ngaps = 0;
++	s64 iter;
++
++	if (!quic_pnspace_has_gap(space))
++		return 0;
++
++	iter = space->base_pn;
++	/* Loop through all gaps until the end of the window or max allowed
++	 * gaps.
++	 */
++	while (quic_pnspace_next_gap_ack(space, &iter, &start, &end)) {
++		gabs[ngaps].start = start;
++		if (ngaps == QUIC_PN_MAP_MAX_GABS - 1) {
++			gabs[ngaps].end =
++				(u16)(space->max_pn_seen - space->base_pn);
++			ngaps++;
++			break;
++		}
++		gabs[ngaps].end = end;
++		ngaps++;
++	}
++	return ngaps;
++}
+diff --git a/net/quic/pnspace.h b/net/quic/pnspace.h
 new file mode 100644
-index 000000000000..1debec2d75b8
+index 000000000000..79e8fa21f7aa
 --- /dev/null
-+++ b/net/quic/cong.h
-@@ -0,0 +1,130 @@
++++ b/net/quic/pnspace.h
+@@ -0,0 +1,201 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/* QUIC kernel implementation
 + * (C) Copyright Red Hat Corp. 2023
@@ -555,165 +480,259 @@ index 000000000000..1debec2d75b8
 + *    Xin Long <lucien.xin@gmail.com>
 + */
 +
-+#define QUIC_KPERSISTENT_CONGESTION_THRESHOLD	3
-+#define QUIC_KPACKET_THRESHOLD			3
-+#define QUIC_KTIME_THRESHOLD(rtt)		((rtt) * 9 / 8)
-+#define QUIC_KGRANULARITY			1000U
++#define QUIC_PN_MAP_MAX_GABS	32
 +
-+#define QUIC_RTT_INIT		333000U
-+#define QUIC_RTT_MAX		2000000U
-+#define QUIC_RTT_MIN		QUIC_KGRANULARITY
++#define QUIC_PN_MAP_INITIAL	64
++#define QUIC_PN_MAP_INCREMENT	QUIC_PN_MAP_INITIAL
++#define QUIC_PN_MAP_SIZE	4096
++#define QUIC_PN_MAP_LIMIT	(QUIC_PN_MAP_SIZE * 3 / 4)
 +
-+/* rfc9002#section-7.3: Congestion Control States
-+ *
-+ *                  New path or      +------------+
-+ *             persistent congestion |   Slow     |
-+ *         (O)---------------------->|   Start    |
-+ *                                   +------------+
-+ *                                         |
-+ *                                 Loss or |
-+ *                         ECN-CE increase |
-+ *                                         v
-+ *  +------------+     Loss or       +------------+
-+ *  | Congestion |  ECN-CE increase  |  Recovery  |
-+ *  | Avoidance  |------------------>|   Period   |
-+ *  +------------+                   +------------+
-+ *            ^                            |
-+ *            |                            |
-+ *            +----------------------------+
-+ *               Acknowledgment of packet
-+ *                 sent during recovery
++#define QUIC_PNSPACE_MAX	(QUIC_CRYPTO_MAX - 1)
++#define QUIC_PNSPACE_NEXT_PN	0
++#define QUIC_PNSPACE_TIME_LIMIT	(333000 * 3)
++
++enum {
++	QUIC_ECN_ECT1,
++	QUIC_ECN_ECT0,
++	QUIC_ECN_CE,
++	QUIC_ECN_MAX
++};
++
++enum {
++	QUIC_ECN_LOCAL, /* ECN bits from incoming IP headers */
++	QUIC_ECN_PEER,  /* ECN bits reported by peer in ACK frames */
++	QUIC_ECN_ACKED, /* ECN bits from packets newly ACKed */
++	QUIC_ECN_DIR_MAX
++};
++
++/* Represents a gap (range of missing packets) in the ACK map.  The values are
++ * offsets from base_pn, with both 'start' and 'end' being +1.
 + */
-+enum quic_cong_state {
-+	QUIC_CONG_SLOW_START,
-+	QUIC_CONG_RECOVERY_PERIOD,
-+	QUIC_CONG_CONGESTION_AVOIDANCE,
++struct quic_gap_ack_block {
++	u16 start;
++	u16 end;
 +};
 +
-+struct quic_cong {
-+	/* RTT tracking */
-+	u32 max_ack_delay;	/* max_ack_delay from rfc9000#section-18.2 */
-+	u32 smoothed_rtt;	/* Smoothed RTT */
-+	u32 latest_rtt;		/* Latest RTT sample */
-+	u32 min_rtt;		/* Lowest observed RTT */
-+	u32 rttvar;		/* RTT variation */
-+	u32 pto;		/* Probe timeout */
++/* Packet Number Map (pn_map) Layout:
++ *
++ *     min_pn_seen -->++-----------------------+---------------------+---
++ *         base_pn -----^   last_max_pn_seen --^       max_pn_seen --^
++ *
++ * Map Advancement Logic:
++ *   - min_pn_seen = last_max_pn_seen;
++ *   - base_pn = first zero bit after last_max_pn_seen;
++ *   - last_max_pn_seen = max_pn_seen;
++ *   - last_max_pn_time = current time;
++ *
++ * Conditions to Advance pn_map:
++ *   - (max_pn_time - last_max_pn_time) >= max_time_limit, or
++ *   - (max_pn_seen - last_max_pn_seen) > QUIC_PN_MAP_LIMIT
++ *
++ * Gap Search Range:
++ *   - From (base_pn - 1) to max_pn_seen
++ */
++struct quic_pnspace {
++	/* ECN counters indexed by dir and ECN codepoint (ECT1, ECT0, CE) */
++	u64 ecn_count[QUIC_ECN_DIR_MAX][QUIC_ECN_MAX];
++	unsigned long *pn_map; /* Received PN bitmap for ACK generation */
++	u16 pn_map_len;        /* Length of the PN bit map (in bits) */
++	u8  need_sack;         /* Flag indicating a SACK frame should be sent */
++	u8  sack_path;         /* Path used for sending the SACK frame */
++	u8  sack_pending;      /* Delayed ACK pending */
 +
-+	/* Timing & pacing */
-+	u64 pc_start_time;      /* Persistent congestion tracking timestamp */
-+	u64 recovery_time;	/* Recovery period start timestamp */
-+	u64 pacing_rate;	/* Packet sending speed Bytes/sec */
-+	u64 pacing_time;	/* Next scheduled send timestamp (ns) */
-+	u64 time;		/* Cached current timestamp */
++	s64 last_max_pn_seen; /* Largest PN seen before pn_map advance */
++	u64 last_max_pn_time; /* Timestamp last_max_pn_seen was received */
++	s64 min_pn_seen;      /* Smallest PN received */
++	s64 max_pn_seen;      /* Largest PN received */
++	u64 max_pn_time;      /* Timestamp max_pn_seen was received */
++	s64 base_pn; /* PN corresponding to the start of the pn_map */
++	u64 time;    /* Cached now, or latest socket accept timestamp */
 +
-+	/* Congestion window */
-+	u32 max_window;		/* Max growth cap */
-+	u32 min_window;		/* Min window limit */
-+	u32 loss_delay;		/* Time before marking loss */
-+	u32 ssthresh;		/* Slow start threshold */
-+	u32 window;		/* Bytes in flight allowed */
-+	u32 mss;		/* QUIC MSS (excl. UDP) */
++	s64 max_pn_acked_seen; /* Largest PN ACKed by peer */
++	u64 max_pn_acked_time; /* Timestamp max_pn_acked_seen was ACKed */
++	u64 last_sent_time;    /* Timestamp last ack-eliciting packet sent */
++	u64 loss_time;         /* Timestamp the packet can be declared lost */
++	s64 next_pn;           /* Next PN to send */
 +
-+	/* Algorithm-specific */
-+	struct quic_cong_ops *ops;
-+	u64 priv[8];		/* Algo private data */
-+
-+	u32 initial_srtt;	/* Initial smoothed RTT */
-+	u8 algo;		/* Congestion control algorithm */
-+
-+	/* Flags & state */
-+	u8 min_rtt_valid;	/* min_rtt initialized */
-+	u8 is_rtt_set;		/* RTT samples exist */
-+	u8 state;		/* State machine in rfc9002#section-7.3 */
++	u32 max_time_limit; /* Time threshold to trigger pn_map advance */
++	u32 inflight;       /* Ack-eliciting bytes in flight */
 +};
 +
-+/* Hooks for congestion control algorithms */
-+struct quic_cong_ops {
-+	void (*on_packet_acked)(struct quic_cong *cong, u64 time, u32 bytes,
-+				s64 number);
-+	void (*on_packet_lost)(struct quic_cong *cong, u64 time, u32 bytes,
-+			       s64 number);
-+	void (*on_process_ecn)(struct quic_cong *cong);
-+	void (*on_init)(struct quic_cong *cong);
-+
-+	/* Optional callbacks */
-+	void (*on_packet_sent)(struct quic_cong *cong, u64 time, u32 bytes,
-+			       s64 number);
-+	void (*on_ack_recv)(struct quic_cong *cong, u32 bytes, u64 max_rate);
-+	void (*on_rtt_update)(struct quic_cong *cong);
-+};
-+
-+static inline void quic_cong_set_mss(struct quic_cong *cong, u32 mss)
++static inline void
++quic_pnspace_set_max_pn_acked_seen(struct quic_pnspace *space,
++				   s64 max_pn_acked_seen)
 +{
-+	if (cong->mss == mss)
++	if (space->max_pn_acked_seen >= max_pn_acked_seen)
 +		return;
-+
-+	/* rfc9002#section-7.2: Initial and Minimum Congestion Window */
-+	cong->mss = mss;
-+	cong->min_window = max(min(mss * 10, 14720U), mss * 2);
-+
-+	if (cong->window < cong->min_window)
-+		cong->window = cong->min_window;
++	space->max_pn_acked_seen = max_pn_acked_seen;
++	space->max_pn_acked_time = quic_ktime_get_us();
 +}
 +
-+static inline void *quic_cong_priv(struct quic_cong *cong)
++static inline void quic_pnspace_set_base_pn(struct quic_pnspace *space, s64 pn)
 +{
-+	return (void *)cong->priv;
++	space->base_pn = pn;
++	space->max_pn_seen = space->base_pn - 1;
++	space->last_max_pn_seen = space->max_pn_seen;
++	space->min_pn_seen = space->max_pn_seen;
++
++	space->max_pn_time = space->time;
++	space->last_max_pn_time = space->max_pn_time;
 +}
 +
-+void quic_cong_on_packet_acked(struct quic_cong *cong, u64 time, u32 bytes,
-+			       s64 number);
-+void quic_cong_on_packet_lost(struct quic_cong *cong, u64 time, u32 bytes,
-+			      s64 number);
-+void quic_cong_on_process_ecn(struct quic_cong *cong);
++static inline bool quic_pnspace_has_gap(const struct quic_pnspace *space)
++{
++	return space->base_pn != space->max_pn_seen + 1;
++}
 +
-+void quic_cong_on_packet_sent(struct quic_cong *cong, u64 time, u32 bytes,
-+			      s64 number);
-+void quic_cong_on_ack_recv(struct quic_cong *cong, u32 bytes, u64 max_rate);
-+void quic_cong_rtt_update(struct quic_cong *cong, u64 time, u32 ack_delay);
++static inline void quic_pnspace_inc_ecn_acked(struct quic_pnspace *space,
++					      u8 ecn)
++{
++	if (!ecn)
++		return;
++	space->ecn_count[QUIC_ECN_ACKED][ecn - 1]++;
++}
 +
-+void quic_cong_set_srtt(struct quic_cong *cong, u32 srtt);
-+void quic_cong_set_algo(struct quic_cong *cong, u8 algo);
-+void quic_cong_init(struct quic_cong *cong);
++static inline void quic_pnspace_reset_ecn_acked(struct quic_pnspace *space)
++{
++	space->ecn_count[QUIC_ECN_ACKED][QUIC_ECN_ECT0] = 0;
++	space->ecn_count[QUIC_ECN_ACKED][QUIC_ECN_ECT1] = 0;
++	space->ecn_count[QUIC_ECN_ACKED][QUIC_ECN_CE] = 0;
++}
++
++static inline void quic_pnspace_inc_ecn_local(struct quic_pnspace *space,
++					      u8 ecn)
++{
++	if (!ecn)
++		return;
++	space->ecn_count[QUIC_ECN_LOCAL][ecn - 1]++;
++}
++
++/* Check if any ECN-marked packets were received. */
++static inline bool quic_pnspace_has_ecn_local(struct quic_pnspace *space)
++{
++	return space->ecn_count[QUIC_ECN_LOCAL][QUIC_ECN_ECT0] ||
++	       space->ecn_count[QUIC_ECN_LOCAL][QUIC_ECN_ECT1] ||
++	       space->ecn_count[QUIC_ECN_LOCAL][QUIC_ECN_CE];
++}
++
++/* Validate ECN counts received in an ACK. */
++static inline bool quic_pnspace_validate_ecn(struct quic_pnspace *space,
++					     u64 *ecn_count)
++{
++	u64 *acked = space->ecn_count[QUIC_ECN_ACKED];
++	u64 *peer = space->ecn_count[QUIC_ECN_PEER];
++	u64 ect0, ect1, ce;
++
++	if (peer[QUIC_ECN_ECT0] > ecn_count[QUIC_ECN_ECT0] ||
++	    peer[QUIC_ECN_ECT1] > ecn_count[QUIC_ECN_ECT1] ||
++	    peer[QUIC_ECN_CE] > ecn_count[QUIC_ECN_CE])
++		return false;
++
++	/* rfc9000#section-13.4.2.1:
++	 *
++	 * ECN validation also fails if the sum of the increase in ECT(0) and
++	 * ECN-CE counts is less than the number of newly acknowledged packets
++	 * that were originally sent with an ECT(0) marking (Same for ECT(1)).
++	 */
++	ect0 = ecn_count[QUIC_ECN_ECT0] - peer[QUIC_ECN_ECT0];
++	ect1 = ecn_count[QUIC_ECN_ECT1] - peer[QUIC_ECN_ECT1];
++	ce = ecn_count[QUIC_ECN_CE] - peer[QUIC_ECN_CE];
++
++	return ect0 + ce >= acked[QUIC_ECN_ECT0] &&
++	       ect1 + ce >= acked[QUIC_ECN_ECT1];
++}
++
++/* Updates the stored ECN counters based on values received in the peer's ACK
++ * frame. Each counter is updated only if the new value is higher.
++ *
++ * Returns: true if CE count was increased (congestion indicated), false
++ * otherwise.
++ */
++static inline bool quic_pnspace_set_ecn_peer(struct quic_pnspace *space,
++					     u64 *ecn_count)
++{
++	u64 *count = space->ecn_count[QUIC_ECN_PEER];
++
++	if (count[QUIC_ECN_ECT0] < ecn_count[QUIC_ECN_ECT0])
++		count[QUIC_ECN_ECT0] = ecn_count[QUIC_ECN_ECT0];
++	if (count[QUIC_ECN_ECT1] < ecn_count[QUIC_ECN_ECT1])
++		count[QUIC_ECN_ECT1] = ecn_count[QUIC_ECN_ECT1];
++	if (count[QUIC_ECN_CE] < ecn_count[QUIC_ECN_CE]) {
++		count[QUIC_ECN_CE] = ecn_count[QUIC_ECN_CE];
++		return true;
++	}
++	return false;
++}
++
++u16 quic_pnspace_num_gabs(struct quic_pnspace *space,
++			  struct quic_gap_ack_block *gabs);
++int quic_pnspace_check(struct quic_pnspace *space, s64 pn);
++int quic_pnspace_mark(struct quic_pnspace *space, s64 pn);
++
++void quic_pnspace_free(struct quic_pnspace *space);
++int quic_pnspace_init(struct quic_pnspace *space);
 diff --git a/net/quic/socket.c b/net/quic/socket.c
-index 0e5595d14b88..04cfbddc0304 100644
+index 04cfbddc0304..1dfa4791242e 100644
 --- a/net/quic/socket.c
 +++ b/net/quic/socket.c
-@@ -51,6 +51,7 @@ static int quic_init_sock(struct sock *sk)
+@@ -42,6 +42,8 @@ static void quic_write_space(struct sock *sk)
  
- 	quic_conn_id_set_init(quic_source(sk), true);
- 	quic_conn_id_set_init(quic_dest(sk), false);
-+	quic_cong_init(quic_cong(sk));
+ static int quic_init_sock(struct sock *sk)
+ {
++	u8 i;
++
+ 	sk->sk_write_space = quic_write_space;
+ 	sock_set_flag(sk, SOCK_USE_WRITE_QUEUE);
  
+@@ -56,11 +58,21 @@ static int quic_init_sock(struct sock *sk)
  	if (quic_stream_init(quic_streams(sk)))
  		return -ENOMEM;
+ 
++	for (i = 0; i < QUIC_PNSPACE_MAX; i++) {
++		if (quic_pnspace_init(quic_pnspace(sk, i)))
++			return -ENOMEM;
++	}
++
+ 	return 0;
+ }
+ 
+ static void quic_destroy_sock(struct sock *sk)
+ {
++	u8 i;
++
++	for (i = 0; i < QUIC_PNSPACE_MAX; i++)
++		quic_pnspace_free(quic_pnspace(sk, i));
++
+ 	quic_path_unbind(sk, quic_paths(sk), 0);
+ 	quic_path_unbind(sk, quic_paths(sk), 1);
+ 
 diff --git a/net/quic/socket.h b/net/quic/socket.h
-index 91338601905e..9201ca3edad0 100644
+index 9201ca3edad0..68c7b22d1e88 100644
 --- a/net/quic/socket.h
 +++ b/net/quic/socket.h
-@@ -16,6 +16,7 @@
+@@ -12,6 +12,7 @@
+ #include <linux/quic.h>
+ 
+ #include "common.h"
++#include "pnspace.h"
+ #include "family.h"
  #include "stream.h"
  #include "connid.h"
- #include "path.h"
-+#include "cong.h"
- 
- #include "protocol.h"
- 
-@@ -41,6 +42,7 @@ struct quic_sock {
- 	struct quic_conn_id_set		source;
+@@ -43,6 +44,7 @@ struct quic_sock {
  	struct quic_conn_id_set		dest;
  	struct quic_path_group		paths;
-+	struct quic_cong		cong;
+ 	struct quic_cong		cong;
++	struct quic_pnspace		space[QUIC_PNSPACE_MAX];
  };
  
  struct quic6_sock {
-@@ -98,6 +100,11 @@ static inline bool quic_is_serv(const struct sock *sk)
- 	return !!sk->sk_max_ack_backlog;
+@@ -105,6 +107,11 @@ static inline struct quic_cong *quic_cong(const struct sock *sk)
+ 	return &quic_sk(sk)->cong;
  }
  
-+static inline struct quic_cong *quic_cong(const struct sock *sk)
++static inline struct quic_pnspace *quic_pnspace(const struct sock *sk, u8 level)
 +{
-+	return &quic_sk(sk)->cong;
++	return &quic_sk(sk)->space[level % QUIC_CRYPTO_EARLY];
 +}
 +
  static inline bool quic_is_establishing(struct sock *sk)

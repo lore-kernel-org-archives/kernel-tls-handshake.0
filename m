@@ -1,93 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129C5364E9E;
-	Tue,  9 Jun 2026 03:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C6D5B21A
+	for <kernel-tls-handshake@lists.linux.dev>; Tue,  9 Jun 2026 06:33:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780975231; cv=none; b=khD/ev+rxk+fXIzSiMRek9+wlTE3nmsxuZkXciczAsJk+f73hS+pOKl1zW7Vakc7oR8Ec16PgbqnSxdgS++IVMRP4RuLmRftrRywVUfcN7Q+yaYKuuoEdZaEW7cCIMD6c6xgQDYhY4YG/+tdqQMlfd1r/kavEuuJ3P7v4cet/Vs=
+	t=1780986837; cv=none; b=T4twdjTt3Oph+wk9kFZEYJOiY7hRCgwaU70rbJo4hzPWWbwQWQicYQRJ2EAT8+crhbdp7fghcpgbM4rJYJTT4iBmymvvEIm6QPREfAaF4kAu+NQuzyJMXNZULAUtpj5trF7+8a6jVhdGUMAKKrO9J8Ws2y/9X53R+WzfLbwC9y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780975231; c=relaxed/simple;
-	bh=n0B6QDSJKrgmpt19FWl1qB81zF8yRGvWfNsGxqRxVsg=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=WQVFg4Vchdn+fTUfEkXaGVmtEnCWYT+sfmjV4KYBk4JY6y+TJ8oDDFcOP9t8+NFpZKJs+V4eL4dGZz7L4soKri6LSD9ALfsDn8PZlZlHAdg5aLf6T/QkwE7HcPdNUIU1UsaZVx6SkyBia9ubad7/HUhZdMtzfaJg+hcp4hkK4TY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TQF1/951; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780986837; c=relaxed/simple;
+	bh=NcfAmqX1/Os0ct/tHp8ao3ztXfVLp7vHO87xAKg7398=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Pcv3hB0sKXCtyjz7cLdVLmkTX6yvdxgcA8C5EVNgvCQlGEMMBLZbNzNGtbfUk9tgBMOnWcnBUONeQ7jZgh8lwk5p+HEgrvJ5I4iFGZtidZ9LMltRu3ZR9S3+AhUFwLrQU7IWwoOqma+GjLw0W1FZT+SbNf0LGkWxjL20owO09hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lKukEZ87; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QHhtorVo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hFGuxsAa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VJ07OCIE; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TQF1/951"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B72AD1F00893;
-	Tue,  9 Jun 2026 03:20:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780975229;
-	bh=1oAHpPSmD7jpCqfTtnRpAlLCAOu6JtJd19c1EBnc66Y=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=TQF1/9518BZ+Lb1LcN+hR8r0Yd+zJOeXndAoe/qICDAiNecTTgRIu09yrJMDlnXO4
-	 oQ2LywqCGzsSCiB4daHQAVhv2+q9DD4H+jvDzMVF6aRgStFpFwfaqxLvbgciQVdmi6
-	 lY2rmf7UxBcvAIuEtvcqyjDNM5j5ELo7mgmJpp3YRE4aW4WE4RnJRjbCgHl2t9t0IL
-	 bPYI+CHXY3Nf9EZOfEwVHqO3S6HMDSLs9vU0BkUAmIWZQJJpoXi698bbkLQBljI/2T
-	 hvfsJ2ytHhW5/vx5OI35e5S5T6EUTOnWd/7eM683JyogG3yRe4saccsIcpwCBwtrhz
-	 PcNyPnzUedHHQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93A2D3822D4A;
-	Tue,  9 Jun 2026 03:20:29 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lKukEZ87";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QHhtorVo";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hFGuxsAa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VJ07OCIE"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CCBAB7592E;
+	Tue,  9 Jun 2026 06:33:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780986834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PKE/uJBVyB0X5nsgiFUDFtCb4ApOZevyMfjAVJep4rg=;
+	b=lKukEZ87WWZmMipW14oKd7IhQm4fBnD5z5ctJNtn8hFmJmZjtoiZfCUUBot+0jUeYdPKLk
+	/CWBlr8/7e7Oh2nmgY6kZgG5HXegnSx0f5/Unc2MZg+WPz4bs9wzBGCWvzArgnSWWIaOPX
+	4TudyXUP9Uk/E/4mx7t5xUqqiIxgUS4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780986834;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PKE/uJBVyB0X5nsgiFUDFtCb4ApOZevyMfjAVJep4rg=;
+	b=QHhtorVoQUFH+xxQ7+SaTamZTisHr8Hb2pX4X2O6JHW6DYb2H064FXyYQqWAugqJchSgb0
+	nd+Dij86ZrIpw5Cg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780986832; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PKE/uJBVyB0X5nsgiFUDFtCb4ApOZevyMfjAVJep4rg=;
+	b=hFGuxsAa0fiKdlWgGQ64jSSnHiO2GYSYcjGAMZ5FbJLZZRNRXrLXqR0+G3OcbLVBUMAllm
+	cy3ziTM8tQ7TcXN8HaAANFk3YoESL6V6CkTrSRMC8YNde7lfr0KZAVXV0uQ0GVCtTHDCDR
+	B5HLrKg9IcnmR1GZr1z/RgCwr6WF8tY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780986832;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PKE/uJBVyB0X5nsgiFUDFtCb4ApOZevyMfjAVJep4rg=;
+	b=VJ07OCIEqFLFTnFasawkxz8V90kT9RgZK+wrs1Z0AAzC/7ndDZ3CtsRQ+HrCUJwJxAiMA5
+	O1uVKxBeq1UG8NDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 94C62779A7;
+	Tue,  9 Jun 2026 06:33:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id yxStIs+zJ2qBaAAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 09 Jun 2026 06:33:51 +0000
+Message-ID: <e578fbb5-2184-4052-a9db-b363ae758e3c@suse.de>
+Date: Tue, 9 Jun 2026 08:33:51 +0200
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/9] handshake: Require admin permission for DONE command
+To: Chuck Lever <cel@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Sabrina Dubroca <sd@queasysnail.net>, Keith Busch <kbusch@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+ Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,
+ Tom Talpey <tom@talpey.com>, Trond Myklebust <trondmy@kernel.org>,
+ Anna Schumaker <anna@kernel.org>
+Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
+ Chuck Lever <chuck.lever@oracle.com>
+References: <20260605-tls-session-tags-v1-0-47bd1d94d552@oracle.com>
+ <20260605-tls-session-tags-v1-1-47bd1d94d552@oracle.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260605-tls-session-tags-v1-1-47bd1d94d552@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v12 0/6] tls: receive-path fixes and clean-ups
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178097522813.1776256.11633933878763995491.git-patchwork-notify@kernel.org>
-Date: Tue, 09 Jun 2026 03:20:28 +0000
-References: <20260604-tls-read-sock-v12-0-b114efa6e3e2@oracle.com>
-In-Reply-To: <20260604-tls-read-sock-v12-0-b114efa6e3e2@oracle.com>
-To: Chuck Lever <cel@kernel.org>
-Cc: john.fastabend@gmail.com, kuba@kernel.org, sd@queasysnail.net,
- edumazet@google.com, horms@kernel.org, pabeni@redhat.com,
- netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
- chuck.lever@oracle.com, sagi@grimberg.me, hare@kernel.org, hare@suse.de,
- alistair.francis@wdc.com
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	TO_DN_SOME(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,davemloft.net,google.com,redhat.com,lwn.net,linuxfoundation.org,linux-foundation.org,queasysnail.net,kernel.dk,lst.de,grimberg.me,nvidia.com,brown.name,oracle.com,talpey.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLh3g55kcpku8oef9ktzra4k57)];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[oracle.com:email,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,oracle.com:email]
+X-Spam-Level: 
 
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Thu, 04 Jun 2026 13:48:23 -0400 you wrote:
-> I'd like to encourage in-kernel kTLS consumers (NFSD, NVMe/TCP) to
-> coalesce on the use of read_sock. While auditing read_sock for that
-> purpose, Hannes and Sabrina flagged a few rough edges in the receive
-> paths.
+On 6/5/26 19:34, Chuck Lever wrote:
+> From: Chuck Lever <chuck.lever@oracle.com>
 > 
-> This series is a set of clean-ups, not a performance series. Async
-> batch decryption and its submit/deliver scaffolding were dropped
-> during previous review: async_capable is always false for TLS 1.3,
-> the version NFSD and NVMe/TCP both require, so async-related
-> improvements were unreachable for the in-kernel consumers this
-> work targets.
+> ACCEPT and DONE are the two downcalls of the handshake genl
+> family, both intended for use by the trusted handshake agent
+> (tlshd). ACCEPT already requires GENL_ADMIN_PERM; DONE has
+> no privilege check at all.
 > 
-> [...]
+> The fd-lookup in handshake_nl_done_doit() only confirms that
+> some pending handshake request exists for the supplied sockfd;
+> it does not authenticate the sender. An unprivileged process
+> that guesses or observes a valid sockfd can therefore submit
+> a DONE with HANDSHAKE_A_DONE_STATUS == 0, leaving the kernel
+> consumer to proceed as if the handshake succeeded. A non-zero
+> status on a forged DONE tears down a legitimate in-flight
+> handshake before tlshd can report its real result.
+> 
+> A subsequent patch teaches the DONE handler to carry session
+> tags consumed for access control. That work makes closing the
+> existing gap a prerequisite, but the gap itself predates tags.
+> 
+> Fixes: 3b3009ea8abb ("net/handshake: Create a NETLINK service for handling handshake requests")
+> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> ---
+>   Documentation/netlink/specs/handshake.yaml | 1 +
+>   net/handshake/genl.c                       | 2 +-
+>   2 files changed, 2 insertions(+), 1 deletion(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
 
-Here is the summary with links:
-  - [net-next,v12,1/6] tls: Avoid evaluating freed skb in tls_sw_read_sock() loop
-    https://git.kernel.org/netdev/net-next/c/4da7925c124a
-  - [net-next,v12,2/6] tls: Re-present partially-consumed records in tls_sw_read_sock()
-    https://git.kernel.org/netdev/net-next/c/3f05d3bf9422
-  - [net-next,v12,3/6] tls: Move decrypt-failure abort into tls_rx_one_record()
-    https://git.kernel.org/netdev/net-next/c/524bc67509ff
-  - [net-next,v12,4/6] tls: Factor tls_strp_msg_consume() from tls_strp_msg_done()
-    https://git.kernel.org/netdev/net-next/c/8cf0c70ec84d
-  - [net-next,v12,5/6] tls: Suppress spurious saved_data_ready on all receive paths
-    https://git.kernel.org/netdev/net-next/c/22f8bf8808dc
-  - [net-next,v12,6/6] tls: Flush backlog before waiting for a new record
-    https://git.kernel.org/netdev/net-next/c/edcf32b8a48f
+Cheers,
 
-You are awesome, thank you!
+Hannes
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich

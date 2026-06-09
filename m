@@ -1,141 +1,70 @@
-Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5838D325485
-	for <kernel-tls-handshake@lists.linux.dev>; Sun,  7 Jun 2026 22:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7731363C57;
+	Tue,  9 Jun 2026 03:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780870258; cv=none; b=orcvJvkikucxb+x24nRT0dx81k3tYpPSxyQeyNabKXMnD5iSdn+AR9pDBkFG8hqpk8Tw8fptlsQeGvQWUZgRWrb18FsfVL0yfHJz4WDKP4GJhwZBavFt8EV99TU/kZnIlDe7MpVbIbacIr0ctbPT7rQIHLXCCtr4hcmh6it2hJ4=
+	t=1780974684; cv=none; b=I0vuOnB8q/kKVBppd9gq1puRWfM6KZt59oefcjWkI+nVHxxsV6kKJ9JMfa5CgIXmOX94jriTdc+ke/nTPpBBxE9h5gk1YH0VKhA+1WJ/OO3bFP5naQ7zHaT1YFNsNZB1/XJS8PL4ZwgRqP/nV/Jp6cK9Uux/y7tDKKP6XmGX4J4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780870258; c=relaxed/simple;
-	bh=cSg3mEe/nk3Hc3/J47bZa6b7/HjEyK6H3PEjizIHGyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jv19LNLqm6UV9bCuX6q4WPMkczwqb4PcP5dEU1/1Uhe4P2ajsfkIezg4A4JtietMjuAR2QQPMED+QRhVmFepy+q6nQThZTjAMdb9ASh29udF1hRolKvgDv1/GlY/9bjHZgDCvyA2Dk8UhgZfouJezGpjgabbaeB4vWkD6XXVhcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=hZt+8u3C; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FAycgVaQ; arc=none smtp.client-ip=202.12.124.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
+	s=arc-20240116; t=1780974684; c=relaxed/simple;
+	bh=Pd10usMEu2aDvJ7SDugSDXmPcOvHYOes02ogwr8cKa8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LRdgidA/qe6xjIRTl0LvP1/lxxwTa3CMvJK29XdfO5coGLhq5Gc7RR8efqSINcAMgxrbr1jxq0Z0apOT2Lp4/Pcmz7Bm1dhHWEa+HqttytEeTL7t1MmM3vfCeRk1rtKthu5+7A+EERsK6sROaJD4zjzi6nwFO3RRB+6BXXFGJEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lDPAXF+U; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="hZt+8u3C";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FAycgVaQ"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 61E257A00E2;
-	Sun,  7 Jun 2026 18:10:54 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Sun, 07 Jun 2026 18:10:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1780870254; x=
-	1780956654; bh=ORguDEtjWww27H8qt3wdVTnWIh76EuvWiCrQuOvCf9Q=; b=h
-	Zt+8u3CV9Jn58jSQ7/XHw4zz+UvDZO6uSpTluShesHenVeigSomUGF07APL1CM3c
-	XTUFwl09Ca+J3YVfXXTiPJl/lpmOremYfBLDhTGGvoiX7pNiDlcv/Cfk6ysx8iPI
-	5XEOQEel4iBZdZ2OGoF1X9Fj3TWspfzJ9PZbmKlaJp7QIic9UPt7LUN+h5Mbcz0R
-	hGpnNvgZ4bAE8JxkYydtIZvjaNPACYDbfTnxUQ2j7W1gg9Ro4bfPelJxl2i/b3jN
-	YucWBNYEh/VjJGk1QjryjbRtRqfUyMlRDrpCzlga4pkfkiDwVCnz8m2RvsNlwil3
-	A2TDz6R8AEKEWeTSyoWvw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1780870254; x=1780956654; bh=ORguDEtjWww27H8qt3wdVTnWIh76EuvWiCr
-	QuOvCf9Q=; b=FAycgVaQQDKMIi+e+ssmtCWu4Mps9FctGkov5C91kHF3LQeTeYU
-	q5HUuZVhu0SJ4dotPQHIzexYRUP6c4Urm1e7C281jLRBl6f3WvD1GwHDj0AYhKau
-	85GE6etrHHrGXiUe+vRrEcL0/7FCuqUbuXLFDON3hldH43+op01Cz6vRWFB6PmqO
-	lca8xfBZd3vGNh2WEkWyuU2dJvLNYDgy4wIsLLMT1qxdhXil2IZoz2S73Vci076e
-	7YVH/RpaZt37VcdXkPeDy6WbefMr9PYQTEynVIQcQdHGVIOIzjfefWGaLkEI1Xzl
-	Twq91wfDi4eNzSE8XJhvMt798rXhbBU27hg==
-X-ME-Sender: <xms:bewlav_Dx4Tj3fp2ZCLGf80hCOSbbNkAP4yv5Iun430q6pDfxrKKYQ>
-    <xme:bewlauyOrgQmGXqzZUoFDFpg1BUcCIEeI_kxhZaazTXz2P7VmVUGHZIw0RfBHLdJ0
-    CUw88Bp26zLKNft-a02cov6Q0XlarPy62TnH_-KPDWH1VKhQIV2bA>
-X-ME-Received: <xmr:bewlanq6aJimX03eOt8OZW4XKBJrlU2C6cx7oM6dNRC8bFRvRqzdBowKyLVlDC69rBwiO3s5fIj8w1AkJUIiMIc>
-X-ME-Proxy-Cause: dmFkZTEzypjPAMTRugTLai+EOQ1s2Juwf36K9gfdJJ2HR/CddZi/x+tXzrWsUY1VRJ//4o
-    h4Z9fPhvuObMo8dXmVJeXScZHRlc3epOR1IbBXqDBCir071An/ldMAStQm2t2JES//fyNM
-    87gK22OYlR1tRlF3kKTjs4/LrcBTwzGLSyC/QKj8UL5wl68DDjCWDvLqCluwYtG6MMia0b
-    WturvXTHX3s9p0Z8G7BLwIqy6gTBt/Al3ZU6JvLfiT3NlnggJzrURkddLLw7K4sKunRbrr
-    ub45Y+3B1Qo7Pxigsohjylx8KBgAvixyO9TVjb/N2FXXSY/OwuVa8hojRbsDxX5u0QHATg
-    dDaMxPPQ21L0ExjE2SMMntDutyhtYkD/E3tHrWOzFP33/uqsfzJ7wblns+oqiDzQNulcNR
-    +i5C2XOqk/UmCVeADpHM3ssn6O0h8D11o/2UF8T+zoDFvfRYGIR3wcxjBgWS/ulYw3X2BA
-    n8CTgjP7icDJCNZIi6T10G2nJgkrbxFFkHqsKfBlEr0Nny9UcpYUEbIm64o+OPH2c7zcly
-    ySEPR6Aw+kKdEQEGnuVR+9l3QSGLasyTD7zXDKShnp6VahBM2MqOaJcjwO1X+0wRSJBAFK
-    5N9G4Jt7RI4lOPXzRJW2BKD9blrWtM5yKQOqUTXvKzLaGiVWqi4bKWDi8y7g
-X-ME-Proxy: <xmx:bewlanp5m4m5iy0OkLRSEPm6Xh4yq8XH_C31eDi3ptVWI5fUpuQACw>
-    <xmx:bewlavC9jqLcrTqZf9FpURuHp46-hXhDCy5QoG4-lsKE4Kg11ztgeA>
-    <xmx:bewlatuPHnGzPclytX9VMRjWTHvw24P7GChfDmnQup5XCWmQqwipzg>
-    <xmx:bewlamLEoLCbjW1y9XpOYdKgbvgKuZcmnjrDi8dy_WWxdbA8N-TtYQ>
-    <xmx:buwlaixQsDpHOF_BVVD_J0xboQpu3NxPD_NqL5pJpWhHnLTdZbjL1KdF>
-Feedback-ID: i934648bf:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 7 Jun 2026 18:10:53 -0400 (EDT)
-Date: Mon, 8 Jun 2026 00:10:51 +0200
-From: Sabrina Dubroca <sd@queasysnail.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lDPAXF+U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 158CE1F00893;
+	Tue,  9 Jun 2026 03:11:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780974683;
+	bh=7n8Xha7y/8l9LARUxBQjdIVK8pW1dU++pwn+FBHj0Aw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=lDPAXF+UYbFuhiRyEaph9Bz5n3pqoMZFlyXHAglfAIrjKHQwq1Vxt1xG8zX5armN+
+	 M3V/dHdZUDen6TWiy5jz/EKcOi4JUWVpLnU4cM06G/Nrns28LVlbb/7cbXU/h9XOng
+	 Ik2v6mrOeP1SZUD1h4pw9BWioCDRQncuLNwvx5pc4PftGIHX/S2vd06/8U7Ao/bTSI
+	 Ldo3tYh1nviWJfOxZgA29kYxVtYYU4KT4+FYFWq+KVQLJrFMw7f5u/9NaZL5IhkVFu
+	 Pl9cvySCddxlo321OBtNWRrokvM4oq+3bkkl9Jc9youOgHrF7+bHBaCwIGGspgZtbK
+	 bjlrNrvZvNK+w==
+Date: Mon, 8 Jun 2026 20:11:22 -0700
+From: Jakub Kicinski <kuba@kernel.org>
 To: Chuck Lever <cel@kernel.org>
-Cc: John Fastabend <john.fastabend@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
-	kernel-tls-handshake@lists.linux.dev,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH net-next v12 6/6] tls: Flush backlog before waiting for a
- new record
-Message-ID: <aiXsa5zx3u0DUn0l@krikkit>
+Cc: John Fastabend <john.fastabend@gmail.com>, Sabrina Dubroca
+ <sd@queasysnail.net>, Eric Dumazet <edumazet@google.com>, Simon Horman
+ <horms@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, Chuck Lever
+ <chuck.lever@oracle.com>, Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke
+ <hare@kernel.org>, Hannes Reinecke <hare@suse.de>, Alistair Francis
+ <alistair.francis@wdc.com>
+Subject: Re: [PATCH net-next v12 0/6] tls: receive-path fixes and clean-ups
+Message-ID: <20260608201122.0ca7b1f1@kernel.org>
+In-Reply-To: <20260604-tls-read-sock-v12-0-b114efa6e3e2@oracle.com>
 References: <20260604-tls-read-sock-v12-0-b114efa6e3e2@oracle.com>
- <20260604-tls-read-sock-v12-6-b114efa6e3e2@oracle.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260604-tls-read-sock-v12-6-b114efa6e3e2@oracle.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-2026-06-04, 13:48:29 -0400, Chuck Lever wrote:
-> From: Chuck Lever <chuck.lever@oracle.com>
+On Thu, 04 Jun 2026 13:48:23 -0400 Chuck Lever wrote:
+> I'd like to encourage in-kernel kTLS consumers (NFSD, NVMe/TCP) to
+> coalesce on the use of read_sock. While auditing read_sock for that
+> purpose, Hannes and Sabrina flagged a few rough edges in the receive
+> paths.
 > 
-> While lock_sock is held, incoming TCP segments land on
-> sk->sk_backlog rather than sk->sk_receive_queue.
-> tls_rx_rec_wait() inspects only sk_receive_queue, so backlog
-> data remains invisible. For non-blocking callers (read_sock,
-> and recvmsg or splice_read with MSG_DONTWAIT) this causes a
-> spurious -EAGAIN. For blocking callers it forces an
-> unnecessary sleep/wakeup cycle.
+> This series is a set of clean-ups, not a performance series. Async
+> batch decryption and its submit/deliver scaffolding were dropped
+> during previous review: async_capable is always false for TLS 1.3,
+> the version NFSD and NVMe/TCP both require, so async-related
+> improvements were unreachable for the in-kernel consumers this
+> work targets.
 > 
-> Flush the backlog inside tls_rx_rec_wait() before checking
-> sk_receive_queue so the strparser can parse newly-arrived
-> segments immediately. On the next loop iteration
-> tls_read_flush_backlog() may redundantly flush, but this
-> path is cold and the cost is negligible.
-> 
-> Backlog processing can run tcp_reset(), which calls
-> tcp_done_with_error() to set sk->sk_err = ECONNRESET and then
-> tcp_done() to set sk->sk_shutdown = SHUTDOWN_MASK. The pre-existing
-> top-of-loop sk_err check already ran before the flush, so the
-> freshly-set error would be masked by the next-line sk_shutdown test
-> returning 0 (EOF). Re-check sk_err immediately before the sk_shutdown
-> test so a connection abort surfaces as -ECONNRESET rather than a clean
-> EOF.
-> 
-> Commit f508262ae9f2 ("tls: Preserve sk_err across recvmsg() when
-> data has been copied") gave the top-of-loop sk_err check a
-> has_copied split. The recheck applies the same handling: when the
-> caller has already copied bytes, sk_err is reported but preserved
-> so the error surfaces on the next call; otherwise sock_error()
-> consumes it so the error is reported exactly once.
-> 
-> Suggested-by: Sabrina Dubroca <sd@queasysnail.net>
-> Link: https://lore.kernel.org/netdev/ahgHgQ84RCc8uYrG@krikkit/
-> Reviewed-by: Hannes Reinecke <hare@suse.de>
-> Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
-> ---
->  net/tls/tls_sw.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+> A subsequent series will introduce infrastructure to support
+> KeyUpdate for in-kernel kTLS consumers, which need to handle TLS
+> Alert messages that trigger a tlshd upcall.
 
-Reviewed-by: Sabrina Dubroca <sd@queasysnail.net>
-
-Thanks for your patience with this series, Chuck.
-
--- 
-Sabrina
+I still feel like the last patch should have _some_ kind of benchmark /
+experimental result included, but okay, let me not torture you :)

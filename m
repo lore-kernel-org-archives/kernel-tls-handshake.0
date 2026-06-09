@@ -1,55 +1,62 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7731363C57;
-	Tue,  9 Jun 2026 03:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129C5364E9E;
+	Tue,  9 Jun 2026 03:20:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780974684; cv=none; b=I0vuOnB8q/kKVBppd9gq1puRWfM6KZt59oefcjWkI+nVHxxsV6kKJ9JMfa5CgIXmOX94jriTdc+ke/nTPpBBxE9h5gk1YH0VKhA+1WJ/OO3bFP5naQ7zHaT1YFNsNZB1/XJS8PL4ZwgRqP/nV/Jp6cK9Uux/y7tDKKP6XmGX4J4=
+	t=1780975231; cv=none; b=khD/ev+rxk+fXIzSiMRek9+wlTE3nmsxuZkXciczAsJk+f73hS+pOKl1zW7Vakc7oR8Ec16PgbqnSxdgS++IVMRP4RuLmRftrRywVUfcN7Q+yaYKuuoEdZaEW7cCIMD6c6xgQDYhY4YG/+tdqQMlfd1r/kavEuuJ3P7v4cet/Vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780974684; c=relaxed/simple;
-	bh=Pd10usMEu2aDvJ7SDugSDXmPcOvHYOes02ogwr8cKa8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LRdgidA/qe6xjIRTl0LvP1/lxxwTa3CMvJK29XdfO5coGLhq5Gc7RR8efqSINcAMgxrbr1jxq0Z0apOT2Lp4/Pcmz7Bm1dhHWEa+HqttytEeTL7t1MmM3vfCeRk1rtKthu5+7A+EERsK6sROaJD4zjzi6nwFO3RRB+6BXXFGJEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lDPAXF+U; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780975231; c=relaxed/simple;
+	bh=n0B6QDSJKrgmpt19FWl1qB81zF8yRGvWfNsGxqRxVsg=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=WQVFg4Vchdn+fTUfEkXaGVmtEnCWYT+sfmjV4KYBk4JY6y+TJ8oDDFcOP9t8+NFpZKJs+V4eL4dGZz7L4soKri6LSD9ALfsDn8PZlZlHAdg5aLf6T/QkwE7HcPdNUIU1UsaZVx6SkyBia9ubad7/HUhZdMtzfaJg+hcp4hkK4TY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TQF1/951; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lDPAXF+U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 158CE1F00893;
-	Tue,  9 Jun 2026 03:11:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TQF1/951"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B72AD1F00893;
+	Tue,  9 Jun 2026 03:20:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780974683;
-	bh=7n8Xha7y/8l9LARUxBQjdIVK8pW1dU++pwn+FBHj0Aw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=lDPAXF+UYbFuhiRyEaph9Bz5n3pqoMZFlyXHAglfAIrjKHQwq1Vxt1xG8zX5armN+
-	 M3V/dHdZUDen6TWiy5jz/EKcOi4JUWVpLnU4cM06G/Nrns28LVlbb/7cbXU/h9XOng
-	 Ik2v6mrOeP1SZUD1h4pw9BWioCDRQncuLNwvx5pc4PftGIHX/S2vd06/8U7Ao/bTSI
-	 Ldo3tYh1nviWJfOxZgA29kYxVtYYU4KT4+FYFWq+KVQLJrFMw7f5u/9NaZL5IhkVFu
-	 Pl9cvySCddxlo321OBtNWRrokvM4oq+3bkkl9Jc9youOgHrF7+bHBaCwIGGspgZtbK
-	 bjlrNrvZvNK+w==
-Date: Mon, 8 Jun 2026 20:11:22 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Chuck Lever <cel@kernel.org>
-Cc: John Fastabend <john.fastabend@gmail.com>, Sabrina Dubroca
- <sd@queasysnail.net>, Eric Dumazet <edumazet@google.com>, Simon Horman
- <horms@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, Chuck Lever
- <chuck.lever@oracle.com>, Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke
- <hare@kernel.org>, Hannes Reinecke <hare@suse.de>, Alistair Francis
- <alistair.francis@wdc.com>
-Subject: Re: [PATCH net-next v12 0/6] tls: receive-path fixes and clean-ups
-Message-ID: <20260608201122.0ca7b1f1@kernel.org>
-In-Reply-To: <20260604-tls-read-sock-v12-0-b114efa6e3e2@oracle.com>
-References: <20260604-tls-read-sock-v12-0-b114efa6e3e2@oracle.com>
+	s=k20260515; t=1780975229;
+	bh=1oAHpPSmD7jpCqfTtnRpAlLCAOu6JtJd19c1EBnc66Y=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=TQF1/9518BZ+Lb1LcN+hR8r0Yd+zJOeXndAoe/qICDAiNecTTgRIu09yrJMDlnXO4
+	 oQ2LywqCGzsSCiB4daHQAVhv2+q9DD4H+jvDzMVF6aRgStFpFwfaqxLvbgciQVdmi6
+	 lY2rmf7UxBcvAIuEtvcqyjDNM5j5ELo7mgmJpp3YRE4aW4WE4RnJRjbCgHl2t9t0IL
+	 bPYI+CHXY3Nf9EZOfEwVHqO3S6HMDSLs9vU0BkUAmIWZQJJpoXi698bbkLQBljI/2T
+	 hvfsJ2ytHhW5/vx5OI35e5S5T6EUTOnWd/7eM683JyogG3yRe4saccsIcpwCBwtrhz
+	 PcNyPnzUedHHQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93A2D3822D4A;
+	Tue,  9 Jun 2026 03:20:29 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v12 0/6] tls: receive-path fixes and clean-ups
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178097522813.1776256.11633933878763995491.git-patchwork-notify@kernel.org>
+Date: Tue, 09 Jun 2026 03:20:28 +0000
+References: <20260604-tls-read-sock-v12-0-b114efa6e3e2@oracle.com>
+In-Reply-To: <20260604-tls-read-sock-v12-0-b114efa6e3e2@oracle.com>
+To: Chuck Lever <cel@kernel.org>
+Cc: john.fastabend@gmail.com, kuba@kernel.org, sd@queasysnail.net,
+ edumazet@google.com, horms@kernel.org, pabeni@redhat.com,
+ netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
+ chuck.lever@oracle.com, sagi@grimberg.me, hare@kernel.org, hare@suse.de,
+ alistair.francis@wdc.com
 
-On Thu, 04 Jun 2026 13:48:23 -0400 Chuck Lever wrote:
+Hello:
+
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Thu, 04 Jun 2026 13:48:23 -0400 you wrote:
 > I'd like to encourage in-kernel kTLS consumers (NFSD, NVMe/TCP) to
 > coalesce on the use of read_sock. While auditing read_sock for that
 > purpose, Hannes and Sabrina flagged a few rough edges in the receive
@@ -62,9 +69,25 @@ On Thu, 04 Jun 2026 13:48:23 -0400 Chuck Lever wrote:
 > improvements were unreachable for the in-kernel consumers this
 > work targets.
 > 
-> A subsequent series will introduce infrastructure to support
-> KeyUpdate for in-kernel kTLS consumers, which need to handle TLS
-> Alert messages that trigger a tlshd upcall.
+> [...]
 
-I still feel like the last patch should have _some_ kind of benchmark /
-experimental result included, but okay, let me not torture you :)
+Here is the summary with links:
+  - [net-next,v12,1/6] tls: Avoid evaluating freed skb in tls_sw_read_sock() loop
+    https://git.kernel.org/netdev/net-next/c/4da7925c124a
+  - [net-next,v12,2/6] tls: Re-present partially-consumed records in tls_sw_read_sock()
+    https://git.kernel.org/netdev/net-next/c/3f05d3bf9422
+  - [net-next,v12,3/6] tls: Move decrypt-failure abort into tls_rx_one_record()
+    https://git.kernel.org/netdev/net-next/c/524bc67509ff
+  - [net-next,v12,4/6] tls: Factor tls_strp_msg_consume() from tls_strp_msg_done()
+    https://git.kernel.org/netdev/net-next/c/8cf0c70ec84d
+  - [net-next,v12,5/6] tls: Suppress spurious saved_data_ready on all receive paths
+    https://git.kernel.org/netdev/net-next/c/22f8bf8808dc
+  - [net-next,v12,6/6] tls: Flush backlog before waiting for a new record
+    https://git.kernel.org/netdev/net-next/c/edcf32b8a48f
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+

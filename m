@@ -1,172 +1,310 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993E9405C3D
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 10 Jun 2026 13:44:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C7D35839E
+	for <kernel-tls-handshake@lists.linux.dev>; Thu, 11 Jun 2026 08:19:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781099069; cv=none; b=Rdn5rpqa70UEVk9LPJyV+A3RcT0Kky4Zqg0kEGXFt/RI9Yj/YFRNy4+RoDLVewywPJhV/gPtE1AJ30fFqVFZAwR+CGpq3nxFdg9UC7bAeGqH7bsMD3UnVPrTbHruWAc+tHj513S4bZJ21O52fww6NYe6uwMPHF8sRYI1Iw8mOlM=
+	t=1781166000; cv=none; b=EmMHHxKpa4ykbcY3afsh1Ah97RY+nuhYj/2rR9kM1TRglZ0ujBEXe/hqVex11VrGxqkVQpkJuYhUD9Io9QOC9YHk6sCgfEA+hNDMZh8Bllvee4FbTHkVvlZIG+eQpD2ubgiBSQBYK1Z0IaGl0Y5sddI14Cw53ei3MNc4x00e9SY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781099069; c=relaxed/simple;
-	bh=HFdCixDVC26nIkym/DDw5BbdDTYYCZ75EgliOFovO8g=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=JucBRZmsTMGewh9YT1fWt1HbCneQsPT4B0Umm87qWYkPqyu4dsmv7U5r+AcSOizPg3DnJD2QBM15liZiuYnI3VRXlvVmrOZsVvqZI//wcDYBGftO03ncrlx6myaqqdhuCqdG+n91trETlzucuroTQxtCqrMu+MbKipnrSpQqEjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BVOSb6H3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781166000; c=relaxed/simple;
+	bh=zfUHBvOS9rLd1Jwao3dD4EjPfWEHPV7ZqtcvIiZwq2U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:content-type; b=Pg6vz4AczgS27+4bDcDoyIPPGHeA3e52mTyparNwosiV+tcgk6xFSq8sxxz1rzslrWblTRRTnwryi3Ybb+/OJ7U/MPVCq+8ELT8ekhrUhMpnpqLrWgKgmiPvZhVmBviZIopP0cBq8xp7IlRfhlr3y4PZUTF0AiwL7+C8uP7eJtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DvjeAnC/; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BVOSb6H3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4D971F00893;
-	Wed, 10 Jun 2026 13:44:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781099068;
-	bh=wPPDhxKh3hPc6l1/pq4WkUoyCmQ73QpGV3SN3sLOFRo=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=BVOSb6H3xr1dTTnA6IyJcvki9vKqeErst4XNJQblTnHZck+W55a5bkHy06PA/rFnk
-	 BzeNsmCCR+ATshWPpMmlo2gztxWdn55c8KGJyJOGAH4FKWyZTviqHmrGgZfmrtO47J
-	 rAYWUhy+/L5fGIUYkxwrOtkIaFAqCO1c103WVtdawY8TzxjEdd1oWbOaKCvfv0eKz1
-	 LO/D5npkfeUSOdkHl5SZB836NW+DDVt2nxfzA4ZVvQuNv36qwmdAt693elYcL2lmTu
-	 NbZanSLLCgP0sc96gpZhb4QHrCWGpxKNj47fqYPXftu/RAxXtR4qr+sW7xcN2c1lIh
-	 1TtZIIf6YqTIg==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id E2E81F40077;
-	Wed, 10 Jun 2026 09:44:26 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Wed, 10 Jun 2026 09:44:26 -0400
-X-ME-Sender: <xms:Omopaszll95i-3fJFd6CskCrToGzY4ZK5vyfiFZgBFxT5A37wj_iKQ>
-    <xme:OmoparHzwNrSu-NHoBGiw2xAHot2S5IZPLxAX7cvsUO4E8cgFFtcUK-uvezsl8z7a
-    qA4ZDPYhIc04TVClC9TyDxb9zuKDfHsd92yRUJ_GAkdehaZSGnbrEU>
-X-ME-Proxy-Cause: dmFkZTFo6lJcIYlhfzO/M7VQ/JnV1u4EHs5xq3VlZnBCfR540veWQVuwQPexuiS4eLQ9He
-    2632OciM8xFfTwlrrqsfBrJFYSd43AdzjUtlKEJQ7ztos01/QDK8f0NKCFDLtiH6/PI8Xe
-    Rh2ta8+yx4RJ4qjkPUZJSjLMMGk67Y/x5VondMjwqe2J5HUezBrRZBfgby9HaDQa7uw9XA
-    0ZO+vPRgUARmUBEwHVMK6OUZuHsQgeTPM7dNVId1LklSaSvhzscZLscEOlrBX68uUL7Uh4
-    muMOzMveIndhSACewxMIyLTuWF4kgSGQA1trSBckDEF95S7IOLs0WvEff0ifWxq3h8dABF
-    jXli4WNoMJObTrcXcZhT0yNEAGez015qGKZV3dDKd1g4fY1WCNfiR8az0cNsMcYG9r/f94
-    RmJR6z8dJkqd2jYr+DvoCTuxD7PEMyJYsJSrBb9mIimXygUailkO9U7B6uHpBQY9n01Q97
-    tKgpWLnVyvG97FcfHsXmTxL9sFLQFjuwEszrMy9he8qsdkIRErVenWi6bLoMWDswWmbGoo
-    Ga+BkuaRorJ9sCj5WwOXAM3d4Q2TAaVa03KR3AWtXT98T3fz7h5B9Yzn+Ln2hbF/31V4D/
-    6ygODKDG7YLbZ4wsWnGwkCvkMWUYOwu/ABIzt0CbYHI1lEj00Aa+97pJGzRA
-X-ME-Proxy: <xmx:Omopajb9Q_c5ELOPrPCO6ibbO_KC0kOAKkNXt8CMSh5PlPS741hyyQ>
-    <xmx:Omopaig0QQ3SWZ50PrMxg56iDMdHDDDh0_hGEPmNDcVjFvzwdG3V7Q>
-    <xmx:OmopajyDVfnPWFVoqrteEXQ0si-20fOP1_OVPianFEFhUzhQ45fXcA>
-    <xmx:Omopat4HlpRERPyyuchP9miI8KLrPxVqOjV1SbaSnUREM4u7j1P-3w>
-    <xmx:Omopas17tC3U4tMRF30GWJtmyX6viVpeXC8T8icfy2hd8u-bp3QpqJGk>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B460F780070; Wed, 10 Jun 2026 09:44:26 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DvjeAnC/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1781165997;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k2Tbl5YSafMDU9v5maENUMhUQohNtmwiAB1oNrOT/RY=;
+	b=DvjeAnC/DOMboAwqnEi4AXm3/32exlam24wA0JiH7sq7pNftckV1uBILFa7hoXjqMKh+AH
+	VZPowasWW0wcZzWVtS0O63Ju0DWVYUsQfwdGaYdnXAIPqelvMGXKVV+MTZzhcNCmfJgWSp
+	K/WOqw5rrI0TlOyXiG/JvVe4FJGCEcM=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-311-ybql3r6cPaOiNFqK4AmwzA-1; Thu,
+ 11 Jun 2026 04:19:53 -0400
+X-MC-Unique: ybql3r6cPaOiNFqK4AmwzA-1
+X-Mimecast-MFC-AGG-ID: ybql3r6cPaOiNFqK4AmwzA_1781165989
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A43D41955F26;
+	Thu, 11 Jun 2026 08:19:47 +0000 (UTC)
+Received: from gerbillo.redhat.com (unknown [10.44.48.53])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 83A8C1954B0B;
+	Thu, 11 Jun 2026 08:19:36 +0000 (UTC)
+From: Paolo Abeni <pabeni@redhat.com>
+To: lucien.xin@gmail.com
+Cc: netdev@vger.kernel.org,
+	quic@lists.linux.dev,
+	davem@davemloft.net,
+	kuba@kernel.org,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	metze@samba.org,
+	mbuhl@openbsd.org,
+	tfanelli@redhat.com,
+	hepengtao@xiaomi.com,
+	dreibh@simula.no,
+	linux-cifs@vger.kernel.org,
+	smfrench@gmail.com,
+	linkinjeon@kernel.org,
+	tom@talpey.com,
+	kernel-tls-handshake@lists.linux.dev,
+	chuck.lever@oracle.com,
+	jlayton@kernel.org,
+	steved@redhat.com,
+	hare@suse.de,
+	aahringo@redhat.com,
+	dhowells@redhat.com,
+	matttbe@kernel.org,
+	mail@johnericson.me,
+	xiyou.wangcong@gmail.com,
+	alibuda@linux.alibaba.com,
+	jbaron@akamai.com,
+	illiliti@protonmail.com,
+	sd@queasysnail.net,
+	marcelo.leitner@gmail.com,
+	daniel@haxx.se,
+	andrew.gospodarek@broadcom.com,
+	mef@scarletmail.rutgers.edu,
+	paul@jakma.org
+Subject: Re: [PATCH net-next v13 07/15] quic: add connection id management
+Date: Thu, 11 Jun 2026 10:19:28 +0200
+Message-ID: <20260611081928.137149-1-pabeni@redhat.com>
+In-Reply-To: <0565988e6b54dac937fa00cdb3b09adef9650be6.1780855297.git.lucien.xin@gmail.com>
+References: <0565988e6b54dac937fa00cdb3b09adef9650be6.1780855297.git.lucien.xin@gmail.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AL3hV2aBoURB
-Date: Wed, 10 Jun 2026 09:44:05 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Hannes Reinecke" <hare@suse.de>,
- "Donald Hunter" <donald.hunter@gmail.com>,
- "Jakub Kicinski" <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- "Eric Dumazet" <edumazet@google.com>, "Paolo Abeni" <pabeni@redhat.com>,
- "Simon Horman" <horms@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "John Fastabend" <john.fastabend@gmail.com>,
- "Sabrina Dubroca" <sd@queasysnail.net>, "Keith Busch" <kbusch@kernel.org>,
- "Jens Axboe" <axboe@kernel.dk>, "Christoph Hellwig" <hch@lst.de>,
- "Sagi Grimberg" <sagi@grimberg.me>, "Chaitanya Kulkarni" <kch@nvidia.com>,
- "Jeff Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
- "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
- "Tom Talpey" <tom@talpey.com>, "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>
-Cc: kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
- "Chuck Lever" <chuck.lever@oracle.com>
-Message-Id: <98b7f6ef-3c1d-4af0-86d0-cad6d1f29b1c@app.fastmail.com>
-In-Reply-To: <d14fff89-3c7b-40ea-9380-e8c37499916e@suse.de>
-References: <20260605-tls-session-tags-v1-0-47bd1d94d552@oracle.com>
- <20260605-tls-session-tags-v1-3-47bd1d94d552@oracle.com>
- <922040b0-f87e-484d-9f7b-78098024ad04@suse.de>
- <2dc23995-3ff9-4714-ac6c-d70255b15687@app.fastmail.com>
- <d14fff89-3c7b-40ea-9380-e8c37499916e@suse.de>
-Subject: Re: [PATCH 3/9] lib: Add a "tagset" data structure
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-MFC-PROC-ID: 1YSHimgKlJZulU9NV__UyWiKhtJNc0HuQlYP8c1sz9I_1781165989
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
+From: AI Reviewer <ai@example.com>
 
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+Full review at: https://netdev-ai.bots.linux.dev/sashiko/
+---
+Now I have enough information to produce the report.
 
-On Wed, Jun 10, 2026, at 3:06 AM, Hannes Reinecke wrote:
-> On 6/9/26 15:35, Chuck Lever wrote:
->> 
->> On Tue, Jun 9, 2026, at 2:45 AM, Hannes Reinecke wrote:
->>> On 6/5/26 19:34, Chuck Lever wrote:
->>>> From: Chuck Lever <chuck.lever@oracle.com>
->>>>
->>>> Access control mechanisms sometimes need to match metadata tags
->>>> between a session and a resource. A tagset provides efficient
->>>> membership testing and set intersection operations for this purpose.
->>>>
->>>> The implementation uses a sorted array of string pointers. Unlike
->>>> hash tables, sorted arrays support efficient intersection without
->>>> needing to iterate one set and probe the other. Unlike rbtrees,
->>>> they require no per-element node allocation, minimizing memory
->>>> overhead for small sets typical of resource tagging.
->>>>
->>> [ .. ]
->>>
->>>
->>> Isn't this overcomplicating matters?
->>> In the end, this a list of strings.
->>> Wouldn't a simple rbtree holding the strings be sufficient?
->>> (And quicker to lookup :-)
->> 
->> This isn't overcomplicating matters.
->> 
->> Consider that a TLS session might have several, even dozens of
->> tags. An NFSD export might also have a dozen or more tags.
->> 
->> We need a mechanism that will compute the intersection of those
->> two sets efficiently -- that is not a simple lookup. Keeping a
->> set of tags in a list or in an r-b tree would require MxN look
->> up operations to compute that intersection.
->> 
-> It sure would. But we're dealing with a comparative small number
-> of entries (later patches cap it to 64), so runtime really is of
-> no concern.
+commit e00266d0eea858a744fd827548eb8ebc6868f92c
+Author: Xin Long <lucien.xin@gmail.com>
 
-I'm going to push back on that. Let's compare the proposed
-tagset implementation with a putative r-b tree-based one.
+quic: add connection id management
 
-On a big NFS server, mount operations happen frequently. With 5
-tags on a session (say) and 5 allow-tags on an export, that is
-25 lookups, each O(log(5)) (for r-b tree).
+This commit introduces struct quic_conn_id_set for managing QUIC
+Connection IDs along with helpers to add, remove, and look up source
+and destination CIDs, including a global hash table for source CID
+lookup on the RX path.
 
-With the current tagset implementation, it is O(5 + 5).
+> diff --git a/net/quic/connid.c b/net/quic/connid.c
+> new file mode 100644
+> index 000000000000..b1a39feb827e
+> --- /dev/null
+> +++ b/net/quic/connid.c
+> @@ -0,0 +1,256 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/* QUIC kernel implementation
+> + * (C) Copyright Red Hat Corp. 2023
+> + *
+> + * This file is part of the QUIC kernel implementation
+> + *
+> + * Initialization/cleanup for QUIC protocol support.
+> + *
+> + * Written or modified by:
+> + *    Xin Long <lucien.xin@gmail.com>
+> + */
+> +
+> +#include <linux/quic.h>
+> +#include <net/sock.h>
+> +
+> +#include "common.h"
+> +#include "connid.h"
+> +
+> +/* Lookup a source connection ID (scid) in the global source connection ID hash
+> + * table.
+> + */
+> +struct quic_conn_id *quic_conn_id_lookup(struct net *net, u8 *scid, u32 len)
+> +{
+> +	struct quic_shash_head *head = quic_source_conn_id_head(net, scid, len);
+> +	struct quic_source_conn_id *s_conn_id;
+> +	struct quic_conn_id *conn_id = NULL;
+> +	struct hlist_nulls_node *node;
+> +
+> +	hlist_nulls_for_each_entry_rcu(s_conn_id, node, &head->head, node) {
+> +		if (net != sock_net(s_conn_id->sk))
+> +			continue;
+> +		if (s_conn_id->common.id.len != len ||
+> +		    memcmp(scid, &s_conn_id->common.id.data, len))
+> +			continue;
+> +		if (likely(refcount_inc_not_zero(&s_conn_id->sk->sk_refcnt)))
+> +			conn_id = &s_conn_id->common.id;
+> +		break;
+> +	}
 
-If both the session and export tags are using the maximum number
-of tags, an "intersection" turns into 4000+ lookups, each
-O(log(64)). With the current tagset implementation, it's only
-O(64 + 64).
+[Critical]
+Can s_conn_id->sk be freed while this RCU walk is running?  The
+s_conn_id itself is freed via call_rcu() in quic_source_conn_id_free(),
+but the struct sock it points to does not appear to be RCU-protected.
 
-The performance of one "intersection" operation goes south
-quickly with the number of tags when conventional data types are
-used.
+A grep across this series for SOCK_RCU_FREE and SLAB_TYPESAFE_BY_RCU
+under net/quic returns no matches, and quic_init_sock() does not call
+sock_set_flag(sk, SOCK_RCU_FREE), so sk_destruct() will free the sock
+synchronously rather than after a grace period.
 
-And these are all memory fetches, so not all that fast. r-b trees
-are notoriously non-optimal in terms of memory access efficiency,
-though not as bad as a linked list.
+Consider this sequence:
 
+  CPU0 (RX path, rcu_read_lock held)        CPU1 (close path)
+  hlist_nulls_for_each_entry_rcu(..)
+    /* sees s_conn_id still linked */
+                                            sk_destruct()
+                                              quic_destroy_sock()
+                                                quic_conn_id_set_free()
+                                                  /* unhash + call_rcu
+                                                     defers s_conn_id
+                                                     free, but not sk */
+                                              sk_prot_free()  /* sk gone */
+    sock_net(s_conn_id->sk)         /* UAF read of freed sock */
+    refcount_inc_not_zero(
+        &s_conn_id->sk->sk_refcnt)  /* UAF refcount op */
 
-> But let me see if I can come up with an alternative implementation
-> using rb trees.
+Once quic_packet_get_sock() (in the later 'quic: add packet parser
+base' patch) wires this lookup into every short- and long-header
+packet, an incoming packet racing with close() on the matching socket
+would dereference freed sock memory.
 
-I'm skeptical that an r-b tree implementation will be much simpler.
-It will definitely be more costly in terms of CPU and memory
-accesses.
+Would setting SOCK_RCU_FREE on the QUIC sockets, switching the proto
+slabs to SLAB_TYPESAFE_BY_RCU, taking sock_hold() when the sk pointer
+is stored in s_conn_id, or otherwise gating the sk free behind an RCU
+grace period address this?
 
-For the time being, note that TLS session tags have no support
-for PSK -- there are no data items inside the shared keys on
-which to match a tag. We might find something else to match on,
-though, who knows?
+> +
+> +/* Check if a given stateless reset token exists in any connection ID in the
+> + * connection ID set.
+> + */
+> +bool quic_conn_id_token_exists(struct quic_conn_id_set *id_set, u8 *token)
+> +{
+> +	struct quic_common_conn_id *common;
+> +	struct quic_dest_conn_id *dcid;
+> +
+> +	dcid = (struct quic_dest_conn_id *)id_set->active;
+> +	if (memchr_inv(dcid->token, 0, QUIC_CONN_ID_TOKEN_LEN) &&
+> +	    !memcmp(dcid->token, token, QUIC_CONN_ID_TOKEN_LEN))
+> +		return true; /* Fast path. */
+> +
+> +	list_for_each_entry(common, &id_set->head, list) {
+> +		dcid = (struct quic_dest_conn_id *)common;
+> +		if (common == id_set->active)
+> +			continue;
+> +		if (memchr_inv(dcid->token, 0, QUIC_CONN_ID_TOKEN_LEN) &&
+> +		    !memcmp(dcid->token, token, QUIC_CONN_ID_TOKEN_LEN))
+> +			return true;
+> +	}
+> +	return false;
+> +}
 
+[Medium]
+Is memcmp() the right comparison primitive for the stateless reset
+token here?  RFC 9000 section 10.3 treats the token as a secret that
+authorises tearing down a connection, and the commit message states
+this helper is used during stateless reset processing on incoming
+packets.
 
+lib/string.c's memcmp() returns at the first differing byte (and
+performs unaligned word-sized loads on architectures that allow it),
+so the time taken to return false leaks how many leading bytes of the
+supplied token match a stored token.  Would crypto_memneq() from
+<crypto/algapi.h>, which is constant-time, be more appropriate for
+comparing the token bytes?
+
+> +
+[ ... ]
+> +/* Add a connection ID with sequence number and associated private data to the
+> + * connection ID set.
+> + */
+> +int quic_conn_id_add(struct quic_conn_id_set *id_set,
+> +		     struct quic_conn_id *conn_id, u32 number, void *data)
+> +{
+[ ... ]
+> +	/* Locate insertion point to keep list ordered by number. */
+> +	list = &id_set->head;
+> +	list_for_each_entry(common, list, list) {
+> +		if (number == common->number)
+> +			return 0; /* Ignore if it already exists on the list. */
+> +		if (number < common->number) {
+> +			list = &common->list;
+> +			break;
+> +		}
+> +	}
+[ ... ]
+> +	list_add_tail(&common->list, list);
+> +
+> +	if (number == quic_conn_id_last_number(id_set) + 1) {
+> +		if (!id_set->active)
+> +			id_set->active = common;
+> +		id_set->count++;
+> +
+> +		/* Increment count for consecutive following IDs. */
+> +		list_for_each_entry_continue(common, &id_set->head, list) {
+> +			if (common->number != ++number)
+> +				break;
+> +			id_set->count++;
+> +		}
+> +	}
+> +	return 0;
+> +}
+
+[Medium]
+Does this function correctly maintain id_set->count when a CID is
+inserted before all existing entries?  The loop above explicitly
+handles the "number < common->number" case, suggesting out-of-order
+insertion is intended to be supported.
+
+Consider starting from list=[5], count=1 (so first=5, last=5) and
+calling quic_conn_id_add(..., number=3, ...):
+
+  - The location loop sets list = &common(5)->list and breaks.
+  - list_add_tail() inserts common(3) before common(5),
+    yielding list=[3, 5].
+  - The post-insert check evaluates:
+        quic_conn_id_last_number(id_set)
+            = quic_conn_id_first_number(id_set) + count - 1
+            = 3 + 1 - 1
+            = 3
+    so the test "number == last + 1" becomes "3 == 4" and the count
+    update branch is skipped.
+
+The end state is list=[3, 5] with count still 1, so entry 5 is
+silently uncounted.  A subsequent quic_conn_id_remove(id_set, 3)
+then trips the WARN_ON_ONCE(number >= last_number) because
+last_number reads as 3.
+
+Should the count adjustment also handle the case where the inserted
+CID lowers first_number?
+
+> +
+> +/* Remove consecutive connection IDs from the set with sequence numbers less
+> + * than or equal to a number.
+> + */
+> +void quic_conn_id_remove(struct quic_conn_id_set *id_set, u32 number)
+[ ... ]
 -- 
-Chuck Lever
+This is an AI-generated review.
+

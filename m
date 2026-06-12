@@ -1,293 +1,123 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B95377544
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 11 Jun 2026 08:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781166047; cv=none; b=K9Qwo4SBpvSNcuzAzqbW857svPZQd569VmXrW3+ZDZ1PM8snhCQEmEJxkFpvV0ZbRXH4xqPVsgSj8WPCBVpBXK1MigAX+yGMLMi27u61/sxTI59zlLE5hPcLCZpVMWMFwIK38IxOfrwzNYe4zOeZ4uZDPBQEOoL+6OfkZetBVlA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781166047; c=relaxed/simple;
-	bh=kkcQnZHnYFny0i1w/9shp6dqBz5e0LrlromRHt8KlPA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=DVJ99xNHAxMgddbZjTFIuu7V4VVKcVExWZ+JZRA6smZC9qj2YbqgO4mzy0YLJDlHGQod4u7x4AIIuacNoaMNfuictGRAI+Ubt9Iqpf2hjsGPdsLAsfQLzlGSw353Aqld5x8W6fohnOai+D+nLiF2jIYNY0Pa1NqhEmittcQncwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OG6KXRqt; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F38336CDE0
+	for <kernel-tls-handshake@lists.linux.dev>; Fri, 12 Jun 2026 19:37:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781293066; cv=pass; b=I8HXjFyybV2pfphQVViUwoKiWV1wP8db99TxU4hVE/nwuLBSZ9dWon3tOacPdKL+Jln8qD4UQZhqsv85sn+pBAtSNOlsf9Iq8minpGEZvphpISy1WQUQTVzrsf9gSpImLCqK7JhXgL8FfpLeVZUv8wY5qIeoqYpVrEQEcdSCljM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781293066; c=relaxed/simple;
+	bh=QEUU0s90pEvT4hfT4qXSU5rJ24bOjblDhPsz3FQQoIs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=edLyCHGhXhztmVYf+tRLilQiq5ZfU9N7gLgDwP3Qs4/BjbPYUCYpog9Pca9PFxokWSr9of+xI1rpIZs8Abvhiyjeu5frx+uFqyq0rK2CBOdyo3H934SjKwg7RdrB9OSWghd2umqposT8mqAnWZxKD8OatSRwANeYFB/QN/OM2fM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LC4uXtCJ; arc=pass smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OG6KXRqt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781166045;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V3hQIL6Il9n0pGlq7JeeRoDQSxplVOOUfBIF2DUxuG8=;
-	b=OG6KXRqtRHF9NcKk71lgzkdBcHOEWbsMoiaqEDSN9nJlJ6OAhgLCrPr5sRYYoYf1+l1VGr
-	BVnAk5g9zpH3W6HStWOoF9ESTtvsA8uhhj7tFR10mb6Dn4f8sbIyTxnxi9iGTrevNzlyBD
-	sWRt1xolfGtI7l2ntoYaCRVAMptq6s0=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-492-cWV9Wn1UPYSFUoUMAlqHmA-1; Thu,
- 11 Jun 2026 04:20:38 -0400
-X-MC-Unique: cWV9Wn1UPYSFUoUMAlqHmA-1
-X-Mimecast-MFC-AGG-ID: cWV9Wn1UPYSFUoUMAlqHmA_1781166035
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E188B1944D1C;
-	Thu, 11 Jun 2026 08:20:33 +0000 (UTC)
-Received: from gerbillo.redhat.com (unknown [10.44.48.53])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C66531800347;
-	Thu, 11 Jun 2026 08:20:23 +0000 (UTC)
-From: Paolo Abeni <pabeni@redhat.com>
-To: lucien.xin@gmail.com
-Cc: netdev@vger.kernel.org,
-	quic@lists.linux.dev,
-	davem@davemloft.net,
-	kuba@kernel.org,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	metze@samba.org,
-	mbuhl@openbsd.org,
-	tfanelli@redhat.com,
-	hepengtao@xiaomi.com,
-	dreibh@simula.no,
-	linux-cifs@vger.kernel.org,
-	smfrench@gmail.com,
-	linkinjeon@kernel.org,
-	tom@talpey.com,
-	kernel-tls-handshake@lists.linux.dev,
-	chuck.lever@oracle.com,
-	jlayton@kernel.org,
-	steved@redhat.com,
-	hare@suse.de,
-	aahringo@redhat.com,
-	dhowells@redhat.com,
-	matttbe@kernel.org,
-	mail@johnericson.me,
-	xiyou.wangcong@gmail.com,
-	alibuda@linux.alibaba.com,
-	jbaron@akamai.com,
-	illiliti@protonmail.com,
-	sd@queasysnail.net,
-	marcelo.leitner@gmail.com,
-	daniel@haxx.se,
-	andrew.gospodarek@broadcom.com,
-	mef@scarletmail.rutgers.edu,
-	paul@jakma.org
-Subject: Re: [PATCH net-next v13 15/15] quic: add packet parser base
-Date: Thu, 11 Jun 2026 10:20:08 +0200
-Message-ID: <20260611082008.138377-1-pabeni@redhat.com>
-In-Reply-To: <0b03854cabaac243a0cdf42375c66cd033750bd0.1780855297.git.lucien.xin@gmail.com>
-References: <0b03854cabaac243a0cdf42375c66cd033750bd0.1780855297.git.lucien.xin@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LC4uXtCJ"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8423f236418so874445b3a.1
+        for <kernel-tls-handshake@lists.linux.dev>; Fri, 12 Jun 2026 12:37:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781293065; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FaDYZ3aK3JX9rTalXPSMg2v+rBw0DItwH/XHhApWKMOiA2IX5jwv16ZlCnao0KjT7t
+         LxJKb1cyZ9dFyV9dgNH1CZO21mFgZ0yoVvVbfgr4CQfMfKqVLwEm8Vbcd7OeiENjxRYr
+         AxfoAfmH8+tOhrtiN+6rhvEHZvxxc69wn+T14dIFTBLuJtQ7zG+/I4NTQ7yjm4CXfYBW
+         0toW+Q9yIJJFw+Ho13PTLn82A4LWsKgs4D2MggLLFV01tStqbZxBVLTdcl4lVWlxglTO
+         2J4AArdAuCZFS2HDBnZzXQpaUXvrR3gaYxd+EsYzxejMqh4m6j8G2D6LTKi0twVJg8ef
+         MOew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=QEUU0s90pEvT4hfT4qXSU5rJ24bOjblDhPsz3FQQoIs=;
+        fh=tZJ22lRTUtVIVWQt/1SJlXkVi6bFQG91HkCMaHxeqqo=;
+        b=K59EZPcO+xLnoTxRqOwBh9Faxz0s2B94ufKGHCESSDCo7x+mzc/FAFIoeATldw729H
+         lFtIrFiQsOUakLqLeG5ScypM1nUxup6d+TpvfIZlp19uwMR1idnB/OiAP/gKU6QN9HMs
+         bn/i4RiFhZRfkaF6eF1v0kZCZyfyCT5ukPf70VUps+K0AXV8jCK1xnnBwdG/hPBPUFXi
+         rm7YwWx3zOvdhv98W+Wy+Umjjxy6BiRYX7/Je/8Ta0U6LwWTGlOj29klfc+INo2C1S4k
+         WsYKDHmcNY1QXdb6HAmNbNFAn5+h3k1hh+mQYUfIJ1QCJdBpDTHVFTrGh8yxf2q1tYjK
+         3Nsw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781293065; x=1781897865; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=QEUU0s90pEvT4hfT4qXSU5rJ24bOjblDhPsz3FQQoIs=;
+        b=LC4uXtCJ/2D4jQFLjSe54KgoD7+36JDQTMrah3DneYITVLLb27PWYEy8ZThkPoI7Wb
+         T1nx0Y/XnF8+BDOa77RlVdiW2dlY6q3SDYAztz/mxVnYNKH+/n4dbXIfkG7AKikpUKT9
+         NocmGXnRCOiCCCgKU4UpGqCcwHeizIY3JuOKUleamQLrK94vd8782kYM6E0PYdOYDKHe
+         nsvYXX0md8+eZl2NJDqbJkZJoIW64cqGssbZmHSWi/DZS5GLQGISpGnqihhuvO1PEk96
+         4GrtWcrtJbMW5YiA6tAcLiHbOAsef9fB4MAD5cojQDfrB6s42uG99YVXsTOqg3kYJSCF
+         Seyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781293065; x=1781897865;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QEUU0s90pEvT4hfT4qXSU5rJ24bOjblDhPsz3FQQoIs=;
+        b=aLqVBXpQHFQ/7ruUXTOJFO1urV1h5cVupA8QVbFGMsKp/o41ikeqMVd/2gbOQPVuYB
+         pbkn5FuCEyBf2ghTYURxufEdbLsJtm1I1SXXWo/0H7d1Q/76ExQpctjtMAdlECI2OS0l
+         /S2p+3vJ8XBEKFvKI5RDe8U9b81E6henlHSgvz2vLRxg3/7ZZZrCcyYIUFJNigrH4TuJ
+         brX5/8XCzBze+0gSUdGeYxSCCNzP1l/VNIsw3Ai8LUUVpLSfcTwJFRtO8mw1anb+9j+a
+         mxDmt1r9dgfqWeCqYUWBiFYbyMpYXBl6Oc0qNOjG+L/ncjeijBojqX3hdcVfWC8bgZDx
+         O7HA==
+X-Forwarded-Encrypted: i=1; AFNElJ8sO/lUnhezqNqoI3+Ln9NBv4U4htwixS4ygNHd++p2pPNetxB2VraTLuf0tfbpDzjDgDwuERLVxrPk0zfnDf1ByofyIQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzlav/WQrIciSu/JVXTN/KjK0U+UY0WdELxQrxIlJ9s0Raa6y4t
+	VOyh/eQ9MQa+qiJkZWk7sIhBXrjmT4zUxmkNRT6RV3KosdpWKkxDUfrHk9FzW5Le8Mam0cqAndM
+	LaPI6ljZiy2v/p8p9i1GFtF6P0g5d+P0=
+X-Gm-Gg: Acq92OFMUC09fNU/i3AHanI3PIvbWag/GOXUzI9pFR/G6KygDOXSWh3MWVJDp4apPts
+	xHcFUrXMtZi6hw1X3pwONh2LE0PiIDQcU54nojO1nBOdJavNmREO7h41uffmU67fCBfkCspHNjj
+	qrHgY5ilwnFY9QrbbMaWPmBOYQuKEJ8m4LYhVEZXCWf//gZG4aDgvp53eFn+mT+KFFBLa87nnKa
+	DPNAUs/VGu1cHSX72yzsnRRhB7EYgsIgTmJPV0hu20s0wTC3c8iM2Zsx0vdJkZQPrwZTVrTM/+C
+	sFMGbN/QxqDNh64+Lisgzq2nGKDxnz+hUq8/ct29hfcrMaAE6S/N/Myq55rLmmniu2CeJ91znuk
+	I0ZR6yQ==
+X-Received: by 2002:a05:6a00:1391:b0:82a:5d55:5807 with SMTP id
+ d2e1a72fcca58-8434cb01ac7mr4736200b3a.6.1781293064808; Fri, 12 Jun 2026
+ 12:37:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-MFC-PROC-ID: zGtAnEXebWUlEnpk7HPyYtkIDK4x-BRinc64z-CJ6PE_1781166035
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+References: <cover.1780855296.git.lucien.xin@gmail.com> <465489e5fafa9326b4a21c4851e420d344bbfdfe.1780855297.git.lucien.xin@gmail.com>
+In-Reply-To: <465489e5fafa9326b4a21c4851e420d344bbfdfe.1780855297.git.lucien.xin@gmail.com>
+From: Xin Long <lucien.xin@gmail.com>
+Date: Fri, 12 Jun 2026 15:37:33 -0400
+X-Gm-Features: AVVi8CcBYZ4beNIIRotqS0HdShlGTPsplHhO3h8wRDUTXq00moRwOci60wjQJnA
+Message-ID: <CADvbK_c_qBNuad6HkYTZe0MpgMSbMdYSsSAz62DhEYaEapaCTg@mail.gmail.com>
+Subject: Re: [PATCH net-next v13 09/15] quic: add congestion control
+To: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev
+Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Stefan Metzmacher <metze@samba.org>, Moritz Buhl <mbuhl@openbsd.org>, Tyler Fanelli <tfanelli@redhat.com>, 
+	Pengtao He <hepengtao@xiaomi.com>, Thomas Dreibholz <dreibh@simula.no>, linux-cifs@vger.kernel.org, 
+	Steve French <smfrench@gmail.com>, Namjae Jeon <linkinjeon@kernel.org>, Tom Talpey <tom@talpey.com>, 
+	kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>, 
+	Jeff Layton <jlayton@kernel.org>, Steve Dickson <steved@redhat.com>, Hannes Reinecke <hare@suse.de>, 
+	Alexander Aring <aahringo@redhat.com>, David Howells <dhowells@redhat.com>, 
+	Matthieu Baerts <matttbe@kernel.org>, John Ericson <mail@johnericson.me>, 
+	Cong Wang <xiyou.wangcong@gmail.com>, "D . Wythe" <alibuda@linux.alibaba.com>, 
+	Jason Baron <jbaron@akamai.com>, illiliti <illiliti@protonmail.com>, 
+	Sabrina Dubroca <sd@queasysnail.net>, Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, 
+	Daniel Stenberg <daniel@haxx.se>, Andy Gospodarek <andrew.gospodarek@broadcom.com>, 
+	mef@scarletmail.rutgers.edu, paul@jakma.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: AI Reviewer <ai@example.com>
+[sashiko-gemini]
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
-Full review at: https://netdev-ai.bots.linux.dev/sashiko/
----
-quic: add packet parser base
+> + case QUIC_CONG_CONGESTION_AVOIDANCE:
+> + /* cong->window is never zero; it is initialized by
+> + * quic_packet_route() during connect/accept.
+> + */
+> + cong->window += cong->mss * bytes / cong->window;
+Can this arithmetic permanently stall congestion window growth or cause an
+overflow? Since all variables are 32-bit integers, the division could
+truncate to 0 as the window grows larger than cong->mss * bytes. Also,
+if bytes is large due to coalesced ACKs, could the multiplication wrap
+around U32_MAX?
 
-This patch adds the QUIC packet RX parser, including ALPN extraction
-from the Client Initial to demux to the right listener, an ICMP-driven
-PMTU update path, and a per-net backlog/work for deferred parsing.
+This looks a legit one, will confirm and fix it.
 
-> diff --git a/net/quic/packet.c b/net/quic/packet.c
-> index ba5204aceda6..430fc06d0012 100644
-> --- a/net/quic/packet.c
-> +++ b/net/quic/packet.c
-
-[ ... ]
-
-> +static int quic_packet_get_alpn(struct quic_data *alpn, u8 *p, u32 len)
-> +{
-> +	int err = -EINVAL, found = 0, exts = 0;
-> +	u64 length, type;
-> +
-
-[ ... ]
-
-> +	while (len >= 4) { /* Scan extensions for ALPN (TLS_EXT_alpn). */
-> +		if (!quic_get_int(&p, &len, &type, 2))
-> +			break;
-> +		if (!quic_get_int(&p, &len, &length, 2))
-> +			break;
-> +		if (len < (u32)length) /* Incomplete TLS extensions. */
-> +			return 0;
-
-[Medium]
-Should this branch be treated as a parse failure rather than a success?
-
-The other length-bound checks in this same function return err (-EINVAL)
-when a declared length exceeds the remaining buffer, but this one returns
-0 without populating alpn. The callers initialise alpn as
-
-	struct quic_data alpns = {};
-
-and quic_listen_sock_lookup() then takes the no-ALPN branch:
-
-    if (!alpns->len) { /* No ALPNs or parse failed */
-        sk_nulls_for_each_rcu(tmp, node, &head->head) {
-            ...
-            if (... && (!alpns->data || !quic_alpn(tmp)->len)) {
-
-Because alpns->data is still NULL, the match collapses to true and any
-listener bound to the address/port will match, including ones that
-registered a specific ALPN list. Can a peer reach an ALPN-restricted
-listener by sending a Client Initial with one extension whose declared
-length is larger than what is left in the ClientHello?
-
-Would returning err here (or always assigning alpn->data before
-returning) match the comment in quic_listen_sock_lookup() that
-distinguishes "TLS parsing succeeded but no ALPN was found" from "parse
-failed"?
-
-> +		if (type == TLS_EXT_alpn) { /* Found ALPN extension. */
-> +			if (length > QUIC_ALPN_MAX_LEN)
-> +				return err;
-> +			len = length;
-> +			found = 1;
-> +			break;
-> +		}
-> +		/* Skip non-ALPN extensions. */
-> +		p += length;
-> +		len -= length;
-> +		if (exts++ >= TLS_MAX_EXTENSIONS)
-> +			return err;
-
-[Low]
-Is the post-increment intended here? With TLS_MAX_EXTENSIONS == 128, the
-check (exts++ >= 128) first becomes true when exts has already reached
-129, so 129 extensions are consumed before bail-out even though the
-constant name suggests a cap of 128. Would
-
-	if (++exts > TLS_MAX_EXTENSIONS)
-		return err;
-
-(or moving the check to the loop top) better reflect the intended limit?
-
-> +	}
-
-[ ... ]
-
-> +static int quic_packet_parse_alpn(struct sk_buff *skb, struct quic_data *alpn)
-
-[ ... ]
-
-> diff --git a/net/quic/socket.c b/net/quic/socket.c
-> index 8f348d7c678b..19b164baf55d 100644
-> --- a/net/quic/socket.c
-> +++ b/net/quic/socket.c
-
-[ ... ]
-
-> +struct sock *quic_sock_lookup(struct sk_buff *skb, union quic_addr *sa,
-> +			      union quic_addr *da, struct sock *usk,
-> +			      struct quic_conn_id *dcid)
-> +{
-
-[ ... ]
-
-> +	rcu_read_lock();
-> +begin:
-> +	sk_nulls_for_each_rcu(tmp, node, &head->head) {
-> +		if (net != sock_net(tmp))
-> +			continue;
-> +		paths = quic_paths(tmp);
-> +		odcid = quic_path_orig_dcid(paths);
-> +		if (quic_cmp_sk_addr(tmp, quic_path_saddr(paths, 0), sa) &&
-> +		    quic_cmp_sk_addr(tmp, quic_path_daddr(paths, 0), da) &&
-> +		    quic_path_usock(paths, 0) == usk &&
-> +		    (!dcid || !quic_conn_id_cmp(odcid, dcid))) {
-> +			sk = tmp;
-> +			break;
-> +		}
-> +	}
-
-[High]
-Is the sk memory itself RCU-protected here? sk_nulls_for_each_rcu()
-dereferences fields of tmp (sock_net(tmp), quic_paths(tmp),
-quic_path_saddr(...), etc.) before any reference is taken. That is only
-safe when the sk allocation is freed via RCU.
-
-quic_init_sock() does not call sock_set_flag(sk, SOCK_RCU_FREE), and
-neither quic_prot nor quicv6_prot sets slab_flags to SLAB_TYPESAFE_BY_RCU,
-so sk_destruct() (and quic_sock_destruct()) runs synchronously on the
-last sock_put(). Can a parallel close on tmp free the sock between
-sk_nulls_for_each_rcu() exposing it and the field dereferences above?
-
-The same shape appears in quic_listen_sock_lookup() further down, where
-quic_alpn(tmp)->len is read inside the RCU walk before
-refcount_inc_not_zero().
-
-> +	if (sk && unlikely(!refcount_inc_not_zero(&sk->sk_refcnt)))
-> +		sk = NULL;
-> +	rcu_read_unlock();
-> +	return sk;
-> +}
-
-[ ... ]
-
-> +struct sock *quic_listen_sock_lookup(struct sk_buff *skb, union quic_addr *sa,
-> +				     union quic_addr *da,
-> +				     struct quic_data *alpns)
-> +{
-
-[ ... ]
-
-> +	rcu_read_lock();
-> +	if (!alpns->len) { /* No ALPNs or parse failed */
-> +		sk_nulls_for_each_rcu(tmp, node, &head->head) {
-
-[ ... ]
-
-> +			a = quic_path_saddr(quic_paths(tmp), 0);
-> +			if (net == sock_net(tmp) &&
-> +			    quic_cmp_sk_addr(tmp, a, sa) &&
-> +			    quic_path_usock(quic_paths(tmp), 0) == skb->sk &&
-> +			    (!alpns->data || !quic_alpn(tmp)->len)) {
-
-[ ... ]
-
-> @@ -48,6 +196,9 @@ static void quic_sock_destruct(struct sock *sk)
->  	for (i = 0; i < QUIC_CRYPTO_MAX; i++)
->  		quic_crypto_free(quic_crypto(sk, i));
->  
-> +	/* Deferred ALPN free for RCU readers in quic_listen_sock_lookup(). */
-> +	quic_data_free(quic_alpn(sk));
-> +
-
-Without SOCK_RCU_FREE or SLAB_TYPESAFE_BY_RCU on quic_prot/quicv6_prot,
-does moving the alpn free into the destruct callback actually defer it
-past an RCU grace period? quic_sock_destruct() is invoked from
-sk_destruct() on the final sock_put() and is not itself an RCU callback,
-so the comment's "Deferred ALPN free for RCU readers" assumption seems to
-rely on a guarantee that is not configured on this protocol. Should this
-patch also set sock_set_flag(sk, SOCK_RCU_FREE) in quic_init_sock(), or
-alternatively take refcount_inc_not_zero() in the lookup helpers before
-touching any fields of tmp?
-
->  	quic_sk_destruct(sk);
->  }
->  
-
-[ ... ]
--- 
-This is an AI-generated review.
-
+Thanks.

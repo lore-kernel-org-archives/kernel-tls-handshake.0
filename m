@@ -1,223 +1,131 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A663EA94C
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 23 Jul 2026 07:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4D04ADD88;
+	Thu, 23 Jul 2026 13:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784791165; cv=none; b=AE8xmWGfdNkO/Sl+dpmgGgKg5EA0mP0/QvZn0hRzh4XX4rGvIoBHQJZVuwB3OQt5MEg+Qx87lWPrs2tMb1ISL5F8G+2m5nHhwEzc3pHDUD+s5JCTmbP9T3z+EuwdktbhduKZHtDF340oUOL+7VudacqfybB8fWtoWjzT2KfQd/s=
+	t=1784813114; cv=none; b=qvn4JNtVqhL3+kf9TMkFRWNO7r8bgmITPs+JLSi4KiKpyKG2M9U4ZbKGzAGYPbkyedPnOltgV1atb67RodaglV1L6EXJzMNl6zaued7/Rp9tAs8vtphi1+aKOwUKjM4jknHFBbAV+M9Ktue0hb5kNBAxNGFrX7cNS1UU4mq1sdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784791165; c=relaxed/simple;
-	bh=FqG++2aqT+GsRBiRhO0Sak98kjYWuPyYH35Jm57J5YM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oWCBD/lzHTL/EavDApg9587Y8bRGMUqxQYpRWSXpPZyYPjp9rUtGdz8f6LNpI8/0H8X7F3h1pMOj5aO8LhFRmFxrEioFHMzSRE3A5bPv6IU0KfoRja5xiceTw1tJe6hyOcIIsbzSjm0PDtAlT8Fq6MaruOFKA6wdWzgKDlr9jP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2BUP4NqP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8bZbumMs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TuuX1SmJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IjkjRG9U; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1784813114; c=relaxed/simple;
+	bh=+iWr8OpaJ5TU0IiAraJloQet5APXdgUoVFdU0dsewFk=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=pUnwFfXQ9Nc98j3Vj0nGhYoOzd14ImpRkuEoCxslrQGs2D/dte6fcFUbaGXnG3ISEOMUG0dF6oQtr8KZNh24nnkWPpTceYIyTz7jz6EaeAnrKBFHh7r0taarAM1SHyjeT7sfPAAhbUJXxEt1ZC5DVviD0cMuvXJHjMISY7VNPiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=alB7t7HB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2BUP4NqP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8bZbumMs";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TuuX1SmJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IjkjRG9U"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DD0633E4D;
-	Thu, 23 Jul 2026 07:19:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784791154; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EODZ9+++oP4vf1fhSwHUyf2b+PlhxtgH2TJFwTfnvjI=;
-	b=2BUP4NqPdEID0U7/wHQZ/9G2GxejcMewD4D28EctvBYJTSz61w3aoA0D00xeq+SUDWr9hg
-	rBJvfThpPQyNT2PF0jb7fP36kVgE/mcNv6GzzWsDLLnF0mNrT7AeqMS/+5ta2HLc6mlL5J
-	QMPOn+dqq/o7OKVO/Rq6RCk+yjebPwI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784791154;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EODZ9+++oP4vf1fhSwHUyf2b+PlhxtgH2TJFwTfnvjI=;
-	b=8bZbumMsjTGOxao8BvV5TFdialbq+zEFQSXpqgkQTy6aQ5rDCdaixlKPu53LA0TiVWxFL2
-	fQ3l7N+1mXWnXWAA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784791152; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EODZ9+++oP4vf1fhSwHUyf2b+PlhxtgH2TJFwTfnvjI=;
-	b=TuuX1SmJtnPnP3r1hcmi2h28bAuN3OwmUuqW5ISRkUfW+nSIh5VLJG69URCk5WMCxSp7bx
-	moMpGjXVljRaTv/RwKBDBf5nR0ccdEIgaG2GizxepJr8EIFzJSt0FodM7/2kHRL+K08xTD
-	A8bL76VvpLf179MctXkROZQVMUZ+vOI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784791152;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EODZ9+++oP4vf1fhSwHUyf2b+PlhxtgH2TJFwTfnvjI=;
-	b=IjkjRG9UM5nfGdx5e/TBGacMq1GN8rqX4ryFr1kKNqcllAR3Whlsdty2vpyV+Re2Xm24Aj
-	3oW5BOLSauGqGaBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6D8CB779B5;
-	Thu, 23 Jul 2026 07:19:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id G0DWGHDAYWo7PQAAD6G6ig
-	(envelope-from <hare@suse.de>); Thu, 23 Jul 2026 07:19:12 +0000
-Message-ID: <9c88fc7e-5853-436f-881f-20074a3c9279@suse.de>
-Date: Thu, 23 Jul 2026 09:19:12 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="alB7t7HB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1FC51F00A3A;
+	Thu, 23 Jul 2026 13:25:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784813109;
+	bh=XfoXV5zKHhEStwiESOWCUjT3nr0t9Ovcx9JkQKxS7B0=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=alB7t7HB85sTjCVHKziVm164ckWofiYvwW9o7DwJTR0KWL/srhlp0NyHXKoVby4KC
+	 5NGht23gLQ216adDffjtYT0/1uQ6Fy6WGNlNzBDeeuXAOXm3g9Mx2HxdIUMf8WX+tw
+	 PaNYKxjUzjAhykE596320SUdcI1KffKmGhGMO7npUvlzhBzJFelPPdRuPpgEz/Ash5
+	 63Dxe10QQhC/OEwwAJ0pJ+K4UJQL+YmJBxuHQa7L8N/uY3fnlPeh36hjVtOdo0tgzI
+	 Z0kxhTyqIotXf3CpCrpEnVZNLCq52uAwwvZKhdRiMA2afoCQjMY9/NIbrLNn7rYhIK
+	 ed6HEecQj++xQ==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 07DC3F40078;
+	Thu, 23 Jul 2026 09:25:08 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Thu, 23 Jul 2026 09:25:08 -0400
+X-ME-Sender: <xms:MxZiaqCeryaL51E1nO9pnlDP_AGIgNJWkSC-NUoXIqC-G3JgnX5H-w>
+    <xme:MxZiavUdWRhQt0HCm_NZpx4cuig4GzCQE-h1uqTpM4FDk9DaC7wQpWf_b61MRG0Sf
+    4xEEgFf64mpyrQNkZ73MesUmAqRCX2IgCNbbytVyjw74IT73hxAXEdS>
+X-ME-Proxy-Cause: dmFkZTF7PTeqYW1N2ILwoxGV9H2088DWTkDINmb9nTVGfZMGC40IZZbae/JtOHiVqowYtW
+    pDNMxvXW2C+HgGGGAIZUElapwBTcCnk0A/C8dw7s26e5Mm/A4wbAi6Wbm/5Tq+XnggFsxl
+    LZEMJg1ZhwjGPr6vZGgx3k3n48baFaa0kfEsMTWzpgI1tIiHXjdeKAs8Y5tdANO0KdHJbv
+    EA2fpJvdvSiTT9o9RrXOKJ20mkzRAQz1rcd1Ds8tvORkILV19zCdPWHbuBF6DYGwLfmgkg
+    62A3+MWswIeH1n6V5jSyxxg0jtqD8SGptMjQb0DkDIf8kERp/7mmL1IGNYUdeztsX7MKTV
+    Re7IpcOZGPnkbGnmDEA58Ys/h94zDsxOdZmZtwrJQSyoZi9y4c8HzD/wQBxyMFCqtn+sRc
+    7ZU0QNaPWR9F8yPNeNev2wFIKgfGiycv0Kd4D/l8UZ1AzSpBQpdw/x5GEDjrxJH5xczKZ0
+    TUrq7H9V2eHC35L/6U89aIu7wcMtVQUrdGmv03AAzJnnxQ05TH7PG+KELrBW5zEyS61Eo9
+    acXrv8Y+sYqu8hN33/US/fvZnF843deomgz39MnQpsf2eoecLPc13IOEv6ZPStJdZ5jQTT
+    aMdcQvs6JcudrilzSu+nNm2LrqZ/2m42zhe2qvAj7WMNN8UtsEUJCNkHYh2g
+X-ME-Proxy: <xmx:MxZiahnTeffI-85bY55ISM2vxXe-bBV4sU67aQ6L_B5Mv_j0Z1Q3Cg>
+    <xmx:NBZiamOj-ex2VKTBlXdrP9Q0v4N6GUNA60vnSQskCyup9wOEZc43UQ>
+    <xmx:NBZiagLBWHiMuNQs7mX0xmbicf4szbRcBByUvFLFdyfosZi2qZ6lRg>
+    <xmx:NBZiahF4QuGGlX4q4SeSTUOFEFYTvFttZxPWabyx62-yEmn224mnNg>
+    <xmx:NBZiahBrhe2sRrP2eieOu_UCzwwISdp8nYnYhAWV93rsMOJmoYugtmEq>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id DA2CA780075; Thu, 23 Jul 2026 09:25:07 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 0/6] Deliver TLS control records to kernel
- read_sock consumers
-To: Chuck Lever <cel@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>,
- Sabrina Dubroca <sd@queasysnail.net>, Shuah Khan <shuah@kernel.org>,
- Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,
- Tom Talpey <tom@talpey.com>
+X-ThreadId: AxBNoR0sEYLw
+Date: Thu, 23 Jul 2026 09:24:47 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Hannes Reinecke" <hare@suse.de>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>,
+ "John Fastabend" <john.fastabend@gmail.com>,
+ "Sabrina Dubroca" <sd@queasysnail.net>, "Shuah Khan" <shuah@kernel.org>,
+ "Jeff Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+ "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>
 Cc: netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
  linux-kselftest@vger.kernel.org, linux-nfs@vger.kernel.org
+Message-Id: <909e0132-5c0c-4c0c-b8c5-b90b88ad0231@app.fastmail.com>
+In-Reply-To: <b9d60674-1ba7-4f23-beee-4ddfffd4dda9@suse.de>
 References: <20260720-tcp-read-sock-v2-0-29545d034f3c@kernel.org>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260720-tcp-read-sock-v2-0-29545d034f3c@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,redhat.com,gmail.com,queasysnail.net,brown.name,oracle.com,talpey.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
+ <20260720-tcp-read-sock-v2-1-29545d034f3c@kernel.org>
+ <b9d60674-1ba7-4f23-beee-4ddfffd4dda9@suse.de>
+Subject: Re: [PATCH net-next v2 1/6] net/tls: Bound consecutive no-data records in
+ tls_sw_read_sock()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On 7/20/26 4:27 PM, Chuck Lever wrote:
-> When kTLS is active, kernel consumers of the read_sock API cannot
-> see TLS control records: tls_sw_read_sock() rejects Alerts and
-> Handshake records with -EINVAL. A consumer that needs those records
-> falls back to sock_recvmsg() with ancillary buffers, which is why
-> NFSD's svcsock runs a MSG_CTRUNC recovery dance on every receive.
-> 
-> This series adds a read_sock_rectype proto_ops method that delivers
-> non-data records through a separate callback, then converts its first
-> consumer, NFSD's svcsock, to use it. NFS client (xprtsock), NVMe
-> target, and NVMe host are meant to move onto the same mechanism in
-> later series. The existing read_sock data path is unchanged.
-> 
-> The improvement is more than cosmetic. All of these consumers need
-> to handle TLS Alert messages efficiently and securely (in particular,
-> for KeyUpdate). A few design points worth mentioning:
-> 
-> - The new sk_read_rectype_actor_t callback does not share the data
->    actor's byte-counting contract. It returns 0 to consume a record or
->    a negative value to requeue it and stop delivery. The return is
->    never a byte count. svc_tcp_rectype_actor() relies on this,
->    returning 0 to consume every non-data record while stopping the
->    read loop through desc->count on a fatal alert.
-> 
-> - The no-data cap (patch 1) is a prerequisite, not a stand-alone fix.
->    Once control records reach read_sock, a record carrying no payload
->    stops advancing the caller's read descriptor, so a peer streaming
->    such records would pin the socket lock and the kernel receive
->    context for as long as the flood lasts. Bounding consecutive
->    no-data records supplies the return boundary a system call would
->    otherwise provide. The cap is scoped to tls_sw_read_sock() alone:
->    splice and recvmsg run in the caller's own context, reschedule, and
->    drop the lock on return, so they need nothing.
-> 
-> - The svcsock conversion is split so the new path can be reviewed
->    against the old. The old path is then removed by the last patch
->    in the series.
-> 
-> - read_sock_rectype has no direct userspace entry point, so its
->    selftest coverage (patch 4) drives the shared decryption and
->    rx_list delivery pipeline through the recvmsg and splice paths
->    instead.
-> 
-> ---
-> Changes in v2:
-> - Renamed the read_sock_cmsg proto_ops method to read_sock_rectype.
-> - Non-data records now use a record-type actor, not RFC cmsg-style.
-> - Bound no-data records so they can't pin the socket lock (new patch 1).
-> - Added selftests for data/control record interleaving (new patch 4).
-> - Link to v1: https://lore.kernel.org/r/20260217222033.1929211-1-cel@kernel.org
-> 
-> ---
-> Chuck Lever (6):
->        net/tls: Bound consecutive no-data records in tls_sw_read_sock()
->        net: Introduce read_sock_rectype proto_ops for control record delivery
->        tls: Implement read_sock_rectype for kTLS software path
->        selftests/tls: Add tests for data/control record interleaving
->        SUNRPC: Use read_sock_rectype for svcsock TCP receives
->        SUNRPC: Remove sock_recvmsg path from svcsock TCP receives
-> 
->   include/linux/net.h               |  28 +++
->   net/sunrpc/svcsock.c              | 381 +++++++++++++++++---------------------
->   net/tls/tls.h                     |   3 +
->   net/tls/tls_main.c                |   5 +
->   net/tls/tls_sw.c                  |  54 +++++-
->   tools/testing/selftests/net/tls.c | 298 ++++++++++++++++++++++++++++-
->   6 files changed, 556 insertions(+), 213 deletions(-)
-> ---
-> base-commit: 298bb2b8903323f6ef2eab4819a2e477765f0ff1
-> change-id: 20260327-tcp-read-sock-778a49660ff7
-> 
-> Best regards,
-> --
-> Chuck Lever <cel@kernel.org>
-> 
-> 
 
-Good stuff. I was tempted to say 'We need it', but meanwhile we found
-during spec review that the REPLACETLSPSK mechanism as defined in the
-spec is at odds with the TLS KeyUpdate.
-So while we (from the NVMe side) might be wanting to use it eventually,
-we first have to figure out how to interact sanely between the NVMe
-and TLS layer.
 
-And I don't feel qualified to judge on NFS/SunRPC details, so didn't
-dare to do a review here.
+On Thu, Jul 23, 2026, at 3:11 AM, Hannes Reinecke wrote:
+> On 7/20/26 4:27 PM, Chuck Lever wrote:
+>> A record that delivers no payload -- an empty TLS 1.3 data record
+>> today, a control record once read_sock_rectype() lands -- leaves
+>> tls_sw_read_sock() in its loop without advancing the caller's read
+>> descriptor. A peer that streams such records keeps the receive loop
+>> running, and the socket lock held, for as long as the records
+>> arrive.
+>> 
+>> Cap the number of consecutive no-data records consumed per call. The
+>> count resets on any record that delivers bytes, so a normal stream
+>> is unaffected; a peer supplying only empty records is bounded to
+>> TLS_RX_NODATA_LIMIT iterations before the call returns 0. read_sock
+>> consumers treat that as "no progress, re-poll" rather than EOF, so
+>> the connection stays up and makes progress once real data arrives.
+>> 
+>> Only tls_sw_read_sock() needs this cap. Its consumers drive the receive
+>> loop from kernel context -- a work item or service thread holding the
+>> socket lock across the whole call with no return to userspace -- so an
+>> unbounded empty-record stream keeps that context and the lock pinned
+>> for as long as the flood lasts. The cap supplies the return boundary
+>> that a system call would otherwise provide. tls_sw_splice_read()
+>> and tls_sw_recvmsg() already have one: they run in the calling task's
+>> context, reschedule while draining the socket backlog (cond_resched()
+>> in __release_sock()), and drop the socket lock when the call returns. A
+>> flood there costs the caller only its own scheduler time, so the cap
+>> would add nothing.
+>> 
+>> Signed-off-by: Chuck Lever <cel@kernel.org>
+>> ---
+>>   net/tls/tls_sw.c | 13 +++++++++++++
+>>   1 file changed, 13 insertions(+)
+>> 
+> This is technically a fix, so it might be worthwhile sending it
+> on its own.
 
-Cheers,
+My impression is that the issue this patch addresses is not
+reachable until the subsequent patches in this series have
+been applied. Thus I positioned it as a pre-requisite patch
+in this series, and not as part of the earlier "fixes" series.
 
-Hannes
+But light taps with a clue bat are welcome, as always.
+
+
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Chuck Lever

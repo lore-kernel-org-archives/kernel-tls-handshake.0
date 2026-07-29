@@ -1,133 +1,207 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4334908D5;
-	Wed, 29 Jul 2026 03:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8159B44C648
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 29 Jul 2026 12:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785295091; cv=none; b=js09trcOExJjcxrQ6KqjHnTUxTMkuToOF0OFX5mcPqmzudQxBJTRIHJmvIgqHQ0HVkMC3nT0qaOgFatHP+u8sh/8p7qw/odevY9SEBPCjStvrDCWgNMylcclWgg5B88mNQ466lwOnMsp6feQ5meUAV0CNmkY2MdSwqRTjdcFgwI=
+	t=1785327802; cv=none; b=rOU7SXZWualihEIU+Rihx5+jZBM2BDXO+MFOql9h0fzglLDLVgk0YypK0U6hu1IkkZCXOraXvbCYAf4ochJlrTB4ODfdnLydUAK2FrT+HKQ50M2BxWa/yNsU6qfr3BxXtSa/V6KSzr8f7yID+rr1QruBVNxEJjJowP8ofWERowQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785295091; c=relaxed/simple;
-	bh=iWO8uagfZiFOmjzR1znwWCLgJmMwl8vmRNioWQsB+Nk=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=C1Znd5RoJDfawVM1YVVFO1rG38ps9OdalopMBKrGjef28wtSSr6MYjbB/GhLxj6/HkGMbQK5oY9gt6LWQ0SpiaHZJ2P+ld3VkYoZu3Xg8MHFLsfX9yMgfqwhhQC0zz5/yEYB0EsDqJuu4R4RDfqcdI0d6o3q4B8fznO1aCefD8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K/ZPiqHe; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785327802; c=relaxed/simple;
+	bh=n8Eq+6+Nhabtgy8GnoTwIOfS6ttg6xbpMsrfwdi/K2c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DMbsR9XHvo4n+jDeo/K+N76SqZiHs1EQv4VijY17VvZktb0DmFndkYHFObSESfS3k1HOiHQCivso5SUXbJIga45EPp0N5FBmmeg32rvgb5eCwBEwLAEqM3Qa4zlAE6DX5X0qkMDj0ZtrSY5ImHdTqi7gLd3r9nbg9Xg8o7Cn/+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=gsozdCQW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=c0/dNjdx; arc=none smtp.client-ip=202.12.124.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K/ZPiqHe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47B1A1F00A3D;
-	Wed, 29 Jul 2026 03:18:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785295090;
-	bh=iWO8uagfZiFOmjzR1znwWCLgJmMwl8vmRNioWQsB+Nk=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=K/ZPiqHeLEdyPeZ62Pd5wC4pyrN6UXys0075W83rRRhNvcDs8fBsJIDLjf96Ya29z
-	 aR+cDXfqxbVV7d/vhAwowevLFDBzcnaMS2twTUHD3D3e9W9NHqJ6p+8YaK5OHflzyB
-	 sQtD/l3nBBZmuBaDlWY1dpcScbunOrO8PlIKJ4YRZzh4rVl3nTGJISh1yAZenVnUcJ
-	 op9FzGeJASomCxRhcz1zfF1LX/wxjCmPgepR88DdqrnuUOorUupe+o5YGfo+4dpDkE
-	 y/h4kHOA+ifG+304+KVcZ3il6T6Gd79WihbQ/QuXul1kfGTiVEbetkN6swwdRocULD
-	 NQB/KucjkuIdg==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 52775F40071;
-	Tue, 28 Jul 2026 23:18:08 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Tue, 28 Jul 2026 23:18:08 -0400
-X-ME-Sender: <xms:8HBpauiYuSVao1nXz2_A-t9Cd_QHZPiNHL0L6GRDVCXwphPxiOfCjQ>
-    <xme:8HBpap1e1dC04iK1T-82r6Eel7ydz8YYVmEJr_cIe7avR0PT7H8zTkKSi1JcWSf00
-    QaaFtqAxloI6MxKZ7vJflYvDPGk5MZCIITid6AytUdijDsolt8R0MIz>
-X-ME-Proxy-Cause: dmFkZTFlEvRLbxX/R7zrLd/d14ESObNiG04tZzmu3JcUwUgAbZyCOJr8+YmY5DERybfv6K
-    W5yfYcHcBzmUsxNIAdSIB6pC756ZF0kuM5dnDeYA8X5sF3hdMdwHwtULFCh7cflMcQO+Rb
-    ScxOXWKV90IS18VXlSM6uSDQgbUNzy50fIQV6kWuvarSxUw+bMt53ChE/tSgwFgHg79+Wu
-    kVSN6vlAk0s339hLZhaGxl6l3V4LGiiZA+NrR8AnNK2bJ04gXA9AMHQVK72JRiDZEkqHNI
-    Sy9cJ41LHDFGfSc0LSDeArTnITANULnb46kynrYqZatYqqTlF+yCd7H8S6gQDD1VanosAv
-    yydkgk3pcWgdKMnyuLieMVfbe33Evmb4OkTmHmwBnLZejebiq41EZ2vh/Pd49OHMiy5lcQ
-    CYvOzYaXnKotfE5nsxZT6etk0rgWoeu1vwGGA7XfMYelJYmPHOHoD2hrLCDnl9PRMv2uEG
-    XTzutqU6lMVk0UlZQm/Q3ieelBVQc/t7aHSUMU27MiC3CSbHKdkk4EH2CfQ+cmjtw8Ed1m
-    5ucat/a9A4OnvF7du7QTYBcc2LFvHhYW3MApu3t8znlslfqd2Pq4s7Tmdvze0ot1ofqFct
-    eJEQCUrAX6oROh0zXtQgpR5Zf1ipVKoXH9yt+ym81yY/8l4ZzqUl9y3FHNkQ
-X-ME-Proxy: <xmx:8HBpaqba7bbukgISIBNvp-xGSrQlPFrND9bERp5qm4Ul21ZdSxD03Q>
-    <xmx:8HBpak8MUXFXgqcIIvJ06BfvOiocOmXQIfk_iLRe6UB--jmuBc5xlA>
-    <xmx:8HBpaklCEAangC8UjY6YlTAG_tmK5lscrxP2cs4MSO3DVBlyoagTdA>
-    <xmx:8HBpapYueU33O7xT10rSKE741geeL2gH8Ko9qi_LoQzESLvjXAFddA>
-    <xmx:8HBpasMhDfdGuqeDyKEE2Hsw6ybAluEXbZeYdtSWPPn0Lgj2NujAy_Xe>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 305A9780070; Tue, 28 Jul 2026 23:18:08 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="gsozdCQW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="c0/dNjdx"
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfout.stl.internal (Postfix) with ESMTP id 013811D000D9;
+	Wed, 29 Jul 2026 08:23:16 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Wed, 29 Jul 2026 08:23:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1785327796; x=1785414196; bh=FjyWDcU0AQmtNTB7vEHZRRZ3y0JXpUzK
+	aPUWS4TnRNM=; b=gsozdCQW8M4slO9m2Al4quBNj5zWOyyrCdYVk8uLh1kYiTf/
+	CaA0GbEdMGS+5eHIhIFDBpSPjK5g6b2pIlpY2hQRmIgx1Q5Acp2ovfgKm+r3EmJ5
+	z9h+qmjjwXrXo8lMvdRyyLD1zmaOJchi7q7mmf/46k+DcTYAuchd/WX9QHgI5e5S
+	TzkDDKkOWA1j/Rj7QJnWiV41uHSKGpwP2oiRcQe0jAcOCZjr2B9BTU/oBQLGn9/t
+	piiiuek7ohPNSD47TniWR/JGnQcUizOJ3ebJu8zqas7dClF904CT/a3fDay9l0BC
+	Rr4Xnci9lBKgtqgKRSLYkeF84YGxRSGIMJd9gQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1785327796; x=
+	1785414196; bh=FjyWDcU0AQmtNTB7vEHZRRZ3y0JXpUzKaPUWS4TnRNM=; b=c
+	0/dNjdxcpyvR5Vkz3EhNUI+/lC/vZbCnDmhpFrx0RN8ZVqxHPqDwpQoFmM1NXUdK
+	p8FQa0lBTn2taUkOFtVtei62vVSHTjICGfu0WwkynhpP3e+fAf9j+d8F1AtVz3HU
+	yubRND5W/FpYxPkUefjm4mR7qiDkcfUPUIdxEhhp3EUK6VuiaeXJiuhTagoYB1ht
+	6RTnW60lDJGeH8RB3y1Pil+Q9BWc5FZDiprlrZRqwHVZiWwR9tpvEul5h8C5B4Xr
+	tPaKIJqZ9A+GMLlYcTlWfZmDav/LkdNiKMioVMzV8T+XyLN5DD8wXcih1rKVJYIU
+	WKMJAMzFEGGwmGpAeuMZg==
+X-ME-Sender: <xms:tPBpalzdOSSlXBf-Igff4kYyTG5U4tgAKFWBhkpEoVxQ7hbdIV1lOQ>
+    <xme:tPBpaltb_nVYMLej4kxwOTyytiElPM8iNWr7fnrRm5aCeQtLDivCEueFW1ny0xGvk
+    R7oB-j-ZxmS0CPa3ClrhwI3Rm25OfoG7Lsn7LEcpWMUMNjA-Tf6g30>
+X-ME-Received: <xmr:tPBpavEXKEYfzwoeoJh_JN2ICvBz0A4a264GbgkgiYRaEZaW5ak8IETq9iM>
+X-ME-Proxy-Cause: dmFkZTFy9VLstGC/2JcdpGCUEJUK2PuokghQUZYXXVIWYSAQOOOeIK+6vlG3o8tX1idpjb
+    1PHrG9dAgQIo5ypYYC0qtY3cChtoy2fp/jCSB7yeyU0FN3durHDdbxeQ+CBKqSfHuaiEic
+    vMWUb509ccfuHqTBkPmeJHn+btYOQHCNl67P1clA46qs8HQqIQ7PGsu/JGILF+Hn1D3jK1
+    dzr+Li6MpLHGQXKgDpe73QxdN2ObNJbKqGGvIpR8iTmqvoPh70wNHs3xzAw8SPq/4xSdPc
+    IzdhyfUqb1mAgaasV0aEoKgeHTsme1Ao0dajfkHJn0xpGy6usq+cwOqPooDPwD2NSqg5O3
+    Z+F1/GOk8LgyqEYMIR6dZosT0takI/Oneplo/f+1M6KY7LJN29s96z2d1ZSgb0PdDFMKNe
+    PGKtPYoKHFVXXeq8+8hNQDJoUC4SQ6g09DVYO2bAKL/Vc9GURYv49Q7mgQPyXKfGJVWwE4
+    8vBNodZQb+VJbzWIopLwYhBr0BReaZH+PC2xravXShPQ/MMRJ/8+Dp7RiLRaEGMun1tx9b
+    MiP+vE6kJO3H7ND86cVSmLuiXWZwtU9Ifsa4DCGqjhnGHt3YvCC4Dkf7GT3iI9IlTu5VGn
+    4U5noyZo/n3Ufc9wrZ+19RYDvFH6XdMa3fHM0tETBcFjBebowqgjt+HAEBPg
+X-ME-Proxy: <xmx:tPBpaj6HUksZdpZj87eKdKS-I-FWUndbMP31fSu7rova__7vRCUJxw>
+    <xmx:tPBpagxUeMM3zWCKF1qmpF2fSSq1sSWLMXAJ4-Yw8kihUrIHZ8woGQ>
+    <xmx:tPBpap3wgex4l2Jq0BM5CTAFIuBZZkG35TtseW5ZmWEzO-5-XbH6Vg>
+    <xmx:tPBpar4IjnyYK3oy5D2vIB6Uxx9aQmP9ViNDOZ4NvBSsX40o5ZKwvQ>
+    <xmx:tPBpanlYb8acziyIEb4ysKeH9OPo0X4Z-ce7We48iVrR7Uv_HIniMrTV>
+Feedback-ID: i934648bf:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Jul 2026 08:23:15 -0400 (EDT)
+Date: Wed, 29 Jul 2026 14:23:13 +0200
+From: Sabrina Dubroca <sd@queasysnail.net>
+To: Chuck Lever <cel@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Shuah Khan <shuah@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
+	linux-kselftest@vger.kernel.org, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH net-next v2 2/6] net: Introduce read_sock_rectype
+ proto_ops for control record delivery
+Message-ID: <amnwsWrxv6KvrZ_L@krikkit>
+References: <20260720-tcp-read-sock-v2-0-29545d034f3c@kernel.org>
+ <20260720-tcp-read-sock-v2-2-29545d034f3c@kernel.org>
+ <20260728185124.72e421c8@kernel.org>
+ <480a8337-a91e-40e5-8dbd-d165599fba4b@app.fastmail.com>
+ <20260728193058.7f6b453b@kernel.org>
+ <a6fb364d-8344-408e-bcd5-0cee4ffabdc3@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Tue, 28 Jul 2026 23:17:48 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Jakub Kicinski" <kuba@kernel.org>
-Cc: "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>,
- "John Fastabend" <john.fastabend@gmail.com>,
- "Sabrina Dubroca" <sd@queasysnail.net>, "Shuah Khan" <shuah@kernel.org>,
- "Jeff Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
- "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
- "Tom Talpey" <tom@talpey.com>, netdev@vger.kernel.org,
- kernel-tls-handshake@lists.linux.dev, linux-kselftest@vger.kernel.org,
- linux-nfs@vger.kernel.org
-Message-Id: <fdd3e54d-2eb6-468c-9877-adc0809d64b2@app.fastmail.com>
-In-Reply-To: <20260728184712.09cc50f4@kernel.org>
-References: <20260720-tcp-read-sock-v2-0-29545d034f3c@kernel.org>
- <20260720-tcp-read-sock-v2-1-29545d034f3c@kernel.org>
- <20260728184712.09cc50f4@kernel.org>
-Subject: Re: [PATCH net-next v2 1/6] net/tls: Bound consecutive no-data records in
- tls_sw_read_sock()
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a6fb364d-8344-408e-bcd5-0cee4ffabdc3@app.fastmail.com>
+
+2026-07-28, 22:51:30 -0400, Chuck Lever wrote:
+> 
+> 
+> On Tue, Jul 28, 2026, at 10:30 PM, Jakub Kicinski wrote:
+> > On Tue, 28 Jul 2026 21:57:21 -0400 Chuck Lever wrote:
+> >> > To me this is an ugly one-off workaround that doesn't fit into 
+> >> > the proto_ops (only TLS will use it). And you seem to net out
+> >> > to the same LOC on SUNRPC side with and without this?  
+> >> 
+> >> It’s not about LOC. It’s about not cluttering the normal I/O
+> >> path with a lot of exception processing to handle TLS Alert
+> >> records. The CMSG API is very difficult to use and leaks the
+> >> alert messages into I/O buffers (which for in-kernel consumers
+> >> are page cache pages). It’s piss-poor API design.
+> >
+> > I'm not arguing that it's amazing. Doesn't mean we will YOLO
+> > a special proto callback for every protocol stacking :/
+> 
+> No-one is asking you to roll over. Review means you get to steer
+> us in the right direction, and I promise to do the leg work. Terse
+> rejection doesn’t move the discussion forward. It stops it cold.
+> 
+> Complaining about slop also does not tell me where you need this
+> to go. I use AI to go from blank page to RFC/v1. Where we go next
+> is up to human taste, as always.
+
+RFC/v1 wasn't sent to netdev.
+
+[jumping to the end of your reply]
+> I thought the RFC series cover letter made it clear that we are
+> looking for input and direction, not to sell a completely formed idea.
+
+Then this should have been tagged as "RFC v2". "PATCH v2" sounds more
+like a fully formed idea.
 
 
+I see in the RFC thread some doubts about whether read_sock is
+actually helpful with TLS.
 
-On Tue, Jul 28, 2026, at 9:47 PM, Jakub Kicinski wrote:
-> On Mon, 20 Jul 2026 10:27:55 -0400 Chuck Lever wrote:
->> A record that delivers no payload -- an empty TLS 1.3 data record
->> today, a control record once read_sock_rectype() lands -- leaves
->> tls_sw_read_sock() in its loop without advancing the caller's read
->> descriptor. A peer that streams such records keeps the receive loop
->> running, and the socket lock held, for as long as the records
->> arrive.
->>=20
->> Cap the number of consecutive no-data records consumed per call. The
->> count resets on any record that delivers bytes, so a normal stream
->> is unaffected; a peer supplying only empty records is bounded to
->> TLS_RX_NODATA_LIMIT iterations before the call returns 0. read_sock
->> consumers treat that as "no progress, re-poll" rather than EOF, so
->> the connection stays up and makes progress once real data arrives.
->>=20
->> Only tls_sw_read_sock() needs this cap. Its consumers drive the recei=
-ve
->> loop from kernel context -- a work item or service thread holding the
->> socket lock across the whole call with no return to userspace -- so an
->> unbounded empty-record stream keeps that context and the lock pinned
->> for as long as the flood lasts. The cap supplies the return boundary
->> that a system call would otherwise provide. tls_sw_splice_read()
->> and tls_sw_recvmsg() already have one: they run in the calling task's
->> context, reschedule while draining the socket backlog (cond_resched()
->> in __release_sock()), and drop the socket lock when the call returns.=
- A
->> flood there costs the caller only its own scheduler time, so the cap
->> would add nothing.
->
-> Is this alluding to PREEMPT_NONE (which for practical purposes is=20
-> no longer a thing AFAIU)?
+Ignoring the "does read_sock even help?" aspect, how much improvement
+are you seeing by going from "read_sock with fallback to recvmsg+cmsg
+in case we get a non-DATA record" to "read_sock_rectype"? (current
+svcsock [before this series] doesn't use read_sock, it may be good to
+compare those 3 variants and not just "old read_sock vs new
+read_sock", but "read_sock vs read_sock++" is the important one to
+justify an API change)
 
-No. The cond_resched() reference was a bad way to make the point.
+Non-DATA record should be fairly uncommon, I'm not that convinced "oh
+well let's try again" once in a while causes a measurable degradation.
 
-What the bound protects is the calling NFSD thread. A client can
-open multiple connections that all send a continuous stream of empty
-TLS records, as a denial of service attack. The mechanism added
-here is an escape hatch for consumers.
+Even with recvmsg(), you have 2 choices:
+ - pass a cmsg every time, and check the record type for every recv
+ - don't pass a cmsg, and do a retry when you get -EIO
 
-This patch has already moved to a prerequisite series, intended for
-=E2=80=9Cnet=E2=80=9D instead of =E2=80=9Cnet-next=E2=80=9D at Sabrina=E2=
-=80=99s request.
+This proposal (call a different CB depending on record type) is... an
+"interesting" approach.
 
-https://lore.kernel.org/r/20260726-tls-follow-on-v1-0-99bf4cc1c729@kerne=
-l.org
+> >> > There needs to be a very strong reason for us to add APIs for
+> >> > in kernel consumers.  
+> >> 
+> >> This is not a helpful position. Your objection is the same
+> >> every time, treating the in-kernel users as second-class
+> >> citizens.
+> >
+> > No, it's not a second class citizen. But kernel consumers have a
+> > tendency to break all abstractions and insert hacks all over the place
+> > just because they are not forced to go via uAPI boundary which forces
+> > people to think about the API design.
+> 
+> Granted that user space self-tests can’t reach kernel-only APIs.
+> But that is what Kunit is for.
+> 
+> 
+> > You just need to try a little harder to produce a better solution.
+> > Rework or augment existing callbacks to let your achieve the behavior
+> > you want.
+> 
+> My original approach was to add a new read_sock variant because I
+> suspected you wouldn’t want read_sock itself to grow another argument.
 
---=20
-Chuck Lever
+Given that there's only 2 existing consumers of read_sock (strp and
+nvme, and I'm not sure why strp/sockmap use it at all) [1], and 3
+arguments to read_sock, adding an argument would be ok IMO. The
+implementation (tls_sw_read_sock/tls_sw_read_sock_rectype) ends up
+being a small wrapper around a function that does the actual work with
+a NULL check, might as well propagate that to the callers.
+
+For me the problem is more that this new argument is very specific to
+TLS, and dropping something TLS-specific in a generic API (struct
+proto_ops) is quite ugly. If we want to make this generic, we're back
+to cmsg (or something cmsg-like). And then the benefit for users of
+read_sock gets down to avoiding the "try read_sock, then fall back to
+recvmsg" logic.
+
+
+[1] well, there's also some users that call tcp_read_sock directly
+[1], but I think they can be ignored other than "they'll need to pass
+NULL since .read_sock = tcp_read_sock"
+drivers/infiniband/sw/siw/siw_cm.c	tcp_read_sock(sk, &rd_desc, siw_tcp_rx_data);
+drivers/infiniband/sw/siw/siw_qp.c	tcp_read_sock(sk, &rd_desc, siw_tcp_rx_data);
+drivers/scsi/iscsi_tcp.c		tcp_read_sock(sk, &rd_desc, iscsi_sw_tcp_recv);
+net/rds/tcp_recv.c			tcp_read_sock(sock->sk, &desc, rds_tcp_data_recv);
+
+-- 
+Sabrina

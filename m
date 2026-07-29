@@ -1,57 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84D531E831;
-	Wed, 29 Jul 2026 01:57:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1A7367B87;
+	Wed, 29 Jul 2026 02:17:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785290264; cv=none; b=WwVEAuv/8l18bkic/r1AxHaUz7MIRih/4v2Zzv/Ztv1mxMuPkgZNo1PqYTLAW8OFR9UzkyYfrP8Llu2lM0aPe8vVBsuFjsA+6ebRAJyXHAyOT12gJJi/BZeC25cfAr05p7SM6TM8A1Hfrf57Nd50KSYfqP6EbP+9sniu3LYxZ4o=
+	t=1785291447; cv=none; b=gH/Ts3pK8TsyELLCm4UnC0GWzA54VQLrMIz03Vh7uKIUkekztvaF0YErB+Iqcen1IZDKpsDopOla6D259lOIgoVMMw/EElOe3wlYHQc/Lx/ZmfAyI2S0jv8/MJ21a3fxUVttM1ZPul8ztpxQjTM5dlki0zYLUxogDhQRIbLZFl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785290264; c=relaxed/simple;
-	bh=5OkhLWRYqzzlrEs3tNAc5E8NFPZTiumniFn+j9yEE0c=;
+	s=arc-20240116; t=1785291447; c=relaxed/simple;
+	bh=sL7uEii46aZa/DuhKhjvvQM+++2aKRBpUNaVwI+lhRA=;
 	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=W0+mCFviCRQZFAA/tCt75w5P/6lduZNIQXTPdL3AtVj3iENnmpTvlmf/y3wotjAmXp9/Gigth+OUdixk61gswefJDsfLX6N01b94aPUfXKDe97k4op6t7PjYPMTntrrr23o6667bgjcxC8mRq84yLqtcTUtW9T2dgCsOTRuZD+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PUYgffNP; arc=none smtp.client-ip=100.103.45.18
+	 Subject:Content-Type; b=g1C5ZMNm3Xs5BkgZ7vTrT4dZruNqfzWkoLNVD0fCV6quBX6+E4JdmIdo49V+jX8D44awPunWylTHYaDESjyiNVmTgD5t19T/SlhdbYLd5qzKm32dgtF6MH3UsbbrAcjSKM3Lz6ibz/JWzIb41Gdf+Gnusw0toxopXEmfOfEOhAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kW2+d8Lp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PUYgffNP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1241A1F00A3A;
-	Wed, 29 Jul 2026 01:57:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kW2+d8Lp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C7CA1F00A3A;
+	Wed, 29 Jul 2026 02:17:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785290263;
-	bh=5OkhLWRYqzzlrEs3tNAc5E8NFPZTiumniFn+j9yEE0c=;
+	s=k20260515; t=1785291443;
+	bh=ohGdf4SsIOy1tOkYFpwNx4CjmKI2b8KyKl09C3+1xvs=;
 	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=PUYgffNPi+xyOFbrxAwLETO3JMLN4uL2uMLFP56UrLiQAwhaVzmKozMJP4odlG+kS
-	 2dFHV38MGam9dvP+2BWQPHJHgr7V8TPlfw2LGLUEqZr+VEVvTh/P9uhLxgDOUUdWfp
-	 v6r9fkijDL0M6xzOdDtg5UA2xuuqAyGy2U+/IR+WtJKx19nRIDHvDbHPkbCWjajXbA
-	 GI6GFVZNnBDO9Dwn8q8JNKb8OjRl5DwIwYVfD9wLvduMrRyffaU/sdeQWAhwOIcEej
-	 p/lwIsCIn2L3rQuN4p9MdIx/yM2L605OARAhvAGZEeIKv46YIvED7mUxO3ixMOIgLj
-	 w3TcDKEh7GCIQ==
+	b=kW2+d8LparuwmTlImwVXXvd+i72L2BdDP1PkEfeLRbyEP1vvwbyxbHzESe7Ooqikj
+	 AV8EvR7iUjAi6kj1uitOHmmxrwm2hB0pp0KId9hH9xV2kPIhA/K0M9OILmWeiFv1I4
+	 x4u23aqu4p2+zZ+x0COYALOXvHA/ZApjoHv59831ZPLwYBqfiDt1um8kwS8zx5mA8M
+	 bbOvd3F1iFDYJyFyRBZH8hlf0UGd5NhM4pv/xiW0+F6bV/y/khSgt6oJCHR+CN/Eee
+	 XkDAt/HNnunoCX2HFSZ5PO0k9AC07ceE28iYSpyrM7fbk92x1S7on/ell3/o8tptpp
+	 te2pU9IbsQF1A==
 Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 13655F4007E;
-	Tue, 28 Jul 2026 21:57:42 -0400 (EDT)
+	by mailfauth.phl.internal (Postfix) with ESMTP id 96380F40073;
+	Tue, 28 Jul 2026 22:17:22 -0400 (EDT)
 Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Tue, 28 Jul 2026 21:57:42 -0400
-X-ME-Sender: <xms:Fl5pavciOmfnwmR7NnYc-k9aiGegQWMoVgZx9uV1aVI-PMwnsIQbSw>
-    <xme:Fl5pagChbXjQf7GFykgguQQJitTq20ARCq2HTH8NrawXH7HES_xr8LNYwWziKigSx
-    hhpI3qtGK10xaWCAY6fU8vOJD_5WqZAqtUYIb50BBSai1yL9C_fPy43>
-X-ME-Proxy-Cause: dmFkZTE2njLt6bc4C+ONPhcsqDTWLplw/BscVJ4IrKcSS3qMgETdQhaIIilEuO0oNFqqdJ
-    RVs1BgblNna7PDTVvX6T0qlTjCVou+LR+iXZw2Lgs8y3JW/jp324mMzWK+41WvG3BO1PJg
-    729eaIAnJhyGYyw//5c+mz1ExSBlpAfpJfnVtnX4LTcsKQsZtvNczr72BLx2bbx7zcdDmP
-    5vyERrsPwAIBO/fccN0vli4CYtmiQhLjC5JcJVwG1FOA1zbwYtHyDmWtBNTgG89VwcLIkn
-    STIpZuXBzQW+/fZ3obVWhZawUkJBY9eQ8QIPhVpP5N9mqfRrmv/yFpwDOxWazIGOxzafHH
-    1iie+0em+FJtZxDC/5yZnrUnqEvtnGnCS4qodE4J4IPuBWH4unvdFtCfDyRWBeTiL+jZ9/
-    w/zSQjqrZAUEYnZcxR4wCjW9ELgMBkdgoGfXZc5L7zVXDfqT2WljcgpNeNDjkrh5d98758
-    iHx0WXT1t8B/10T+fmIrHCZUb7zEC0H281dRlCic0+NXXDw1PTOCOOJe7cO3eIjPKMpLYZ
-    W1cYp20E1PUM2GJ2OJmEnAXRCf2Y4K/+X3cGJT0dydIrqMGvBFcl3nJjcDM8ds5PdXMk17
-    Qxxn20uwI30VNSrVIfnNGLk7G2smBp6S7wPseV6h5xk93UuqiGAl3U6rKdUQ
-X-ME-Proxy: <xmx:Fl5paiWZnJ2PFgkdpXCn69XDfIZjcWU4X3322b2Pdx2T4Avb_Fq-PA>
-    <xmx:Fl5pamJC8mf5IAJbeRtk3vR5DhIjIJZx8eyoyNdu15eNS-yMPZqXRA>
-    <xmx:Fl5pamBazTJjbHi_8d7q8QhkC6kk1CujgCyNgyDiRAAoMlCF_4wecA>
-    <xmx:Fl5pamEa1WRNgF2fmy78_8EqP-_fqE3_N4tpk9XmQSkRTyopOcFJ2Q>
-    <xmx:Fl5pajLpLOgXGSXXaX_IvU5FszafMWB0PU29yEqISXrjOklReMpHSZQe>
+  by phl-compute-10.internal (MEProxy); Tue, 28 Jul 2026 22:17:22 -0400
+X-ME-Sender: <xms:smJpagYP0gGPmTiIuOpJQp2qbKOy-YtQMAUd02hRexWumlb0fXnPbg>
+    <xme:smJpamOdBmmii3n7hTsNMTCUPv2CvpL2csI14JVJjwZk6lrM4779zLSKrIpCDD8KC
+    bc4UABqUIMvfNjDQF34DoM5RQptFZ44p6yHLHidQcuZsIXSDc2HEfH6>
+X-ME-Proxy-Cause: dmFkZTEe1jOODYsShCXVfQy/nOkZsIcM8Rt2KW/XfCg9CCgU8BG9srNc3TQOk51b/a5NEq
+    7Z7LS6l71u6Ynzxybrr5l2QzZUtpk/SZQGIwg38Ql4F0FbNpqyRWi9ZunzlOIuZnFW0aHf
+    neey4UkPIcRYAd1rh3nJIqd7cYX866r0BorSBZjt/Psepqyd5sGnpRUyZFnI/KRcoh+Htr
+    vfRdC8uATRZQ/ZmUCoKg0oHCza5LrQWI7jQT2IFBAxMDmryNP8XOUCdVNmkharoDfF8jxT
+    m6tkKDwdSwUC4WtERIS/MmswNSiBdgAZ5XInzB9VYMQ84DDUVqrD6TSxNoIeRjTz5YVkIz
+    fIm2gkL+Qgpx8f5068eARi0lLPEglLem5ieOcDuIjd6KBBNlsW9ibXMhImERgBOuymaxte
+    T6Ev5d0M9vg6yFUszhPxqc/m6Jb92XbWM7+VEAkEjHfT6Bj6UCzRwbzyAleGIhvF5dkoI/
+    XuNStiBV88qD4Tz+PXevwbMK8o4hzuUg0ZslNLlauF2Bertt1d63kXZCjBXCWUyd0GCeiB
+    121/oH3mBUd7JaYyoAEB7NqRuq/+9SPke/sT2my8vcytHcA9fiUlBh2dTgGOrZa9pFkhCO
+    4NGrdL6pJRT3biRHtO4hJODbuxbXUsYTVYanvZeIhr8LYJ3hkOQZqtbnq45Q
+X-ME-Proxy: <xmx:smJpaqTZcc_FPPimhtcxaS89k-BD-mFx6UKEcmjf57r5RMNKdPV09A>
+    <xmx:smJpanXSxM4NMCsT4xomCL0TgqGT6Vf216hdle4pNlKfjYUuK94qag>
+    <xmx:smJpanfEaXM6JXv1J9hD0kPqbZDmL-eZw8V1jgwbo-z11XHEHod6TA>
+    <xmx:smJpaizw8i0ZPCrIqZtYvgXTPnHl4tnw2cLe4T8rhBKk4pu43SoGxQ>
+    <xmx:smJpaqFSGXluW9qbLQ_WCZt118tP1N3f9WcqYvDGMSW2HXZMGFIjwTaw>
 Feedback-ID: ifa6e4810:Fastmail
 Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id E8E69780070; Tue, 28 Jul 2026 21:57:41 -0400 (EDT)
+	id 64E51780070; Tue, 28 Jul 2026 22:17:22 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
@@ -59,7 +59,7 @@ List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Tue, 28 Jul 2026 21:57:21 -0400
+Date: Tue, 28 Jul 2026 22:16:22 -0400
 From: "Chuck Lever" <cel@kernel.org>
 To: "Jakub Kicinski" <kuba@kernel.org>
 Cc: "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>,
@@ -70,66 +70,59 @@ Cc: "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>,
  "Tom Talpey" <tom@talpey.com>, netdev@vger.kernel.org,
  kernel-tls-handshake@lists.linux.dev, linux-kselftest@vger.kernel.org,
  linux-nfs@vger.kernel.org
-Message-Id: <480a8337-a91e-40e5-8dbd-d165599fba4b@app.fastmail.com>
-In-Reply-To: <20260728185124.72e421c8@kernel.org>
+Message-Id: <0e1f1b09-fa91-4a6b-b60c-39bae6e287a6@app.fastmail.com>
+In-Reply-To: <20260728185525.27b443a9@kernel.org>
 References: <20260720-tcp-read-sock-v2-0-29545d034f3c@kernel.org>
- <20260720-tcp-read-sock-v2-2-29545d034f3c@kernel.org>
- <20260728185124.72e421c8@kernel.org>
-Subject: Re: [PATCH net-next v2 2/6] net: Introduce read_sock_rectype proto_ops for
- control record delivery
+ <20260728184312.20b21582@kernel.org>
+ <97b61f5f-57df-4a29-85a0-613f7b7e75eb@app.fastmail.com>
+ <20260728185525.27b443a9@kernel.org>
+Subject: Re: [PATCH net-next v2 0/6] Deliver TLS control records to kernel read_sock
+ consumers
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 
 
-On Tue, Jul 28, 2026, at 9:51 PM, Jakub Kicinski wrote:
-> On Mon, 20 Jul 2026 10:27:56 -0400 Chuck Lever wrote:
->> Kernel TCP consumers that use the read_sock interface
->> (proto_ops.read_sock) cannot receive TLS control messages (Alerts,
->> Handshake records) when kTLS is active. The current
->> tls_sw_read_sock() method rejects non-data records with -EINVAL, and
->> the sk_read_actor_t callback has no channel for delivering record-
->> type metadata.
+On Tue, Jul 28, 2026, at 9:55 PM, Jakub Kicinski wrote:
+> On Tue, 28 Jul 2026 21:46:57 -0400 Chuck Lever wrote:
+>> On Tue, Jul 28, 2026, at 9:43 PM, Jakub Kicinski wrote:
+>> > On Mon, 20 Jul 2026 10:27:54 -0400 Chuck Lever wrote: =20
+>> >> - The no-data cap (patch 1) is a prerequisite, not a stand-alone f=
+ix.
+>> >>   Once control records reach read_sock, a record carrying no paylo=
+ad
+>> >>   stops advancing the caller's read descriptor, so a peer streaming
+>> >>   such records would pin the socket lock and the kernel receive
+>> >>   context for as long as the flood lasts. Bounding consecutive
+>> >>   no-data records supplies the return boundary a system call would
+>> >>   otherwise provide. The cap is scoped to tls_sw_read_sock() alone:
+>> >>   splice and recvmsg run in the caller's own context, reschedule, =
+and
+>> >>   drop the lock on return, so they need nothing. =20
+>> >
+>> > Is it just me or this is incomprehensible slop? Run on sentences=20
+>> > full of terms no kernel developer would use? =20
 >>=20
->> Four kernel subsystems are affected: NFSD (sunrpc svcsock), NFS
->> client (sunrpc xprtsock), NVMe target (nvmet-tcp), and NVMe host
->> (nvme-tcp). Each of these either falls back to the sock_recvmsg()
->> API or lacks TLS alert handling entirely.
+>> It makes sense to me. Which terms do you have trouble with?
 >>=20
->> A new read_sock_rectype method in struct proto_ops provides a
->> separate code path that delivers non-data TLS records to a callback,
->> without changing the behavior seen by existing read_sock consumers.
->>=20
->> The new sk_read_rectype_actor_t callback type extends the
->> sk_read_actor_t signature with a rectype parameter carrying the
->> protocol-layer record type (for example, TLS_RECORD_TYPE_ALERT). The
->> record-type callback returns 0 to consume a record or a negative
->> value to requeue it and stop delivery; unlike the data callback, its
->> return value does not count bytes.
+>> Patch 1 is moving to a pre-requisite series, so this can be dropped
+>> from the cover letter.
 >
-> To me this is an ugly one-off workaround that doesn't fit into=20
-> the proto_ops (only TLS will use it). And you seem to net out
-> to the same LOC on SUNRPC side with and without this?
+> Did you write this? If not what model did you use?
 
-It=E2=80=99s not about LOC. It=E2=80=99s about not cluttering the normal=
- I/O
-path with a lot of exception processing to handle TLS Alert
-records. The CMSG API is very difficult to use and leaks the
-alert messages into I/O buffers (which for in-kernel consumers
-are page cache pages). It=E2=80=99s piss-poor API design.
+I did not write this text. It was written with Opus 5 and reviewed by
+gpt-5.6, sashiko (gemini), and myself, repeatedly.
 
+I=E2=80=99m not aware of a requirement to add an AI-related tag to a ser=
+ies
+cover letter, nor am I aware of any a priori prohibition against
+using assistance when composing one.
 
-> There needs to be a very strong reason for us to add APIs for
-> in kernel consumers.
+I agree it needlessly duplicates content from the patch commit messages.
+It is bland, but I don=E2=80=99t find it nonsensical, or I wouldn=E2=80=99=
+t have posted
+it for review.
 
-This is not a helpful position. Your objection is the same
-every time, treating the in-kernel users as second-class
-citizens. You haven=E2=80=99t provided a single alternative to address
-our concerns, and you have not explained why an additional API
-is a problem.
-
-Please put down your hostility and elaborate. You seem to be
-the only one who has a problem with any of this.
 
 --=20
 Chuck Lever

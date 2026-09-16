@@ -1,97 +1,96 @@
-Received: from mail-pz2-f41.google.com (mail-pz2-f41.google.com [74.125.228.41])
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9727B308F32
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 16 Sep 2026 15:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A8250EC08
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 16 Sep 2026 15:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789571919; cv=pass; b=XhZHvnMZu+OCvsJs+0GjBqfvZP6j2IRff44FhPwcXTaLXDaE1bQI0kfL3Q8ZLmjWMrMQGw6g6Rk3JVeEO498bWIseXMmrYgpuL03EfahDLSJQTh1wh0YOhKJbrrY/wCJBGmwe7a5f8voUgb1AgWR88w/QthohXElAMFPWVFeyv8=
+	t=1789572115; cv=pass; b=f/Jcur+m8LMD17/j2laTWkyUCqhiAM5i2CTQPBt1qPnMI5SpB2hRXYQhjHmhhmf/Fvll8pwohHHKGwpWWBSW+fQcQTivZ3B4o5W3XLSC5MbOrN2sDI3ecfuP6tQ3UWkIX7nSoyvWWlP4pR5fSM5gC+i89ihpgk/zz5bkXCrcIzI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789571919; c=relaxed/simple;
-	bh=Dj+80PpyFtuTTPI24RANQuQHDc3eXfflbc+ICFvzogo=;
+	s=arc-20240116; t=1789572115; c=relaxed/simple;
+	bh=ZLzBSbLHdIx7oKJft5euLp5tK8dytE+WWJeEygpcoPg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fL8x+Me2CjD00WP4CAJ10eaT9s+AXa8MtfLnwM8Rcdh7s7oXUO1C16H9sgikQukDLioLEOGjT4KX9PBa2fBd9t21SEjAQ0uw4BIHywPUtE4PcxZm0KtkL3prvEynzyxgHE5zW58lbXG98kGKrc1rHRpR/zIfVB2UMMKnd+YPSN4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p4RWE+yL; arc=pass smtp.client-ip=74.125.228.41
+	 To:Cc:Content-Type; b=Lg+RuBcAfc2Kh3O4C9BtAGjvjqkMUgnWOswO03fUq3oYGU0kGwMB+rtCk+hrti1OymEjbkJvPMp+1QIMgK/YlVr5uutbBC52TL21wxmf1PR+OUNapF59EfemBQ8/DIYxpOwTgcsgRd/zNP5ctJdyaXb7fa8ELMRpr41kZoFqRVM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VUZDCsd+; arc=pass smtp.client-ip=74.125.228.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p4RWE+yL"
-Received: by mail-pz2-f41.google.com with SMTP id d2e1a72fcca58-85a4329731cso784077b3a.3
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 16 Sep 2026 08:18:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789571916; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VUZDCsd+"
+Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-8693af0d7c4so1203525b3a.3
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 16 Sep 2026 08:21:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789572109; cv=none;
         d=google.com; s=arc-20260327;
-        b=K9RIFXoIOui7V8nO75L5YB+lWfIawhJ3r2lOnFmQ4U9SCsb6f3LKWs+yETxZRDhkuM
-         JY8D1MLlDKIsTKTTsc8CB0ijpnDXG+rihPpkKeN0sOAKabsWC7nkrG9BLBZqiEa/yVlj
-         6PddblzBJkvfFUlwZOFsV8laBDCD2UorF2KcwJiGxBCMDNhXQD6lxE5WJZ/foLwcy9Ld
-         j3A7zyCQtxj9WcC8XBWcG9WQ3DAkK73O2D/rjpHE/w9yJ3f+TygbaHwln+TVZ5ARs6mh
-         9def3/pqaGDxn5vXV6mQFcNjVoESUHcXniZEcJxuTkt3XG4KWCOKBZEnv5bX7jnswEjy
-         SAIA==
+        b=Dlp7Z2yoskjX/6UDERXt5kZRuoAe4xHqCCtKjtuHvlqfxu9O04w5fYjI7GstF8sjGk
+         HTwe0NgmSVC4ZHLRA9Y1V7gOZefSe9sUbIbHIwzb1gknA/px6ZYl6KO2Jvf90qmt7tLh
+         4LaULiI4sCjCnADw69yoehO23tLCoq1dIdYlQzEAqGAvYM7u/AkPMmC9PbIXkiePF9Aa
+         y+9FZYVx8SCQZqfdYGbP9AqdaW7gc7Hr/QhnOsffhzuZUslvvUJNJSEpnFRZUeLx6QG4
+         DuGy+V4xZgvZdHJuA+LzRKRnFYKl7KfkYDGuvn7WNq6bSwspkcGrH1diNoGbJUeymMfB
+         AcmA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=BhkqwMNKc8zR/oVQWFJv9edBfd9F+9BsRk6J/+nHhu0=;
-        fh=C9zxP77o3Qtd9ZVIIhta38eR080I8Ck+OEauGuYfFts=;
-        b=P0BZMpe7tWrEkBFFKydBjtEiWS0B3lxzhPf3XCrR9ZW3vhjF8EcybivXJe/O/gjEg5
-         MGVFa/v1zKfFZWEcUNzgWfG51uNDYwEwPSDeaWqkeymQQvAcNzxRFggh2XsHuuvkYqdE
-         8wMke296XxS8gwOzoikbxRENnWNT4n5WuNcN+ZmhAZQXpf/VIuwKk+UYJ6X+feBdAKRw
-         ydFStuk1SkPXrZ+bYDrzuW5ZcGnoVcH2n/sx9MiFtZSpzXKy364HD2umS1dRm7t2Ekbp
-         VKPWjSqVpJBdtdXlaskv9rjjnmLkmYijLstXfh4iI6usGknUItx0eAOVFmbQvQ0U6hmC
-         6mRQ==;
+        bh=p1eY0XzQHV53ynXnFivLaDlowT7CeoLCfbXUtFiZQ8o=;
+        fh=1mckU6NeMccKeI25pgfm6MCJW6W4MJug6gB836PM5bs=;
+        b=QFiiqZvIhUWgLIEshy61EVn3LDbkPhGdA86m+tcOYS1yG3+R62GirRFANkJiSlyLcT
+         AfFgl5wwORsl1tFw6VgaIaCL5Qa+ONioxjJEA40d813ueJ6eVfHXN1dixVewOoAV8Vhb
+         Ksd5Xc8C2nA1lZoqbm7PFHAJGrZooRaxTSAOpR0/V7CYWFvvxY0OfGFjol9hMlpFQ5Al
+         WNL7+XJvP6faj41F+en65ch7Ldqi3xk3QNbRjR8L1J8huK7R8wu+FQPiTG/X8uINgnsf
+         /S5hFzgBjbgzRFCKV43/nIHP4gL/OTQRCtTw0W69lmNvaCySTNVTgRhLAowcM3ZuAOT6
+         zn3w==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789571916; x=1790176716; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789572109; x=1790176909; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=BhkqwMNKc8zR/oVQWFJv9edBfd9F+9BsRk6J/+nHhu0=;
-        b=p4RWE+yLVV+sOe6aAUje3ANq+TVlh3WFQmrpA/zs7IM9un968nYEjppCd1T6WADAJ3
-         p+IIiC0xeso7Pp0BSSeYUlU1n/0emfnWbt0HUcZebTvvSEu0Wz9K+U0gcDcu/FOUzngG
-         TZ8+PxD2mJy+j+b+J/0hhqcs7Kjku2bOVoZurjR9lAvriw+EtYziEBK20LlVaNr2NVBC
-         uXQ2jIN5ZAjKMiAFVICkbTg/ZkpVw8hm/OCB/0QPskkXvzLIES3hBkmTmdiBzYLjhDbJ
-         TF/f8cpjAYOopKu+Vn9miIcEqxFZdB95/oUm7mV8EpcnAqEpk7HJheSVSTcgdECuuvmI
-         LJZQ==
+        bh=p1eY0XzQHV53ynXnFivLaDlowT7CeoLCfbXUtFiZQ8o=;
+        b=VUZDCsd+TVHz7LM8iUk0MYtQFxYxIS16t/mK476vXl+1E56DgSfpuh63Jc/y3zT4AH
+         jcY0P0rmrHr1TUaYFRb0VMIyixGUnGHZMgg4mvKjwyps6uV+qyf3Du2A6ZoHQdGXH7Ap
+         1WHwnEIGnjh82RS3RfDzlISJQMLVCb4i8SpolUqrhww4+sH7v3mDcqUG637S1PFzlov5
+         ZREQ90yGyiNGgZvtQIkbZHAdFtnM8Lr2GzbgWXsLFuZQM9YXortuBOeJRNJX2vBuD/me
+         xvJtqnJIeReryNU4DkDwcIIK3PulJuqjzoNUPx+VUsFzMpVF7inL72RYXNMuMlP6d/Xa
+         FLOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789571916; x=1790176716;
+        d=1e100.net; s=20260707; t=1789572109; x=1790176909;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=BhkqwMNKc8zR/oVQWFJv9edBfd9F+9BsRk6J/+nHhu0=;
-        b=KjPwNEpYuprtphjXRq42+ENV7Xfs7lmdGDihgEKMTBdHDIxc7pPRjckxr9CHf/NwOB
-         bkURpb8efNZgovMlgssp1VDzgikVSxxcRTgQc410Aj48voq8HRkGynULTPLc3adO8OSq
-         BbTAXEDGJh2vviozgsm8ciJUzTcZdW3derfnYtgAmnTPjJRRYJlY5xDyfUHi1hdVMQWZ
-         xOtzHNHWG5O9AYrRj2KYmOmeXM1XFljtF6Pj/+gzlae2P2T+AFuKKff47w8OKTw03aFl
-         RTbon5JnSzg9p4lFmvyV0p4WlaEct9oq4ocvvdGyr52Q7litr344RrAIzyVbLMT1GZHU
-         xPeg==
-X-Forwarded-Encrypted: i=1; AKwUvBznkcQQ6usKuKTNSL1vtySAKdqSVUkWIJ9AIliMAC15j99S58dQeqYiQNlRpGhmKNyHXIRKYdOGH8sB3f4AB/Z6tOT6IQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++mfoifr/7RRmbOULNx+0O/K43pmBDCWcv6jDVK0+6zLbN2PYyGn
-	p/bFh2qT6mvczJOptgUU4YanDFUyi8aDaI3AyDqZweyERMB/+teMVNB0qFXdAzWn6A5oWm+iAiK
-	9iqgpvueu6PIwntfHxk7r7fWXj6pV3Ps=
-X-Gm-Gg: AYBFou19CzbPQ/GgKj+1xWj/G0mKiui2ccO7okbGoQS8XFcuRnDfpujJKBopqhPfkBp
-	st3uHKJa11yjqAjqYDlUxuWMNxD8Eo4D0zCSKfbsTDb63Xx4B/vEVUOtwTtm0fDtNTEpSKppY+z
-	4K/y6qT4/6aapeQmUG6TnStI4XUb4YrkQQ9WwC2OW0pzmpi1p3b7RB73+1nIudqsk54Y4UG4Sgw
-	PUcFkf68kDLujEjazJyfMojmCDEZGaQvxqmZrgk/jx7XZ+/X8XpNHJGZ+Rn0G1n9ihKJMRcoVNx
-	8KHFGRTrcNCS36fFAYM3tg/PYexevIunvkSzD7kOhMGe0ZVvVeLErF/B/8GQ8P4PSbUdHKptHm5
-	NVgwn1WHv7Uv+WS+msoVjJIht+Lr4fQoDKKhsm6HIOmOqJYj37kZT/QwE9np00cbJVFk=
-X-Received: by 2002:a05:6a00:c481:b0:872:6004:f117 with SMTP id
- d2e1a72fcca58-8726004f36dmr4040074b3a.24.1789571915717; Wed, 16 Sep 2026
- 08:18:35 -0700 (PDT)
+        bh=p1eY0XzQHV53ynXnFivLaDlowT7CeoLCfbXUtFiZQ8o=;
+        b=I+11XgQxLBniufRn0Ub0b42yl96xRmxEZRfhhi8MyyXy+6KyWrKagsGVKptudfYLD1
+         Q/5T5q3Q2c4j1sHm9YYDZEoHgKtcpkDM1J1xgfbRnhPXPmv+qE889iPUcbkLbSL7WlXA
+         OCfAnqDmnAtla40jDOIZ89q36RbUDwaCP2ky9A9lA36tF/AvlpX9q/cWDoAlmDgdRsa0
+         dvybPkl/IRIdaB5JOjxDr2RYckADpQ6RA6jV9eG8k1sIael84jeWevkk7QqCanWXceyM
+         YIJFqQpyBCtwGJTjPtmhxjZlghnbw9lmXJ5LwFAYHHP+BaIAuTW2b2Xsc9oizZ/otSU0
+         DolQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxcNYIUch4n+VJ9/NjNdzeXZ9RNMnu5q6LdTB8IbkkkmcPkaShk2r6uNoXGR7IZT51JhTx7bm8n7lNLJszengAckn9nnQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++lu3Xu6PDZv0HaSWOFgrx3QG6sJcFAjuK+4jCSZf7Gf8kN7Oks8
+	WFYvt68BThMA75eI67VswlthAeAqop607XA4R8+NK/vuIO5cwwvAQu4sMhVo4EOpA8y9LVYTSCb
+	sbLibS5hZhHWKAUadR2bU5HjMUXL0imM=
+X-Gm-Gg: AYBFou2EqC6gD72Spk794BU3p8i4IKrAFkkmRQHnCpcKkVLkuOhEzUAK+GuPxk5H6zM
+	nW0FXcQlJYo4QkEkq9NoEFw/m7qcZ9qzRWvBIwR3YQP2MTueQB5pgXSRiKkHeFAui6WixN5aiwt
+	bRT0eFhry6kNGugA+hkcjnzbgrgLLtgPgDndCKG7dHMa9ucbkw/7w3foJ7OY9BL0FuDHTv0PInW
+	W4ftF+mBSwUBJcid4T48V9eyqwhAdIigGoUR+vRE5gomN8kOZM1/EE2xuoIXwL58MY4DuRf/73l
+	Lo8zFm/R0XcaQ8whV3zWfN8ebctHK2AMFEy/q4CBpPbCIfLL3ccoehZDNvJA+XTScZ6c2tzyF3H
+	k6thft8CdkArQ6/kVMB4HsNblYDu5aqqPteA4zZftK/Io3Lg1FpS5Zhs+
+X-Received: by 2002:a05:6a00:4fc3:b0:86f:2d2f:48ef with SMTP id
+ d2e1a72fcca58-87236ddb105mr6042886b3a.1.1789572108837; Wed, 16 Sep 2026
+ 08:21:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1cf83a4eb178197cd842e34468f4e357f42b9c28.1789393775.git.lucien.xin@gmail.com>
- <178950182306.22033.14152384539754204368@kernel.org>
-In-Reply-To: <178950182306.22033.14152384539754204368@kernel.org>
+References: <6d7bfc9ba424a7170befff9ca9eaed1663017ca8.1789393775.git.lucien.xin@gmail.com>
+ <178950183921.22033.10083649522216474862@kernel.org>
+In-Reply-To: <178950183921.22033.10083649522216474862@kernel.org>
 From: Xin Long <lucien.xin@gmail.com>
-Date: Wed, 16 Sep 2026 11:18:23 -0400
-X-Gm-Features: AcwNN1UEOUO9io4IO0BxkvntuRVWDPeW_lFsEE-noRtB4rxUETC2sWqvf53BLHc
-Message-ID: <CADvbK_ejURHE3C6BPv+b=Qnu8jPAcWDHMmqYOyEQ324_qsgknA@mail.gmail.com>
-Subject: Re: [PATCH net-next v15 03/15] quic: provide common utilities and
- data structures
+Date: Wed, 16 Sep 2026 11:21:36 -0400
+X-Gm-Features: AcwNN1UD3xdvGptxprJEVONmj0qpc-MJ-3juUKU_3i9i2Xyg8-vDsV7GrGmZ3i4
+Message-ID: <CADvbK_ejqDoS3bA33Ryi-qeNV7eRbTE9QPc-90XDoRujmuaoxg@mail.gmail.com>
+Subject: Re: [PATCH net-next v15 06/15] quic: add stream management
 To: netdev-bot+sashiko@kernel.org
 Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net, 
 	kuba@kernel.org, edumazet@google.com, pabeni@redhat.com, horms@kernel.org, 
@@ -110,128 +109,218 @@ Content-Transfer-Encoding: quoted-printable
 On Tue, Sep 15, 2026 at 3:50=E2=80=AFPM <netdev-bot+sashiko@kernel.org> wro=
 te:
 >
-> Thank you for your contribution! Sashiko AI review found 1 potential
+> Thank you for your contribution! Sashiko AI review found 3 potential
 > issue(s) to consider:
 >
-> Critical: 0 =C2=B7 High: 0 =C2=B7 Medium: 1 =C2=B7 Low: 0
+> Critical: 0 =C2=B7 High: 0 =C2=B7 Medium: 1 =C2=B7 Low: 2
 >
-> - [Medium] Weak hash seeding in the new QUIC hash helpers:
->   `quic_sock_hash()` (net/quic/common.c:40-53) reduces IPv6 addresses to=
-=E2=80=A6
+> - [Medium] quic_stream_set_param() (net/quic/stream.c:387-416) treats the
+>   UAPI field `struct quic_transport_param::remote` (a __u8, so 0..255)=E2=
+=80=A6
+> - [Low] quic_stream_create() (net/quic/stream.c:83-160) allocates each
+>   stream with kzalloc_obj() and explicitly initializes only id,=E2=80=A6
+> - [Low] Concern: quic_stream_free() is called from quic_destroy_sock()
+>   (net/quic/socket.c:60), i.e. from proto->destroy, which=E2=80=A6
 >
 > --
 >
-> quic: provide common utilities and data structures
+> quic: add stream management
 >
-> This patch adds net/quic/common.c and net/quic/common.h with the QUIC
-> packet header types, connection ID and address helpers, the socket and
-> connection ID hash tables, and the varint/transport-parameter encoding
-> helpers. quic_init() now initializes and tears down the hash tables.
+> Adds struct quic_stream_table and struct quic_stream along with the
+> per-socket stream hash table, the acquire/release helpers
+> quic_stream_get()/quic_stream_put(), the stream ID limit checks, and the
+> transport parameter get/set helpers.  The table is allocated in
+> quic_init_sock() and released in quic_destroy_sock().
 >
-> One question below about the hash helpers.
+> A few questions below about stream state initialization, the handling of
+> the transport parameter "remote" field, and the teardown ordering.
 >
-> > diff --git a/net/quic/common.c b/net/quic/common.c
+> > diff --git a/net/quic/socket.c b/net/quic/socket.c
+> > index 0e0a13235fa42..731c1e00dba2b 100644
+> > --- a/net/quic/socket.c
+> > +++ b/net/quic/socket.c
+> > @@ -49,11 +49,16 @@ static int quic_init_sock(struct sock *sk)
+> >       sock_prot_inuse_add(sock_net(sk), sk->sk_prot, 1);
+> >       INIT_LIST_HEAD(quic_reqs(sk));
+> >
+> > +     if (quic_stream_init(quic_streams(sk)))
+> > +             return -ENOMEM;
+> > +
+> >       return 0;
+> >  }
+> >
+> >  static void quic_destroy_sock(struct sock *sk)
+> >  {
+> > +     quic_stream_free(quic_streams(sk));
+>
+> [Severity: Low]
+> Is the stream table teardown ordering here what is intended for later
+> patches?  quic_destroy_sock() is proto->destroy, and sk_common_release()
+> runs it before ->unhash(), with no socket lock held:
+>
+> net/core/sock.c:sk_common_release() {
+>         ...
+>         if (sk->sk_prot->destroy)
+>                 sk->sk_prot->destroy(sk);
+>         ...
+>         sk->sk_prot->unhash(sk);
+>         ...
+> }
+>
+> So quic_stream_free() frees streams->head and then stores NULL into it at
+> a point where the socket is no longer reachable from user space but is
+> still, in principle, reachable from the network.  A concurrent
+> quic_stream_find() would then walk freed hlist heads, or dereference NULL
+> in quic_stream_head().
+>
+> Nothing can hit this in the current tree, since quic_hash() is
+> "return 0;" and quic_unhash() is empty, so a QUIC socket is never inserte=
+d
+> into a hash table and cannot be looked up from the receive path.  Would i=
+t
+> still be worth doing the free after unhash, or under the socket lock the
+> way udp_destroy_sock() does with lock_sock_fast(), so this stays correct
+> once the lookup paths land?
+>
+> [ ... ]
+>
+> > diff --git a/net/quic/stream.c b/net/quic/stream.c
 > > new file mode 100644
-> > index 0000000000000..51d71b6733c7d
+> > index 0000000000000..6b34b117103a8
 > > --- /dev/null
-> > +++ b/net/quic/common.c
-> > @@ -0,0 +1,565 @@
+> > +++ b/net/quic/stream.c
+> > @@ -0,0 +1,416 @@
 >
 > [ ... ]
 >
-> > +u32 quic_sock_hash(struct net *net, union quic_addr *s, union quic_add=
-r *d)
-> > +{
-> > +     u32 ports =3D ((__force u32)s->v4.sin_port) << 16 |
-> > +                 (__force u32)d->v4.sin_port;
-> > +     u32 saddr =3D (s->sa.sa_family =3D=3D AF_INET6) ?
-> > +                 jhash(&s->v6.sin6_addr, 16, 0) :
-> > +                 (__force u32)s->v4.sin_addr.s_addr;
-> > +     u32 daddr =3D (d->sa.sa_family =3D=3D AF_INET6) ?
-> > +                 jhash(&d->v6.sin6_addr, 16, 0) :
-> > +                 (__force u32)d->v4.sin_addr.s_addr;
-> > +     u32 hash =3D jhash_3words(saddr, daddr, ports, net_hash_mix(net))=
-;
+> > +     /* rfc9000#section-2.1: A stream ID that is used out of order res=
+ults in
+> > +      * all streams of that type with lower-numbered stream IDs also b=
+eing
+> > +      * opened.
+> > +      */
+> > +     while (stream_id <=3D max_stream_id) {
+> > +             stream =3D kzalloc_obj(*stream, gfp);
+> > +             if (!stream)
+> > +                     goto free;
 > > +
-> > +     return hash & (quic_sock_hash_size() - 1);
-> > +}
+> > +             stream->id =3D stream_id;
+> > +             if (quic_stream_id_uni(stream_id)) {
+> > +                     if (send) {
+> > +                             stream->send.max_bytes =3D
+> > +                                     limits->max_stream_data_uni;
+> > +                     } else {
+> > +                             stream->recv.max_bytes =3D
+> > +                                     limits->max_stream_data_uni;
+> > +                             stream->recv.window =3D stream->recv.max_=
+bytes;
+> > +                     }
 >
-> [Severity: Medium]
-> Should the inner IPv6 fold in quic_sock_hash() be seeded?
+> [Severity: Low]
+> Should stream->recv.state be initialized here?
 >
-> The per-netns secret is only mixed in the outer jhash_3words() call, whil=
-e
-> the 128-bit address is first reduced to 32 bits with jhash(..., 0). Since
-> jhash_3words(a, b, c, initval) is a pure function of its inputs, two peer
-> addresses whose unseeded 32-bit fold is equal produce identical (saddr,
-> daddr, ports) triples and therefore the same bucket for every value of
-> net_hash_mix(net).
+> The stream comes from kzalloc_obj(), and only id, send.max_bytes,
+> recv.max_bytes and recv.window are assigned, so recv.state stays 0.  The
+> send and receive states share one enum in include/uapi/linux/quic.h:
 >
-> Does that let a peer controlling an IPv6 prefix pick colliding source
-> addresses offline, without knowing the secret, and collapse many
-> connections into one chain of quic_hashinfo.chash (capped at 16K buckets)
-> that the per-packet lookup then walks?
+>         enum {
+>                 QUIC_STREAM_SEND_STATE_READY,
+>                 ...
+>                 QUIC_STREAM_SEND_STATE_RESET_RECVD,
 >
-> Compare with sctp_hashfn() in net/sctp/input.c, which the commit message
-> cites as the model and which passes the seed into the inner fold:
+>                 QUIC_STREAM_RECV_STATE_RECV,
+>                 ...
+>         };
 >
->         if (paddr->sa.sa_family =3D=3D AF_INET6)
->                 addr =3D jhash(&paddr->v6.sin6_addr, 16, seed);
->         else
->                 addr =3D (__force __u32)paddr->v4.sin_addr.s_addr;
+> which makes 0 equal to QUIC_STREAM_SEND_STATE_READY, while
+> QUIC_STREAM_RECV_STATE_RECV is 6.
 >
->         return  jhash_3words(addr, ((__force __u32)paddr->v4.sin_port) <<=
- 16 |
->                              (__force __u32)lport, net_hash_mix(net), see=
-d);
+> net/quic/stream.h documents the field as a receive state:
 >
-> Would jhash(&s->v6.sin6_addr, 16, net_hash_mix(net)) here be equivalent i=
-n
-> cost?
+>                 u8 state;  /* Receive stream state, per rfc9000#section-3=
+.2 */
+>
+> and quic_stream_put() compares it against the receive constants:
+>
+>                 if (stream->recv.state < QUIC_STREAM_RECV_STATE_RECVD)
+>                         return;
+>
+> This comparison happens to give the same answer for 0 as for 6, so nothin=
+g
+> misbehaves today, and the same field is what gets reported to user space =
+as
+> struct quic_stream_update::state.  Would setting recv.state to
+> QUIC_STREAM_RECV_STATE_RECV at creation time (or documenting that 0 means
+> "Recv") avoid an equality test going wrong later?
 >
 > [ ... ]
 >
-> > +struct quic_shash_head *quic_source_conn_id_head(struct net *net, u8 *=
-scid,
-> > +                                              u32 len)
+> > +/* Configure stream hashtable from transport parameters. */
+> > +void quic_stream_set_param(struct quic_stream_table *streams,
+> > +                        struct quic_transport_param *p, bool is_serv)
 > > +{
-> > +     u32 hash =3D jhash_1word(jhash(scid, len, 0), net_hash_mix(net));
-> > +     struct quic_shash_table *ht =3D &quic_hashinfo.shash;
+> > +     struct quic_stream_limits *limits =3D p->remote ? &streams->send =
+:
+> > +                                                     &streams->recv;
+> > +     u8 bidi_type, uni_type;
 > > +
-> > +     return &ht->hash[hash & (ht->size - 1)];
-> > +}
+> [ ... ]
+> > +     if (p->remote ^ is_serv) {
+> > +             bidi_type =3D QUIC_STREAM_TYPE_CLIENT_BIDI;
+> > +             uni_type =3D QUIC_STREAM_TYPE_CLIENT_UNI;
+> > +     } else {
+> > +             bidi_type =3D QUIC_STREAM_TYPE_SERVER_BIDI;
+> > +             uni_type =3D QUIC_STREAM_TYPE_SERVER_UNI;
+> > +     }
 >
 > [Severity: Medium]
-> Same pattern here: the connection ID bytes are folded with jhash(scid, le=
-n,
-> 0) before the secret is applied, so any two connection IDs colliding in
-> that unseeded fold share a bucket for any secret. Would passing
-> net_hash_mix(net) as the initval of the inner jhash() be preferable?
+> Can the two different interpretations of p->remote in this function
+> disagree?  It is a __u8 in the uAPI (struct quic_transport_param), so it
+> can hold 0..255.  The limits selection uses a truth test, while the type
+> selection uses a bitwise XOR, so for p->remote =3D=3D 2 with is_serv =3D=
+=3D true:
 >
-> Note the connection IDs inserted in this series come from
-> quic_conn_id_generate() using get_random_bytes(), so the practical exposu=
-re
-> is smaller than for the connection socket table.
+>         limits    =3D &streams->send              /* truth test: non-zero=
+ */
+>         2 ^ 1 =3D 3 -> non-zero                   /* takes the CLIENT bra=
+nch */
+>         bidi_type =3D QUIC_STREAM_TYPE_CLIENT_BIDI
 >
-> > +u32 quic_addr_hash(struct net *net, union quic_addr *a)
-> > +{
-> > +     u32 addr =3D (a->sa.sa_family =3D=3D AF_INET6) ?
-> > +                jhash(&a->v6.sin6_addr, 16, 0) :
-> > +                (__force u32)a->v4.sin_addr.s_addr;
-> > +
-> > +     return jhash_2words(addr, (__force u32)a->v4.sin_port,
-> > +                         net_hash_mix(net));
-> > +}
+> which leaves streams->send.next_bidi_stream_id =3D 0 on a server instead =
+of
+> 1.  Would !!p->remote ^ is_serv (or rejecting p->remote > 1) keep the two
+> tests consistent?
 >
-> [Severity: Medium]
-> And the same unseeded sin6_addr fold appears in quic_addr_hash(), so
-> address-keyed hashing inherits the same property. Should all three helper=
-s
-> be updated together?
+> The follow-on in that state is that quic_stream_get() for the server's
+> first bidi stream (ID 1) passes every gate: quic_stream_id_valid(1, true,
+> true) is true, find() returns NULL, quic_stream_id_local(1, true) is true=
+,
+> quic_stream_id_closed() is false because 1 < 0 is false, and
+> quic_stream_id_exceeds() is false.  quic_stream_create() then starts at
+> stream_id 0:
+>
+> > +     while (stream_id <=3D max_stream_id) {
+>
+> allocates a single stream with id 0, advances stream_id to 4 and returns
+> that stream.  quic_stream_get() reports success and records
+> streams->send.active_stream_id =3D 1 for a stream that does not exist, wh=
+ile
+> ID 1 is now permanently -ENOSTR because next_bidi_stream_id is 4.
+>
+> A later quic_stream_put() on the returned stream 0 evaluates
+> quic_stream_id_local(0, true) as false and decrements
+> streams->recv.streams_bidi, which was never incremented, so that u16
+> underflows and feeds quic_stream_max_streams_update().
+>
+> quic_stream_set_param() has no caller yet in the tree, so this is
+> forward-looking rather than something reachable today.  Along the same
+> lines, should quic_stream_create() return an error rather than a stream
+> whose id differs from the requested max_stream_id, since no caller can
+> detect that today?
 >
 False:
 
-Not necessary. The per-netns net_hash_mix(net) is already used as the seed
-of the final jhash_3words()/jhash_2words() call.
+The caller of quic_stream_set_param() added in the next patchset validates
+p->remote and ensures it can only be 0 or 1.
 
 Thanks.

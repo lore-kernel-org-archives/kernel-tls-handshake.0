@@ -1,96 +1,97 @@
-Received: from mail-pz2-f42.google.com (mail-pz2-f42.google.com [74.125.228.42])
+Received: from mail-pz2-f41.google.com (mail-pz2-f41.google.com [74.125.228.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008203DA7D4
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 15 Sep 2026 21:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9727B308F32
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 16 Sep 2026 15:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789508072; cv=pass; b=TOlE7FLeYsdsmbpLOm8rWjWaS4b3Y3y3RcKKwYRL8wyTud1onQ9pcoEXjzJ7/Snkxmf9ueYceY/QZlSx1dwM6lvJ+6tjIqXbrIoU9817iA9R053VmTUIqd8nuq2gWZ2Pf9uXWc26yBramkVUSD6HjhjYf9vkdYPcUFuMNZShu9Y=
+	t=1789571919; cv=pass; b=XhZHvnMZu+OCvsJs+0GjBqfvZP6j2IRff44FhPwcXTaLXDaE1bQI0kfL3Q8ZLmjWMrMQGw6g6Rk3JVeEO498bWIseXMmrYgpuL03EfahDLSJQTh1wh0YOhKJbrrY/wCJBGmwe7a5f8voUgb1AgWR88w/QthohXElAMFPWVFeyv8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789508072; c=relaxed/simple;
-	bh=3tSi6YPO6dZgLOttRBqCdbt4IoBwpA72PAaMe+M45Sw=;
+	s=arc-20240116; t=1789571919; c=relaxed/simple;
+	bh=Dj+80PpyFtuTTPI24RANQuQHDc3eXfflbc+ICFvzogo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TaKZtZc8TL3b2vc6KcmC/IOchjKmVYfjFYuDek1SyUhxqD/H1XPsfPRhZCASXIvgwRu3jNC74M4LDUFRcySNXvBGbKRFStK7cRDAARiUc2xDwTt23WonaqWtvAAQpo+uyX8dD8x6MBT4Z0NE2uMTKbFq9liNfc2GhRFvrB9oqs8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HeF6IWkj; arc=pass smtp.client-ip=74.125.228.42
+	 To:Cc:Content-Type; b=fL8x+Me2CjD00WP4CAJ10eaT9s+AXa8MtfLnwM8Rcdh7s7oXUO1C16H9sgikQukDLioLEOGjT4KX9PBa2fBd9t21SEjAQ0uw4BIHywPUtE4PcxZm0KtkL3prvEynzyxgHE5zW58lbXG98kGKrc1rHRpR/zIfVB2UMMKnd+YPSN4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p4RWE+yL; arc=pass smtp.client-ip=74.125.228.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HeF6IWkj"
-Received: by mail-pz2-f42.google.com with SMTP id 41be03b00d2f7-cc4aa0f1766so243366a12.0
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 15 Sep 2026 14:34:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789508069; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p4RWE+yL"
+Received: by mail-pz2-f41.google.com with SMTP id d2e1a72fcca58-85a4329731cso784077b3a.3
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 16 Sep 2026 08:18:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789571916; cv=none;
         d=google.com; s=arc-20260327;
-        b=aeHcS4dl99ZHeGSJvHeuzcSoooni81NKGkuxYIvboXUz9c2AOjUMe/X6S+Qp5w/TiD
-         TJk2VqYZVAOSc1SIMq7CPlmirG73+r6o5veBQ+m3425MqU/i3CxuKKVd+Y6M3Rv8p+CN
-         1SkogQPA12TvLlHX7srMuo9+vlKgGrPcyWjZwt/rWA5Ref+9mvLP62dxTtziYW51IUdn
-         3erAvBTARbVFzOhkTzgnxXhYAO8ixVblSXD+w+CM4TqpG2gMQfUvq0GtCuzRQXscCfiv
-         30LW0OnOIuY0ticBw52CqKqZnYwnbFpDDIz1qGlaFp020D0d/syp9vWUmV48ZCw1DjDu
-         fP4Q==
+        b=K9RIFXoIOui7V8nO75L5YB+lWfIawhJ3r2lOnFmQ4U9SCsb6f3LKWs+yETxZRDhkuM
+         JY8D1MLlDKIsTKTTsc8CB0ijpnDXG+rihPpkKeN0sOAKabsWC7nkrG9BLBZqiEa/yVlj
+         6PddblzBJkvfFUlwZOFsV8laBDCD2UorF2KcwJiGxBCMDNhXQD6lxE5WJZ/foLwcy9Ld
+         j3A7zyCQtxj9WcC8XBWcG9WQ3DAkK73O2D/rjpHE/w9yJ3f+TygbaHwln+TVZ5ARs6mh
+         9def3/pqaGDxn5vXV6mQFcNjVoESUHcXniZEcJxuTkt3XG4KWCOKBZEnv5bX7jnswEjy
+         SAIA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=0fEUb43A7umW3ihvJnwkK88IB+JsXUCBhQ/HexoLCXg=;
-        fh=lE1dD+HEj/lTi0Mvgq5YhjcHudEtMnR+H0zC6kkJYDM=;
-        b=dfDvSOR+qdlMPfslTG0olU+ZMx84h2J5XeVv71wPnOq+IOAvld2uMtIzLPyCdrNx38
-         TBwG9Bg/PZTjfLFiDACkqXDeF1vPczqwtIhWtYPmsUgnjM90EpGPeWEKrJDl+0fDJBBa
-         N/mk3Tah3TeLBg7xu9YkHFPplRqnBWOraeldDmGxRdp0rgGsqpVRsOoXe2DX2EPaOrgK
-         alpLd/AawqfA/AM2LK4fpnTNPe1uL4XGB4LwUv57k8eNQlbcgFoY6dAOOoAYIomPU8m9
-         FqC1+HOU9SBUYQgTwtLwZBmAv9jLosyU7hJejaBKetvjJ6fOKauTLLEaDCVrAaCHY8jq
-         KRmg==;
+        bh=BhkqwMNKc8zR/oVQWFJv9edBfd9F+9BsRk6J/+nHhu0=;
+        fh=C9zxP77o3Qtd9ZVIIhta38eR080I8Ck+OEauGuYfFts=;
+        b=P0BZMpe7tWrEkBFFKydBjtEiWS0B3lxzhPf3XCrR9ZW3vhjF8EcybivXJe/O/gjEg5
+         MGVFa/v1zKfFZWEcUNzgWfG51uNDYwEwPSDeaWqkeymQQvAcNzxRFggh2XsHuuvkYqdE
+         8wMke296XxS8gwOzoikbxRENnWNT4n5WuNcN+ZmhAZQXpf/VIuwKk+UYJ6X+feBdAKRw
+         ydFStuk1SkPXrZ+bYDrzuW5ZcGnoVcH2n/sx9MiFtZSpzXKy364HD2umS1dRm7t2Ekbp
+         VKPWjSqVpJBdtdXlaskv9rjjnmLkmYijLstXfh4iI6usGknUItx0eAOVFmbQvQ0U6hmC
+         6mRQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789508069; x=1790112869; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789571916; x=1790176716; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=0fEUb43A7umW3ihvJnwkK88IB+JsXUCBhQ/HexoLCXg=;
-        b=HeF6IWkjp2y1826RN0ImWtM5n+6GMLPtW0Vnoq2BtmqSz7h4c4yQtex/9aTbvUQz4g
-         QyC8LUMJmpSlTkUPxzOBJC+Nj36yw76Hun9IQtBmapwBXWNqfRnBafbii1kReVX2BECV
-         ItI8e0qt0Gmr9/CKmO+4eqUlUNrEOdnm/6SZNhq+x5mmMYUd5OVdB0GY/Y15UwEuyD5s
-         JJYFzqB4f9eYMaAHH/KehZhWJ0cAnJAkc2jcvV0k32hh4W40HS7du0KrN8MlNIfBEzng
-         mGTNeTLnlt60hwnQe4QjsNcBUa4AXwjkkUNEjuvVdKK55NL34R6TVCeStH8rdt8owhtX
-         TNPw==
+        bh=BhkqwMNKc8zR/oVQWFJv9edBfd9F+9BsRk6J/+nHhu0=;
+        b=p4RWE+yLVV+sOe6aAUje3ANq+TVlh3WFQmrpA/zs7IM9un968nYEjppCd1T6WADAJ3
+         p+IIiC0xeso7Pp0BSSeYUlU1n/0emfnWbt0HUcZebTvvSEu0Wz9K+U0gcDcu/FOUzngG
+         TZ8+PxD2mJy+j+b+J/0hhqcs7Kjku2bOVoZurjR9lAvriw+EtYziEBK20LlVaNr2NVBC
+         uXQ2jIN5ZAjKMiAFVICkbTg/ZkpVw8hm/OCB/0QPskkXvzLIES3hBkmTmdiBzYLjhDbJ
+         TF/f8cpjAYOopKu+Vn9miIcEqxFZdB95/oUm7mV8EpcnAqEpk7HJheSVSTcgdECuuvmI
+         LJZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789508069; x=1790112869;
+        d=1e100.net; s=20260707; t=1789571916; x=1790176716;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=0fEUb43A7umW3ihvJnwkK88IB+JsXUCBhQ/HexoLCXg=;
-        b=ESqxxDjM+CzKRGPbvEcgKWrPCfm8dJq03hZMOUUHXKFzWUetQY1fSbFugzb22O1vy9
-         nusND5c3+z7VGUdA/fdkzn5cGUYpX6vbkL6sAvr62ChqNS2FHZJSycjCXr3a3NTyslie
-         rZfBORxqDtW7ko92HA6if1Vh9W7PS+gEGTcdHMYoZQsWeLW3nuFnYJJIqOtAzscfrM1u
-         E24ls1Dixeq/oqRxBd1ZWJF5r+zODm3AAhnTBRrOecCvyq7SLNjUmMgsOQ1NjFG8kxUL
-         JNSAYYvg63DeddPi5y1ZSeQjTI8iAVnNLNJ8QI8wG+j8YAyTNpKrcVybhz8aWxdoQ0qx
-         qdsg==
-X-Forwarded-Encrypted: i=1; AKwUvBwQ4KzWTvdlvM0RCATHGHstM0dCLU+FMse0WDZmNbXoxPRWM/nrm07DeqTPmGhS/6PTjXTmE28cLmz7W3ckP+1EweDZWQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++nVXlYdMePpr+ePtXSC/U5LXR/2PWmZWrcXtr8a89dL7tvbhRcv
-	pjm23xm9JhA0ePk7/aK7CxTGOL50Ukjfe/eO6MBXokIQ5BKSplBqnowNlQ5zT3QT9HVoFVUhvHc
-	0HlXytopKDdV2C3nW+UqUSr6ZroNilrU=
-X-Gm-Gg: AYBFou0rca9FEw+NeXJHNIAoZOoYgBqknW+UyT84aGSxztUYBbr6A4JUlCC/hvMe1yQ
-	774ns/EAh48bNRk6at13PJzmz+98JsCziekYl5HvKZJCP6LIhnrNaF0PyZnDhhWMnaE0A2kv/8o
-	vau4qrdhngCkxaLRtxxy1wxKzeqTLacJ/9JWrS4rxAr7lrRxNs6tZsN4sKBWIijbw8JKbOUZlwD
-	6ph7cnsa8+JZneeej9uSryTxm172ibrYA0oZT73Pub8d39asBba/IuLUiQt32DSOzQL2UDWaKay
-	nnUK6v0zVhDx10Npy/RCNjth0504mg2Grn0SRcwjD6KN0KU7fqefCYwA6X0RhuqC1doOJxKqjyu
-	VBGq6sGhrYyplWyFlzXlIMTEkxSmnI7VuRjcLGs1Sgcc0y1FILpzWtg==
-X-Received: by 2002:a05:6a20:914f:b0:3da:bd6d:bef4 with SMTP id
- adf61e73a8af0-3dd5f5ab21cmr393026637.13.1789508069183; Tue, 15 Sep 2026
- 14:34:29 -0700 (PDT)
+        bh=BhkqwMNKc8zR/oVQWFJv9edBfd9F+9BsRk6J/+nHhu0=;
+        b=KjPwNEpYuprtphjXRq42+ENV7Xfs7lmdGDihgEKMTBdHDIxc7pPRjckxr9CHf/NwOB
+         bkURpb8efNZgovMlgssp1VDzgikVSxxcRTgQc410Aj48voq8HRkGynULTPLc3adO8OSq
+         BbTAXEDGJh2vviozgsm8ciJUzTcZdW3derfnYtgAmnTPjJRRYJlY5xDyfUHi1hdVMQWZ
+         xOtzHNHWG5O9AYrRj2KYmOmeXM1XFljtF6Pj/+gzlae2P2T+AFuKKff47w8OKTw03aFl
+         RTbon5JnSzg9p4lFmvyV0p4WlaEct9oq4ocvvdGyr52Q7litr344RrAIzyVbLMT1GZHU
+         xPeg==
+X-Forwarded-Encrypted: i=1; AKwUvBznkcQQ6usKuKTNSL1vtySAKdqSVUkWIJ9AIliMAC15j99S58dQeqYiQNlRpGhmKNyHXIRKYdOGH8sB3f4AB/Z6tOT6IQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++mfoifr/7RRmbOULNx+0O/K43pmBDCWcv6jDVK0+6zLbN2PYyGn
+	p/bFh2qT6mvczJOptgUU4YanDFUyi8aDaI3AyDqZweyERMB/+teMVNB0qFXdAzWn6A5oWm+iAiK
+	9iqgpvueu6PIwntfHxk7r7fWXj6pV3Ps=
+X-Gm-Gg: AYBFou19CzbPQ/GgKj+1xWj/G0mKiui2ccO7okbGoQS8XFcuRnDfpujJKBopqhPfkBp
+	st3uHKJa11yjqAjqYDlUxuWMNxD8Eo4D0zCSKfbsTDb63Xx4B/vEVUOtwTtm0fDtNTEpSKppY+z
+	4K/y6qT4/6aapeQmUG6TnStI4XUb4YrkQQ9WwC2OW0pzmpi1p3b7RB73+1nIudqsk54Y4UG4Sgw
+	PUcFkf68kDLujEjazJyfMojmCDEZGaQvxqmZrgk/jx7XZ+/X8XpNHJGZ+Rn0G1n9ihKJMRcoVNx
+	8KHFGRTrcNCS36fFAYM3tg/PYexevIunvkSzD7kOhMGe0ZVvVeLErF/B/8GQ8P4PSbUdHKptHm5
+	NVgwn1WHv7Uv+WS+msoVjJIht+Lr4fQoDKKhsm6HIOmOqJYj37kZT/QwE9np00cbJVFk=
+X-Received: by 2002:a05:6a00:c481:b0:872:6004:f117 with SMTP id
+ d2e1a72fcca58-8726004f36dmr4040074b3a.24.1789571915717; Wed, 16 Sep 2026
+ 08:18:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <40d0796769992c78bffe59b179833d71ed80e771.1789393775.git.lucien.xin@gmail.com>
- <178950186149.22033.824022402798948504@kernel.org>
-In-Reply-To: <178950186149.22033.824022402798948504@kernel.org>
+References: <1cf83a4eb178197cd842e34468f4e357f42b9c28.1789393775.git.lucien.xin@gmail.com>
+ <178950182306.22033.14152384539754204368@kernel.org>
+In-Reply-To: <178950182306.22033.14152384539754204368@kernel.org>
 From: Xin Long <lucien.xin@gmail.com>
-Date: Tue, 15 Sep 2026 17:34:17 -0400
-X-Gm-Features: AcwNN1UCuBUgm-EOueiaZPczPJIdPSEaimJ2WD6qHGHnlwNL-00IDB4em_SMmw4
-Message-ID: <CADvbK_foTup7AgsmLPa0=Wabmkj=6QFrzYZ1jFRQX+Wti1_Vbw@mail.gmail.com>
-Subject: Re: [PATCH net-next v15 15/15] quic: add packet parser base
+Date: Wed, 16 Sep 2026 11:18:23 -0400
+X-Gm-Features: AcwNN1UEOUO9io4IO0BxkvntuRVWDPeW_lFsEE-noRtB4rxUETC2sWqvf53BLHc
+Message-ID: <CADvbK_ejURHE3C6BPv+b=Qnu8jPAcWDHMmqYOyEQ324_qsgknA@mail.gmail.com>
+Subject: Re: [PATCH net-next v15 03/15] quic: provide common utilities and
+ data structures
 To: netdev-bot+sashiko@kernel.org
 Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net, 
 	kuba@kernel.org, edumazet@google.com, pabeni@redhat.com, horms@kernel.org, 
@@ -106,137 +107,131 @@ Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 15, 2026 at 3:51=E2=80=AFPM <netdev-bot+sashiko@kernel.org> wro=
+On Tue, Sep 15, 2026 at 3:50=E2=80=AFPM <netdev-bot+sashiko@kernel.org> wro=
 te:
 >
-> Thank you for your contribution! Sashiko AI review found 7 potential
+> Thank you for your contribution! Sashiko AI review found 1 potential
 > issue(s) to consider:
 >
-> Critical: 0 =C2=B7 High: 1 =C2=B7 Medium: 5 =C2=B7 Low: 1
+> Critical: 0 =C2=B7 High: 0 =C2=B7 Medium: 1 =C2=B7 Low: 0
 >
-> - [High] quic_request_sock_create() publishes a newly allocated request
->   before its first packet is successfully queued: it links req into=E2=80=
-=A6
-> - [Medium] Commit message understates the scope of the patch and does not
->   disclose that the newly added listen-side connection-establishment=E2=
-=80=A6
-> - [Medium] quic_listen_sock_lookup() passes hdr_len =3D 1 to
->   reuseport_select_sock() (net/quic/socket.c:292-293), but by the time=E2=
-=80=A6
-> - [Medium] In quic_accept_sock_exists() (net/quic/socket.c:132-135) and
->   quic_listen_sock_switch() (socket.c:~330) the indirect call is=E2=80=A6
-> - [Medium] A QUIC Initial decryption failure inside
->   quic_packet_get_alpn() is counted twice and once under the wrong=E2=80=
-=A6
-> - [Medium] quic_packet_listen_process() treats every non-zero return of
->   quic_crypto_verify_token() as a peer token-validation failure.
-> - [Low] The documented meanings of struct quic_packet's saddr/daddr are
->   the reverse of the new receive-side implementation.
+> - [Medium] Weak hash seeding in the new QUIC hash helpers:
+>   `quic_sock_hash()` (net/quic/common.c:40-53) reduces IPv6 addresses to=
+=E2=80=A6
 >
 > --
 >
-> quic: add packet parser base
+> quic: provide common utilities and data structures
 >
-> This adds the RX side of the QUIC packet handling: quic_packet_rcv() look=
-s
-> up the socket for an incoming datagram, quic_packet_process() dispatches =
-it,
-> and ICMP Packet Too Big errors are turned into PMTU updates.  A listener
-> path with ALPN parsing, request sock creation and a per-socket deferred
-> workqueue is added as well.
+> This patch adds net/quic/common.c and net/quic/common.h with the QUIC
+> packet header types, connection ID and address helpers, the socket and
+> connection ID hash tables, and the varint/transport-parameter encoding
+> helpers. quic_init() now initializes and tears down the hash tables.
 >
-> A few questions on the new code below.
+> One question below about the hash helpers.
 >
-> > diff --git a/net/quic/socket.c b/net/quic/socket.c
-> > index 1e278a2109b2f..0fcb123d31bba 100644
-> > --- a/net/quic/socket.c
-> > +++ b/net/quic/socket.c
-> > @@ -24,6 +24,324 @@ static void quic_enter_memory_pressure(struct sock =
-*sk)
+> > diff --git a/net/quic/common.c b/net/quic/common.c
+> > new file mode 100644
+> > index 0000000000000..51d71b6733c7d
+> > --- /dev/null
+> > +++ b/net/quic/common.c
+> > @@ -0,0 +1,565 @@
 >
 > [ ... ]
 >
-> > +/* Create and enqueue a QUIC request sock for a new incoming connectio=
-n. */
-> > +struct quic_request_sock *quic_request_sock_create(struct sock *sk,
-> > +                                                struct quic_conn_id *o=
-dcid,
-> > +                                                u8 retry, gfp_t gfp)
+> > +u32 quic_sock_hash(struct net *net, union quic_addr *s, union quic_add=
+r *d)
 > > +{
->
-> [ ... ]
->
-> > +     /* Enqueue request into listen socket=E2=80=99s pending list for =
-accept(). */
-> > +     list_add_tail(&req->list, quic_reqs(sk));
-> > +     sk_acceptq_added(sk);
-> > +     return req;
+> > +     u32 ports =3D ((__force u32)s->v4.sin_port) << 16 |
+> > +                 (__force u32)d->v4.sin_port;
+> > +     u32 saddr =3D (s->sa.sa_family =3D=3D AF_INET6) ?
+> > +                 jhash(&s->v6.sin6_addr, 16, 0) :
+> > +                 (__force u32)s->v4.sin_addr.s_addr;
+> > +     u32 daddr =3D (d->sa.sa_family =3D=3D AF_INET6) ?
+> > +                 jhash(&d->v6.sin6_addr, 16, 0) :
+> > +                 (__force u32)d->v4.sin_addr.s_addr;
+> > +     u32 hash =3D jhash_3words(saddr, daddr, ports, net_hash_mix(net))=
+;
+> > +
+> > +     return hash & (quic_sock_hash_size() - 1);
 > > +}
-> > +
-> > +int quic_request_sock_backlog_tail(struct sock *sk,
-> > +                                struct quic_request_sock *req,
-> > +                                struct sk_buff *skb)
+>
+> [Severity: Medium]
+> Should the inner IPv6 fold in quic_sock_hash() be seeded?
+>
+> The per-netns secret is only mixed in the outer jhash_3words() call, whil=
+e
+> the 128-bit address is first reduced to 32 bits with jhash(..., 0). Since
+> jhash_3words(a, b, c, initval) is a pure function of its inputs, two peer
+> addresses whose unseeded 32-bit fold is equal produce identical (saddr,
+> daddr, ports) triples and therefore the same bucket for every value of
+> net_hash_mix(net).
+>
+> Does that let a peer controlling an IPv6 prefix pick colliding source
+> addresses offline, without knowing the secret, and collapse many
+> connections into one chain of quic_hashinfo.chash (capped at 16K buckets)
+> that the per-packet lookup then walks?
+>
+> Compare with sctp_hashfn() in net/sctp/input.c, which the commit message
+> cites as the model and which passes the seed into the inner fold:
+>
+>         if (paddr->sa.sa_family =3D=3D AF_INET6)
+>                 addr =3D jhash(&paddr->v6.sin6_addr, 16, seed);
+>         else
+>                 addr =3D (__force __u32)paddr->v4.sin_addr.s_addr;
+>
+>         return  jhash_3words(addr, ((__force __u32)paddr->v4.sin_port) <<=
+ 16 |
+>                              (__force __u32)lport, net_hash_mix(net), see=
+d);
+>
+> Would jhash(&s->v6.sin6_addr, 16, net_hash_mix(net)) here be equivalent i=
+n
+> cost?
+>
+> [ ... ]
+>
+> > +struct quic_shash_head *quic_source_conn_id_head(struct net *net, u8 *=
+scid,
+> > +                                              u32 len)
 > > +{
-> > +     u32 limit =3D sk->sk_rcvbuf / sk->sk_max_ack_backlog;
-> > +     int len =3D skb->truesize;
+> > +     u32 hash =3D jhash_1word(jhash(scid, len, 0), net_hash_mix(net));
+> > +     struct quic_shash_table *ht =3D &quic_hashinfo.shash;
 > > +
-> > +     limit =3D  max_t(u32, limit, QUIC_MIN_UDP_PAYLOAD * 4);
-> > +     if (req->blen + len > limit || !__sk_rmem_schedule(sk, len, false=
-)) {
-> > +             QUIC_INC_STATS(sock_net(sk), QUIC_MIB_PKT_RCVDROP);
-> > +             kfree_skb(skb);
-> > +             return -ENOBUFS;
-> > +     }
+> > +     return &ht->hash[hash & (ht->size - 1)];
+> > +}
 >
-> [Severity: High]
-> Can this path leak the quic_request_sock and permanently consume an accep=
-t
-> queue slot?
+> [Severity: Medium]
+> Same pattern here: the connection ID bytes are folded with jhash(scid, le=
+n,
+> 0) before the secret is applied, so any two connection IDs colliding in
+> that unseeded fold share a bucket for any secret. Would passing
+> net_hash_mix(net) as the initval of the inner jhash() be preferable?
 >
-> quic_request_sock_create() already published the request before the first
-> packet was queued:
+> Note the connection IDs inserted in this series come from
+> quic_conn_id_generate() using get_random_bytes(), so the practical exposu=
+re
+> is smaller than for the connection socket table.
 >
->         list_add_tail(&req->list, quic_reqs(sk));
->         sk_acceptq_added(sk);
+> > +u32 quic_addr_hash(struct net *net, union quic_addr *a)
+> > +{
+> > +     u32 addr =3D (a->sa.sa_family =3D=3D AF_INET6) ?
+> > +                jhash(&a->v6.sin6_addr, 16, 0) :
+> > +                (__force u32)a->v4.sin_addr.s_addr;
+> > +
+> > +     return jhash_2words(addr, (__force u32)a->v4.sin_port,
+> > +                         net_hash_mix(net));
+> > +}
 >
-> and quic_packet_listen_process() then hands it straight to the enqueue:
->
-> net/quic/packet.c:
->         out:
->                 /* Add to backlog list and wake blocked accept() calls */
->                 return quic_request_sock_backlog_tail(sk, req, skb);
->
-> On the -ENOBUFS path above only the skb is freed.  The request stays link=
-ed in
-> quic_reqs(sk) with an empty backlog, and sk_acceptq_added() is not undone=
-.
->
-> The size test is deterministic for a given packet size, since limit is
-> max(sk_rcvbuf / sk_max_ack_backlog, QUIC_MIN_UDP_PAYLOAD * 4), so a clien=
-t
-> sending a large Initial fails on the first attempt and on every
-> retransmission, and the slot is never reclaimed.  Repeating with differen=
-t
-> addresses or DCIDs would then make sk_acceptq_is_full() refuse all furthe=
-r
-> connections.
->
-> Should this failure path unlink and free a freshly created request, or sh=
-ould
-> the request only be created after the first packet is successfully queued=
-?
+> [Severity: Medium]
+> And the same unseeded sin6_addr fold appears in quic_addr_hash(), so
+> address-keyed hashing inherits the same property. Should all three helper=
+s
+> be updated together?
 >
 False:
 
-This does not leak the quic_request_sock. The request remains on the
-listener's accept queue, so accept() can still consume it and create the
-accept socket.
-
-Dropping the skb here only means that this particular packet was not queued
-due to the buffer limit. The peer is expected to retransmit the packet, and
-once the connection is accepted, the retransmitted packet will be processed
-by the accept socket.
-
-(I will check those with 'Severity: Medium' of this patchset tomorrow.)
+Not necessary. The per-netns net_hash_mix(net) is already used as the seed
+of the final jhash_3words()/jhash_2words() call.
 
 Thanks.

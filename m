@@ -1,553 +1,175 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869D2448B88
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 17 Sep 2026 08:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789634129; cv=none; b=eRbPH7BJXKYqsgWAJn80WLVFv2FJxGnKG3UAvYJcxiKuzgVDDDTOSqrLaCZYSWFwylN35wj10Y2f1SqkvQaLWHc8/clTx1DnfCtQ1aHmq36bUVtttD8dPXt6pzALcsjKJwdaLqOnwGIFg3BXuBM8yd3k7MuJzPvB5RIn4pudq5M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789634129; c=relaxed/simple;
-	bh=Kju81U6fWagFrYImpbLYaoKLdVcWsbvRqhAOk3rRGek=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bEeONY7gAz+WxwLyRv7kVQzw1M/i1ZOKDtnvF/acQ//kDvWHUO7aJX4iazLi9uRNYKcuZyGd7wicw/4scKgjOtGSO2xVpF5+0q+5DhE6XQ1UCo+OZB49ALTmxymFameY5hNoKSZEugd3lkTnO6bOVz+Hgj08gMrtR6I7HBW3UPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QB1rAqOE; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC2250EBE3
+	for <kernel-tls-handshake@lists.linux.dev>; Thu, 17 Sep 2026 13:38:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789652304; cv=pass; b=fwgugl+Rro/TPokay9R+9azZPeVulecFmxp6a2B79c3ZnKQgY+z615aGykZ4B4Am7EyqyNc+fpJ1XvT5AsXyoERtFsyXo9RqFHZvFmfuv/kt+TW+oIPggPN1/SM2uhzlYyeRlNWQh0PuRGTDBJdphQf1067I7H/tpdJBFQv52bE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789652304; c=relaxed/simple;
+	bh=QNgM/kGDeBltidJ5TEbfEpxfYTzoLMWF0KKEi/Dse7U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=snzxOXeeCwpFS1EGgWBpC+7UXigbtQx9lhHNX6efaqn0ELvQsboovUVO/iLl8c09M1o6xYjFEsSTowArdCnhqwaBWOE8uO7szKdSXRqdJWL5EvzAfgounaBsG6u9G5VD++TOc4VLp6wkLTA+DUNIlQaoxdmLUnQ0bJKqdPB4eA4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sYR00vt+; arc=pass smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QB1rAqOE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1789634111;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dppe6Hmmck6aOeZbA583cRNICOEkLAcckJMXxDTqtY8=;
-	b=QB1rAqOEo/8ss1FqZjZgZB9W9Oi/FAD5GPLoPteXRdu3tLc1+fNfoZI7QcxqJPsTrOlxya
-	rPXdy9Wm3SmXBQwKL+gqy6CVxJe52brKtms7cazuN+Me7rHClXr8gX+Oc0aDwSsXuUAYzF
-	oqbY2d9iTIQ08+Mj62ugWu1xkHbZeh8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-479-T_JiqvfSPTmEvMukUQaEug-1; Thu, 17 Sep 2026 04:35:09 -0400
-X-MC-Unique: T_JiqvfSPTmEvMukUQaEug-1
-X-Mimecast-MFC-AGG-ID: T_JiqvfSPTmEvMukUQaEug_1789634109
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-485866e0066so190561f8f.2
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 17 Sep 2026 01:35:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sYR00vt+"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-853e2610bb4so465182b3a.0
+        for <kernel-tls-handshake@lists.linux.dev>; Thu, 17 Sep 2026 06:38:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789652292; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Lhv2dCML50Z4VceQcM0GK5xROfJb838ZqwsTQJ5si3AGiCodv3qkVpXXVWoHAMTtM1
+         CLLnG6NwvwaGaY7dgKZs5kJmx9mOjIg4YYRaZmfOVFVjpnB5F0mXa3Gr5+55EQ4psTPE
+         3m5GWq4oLTiQixVl3tfVB8Pe+iB+Zf85ucm4RIMDH3O6ijL0KzjPMG9LtokxuF3ixy0a
+         CgjphP7VB6ztORntrw4yQ/a2PnMkW2yX4hsI7RLcubA+yh+i7vfpv6kZWKy8LBZZxHbd
+         +24CQe/DLfuuV7jNwcZkPvwPsf/fGjhRS9TIb76BZlome4RAwQw6IsLkHXwgbazGoLvs
+         /cvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=iuO1BQZ4V2eevpIqkFGI24nl/ujAkD0tm8XPYi2iD1M=;
+        fh=Smp46SePeVnYrL20oqVHfb+zk1lJQ/49qyQ09/hLPdE=;
+        b=m9Gbj3OpESiaX6Qil2VP+OFIPjr54oWfyd4R/C4GaZQPvkuk9HrAiteyre1ZgoHWEM
+         GZ8Dm26Ij2+ZHW7gsIApRPMA8rmlFGZySdRR5Qm9ctb82PHP0+CfH1ZAgo6nJV6zaVKo
+         Dp+DZM8ipIVlC2zQvQFWAwTOKdznQ2ZjaHVo2s4Bkb7iKhkR6LapnKV80Md08zsSCOxJ
+         t1hDtVwQ4omJEdVPjYQBstF3+ihHgrjVeKqopVYJdSL2VmFAwEFm2Kv+YFRSjsZOcmSB
+         7Ysj5YT+JGB7bNQ+mLNIN8W9unWwCcrEh3l17SkAUvUxaOguLEJb5egYtFtKqZIJqYX8
+         YXeA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789652292; x=1790257092; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=iuO1BQZ4V2eevpIqkFGI24nl/ujAkD0tm8XPYi2iD1M=;
+        b=sYR00vt+22yNVX2SkcVHGXwiAnO9H/TEGwJau47C3G2ZlVwW3dPY1EdCf9+iJwSQ50
+         Jl97/Z4J75hTjFJlxjzjeuHo0NA+PpmrTWST9yr+9lnR9b8eBeDtXZhqDbhATNBFn356
+         9Et3Kbxe/0oJ4Rum3IeVf5hwbRwYQB7N7fU3pVv0PURS3eTLOfI+uPdZk1dVNXsqOAut
+         /IERrODHf3eIpz3WJjATnFd62zhiBaImcO44Hw+/Gr2Tx4GBm+d57tCRhcTSkTJ80av1
+         fcO+O+x8WxztubuJvsiPGzWtMqoQ8U4TM/MQ8x06VrDIrteJMLPq9SN5b71/JC6D4X8w
+         JbHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789634108; x=1790238908;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dppe6Hmmck6aOeZbA583cRNICOEkLAcckJMXxDTqtY8=;
-        b=f1FsAb9DG7q2yMsBOrSeBn795g8PywmSSJeM/1vR9fyQ0rqnW8ax71XkPCtP/DTCTb
-         kKfKaDIMVC3+WQgLiS6kthz5/xmSinzC4mC8GvreDalPC6e4SsjhU5pfw8KsJLig9Xf7
-         cQs2jsjzlANNBxdQtqKs4i6ZqvnYn91zqgPN4VxGS9kOs93O/r/ABBtWdsz82oXx5QdV
-         vMKutw/wLcGDyp51Aat5yCUW93YDdOIYJvMzm0dFLzVCClPtw5f+5CskkocfIpJdYFvs
-         B52tBKf829VpckZdsN/yIdxY5FT3jDfe/utKjDmMFJydioTAZbhnKG40bHCDV0c/u71C
-         NWww==
-X-Forwarded-Encrypted: i=1; AKwUvBzL/p6atD8p3/PBJtIX0fGqSUT/WTQ7hJ+LyfH57gPG8O+njsDrx3vd9VnWMkY4EbuvOs4XnEsaQ9SxshOcOzF1lhizWw==@lists.linux.dev
-X-Gm-Message-State: AFuF++m23Zzekau3emQQHRaFZ/qfgz/o2jTU4TQqRd4clzV/yHeZ7fA8
-	EOuXdvs6LrJ2+3BjKqTlcw1sDXVL1mb0QSpn8Gy6I+Q7TZALJya7DfZX+QI/wzRuaksicXqnskS
-	ecjGlIVzpCh6M6vEO4dq5DZTdOtJ1kHK4e1jqH6PTkoxu7t0tKQ3fPPvSu3ouXoUlH8UyGNis5A
-	u6
-X-Gm-Gg: AYBFou0jgQY+Tf8TFpg/ZdkQ7yKpqzpJcyPd/n/fc/QUbBFqr8huJDbxBlcu7t+seF/
-	0Hdr8lsb/40zBniJDVU7q52t0GFh45OVmi2PsT4u7cLqB1UN+r7pcyBGk0gy98n0soIO4mKLEKC
-	gGqvHaIsld78Lijrz10aV2jBsEpH1gC7q2l7pLxvwjFe3zoMAcwi727/OlHQ7wngGOvCJbP5A1o
-	vGCrUMzLM4aojEfUKqJtY4hb6avHOGiwBbjLNUdPIFfxjoc0lWuHowKP9ZasqW0vezCoGmlJYYB
-	9RXhf7WgeI+2i3a2yx21YWJkmYW2qtEJ4oEDzC+Oj+lGSsZNJKTyF66SsEgFzF7dQ47eNhIe8GH
-	xdjqsNsOLWfX8NZ+5xKnq/WpNilN1DF9nxXP4rxJEGq+kwsWJA/eD/IT1FiuljhW5GkS24o6Rig
-	==
-X-Received: by 2002:a05:6000:27ce:b0:487:ee6:b76c with SMTP id ffacd0b85a97d-4870ee6b9a4mr4677959f8f.56.1789634108446;
-        Thu, 17 Sep 2026 01:35:08 -0700 (PDT)
-X-Received: by 2002:a05:6000:27ce:b0:487:ee6:b76c with SMTP id ffacd0b85a97d-4870ee6b9a4mr4677910f8f.56.1789634107890;
-        Thu, 17 Sep 2026 01:35:07 -0700 (PDT)
-Received: from [192.168.188.234] (ip232-47-231-195.pool-bba.aruba.it. [195.231.47.232])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4870bf43542sm12931034f8f.32.2026.09.17.01.35.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2026 01:35:06 -0700 (PDT)
-Message-ID: <31ebf88a-9d33-4e5a-bb38-c98881457739@redhat.com>
-Date: Thu, 17 Sep 2026 10:35:04 +0200
+        d=1e100.net; s=20260707; t=1789652292; x=1790257092;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=iuO1BQZ4V2eevpIqkFGI24nl/ujAkD0tm8XPYi2iD1M=;
+        b=sEFXlBUNDydTNuBHuGY5Uz9nR2TpvqYa7pJWCZWueFgPMD9NrUNSso05+St/Ri4Ufe
+         CBJRJIQGkFi9IRDPKb9ZM2kmHA2e1zQzM15axl6oLadGBXrEDoX09sNinas0CDNLZz8U
+         bl+dRGNS1nzdU5i0Uv+63z8q7PMYon/utjBquUyIHJ5PpXma0XPmDh2mBhp4wEG8H8P9
+         hisWt95o+1pvzNdB3+tZxFRP57ve90EdpVdAuCFAvFI+BuFkcm8/GDs5oszXuttarN8d
+         +lnPN/t12h3pzRB31aLNcZ99a9wLYk4l/KYCdSjO3izBjisC5YHLiFEMyfkPoOJtyD5z
+         b/jQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxsXuZyaEfOVrDRoH9usvy5jCf4Nmmn2gpGQzSA4rtUYW9kLxeXZv4vJhkoYkAvObDIT30aZaMiqh9wMmUP+0qUW2/59A==@lists.linux.dev
+X-Gm-Message-State: AFuF++l0vBI9HEVn6e+USCCe1RZolUctkraWzEOCo0XMfUSWbEVQ/whF
+	VCC6cRnzJFS+vMRZ5IME9GbrKJqaTdWO47QRtkMwFxUjaPYlZqk4d2Gb8cidJ6qW3DYwxl+f+hG
+	UOqoAhVrzcxzIsVy5VM68SFQGX4rEMcw=
+X-Gm-Gg: AYBFou3GximxQQE6V7OH2a8LpDsHAB1Y2T4Yxx5ZbB9pkNViAekHjwC7L2CId23zHMu
+	6rvjebZjTlCEnC/IX0lkrAk9yaTmUbaTupT+t7rWKKBZrpCdB9lK/uyLLzmKOwous5jqPk5mooQ
+	MwhXNbjFMvOyfZWsVkaWxH7qJqGsNEc8pxdoUEFlBJqTQvOX9Vx7iVcehO/KPEFfLjInMf0UFkh
+	TGZwwNpmkjCw3hHDZp6f+RuAcWKDe1vfiZDvFFLvcok7ygL7BXzRjYP5d5TNRCvhXH8Bfac69bm
+	LkVxu04ZmYSK93Vvt3vLWzDbolbzrBnAcjdiPBAD407wAhOsADClYAPI8GHp1iMR+CqGyzGeI3K
+	XXvtJCoYXaDwc7yb63VC/x+IEsoFYMEqXnngYSTrzEL06oRx0Exf2Z9g=
+X-Received: by 2002:a05:6a00:c58e:10b0:874:72b6:7dac with SMTP id
+ d2e1a72fcca58-87472b68104mr229753b3a.39.1789652291802; Thu, 17 Sep 2026
+ 06:38:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v15 00/15] net: introduce QUIC infrastructure and
- core subcomponents
-To: Xin Long <lucien.xin@gmail.com>, network dev <netdev@vger.kernel.org>,
- quic@lists.linux.dev
-Cc: davem@davemloft.net, kuba@kernel.org, Eric Dumazet <edumazet@google.com>,
- Simon Horman <horms@kernel.org>, Stefan Metzmacher <metze@samba.org>,
- Moritz Buhl <mbuhl@openbsd.org>, Tyler Fanelli <tfanelli@redhat.com>,
- Pengtao He <hepengtao@xiaomi.com>, Thomas Dreibholz <dreibh@simula.no>,
- linux-cifs@vger.kernel.org, Paulo Alcantara <pc@manguebit.org>,
- Namjae Jeon <linkinjeon@kernel.org>, Tom Talpey <tom@talpey.com>,
- kernel-tls-handshake@lists.linux.dev, Chuck Lever <chuck.lever@oracle.com>,
- Jeff Layton <jlayton@kernel.org>, Steve Dickson <steved@redhat.com>,
- Hannes Reinecke <hare@suse.de>, Alexander Aring <aahringo@redhat.com>,
- David Howells <dhowells@redhat.com>, Matthieu Baerts <matttbe@kernel.org>,
- John Ericson <mail@johnericson.me>, Cong Wang <xiyou.wangcong@gmail.com>,
- "D . Wythe" <alibuda@linux.alibaba.com>, Jason Baron <jbaron@akamai.com>,
- illiliti <illiliti@protonmail.com>, Sabrina Dubroca <sd@queasysnail.net>,
- Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
- Daniel Stenberg <daniel@haxx.se>,
- Andy Gospodarek <andrew.gospodarek@broadcom.com>,
- mef@scarletmail.rutgers.edu, paul@jakma.org
-References: <cover.1789393775.git.lucien.xin@gmail.com>
- <CADvbK_cMQ7psJQQkaa6LLcjYc2M2jt60FY+rJgW6YG7hgdwSRA@mail.gmail.com>
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <CADvbK_cMQ7psJQQkaa6LLcjYc2M2jt60FY+rJgW6YG7hgdwSRA@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 7oUyTt6TtQwNS9UddmurOldc52iG3492-vUoj_EzaVE_1789634109
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <CADvbK_dHPkHjkPwu0RepYgDsHs5reHepprRHU9hDFBxQM9_RGw@mail.gmail.com>
+ <20260916234654.420056-1-kuniyu@google.com>
+In-Reply-To: <20260916234654.420056-1-kuniyu@google.com>
+From: Xin Long <lucien.xin@gmail.com>
+Date: Thu, 17 Sep 2026 09:38:00 -0400
+X-Gm-Features: AcwNN1WyswquGpQo0eLBq8SospQls0DTN_D79sTSRdER_SDP9o7rXxWvgz7asJ4
+Message-ID: <CADvbK_df5X=Szsd-d8=0gndhoBSHJhnEqSh826iYUW6=Ce_xEw@mail.gmail.com>
+Subject: Re: [PATCH net-next v15 15/15] quic: add packet parser base
+To: Kuniyuki Iwashima <kuniyu@google.com>
+Cc: aahringo@redhat.com, alibuda@linux.alibaba.com, 
+	andrew.gospodarek@broadcom.com, chuck.lever@oracle.com, daniel@haxx.se, 
+	davem@davemloft.net, dhowells@redhat.com, dreibh@simula.no, 
+	edumazet@google.com, hare@suse.de, hepengtao@xiaomi.com, horms@kernel.org, 
+	illiliti@protonmail.com, jbaron@akamai.com, jlayton@kernel.org, 
+	kernel-tls-handshake@lists.linux.dev, kuba@kernel.org, linkinjeon@kernel.org, 
+	linux-cifs@vger.kernel.org, mail@johnericson.me, marcelo.leitner@gmail.com, 
+	matttbe@kernel.org, mbuhl@openbsd.org, mef@scarletmail.rutgers.edu, 
+	metze@samba.org, netdev-bot+sashiko@kernel.org, netdev@vger.kernel.org, 
+	pabeni@redhat.com, paul@jakma.org, pc@manguebit.org, quic@lists.linux.dev, 
+	sd@queasysnail.net, steved@redhat.com, tfanelli@redhat.com, tom@talpey.com, 
+	xiyou.wangcong@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/16/26 20:33, Xin Long wrote:
-> On Mon, Sep 14, 2026 at 9:52 AM Xin Long <lucien.xin@gmail.com> wrote:
->>
->> Introduction
->> ============
->>
->> The QUIC protocol, defined in RFC 9000, is a secure, multiplexed transport
->> built on top of UDP. It enables low-latency connection establishment,
->> stream-based communication with flow control, and supports connection
->> migration across network paths, while ensuring confidentiality, integrity,
->> and availability.
->>
->> This implementation introduces QUIC support in Linux Kernel, offering
->> several key advantages:
->>
->> - In-Kernel QUIC Support for Subsystems: Enables kernel subsystems
->>    such as SMB and NFS to operate over QUIC with minimal changes. Once the
->>    handshake is complete via the net/handshake APIs, data exchange proceeds
->>    over standard in-kernel transport interfaces.
->>
->> - Standard Socket API Semantics: Implements core socket operations
->>    (listen(), accept(), connect(), sendmsg(), recvmsg(), close(),
->>    getsockopt(), setsockopt(), getsockname(), and getpeername()),
->>    allowing user space to interact with QUIC sockets in a familiar,
->>    POSIX-compliant way.
->>
->> - ALPN-Based Connection Dispatching: Supports in-kernel ALPN
->>    (Application-Layer Protocol Negotiation) routing, allowing demultiplexing
->>    of QUIC connections across different user-space processes based
->>    on the ALPN identifiers.
->>
->> - Performance Enhancements: Handles all control messages in-kernel
->>    to reduce syscall overhead, incorporates zero-copy mechanisms such as
->>    sendfile() to minimize data movement, and is also structured to support
->>    future crypto hardware offloads.
->>
->> This implementation offers fundamental support for the following RFCs:
->>
->> - RFC9000 - QUIC: A UDP-Based Multiplexed and Secure Transport
->> - RFC9001 - Using TLS to Secure QUIC
->> - RFC9002 - QUIC Loss Detection and Congestion Control
->> - RFC9221 - An Unreliable Datagram Extension to QUIC
->> - RFC9287 - Greasing the QUIC Bit
->> - RFC9368 - Compatible Version Negotiation for QUIC
->> - RFC9369 - QUIC Version 2
->>
->> The socket APIs for QUIC follow the RFC draft [1]:
->>
->> - The Sockets API Extensions for In-kernel QUIC Implementations
->>
->> Implementation
->> ==============
->>
->> The central design is to implement QUIC within the kernel while delegating
->> the handshake to userspace.
->>
->> Only the processing and creation of raw TLS Handshake Messages are handled
->> in userspace, facilitated by a TLS library like GnuTLS. These messages are
->> exchanged between kernel and userspace via sendmsg() and recvmsg(), with
->> cryptographic details conveyed through control messages (cmsg).
->>
->> The entire QUIC protocol, aside from the TLS Handshake Messages processing
->> and creation, is managed in the kernel. Rather than using an Upper Layer
->> Protocol (ULP) layer, this implementation establishes a socket of type
->> IPPROTO_QUIC (similar to IPPROTO_MPTCP), operating over UDP tunnels.
->>
->> For kernel consumers, they can initiate a handshake request from the kernel
->> to userspace using the existing net/handshake netlink. The userspace
->> component, such as tlshd service [2], then manages the processing
->> of the QUIC handshake request.
->>
->> - Handshake Architecture:
->>
->>    ┌──────┐  ┌──────┐
->>    │ APP1 │  │ APP2 │ ...
->>    └──────┘  └──────┘
->>    ┌──────────────────────────────────────────┐
->>    │     {quic_client/server_handshake()}     │<─────────────┐
->>    └──────────────────────────────────────────┘       ┌─────────────┐
->>     {send/recvmsg()}      {set/getsockopt()}          │    tlshd    │
->>     [CMSG handshake_info] [SOCKOPT_CRYPTO_SECRET]     └─────────────┘
->>                           [SOCKOPT_TRANSPORT_PARAM_EXT]    │   ^
->>                  │ ^                  │ ^                  │   │
->>    Userspace     │ │                  │ │                  │   │
->>    ──────────────│─│──────────────────│─│──────────────────│───│───────
->>    Kernel        │ │                  │ │                  │   │
->>                  v │                  v │                  v   │
->>    ┌──────────────────┬───────────────────────┐       ┌─────────────┐
->>    │ protocol, timer, │ socket (IPPROTO_QUIC) │<──┐   │ handshake   │
->>    │                  ├───────────────────────┤   │   │netlink APIs │
->>    │ common, family,  │ outqueue  |  inqueue  │   │   └─────────────┘
->>    │                  ├───────────────────────┤   │      │       │
->>    │ stream, connid,  │         frame         │   │   ┌─────┐ ┌─────┐
->>    │                  ├───────────────────────┤   │   │     │ │     │
->>    │ path, pnspace,   │         packet        │   │───│ SMB │ │ NFS │...
->>    │                  ├───────────────────────┤   │   │     │ │     │
->>    │ cong, crypto     │       UDP tunnels     │   │   └─────┘ └─────┘
->>    └──────────────────┴───────────────────────┘   └──────┴───────┘
->>
->> - User Data Architecture:
->>
->>    ┌──────┐  ┌──────┐
->>    │ APP1 │  │ APP2 │ ...
->>    └──────┘  └──────┘
->>     {send/recvmsg()}   {set/getsockopt()}              {recvmsg()}
->>     [CMSG stream_info] [SOCKOPT_KEY_UPDATE]            [EVENT conn update]
->>                        [SOCKOPT_CONNECTION_MIGRATION]  [EVENT stream update]
->>                        [SOCKOPT_STREAM_OPEN/RESET/STOP]
->>                  │ ^               │ ^                     ^
->>    Userspace     │ │               │ │                     │
->>    ──────────────│─│───────────────│─│─────────────────────│───────────
->>    Kernel        │ │               │ │                     │
->>                  v │               v │  ┌──────────────────┘
->>    ┌──────────────────┬───────────────────────┐
->>    │ protocol, timer, │ socket (IPPROTO_QUIC) │<──┐{kernel_send/recvmsg()}
->>    │                  ├───────────────────────┤   │{kernel_set/getsockopt()}
->>    │ common, family,  │ outqueue  |  inqueue  │   │{kernel_recvmsg()}
->>    │                  ├───────────────────────┤   │
->>    │ stream, connid,  │         frame         │   │   ┌─────┐ ┌─────┐
->>    │                  ├───────────────────────┤   │   │     │ │     │
->>    │ path, pnspace,   │         packet        │   │───│ SMB │ │ NFS │...
->>    │                  ├───────────────────────┤   │   │     │ │     │
->>    │ cong, crypto     │       UDP tunnels     │   │   └─────┘ └─────┘
->>    └──────────────────┴───────────────────────┘   └──────┴───────┘
->>
->> Interface
->> =========
->>
->> This implementation supports a mapping of QUIC into sockets APIs. Similar
->> to TCP and SCTP, a typical Server and Client use the following system call
->> sequence to communicate:
->>
->>      Client                             Server
->>    ──────────────────────────────────────────────────────────────────────
->>    sockfd = socket(IPPROTO_QUIC)      listenfd = socket(IPPROTO_QUIC)
->>    bind(sockfd)                       bind(listenfd)
->>                                       listen(listenfd)
->>    connect(sockfd)
->>    quic_client_handshake(sockfd)
->>                                       sockfd = accept(listenfd)
->>                                       quic_server_handshake(sockfd, cert)
->>
->>    sendmsg(sockfd)                    recvmsg(sockfd)
->>    close(sockfd)                      close(sockfd)
->>                                       close(listenfd)
->>
->> Please note that quic_client_handshake() and quic_server_handshake()
->> functions are currently sourced from libquic [3]. These functions are
->> responsible for receiving and processing the raw TLS handshake messages
->> until the completion of the handshake process.
->>
->> For utilization by kernel consumers, it is essential to have tlshd
->> service [2] installed and running in userspace. This service receives
->> and manages kernel handshake requests for kernel sockets. In the kernel,
->> the APIs closely resemble those used in userspace:
->>
->>      Client                             Server
->>    ────────────────────────────────────────────────────────────────────────
->>    __sock_create(IPPROTO_QUIC, &sock)  __sock_create(IPPROTO_QUIC, &sock)
->>    kernel_bind(sock)                   kernel_bind(sock)
->>                                        kernel_listen(sock)
->>    kernel_connect(sock)
->>    tls_client_hello_x509(args:{sock})
->>                                        kernel_accept(sock, &newsock)
->>                                        tls_server_hello_x509(args:{newsock})
->>
->>    kernel_sendmsg(sock)                kernel_recvmsg(newsock)
->>    sock_release(sock)                  sock_release(newsock)
->>                                        sock_release(sock)
->>
->> Please be aware that tls_client_hello_x509() and tls_server_hello_x509()
->> are APIs from net/handshake/. They are used to dispatch the handshake
->> request to the userspace tlshd service and subsequently block until the
->> handshake process is completed.
->>
->> Use Cases
->> =========
->>
->> - Samba
->>
->>    Stefan Metzmacher has integrated Linux QUIC into Samba for both client
->>    and server roles [4].
->>
->> - tlshd
->>
->>    The tlshd daemon [2] facilitates Linux QUIC handshake requests from
->>    kernel sockets. This is essential for enabling protocols like SMB
->>    and NFS over QUIC.
->>
->> - curl
->>
->>    Linux QUIC is being integrated into curl [5] for HTTP/3. Example usage:
->>
->>    # curl --http3-only https://nghttp2.org:4433/
->>    # curl --http3-only https://www.google.com/
->>    # curl --http3-only https://facebook.com/
->>    # curl --http3-only https://outlook.office.com/
->>    # curl --http3-only https://cloudflare-quic.com/
->>
->> - httpd-portable
->>
->>    Moritz Buhl has deployed an HTTP/3 server over Linux QUIC [6] that is
->>    accessible via Firefox and curl:
->>
->>    https://d.moritzbuhl.de/pub
->>
->> - NetPerfMeter
->>
->>    The latest NetPerfMeter release supports Linux QUIC and can be used to
->>    run performance evaluations [10].
->>
->> Test Coverage
->> =============
->>
->> The Coverage (gcov) of Functional and Interop Tests:
->>
->> https://d.moritzbuhl.de/lcov
->>
->> - Functional Tests
->>
->>    The libquic self-tests (make check) pass on all major architectures:
->>    x86_64, i386, s390x, aarch64, ppc64le.
->>
->> - Interop tests
->>
->>    Interoperability was validated using the QUIC Interop Runner [7] against
->>    all major userland QUIC stacks. Results are available at:
->>
->>    https://d.moritzbuhl.de/
->>
->> - Fuzzing via Syzkaller
->>
->>    Syzkaller has been running kernel fuzzing with QUIC for weeks using
->>    tests/syzkaller/ in libquic [3].
->>
->> - Performance Testing
->>
->>    Performance was benchmarked using iperf [8] over a 100G NIC using
->>    various MTUs and packet sizes:
->>
->>    - QUIC vs. kTLS:
->>
->>      UNIT        size:1024      size:4096      size:16384     size:65536
->>      Gbits/sec   QUIC | kTLS    QUIC | kTLS    QUIC | kTLS    QUIC | kTLS
->>      ────────────────────────────────────────────────────────────────────
->>      mtu:1500    2.27 | 3.26    3.02 | 6.97    3.36 | 9.74    3.48 | 10.8
->>      ────────────────────────────────────────────────────────────────────
->>      mtu:9000    3.66 | 3.72    5.87 | 8.92    7.03 | 11.2    8.04 | 11.4
->>
->>    - QUIC(disable_1rtt_encryption) vs. TCP:
->>
->>      UNIT        size:1024      size:4096      size:16384     size:65536
->>      Gbits/sec   QUIC | TCP     QUIC | TCP     QUIC | TCP     QUIC | TCP
->>      ────────────────────────────────────────────────────────────────────
->>      mtu:1500    3.09 | 4.59    4.46 | 14.2    5.07 | 21.3    5.18 | 23.9
->>      ────────────────────────────────────────────────────────────────────
->>      mtu:9000    4.60 | 4.65    8.41 | 14.0    11.3 | 28.9    13.5 | 39.2
->>
->>
->>    The performance gap between QUIC and kTLS may be attributed to:
->>
->>    - The absence of Generic Segmentation Offload (GSO) for QUIC.
->>    - An additional data copy on the transmission (TX) path.
->>    - Extra encryption required for header protection in QUIC.
->>    - A longer header length for the stream data in QUIC.
->>
->> Patches
->> =======
->>
->> Note: This implementation is organized into five parts and submitted across
->> two patchsets for review. This patchset includes Parts 1–2, while Parts 3–5
->> will be submitted in a subsequent patchset. For complete series, see [9].
->>
->> 1. Infrastructure (2):
->>
->>    net: define IPPROTO_QUIC and SOL_QUIC constants
->>    net: build socket infrastructure for QUIC protocol
->>
->> 2. Subcomponents (13):
->>
->>    quic: provide common utilities and data structures
->>    quic: provide family ops for address and protocol
->>    quic: provide quic.h header files for kernel and userspace
->>    quic: add stream management
->>    quic: add connection id management
->>    quic: add path management
->>    quic: add congestion control
->>    quic: add packet number space
->>    quic: add crypto key derivation and installation
->>    quic: add crypto packet encryption and decryption
->>    quic: add timer management
->>    quic: add packet builder base
->>    quic: add packet parser base
->>
->> 3. Data Processing (8):
->>
->>    quic: add frame encoder and decoder base
->>    quic: implement outqueue transmission and flow control
->>    quic: implement outqueue sack and retransmission
->>    quic: implement inqueue receiving and flow control
->>    quic: implement frame creation functions
->>    quic: implement frame processing functions
->>    quic: implement packet creation functions
->>    quic: implement packet processing functions
->>
->> 4. Socket APIs (6):
->>
->>    quic: support bind/listen/connect/accept/close()
->>    quic: support sendmsg() and recvmsg()
->>    quic: support socket options related to interaction after handshake
->>    quic: support socket options related to settings prior to handshake
->>    quic: support socket options related to setup during handshake
->>    quic: support socket ioctls and socket dump via procfs
->>
->> 5. Documentation and Selftests (3):
->>
->>    Documentation: describe QUIC protocol interface in quic.rst
->>    quic: create sample test using handshake APIs for kernel consumers
->>    selftests: net: add tests for QUIC protocol
->>
->> Notice: The QUIC module is currently labeled as "EXPERIMENTAL".
->>
->> All contributors are recognized in the respective patches with the tag of
->> 'Signed-off-by:'. Special thanks to Moritz Buhl and Stefan Metzmacher whose
->> practical use cases and insightful feedback have been instrumental in
->> shaping the design and advancing the development.
->>
->> References
->> ==========
->>
->> [1]  https://datatracker.ietf.org/doc/html/draft-lxin-quic-socket-apis
->> [2]  https://github.com/oracle/ktls-utils
->> [3]  https://github.com/lxin/quic
->> [4]  https://gitlab.com/samba-team/samba/-/merge_requests/4019
->> [5]  https://github.com/moritzbuhl/curl/tree/linux_curl
->> [6]  https://github.com/moritzbuhl/httpd-portable
->> [7]  https://github.com/quic-interop/quic-interop-runner
->> [8]  https://github.com/lxin/iperf
->> [9]  https://github.com/lxin/net-next/commits/quic/
->> [10] https://www.nntb.no/~dreibh/netperfmeter/
->>
->> Changes in v2-v15: See individual patch changelogs for details.
->>
->> Xin Long (15):
->>    net: define IPPROTO_QUIC and SOL_QUIC constants
->>    net: build socket infrastructure for QUIC protocol
->>    quic: provide common utilities and data structures
->>    quic: provide family ops for address and protocol
->>    quic: provide quic.h header files for kernel and userspace
->>    quic: add stream management
->>    quic: add connection id management
->>    quic: add path management
->>    quic: add congestion control
->>    quic: add packet number space
->>    quic: add crypto key derivation and installation
->>    quic: add crypto packet encryption and decryption
->>    quic: add timer management
->>    quic: add packet builder base
->>    quic: add packet parser base
->>
->>   Documentation/networking/ip-sysctl.rst        |   39 +
->>   MAINTAINERS                                   |    9 +
->>   include/linux/quic.h                          |   38 +
->>   include/linux/socket.h                        |    1 +
->>   include/trace/events/sock.h                   |    3 +-
->>   include/uapi/linux/in.h                       |    2 +
->>   include/uapi/linux/quic.h                     |  241 ++++
->>   net/Kconfig                                   |    1 +
->>   net/Makefile                                  |    1 +
->>   net/quic/Kconfig                              |   35 +
->>   net/quic/Makefile                             |    9 +
->>   net/quic/common.c                             |  565 ++++++++
->>   net/quic/common.h                             |  220 +++
->>   net/quic/cong.c                               |  340 +++++
->>   net/quic/cong.h                               |  132 ++
->>   net/quic/connid.c                             |  283 ++++
->>   net/quic/connid.h                             |  183 +++
->>   net/quic/crypto.c                             | 1251 +++++++++++++++++
->>   net/quic/crypto.h                             |   88 ++
->>   net/quic/family.c                             |  446 ++++++
->>   net/quic/family.h                             |   44 +
->>   net/quic/packet.c                             | 1055 ++++++++++++++
->>   net/quic/packet.h                             |  123 ++
->>   net/quic/path.c                               |  589 ++++++++
->>   net/quic/path.h                               |  192 +++
->>   net/quic/pnspace.c                            |  273 ++++
->>   net/quic/pnspace.h                            |  201 +++
->>   net/quic/protocol.c                           |  403 ++++++
->>   net/quic/protocol.h                           |   57 +
->>   net/quic/socket.c                             |  654 +++++++++
->>   net/quic/socket.h                             |  242 ++++
->>   net/quic/stream.c                             |  416 ++++++
->>   net/quic/stream.h                             |  133 ++
->>   net/quic/timer.c                              |  154 ++
->>   net/quic/timer.h                              |   45 +
->>   tools/include/uapi/linux/in.h                 |    2 +
->>   .../perf/trace/beauty/include/linux/socket.h  |    1 +
->>   usr/include/Makefile                          |    1 +
->>   38 files changed, 8471 insertions(+), 1 deletion(-)
->>   create mode 100644 include/linux/quic.h
->>   create mode 100644 include/uapi/linux/quic.h
->>   create mode 100644 net/quic/Kconfig
->>   create mode 100644 net/quic/Makefile
->>   create mode 100644 net/quic/common.c
->>   create mode 100644 net/quic/common.h
->>   create mode 100644 net/quic/cong.c
->>   create mode 100644 net/quic/cong.h
->>   create mode 100644 net/quic/connid.c
->>   create mode 100644 net/quic/connid.h
->>   create mode 100644 net/quic/crypto.c
->>   create mode 100644 net/quic/crypto.h
->>   create mode 100644 net/quic/family.c
->>   create mode 100644 net/quic/family.h
->>   create mode 100644 net/quic/packet.c
->>   create mode 100644 net/quic/packet.h
->>   create mode 100644 net/quic/path.c
->>   create mode 100644 net/quic/path.h
->>   create mode 100644 net/quic/pnspace.c
->>   create mode 100644 net/quic/pnspace.h
->>   create mode 100644 net/quic/protocol.c
->>   create mode 100644 net/quic/protocol.h
->>   create mode 100644 net/quic/socket.c
->>   create mode 100644 net/quic/socket.h
->>   create mode 100644 net/quic/stream.c
->>   create mode 100644 net/quic/stream.h
->>   create mode 100644 net/quic/timer.c
->>   create mode 100644 net/quic/timer.h
->>
->> --
->> 2.47.1
->>
-> 
-> I've looked into the Sashiko reviews:
-> 
-> [Sashiko-Gemini]
-> (https://sashiko.dev/#/patchset/cover.1789393775.git.lucien.xin%40gmail.com)
-> 
-> - 0 issues reported. I'm not sure whether the workflow still uses this report.
+On Wed, Sep 16, 2026 at 7:46=E2=80=AFPM Kuniyuki Iwashima <kuniyu@google.co=
+m> wrote:
+>
+> From: Xin Long <lucien.xin@gmail.com>
+> Date: Wed, 16 Sep 2026 14:08:22 -0400
+> > > > +struct sock *quic_listen_sock_lookup(struct sk_buff *skb, union qu=
+ic_addr *sa,
+> > > > +                                  union quic_addr *da, struct sock=
+ *usk,
+> > > > +                                  struct quic_data *alpns)
+> > > > +{
+> > >
+> > > [ ... ]
+> > >
+> > > > +out:
+> > > > +     if (sk && sk->sk_reuseport)
+> > > > +             sk =3D reuseport_select_sock(sk, quic_addr_hash(net, =
+da), skb, 1);
+> > >
+> > > [Severity: Medium]
+> > > Should the hdr_len argument be 0 rather than 1 here?
+> > >
+> > > quic_udp_rcv() already did skb_pull(skb, sizeof(struct udphdr)) befor=
+e
+> > > quic_packet_rcv() is reached, so skb->data points at the QUIC payload=
+, and
+> > > reuseport_select_sock() documents hdr_len as how far the pointer must=
+ advance
+> > > to reach the payload.
+> > >
+> > > With a classic SO_ATTACH_REUSEPORT_CBPF program, run_bpf_filter() doe=
+s:
+> > >
+> > > net/core/sock_reuseport.c:
+> > >         if (unlikely(!pskb_may_pull(skb, hdr_len)))
+> > >                 return -EINVAL;
+> > >         ...
+> > >         pskb_pull(skb, hdr_len);
+> > >         ...
+> > >         __skb_push(skb, hdr_len);
+> > >
+> > > so the filter would see the datagram starting one byte into the QUIC =
+header:
+> > > all its offsets are shifted and the first byte (form/fixed/type bits)=
+ is
+> > > invisible, which can select the wrong socket in the reuseport group.
+> > >
+> > > [ ... ]
+> > >
+> > True:
+> >
+> > BPF programs may need to access the QUIC header, so I will pass 0 to
+> > reuseport_select_sock() to ensure the full QUIC packet is visible.
+>
+> Why do you use reuseport_select_sock() here ?
 
-FYI, the results from the public sashiko instance are integreated into 
-the nipa one and validated by other models. The nipa instance is the 
-most relevant entry point.
+Because QUIC socket supports SO_REUSEPORT and allows multiple sockets
+listening on the same addr/port/ALPNs:
 
+https://github.com/lxin/quic/blob/main/modules/net/quic/socket.c#L724
+
+The client Initial packet can select the listening socket based on the
+packet's source address and port, or by a BPF program that can inspect
+the QUIC packet.
+
+Thanks.

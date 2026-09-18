@@ -1,187 +1,138 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EAE3C9886
-	for <kernel-tls-handshake@lists.linux.dev>; Thu, 17 Sep 2026 19:06:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.141
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789672015; cv=pass; b=sOjh6VzQqeZOc1kT2kHat9Ml7MvKNlWZvW85CpFgpzodv1KB4bLZrX9bdihl8asR2+sIdoUt9psSR/rfv9FkVw2JZHAdQn37B4/jS/pYUyqfpqvJfBpF/Z3cn83lSnhoWaV5ed5VB8vhm2a11UIqzlimea3yQ8LyRI4ogyBheeQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789672015; c=relaxed/simple;
-	bh=qqBrqtVZFn6NsXxcXXIMtlSWkhWESw0qIbjgWLUJZHc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jfxD6qxVrbl4+6eK8gDvGTfzTXBaQOJJTkVAfzvpeFvGYndUoao6d5RnRpXqrRkxHFWYnLToeqWAqvbmdVynYVViYUUESu6wm4treFyRZJo2JMmNZGNW4wGjzbFjpWKJfQG5Uv/TYClpHzsMNeESowyndbwRVpdjphZ8tH6XUgA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=poCrWqCM; arc=pass smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A423A873C;
+	Fri, 18 Sep 2026 14:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789740335; cv=none; b=p+cJdR9qYE6+J7kWip0xVYX1zvKmMpghCkOY23nN37uXxL9YN895sWqM8zd4FmU60CuJwjqFRu40F6DuFblHHUxLCDLQI8I0k/dkmvEWQ6UiCBu+u4MS1FuItsY/v0R8/j3mDqRAEA7A/h5qPuGp3HJ6eLXcPYUwEv8zvuGnHfw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789740335; c=relaxed/simple;
+	bh=Bcwy+E6Oi4b2berfQyScAitGGyv5fqsNPnDcrsX0nZM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=T4gwm4YC2PNDJsWhBHPazH4JrRtxBeG0YR2U2sh8KJb3xg9eJsk17lSSSoEISxFY+vqZiIf5ksVgnSQ4tYNwFb5UecDEcvQh+1vlGsecNDxP1b4U2sq8JjFFLwJpgDt99Ai4FwhW2LIXFMRFjM7rahX8RIP4vEsYpwKh6PNPNns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LnTkSueR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="poCrWqCM"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396ccb65437so7016a91.3
-        for <kernel-tls-handshake@lists.linux.dev>; Thu, 17 Sep 2026 12:06:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789672014; cv=none;
-        d=google.com; s=arc-20260327;
-        b=WumWFPmCCTJUC1OVvrbcL/ObPchqcdxib2q7j/0NGibRlako/+3O0zIc6TQxQUrGcu
-         fZThqql4aRwp11WFtUzPOEjQIZprDha5JPLCgwUlOQ8u6Afmy6hoCMKt+1NDOgIoyWTM
-         Z4Gq8e56+XeubvCQ75gPR+kESPJam3ko4FUNO7sjnHBAolbn1oEBUa+uoKoVASWqaOEP
-         8ZV+SlAYLlGyN3liaIUh9LVXgKaVwdb5kjEwvvlLexG8AOR72knKjsDQPTJI6UCsGaks
-         SKNQhKG842Yxm5VAbJBPMx3MbYgkKPMjeLObbKHCLJVuuwapqMDDSm/UIEb0z5+C/qUI
-         7oyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=AJdmTMqYmE/7xu/8ItFmggn+Kr8BDXFZhgiN1tzQfFI=;
-        fh=Syjai3kwtJvywqVMS3gKPZ9K1caP+L/jjk+6w+6U1OA=;
-        b=GV9/wIOoD7V8F+M1BMi0lVwuE7k2iJ+zOH5/r3274B12IehR0PWfZHggBDnPLxXciF
-         Pq/8Dfobff6TQWLL40JcbIVp0V/cGjOlNkF9HbDH5BhqObe8SsnMFrJo93cmFc1XnnGd
-         L4PtdajqId8fWNy6w848xopSvHa7lqYdrUxBfj7ulhyASFQUFf32RKkm/6WgIHCSORG+
-         cFnrOE0vdvvgSHBKDgbU7IhHnlfAmcMTPlR2G/MlNfpKbIKg/QO1qJ9tmow19tGfR6Zm
-         1qErXR3mKqvDD8Mp1Ty9W+okk61xAvqmyu4vjsG1lUY+N62xcU5KsAE6VtwxQSWuVo69
-         xyCw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789672014; x=1790276814; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=AJdmTMqYmE/7xu/8ItFmggn+Kr8BDXFZhgiN1tzQfFI=;
-        b=poCrWqCMvr2EbIQWEfR+NqVa4zGtElq/sl4situ0SiPK+8hH1MUSqSKn0NeEy6lV7f
-         fFeXbsw0bP9TIxdTSxhM2aGbyH9m4wEVeP2N0MZfUFrIDTJTrTH4ynpUONkspxVa+1zF
-         CXJ1g/k2AUNSh153+Sz08Ds9yi541Gp4xO4yJwaWzlJ5HuPdtQ6AofSN9V2w/9vA7z1O
-         yCb4TxgnVf06uFUhARzZsbQvAJy3p6Fphiz3WTEr2Hzt0ldZjxwYRqhyQKU0JM2oT04X
-         +jONybztfACq29mGr674VHvxkI2TfgjaGlPm+gVZSmWGaGGMVFdfIHdETQepMEVBjxJ4
-         tiNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789672014; x=1790276814;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AJdmTMqYmE/7xu/8ItFmggn+Kr8BDXFZhgiN1tzQfFI=;
-        b=OVZUyac035bcxnRC3/+/QPTLqv7M2HZ+QRqL85zobBMpe80Ud8jHLopvxI/Cv1QGun
-         P1Db88i56zDlIYvnGy/EMluLScRPIfV5KFkVan178px/HxDhJw1MZW/eI2Sehr6ohyAX
-         D82jg2sSfO0uGr/hYAb3cuoH5NIzCSqDcplUtKSnTx+845dByCEXCKtroqx4PyAuWBJa
-         s5jfJ04c7+hCAZb34lwYzdwfqQ4pJ0IpJWvK+g+CtXAgJo87Se96gbDO7XF+wzAKwNrJ
-         s8un1jPN+Rg7RCGNNPyKfd74tOn7Q47hkeengxju1h89bp24QFbilNLUCnZUfHZSaeaA
-         JMPA==
-X-Forwarded-Encrypted: i=1; AKwUvBwmNHX39M5tJofTugiCIVFxC9pFPGWoI9trbWtff2TIYw0Jj8qTbS5QUOidKS+pPjidV3PNKYRC9i+QTl4MHTm84IHorQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++lld3yPF/U0Lb8pA/9Ov+8gp78AkTLv9b2niIlH24FE4kFJoJwX
-	Q2hz+2ITp+5KfHRsfAJs48yZnsmMVQWYKE0C43hae3uB2VcLvpbTX+UkLURH1imqBLJA2jhYMtx
-	VhdEOR86sa3wHO52uO5Oi7/ZbTGkU/XJkX2P4WV3i
-X-Gm-Gg: AYBFou3Fins4UCSYbg6e/q7dP3xvt0CPzc9ARJauj9yvIWDfKZyaqS2poY+lpJne/7s
-	+pYidlR62vNdPxFC5WN+SKzY3BNMY6eeXNfpagfLmwuSbGWSuPnYPHHCsMxRQgOphxlpQi+OIO0
-	DEkF3zYALwVPJCVRtEuEyjFk+ouXZlzcSCXEr8sK8Igg7/JMaJps2MOIl+yBKkiuYId05psP/g4
-	LGRoxT9Jao5xgCsXa86xoyV0dWuQP7u6b5TVyHb2Jq2xpx9gGqpPm3hf9O2/0REAulHWCKb0RAo
-	qlnDljS6ZeuwqavyL7q/w5aS8sP9xGR1onUOyB5DuiIUIGQviOejFK6wfHyHtI8TNiquOtAjQAb
-	dWZxw8tcUNirFWk6suaobw10QKgWTWEwQiOBNzKK/fwBjjnLFtoIjxSUyyyYUrLozwhbJ372wm0
-	rTlgeVT3bK6Q3TiuYVvM6N9OG2qA==
-X-Received: by 2002:a17:90b:54c4:b0:39e:4c7f:7308 with SMTP id
- 98e67ed59e1d1-39e55071981mr225580a91.31.1789672013089; Thu, 17 Sep 2026
- 12:06:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LnTkSueR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98B6E1F000FF;
+	Fri, 18 Sep 2026 14:05:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789740333;
+	bh=6poMYmfx2QCRu6OebYOQVuSs9AtiKnZz0sS56fkFvHI=;
+	h=From:Subject:Date:To:Cc;
+	b=LnTkSueRiZtJazx9N12EVScAkE9TOYSRbcSMyLVtqpVFDomLjrkXKXqwB51ooB/PY
+	 3S/rIV6sXHh9BIGOF2ENXBrt8MMuZ0jqF0AZcLmv0dNG2vEzXGELqH6+KYrJftn4g/
+	 AJY6HNrBn5LMYacAIc1Foua767Uj4lnFab/uw9EbL8TSacpKoVQ7CuzeCjYGJFOfqB
+	 +86sqi0a1TCwapaLe2NMt4zB2fif8PR9kvkNqoutUsey0ZTv/S+M+B2lsfp7ajtHql
+	 ntw0XJR0K5Dn3XC3S10Vi6r9XANmBNimsML2zVtzf1ehBi8JDy9S7k0LMpzO2NfZus
+	 EarewJPihl3sw==
+From: Chuck Lever <cel@kernel.org>
+Subject: [PATCH RFC 0/5] NFS: isolate mTLS client credentials by network
+ namespace
+Date: Fri, 18 Sep 2026 10:05:15 -0400
+Message-Id: <20260918-nfs-mtls-identity-v1-0-197e568d78a7@kernel.org>
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CADvbK_dHPkHjkPwu0RepYgDsHs5reHepprRHU9hDFBxQM9_RGw@mail.gmail.com>
- <20260916234654.420056-1-kuniyu@google.com> <CADvbK_df5X=Szsd-d8=0gndhoBSHJhnEqSh826iYUW6=Ce_xEw@mail.gmail.com>
-In-Reply-To: <CADvbK_df5X=Szsd-d8=0gndhoBSHJhnEqSh826iYUW6=Ce_xEw@mail.gmail.com>
-From: Kuniyuki Iwashima <kuniyu@google.com>
-Date: Thu, 17 Sep 2026 12:06:41 -0700
-X-Gm-Features: AcwNN1Vf1Dgl1Yuz1331KMxjXrgwRsS9uLrWePJOZIUaTVSoZLWo_yT69Va3HQo
-Message-ID: <CAAVpQUCRcBQOS4H5zJBOoYeCgsQBiGyu8gjhXaocDXDw9jqTOg@mail.gmail.com>
-Subject: Re: [PATCH net-next v15 15/15] quic: add packet parser base
-To: Xin Long <lucien.xin@gmail.com>
-Cc: aahringo@redhat.com, alibuda@linux.alibaba.com, 
-	andrew.gospodarek@broadcom.com, chuck.lever@oracle.com, daniel@haxx.se, 
-	davem@davemloft.net, dhowells@redhat.com, dreibh@simula.no, 
-	edumazet@google.com, hare@suse.de, hepengtao@xiaomi.com, horms@kernel.org, 
-	illiliti@protonmail.com, jbaron@akamai.com, jlayton@kernel.org, 
-	kernel-tls-handshake@lists.linux.dev, kuba@kernel.org, linkinjeon@kernel.org, 
-	linux-cifs@vger.kernel.org, mail@johnericson.me, marcelo.leitner@gmail.com, 
-	matttbe@kernel.org, mbuhl@openbsd.org, mef@scarletmail.rutgers.edu, 
-	metze@samba.org, netdev-bot+sashiko@kernel.org, netdev@vger.kernel.org, 
-	pabeni@redhat.com, paul@jakma.org, pc@manguebit.org, quic@lists.linux.dev, 
-	sd@queasysnail.net, steved@redhat.com, tfanelli@redhat.com, tom@talpey.com, 
-	xiyou.wangcong@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMywrCMBBFf6XM2kBSQ31sBT/ArbhI0okdsalkR
+ lFK/91El+dw75mBMRMy7JsZMr6IaUoFzKqBMLh0RUV9YWh12+md2agUWY1y5+IxCclHaRuMjV1
+ c220P5ffIGOn9a57hdDzA5S/56W8YpNbqzDtG5bNLYahqdCyYYVm+WtrzkZMAAAA=
+X-Change-ID: 20260917-nfs-mtls-identity-04c14f6f348d
+To: Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Christian Brauner <brauner@kernel.org>, David Howells <dhowells@redhat.com>, 
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nfs@vger.kernel.org, keyrings@vger.kernel.org, 
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Chuck Lever <cel@kernel.org>
+X-Mailer: b4 0.16-dev-da966
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3117; i=cel@kernel.org;
+ h=from:subject:message-id; bh=Bcwy+E6Oi4b2berfQyScAitGGyv5fqsNPnDcrsX0nZM=;
+ b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBqrUUh2otE4UaTM/4UNJvbzhYbfEh/zl+1BjUur
+ mLLDfM8QIWJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCaq1FIQAKCRAzarMzb2Z/
+ l1VBEACkGjBjcvS+UuHhBY7gD+YJfo1EWWJzk9olQk61PsAcxYmhEg93mXosFxeiQr8dn7UfaMA
+ e2Xp4qNzcDoqNC0PbeYZQ+B5w0dDp744+PEewcdazX8ToJ7+6PuHVvgUe5cKnml4Uiht0BFLGgQ
+ BSu6qhPSsVsgBhP2gvN/AyeusuO/rY/eWeliyR22W2oLdGhfdw++4gTfSeh44a2afzMVXdGJwjM
+ i7AVXGvWAu7D5ksVCm5/hj8cLzuVH/wLQ/XXsHXf2hW6o4lVwIadS086XiOVCJSa6Y6u9D45Pyh
+ Dpsy5P7UzAsqE8ZlyibJKfsMP6oTYj6SZicbaNvK40j/lse0ZbhK1kYs+AjsnVsk3E2pxBk80+/
+ T/3MEguppu8cK2jO5oYTSK3hrTmtENwne/iAtgJjQusILaEmDwGgBtqRYEi5JCQnA466nQXHeUW
+ Tw1uP7x44w3GBUbGrqyazMnMjs1Fc6GKtAIfEPINPqypOQeD1IbtO8cDRD9ro8iW9k9XhmI+egX
+ uWWH9cviVl1g/Y1QCZgq9TQPB/r9fUvd00PpvDwacWzo9rnCBCLaQoTIT6PN9jcGngeRrRq7Fmb
+ G9nNZfALfFdoqSQE3C/HWGzRRxYfed+ojzNt6gb2AHtrO1pez8lbHkezd20x3Y9cNZc/WwWvj6G
+ ktgK8+0efSBKggA==
+X-Developer-Key: i=cel@kernel.org; a=openpgp;
+ fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 
-On Thu, Sep 17, 2026 at 6:38=E2=80=AFAM Xin Long <lucien.xin@gmail.com> wro=
-te:
->
-> On Wed, Sep 16, 2026 at 7:46=E2=80=AFPM Kuniyuki Iwashima <kuniyu@google.=
-com> wrote:
-> >
-> > From: Xin Long <lucien.xin@gmail.com>
-> > Date: Wed, 16 Sep 2026 14:08:22 -0400
-> > > > > +struct sock *quic_listen_sock_lookup(struct sk_buff *skb, union =
-quic_addr *sa,
-> > > > > +                                  union quic_addr *da, struct so=
-ck *usk,
-> > > > > +                                  struct quic_data *alpns)
-> > > > > +{
-> > > >
-> > > > [ ... ]
-> > > >
-> > > > > +out:
-> > > > > +     if (sk && sk->sk_reuseport)
-> > > > > +             sk =3D reuseport_select_sock(sk, quic_addr_hash(net=
-, da), skb, 1);
-> > > >
-> > > > [Severity: Medium]
-> > > > Should the hdr_len argument be 0 rather than 1 here?
-> > > >
-> > > > quic_udp_rcv() already did skb_pull(skb, sizeof(struct udphdr)) bef=
-ore
-> > > > quic_packet_rcv() is reached, so skb->data points at the QUIC paylo=
-ad, and
-> > > > reuseport_select_sock() documents hdr_len as how far the pointer mu=
-st advance
-> > > > to reach the payload.
-> > > >
-> > > > With a classic SO_ATTACH_REUSEPORT_CBPF program, run_bpf_filter() d=
-oes:
-> > > >
-> > > > net/core/sock_reuseport.c:
-> > > >         if (unlikely(!pskb_may_pull(skb, hdr_len)))
-> > > >                 return -EINVAL;
-> > > >         ...
-> > > >         pskb_pull(skb, hdr_len);
-> > > >         ...
-> > > >         __skb_push(skb, hdr_len);
-> > > >
-> > > > so the filter would see the datagram starting one byte into the QUI=
-C header:
-> > > > all its offsets are shifted and the first byte (form/fixed/type bit=
-s) is
-> > > > invisible, which can select the wrong socket in the reuseport group=
-.
-> > > >
-> > > > [ ... ]
-> > > >
-> > > True:
-> > >
-> > > BPF programs may need to access the QUIC header, so I will pass 0 to
-> > > reuseport_select_sock() to ensure the full QUIC packet is visible.
-> >
-> > Why do you use reuseport_select_sock() here ?
->
-> Because QUIC socket supports SO_REUSEPORT and allows multiple sockets
-> listening on the same addr/port/ALPNs:
->
-> https://github.com/lxin/quic/blob/main/modules/net/quic/socket.c#L724
+An xprtsec=mtls mount names its client certificate and private key
+by keyring serial, and tlshd reads those keys with its own
+credentials. Each key therefore has to grant user read permission,
+and any tlshd on the host that learns a serial can read it. Nothing
+separates one network namespace's credentials from another's.
 
-Okay, I was wondering how it was supposed to work without
-reuseport_add_sock() etc.
+This series makes the network namespace the isolation domain. The
+RFC thread asked whether the user or mount namespace is the better
+binding. tlshd services the handshake socket of one network
+namespace, so that is the namespace it already lives in.
 
-reuseport_select_sock() should be moved to a later patch.
+  https://lore.kernel.org/linux-nfs/20260602154740.49861-1-cel@kernel.org/
 
+The keyring is held in struct nfs_net rather than found by name,
+because /proc/keys is not namespace scoped. Its serial travels with
+each handshake instead (patches 3-4), and tlshd's possession of that
+keyring is what lets a provisioned key grant no user read permission
+at all. Both ends of the link exist today, in tls_handshake_accept()
+and in tlshd. The handshake genetlink ABI and the cert_serial= and
+privkey_serial= mount options do not change.
 
->
-> The client Initial packet can select the listening socket based on the
-> packet's source address and port, or by a BPF program that can inspect
-> the QUIC packet.
->
-> Thanks.
+Still open is how userspace names the kernel-held keyring. Patch 5
+prototypes a request_key type handled in the kernel and tagged
+KEY_TYPE_NET_DOMAIN. A keyctl modeled on KEYCTL_GET_PERSISTENT, or a
+read-only attribute on the netns-tagged nfs_client sysfs kobject,
+would do the same job if the keyrings maintainers prefer one. Keys
+that userspace adds are quota-charged by user namespace while the
+keyring lives in nfs_net. Confirmation that this is sane when the
+two boundaries differ would be welcome.
+
+nfstlskey, the provisioning tool that consumes the key type, is
+merged in https://github.com/oracle/ktls-utils/ .
+
+Tested on one Fedora VM acting as both NFS client and NFSD, with
+tlshd from ktls-utils 1.4.0: NFSv4.2 mounts with xprtsec=tls, with
+xprtsec=mtls using the identity in tlshd.conf, and with xprtsec=mtls
+using serials that nfstlskey provisioned.
+
+---
+Chuck Lever (5):
+      NFS: name the init_nfs_fs() error labels
+      NFS: allocate the .nfs keyring per network namespace
+      SUNRPC: pass a keyring serial to the TLS handshake
+      NFS: name the namespace .nfs keyring in the x509 handshake
+      NFS: add a key type that reveals the namespace .nfs keyring serial
+
+ Documentation/filesystems/nfs/index.rst   |   1 +
+ Documentation/filesystems/nfs/keyring.rst |  67 ++++++++++
+ fs/nfs/client.c                           |   9 +-
+ fs/nfs/fs_context.c                       |   1 +
+ fs/nfs/inode.c                            | 209 ++++++++++++++++++++++--------
+ fs/nfs/netns.h                            |   9 ++
+ fs/nfs/nfs3client.c                       |   1 +
+ fs/nfs/nfs4client.c                       |   1 +
+ include/linux/sunrpc/xprt.h               |   1 +
+ net/sunrpc/xprtsock.c                     |   1 +
+ 10 files changed, 244 insertions(+), 56 deletions(-)
+---
+base-commit: df2908090cda368b01ff43709f51890076c56157
+change-id: 20260917-nfs-mtls-identity-04c14f6f348d
+
+Best regards,
+--  
+Chuck Lever <cel@kernel.org>
+

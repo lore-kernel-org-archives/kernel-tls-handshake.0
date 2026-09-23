@@ -1,166 +1,114 @@
-Received: from mail-oa2-f35.google.com (mail-oa2-f35.google.com [74.125.231.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D46E48166B
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 21 Sep 2026 11:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25514244687;
+	Wed, 23 Sep 2026 14:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789989437; cv=none; b=e5zihGeTMgylq4BD3vBCMSxg10uEQ7iEqOn31iymhnW2+CbEcPztG3E+3geOl7+eOCRnlOSdHOedvPFYuUiIJktTxDmLbc0MvY799sVyAxkmZHdfYA0zbCvpRB7ChAsbVLW4Bq/NpidUfPSgUNce1L3S3w0E+d7V+2czYZHs8Lo=
+	t=1790172665; cv=none; b=H713jGLhgs3mESOL9O2GbdwcPz2SEIwQKHOSvq3zaRn+acpwX4QGTSr4siqlrHd5qUv3F9Wtdcl/+l1cRSof3OLgDl/roQGg3YWXkfD4mkPz2b77BI+KbaKz/wsv5JDBs2pXSt+NM8LacHyHywjPv/Zf9Z4av1gcZSoL0tw1Bms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789989437; c=relaxed/simple;
-	bh=ynnB93uRRMFm5MeLrvG8YOly/C5erKJyFzwadvMCU78=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tJTF4oMDwTQ/JnD41J6uJ+DPUzzXGxoAw02UGxc+XT+3blFbkzr/iDpHulFMq3YKdkKSacRemFRBjeoBUkKCcA4HnunKpUVMogPeYVEX+LCsrbpfXROI4jZADe/JSl6NJKkuKYraxks1BjSUMTJ8Ob3Uss4FiVsWLXO4IIJsP1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com; spf=pass smtp.mailfrom=hammerspace.com; dkim=pass (2048-bit key) header.d=hammerspace.com header.i=@hammerspace.com header.b=eY+mukRt; arc=none smtp.client-ip=74.125.231.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hammerspace.com
+	s=arc-20240116; t=1790172665; c=relaxed/simple;
+	bh=UweFKwytZZxYIDDoNfjYqv3WfPufbk7GnnBDZrAIlbU=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:Subject:Content-Type; b=ie10T35IuFYXv/QjmiGWuox5Vd6FUigZ3rM7YVJn7DA7Omtznaxupo7UmjsE+VbPEJwGXTvjyZbglP5kogw14SmzbFZ8nEGW7J1qoV0i5O/+XJtJpu6D2cyLAR/Ab8I9j07zr80efEz1zScjS4AkA34D5Ja++Lrip6VMg8Roo4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T2crP8ZV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hammerspace.com header.i=@hammerspace.com header.b="eY+mukRt"
-Received: by mail-oa2-f35.google.com with SMTP id 586e51a60fabf-4881ca701a4so637244fac.2
-        for <kernel-tls-handshake@lists.linux.dev>; Mon, 21 Sep 2026 04:17:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammerspace.com; s=google; t=1789989434; x=1790594234; darn=lists.linux.dev;
-        h=content-type:mime-version:references:in-reply-to:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oFZAXGGRVdUcw8Z+HbfAgS1Po8zavpuqYE8I7GH9OYY=;
-        b=eY+mukRt8sxigar2reJir1vBCEEiXIiAzHykpoWRUlG8od7sXdlUd/MRseM4J+9ScS
-         Rd1M3TAtfG2zuE+7RBvOIs9LKD30sFSjup8++8wQi19at3+Fka12DmH48PhNn2Gcg7qN
-         zRU84+SPhcIljzBOJu3zUdzdsVWerCnXqciuyX0GPpdnE3df/pg0OF9rZm07M/PdFZqL
-         bOu5VNQbrkjxQVHAok27KLKYbEKhAMjVa+/LSo95NZYvXu1PUJUlJ40yhCFHpGBcA8BZ
-         DYvuUGpLpcv0ls1NO1NN4v/YPag7+GK9aMzH5L6CvVNDXYR5Gg9bx0bFdEpxe1U6gw4S
-         yqQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789989434; x=1790594234;
-        h=content-type:mime-version:references:in-reply-to:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=oFZAXGGRVdUcw8Z+HbfAgS1Po8zavpuqYE8I7GH9OYY=;
-        b=o2pLt6YF1u7n+gGUCfFeWQbOOR+KbY32FRkYqTItPScg94npFvw/yzZdF7slxT7z8D
-         Kuxrxoe5XPGpOSuiLqY9jnpM3awCX3YAuNhP2R912ZquAjiXXhZPg+lMUpeRERaUvgQM
-         OZAfvQmN9fLFKURhF/AEskp5743KOxmJrQe6S9ITqxfciHCjO+su4aYNtsIlokcDNnJf
-         110u3ZnCWyc43/MBHyuW1B1+2AlF9U7C+WdP3ud3P6/5qefckn3iunQzAMsd3nP3WyCE
-         FKoOMrJofvj7Wl8P2lMUyKxLJ9HC2VzpsryQzdORzC4vbZEUamQkeH8a6hV7oKUV1Vrf
-         EzIw==
-X-Forwarded-Encrypted: i=1; AKwUvBxu//8HwV2Wo+kK98mBzukuOTFUUmgHxkAlEjwLAQRqSswFj0xawC/5eRUJaXFbCZ5xmioOjYv5uwazaGnjLHBUOVKkYw==@lists.linux.dev
-X-Gm-Message-State: AFuF++nA86LafIO7Sx5aew7/Wtx+YtqoyDRffmEoAGlpFfQtZ4OFHnRZ
-	Hd0imwOChcbyzGJuc2VFl9W+/WkHkTtJW+fmcuiJFNzogUqp1b1sN7rrUxHg4ucaBL8=
-X-Gm-Gg: AYBFou2w46vyNK7s96MwuZmoUly2mYQk3+35WFMy0dNb0T63cnI2noMVmvaEqs160n9
-	ZWKt77AQWi33TEdN2opAprUsS4B3IK6vc8hQEum3qx3kms2xxLVIVukDSXEVrpSTQLT/2vlFP1i
-	lfy7fE1O4XkxjPPqFYy43Ys6qhu5fokI7ka32Ojm659fU6gbIWAZHnxMERyMBviOnnIumISLjaR
-	aDIzsXbJn0Fqm/3worhc+/NW0TOTSbhMACUK4fqWn+zJVGl3hL439KNJQzw1TL/jjK5iwoRL2lE
-	venNBKeP2y7as77a3RUz5M4zIVBQqwcEFNeI7K9+Mr3b9T7OVflSJUvTUIQJF1EzSRA8YYMJsTG
-	S3iKpUTALWwDz1iQwJ1DKeuG0dekuhdqH7uStqOSRb2U6BQWw8T5tsjvhOAYilbdonGK2Yqnxh/
-	9rhEHPbg4bY5/1A5oVX0mbbGSNA89HXSZEceETFzkGdXfSwWpXxBlAvv2wJVf/O3r9IcN+TayX2
-	P5RRi3EDVsliqpmyQ==
-X-Received: by 2002:a05:6871:64a:b0:465:fdf:bd44 with SMTP id 586e51a60fabf-486e574f446mr8866000fac.14.1789989434138;
-        Mon, 21 Sep 2026 04:17:14 -0700 (PDT)
-Received: from [192.168.254.51] ([66.97.168.37])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-48820f30ce7sm7756232fac.3.2026.09.21.04.17.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 04:17:13 -0700 (PDT)
-From: Benjamin Coddington <ben.coddington@hammerspace.com>
-X-Google-Original-From: Benjamin Coddington <bcodding@hammerspace.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Benjamin Coddington <ben.coddington@hammerspace.com>,
- Chuck Lever <cel@kernel.org>, Trond Myklebust <trondmy@kernel.org>,
- Anna Schumaker <anna@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Christian Brauner <brauner@kernel.org>,
- David Howells <dhowells@redhat.com>, Sagi Grimberg <sagi@grimberg.me>,
- linux-nfs@vger.kernel.org, keyrings@vger.kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC 0/5] NFS: isolate mTLS client credentials by network
- namespace
-Date: Mon, 21 Sep 2026 07:17:10 -0400
-X-Mailer: MailMate (2.0r6272)
-Message-ID: <FF0D8D15-2520-4B42-AED4-4FAB4D461D70@hammerspace.com>
-In-Reply-To: <5a7830fd-7823-476b-84aa-3b01ca81ccdf@suse.de>
-References: <20260918-nfs-mtls-identity-v1-0-197e568d78a7@kernel.org>
- <2FBF57B6-FBB6-498F-A1F4-695D52EB89E9@hammerspace.com>
- <5a7830fd-7823-476b-84aa-3b01ca81ccdf@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T2crP8ZV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAB451F00893;
+	Wed, 23 Sep 2026 14:11:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790172663;
+	bh=Li+z3luhpebsISbklx2gY0FprM1+elRGcyqmF+pdx5I=;
+	h=Date:From:To:Cc:Subject;
+	b=T2crP8ZVLxlVlBBvbtRRMX2XsP5W4fP+N9zMWtOVvkNGs4iqfIwQh7NgIZA34l3Ut
+	 NvkO0T0ecbx8oNrmxKNUwGzme64iC4ha79bugyCCYi7UcqN1nq6ALrU1XvrQ9wO5fk
+	 dTIj1FAfw7rKtL31xGbth+k/VK6cWnkxv3kWB4p2CfxR8vYzOHlzLZivWUJBZpk2Ef
+	 Ewi2cWtOrguPNPVnqOJSJcifFoPk6fufpmE7ZmqAUZv9EDw/tro2T9Cu8rHiYi+xa+
+	 h5hRwm4362OXJ8/AdkjR4KlHlw1X7amR8TWcX0g0FMMkci2dMq1y6DtGLHZ/ptGe1N
+	 zWRL62LuGodeg==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id AAACFF40066;
+	Wed, 23 Sep 2026 10:11:02 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Wed, 23 Sep 2026 10:11:02 -0400
+X-ME-Sender: <xms:9t2zaqIbad-KuGLOuCGMOIGMaBzxLO5mXpwrx_y9tdflJWgz2i04hA>
+    <xme:9t2zas8je19ebbvDyxQgtbljdcVOGKQdJpUBBdnOiOZBALNFyQUvSrj9QI56LgRsY
+    OGJwhwB3or6CqZ7ogMxQMm1KES_IgwMzuv-R6JS3AXP3PDuT8SzerbS>
+X-ME-Proxy-Cause: dmFkZTGAuDRVOdY94hnFTsU7RLRxBH44odXl49kKuep+65Fnns6Y3OBUZE7qZWwcEFPuJ+
+    XnRj04ITJxU5G7H/kaIA7/5CUlaxCVMO92H8XNPLlaqeLOSTTJCpwFNZXMsQxGvaQRUmp/
+    4nE8huqUNxo571v5hNoD0eNiIdsPa55bI23WxcurUHe8XjjQHyxMIKXLhzsh/RX6BJEJRf
+    AxG5PpuB6xU8hqHZDK+5PLRfQrzXhDcbcerwThVGvpm48fccw3RMfMawBZKLibp4COUGYA
+    E6GK4sWgIdO+nBFCi23R2a/oVBLR7JhGVNdQhHf/zOGmFcmBz1PtW1QSkP/7xvBPoBS1Gv
+    9KlBIOImn2ietZnVI1YFtWFYcok7sS758kO4+eBYTTImS+aKQH4qYi75StTlfXN+jBT7Uq
+    g/GHMztt4lBG/u2nhY0PBDSUmkef6Oq84auUzj+tVK58IyMFdhgZ5Nwoo4kOKHen85HsVt
+    HllwXsDgakGMIpD4ou4u4KeZuEwO4SXF4SioXaPU13tyBp9AxGWnt3FY7LY4wt4Qgg0Im7
+    fDOyTxPdIeMhhqZCwhLB5r95A8Oj18X6+G420AbMkx2cpytj9AYMlzvcyzZFsP/LQ9UGsC
+    k1l+aJ21v6UOKX1yMEG/Nv/b10pCvG1R0UUInYjDBGDcflybOKvyaXL6Kr6w
+X-ME-Proxy: <xmx:9t2zaiv2R-gjNtTqpGMavWRxGbFUgM8_Xpgfht2rn1haXo6Awz60iQ>
+    <xmx:9t2zaucyoSqa37_6k1FW6JKR2BA5zMInBNFB3LAoN9t2FAjATD9TNw>
+    <xmx:9t2zaixEPKfbt7tNY8SNUalIR7q8-E1mJIKF5noB_UR8boORxpoBjw>
+    <xmx:9t2zasGcmDMwfNJC4Er49t93ETOByZ4valEgNQ1Jmdq8pgoVs1vmHg>
+    <xmx:9t2zauxZ_aE8tFVSFab9nNnX-pNQxIFY_tIAHgqlBzFGax6b9iQZ8S5F>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 9169A780070; Wed, 23 Sep 2026 10:11:02 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Date: Wed, 23 Sep 2026 10:10:32 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: kernel-tls-handshake@lists.linux.dev
+Cc: linux-nfs@vger.kernel.org, linux-nvme@lists.infradead.org
+Message-Id: <56c0423c-bba9-460a-871f-c22fc2d5af23@app.fastmail.com>
+Subject: [ANNOUNCE] ktls-utils 1.5.0
 Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On 21 Sep 2026, at 4:45, Hannes Reinecke wrote:
+[ Although the email displayed in Thunderbird as a plaintext, it
+  was sent in HTML format from chuck.lever@oracle.com. Resending
+  as 100% plaintext with my apologies. ]
 
-> On 9/18/26 7:21 PM, Benjamin Coddington wrote:
->> On 18 Sep 2026, at 10:05, Chuck Lever wrote:
->>
->>> An xprtsec=mtls mount names its client certificate and private key
->>> by keyring serial, and tlshd reads those keys with its own
->>> credentials. Each key therefore has to grant user read permission,
->>> and any tlshd on the host that learns a serial can read it. Nothing
->>> separates one network namespace's credentials from another's.
->>>
->>> This series makes the network namespace the isolation domain. The
->>> RFC thread asked whether the user or mount namespace is the better
->>> binding. tlshd services the handshake socket of one network
->>> namespace, so that is the namespace it already lives in.
->>>
->>>    https://lore.kernel.org/linux-nfs/20260602154740.49861-1-cel@kernel.org/
->>>
->>> The keyring is held in struct nfs_net rather than found by name,
->>> because /proc/keys is not namespace scoped. Its serial travels with
->>> each handshake instead (patches 3-4), and tlshd's possession of that
->>> keyring is what lets a provisioned key grant no user read permission
->>> at all. Both ends of the link exist today, in tls_handshake_accept()
->>> and in tlshd. The handshake genetlink ABI and the cert_serial= and
->>> privkey_serial= mount options do not change.
->>>
->>> Still open is how userspace names the kernel-held keyring. Patch 5
->>> prototypes a request_key type handled in the kernel and tagged
->>> KEY_TYPE_NET_DOMAIN. A keyctl modeled on KEYCTL_GET_PERSISTENT, or a
->>> read-only attribute on the netns-tagged nfs_client sysfs kobject,
->>> would do the same job if the keyrings maintainers prefer one. Keys
->>> that userspace adds are quota-charged by user namespace while the
->>> keyring lives in nfs_net. Confirmation that this is sane when the
->>> two boundaries differ would be welcome.
->>>
->>> nfstlskey, the provisioning tool that consumes the key type, is
->>> merged in https://github.com/oracle/ktls-utils/ .
->>>
->>> Tested on one Fedora VM acting as both NFS client and NFSD, with
->>> tlshd from ktls-utils 1.4.0: NFSv4.2 mounts with xprtsec=tls, with
->>> xprtsec=mtls using the identity in tlshd.conf, and with xprtsec=mtls
->>> using serials that nfstlskey provisioned.
->>
->> I think this is the old upcall/namespace problem that's never been generally
->> solved (as far as I know).  Here's a shameless plug to potentially revive
->> the original "key agent" concept which solves this in a general way.
->>
->> The idea is - user space processes (tlshd) register themselves as key-agents
->> that can satisfy request-key.  A key agent represents itself as a key-type,
->> and the appropriate key agent is consulted for request-key if the calling
->> process has that agent's key in its keyrings.
->>
->> Otherwise, this solution looks good - but without a general solution to this
->> problem, other folks building on keyrings will keep trying to solve this
->> problem.
->>
-> Not sure. Basic problem with the 'upcall' mechanism is that it needs to
-> execute a userspace program by the time of the upcall.
-> And that (trivially) requires
-> a) a usable userspace to be present
-> and
-> b) the correct program to be be available
+This email announces the official release of ktls-utils 1.5.0.
 
-Yes..
+ktls-utils 1.5.0 adds DANE authentication of server certificates: tlshd can now
+validate a server's certificate against TLSA records published in DNS, with the
+new behavior governed by DANE configuration options documented in the tlshd.conf
+man page. A new nfstlskey tool manages the NFS client's mTLS identities, and
+tlshd now links the NFS keyrings per handshake rather than once at startup, so
+identities added after the daemon starts are picked up. Private keys may now be
+named by GnuTLS URL, which enables keys held in PKCS#11 tokens and TPMs. The
+post-quantum ECDHE + ML-KEM hybrid key exchange groups are enabled. Kernel
+capability detection now reads the handshake netlink policy, so new kernel
+features are recognized without a tlshd update.
 
-The key agent worked similarly to tlshd - it wasn't the old request-key
-upcall mech.  In fact, tlshd and its netlink interface could easily be
-adapted into this key-agent-as-a-key.
 
-Its a trade-off that allows you to route the upcall via how keys are
-linked in the calling process, rather than by some defined-in-code domain
-like "same network namespace".
+Official source code repo:
 
-Ben
+https://github.com/oracle/ktls-utils/
+
+
+Release tag:
+
+ktls-utils-1.5.0
+
+
+Release artifacts:
+
+A source tarball created automatically by GitHub:
+
+https://github.com/oracle/ktls-utils/archive/refs/tags/ktls-utils-1.5.0.tar.gz
+
+A source tarball created with "make dist":
+
+https://github.com/oracle/ktls-utils/releases/download/ktls-utils-1.5.0/ktls-utils-1.5.0.tar.gz
+
+
+Issues and requests for enhancement:
+
+https://github.com/oracle/ktls-utils/issues
+
+-- 
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)

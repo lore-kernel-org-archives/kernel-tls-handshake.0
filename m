@@ -1,338 +1,321 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6303242A4;
-	Wed,  7 Oct 2026 01:05:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791335132; cv=none; b=ArpQ2e9deSg9C5lM4uEY9+WdF/ZHnY+oeJTBU/aSVv85i+nba1DVMcoPus/2eL9MKXfyQiEpBpi3IPVqWP+vkqU2+imnax4rr0KK62wAOYUorEIp0kd/VkCk1FoNxz3gu/ndcovu1WwxcmevZBHwLpqK1mTrQvVmpuNXkiD+4zk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791335132; c=relaxed/simple;
-	bh=ia7j+NEGppCnVYgcSFDOz9m3neGQcMCEGrcjuGY/wh0=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=NIQfnieKx/A1Xkv/Ot/OYSKrg3hE9DZ4r+pqQlxm7S8J0EYI+d3VSviZIW5ckEMCOZs81DNAjssMnyb4aksez3Z3D2gBwY3OH30Ntb8e7pcN5w9YXYnAp8jg5x1U/I+xdWPfR3JBGsJ0iG0JTYCgpaO6beaAvPXx2iSgLaSHv/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SEdchZNh; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D40E4DE73C
+	for <kernel-tls-handshake@lists.linux.dev>; Wed,  7 Oct 2026 18:42:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791398536; cv=pass; b=N/T+TKG/1/iANL2nlCWhPzcl0AUhZQ4zqDpsjdBuhiaY4go8nv5ebkwRj85DcgDu8SwFeJykmn7/LNats6yXrPvMqhOtsYJVBwIjEG9dgI1tWt8Yd0Q2XztCnf/HGNX3OfZ/3LL7oMAOVgqbUNjtzNBjN8TAv51s8XTKHQsnvKE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791398536; c=relaxed/simple;
+	bh=xoNPOXAYCmo9NEF9nKgtfLLIDyxsAiCZOxjU7IUScDo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Or/fc21+fX+UWivitbvsI5VYT0ZRehxG3cG3Ve8kXZvNMDBP6/DvSfEbfxRjHqSMzpsQbWm7lBlhMwhSE9s47auA5vqx/lLZEu2TInR1YUrsflBwgXyterhU38om1GSwXN0gBGQau8E9NRrpDDTxm080jl6jcy/1t6EHuvAAWsw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NYdUZMHN; arc=pass smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SEdchZNh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B0571F0089C;
-	Wed,  7 Oct 2026 01:05:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791335131;
-	bh=5KJkGIiJUXqsGCMXxzcT6xybHSwsTz7Llo9tC01xbQg=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=SEdchZNh3Yg+bID1bcUlQvLZ4hDFy2wF5vF4oq+2Na5FY/JHFKTVAjtl0h9DY34XM
-	 g3m7ekLwZUpm6BTsmWH4/RW2h8NKSW7MfPYWOj+HmeghEkU4x2Tki5u3CsiIAH1VK5
-	 8hs+GJvGCN6cxgiaFfC4qY2PifB0ljrK50qL3f2k5toazKFLzGjdNytj/nWGCtmnZN
-	 kFVxociwA6lod4AdfG8ufELUhFVFMdpmxI9NxljL2fK0+afeqws8tqpEG6lwjtkUbm
-	 lFQBhYNAYbRnuQvmBSoMSB0LAmRIVLnZCM5k7aFmcTI7HxwYwpIIZZf5eZLxxRlRdz
-	 0BAwaWq55+UyA==
-Subject: Re: [PATCH net-next v16 15/15] quic: add packet parser base
-From: netdev-bot+sashiko@kernel.org
-To: lucien.xin@gmail.com
-Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
- kuba@kernel.org, edumazet@google.com, pabeni@redhat.com, horms@kernel.org,
- metze@samba.org, mbuhl@openbsd.org, tfanelli@redhat.com, hepengtao@xiaomi.com,
- dreibh@simula.no, linux-cifs@vger.kernel.org, pc@manguebit.org,
- linkinjeon@kernel.org, tom@talpey.com, kernel-tls-handshake@lists.linux.dev,
- chuck.lever@oracle.com, jlayton@kernel.org, steved@redhat.com, hare@suse.de,
- aahringo@redhat.com, dhowells@redhat.com, matttbe@kernel.org,
- mail@johnericson.me, xiyou.wangcong@gmail.com, alibuda@linux.alibaba.com,
- jbaron@akamai.com, illiliti@protonmail.com, sd@queasysnail.net,
- marcelo.leitner@gmail.com, daniel@haxx.se, andrew.gospodarek@broadcom.com,
- mef@scarletmail.rutgers.edu, paul@jakma.org, kuniyu@google.com
-Date: Wed, 07 Oct 2026 01:05:28 +0000
-Message-ID: <179133512872.434549.11248338098140405125@kernel.org>
-In-Reply-To: =?utf-8?q?=3C333607babf249e24fe90625d7abb7625b97c0b50=2E1791227?=
- =?utf-8?q?050=2Egit=2Elucien=2Exin=40gmail=2Ecom=3E?=
-References: =?utf-8?q?=3C333607babf249e24fe90625d7abb7625b97c0b50=2E17912270?=
- =?utf-8?q?50=2Egit=2Elucien=2Exin=40gmail=2Ecom=3E?=
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NYdUZMHN"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-86aecf49833so1418333b3a.0
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 07 Oct 2026 11:42:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791398531; cv=none;
+        d=google.com; s=arc-20260327;
+        b=KnR/FSCQgCxHoYUlZOmo8hhVKYfhvdbLmqT5W0jywTqOxf4KHNupIjhzEGyfN+QUlr
+         lkkNODnRS/1NsPH2jDvn8EcsfgYsqI/02EP5PqIwHcSOl1yFV050cG/90dKUcnn5Bq4C
+         0U3o1f9d7MmLaAAray1QjxktveiWu7MZy0sRa2Zrmn8fy1g8oYTHFYD+PtaoC8nCYtyU
+         F1wxR84Z0CzPx9kyFBZtf7PkrGaPqlfBAraiLKfjRMP7B1g6+z+pLGGZV8tpZLRIl6a6
+         bfr+mr+Hb7rdXPYrB8y4nPdOt8dZb5f3gDQT8vTfcjCyQn/ymneXEnyV35kVsVf5/lOp
+         twNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=eVY/k/l22EduN0afxcG6neeIyEhDBFiNHHXvyZBQ71g=;
+        fh=drI/npINdSGGXNtNgxUQdkYqXjd9k9UgZaBaRaVVdSY=;
+        b=jtMrkhAJCaa939GLkl58JnnPeIGNP3mjCMLaJKcx0frSz/hME7cfmBMUdfrGSjX24U
+         wiJ/3uYHEukCJAp4922ANOctIVjSWUJbX8ezBQ/TBPmx5pIVREAO5W/q3nUroJJ2LSSc
+         318DzDlC00DAzQPV8CKDr9PNixdhItoQnp9XoetztEVklsrABynDJ4Bk8TmFCrSuW0Yt
+         vnYrTEKpNjuh1zOkdgCdBM1FN4UxvSa/TUdN3G17Rjbk6Vq2eAoHct1BozGPYynrIIZP
+         QGXRX15ZXTJTz2gTElDAC3k7F51EFUr+JSydhsCAcoa5voL/ykijJq/ydoP3NcL4RBFZ
+         APRA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791398531; x=1792003331; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=eVY/k/l22EduN0afxcG6neeIyEhDBFiNHHXvyZBQ71g=;
+        b=NYdUZMHN7sAClkCmYUa5VvnOXN7PmQ7eWqBSmP5WWkgj4/YwJMXkoJnGo0ISd/QxFm
+         HR0bD429Y98DzNgFh8dRFlQb3k4hnrTJFUZa8rG/TdieDNunIZRVnm6EIq/IiJ2pOnjt
+         hNFw51Jcz5/f7st3i3N0YQafvIecqzxj1D2z92OMzkGZXGXuoXYbStvnYm+VHSnPF4eA
+         Fh5wAG/GwRksaQXw5MOxpf7ycwhxNPEj4TtO+YSbesLZWh4r7GFwSDWB+3+2dK7dbrRn
+         ZUqKL+guQ+Zyc1xdc9vwbnD3Gznj0Rfqdz5hocAzJI0IOE7MbYKarabLav6+t5U1HvH3
+         KZMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791398531; x=1792003331;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eVY/k/l22EduN0afxcG6neeIyEhDBFiNHHXvyZBQ71g=;
+        b=FRXygpZa4dXTaITXbKver9ThC9VcQwEJTJk3eckS4fB2XS/suEuklsAh2NcizFYbv8
+         Q6SqTkAHnW9HxiPotcME2wAEs/O0oLN9qTtD7VlP28bsJ/MkBxPH4THMcHZzL4JGWU+E
+         cv06muE+9utPehi9FHOPPSDByjq1utyd7DHxXlLbqZZ7LLrW268RhW8DGCvfBERGa1Iy
+         BNh78Be8N4teOyTkx61Yjuf6/xuH+1CXX09MtBsUMDV1Nea4zCutLSCmkRoId7KHsPOp
+         M6eIaWRZaH08y4aCKkt7cGr+ecg2kCZSK7cqkJ3on79oWlJoDJ2rGA5AbtoP+2mri+6h
+         EXfA==
+X-Forwarded-Encrypted: i=1; AKwUvBxylKouAgkAzc/dCZFZQq1d9sJwXgXSmlMeoG4Q07lBnWBh1+f6xBfbbakWI0Rm1CJQ3KF9K4wMGgY1c+whQBiGAbXqug==@lists.linux.dev
+X-Gm-Message-State: AFuF++kifcCIextbW8lXZUy9vl/J3qCJIsg9HSf29B1cqG6is2PvGaR5
+	mjNIIR56C6I4OmlW38bOk9hFPLx73aZO7eWif2nXqirG82f7gVmaK1+8Oq0M8x+rB6J8KyY3mHq
+	IH0dU0XsPxO/J5TLm9NAy9OmeFeLu1lo=
+X-Gm-Gg: AYBFou3DZGPlrTWCyMSPFf5mH/Ve71BVeGZMTTgQczcsXpgv8Pu+/w9Za5k2et4/iVe
+	h06VNY09iSHMYeQSPW2r0Yu8eyrrP+KQ6UygoRZCRAKP2x73aQyUmtRtufvDIZfjGvlQL1P1BPM
+	z3BFC4Z3DeOxBJgpbBp0tqrqMHCnDVRlxv3r37M3pEEpEOyNqiS+viIvr+3cIRU60fS9EarEf8u
+	Hg02+pEI2GeT4VDto5CqGURaNIEKjzjZAG3LZvUMOVC50ZyTtDT7SurNDQt1uI/9iuwgsz2vNJD
+	qstxc16gu/PoTcFuuMh/BUJ/I74MXNd5qBuBMZqNAza4nr4fTRxXwK7Gky2XRUwzjA/4jqASMSo
+	cCqmk/D/CxhDMZYLQYaaFFhmqCDmZZ4KAClbPeqMhnvk9O3/4zXMqcOf78Y/FmiGO+4JIoWjDwI
+	kzuuYH8kj6LJ8P
+X-Received: by 2002:a05:6a00:4c96:b0:883:7868:94d7 with SMTP id
+ d2e1a72fcca58-89309b14625mr28772b3a.10.1791398531420; Wed, 07 Oct 2026
+ 11:42:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Subscribe: <mailto:kernel-tls-handshake+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-
-Thank you for your contribution! Sashiko AI review found 7 potential
-issue(s) to consider.
-
-Critical: 0 · High: 0 · Medium: 3 · Low: 4
-
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
-
-- [Medium] The permanent commit message (the part above '---') describes
-  much less than the patch does, and some of it is wrong.
-- [Medium] When PLPMTUD is disabled (paths->plpmtud_interval == 0, the
-  default in this tree because nothing sets it),…
-- [Medium] quic_packet_listen_process() replies to, and creates state
-  for, long-header packets of any size.
-- [Low] The kernel-doc for quic_listen_sock_lookup() in net/quic/socket.c
-  says that when several listening sockets share the same address, port…
-- [Low] The patch adds definitions that nothing in this commit uses.
-- [Low] struct quic_packet in net/quic/packet.h documents `daddr` as
-  'Dest address from received packet' and `saddr` as 'Source address…
-- [Low] The header comment of quic_packet_deferred_work() (packet.c:776)
-  reads 'Work function to process packets in the backlog queue', but the…
-
---
-
-quic: add packet parser base
-
-This commit adds the QUIC receive path. quic_packet_rcv() finds the
-owning socket by connection ID, by address, or through the listener, then
-passes the packet to quic_packet_process(). The patch also adds
-listen-side Initial handling, request sockets, ALPN-based listener
-switching through a per-socket work item, and ICMP Packet Too Big
-handling through quic_packet_rcv_err() and quic_packet_rcv_err_pmtu().
-
-> This patch uses 'quic_packet' to handle packing of QUIC packets on the
-> receive (RX) path.
-
-[ ... ]
-
-> - quic_packet_get_alpn(): Parse the ALPN from a client Initial packet,
->   then locate the appropriate listener using the ALPN.
-
-[ ... ]
-
-> - quic_packet_rcv_err_pmtu(): Find the socket and update the PMTU via
->   quic_packet_mss_update().
-
-[Severity: Medium]
-Some parts of the commit message don't match the code.
-
-Should "packing" in the first sentence be "parsing"?
-
-quic_packet_get_alpn() installs the Initial keys, decrypts the packet and
-parses the ALPN list. It doesn't look up a listener. The lookup and the
-switch happen in quic_listen_sock_switch() in net/quic/socket.c.
-
-For ICMP errors, the socket lookup is done in quic_packet_rcv_err(), not
-in quic_packet_rcv_err_pmtu().
-
-The message also leaves out much of what the patch adds:
-
-  - quic_packet_listen_process(), with token verification and the
-    Stateless Reset, Version Negotiation, Retry and CONNECTION_REFUSED
-    triggers
-  - struct quic_request_sock and quic_request_sock_lookup(),
-    quic_request_sock_create() and quic_request_sock_backlog_tail(),
-    which charge sk_ack_backlog and receive memory
-  - the per-socket work_struct with deferred_list/backlog_list on
-    quic_wq, and flush_work() in quic_packet_free()
-  - quic_accept_sock_exists() and quic_listen_sock_switch()
-  - quic_backlog_rcv() now processing packets instead of dropping them
-  - the ALPN free moving from quic_destroy_sock() to quic_sock_destruct()
-
-Most of this is described only in the changelog below the --- line, and
-git am drops that part. Could the permanent commit message cover these
-pieces?
-
-> diff --git a/net/quic/packet.c b/net/quic/packet.c
-> index 56d2b8df292a0..673f1cd491438 100644
-> --- a/net/quic/packet.c
-> +++ b/net/quic/packet.c
-> @@ -14,6 +14,781 @@
->  
->  #define QUIC_HLEN		1
->  
-> +#define QUIC_LONG_HLEN(dcid, scid) \
-> +	(QUIC_HLEN + QUIC_VERSION_LEN + 1 + (dcid)->len + 1 + (scid)->len)
-
-[Severity: Low]
-This isn't a bug, but nothing in this patch uses QUIC_LONG_HLEN().
-
-Two of the new struct quic_packet members are in a similar state.
-
-backlog_list is described as "Packets waiting for crypto keys". It is
-only initialized in quic_packet_init() and purged in quic_packet_free(),
-and nothing enqueues to it yet.
-
-quic_packet_listen_process() reads validate_peer_address, but nothing
-ever sets it, so the token validation and Retry branch can't be reached:
-
-	if (packet->validate_peer_address) {
-
-The changelog says these are staged for the next patchset. Could they be
-added together with the code that uses them? Failing that, could the
-backlog_list comment describe what the field does today?
-
-[ ... ]
-
-> +/* Process PMTU reduction event on a QUIC socket. */
-> +void quic_packet_rcv_err_pmtu(struct sock *sk)
-> +{
-
-[ ... ]
-
-> +	info = clamp(paths->mtu_info, QUIC_PATH_MIN_PMTU, QUIC_PATH_MAX_PMTU);
-> +	/* If PLPMTUD is not enabled, update MSS using route and ICMP info. */
-> +	if (!paths->plpmtud_interval) {
-> +		if (quic_packet_route(sk))
-> +			return;
-> +
-> +		dst = __sk_dst_get(sk);
-> +		if (dst)
-> +			dst->ops->update_pmtu(dst, sk, NULL, info, true);
-> +		quic_packet_mss_update(sk, info - packet->hlen);
-
-[Severity: Medium]
-Can a Packet Too Big that reports a larger MTU than the current path MTU
-raise the MSS here?
-
-info is only clamped to [QUIC_PATH_MIN_PMTU, QUIC_PATH_MAX_PMTU], and
-quic_packet_mss_update() stores whatever it is given. The route layer
-ignores increases:
-
-net/ipv4/route.c:__ip_rt_update_pmtu() {
-    ...
-	old_mtu = ipv4_mtu(dst);
-	if (old_mtu < mtu)
-		return;
-    ...
-}
-
-__ip6_rt_update_pmtu() also returns early when mtu >= dst6_mtu(dst).
-
-Nothing in this tree sets plpmtud_interval, so this branch is the
-default. A delayed or spoofed ICMP that arrives through quic_udp_err()
--> quic_packet_rcv() -> quic_packet_rcv_err() -> quic_packet_rcv_err_pmtu()
-and claims 9000 on a 1500-byte path would set the MSS to 9000 - hlen.
-
-The route is left unchanged, so the cached dst stays valid. Later
-quic_packet_route() calls then get 1 back from quic_flow_route() and
-never recompute the MSS from dst_mtu().
-
-Would it be safer to re-read dst_mtu(dst) after update_pmtu(), or to only
-ever lower the MSS, as tcp_v4_mtu_reduced() does?
-
-[ ... ]
-
-> +static int quic_packet_listen_process(struct sock *sk, struct sk_buff *skb,
-> +				      gfp_t gfp)
-> +{
-
-[ ... ]
-
-> +	if (!quic_packet_compatible_versions(version)) {
-> +		/* rfc9000#section-6.1:
-> +		 *
-> +		 * If the version selected by the client is not acceptable to
-> +		 * the server, the server responds with a Version Negotiation
-> +		 * packet. This includes a list of versions that the server
-> +		 * will accept.
-> +		 */
-> +		err = quic_packet_version_create_and_xmit(sk, gfp);
-> +		consume_skb(skb);
-> +		return err;
-> +	}
-
-[Severity: Medium]
-Is a minimum datagram size check missing before this reply?
-
-RFC 9000 sections 5.2.2 and 6.1 say a server MUST drop smaller packets
-that specify an unsupported version. Section 14.1 says a server MUST
-discard an Initial packet in a UDP datagram whose payload is smaller than
-1200 bytes.
-
-On the receive path nothing compares skb->len with QUIC_MIN_UDP_PAYLOAD.
-quic_packet_rcv() and quic_packet_get_sock() only require
-skb->len >= QUIC_HLEN.
-
-Packets of any size can therefore reach the Version Negotiation reply
-above, the Retry and refuse-close paths, and this call further down:
-
-	req = quic_request_sock_create(sk, &odcid, retry, gfp);
-
-When ALPN demux is disabled, the Length field isn't parsed at all. A
-16-byte spoofed long-header Initial (8-byte DCID, empty SCID, empty
-token) would allocate a quic_request_sock and call sk_acceptq_added().
-
-Could a burst of these fill the accept queue, so that legitimate clients
-hit sk_acceptq_is_full() and get CONNECTION_REFUSED?
-
-Once the Version Negotiation and Retry builders are implemented, would
-they also reply to spoofed sources for these small datagrams?
-
-[ ... ]
-
-> +/* Work function to process packets in the backlog queue. */
-> +static void quic_packet_deferred_work(struct work_struct *work)
-> +{
-
-[ ... ]
-
-> +	head = &quic_packet(sk)->deferred_list;
-
-[Severity: Low]
-This isn't a bug, but the comment says "backlog queue" while the function
-drains deferred_list. struct quic_packet now has a separate backlog_list,
-so should the comment say deferred list instead?
-
-[ ... ]
-
-> diff --git a/net/quic/packet.h b/net/quic/packet.h
-> index cf0b97112d9b1..4a7bcf959e997 100644
-> --- a/net/quic/packet.h
-> +++ b/net/quic/packet.h
-> @@ -14,6 +14,8 @@ struct quic_packet {
->  	union quic_addr daddr;    /* Dest address from received packet */
->  	union quic_addr saddr;    /* Source address from received packet */
-
-[Severity: Low]
-These comments seem reversed compared to how this patch fills the fields.
-
-quic_get_msg_addrs() takes (skb, da, sa), and quic_packet_listen_process()
-calls it like this:
-
-	quic_get_msg_addrs(skb, &packet->saddr, &packet->daddr);
-
-The inline comment there says "Read Destination address (packet->saddr)
-and Source address (packet->daddr)".
-
-So packet->saddr holds the received packet's destination (local) address
-and packet->daddr holds its source (peer) address. The users,
-quic_crypto_verify_token(), quic_accept_sock_exists() and
-quic_listen_sock_switch(), all follow that convention.
-
-Could the struct comments be changed to match?
-
-[ ... ]
-
-> diff --git a/net/quic/socket.c b/net/quic/socket.c
-> index 0173416d0368a..be8dc30f8208a 100644
-> --- a/net/quic/socket.c
-> +++ b/net/quic/socket.c
-
-[ ... ]
-
-> +/* Find the listening QUIC socket for an incoming packet.
-> + *
-> + * This function searches the QUIC socket table for a listening socket that
-> + * matches the dest address and port, and the ALPN(s) if presented in the
-> + * ClientHello.  If multiple listening sockets are bound to the same address,
-> + * port, and ALPN(s) (e.g., via SO_REUSEPORT), this function selects a socket
-> + * from the reuseport group.
-
-[Severity: Low]
-This isn't a bug, but the function body doesn't select from a reuseport
-group.
-
-It walks the hash chain with sk_nulls_for_each_rcu() and returns the
-first specific-address match, or an ANY-address candidate. It never calls
-reuseport_select_sock() or looks at sk_reuseport_cb.
-
-The v16 changelog says reuseport_select_sock() moved to the next
-patchset. Should this part of the comment move with it?
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1791227050.git.lucien.xin%40gmail.com
+References: <fff91f2c9ae1bdbbf76aa46c618b440c896d131f.1791227050.git.lucien.xin@gmail.com>
+ <179133510313.434549.8082953410374436828@kernel.org>
+In-Reply-To: <179133510313.434549.8082953410374436828@kernel.org>
+From: Xin Long <lucien.xin@gmail.com>
+Date: Wed, 7 Oct 2026 14:41:59 -0400
+X-Gm-Features: AclHuK_-WpbiNIs5rFoC0CPwAOXjrqmHL68V9DWecj4Pwatas5adXnnPR15tPLQ
+Message-ID: <CADvbK_cPbqGt1MzrSUSOt6qqJghwBLz3obg+p-XC5wg+P3MaSg@mail.gmail.com>
+Subject: Re: [PATCH net-next v16 04/15] quic: provide family ops for address
+ and protocol
+To: netdev-bot+sashiko@kernel.org
+Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net, 
+	kuba@kernel.org, edumazet@google.com, pabeni@redhat.com, horms@kernel.org, 
+	metze@samba.org, mbuhl@openbsd.org, tfanelli@redhat.com, hepengtao@xiaomi.com, 
+	dreibh@simula.no, linux-cifs@vger.kernel.org, pc@manguebit.org, 
+	linkinjeon@kernel.org, tom@talpey.com, kernel-tls-handshake@lists.linux.dev, 
+	chuck.lever@oracle.com, jlayton@kernel.org, steved@redhat.com, hare@suse.de, 
+	aahringo@redhat.com, dhowells@redhat.com, matttbe@kernel.org, 
+	mail@johnericson.me, xiyou.wangcong@gmail.com, alibuda@linux.alibaba.com, 
+	jbaron@akamai.com, illiliti@protonmail.com, sd@queasysnail.net, 
+	marcelo.leitner@gmail.com, daniel@haxx.se, andrew.gospodarek@broadcom.com, 
+	mef@scarletmail.rutgers.edu, paul@jakma.org, kuniyu@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Oct 6, 2026 at 9:05=E2=80=AFPM <netdev-bot+sashiko@kernel.org> wrot=
+e:
+>
+> Thank you for your contribution! Sashiko AI review found 4 potential
+> issue(s) to consider.
+>
+> Critical: 0 =C2=B7 High: 1 =C2=B7 Medium: 1 =C2=B7 Low: 2
+>
+> If you believe none of the issues are legitimate, please reply to each
+> issue of Medium severity or higher and explain why the AI is wrong.
+> If any of them are legitimate and you plan to respin, please let patchwor=
+k
+> know by including "pw-bot: cr" as a separate line at the end of your repl=
+y
+> (one such reply per series is enough).
+>
+> - [High] An unprivileged sticky IPv6 routing header makes the route
+>   lookup and the transmitted packet disagree, so packets go to the real=
+=E2=80=A6
+> - [Medium] IP_TTL and IPV6_UNICAST_HOPS are accepted but ignored on
+>   transmit.
+> - [Low] The commit message leaves out user-visible changes and describes
+>   the code inaccurately.
+> - [Low] IP_OPTIONS is accepted and stored but never sent.
+>
+> --
+>
+> quic: provide family ops for address and protocol
+>
+> This commit adds net/quic/family.{c,h} with IPv4/IPv6 helpers for route
+> lookup, UDP tunnel transmit, address parsing and comparison, and UDP port
+> config setup. It also connects quic_inet_getname() and the setsockopt()
+> and getsockopt() levels other than SOL_QUIC to the inet and inet6 code.
+>
+> > Introduce QUIC address and protocol family operations to handle IPv4/IP=
+v6
+> > specifics consistently, similar to SCTP. The new quic_family.{c,h} prov=
+ide
+> > helpers for routing, skb transmit handling, address parsing and compari=
+son
+> > and UDP socket config initializing etc.
+>
+> [Severity: Low]
+> This isn't a bug, but the patch creates net/quic/family.{c,h}, not
+> quic_family.{c,h}.
+>
+> The wording "family operations ... similar to SCTP" looks left over from
+> before v3. That version replaced the ops abstraction with if statements.
+>
+> Could the message also mention the changes userspace can see?
+> quic_inet_getname() used to return -EOPNOTSUPP. It now returns real
+> addresses through inet_getname() or inet6_getname().
+>
+> quic_setsockopt() and quic_getsockopt() now send every level other than
+> SOL_QUIC to ip_setsockopt()/ipv6_setsockopt() and
+> ip_getsockopt()/ipv6_getsockopt(). All SOL_IP and SOL_IPV6 options can
+> now be set on QUIC sockets. An unknown level also returns -ENOPROTOOPT
+> now, where it used to return -EOPNOTSUPP.
+>
+> > diff --git a/net/quic/family.c b/net/quic/family.c
+> > new file mode 100644
+> > index 0000000000000..f5d859b337b10
+> > --- /dev/null
+> > +++ b/net/quic/family.c
+> > @@ -0,0 +1,449 @@
+>
+> [ ... ]
+>
+> > +static int quic_v6_flow_route(struct sock *sk, union quic_addr *da,
+> > +                           union quic_addr *sa, struct flowi *fl)
+> > +{
+> > +     struct ipv6_pinfo *np =3D inet6_sk(sk);
+>
+> [ ... ]
+>
+> > +     security_sk_classify_flow(sk, flowi6_to_flowi_common(fl6));
+> > +
+> > +     rcu_read_lock();
+> > +     final_p =3D fl6_update_dst(fl6, rcu_dereference(np->opt), &final)=
+;
+> > +     rcu_read_unlock();
+> > +
+> > +     dst =3D ip6_dst_lookup_flow(sock_net(sk), sk, fl6, final_p);
+> > +     if (IS_ERR(dst))
+> > +             return PTR_ERR(dst);
+>
+> [Severity: High]
+> Can a sticky routing header make the route lookup disagree with the packe=
+t
+> that is actually sent?
+>
+> quic_common_setsockopt() now passes SOL_IPV6 to ipv6_setsockopt(). That
+> lets an unprivileged user set IPV6_RTHDR, because ipv6_set_opt_hdr() only
+> requires CAP_NET_RAW for the other option headers:
+>
+> net/ipv6/ipv6_sockglue.c:ipv6_set_opt_hdr() {
+>     ...
+>         /* hop-by-hop / destination options are privileged option */
+>         if (optname !=3D IPV6_RTHDR && !sockopt_ns_capable(net->user_ns, =
+CAP_NET_RAW))
+>                 return -EPERM;
+>     ...
+> }
+>
+> Suppose np->opt holds a type-4 SRH or a type-2 routing header. Then
+> fl6_update_dst() replaces fl6->daddr with a segment Y that the user picks=
+.
+> ip6_dst_lookup_flow() looks up a route for Y and then puts the real
+> destination X back into fl6->daddr. ip6_dst_store() caches that dst.
+>
+> quic_v6_lower_xmit() then calls udp_tunnel6_xmit_skb(). That helper build=
+s
+> a plain IPv6 header addressed to X and never adds the np->opt extension
+> headers:
+>
+> net/ipv6/ip6_udp_tunnel.c:udp_tunnel6_xmit_skb() {
+>     ...
+>         ip6h->nexthdr     =3D IPPROTO_UDP;
+>         ip6h->hop_limit   =3D ttl;
+>         ip6h->daddr       =3D *daddr;
+>         ip6h->saddr       =3D *saddr;
+>
+>         ip6tunnel_xmit(sk, skb, dev, ip6cb_flags);
+> }
+>
+> Doesn't this send packets to X using the device, gateway and MTU of the
+> route for Y? Neighbour discovery for X would then run on Y's link. Local
+> route policy for X, such as prohibit, blackhole, unreachable or policy
+> routes, would also be bypassed.
+>
+> UDP and SCTP avoid this because they pass opt to
+> ip6_append_data()/ip6_xmit(), which put the routing header on the wire.
+>
+> The transmit path is only connected in the next patchset. This code is
+> the same at the end of this series.
+>
+> Should fl6_update_dst() be dropped here, since the tunnel transmit cannot
+> send extension headers? Alternatively, should QUIC sockets reject sticky
+> routing headers?
+True.
+
+udp_tunnel6_xmit_skb() does not support ipv6 opts yet.
+
+will drop fl6_update_dst().
+
+Thanks.
+
+>
+> [ ... ]
+>
+> > +static void quic_v4_lower_xmit(struct sock *sk, struct sk_buff *skb,
+> > +                            struct flowi *fl)
+> > +{
+>
+> [ ... ]
+>
+> > +     if (cb->ecn)
+> > +             tos =3D (tos & ~INET_ECN_MASK) | cb->ecn;
+> > +     ttl =3D (u8)ip4_dst_hoplimit(dst);
+>
+> [Severity: Medium]
+> Are IP_TTL and IPV6_UNICAST_HOPS silently ignored here?
+>
+> Through quic_common_setsockopt(), setsockopt(SOL_IP, IP_TTL) stores its
+> value in inet->uc_ttl. setsockopt(SOL_IPV6, IPV6_UNICAST_HOPS) stores its
+> value in np->hop_limit. Both calls succeed, and getsockopt(IP_TTL) return=
+s
+> the stored value.
+>
+> However, this function always takes the TTL from the route.
+> quic_v6_lower_xmit() does the same:
+>
+>         ttl =3D (u8)ip6_dst_hoplimit(dst);
+>
+> UDP and SCTP apply these options through ip_select_ttl() and
+> ip6_sk_dst_hoplimit(). These functions already apply IP_TOS and
+> IPV6_TCLASS through inet_sk(sk)->tos and inet6_sk(sk)->tclass.
+>
+> Should the hop limit use the socket setting as well?
+>
+> > +     udp_tunnel_xmit_skb((struct rtable *)dst, sk, skb, fl4->saddr,
+> > +                         fl4->daddr, tos, ttl, df, fl4->fl4_sport,
+> > +                         fl4->fl4_dport, false, false, 0);
+> > +}
+>
+> [Severity: Low]
+> What happens to IP_OPTIONS on a PF_INET QUIC socket?
+>
+> ip_setsockopt(IP_OPTIONS) parses the options and stores them in
+> inet->inet_opt, and getsockopt(IP_OPTIONS) returns them.
+>
+> udp_tunnel_xmit_skb() ends up in iptunnel_xmit(). That function never
+> reads inet->inet_opt and builds a header with no options:
+>
+> net/ipv4/ip_tunnel_core.c:iptunnel_xmit() {
+>     ...
+>         memset(IPCB(skb), 0, sizeof(*IPCB(skb)));
+>     ...
+>         iph->ihl        =3D       sizeof(struct iphdr) >> 2;
+>     ...
+> }
+>
+> Options such as Record Route or Timestamp are reported as set, but they
+> never appear in any packet. quic_encap_len() also reserves no room for
+> them.
+>
+> Should QUIC sockets reject IP_OPTIONS?
+>
+> --
+> Sashiko AI review =C2=B7 https://netdev-ai.bots.linux.dev/sashiko/#/patch=
+set/cover.1791227050.git.lucien.xin%40gmail.com

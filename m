@@ -1,66 +1,66 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601EC4E13F7
-	for <kernel-tls-handshake@lists.linux.dev>; Fri, 16 Oct 2026 15:29:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A8B4EBAEE
+	for <kernel-tls-handshake@lists.linux.dev>; Fri, 16 Oct 2026 15:29:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792164554; cv=none; b=IqgXdZAxA6M55eZMORoBgirUf+OFUFQOYzwU5Fye+GD/6STpMkMd790hw8/aUDt4wIlL1dQCQME2KixmQ+OIjC5XdBGd9gT8sbQuB3s1dVV7/NOOK1276N4R9cSCHmlB9xJ3EJDe8zwwHxv6tzbtsPaBVmlx+rVJq70nOFuexic=
+	t=1792164560; cv=none; b=CTqBJsEHGZ26hV90asM6OQgkM+mEVWpQOatrzITFmBmhY+jmRlh8oTOSLHEbusyhUAMNWiodPkwavl5kD0sJ0cHMMiWRaGMyPVt9M8gREAzT8L5Ho85jrqd/s1Ra4zliuSwcy7yWKsb7ddppHDnpz+Ytd8lLOo30XMBgURugRUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792164554; c=relaxed/simple;
-	bh=ZjDnCaFSKcca/4hRtVh62d1tySwiSmL//LrHcgP5eqw=;
+	s=arc-20240116; t=1792164560; c=relaxed/simple;
+	bh=MQ0QFWZ6sn1HC9rnOW5WUHWexzCMRv5iRY9Torg3bQM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZoW5tEkfYZyok7YRXcdnhpcoh8qeaMeRN3ahx62VWkRNBCIUFVdN/TQ+vbpBlyzUKKERdremTvGxcAH1qxEQL21HXEzTi2S1g0uN/cPzhEn3N0KfSoyYRSPsPqDPnUV95N5p+lJAMPHNOgyGEfhNkUGVQBjphk2YvomqMKWvaXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FL91FTZr; arc=none smtp.client-ip=209.85.222.171
+	 MIME-Version:Content-Type; b=sKOMFq/0RH7B1nCF42O3OupQtbBEi9YyKfbm8boMXcqQIwuqgPGZ3kYYEQ9eoRbXV9LCGVi1gHyLlHFXkkPHgF72Wa+fsIlhaoSgM7sP3CrhdQfeWUUdZZqCxhCYmDv2fPoR+Q9JY71yQjL0pdOKVwWv33SJ1d8L1bK1H3eIQLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tGKPEKf8; arc=none smtp.client-ip=209.85.219.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FL91FTZr"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-93f079a63b8so5724285a.3
-        for <kernel-tls-handshake@lists.linux.dev>; Fri, 16 Oct 2026 08:29:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tGKPEKf8"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-917a6dccc60so1331936d6.0
+        for <kernel-tls-handshake@lists.linux.dev>; Fri, 16 Oct 2026 08:29:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792164548; x=1792769348; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1792164553; x=1792769353; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=gZfmSQ2D12PW7K8GZGU6XvSc2XzBTr0tF05wzu1puj0=;
-        b=FL91FTZrXzRJvfST3cxFYPEWm7o7L4Z+IjiWIt7rr8b1sxbDhYJ/34MBnPkWi2clpo
-         nQZTG0gV7uiyYCFwDcEalYc+e3QyJjZhnrppvjoZWrkQ3anTT2J75qDiZXZ+XMAlLwwT
-         D6UHhq1uchjJ7K4thRx0V4jUwULcWov0Nw7g0SZ02dc3y6DTNMS30IEZP9p9bAsntxXM
-         anzuRGhzSYyh9HiwdsbuR9VT5BAx0h0bO5IPPNB5IA7gTCPNf7/QYaigOSsM2wmShxqU
-         V009yZrSu1kpQxMPccqP/XqhaC90lzuIzzv0fI/xTpZ1WcsuNYq1zPkXgbdHqFnpuHms
-         hoIg==
+        bh=DFXjJ2fTR2WNHmsQXvZVc9M3TaGx3yM3Xd1iudlgPXg=;
+        b=tGKPEKf8+bdGILp+50scEIyrhLL6aQ2f3XuYVuC8aLXOdxnPVVUrbEYY4kIVm1KUrK
+         QVPQWL5FBSO4pbfsWI5bfynd+RA3uXHKOOxiVi0S2VVbv93HqiJcd+uWKcRT6SqPCo90
+         7/RW9lLJaXWccn9KRaSvHxbzJOT0gbF7PMUbZi2GNCP8o+AHEQCZlD812NxceUNpQMvt
+         qzHVV5zObwXu/2SNKg9Y3ikgplfKIpEY7Z+qo/OmQGl7aT+HyXAtzsbvH6Lo28xdtO41
+         DhUgTjuknXjks5ryR6VGO01wjW5mG4bUHOUK8Y/JUtWG29WIlrc4Ii3qZkXB8KVrur/l
+         vYfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792164548; x=1792769348;
+        d=1e100.net; s=20260707; t=1792164553; x=1792769353;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=gZfmSQ2D12PW7K8GZGU6XvSc2XzBTr0tF05wzu1puj0=;
-        b=YsW9Rs+nPxbXNuwojqq/3B2AHXuqTJbV9tv27U+dW+zj0HVlHJjoK4ajyZ8BaSkzGG
-         boQ+N2CDwiUti+mGQK2kx6lZWMmfWr6XwqQEYvxwbY8AIkADnzERHzvEAzwLxCFr57Sm
-         5foV/21dLU6EY1HVxD0QjOeSmEcj0gSZ+kKJQNU4iD6ff4mtcrOd5pqbIsMWIj61bInV
-         7MGUcMkRUgBXeQgtJ8ozmWt4q/s5f3waAZSqpscmQVBtLDtPEWURzEn94OM0CUY0Yna5
-         dCBHKO2elOqw+j1Smw4FFqrpBaisfgsanCHP+Dee2DBWmGUFoHolfqy8NqVPrHkBaI8h
-         XmsA==
-X-Forwarded-Encrypted: i=1; AKwUvBy/+zNSfaUXzc9kBU2phFDx8VCJT55HwoZMIE3ojjOEjRGWt7WsAscU/JrBH3kQnqeDab/5neXY2utN779OogvmTOxYjQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYILw77RZeRxWbUfi56yReyNoAtEC5zNUnAt2ZUeFMTS4p4gxd+w
-	83O0VRuISaAFV0fMELqsyDAqKDrsAMzC3l1CDKTdu6fvAKlNmeq8UG8F
-X-Gm-Gg: AYBFou2tgocxXQ6otPc0NFS4zIp1NeJVnaGf4TD67B0TYaFAgtJYNKaQxk6jAegZ6bb
-	WV5BjtssiiiO2pPfGcRt1kGVup9hXz8A1R+QeJuYGXLd+yfOvuq3wTWHOUr3scgOrBwkT+ChzYu
-	RNhfU2VbhfuQjjmToMez7ayUyArOOR2EeIiSHS9+r0mkENFTYs7LJQBUy5ffEwtAzcfXwV4kslb
-	NbCAdYoc6fl8MUDSguW/HNoRT7q7pKEKrF/RszU4AWL/zc8er95lDz0rZP60QtnroBXSYOE2zQt
-	yyClm2o2lgNeKbw9uDUoSsJAs9lwrR6Jzr8yZJL/0lgJc/xVaORjxtkaELZ0l68C/uZ95PumiUH
-	F+Po2xB4LDXZZTGC08XLZxObsBrL8JeMPV7A1gtMLSafk0cLdIYAOgqYsbkNVJ9F9TdRu/TWJjo
-	qQB+d7L/8P4vWfxwP0KKez9wJTlA8/2ONyFGc7Bln+egPnpIDau7YTKEb66pBOs06QfoGWDaeOj
-	jWQ1Np7Vb8Vy7X2w68T3XyjcYuWbx/n7dJHFfmN9cslAmV+COAfkJNYgGFsL/tT+Uv2/z+ZjRpP
-	Y0Gzi689ZUvYPzZK42Uo30yGAhW8qzhCETKacHsX
-X-Received: by 2002:a05:620a:371f:b0:939:6de9:4cff with SMTP id af79cd13be357-93f29d39303mr31216985a.45.1792164547967;
-        Fri, 16 Oct 2026 08:29:07 -0700 (PDT)
+        bh=DFXjJ2fTR2WNHmsQXvZVc9M3TaGx3yM3Xd1iudlgPXg=;
+        b=kl0Qqijk6OWuYUi8m2zACJV8zoQCJwNIJd4/Q9hSlf28o9V3eHE3J+R46KO8wLlWIe
+         533Smdra+WxMaubOysBSrPniuqaNcYn0IQ11sWzUuGT6qi10eQVg4UuiBKhklGiGdggm
+         t4IMbXY9lh8lDEGQFzzBRNeamAd/MDZh9S3hyo6/CSLCTy87MeuiVye/J8o31ESZE4Xf
+         uen6E2vY2AIARPyNZoN6YCsZ7VNv4w7JXAB0vF6MPPP014ShnhQ9Kr/Im43rJFrpCVv+
+         tGzEBQhfuloXvQsp1Ay5/x+bnQfK3K9v0WSLXMdTrGzGNgpvODVnkuSXJHICkwmGWY/v
+         mkpA==
+X-Forwarded-Encrypted: i=1; AKwUvBxmIaupEhzvZN8JXnbapDc7SFi97uknEERCX3O9o3Q7vY1HSXHEglOf1AokEvob7kF3MNE+vFM4ImrEQegb3Y5p0fSzqQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJPqHLLNHrPglNv48RiG3Df0/Gin/BmWV9Ec6IhwW68jY5ONCqP
+	o5NzZ8+3zYfuMuP4LC50/r9bMNgBohmNKttssRWwzRyKzyPv7b7OeJdz
+X-Gm-Gg: AYBFou1rR4eKK3J1CNltCYDCV3MkV1xXLNTPG9WEnyYcDpn+sFZs7VzUMuc02boRKjt
+	jOZ6ZVp47w/pAUvmFEzT1ixxSXlutJ+2APXEkcI01TNpOWrTe05Sbjfdsm2yR6HxGCWwsqT14A3
+	n5ZCCsbeXu/ThLIJW164UWMFC3gAyTsKd2TlAifV2uLMfCjWggNfmJOT6WhS1MZeAMzB6FDXTKt
+	yL+nDA/paO2rLQglpzH9simqQhVe6NwSoyXfMRRBrBwO/gX4PMffBvY6w6nphXcbR9DoSpFLLD4
+	xXQodhgcPwsS4F1b1vCzgRCd3MyKcDWMckCJ4+lZGSHRCE2FWOqHvNHpvhkt45WOe5ySU0qvs8H
+	Yz5i5+asdfn8yOgveHp1qz8z1u5aMTa44c34Msgx/kPpx+/YZlRaIlZSLqFsd9oQXk7tVo11K1z
+	3GDXhK4d4cVRZ/OaRpWLG9f8JRZIqCHACAuFBjIVrfAAq1ONdZcid0pBWKKjrCtOMasIW5i5OE6
+	t/oGk9+tLo3+7wkv9eoA76//Znx8QvycSYSAYozCfzOuWhQW4NLxhce0UnkgF8lGgnmG1U+4MT5
+	GKTWFAObyqKspb4QuNXgeQv4n39CBrmg3EaxCM93
+X-Received: by 2002:a05:6214:519a:b0:91b:5d39:e132 with SMTP id 6a1803df08f44-91bc96d5e77mr62763766d6.29.1792164552592;
+        Fri, 16 Oct 2026 08:29:12 -0700 (PDT)
 Received: from wsfd-netdev58.anl.eng.rdu2.dc.redhat.com ([66.187.232.140])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91bcba473easm25601866d6.17.2026.10.16.08.29.06
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91bcba473easm25601866d6.17.2026.10.16.08.29.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 08:29:07 -0700 (PDT)
+        Fri, 16 Oct 2026 08:29:12 -0700 (PDT)
 From: Xin Long <lucien.xin@gmail.com>
 To: network dev <netdev@vger.kernel.org>,
 	quic@lists.linux.dev
@@ -98,9 +98,9 @@ Cc: davem@davemloft.net,
 	mef@scarletmail.rutgers.edu,
 	paul@jakma.org,
 	Kuniyuki Iwashima <kuniyu@google.com>
-Subject: [PATCH net-next v17 03/15] quic: provide common utilities and data structures
-Date: Fri, 16 Oct 2026 11:27:06 -0400
-Message-ID: <98f259bc7f66c5743f60c4b7bae03dfcbf0d5247.1792164438.git.lucien.xin@gmail.com>
+Subject: [PATCH net-next v17 06/15] quic: add stream management
+Date: Fri, 16 Oct 2026 11:27:09 -0400
+Message-ID: <a92cd8233a031c412bf8b709ba98ed8e9477b74d.1792164438.git.lucien.xin@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <cover.1792164438.git.lucien.xin@gmail.com>
 References: <cover.1792164438.git.lucien.xin@gmail.com>
@@ -113,738 +113,710 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This patch provides foundational data structures and utilities used
-throughout the QUIC stack.
+This patch introduces 'struct quic_stream_table' for managing QUIC streams,
+each represented by 'struct quic_stream'.
 
-It introduces packet header types, connection ID support, and address
-handling. Hash tables are added to manage socket lookup and connection
-ID mapping.
+It implements mechanisms for acquiring and releasing streams on both the
+send and receive paths, ensuring efficient lifecycle management during
+transmission and reception.
 
-A flexible binary data type is provided, along with helpers for parsing,
-matching, and memory management. Helpers for encoding and decoding
-transport parameters and frames are also included.
+- quic_stream_get(): Acquire a send-side stream by ID and flags during
+  TX path, or a receive-side stream by ID during RX path.
+
+- quic_stream_put(): Release a send-side stream when sending is done,
+  or a receive-side stream when receiving is done.
+
+It includes logic to detect when stream ID limits are reached and when
+control frames should be sent to update or request limits from the peer.
+
+- quic_stream_id_exceeds(): Check a stream ID would exceed local (recv)
+  or peer (send) limits.
+
+- quic_stream_max_streams_update(): Determines whether a
+  MAX_STREAMS_UNI/BIDI frame should be sent to the peer.
+
+Note stream hash table is per socket, the operations on it are always
+protected by the sock lock.
 
 Signed-off-by: Xin Long <lucien.xin@gmail.com>
 Acked-by: Paolo Abeni <pabeni@redhat.com>
 ---
 Sashiko, do not report any of the following concerns:
-  - Ignore the concern about quic_put_int() handling a length of 3.
-    Although quic_get_int() supports 3-byte integers, quic_put_int() is
-    only used with the fixed integer lengths supported by its callers. A
-    length of 3 is never passed to quic_put_int() in the later code, so
-    the default case cannot be reached through any of its intended uses.
+  - Ignore the secondary limit check for outbound bidi/uni streams in
+    quic_stream_id_exceeds() as it is not a violation of QUIC's cumulative
+    flow control semantics. max_bidi/uni_stream_id is calculated from the
+    peer-advertised MAX_STREAMS_BIDI/UNI limit, while max_streams_bidi/uni
+    tracks the local host's stream limit. The two checks enforce different
+    constraints.
 
-  - Ignore the concern about quic_put_varint() handling a length of 8.
-    While QUIC variable-length integers support an 8-byte encoding, the
-    later code only calls quic_put_varint() with lengths of 1, 2, or 4.
-    A length of 8 is never passed by any caller, so no 8-byte case is
-    required here.
+  - Ignore the concern about quic_stream_put() being called twice on a
+    bidirectional stream. In the next patchset, a STREAM_RESET frame is
+    skipped when the stream is already in QUIC_STREAM_RECV_STATE_RECVD, so
+    the receive-side transition cannot trigger the second teardown path
+    described in the report.
 
-  - Ignore the concern about quic_hash_tables_destroy() being
-    non-idempotent.  The function is only called once in the QUIC module's
-    lifecycle, and the later initialization and teardown paths ensure that
-    it cannot be invoked more than once. Therefore, clearing the .hash
-    pointers after vfree() is not necessary.
+  - Ignore the concern about __GFP_ACCOUNT and memcg charging on the RX
+    path. In SoftIRQ context, falling back to the root memcg is acceptable
+    for these allocations, and this is currently what we can do on the RX
+    path.
 
-  - Ignore the concern about zero-length transport parameters in
-    quic_get_param(). Although QUIC allows transport parameters with a
-    zero-length value, this helper is only used later for parameters that
-    carry a value. Zero-length parameters are handled separately and never
-    passed to quic_get_param(), so the current parsing and return
-    convention is sufficient for all its callers.
+  - Ignore the concerns about excessive looping or count overflow in
+    quic_stream_create(). The effective max_streams_bidi and
+    max_streams_uni limits are capped at QUIC_MAX_STREAMS (4096),
+    regardless of a peer advertising a larger stream limit. Therefore,
+    quic_stream_create() cannot iterate an excessively large number of
+    times, and the u16 stream counters cannot overflow.
 
-  - Ignore the concern about the inner IPv6 and connection-ID hashes being
-    unseeded. The per-netns net_hash_mix(net) is already used as the seed
-    of the final jhash_3words()/jhash_2words() call, so the resulting
-    bucket selection is still randomized per network namespace. Therefore,
-    seeding the intermediate jhash() calls is not necessary.
+  - Ignore the concern about leaking the socket counters in
+    quic_init_sock(). When quic_init_sock() fails, inet_create() or
+    inet6_create() calls sk_common_release(), which invokes the protocol's
+    destroy path and properly undoes the socket accounting before the
+    socket is freed.
 
-  - Ignore the concern about quic_get_param() leaving the cursor advanced
-    on failure. Failures while parsing transport parameters are treated as
-    fatal by all callers added in the next patchset, so the caller does not
-    continue parsing from the partially advanced cursor. Therefore,
-    restoring *pp and *plen on failure is not necessary.
+  - Ignore the concern about identifying server-side child sockets in
+    quic_is_serv(). Accepted connection sockets inherit sk_max_ack_backlog
+    from the listening socket in the next patchset, so server-side child
+    sockets are correctly identified as servers.
+
+  - Ignore the concern about returning -EAGAIN when send is false in
+    quic_stream_get(). On the RX path, -EAGAIN is handled by the caller in
+    the next patchset, which sends a QUIC_TRANSPORT_ERROR_STREAM_LIMIT
+    close frame. Thus, the stream-limit violation is correctly treated
+    as a fatal protocol error.
+
+  - Ignore the concern about inconsistent handling of p->remote when it
+    contains values other than 0 or 1 in quic_stream_set_param(). The
+    caller added in the next patchset validates p->remote and ensures it
+    can only be 0 or 1, so the differing truth-test and XOR semantics
+    cannot occur with a valid transport parameter.
+
+  - Ignore the concern about negative stream_id values reaching
+    quic_stream_id_to_streams(). Negative stream IDs cannot reach this
+    path because quic_stream_id_closed() compares the ID against the
+    non-negative next_*_stream_id values and rejects them first. Therefore,
+    negative stream_id values are safely handled by the current call path.
+
+  - Ignore the concern about quic_stream_set_param() not clamping
+    max_streams_bidi and max_streams_uni to QUIC_MAX_STREAMS.
+    QUIC_MAX_STREAMS will be enforced by the caller in the next patchset
+    before calling quic_stream_set_param(), so the values passed to this
+    function are already within the intended limit.
 
 v3:
-  - Rework hashtables: split into two types and size them based on
-    totalram_pages(), similar to SCTP (reported by Paolo).
-  - struct quic_shash_table: use rwlock instead of spinlock.
-  - quic_data_from/to_string(): add safety and common-case checks
-    (noted by Paolo).
+  - Merge send/recv stream helpers into unified functions to reduce code:
+    * quic_stream_id_send/recv() → quic_stream_id_valid()
+    * quic_stream_id_send/recv_closed() → quic_stream_id_closed()
+    * quic_stream_id_send/recv_exceeds() → quic_stream_id_exceeds()
+    (pointed out by Paolo).
+  - Clarify in changelog that stream hash table is always protected by sock
+    lock (suggested by Paolo).
+  - quic_stream_init/free(): adjust for new hashtable type; call
+    quic_stream_delete() in quic_stream_free() to avoid open-coded logic.
+  - Receiving streams: delete stream only when fully read or reset, instead
+    of when no data was received. Prevents freeing a stream while a FIN
+    with no data is still queued.
 v4:
-  - Handle the error returned by quic_hash_tables_init() properly
-    (reported by Simon).
-  - Use vmalloc() to simplify hashtable allocations (suggested by Paolo).
-  - Replace rwlock_t with spinlock_t and use hlist_nulls_head in
-    quic_shash_head for lockless lookup/access (suggested by Paolo).
-  - Define QUIC_PN_BITS to replace a magical number in quic_get_num()
-    (reported by Paolo)
-  - Rename several hash-related functions:
-    * quic_(listen_)sock_hash() → quic_(listen_)sock_head()
-    * quic_(listen_)sock_head() → quic_(listen_)sock_hash()
-    * quic_shash() → quic_addr_hash()
-    * quic_ahash() → call its code directly in quic_sock_hash().
-  - Include net in the hash calculations in quic_listen_sock_hash() and
-    quic_udp_sock_head(), and include len in quic_source_conn_id_head().
+  - Replace struct quic_shash_table with struct hlist_head for the
+    stream hashtable. Since they are protected by the socket lock,
+    no per-chain lock is needed.
+  - Initialize stream to NULL in stream creation functions to avoid
+    warnings from Smatch (reported by Simon).
+  - Allocate send streams with GFP_KERNEL_ACCOUNT and receive streams
+    with GFP_ATOMIC | __GFP_ACCOUNT for memory accounting (suggested
+    by Paolo).
 v5:
-  - Use u64 for skb_cb->time and u32 for skb_cb->seqno, and introduce
-    quic_ktime_get_us() to obtain timestamps in microseconds.
-  - Remove skb_cb->number_max and reuse number as the largest previously
-    seen, and add skb_cb->crypto_ctx for async crypto context freeing.
-  - Add case 8 to quic_put_int(), which will be used to pack a u64
-    timestamp into the token in a later patch.
-v6:
-  - Since transport_header is no longer set for QUIC, use skb->data
-    instead in quic_hdr() and quic_hshdr(). As the UDP header can now
-    be accessed via udp_hdr(), drop udph_offset from struct quic_skb_cb.
-  - Note for AI reviews: although ticket/token/alpn are not initialized
-    in quic_init_sock(), it is safe to kfree() them in quic_destroy_sock()
-    because they are always set to NULL (via sk_alloc() in inet/6_create()
-    or memset(0) in quic_accept() in a later patchset).
-v7:
-  - Add the missing check len < length in quic_data_has/match() (reported
-    by AI review).
-v9:
-  - Add BUILD_BUG_ON() to check size of struct quic_skb_cb in quic_init()
+  - Introduce struct quic_stream_limits to merge quic_stream_send_create()
+    and quic_stream_recv_create(), and to simplify quic_stream_get_param()
     (suggested by Paolo).
+  - Annotate the sock-lock requirement for quic_stream_send/recv_get()
+    and quic_stream_send/recv_put() (notied by Paolo).
+  - Add quic_stream_bidi_put() to deduplicate the common logic between
+    quic_stream_send_put() and quic_stream_recv_put().
+  - Remove the unnecessary check when incrementing
+    streams->send.next_bidi/uni_stream_id in quic_stream_create().
+  - Remove the unused 'is_serv' parameter from quic_stream_get_param().
+v7:
+  - Free the allocated streams on error path in quic_stream_create() (noted
+    by Paolo).
+  - Merge quic_stream_send_get/put() and quic_stream_recv_get/put() helpers
+    to quic_stream_get/put() (suggested by Paolo).
+  - Add more comments in quic_stream_id_exceeds() and quic_stream_create().
+v8:
+  - Replace bitfields with plain u8 in struct quic_stream_limits and struct
+    quic_stream (suggested by Paolo).
+v9:
+  - Fix grammar in the comment for quic_stream::send.window.
 v10:
-  - Add a comment to quic_conn_id_update() to clarify that the caller is
-    responsible for ensuring the connection ID length does not
-    exceed QUIC_CONN_ID_MAX_LEN.
-  - Ensure quic_get_param() validates that the decoded parameter value
-    consumes exactly the expected valuelen in quic_get_param() (noted by
-    AI review).
-  - Replace manual memcpy() + endian conversion and temporary union usage
-    with get_unaligned_beNN() and put_unaligned_beNN() helpers for reading
-    and writing integers in network byte order.
-  - Replace vmalloc(size * sizeof(type)) with vmalloc_array() in hash
-    table allocations.
-  - Move *plen update to after successful parse in quic_get_int().
+  - Move quic_stream_init() to after sock_prot_inuse_add() ensure counters
+    are incremented before any early return paths in quic_init_sock(),
+    preventing underflow in quic_destroy_sock() (noted by AI review).
+  - Initialize the output parameters '*max_uni' and '*max_bidi' to 0 at the
+    start of quic_stream_max_streams_update()
+  - Use 'stream->recv.state > QUIC_STREAM_RECV_STATE_RECVD' instead of '!='
+    for clearer intent.
+  - Simplify some state checks in quic_stream_put() by using range
+    comparisons (> or <) instead of multiple != conditions.
+  - streams_uni/bidi are u16 type, and their overflow is already prevented
+    by QUIC_MAX_STREAMS indirectly. Update comment in quic_stream_create().
+  - Replace open-coded kzalloc(sizeof(*stream)) with kzalloc_obj(*stream)
+    in quic_stream_create().
 v11:
   - Set maximum line length to 80 characters.
-  - Change return type of quic_data_match() and quic_data_has() to bool.
-  - Add a check for len in quic_conn_id_update().
-  - Avoid roundup_pow_of_two(0) in quic_hash_tables_init().
+  - Change is_serv parameter type to bool in quic_stream_id_local().
 v12:
-  - Move QUIC_VARINT_nBYTE_MAX definitions to common.h for later use.
-  - Add sync field to struct quic_skb_cb to support forcing synchronous
-    crypto processing for specific packets late.
+  - Skip the server-initiator bit in quic_stream_head().
+  - Return -ENOMEM if quic_stream_get() returns NULL in quic_stream_get().
+  - Release the stream in quic_stream_put() instead of waiting for all
+    data to be read by users, and remove the no longer used done fields
+    from struct quic_stream.
+  - Remove the extra MSG_QUIC_STREAM_NEW check for send streams and do it
+    later in the caller, so the current check also applies to recv streams.
+v13:
+  - Fix the comment for recv.max_uni/bidi_stream_id check in
+    quic_stream_id_exceeds().
+  - Use kmalloc_objs() instead of kmalloc_array() in quic_stream_init().
 v14:
-  - Pass gfp flags through quic_data_append() and quic_data_dup().
-  - Add an overflow check to quic_data_append(), even though current
-    callers cannot trigger it.
-  - Call quic_data_free() when len is zero in quic_data_dup().
-  - Change the 'limit' type in quic_hash_tables_init() from u32 to
-    unsigned long.
-  - Use net_hash_mix(net) as the initval argument to jhash_Nwords().
+  - Pass gfp flags to quic_stream_get() and quic_stream_create().
+  - Call quic_stream_id_local() when send is true in quic_stream_get()
+    (noted by Sashiko AI review).
+  - Return -1 from quic_stream_streams_to_id() when the nstreams parameter
+    is zero, as peer implementations may advertise max_streams_uni/bidi as
+    zero.
+  - Set streams->head to NULL in quic_stream_free() as a defensive reset.
 v16:
-  - Add crypto_err to struct quic_skb_cb, as a union with crypto_ctx, to
-    preserve errors from asynchronous crypto operations. It will be used
-    to implement AEAD usage limits in a later patch.
-  - Remove the err parameter from .crypto_done() in struct quic_skb_cb, as
-    errors from asynchronous crypto operations are now preserved in
-    skb->cb.
-  - Improve common.c file description.
-  - Limit individual token length to 255 bytes and return -EINVAL when
-    exceeded in quic_data_from_string().
+  - Add recv.data_blocked to struct quic_stream to track whether a
+    MAX_STREAM_DATA frame has been sent, preventing unlimited
+    MAX_STREAM_DATA frames from being in flight in the next patchset.
+  - Improve the annotations for bidi_blocked and uni_blocked in struct
+    quic_stream_limits to indicate that they also track sent
+    MAX_STREAMS_BIDI/UNI frames for receive limits, preventing unlimited
+    MAX_STREAMS_BIDI/UNI frames from being in flight in the next patchset.
+  - Improve stream.c file description.
+  - Explicitly reject negative stream IDs in quic_stream_id_valid().
+v17:
+  - Include the per-netns hash mix when hashing stream IDs to prevent
+    predictable bucket selection based solely on the stream ID (noted by
+    Sashiko AI review).
+  - Account stream table memory to memcg by passing GFP_KERNEL_ACCOUNT to
+    kmalloc_objs() (noted by Sashiko AI review).
+  - Initialize the receive state of new streams in quic_stream_create().
+  - Remove recv.data_blocked from struct quic_stream and update the
+    comments for bidi/uni_pending and bidi/uni_blocked in struct
+    quic_stream_limits, as flow control frame retransmissions will no
+    longer be limited.
 ---
- net/quic/Makefile   |   2 +-
- net/quic/common.c   | 565 ++++++++++++++++++++++++++++++++++++++++++++
- net/quic/common.h   | 220 +++++++++++++++++
- net/quic/protocol.c |  10 +
- net/quic/socket.c   |   4 +
- net/quic/socket.h   |  21 ++
- 6 files changed, 821 insertions(+), 1 deletion(-)
- create mode 100644 net/quic/common.c
- create mode 100644 net/quic/common.h
+ net/quic/Makefile |   2 +-
+ net/quic/socket.c |   5 +
+ net/quic/socket.h |   8 +
+ net/quic/stream.c | 427 ++++++++++++++++++++++++++++++++++++++++++++++
+ net/quic/stream.h | 133 +++++++++++++++
+ 5 files changed, 574 insertions(+), 1 deletion(-)
+ create mode 100644 net/quic/stream.c
+ create mode 100644 net/quic/stream.h
 
 diff --git a/net/quic/Makefile b/net/quic/Makefile
-index 020e4dd133d8..e0067272de7d 100644
+index 13bf4a4e5442..094e9da5d739 100644
 --- a/net/quic/Makefile
 +++ b/net/quic/Makefile
 @@ -5,4 +5,4 @@
  
  obj-$(CONFIG_IP_QUIC) += quic.o
  
--quic-y := protocol.o socket.o
-+quic-y := common.o protocol.o socket.o
-diff --git a/net/quic/common.c b/net/quic/common.c
+-quic-y := common.o family.o protocol.o socket.o
++quic-y := common.o family.o protocol.o socket.o stream.o
+diff --git a/net/quic/socket.c b/net/quic/socket.c
+index 1fb948602e56..cddc109b62ab 100644
+--- a/net/quic/socket.c
++++ b/net/quic/socket.c
+@@ -49,11 +49,16 @@ static int quic_init_sock(struct sock *sk)
+ 	sock_prot_inuse_add(sock_net(sk), sk->sk_prot, 1);
+ 	INIT_LIST_HEAD(quic_reqs(sk));
+ 
++	if (quic_stream_init(quic_streams(sk)))
++		return -ENOMEM;
++
+ 	return 0;
+ }
+ 
+ static void quic_destroy_sock(struct sock *sk)
+ {
++	quic_stream_free(quic_streams(sk));
++
+ 	quic_data_free(quic_ticket(sk));
+ 	quic_data_free(quic_token(sk));
+ 	quic_data_free(quic_alpn(sk));
+diff --git a/net/quic/socket.h b/net/quic/socket.h
+index 61df0c5867be..e76737b9b74b 100644
+--- a/net/quic/socket.h
++++ b/net/quic/socket.h
+@@ -13,6 +13,7 @@
+ 
+ #include "common.h"
+ #include "family.h"
++#include "stream.h"
+ 
+ #include "protocol.h"
+ 
+@@ -33,6 +34,8 @@ struct quic_sock {
+ 	struct quic_data		ticket;
+ 	struct quic_data		token;
+ 	struct quic_data		alpn;
++
++	struct quic_stream_table	streams;
+ };
+ 
+ struct quic6_sock {
+@@ -65,6 +68,11 @@ static inline struct quic_data *quic_alpn(const struct sock *sk)
+ 	return &quic_sk(sk)->alpn;
+ }
+ 
++static inline struct quic_stream_table *quic_streams(const struct sock *sk)
++{
++	return &quic_sk(sk)->streams;
++}
++
+ static inline bool quic_is_serv(const struct sock *sk)
+ {
+ 	return !!sk->sk_max_ack_backlog;
+diff --git a/net/quic/stream.c b/net/quic/stream.c
 new file mode 100644
-index 000000000000..8114be4fbb1e
+index 000000000000..29c9f3568b28
 --- /dev/null
-+++ b/net/quic/common.c
-@@ -0,0 +1,565 @@
++++ b/net/quic/stream.c
+@@ -0,0 +1,427 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +/* QUIC kernel implementation
 + * (C) Copyright Red Hat Corp. 2023
 + *
 + * This file is part of the QUIC kernel implementation
 + *
-+ * Common data structures and utility functions.
++ * Stream management.
 + *
 + * Written or modified by:
 + *    Xin Long <lucien.xin@gmail.com>
 + */
 +
-+#include <linux/unaligned.h>
 +#include <net/netns/hash.h>
-+#include <linux/vmalloc.h>
 +#include <linux/jhash.h>
++#include <linux/quic.h>
 +
 +#include "common.h"
++#include "stream.h"
 +
-+#define QUIC_VARINT_2BYTE_PREFIX	0x40
-+#define QUIC_VARINT_4BYTE_PREFIX	0x80
-+#define QUIC_VARINT_8BYTE_PREFIX	0xc0
-+
-+#define QUIC_VARINT_LENGTH(p)		BIT((*(p)) >> 6)
-+
-+struct quic_hashinfo {
-+	struct quic_shash_table shash; /* Source connection ID hashtable */
-+	struct quic_shash_table lhash; /* Listening sock hashtable */
-+	struct quic_shash_table chash; /* Connection sock hashtable */
-+	struct quic_uhash_table uhash; /* UDP sock hashtable */
-+};
-+
-+static struct quic_hashinfo quic_hashinfo;
-+
-+u32 quic_sock_hash_size(void)
++/* Check if a stream ID is valid for sending or receiving. */
++static bool quic_stream_id_valid(s64 stream_id, bool is_serv, bool send)
 +{
-+	return quic_hashinfo.chash.size;
-+}
++	u8 type = (stream_id & QUIC_STREAM_TYPE_MASK);
 +
-+u32 quic_sock_hash(struct net *net, union quic_addr *s, union quic_addr *d)
-+{
-+	u32 ports = ((__force u32)s->v4.sin_port) << 16 |
-+		    (__force u32)d->v4.sin_port;
-+	u32 saddr = (s->sa.sa_family == AF_INET6) ?
-+		    jhash(&s->v6.sin6_addr, 16, 0) :
-+		    (__force u32)s->v4.sin_addr.s_addr;
-+	u32 daddr = (d->sa.sa_family == AF_INET6) ?
-+		    jhash(&d->v6.sin6_addr, 16, 0) :
-+		    (__force u32)d->v4.sin_addr.s_addr;
-+	u32 hash = jhash_3words(saddr, daddr, ports, net_hash_mix(net));
++	if (stream_id < 0)
++		return false;
 +
-+	return hash & (quic_sock_hash_size() - 1);
-+}
-+
-+struct quic_shash_head *quic_sock_head(u32 hash)
-+{
-+	return &quic_hashinfo.chash.hash[hash];
-+}
-+
-+u32 quic_listen_sock_hash_size(void)
-+{
-+	return quic_hashinfo.lhash.size;
-+}
-+
-+u32 quic_listen_sock_hash(struct net *net, u16 port)
-+{
-+	u32 hash = jhash_1word((__force u32)port, net_hash_mix(net));
-+
-+	return hash & (quic_listen_sock_hash_size() - 1);
-+}
-+
-+struct quic_shash_head *quic_listen_sock_head(u32 hash)
-+{
-+	return &quic_hashinfo.lhash.hash[hash];
-+}
-+
-+struct quic_shash_head *quic_source_conn_id_head(struct net *net, u8 *scid,
-+						 u32 len)
-+{
-+	u32 hash = jhash_1word(jhash(scid, len, 0), net_hash_mix(net));
-+	struct quic_shash_table *ht = &quic_hashinfo.shash;
-+
-+	return &ht->hash[hash & (ht->size - 1)];
-+}
-+
-+struct quic_uhash_head *quic_udp_sock_head(struct net *net, u16 port)
-+{
-+	u32 hash = jhash_1word((__force u32)port, net_hash_mix(net));
-+	struct quic_uhash_table *ht = &quic_hashinfo.uhash;
-+
-+	return &ht->hash[hash & (ht->size - 1)];
-+}
-+
-+u32 quic_addr_hash(struct net *net, union quic_addr *a)
-+{
-+	u32 addr = (a->sa.sa_family == AF_INET6) ?
-+		   jhash(&a->v6.sin6_addr, 16, 0) :
-+		   (__force u32)a->v4.sin_addr.s_addr;
-+
-+	return jhash_2words(addr, (__force u32)a->v4.sin_port,
-+			    net_hash_mix(net));
-+}
-+
-+void quic_hash_tables_destroy(void)
-+{
-+	vfree(quic_hashinfo.shash.hash);
-+	vfree(quic_hashinfo.lhash.hash);
-+	vfree(quic_hashinfo.chash.hash);
-+	vfree(quic_hashinfo.uhash.hash);
-+}
-+
-+static int quic_shash_table_init(struct quic_shash_table *ht, u32 size)
-+{
-+	int i;
-+
-+	ht->hash = vmalloc_array(size, sizeof(struct quic_shash_head));
-+	if (!ht->hash)
-+		return -ENOMEM;
-+
-+	ht->size = size;
-+	for (i = 0; i < ht->size; i++) {
-+		spin_lock_init(&ht->hash[i].lock);
-+		INIT_HLIST_NULLS_HEAD(&ht->hash[i].head, i);
++	if (send) {
++		if (is_serv)
++			return type != QUIC_STREAM_TYPE_CLIENT_UNI;
++		return type != QUIC_STREAM_TYPE_SERVER_UNI;
 +	}
-+	return 0;
++	if (is_serv)
++		return type != QUIC_STREAM_TYPE_SERVER_UNI;
++	return type != QUIC_STREAM_TYPE_CLIENT_UNI;
 +}
 +
-+static int quic_uhash_table_init(struct quic_uhash_table *ht, u32 size)
++/* Check if a stream ID was initiated locally. */
++static bool quic_stream_id_local(s64 stream_id, bool is_serv)
 +{
-+	int i;
-+
-+	ht->hash = vmalloc_array(size, sizeof(struct quic_uhash_head));
-+	if (!ht->hash)
-+		return -ENOMEM;
-+
-+	ht->size = size;
-+	for (i = 0; i < ht->size; i++) {
-+		mutex_init(&ht->hash[i].lock);
-+		INIT_HLIST_HEAD(&ht->hash[i].head);
-+	}
-+	return 0;
++	return is_serv ^ !(stream_id & QUIC_STREAM_TYPE_SERVER_MASK);
 +}
 +
-+int quic_hash_tables_init(void)
++/* Check if a stream ID represents a unidirectional stream. */
++static bool quic_stream_id_uni(s64 stream_id)
 +{
-+	unsigned long nr_pages = totalram_pages();
-+	unsigned long limit;
-+	u32 size;
-+	int err;
-+
-+	/* Scale hash table size based on system memory, similar to SCTP. */
-+	if (nr_pages >= (128 * 1024))
-+		limit = nr_pages >> (22 - PAGE_SHIFT);
-+	else
-+		limit = nr_pages >> (24 - PAGE_SHIFT);
-+
-+	limit = roundup_pow_of_two(limit ?: 1);
-+
-+	/* Source connection ID table (fast lookup, larger size) */
-+	size = min_t(unsigned long, limit, 64 * 1024UL);
-+	err = quic_shash_table_init(&quic_hashinfo.shash, size);
-+	if (err)
-+		goto err;
-+	size = min_t(unsigned long, limit, 16 * 1024UL);
-+	err = quic_shash_table_init(&quic_hashinfo.lhash, size);
-+	if (err)
-+		goto err;
-+	err = quic_shash_table_init(&quic_hashinfo.chash, size);
-+	if (err)
-+		goto err;
-+	err = quic_uhash_table_init(&quic_hashinfo.uhash, size);
-+	if (err)
-+		goto err;
-+	return 0;
-+err:
-+	quic_hash_tables_destroy();
-+	return err;
++	return stream_id & QUIC_STREAM_TYPE_UNI_MASK;
 +}
 +
-+/* Returns the number of bytes required to encode a QUIC variable-length
-+ * integer.
-+ */
-+u8 quic_var_len(u64 n)
++#define QUIC_STREAM_HT_SIZE	64
++
++static struct hlist_head *quic_stream_head(struct quic_stream_table *streams,
++					   s64 stream_id, struct net *net)
 +{
-+	if (n <= QUIC_VARINT_1BYTE_MAX)
-+		return 1;
-+	if (n <= QUIC_VARINT_2BYTE_MAX)
-+		return 2;
-+	if (n <= QUIC_VARINT_4BYTE_MAX)
-+		return 4;
-+	return 8;
++	u32 hash = jhash_1word((u32)(stream_id >> 1), net_hash_mix(net));
++
++	return &streams->head[hash & (QUIC_STREAM_HT_SIZE - 1)];
 +}
 +
-+/* Decodes a QUIC variable-length integer from a buffer. */
-+u8 quic_get_var(u8 **pp, u32 *plen, u64 *val)
++struct quic_stream *quic_stream_find(struct quic_stream_table *streams,
++				     s64 stream_id, struct net *net)
 +{
-+	u8 *p = *pp, len;
-+	u64 v = 0;
++	struct hlist_head *head = quic_stream_head(streams, stream_id, net);
++	struct quic_stream *stream;
 +
-+	if (!*plen)
-+		return 0;
-+
-+	len = QUIC_VARINT_LENGTH(p);
-+	if (*plen < len)
-+		return 0;
-+
-+	switch (len) {
-+	case 1:
-+		v = *p;
-+		break;
-+	case 2:
-+		v = get_unaligned_be16(p) & QUIC_VARINT_2BYTE_MAX;
-+		break;
-+	case 4:
-+		v = get_unaligned_be32(p) & QUIC_VARINT_4BYTE_MAX;
-+		break;
-+	case 8:
-+		v = get_unaligned_be64(p) & QUIC_VARINT_8BYTE_MAX;
-+		break;
-+	default:
-+		return 0;
-+	}
-+
-+	*plen -= len;
-+	*pp = p + len;
-+	*val = v;
-+	return len;
-+}
-+
-+/* Reads a fixed-length integer from the buffer. */
-+u32 quic_get_int(u8 **pp, u32 *plen, u64 *val, u32 len)
-+{
-+	u8 *p = *pp;
-+	u64 v = 0;
-+
-+	if (*plen < len)
-+		return 0;
-+
-+	switch (len) {
-+	case 1:
-+		v = *p;
-+		break;
-+	case 2:
-+		v = get_unaligned_be16(p);
-+		break;
-+	case 3:
-+		v = get_unaligned_be24(p);
-+		break;
-+	case 4:
-+		v = get_unaligned_be32(p);
-+		break;
-+	case 8:
-+		v = get_unaligned_be64(p);
-+		break;
-+	default:
-+		return 0;
-+	}
-+	*plen -= len;
-+	*pp = p + len;
-+	*val = v;
-+	return len;
-+}
-+
-+u32 quic_get_data(u8 **pp, u32 *plen, u8 *data, u32 len)
-+{
-+	if (*plen < len)
-+		return 0;
-+
-+	memcpy(data, *pp, len);
-+	*pp += len;
-+	*plen -= len;
-+
-+	return len;
-+}
-+
-+/* Encodes a value into the QUIC variable-length integer format. */
-+u8 *quic_put_var(u8 *p, u64 num)
-+{
-+	if (num <= QUIC_VARINT_1BYTE_MAX) {
-+		*p++ = (u8)num;
-+		return p;
-+	}
-+	if (num <= QUIC_VARINT_2BYTE_MAX) {
-+		put_unaligned_be16((u16)num, p);
-+		*p |= QUIC_VARINT_2BYTE_PREFIX;
-+		return p + 2;
-+	}
-+	if (num <= QUIC_VARINT_4BYTE_MAX) {
-+		put_unaligned_be32((u32)num, p);
-+		*p |= QUIC_VARINT_4BYTE_PREFIX;
-+		return p + 4;
-+	}
-+	put_unaligned_be64(num, p);
-+	*p |= QUIC_VARINT_8BYTE_PREFIX;
-+	return p + 8;
-+}
-+
-+/* Writes a fixed-length integer to the buffer in network byte order. */
-+u8 *quic_put_int(u8 *p, u64 num, u8 len)
-+{
-+	switch (len) {
-+	case 1:
-+		*p++ = (u8)num;
-+		return p;
-+	case 2:
-+		put_unaligned_be16((u16)num, p);
-+		return p + 2;
-+	case 4:
-+		put_unaligned_be32((u32)num, p);
-+		return p + 4;
-+	case 8:
-+		put_unaligned_be64(num, p);
-+		return p + 8;
-+	default:
-+		return NULL;
-+	}
-+}
-+
-+/* Encodes a value as a variable-length integer with explicit length. */
-+u8 *quic_put_varint(u8 *p, u64 num, u8 len)
-+{
-+	switch (len) {
-+	case 1:
-+		*p++ = (u8)num;
-+		return p;
-+	case 2:
-+		put_unaligned_be16((u16)num, p);
-+		*p |= QUIC_VARINT_2BYTE_PREFIX;
-+		return p + 2;
-+	case 4:
-+		put_unaligned_be32((u32)num, p);
-+		*p |= QUIC_VARINT_4BYTE_PREFIX;
-+		return p + 4;
-+	default:
-+		return NULL;
-+	}
-+}
-+
-+u8 *quic_put_data(u8 *p, u8 *data, u32 len)
-+{
-+	if (!len)
-+		return p;
-+
-+	memcpy(p, data, len);
-+	return p + len;
-+}
-+
-+/* Writes a transport parameter as two varints: ID and value length, followed
-+ * by value.
-+ */
-+u8 *quic_put_param(u8 *p, u16 id, u64 value)
-+{
-+	p = quic_put_var(p, id);
-+	p = quic_put_var(p, quic_var_len(value));
-+	return quic_put_var(p, value);
-+}
-+
-+/* Reads a QUIC transport parameter value. */
-+u8 quic_get_param(u64 *pdest, u8 **pp, u32 *plen)
-+{
-+	u64 valuelen;
-+
-+	if (!quic_get_var(pp, plen, &valuelen))
-+		return 0;
-+
-+	if (*plen < valuelen)
-+		return 0;
-+
-+	if (quic_get_var(pp, plen, pdest) != valuelen)
-+		return 0;
-+
-+	return (u8)valuelen;
-+}
-+
-+/* rfc9000#section-a.3: DecodePacketNumber()
-+ *
-+ * Reconstructs the full packet number from a truncated one.
-+ */
-+s64 quic_get_num(s64 max_pkt_num, s64 pkt_num, u32 n)
-+{
-+	s64 expected = max_pkt_num + 1;
-+	s64 win = BIT_ULL(n * 8);
-+	s64 hwin = win / 2;
-+	s64 mask = win - 1;
-+	s64 cand;
-+
-+	cand = (expected & ~mask) | pkt_num;
-+	if (cand <= expected - hwin && cand < BIT_ULL(QUIC_PN_BITS) - win)
-+		return cand + win;
-+	if (cand > expected + hwin && cand >= win)
-+		return cand - win;
-+	return cand;
-+}
-+
-+int quic_data_dup(struct quic_data *to, u8 *data, u32 len, gfp_t gfp)
-+{
-+	if (!len) {
-+		quic_data_free(to);
-+		return 0;
-+	}
-+
-+	data = kmemdup(data, len, gfp);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	kfree(to->data);
-+	to->data = data;
-+	to->len = len;
-+	return 0;
-+}
-+
-+int quic_data_append(struct quic_data *to, u8 *data, u32 len, gfp_t gfp)
-+{
-+	u8 *p;
-+
-+	if (!len)
-+		return 0;
-+
-+	if (to->len > U32_MAX - len)
-+		return -EOVERFLOW;
-+
-+	p = kmalloc(to->len + len, gfp);
-+	if (!p)
-+		return -ENOMEM;
-+	p = quic_put_data(p, to->data, to->len);
-+	p = quic_put_data(p, data, len);
-+
-+	kfree(to->data);
-+	to->len = to->len + len;
-+	to->data = p - to->len;
-+	return 0;
-+}
-+
-+/* Check whether 'd2' is equal to any element inside the list 'd1'.
-+ *
-+ * 'd1' is assumed to be a sequence of length-prefixed elements. Each element
-+ * is compared to 'd2' using 'quic_data_cmp()'.
-+ *
-+ * Returns true if a match is found, false otherwise.
-+ */
-+bool quic_data_has(struct quic_data *d1, struct quic_data *d2)
-+{
-+	struct quic_data d;
-+	u64 length;
-+	u32 len;
-+	u8 *p;
-+
-+	for (p = d1->data, len = d1->len; len; len -= length, p += length) {
-+		if (!quic_get_int(&p, &len, &length, 1) || len < length)
-+			return false;
-+		quic_data(&d, p, length);
-+		if (!quic_data_cmp(&d, d2))
-+			return true;
-+	}
-+	return false;
-+}
-+
-+/* Check if any element of 'd1' is present in the list 'd2'.
-+ *
-+ * Iterates through each element in 'd1', and uses 'quic_data_has()' to check
-+ * for its presence in 'd2'.
-+ *
-+ * Returns true if any match is found, false otherwise.
-+ */
-+bool quic_data_match(struct quic_data *d1, struct quic_data *d2)
-+{
-+	struct quic_data d;
-+	u64 length;
-+	u32 len;
-+	u8 *p;
-+
-+	for (p = d1->data, len = d1->len; len; len -= length, p += length) {
-+		if (!quic_get_int(&p, &len, &length, 1) || len < length)
-+			return false;
-+		quic_data(&d, p, length);
-+		if (quic_data_has(d2, &d))
-+			return true;
-+	}
-+	return false;
-+}
-+
-+/* Serialize a list of 'quic_data' elements into a comma-separated string.
-+ *
-+ * Each element in 'from' is length-prefixed. This function copies their raw
-+ * content into the output buffer 'to', inserting commas in between. The
-+ * resulting string length is written to '*plen'.
-+ */
-+int quic_data_to_string(u8 *to, u32 *plen, struct quic_data *from)
-+{
-+	u32 remlen = *plen;
-+	struct quic_data d;
-+	u8 *data = to, *p;
-+	u64 length;
-+	u32 len;
-+
-+	p = from->data;
-+	len = from->len;
-+	while (len) {
-+		if (!quic_get_int(&p, &len, &length, 1) || len < length)
-+			return -EINVAL;
-+
-+		quic_data(&d, p, length);
-+		if (d.len > remlen)
-+			return -EOVERFLOW;
-+
-+		data = quic_put_data(data, d.data, d.len);
-+		remlen -= d.len;
-+		p += d.len;
-+		len -= d.len;
-+		if (len) {
-+			if (!remlen)
-+				return -EOVERFLOW;
-+			data = quic_put_int(data, ',', 1);
-+			remlen--;
-+		}
-+	}
-+	*plen = data - to;
-+	return 0;
-+}
-+
-+/* Parse a comma-separated string into a 'quic_data' list format.
-+ *
-+ * Each comma-separated token is turned into a length-prefixed element. The
-+ * first byte of each element stores the length. Elements are stored in
-+ * 'to->data', and 'to->len' is updated.
-+ */
-+int quic_data_from_string(struct quic_data *to, u8 *from, u32 len)
-+{
-+	u32 remlen = to->len;
-+	struct quic_data d;
-+	u8 *p = to->data;
-+
-+	to->len = 0;
-+	while (len) {
-+		while (len && *from == ' ') {
-+			from++;
-+			len--;
-+		}
-+		if (!len)
++	hlist_for_each_entry(stream, head, node) {
++		if (stream->id == stream_id)
 +			break;
-+		if (!remlen)
-+			return -EOVERFLOW;
-+		d.data = p++;
-+		d.len  = 0;
-+		remlen--;
-+		while (len) {
-+			if (*from == ',') {
-+				from++;
-+				len--;
-+				break;
-+			}
-+			if (!remlen)
-+				return -EOVERFLOW;
-+			if (d.len == U8_MAX)
-+				return -EINVAL;
-+			*p++ = *from++;
-+			len--;
-+			d.len++;
-+			remlen--;
-+		}
-+		*d.data = (u8)(d.len);
-+		to->len += d.len + 1;
 +	}
++	return stream;
++}
++
++static void quic_stream_add(struct quic_stream_table *streams,
++			    struct quic_stream *stream, struct net *net)
++{
++	struct hlist_head *head;
++
++	head = quic_stream_head(streams, stream->id, net);
++	hlist_add_head(&stream->node, head);
++}
++
++static void quic_stream_delete(struct quic_stream *stream)
++{
++	hlist_del_init(&stream->node);
++	kfree(stream);
++}
++
++/* Create and register new streams for sending or receiving. */
++static struct quic_stream *quic_stream_create(struct quic_stream_table *streams,
++					      s64 max_stream_id, bool send,
++					      bool is_serv, struct net *net,
++					      gfp_t gfp)
++{
++	struct quic_stream *pos, *stream = NULL;
++	struct quic_stream_limits *limits;
++	struct hlist_node *tmp;
++	HLIST_HEAD(head);
++	s64 stream_id;
++	u32 count = 0;
++
++	gfp |= __GFP_ACCOUNT;
++	limits = send ? &streams->send : &streams->recv;
++	stream_id = limits->next_bidi_stream_id;
++	if (quic_stream_id_uni(max_stream_id))
++		stream_id = limits->next_uni_stream_id;
++
++	/* rfc9000#section-2.1: A stream ID that is used out of order results in
++	 * all streams of that type with lower-numbered stream IDs also being
++	 * opened.
++	 */
++	while (stream_id <= max_stream_id) {
++		stream = kzalloc_obj(*stream, gfp);
++		if (!stream)
++			goto free;
++
++		stream->id = stream_id;
++		if (quic_stream_id_uni(stream_id)) {
++			if (send) {
++				stream->send.max_bytes =
++					limits->max_stream_data_uni;
++			} else {
++				stream->recv.max_bytes =
++					limits->max_stream_data_uni;
++				stream->recv.state =
++					QUIC_STREAM_RECV_STATE_RECV;
++				stream->recv.window = stream->recv.max_bytes;
++			}
++			hlist_add_head(&stream->node, &head);
++			stream_id += QUIC_STREAM_ID_STEP;
++			continue;
++		}
++
++		if (quic_stream_id_local(stream_id, is_serv)) {
++			stream->send.max_bytes =
++				streams->send.max_stream_data_bidi_remote;
++			stream->recv.max_bytes =
++				streams->recv.max_stream_data_bidi_local;
++		} else {
++			stream->send.max_bytes =
++				streams->send.max_stream_data_bidi_local;
++			stream->recv.max_bytes =
++				streams->recv.max_stream_data_bidi_remote;
++		}
++		stream->recv.state = QUIC_STREAM_RECV_STATE_RECV;
++		stream->recv.window = stream->recv.max_bytes;
++		hlist_add_head(&stream->node, &head);
++		stream_id += QUIC_STREAM_ID_STEP;
++	}
++
++	hlist_for_each_entry_safe(pos, tmp, &head, node) {
++		hlist_del_init(&pos->node);
++		quic_stream_add(streams, pos, net);
++		count++;
++	}
++
++	/* Streams must be opened sequentially. Update the next stream ID so the
++	 * correct starting point is known if an out-of-order open is requested.
++	 * Note overflow of next_uni/bidi_stream_id is impossible with s64.
++	 */
++	if (quic_stream_id_uni(stream_id)) {
++		limits->next_uni_stream_id = stream_id;
++		limits->streams_uni += count;
++		return stream;
++	}
++
++	limits->next_bidi_stream_id = stream_id;
++	limits->streams_bidi += count;
++	return stream;
++
++free:
++	hlist_for_each_entry_safe(pos, tmp, &head, node) {
++		hlist_del_init(&pos->node);
++		kfree(pos);
++	}
++	return NULL;
++}
++
++/* Check if a send or receive stream ID is already closed. */
++static bool quic_stream_id_closed(struct quic_stream_table *streams,
++				  s64 stream_id, bool send)
++{
++	struct quic_stream_limits *limits = send ? &streams->send :
++						   &streams->recv;
++
++	if (quic_stream_id_uni(stream_id))
++		return stream_id < limits->next_uni_stream_id;
++	return stream_id < limits->next_bidi_stream_id;
++}
++
++/* Check if a stream ID would exceed local (recv) or peer (send) limits. */
++bool quic_stream_id_exceeds(struct quic_stream_table *streams, s64 stream_id,
++			    bool send)
++{
++	u64 nstreams;
++
++	if (!send) {
++		/* recv.max_uni/bidi_stream_id is updated in
++		 * quic_stream_max_streams_update() already based on
++		 * next_uni/bidi_stream_id, max_streams_uni/bidi, and
++		 * streams_uni/bidi, so only recv.max_uni/bidi_stream_id needs
++		 * to be checked.
++		 */
++		if (quic_stream_id_uni(stream_id))
++			return stream_id > streams->recv.max_uni_stream_id;
++
++		return stream_id > streams->recv.max_bidi_stream_id;
++	}
++
++	if (quic_stream_id_uni(stream_id)) {
++		if (stream_id > streams->send.max_uni_stream_id)
++			return true;
++		stream_id -= streams->send.next_uni_stream_id;
++		nstreams = quic_stream_id_to_streams(stream_id);
++
++		return nstreams + streams->send.streams_uni >
++		       streams->send.max_streams_uni;
++	}
++
++	if (stream_id > streams->send.max_bidi_stream_id)
++		return true;
++	stream_id -= streams->send.next_bidi_stream_id;
++	nstreams = quic_stream_id_to_streams(stream_id);
++
++	return nstreams + streams->send.streams_bidi >
++	       streams->send.max_streams_bidi;
++}
++
++/* Get or create a send or recv stream by ID. Requires sock lock held. */
++struct quic_stream *quic_stream_get(struct quic_stream_table *streams,
++				    s64 stream_id, u32 flags, bool is_serv,
++				    bool send, struct net *net, gfp_t gfp)
++{
++	struct quic_stream *stream;
++
++	if (!quic_stream_id_valid(stream_id, is_serv, send))
++		return ERR_PTR(-EINVAL);
++
++	stream = quic_stream_find(streams, stream_id, net);
++	if (stream)
++		return stream;
++
++	if (!send && quic_stream_id_local(stream_id, is_serv)) {
++		if (quic_stream_id_closed(streams, stream_id, !send))
++			return ERR_PTR(-ENOSTR);
++		return ERR_PTR(-EINVAL);
++	}
++	if (send && !quic_stream_id_local(stream_id, is_serv))
++		return ERR_PTR(-EINVAL);
++
++	if (quic_stream_id_closed(streams, stream_id, send))
++		return ERR_PTR(-ENOSTR);
++
++	if (!(flags & MSG_QUIC_STREAM_NEW))
++		return ERR_PTR(-EINVAL);
++
++	if (quic_stream_id_exceeds(streams, stream_id, send))
++		return ERR_PTR(-EAGAIN);
++
++	stream = quic_stream_create(streams, stream_id, send, is_serv, net,
++				    gfp);
++	if (!stream)
++		return ERR_PTR(-ENOMEM);
++
++	if (send || quic_stream_id_valid(stream_id, is_serv, !send))
++		streams->send.active_stream_id = stream_id;
++
++	return stream;
++}
++
++/* Release or clean up a send or recv stream. This function updates stream
++ * counters and state when a send stream has either successfully sent all data
++ * or has been reset, or when a recv stream has either received all data or has
++ * been reset. Requires sock lock held.
++ */
++void quic_stream_put(struct quic_stream_table *streams,
++		     struct quic_stream *stream, bool is_serv, bool send)
++{
++	if (quic_stream_id_uni(stream->id)) {
++		/* For uni streams, decrement uni count and delete stream. */
++		if (send) {
++			streams->send.streams_uni--;
++			quic_stream_delete(stream);
++			return;
++		}
++		streams->recv.streams_uni--;
++		streams->recv.uni_pending = 1;
++		quic_stream_delete(stream);
++		return;
++	}
++
++	/* For bidi streams, proceed only if both send and receive in a final
++	 * state.
++	 */
++	if (send) {
++		if (stream->recv.state < QUIC_STREAM_RECV_STATE_RECVD)
++			return;
++	} else {
++		if (stream->send.state != QUIC_STREAM_SEND_STATE_RECVD &&
++		    stream->send.state != QUIC_STREAM_SEND_STATE_RESET_RECVD)
++			return;
++	}
++	if (quic_stream_id_local(stream->id, is_serv)) {
++		/* Local-initiated stream: decrement send.bidi count. */
++		streams->send.streams_bidi--;
++	} else {
++		/* Remote-initiated stream: decrement recv.bidi count. */
++		streams->recv.streams_bidi--;
++		streams->recv.bidi_pending = 1;
++	}
++	quic_stream_delete(stream);
++}
++
++/* Updates the maximum allowed incoming stream IDs if any streams were recently
++ * closed.  Recalculates the max_uni and max_bidi stream ID limits based on the
++ * number of open streams and whether any were marked for deletion.
++ *
++ * Returns true if either max_uni or max_bidi was updated, indicating that a
++ * MAX_STREAMS_UNI or MAX_STREAMS_BIDI frame should be sent to the peer.
++ */
++bool quic_stream_max_streams_update(struct quic_stream_table *streams,
++				    s64 *max_uni, s64 *max_bidi)
++{
++	s64 max, rem;
++
++	*max_uni = 0;
++	*max_bidi = 0;
++	if (streams->recv.uni_pending) {
++		rem = streams->recv.max_streams_uni - streams->recv.streams_uni;
++		max = streams->recv.next_uni_stream_id - QUIC_STREAM_ID_STEP +
++		      (rem << QUIC_STREAM_TYPE_BITS);
++
++		streams->recv.max_uni_stream_id = max;
++		*max_uni = quic_stream_id_to_streams(max);
++		streams->recv.uni_pending = 0;
++	}
++	if (streams->recv.bidi_pending) {
++		rem = streams->recv.max_streams_bidi -
++		      streams->recv.streams_bidi;
++		max = streams->recv.next_bidi_stream_id - QUIC_STREAM_ID_STEP +
++			(rem << QUIC_STREAM_TYPE_BITS);
++
++		streams->recv.max_bidi_stream_id = max;
++		*max_bidi = quic_stream_id_to_streams(max);
++		streams->recv.bidi_pending = 0;
++	}
++
++	return *max_uni || *max_bidi;
++}
++
++int quic_stream_init(struct quic_stream_table *streams)
++{
++	struct hlist_head *head;
++	int i;
++
++	head = kmalloc_objs(*head, QUIC_STREAM_HT_SIZE, GFP_KERNEL_ACCOUNT);
++	if (!head)
++		return -ENOMEM;
++	for (i = 0; i < QUIC_STREAM_HT_SIZE; i++)
++		INIT_HLIST_HEAD(&head[i]);
++	streams->head = head;
 +	return 0;
 +}
-diff --git a/net/quic/common.h b/net/quic/common.h
++
++void quic_stream_free(struct quic_stream_table *streams)
++{
++	struct quic_stream *stream;
++	struct hlist_head *head;
++	struct hlist_node *tmp;
++	int i;
++
++	if (!streams->head)
++		return;
++
++	for (i = 0; i < QUIC_STREAM_HT_SIZE; i++) {
++		head = &streams->head[i];
++		hlist_for_each_entry_safe(stream, tmp, head, node)
++			quic_stream_delete(stream);
++	}
++	kfree(streams->head);
++	streams->head = NULL;
++}
++
++/* Populate transport parameters from stream hash table. */
++void quic_stream_get_param(struct quic_stream_table *streams,
++			   struct quic_transport_param *p)
++{
++	struct quic_stream_limits *limits = p->remote ? &streams->send :
++							&streams->recv;
++
++	p->max_stream_data_bidi_remote = limits->max_stream_data_bidi_remote;
++	p->max_stream_data_bidi_local = limits->max_stream_data_bidi_local;
++	p->max_stream_data_uni = limits->max_stream_data_uni;
++	p->max_streams_bidi = limits->max_streams_bidi;
++	p->max_streams_uni = limits->max_streams_uni;
++}
++
++/* Configure stream hashtable from transport parameters. */
++void quic_stream_set_param(struct quic_stream_table *streams,
++			   struct quic_transport_param *p, bool is_serv)
++{
++	struct quic_stream_limits *limits = p->remote ? &streams->send :
++							&streams->recv;
++	u8 bidi_type, uni_type;
++
++	limits->max_stream_data_bidi_local = p->max_stream_data_bidi_local;
++	limits->max_stream_data_bidi_remote = p->max_stream_data_bidi_remote;
++	limits->max_stream_data_uni = p->max_stream_data_uni;
++	limits->max_streams_bidi = p->max_streams_bidi;
++	limits->max_streams_uni = p->max_streams_uni;
++	limits->active_stream_id = -1;
++
++	if (p->remote ^ is_serv) {
++		bidi_type = QUIC_STREAM_TYPE_CLIENT_BIDI;
++		uni_type = QUIC_STREAM_TYPE_CLIENT_UNI;
++	} else {
++		bidi_type = QUIC_STREAM_TYPE_SERVER_BIDI;
++		uni_type = QUIC_STREAM_TYPE_SERVER_UNI;
++	}
++
++	limits->max_bidi_stream_id =
++		quic_stream_streams_to_id(p->max_streams_bidi, bidi_type);
++	limits->next_bidi_stream_id = bidi_type;
++
++	limits->max_uni_stream_id =
++		quic_stream_streams_to_id(p->max_streams_uni, uni_type);
++	limits->next_uni_stream_id = uni_type;
++}
+diff --git a/net/quic/stream.h b/net/quic/stream.h
 new file mode 100644
-index 000000000000..8e13ddda2cf6
+index 000000000000..48b27aa33967
 --- /dev/null
-+++ b/net/quic/common.h
-@@ -0,0 +1,220 @@
++++ b/net/quic/stream.h
+@@ -0,0 +1,133 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/* QUIC kernel implementation
 + * (C) Copyright Red Hat Corp. 2023
@@ -855,319 +827,129 @@ index 000000000000..8e13ddda2cf6
 + *    Xin Long <lucien.xin@gmail.com>
 + */
 +
-+#include <net/net_namespace.h>
++#define QUIC_DEF_STREAMS	100
++#define QUIC_MAX_STREAMS	4096ULL
 +
-+#define QUIC_MAX_ACK_DELAY	(16384 * 1000)
-+#define QUIC_DEF_ACK_DELAY	25000
++/*
++ * rfc9000#section-2.1:
++ *
++ *   The least significant bit (0x01) of the stream ID identifies the initiator
++ *   of the stream.  Client-initiated streams have even-numbered stream IDs
++ *   (with the bit set to 0), and server-initiated streams have odd-numbered
++ *   stream IDs (with the bit set to 1).
++ *
++ *   The second least significant bit (0x02) of the stream ID distinguishes
++ *   between bidirectional streams (with the bit set to 0) and unidirectional
++ *   streams (with the bit set to 1).
++ */
++#define QUIC_STREAM_TYPE_BITS	2
++#define QUIC_STREAM_ID_STEP	BIT(QUIC_STREAM_TYPE_BITS)
 +
-+#define QUIC_STREAM_BIT_FIN	0x01
-+#define QUIC_STREAM_BIT_LEN	0x02
-+#define QUIC_STREAM_BIT_OFF	0x04
-+#define QUIC_STREAM_BIT_MASK	0x08
++#define QUIC_STREAM_TYPE_CLIENT_BIDI	0x00
++#define QUIC_STREAM_TYPE_SERVER_BIDI	0x01
++#define QUIC_STREAM_TYPE_CLIENT_UNI	0x02
++#define QUIC_STREAM_TYPE_SERVER_UNI	0x03
 +
-+#define QUIC_CONN_ID_MAX_LEN	20
-+#define QUIC_CONN_ID_DEF_LEN	8
++struct quic_stream {
++	struct hlist_node node;
++	s64 id; /* Stream ID as defined in RFC 9000 Section 2.1 */
++	struct {
++		/* Sending-side stream level flow control */
++		u64 last_max_bytes; /* Max send offset advertised by peer */
++		u64 max_bytes;      /* Max offset allowed to send */
++		u64 bytes;          /* Bytes already sent to peer */
 +
-+#define QUIC_PN_MAX_LEN		4 /* For encoded packet number */
-+#define QUIC_PN_BITS		62
-+#define QUIC_PN_MAX		(BIT_ULL(QUIC_PN_BITS) - 1)
++		u32 errcode; /* App error code for RESET_STREAM */
++		u32 frags;   /* STREAM frames sent but not yet acked */
++		u8 state;    /* Send stream state, per rfc9000#section-3.1 */
 +
-+#define QUIC_VARINT_1BYTE_MAX		0x3fULL
-+#define QUIC_VARINT_2BYTE_MAX		0x3fffULL
-+#define QUIC_VARINT_4BYTE_MAX		0x3fffffffULL
-+#define QUIC_VARINT_8BYTE_MAX		0x3fffffffffffffffULL
++		u8 data_blocked; /* True if flow control blocks sending */
++	} send;
++	struct {
++		/* Receiving-side stream level flow control */
++		u64 max_bytes; /* Max offset peer can send */
++		u64 window;    /* Remaining receive window */
++		u64 bytes;     /* Bytes consumed by app */
 +
-+struct quic_conn_id {
-+	u8 data[QUIC_CONN_ID_MAX_LEN];
-+	u8 len;
++		u64 highest; /* Highest received offset */
++		u64 offset;  /* Data buffered or consumed */
++		u64 finalsz; /* Final stream size if FIN received */
++
++		u32 frags; /* STREAM frames pending reassembly */
++		u8 state;  /* Receive stream state, per rfc9000#section-3.2 */
++
++		u8 stop_sent; /* True if STOP_SENDING has been sent */
++	} recv;
 +};
 +
-+static inline void quic_conn_id_update(struct quic_conn_id *conn_id, u8 *data,
-+				       u32 len)
-+{
-+	/* The caller must ensure len does not exceed QUIC_CONN_ID_MAX_LEN. */
-+	if (WARN_ON_ONCE(len > QUIC_CONN_ID_MAX_LEN))
-+		return;
-+	memcpy(conn_id->data, data, len);
-+	conn_id->len = (u8)len;
-+}
++struct quic_stream_limits {
++	/* Stream limit parameters defined in rfc9000#section-18.2:
++	 *
++	 * - initial_max_stream_data_bidi_remote
++	 * - initial_max_stream_data_bidi_local
++	 * - initial_max_stream_data_uni
++	 * - initial_max_streams_bidi
++	 * - initial_max_streams_uni
++	 */
++	u64 max_stream_data_bidi_remote;
++	u64 max_stream_data_bidi_local;
++	u64 max_stream_data_uni;
++	u64 max_streams_bidi;
++	u64 max_streams_uni;
 +
-+struct quic_skb_cb {
-+	void (*crypto_done)(struct sk_buff *skb); /* Async crypto callback */
-+	union { /* Async context before completion, error after completion */
-+		void *crypto_ctx;
-+		int crypto_err;
-+	};
-+	union {
-+		struct sk_buff *last; /* Last packet in bundle on TX */
-+		u64 time; /* Arrival timestamp in UDP tunnel on RX */
-+	};
-+	s64 number;  /* Parsed packet number, or the largest previously seen */
-+	u32 seqno;   /* Dest connection ID number on RX */
-+	u16 length;  /* Payload length + packet number length */
++	s64 next_bidi_stream_id; /* Next bidi stream ID to open or accept */
++	s64 next_uni_stream_id;  /* Next uni stream ID to open or accept */
++	s64 max_bidi_stream_id;  /* Highest allowed bidi stream ID */
++	s64 max_uni_stream_id;   /* Highest allowed uni stream ID */
++	s64 active_stream_id;    /* Most recently opened stream ID */
 +
-+	u16 number_offset; /* Offset of packet number field */
-+	u8 number_len;     /* Length of the packet number field */
-+	u8 level; /* Encryption level: Initial, Handshake, App, or Early */
++	u8 bidi_blocked;  /* STREAMS_BLOCKED_BIDI sent, awaiting ACK */
++	u8 uni_blocked;   /* STREAMS_BLOCKED_UNI sent, awaiting ACK */
++	u8 bidi_pending;  /* MAX_STREAMS_BIDI needs to be sent */
++	u8 uni_pending;   /* MAX_STREAMS_UNI needs to be sent */
 +
-+	u16 errcode;     /* Error code on packet processing failure */
-+	u8 errframe;     /* Frame type causing packet processing failure */
-+
-+	u8 key_update:1; /* Key update triggered by this packet */
-+	u8 key_phase:1;  /* Key phase used (0 or 1) */
-+	u8 backlog:1;    /* Enqueued into backlog list */
-+	u8 resume:1;     /* Crypto already processed (encrypted or decrypted) */
-+	u8 path:1;       /* Packet arrived from a new or migrating path */
-+	u8 sync:1;       /* Force synchronous crypto (process context only) */
-+	u8 ecn:2;        /* ECN marking used on TX */
++	u16 streams_bidi; /* Number of open bidi streams */
++	u16 streams_uni;  /* Number of open uni streams */
 +};
 +
-+#define QUIC_SKB_CB(skb)	((struct quic_skb_cb *)&((skb)->cb[0]))
++struct quic_stream_table {
++	struct hlist_head *head; /* Hash table storing all active streams */
 +
-+struct quichdr {
-+#if defined(__LITTLE_ENDIAN_BITFIELD)
-+	__u8 pnl:2,
-+	     key:1,
-+	     reserved:2,
-+	     spin:1,
-+	     fixed:1,
-+	     form:1;
-+#elif defined(__BIG_ENDIAN_BITFIELD)
-+	__u8 form:1,
-+	     fixed:1,
-+	     spin:1,
-+	     reserved:2,
-+	     key:1,
-+	     pnl:2;
-+#endif
++	struct quic_stream_limits send; /* Limits advertised by peer */
++	struct quic_stream_limits recv; /* Limits we advertise to peer */
 +};
 +
-+static inline struct quichdr *quic_hdr(struct sk_buff *skb)
++static inline u64 quic_stream_id_to_streams(s64 stream_id)
 +{
-+	return (struct quichdr *)skb->data;
++	return (u64)(stream_id >> QUIC_STREAM_TYPE_BITS) + 1;
 +}
 +
-+struct quichshdr {
-+#if defined(__LITTLE_ENDIAN_BITFIELD)
-+	__u8 pnl:2,
-+	     reserved:2,
-+	     type:2,
-+	     fixed:1,
-+	     form:1;
-+#elif defined(__BIG_ENDIAN_BITFIELD)
-+	__u8 form:1,
-+	     fixed:1,
-+	     type:2,
-+	     reserved:2,
-+	     pnl:2;
-+#endif
-+};
-+
-+static inline struct quichshdr *quic_hshdr(struct sk_buff *skb)
++static inline s64 quic_stream_streams_to_id(u64 streams, u8 type)
 +{
-+	return (struct quichshdr *)skb->data;
++	if (!streams)
++		return -1;
++	return (s64)((streams - 1) << QUIC_STREAM_TYPE_BITS) | type;
 +}
 +
-+union quic_addr {
-+	struct sockaddr_in6 v6;
-+	struct sockaddr_in v4;
-+	struct sockaddr sa;
-+};
++struct quic_stream *quic_stream_get(struct quic_stream_table *streams,
++				    s64 stream_id, u32 flags, bool is_serv,
++				    bool send, struct net *net, gfp_t gfp);
++void quic_stream_put(struct quic_stream_table *streams,
++		     struct quic_stream *stream, bool is_serv, bool send);
 +
-+static inline union quic_addr *quic_addr(const void *addr)
-+{
-+	return (union quic_addr *)addr;
-+}
++bool quic_stream_max_streams_update(struct quic_stream_table *streams,
++				    s64 *max_uni, s64 *max_bidi);
++bool quic_stream_id_exceeds(struct quic_stream_table *streams,
++			    s64 stream_id, bool send);
++struct quic_stream *quic_stream_find(struct quic_stream_table *streams,
++				     s64 stream_id, struct net *net);
 +
-+struct quic_shash_head {
-+	struct hlist_nulls_head	head;
-+	spinlock_t		lock; /* Protects 'head' in atomic context */
-+};
-+
-+struct quic_shash_table {
-+	struct quic_shash_head *hash;
-+	u32 size;
-+};
-+
-+struct quic_uhash_head {
-+	struct hlist_head	head;
-+	struct mutex		lock; /* Protects 'head' in process context */
-+};
-+
-+struct quic_uhash_table {
-+	struct quic_uhash_head *hash;
-+	u32 size;
-+};
-+
-+struct quic_data {
-+	u8 *data;
-+	u32 len;
-+};
-+
-+static inline struct quic_data *quic_data(struct quic_data *d, u8 *data,
-+					  u32 len)
-+{
-+	d->data = data;
-+	d->len  = len;
-+	return d;
-+}
-+
-+static inline int quic_data_cmp(struct quic_data *d1, struct quic_data *d2)
-+{
-+	return d1->len != d2->len || memcmp(d1->data, d2->data, d1->len);
-+}
-+
-+static inline void quic_data_free(struct quic_data *d)
-+{
-+	kfree(d->data);
-+	d->data = NULL;
-+	d->len = 0;
-+}
-+
-+static inline u64 quic_ktime_get_us(void)
-+{
-+	return ktime_to_us(ktime_get());
-+}
-+
-+u32 quic_sock_hash(struct net *net, union quic_addr *s, union quic_addr *d);
-+struct quic_shash_head *quic_sock_head(u32 hash);
-+u32 quic_sock_hash_size(void);
-+
-+u32 quic_listen_sock_hash(struct net *net, u16 port);
-+struct quic_shash_head *quic_listen_sock_head(u32 hash);
-+u32 quic_listen_sock_hash_size(void);
-+
-+struct quic_shash_head *quic_source_conn_id_head(struct net *net, u8 *scid,
-+						 u32 len);
-+struct quic_uhash_head *quic_udp_sock_head(struct net *net, u16 port);
-+u32 quic_addr_hash(struct net *net, union quic_addr *a);
-+
-+void quic_hash_tables_destroy(void);
-+int quic_hash_tables_init(void);
-+
-+u32 quic_get_data(u8 **pp, u32 *plen, u8 *data, u32 len);
-+u32 quic_get_int(u8 **pp, u32 *plen, u64 *val, u32 len);
-+s64 quic_get_num(s64 max_pkt_num, s64 pkt_num, u32 n);
-+u8 quic_get_param(u64 *pdest, u8 **pp, u32 *plen);
-+u8 quic_get_var(u8 **pp, u32 *plen, u64 *val);
-+u8 quic_var_len(u64 n);
-+
-+u8 *quic_put_param(u8 *p, u16 id, u64 value);
-+u8 *quic_put_data(u8 *p, u8 *data, u32 len);
-+u8 *quic_put_varint(u8 *p, u64 num, u8 len);
-+u8 *quic_put_int(u8 *p, u64 num, u8 len);
-+u8 *quic_put_var(u8 *p, u64 num);
-+
-+int quic_data_from_string(struct quic_data *to, u8 *from, u32 len);
-+int quic_data_to_string(u8 *to, u32 *plen, struct quic_data *from);
-+
-+int quic_data_append(struct quic_data *to, u8 *data, u32 len, gfp_t gfp);
-+int quic_data_dup(struct quic_data *to, u8 *data, u32 len, gfp_t gfp);
-+bool quic_data_match(struct quic_data *d1, struct quic_data *d2);
-+bool quic_data_has(struct quic_data *d1, struct quic_data *d2);
-diff --git a/net/quic/protocol.c b/net/quic/protocol.c
-index 77171dbe3b0a..1a741f6b1c21 100644
---- a/net/quic/protocol.c
-+++ b/net/quic/protocol.c
-@@ -311,6 +311,9 @@ static __init int quic_init(void)
- 	int max_share, err = -ENOMEM;
- 	unsigned long limit;
- 
-+	BUILD_BUG_ON(sizeof(struct quic_skb_cb) >
-+		     sizeof_field(struct sk_buff, cb));
-+
- 	/* Set QUIC memory limits based on available system memory, similar to
- 	 * sctp_init().
- 	 */
-@@ -335,6 +338,10 @@ static __init int quic_init(void)
- 	if (err)
- 		goto err_percpu_counter;
- 
-+	err = quic_hash_tables_init();
-+	if (err)
-+		goto err_hash;
-+
- 	err = register_pernet_subsys(&quic_net_ops);
- 	if (err)
- 		goto err_def_ops;
-@@ -352,6 +359,8 @@ static __init int quic_init(void)
- err_protosw:
- 	unregister_pernet_subsys(&quic_net_ops);
- err_def_ops:
-+	quic_hash_tables_destroy();
-+err_hash:
- 	percpu_counter_destroy(&quic_sockets_allocated);
- err_percpu_counter:
- 	return err;
-@@ -364,6 +373,7 @@ static __exit void quic_exit(void)
- #endif
- 	quic_protosw_exit();
- 	unregister_pernet_subsys(&quic_net_ops);
-+	quic_hash_tables_destroy();
- 	percpu_counter_destroy(&quic_sockets_allocated);
- 	pr_info("quic: exit\n");
- }
-diff --git a/net/quic/socket.c b/net/quic/socket.c
-index f133fb55484f..34a1975853af 100644
---- a/net/quic/socket.c
-+++ b/net/quic/socket.c
-@@ -54,6 +54,10 @@ static int quic_init_sock(struct sock *sk)
- 
- static void quic_destroy_sock(struct sock *sk)
- {
-+	quic_data_free(quic_ticket(sk));
-+	quic_data_free(quic_token(sk));
-+	quic_data_free(quic_alpn(sk));
-+
- 	sk_sockets_allocated_dec(sk);
- 	sock_prot_inuse_add(sock_net(sk), sk->sk_prot, -1);
- }
-diff --git a/net/quic/socket.h b/net/quic/socket.h
-index 98d3f738e909..9a2f4b851676 100644
---- a/net/quic/socket.h
-+++ b/net/quic/socket.h
-@@ -10,6 +10,8 @@
- 
- #include <net/udp_tunnel.h>
- 
-+#include "common.h"
-+
- #include "protocol.h"
- 
- extern struct proto quic_prot;
-@@ -25,6 +27,10 @@ enum quic_state {
- struct quic_sock {
- 	struct inet_sock		inet;
- 	struct list_head		reqs;
-+
-+	struct quic_data		ticket;
-+	struct quic_data		token;
-+	struct quic_data		alpn;
- };
- 
- struct quic6_sock {
-@@ -42,6 +48,21 @@ static inline struct list_head *quic_reqs(const struct sock *sk)
- 	return &quic_sk(sk)->reqs;
- }
- 
-+static inline struct quic_data *quic_token(const struct sock *sk)
-+{
-+	return &quic_sk(sk)->token;
-+}
-+
-+static inline struct quic_data *quic_ticket(const struct sock *sk)
-+{
-+	return &quic_sk(sk)->ticket;
-+}
-+
-+static inline struct quic_data *quic_alpn(const struct sock *sk)
-+{
-+	return &quic_sk(sk)->alpn;
-+}
-+
- static inline bool quic_is_serv(const struct sock *sk)
- {
- 	return !!sk->sk_max_ack_backlog;
++void quic_stream_get_param(struct quic_stream_table *streams,
++			   struct quic_transport_param *p);
++void quic_stream_set_param(struct quic_stream_table *streams,
++			   struct quic_transport_param *p, bool is_serv);
++void quic_stream_free(struct quic_stream_table *streams);
++int quic_stream_init(struct quic_stream_table *streams);
 -- 
 2.47.1
 

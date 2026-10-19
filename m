@@ -1,46 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792445402;
-	b=gNWpx5m3HcT4Kz4QbYOfBwx1+ncU3QUnk7lnXh6qnO9HsTDyjHVDV2YnQlpyfxkWoj79
-	 HO0/BsPU/BbuyxZ/YsQXRhYpj4U2afIMdFV24y+vpm90kbz37zwbGpzOPNiQOpdWgy0L5
-	 FpNOF4OxJ1RTN6ZimRet4oj7lVl/EqSve/TELZfAIMuPdJcSUsz/DWe0VIk/MSusjRLDN
-	 FrSNQnwZcxFCR52sH6F5VHZhNXlKzk+Pa+/9ozxz+ILGBr/f2soW0+sfDzlyT6KfTQaRy
-	 5zEF7Bb8amgrKdwMPCYNMUODI+3cwZb+t+VD/aATJz4kyPudIrOmcAnhw/Bqur05jbQ==
+	t=1792445408;
+	b=iSvA7Lyh68iol8sEI46nfMf8A+0ebsE0Lg1ltNJsGEBmibPEigN89RrdlV6FyG+LRIMV
+	 SYjRCMgj7s4p3F6UhXLuXlaW2xwGjTWXE/QYbDgM3HXJz0ArGchsJowKnarF07sEwUSuA
+	 zDJeglxJ2ly5iRdG5tHN/g307RFY2RJNtU8RHh2yWPfbrEs8rV6zk0z+7NczbD7B9bPz8
+	 eVWeRi1GTenO+PHDMo/KrDsI0F7hmRpqg8capziYXt3U7MTFyOfIpeYDFfsWAL8eSSY9x
+	 eJutGt+0y1wRxH5IJVXuX8ovSF4RVOijR+/k1P8UvKhrMir5qCZziyflcAg3R//0jAA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792445402;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792445408;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=zYWrixPm+QMNkzjCpnwk9/Rk+hqbPSVNxVQvHcB89o8=;
-	b=d6uUkQRuQkeEllRtdpoxvtM8y19NLQGkH4Aan7z/RNDyebl1+jJOoIrxmYqLHOw+xkWF
-	 j5Gy06JQQnVeTwc1zXWGEjC7PI6IMfrYtT74cEiTqJbcFGaekIwCMqKAqUSRd2U1s5g/U
-	 VXs++ytZqvCmmdKxL701hX2njugl5VZFV9tJKRNNsYDx5xrA7wxRsvTIpydTELU3jIgFC
-	 oWId676hfMiwbMh9MUby+sC5O23pAhxDqrcx1CWvWdq5DMJPu98iXmIOd14ztK+kjXy1V
-	 WH+35WvPz0rph3G88k/UbiAOdn/Hhsbdvbyjyg6Mti1ISZlSG6clBDAFKThrJZw0wtQ==
+	bh=jhvJLaNwH68MlYlkJQoHKvHnc3YWINNTcz12b9cCjeQ=;
+	b=soY6bq7F4vMAaerGYBa5hPfvd/JvQr3znuW8NaN9h2LuGcbvzF5gTtYZ9bkgbNRorjZj
+	 Mt7nCFmAutKQHCxvzNG4xdKi/vzTL7Xk5dEvkFvZIccwHeAZUUUk3M+SC5i5z3vnMQ6Au
+	 WhdtKpU63hTUe7tQq8VHU8qNuS8Bcptcz8VmIU5dbbIIxXEkoPI7WN6AnNKWgD+Vb6jZO
+	 AJ54tWN5XT+cnfl7YRaU0a/fhbzXIHdCJl6bDpPmDGJXGyjLWFEANAIyqz7MZljNMdV8n
+	 lNfHbNKIlPLxeXaM0EG2RrvYKFDQPlwTkBGuk0s7l99wCsGTDYxR5ciJbSLM7l/5AMQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B6VIF6hs;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f3ozdA+Y;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A07606A322;
-	Mon, 19 Oct 2026 21:30:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19FB606A31A;
+	Mon, 19 Oct 2026 21:30:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B6VIF6hs
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 170291F000C7;
-	Mon, 19 Oct 2026 21:29:59 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f3ozdA+Y
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D8851F000C9;
+	Mon, 19 Oct 2026 21:30:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792445401;
-	bh=zYWrixPm+QMNkzjCpnwk9/Rk+hqbPSVNxVQvHcB89o8=;
+	s=k20260515; t=1792445407;
+	bh=jhvJLaNwH68MlYlkJQoHKvHnc3YWINNTcz12b9cCjeQ=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=B6VIF6hseZ0ecdud3CbCjOez+ciHl0bolWQvLE/QgZNzvzJsedt+DSroOLl2EbKiq
-	 WEzbVtRvFTD4ONxSJJ1lvoItgJFaZJkd/U9ntcHjQBJ6FOQ/l5Dbf9cLKMFNMhh+2a
-	 Mr3SMT11wrJ0FqYQzk9whntkqf3orlpzSo2g8TC8aRsN85wxQQ/kXJz8B4A2Tvol6B
-	 9EZhOIOq/5Uj4lL8bWElRQc7cm3ywekFjkLo+VfP17rDn6gQ1mIuU5E5wItP0FZ9ge
-	 sF0NvNbpd2Fyw6/DEfqzHmcfdQi+vioshGAxXx877Z78Y076TMoZY3oXWOLzvp1V8B
-	 pc/zG9cIV5crA==
-Subject: Re: [PATCH net-next v17 08/15] quic: add path management
+	b=f3ozdA+YCAFbuaWoO+HDrp/Ctqm6YDIYOW0fKtOxpR/0bAunb12M5sssx3jZiFvK9
+	 i9UzqGEINlOOUe0q2FfQSH4bU9w+djyt1rEPrZes5jYnsr0byaJuKQcNPBD4Tb690S
+	 UdaIpt/lrceG/gZCCOBN3XyOVfesiCAbAETFQupZLeiVqk85fsfg8iTih+BWqBtUAe
+	 +34mWYlBDGpCOgIG1PjgAphnrL21Y9x8nsnInNUFxSggzkRoS5ttkAyxsMnOxR0G4n
+	 e/9vJo9Ts0KKmsXgZJ/sxICmHGDM71mdatWw70M0TZWaUYDfwTrWszGPPe6KG0odju
+	 /SOerD4S9haew==
+Subject: Re: [PATCH net-next v17 11/15] quic: add crypto key derivation and
+ installation
 From: netdev-bot+sashiko@kernel.org
 To: lucien.xin@gmail.com
 Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
@@ -54,13 +55,13 @@ Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
  jbaron@akamai.com, illiliti@protonmail.com, sd@queasysnail.net,
  marcelo.leitner@gmail.com, daniel@haxx.se, andrew.gospodarek@broadcom.com,
  mef@scarletmail.rutgers.edu, paul@jakma.org, kuniyu@google.com
-Date: Mon, 19 Oct 2026 21:29:58 +0000
-Message-ID: <179244539859.3135.15973054396060254186@kernel.org>
-In-Reply-To: =?utf-8?q?=3Cae36949f7685ef74318d3c742f02e1398db3b454=2E1792164?=
+Date: Mon, 19 Oct 2026 21:30:04 +0000
+Message-ID: <179244540463.3135.17132817693152829356@kernel.org>
+In-Reply-To: =?utf-8?q?=3C1da72318e969eb252977ccf5d8e3e506c2fa2e69=2E1792164?=
  =?utf-8?q?438=2Egit=2Elucien=2Exin=40gmail=2Ecom=3E?=
-References: =?utf-8?q?=3Cae36949f7685ef74318d3c742f02e1398db3b454=2E17921644?=
+References: =?utf-8?q?=3C1da72318e969eb252977ccf5d8e3e506c2fa2e69=2E17921644?=
  =?utf-8?q?38=2Egit=2Elucien=2Exin=40gmail=2Ecom=3E?=
-X-sashiko-severity: Medium
+X-sashiko-severity: High
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
@@ -73,10 +74,10 @@ List-Owner: <mailto:kernel-tls-handshake+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 1 potential
 issue(s) to consider.
 
-Critical: 0 · High: 0 · Medium: 2 · Low: 0
+Critical: 0 · High: 1 · Medium: 0 · Low: 0
 
 If you believe none of the issues are legitimate, please reply to each
 issue of Medium severity or higher and explain why the AI is wrong.
@@ -84,131 +85,96 @@ If any of them are legitimate and you plan to respin, please let patchwork
 know by including "pw-bot: cr" as a separate line at the end of your reply
 (one such reply per series is enough).
 
-- [Medium] quic_udp_sock_create() in net/quic/path.c zero-initializes
-  udp_conf and fills it with quic_udp_conf_init() ->…
-- [Medium] IP_FREEBIND (and the IPv6 equivalent) set on a QUIC socket has
-  no effect when a new UDP tunnel socket is created.
+- [High] quic_init_sock() (net/quic/socket.c:58) sets sk->sk_destruct =
+  quic_sock_destruct.
 
 --
 
-quic: add path management
+quic: add crypto key derivation and installation
 
-This adds struct quic_path_group and struct quic_path to manage the
-active and alternate paths of a QUIC connection. Each path is bound to a
-kernel UDP tunnel socket, which can be shared and is tracked in a
-per-port hash table. The patch also adds bind, unbind and swap helpers,
-alternate path detection for migration, and basic PLPMTUD state handling.
+This patch adds quic_crypto, which derives and installs QUIC packet
+protection keys for the Initial, Handshake, 0-RTT and 1-RTT levels. It
+handles key updates and stateless reset token generation. It also adds a
+quic_sock_destruct() callback that frees the per-level crypto transforms
+when the last socket reference goes away.
 
-> diff --git a/net/quic/path.c b/net/quic/path.c
-> new file mode 100644
-> index 0000000000000..ba7e2c952a36a
-> --- /dev/null
-> +++ b/net/quic/path.c
-> @@ -0,0 +1,596 @@
-
-[ ... ]
-
-> +static struct quic_udp_sock *quic_udp_sock_create(struct sock *sk,
-> +						  union quic_addr *a)
+> diff --git a/net/quic/socket.c b/net/quic/socket.c
+> index 12f0817c8b55f..9b1106a9f5e73 100644
+> --- a/net/quic/socket.c
+> +++ b/net/quic/socket.c
+> @@ -40,10 +40,22 @@ static void quic_write_space(struct sock *sk)
+>  	rcu_read_unlock();
+>  }
+>  
+> +static void quic_sock_destruct(struct sock *sk)
 > +{
-> +	struct udp_tunnel_sock_cfg tuncfg = {};
-> +	struct udp_port_cfg udp_conf = {};
-> +	struct net *net = sock_net(sk);
-> +	struct quic_uhash_head *head;
-> +	struct quic_udp_sock *us;
-> +	struct socket *sock;
-> +	int err;
+> +	u8 i;
 > +
-> +	us = kmalloc_obj(*us);
-> +	if (!us)
-> +		return ERR_PTR(-ENOMEM);
+> +	/* Deferred crypto free for async encryption/decryption. */
+> +	for (i = 0; i < QUIC_CRYPTO_MAX; i++)
+> +		quic_crypto_free(quic_crypto(sk, i));
+
+[Severity: High]
+Is it safe to free the crypto transforms from sk_destruct, given the
+context it can run in?
+
+sk_destruct runs in whatever context drops the last socket reference.
+Later in this series, several of those contexts are softirq:
+
+  quic_packet_rcv() (UDP encap receive) ends with sock_put(sk)
+  quic_timer_timeout() ends with sock_put(sk)
+  quic_packet_rcv_err() drops its reference with sock_put()
+  quic_packet_xmit() takes a reference per TX skb through
+    skb_set_owner_sk_safe(); sock_efree() releases it on TX completion,
+    usually in NAPI
+
+If the user has already closed the socket, any of these can end up as:
+
+  sock_put()
+    __sk_destruct()
+      quic_sock_destruct()
+        quic_crypto_free()
+          crypto_free_aead()
+            crypto_destroy_tfm()
+              alg->cra_exit()
+
+The AEADs come from crypto_alloc_aead(cipher->aead, 0, 0), so an async
+hardware implementation can be selected. hisi_sec2, for example, registers
+both "gcm(aes)" and "ccm(aes)". Its sec_aead_exit() calls
+dma_free_coherent(). Behind an IOMMU that leads to __iommu_dma_free() and
+then vunmap(), which begins with:
+
+mm/vmalloc.c:vunmap() {
+	...
+	BUG_ON(in_interrupt());
+	...
+}
+
+Can this hit that BUG when a QUIC socket is destroyed from softirq?
+Listen sockets already hold AEAD transforms in this series, via
+quic_packet_get_alpn()->quic_crypto_initial_keys_install().
+
+macsec hit the same crash and fixed it in commit 6624bba469a3 ("macsec:
+use rcu_work to defer RX SA crypto cleanup out of softirq").
+
+The note about in-flight async requests holding a socket reference covers
+the lifetime of the transforms. It does not cover the context in which
+the free runs.
+
+Would it work to defer the tfm teardown to process context, for example
+with a work item or rcu_work queued from quic_sock_destruct()?
+
 > +
-> +	quic_udp_conf_init(sk, &udp_conf, a);
-
-[Severity: Medium]
-Should the tunnel socket take its IPV6_V6ONLY setting from the QUIC
-socket that owns it?
-
-quic_udp_conf_init()->quic_v6_udp_conf_init() fills in the family,
-address, port, checksum flags and bind_ifindex. It never sets
-conf->ipv6_v6only:
-
-net/quic/family.c:quic_v6_udp_conf_init() {
-	conf->family = AF_INET6;
-	conf->local_ip6 = a->v6.sin6_addr;
-	conf->local_udp_port = a->v6.sin6_port;
-	conf->use_udp6_rx_checksums = true;
-	conf->use_udp6_tx_checksums = true;
-	conf->bind_ifindex = quic_get_dev_if(sk, a);
-}
-
-udp_sock_create6() applies v6only only when the config asks for it:
-
-net/ipv6/ip6_udp_tunnel.c:udp_sock_create6() {
-    ...
-	if (cfg->ipv6_v6only) {
-		err = ip6_sock_set_v6only(sock->sk);
-    ...
-}
-
-As a result, the kernel UDP socket always gets the net.ipv6.bindv6only
-default. An IPV6_V6ONLY value set on the QUIC socket through
-quic_setsockopt()->ipv6_setsockopt() is ignored. A zero cfg value also
-can't clear an inherited bindv6only=1.
-
-With bindv6only=0, could an IPV6_V6ONLY QUIC socket bound to [::]:P get a
-dual-stack tunnel? That tunnel would also hold IPv4 port P and could
-cause unexpected EADDRINUSE for IPv4 binds.
-
-With bindv6only=1, a QUIC socket that cleared IPV6_V6ONLY gets a v6-only
-tunnel, and IPv4 UDP lookup skips ipv6_only sockets. Would IPv4 packets
-for that dual-stack QUIC socket ever be delivered?
-
-quic_udp_sock_lookup() also decides sharing through
-quic_cmp_sk_addr(us->sk, ...), which checks ipv6_only_sock() on the
-tunnel socket. A wrong v6only state would therefore also change which
-QUIC sockets end up sharing a tunnel.
-
-quic_path_bind() has no caller yet in this series, so this would only
-show up once quic_bind() is wired in by the next patchset.
-
-> +	err = udp_sock_create(net, &udp_conf, &sock);
-
-[Severity: Medium]
-Is IP_FREEBIND (or its IPv6 equivalent) on the QUIC socket honoured
-when a new tunnel socket is created here?
-
-struct udp_port_cfg has no freebind or transparent field.
-udp_sock_create4() and udp_sock_create6() call kernel_bind() right after
-sock_create_kern(), so FREEBIND can never be set on the new socket
-before it is bound:
-
-net/ipv6/ip6_udp_tunnel.c:udp_sock_create6() {
-	err = sock_create_kern(net, AF_INET6, SOCK_DGRAM, 0, &sock);
-    ...
-	err = kernel_bind(sock, (struct sockaddr_unsized *)&udp6_addr,
-			  sizeof(udp6_addr));
-    ...
-}
-
-The bind path then calls inet_addr_valid_or_nonlocal() on the new tunnel
-socket. That socket doesn't have FREEBIND set, so a nonlocal source
-address would fail with -EADDRNOTAVAIL.
-
-The QUIC socket accepts IP_FREEBIND through
-quic_common_setsockopt()->ip_setsockopt(). quic_get_user_addr() in the
-next patchset is described as honouring FREEBIND. Could bind validation
-then accept the address, only for
-quic_path_bind()->quic_udp_sock_create() to reject it?
-
-It looks like only the netns-wide ip_nonlocal_bind sysctl would make a
-nonlocal bind work here.
-
-> +	if (err) {
-> +		pr_debug("%s: failed to create udp sock\n", __func__);
-> +		kfree(us);
-> +		return ERR_PTR(err);
-> +	}
+> +	quic_sk_destruct(sk);
+> +}
+> +
+>  static int quic_init_sock(struct sock *sk)
+>  {
+>  	u8 i;
+>  
+> +	sk->sk_destruct = quic_sock_destruct;
+>  	sk->sk_write_space = quic_write_space;
+>  	sock_set_flag(sk, SOCK_USE_WRITE_QUEUE);
 
 [ ... ]
 

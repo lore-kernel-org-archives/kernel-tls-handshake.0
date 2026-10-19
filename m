@@ -1,46 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792445399;
-	b=UNDOaBte8owIodjB4A+NqjQ2c0V0qFuKxgVMIsDF7eDG2TecmXDIZ6rAV5MobOaWywSC
-	 7FL9MFVZjC0YdFPRqnjFPRtqBMdJitUkt52sW19EMhY8t2o4QfWH22ZdtWGV8YoBZ5kJb
-	 C4Gw4lcal7aqjgUto9VTHMlLmTNwBQ6WOz3rqzX5xMR2G32/pUcrVhm9iUIFsQMMiPrGw
-	 1upEJBKQ0MNoGTEFeRQ36NXEBPCJ9g9psDRjEq4NJ36kz926iF1MKF0A6tik5K9Mjw8+Y
-	 90yBSKUqtr6UIlTk9U7FY7caa/nTjOck7SanwTTkOtHB+W+n/gSE/YXHLU4vATLxv2A==
+	t=1792445396;
+	b=j/e38DJZOSUkFF9M/wf1JrnF7D4o2dI7aAGI0TnGVqDWMRo7vG0h+CjEd3oUKT4yRUQ0
+	 uwlzFCCZtr2WUr+MLxy7Juvw/jAmFBq4QXNIJDzbxPyi4V//mr3udJ1uif7QY9esYJW7n
+	 FuCuVp+JTi/NjLDdR4ol9B3fG0JZpQVYL3hFfMlGKRObazbiQlBiVREaVqfJMPX5/kkVd
+	 rroaHPJBzIgsGBxnBUHwrOh++w5mWUHEWLZZycnhBl3ta/CwN9XhjVshW6rdeaA4lMeiq
+	 js3M8P75Pw8GRwkW9nrBVYhuJ+L3aMOncyiPA6n8PuaItQacdzfby+0hqHoxuR//+pg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792445399;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792445396;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=qO/g4Acy+1cPSpxqYSMxIsGa5SLJV+7eifKnXeT0hnY=;
-	b=fnvfd6xDxcFYBhx/1wk7ds4RPTNim0zxewGO2v1oWUGsQmg0Bq75fKCMrXlmsFQfaTfj
-	 SWhuJd8Cwngeg9OEdFtpSNYlUuTH8XIJRpkGNbhUrAy2/n+qnVnMEjhaLX3BI2VoEFQYO
-	 bhO01MgjXK4V1voSMALH9cvizqkOT55nSIS2G9RRioA24j6yvoSDo+8bO4KYm2q0QGZ3J
-	 FBL8Csk6Jz9pw0sRQ7QQ7q+dpmsHxcsn/yrs6vQkUPWo74oUAtPZIxcz/9Rp+WzvrUzj0
-	 JHR9HjvCfmha1t1e+YzzDPcS8W04T+/zvawR5w//ja0bDGV6imhCUsgS14ZBbukTKCQ==
+	bh=V1SKqgXsrplLlDz06eFww2PKsFDxp6WP2CMViFGG9y4=;
+	b=kHaGJGF60ZeqP+pXT8IX0qXMzEalXAg/4+6aooENz6B5Z0Vsl4kD+7xrUOjR+HqfhCkY
+	 glcxvpsIj+UFseKbJdsWocDpIzUyS0dPyGFBNtsdPcy3DDXqCl0I4wHg+kAuPVoQzFxgh
+	 vcMYoQRNfXa5gsFF3dgTezVQcQ+cgtAfSdEee+wlOWdzLXVY0ZZbGItRz95Sx10MmPgfC
+	 JgrBithD/kzkC6+mDQLYRYn3pmJp4VHrp/RoJMoJDgKRahUHWJiNbFWjYymqwRmau7VBS
+	 oAfCCZo5dKygEYN7LUuDFde6dmUgy7ikS8jFoWYS9RxM+eeij99GUNMqpKKsdwrRCXw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nbLfhtoH;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=heJgehEC;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C611C606A320;
-	Mon, 19 Oct 2026 21:29:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3DB606A31D;
+	Mon, 19 Oct 2026 21:29:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nbLfhtoH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45D961F000C4;
-	Mon, 19 Oct 2026 21:29:56 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=heJgehEC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C9701F000C5;
+	Mon, 19 Oct 2026 21:29:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792445398;
-	bh=qO/g4Acy+1cPSpxqYSMxIsGa5SLJV+7eifKnXeT0hnY=;
+	s=k20260515; t=1792445395;
+	bh=V1SKqgXsrplLlDz06eFww2PKsFDxp6WP2CMViFGG9y4=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=nbLfhtoHsFNZw6w3lMT/CI4gs8tAllnXBzgTQlK36k++xBlsa+VOouR8w0sJAK3Xt
-	 HseCWBPNhS6ezFdbV8FVPIp4F2Ophd9yabr4eweHAfHA6gWoEday5FNu+iG/AuEs7Y
-	 +t0dasITZkj1uFUvsL3Z/hENw24Fjvze3WTRu8O2sC8IIsmpAaIAglu8CFhk2kVs1H
-	 TqAljXzVFAhOETz6FdmtmvY2lsG9u1RQ+4QKClGgKioCV9MDTsFECO8A2uBfcZcvfm
-	 R7YQ9bBt3+DW1q2zRMh314ofCLtZOn59rhC87lOAVN49/2sPWe9iBcQ+7BOUvzTCPk
-	 RWHbGYVynEWRw==
-Subject: Re: [PATCH net-next v17 07/15] quic: add connection id management
+	b=heJgehECDE3wC00XKNuh5KTLi5FNL+/+u55oMozDqmzbiDw8JL4kE/qUYScpZ5MaI
+	 nr1GlwXZWZcIFuNSmxRItuKfXeAzDwtuwldJu/P7VzKxviODYWA/mZ6jAQsKz/Lsm2
+	 0TCG2pLvxboVLyGhEefw6GRpB1wYacFecLa1WHBBdA0wJC9HRzJm9Ypn1h0MWH5MEN
+	 6kHQlnKswpT903Ah9hbeulO7c8W+K2yZp5LY3m0xeb245oFMNjueFc7Ci6Zg7zXJmX
+	 4iJ8GKyN571/N6L/uxltwC2khpv4XQ2EyH+DVB+vaBXHHt1A7jaDm3JnKbnCBp/C0G
+	 dFISMWb/NlqRw==
+Subject: Re: [PATCH net-next v17 06/15] quic: add stream management
 From: netdev-bot+sashiko@kernel.org
 To: lucien.xin@gmail.com
 Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
@@ -54,11 +54,11 @@ Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
  jbaron@akamai.com, illiliti@protonmail.com, sd@queasysnail.net,
  marcelo.leitner@gmail.com, daniel@haxx.se, andrew.gospodarek@broadcom.com,
  mef@scarletmail.rutgers.edu, paul@jakma.org, kuniyu@google.com
-Date: Mon, 19 Oct 2026 21:29:55 +0000
-Message-ID: <179244539578.3135.2545046427986099445@kernel.org>
-In-Reply-To: =?utf-8?q?=3Ce444094df836a7945028f960a458f520effdf221=2E1792164?=
+Date: Mon, 19 Oct 2026 21:29:53 +0000
+Message-ID: <179244539310.3135.8921542260670507924@kernel.org>
+In-Reply-To: =?utf-8?q?=3Ca92cd8233a031c412bf8b709ba98ed8e9477b74d=2E1792164?=
  =?utf-8?q?438=2Egit=2Elucien=2Exin=40gmail=2Ecom=3E?=
-References: =?utf-8?q?=3Ce444094df836a7945028f960a458f520effdf221=2E17921644?=
+References: =?utf-8?q?=3Ca92cd8233a031c412bf8b709ba98ed8e9477b74d=2E17921644?=
  =?utf-8?q?38=2Egit=2Elucien=2Exin=40gmail=2Ecom=3E?=
 X-sashiko-severity: Low
 Content-Type: text/plain; charset="utf-8"
@@ -79,81 +79,75 @@ you want to address the nit picks below when you respin.
 
 Low priority / nit picks for your consideration:
 
-- [Low] The comment on the `count` field of `struct quic_conn_id_set`
-  (net/quic/connid.h:46) does not match the code.
+- [Low] The comment above quic_stream_max_streams_update()
+  (net/quic/stream.c:313-319) says it "Recalculates the max_uni and…
 
 --
 
-quic: add connection id management
+quic: add stream management
 
-This patch adds struct quic_conn_id_set to manage QUIC source and
-destination connection IDs. It provides helpers to add, remove and find
-connection IDs in a set, and inserts source connection IDs into a global
-RCU-protected hash table. It also adds helpers for RX path lookup and for
-checking stateless reset tokens.
+This patch adds struct quic_stream_table and struct quic_stream to manage
+QUIC streams per socket. It adds quic_stream_get() and quic_stream_put() to
+acquire and release send and receive streams. It also adds
+quic_stream_id_exceeds() and quic_stream_max_streams_update() to track
+stream limits.
 
-> diff --git a/net/quic/connid.h b/net/quic/connid.h
+> diff --git a/net/quic/stream.c b/net/quic/stream.c
 > new file mode 100644
-> index 0000000000000..105c2b4b0f2ec
+> index 0000000000000..29c9f3568b287
 > --- /dev/null
-> +++ b/net/quic/connid.h
-> @@ -0,0 +1,184 @@
+> +++ b/net/quic/stream.c
+> @@ -0,0 +1,427 @@
 
 [ ... ]
 
-> +struct quic_conn_id_set {
-> +	/* Connection ID in use on the current path */
-> +	struct quic_common_conn_id *active;
-> +	/* Connection ID to use for a new path (e.g., after migration) */
-> +	struct quic_common_conn_id *alt;
-> +	struct list_head head; /* List head of available connection IDs */
-> +	u8 entry_size; /* Size of each connection ID entry in the list */
-> +	u8 max_count;  /* active_connection_id_limit in rfc9000#section-18.2 */
-> +	u8 count;      /* Current number of connection IDs in the list */
+> +/* Updates the maximum allowed incoming stream IDs if any streams were recently
+> + * closed.  Recalculates the max_uni and max_bidi stream ID limits based on the
+> + * number of open streams and whether any were marked for deletion.
+> + *
+> + * Returns true if either max_uni or max_bidi was updated, indicating that a
+> + * MAX_STREAMS_UNI or MAX_STREAMS_BIDI frame should be sent to the peer.
+> + */
+> +bool quic_stream_max_streams_update(struct quic_stream_table *streams,
+> +				    s64 *max_uni, s64 *max_bidi)
+> +{
+> +	s64 max, rem;
+> +
+> +	*max_uni = 0;
+> +	*max_bidi = 0;
+> +	if (streams->recv.uni_pending) {
+> +		rem = streams->recv.max_streams_uni - streams->recv.streams_uni;
+> +		max = streams->recv.next_uni_stream_id - QUIC_STREAM_ID_STEP +
+> +		      (rem << QUIC_STREAM_TYPE_BITS);
+> +
+> +		streams->recv.max_uni_stream_id = max;
+> +		*max_uni = quic_stream_id_to_streams(max);
 
 [Severity: Low]
+This isn't a bug, but does the comment above
+quic_stream_max_streams_update() describe max_uni and max_bidi correctly?
 
-This isn't a bug, but is this comment accurate?
+The comment says the function "Recalculates the max_uni and max_bidi stream
+ID limits". max_uni and max_bidi are the names of the output parameters, but
+those parameters receive stream counts:
 
-quic_conn_id_add() links every new entry into the list. It only increments
-count when the new number extends the consecutive run:
+    *max_uni = quic_stream_id_to_streams(max);
+    ...
+    *max_bidi = quic_stream_id_to_streams(max);
 
-	list_add_tail(&common->list, list);
+Here quic_stream_id_to_streams() returns (stream_id >> 2) + 1. The stream ID
+limits are only stored in streams->recv.max_uni_stream_id and
+streams->recv.max_bidi_stream_id.
 
-	if (number == quic_conn_id_last_number(id_set) + 1) {
-		if (!id_set->active)
-			id_set->active = common;
-		id_set->count++;
+The code itself is correct, because MAX_STREAMS frames carry a count. Nothing
+in the series calls this function yet. A future caller that follows the
+comment and encodes *max_uni and *max_bidi as stream IDs would advertise the
+wrong MAX_STREAMS value.
 
-For example, after adding numbers 0 and 5 to an empty set, the list holds
-two entries but count is 1.
+Could the comment say that the output parameters are stream counts?
 
-The consumers rely on count being the length of the consecutive run that
-starts at the first entry:
-
-	return quic_conn_id_first_number(id_set) + id_set->count - 1;
-
-The WARN_ON_ONCE() guard in quic_conn_id_remove() and the
-active->number != last_number check in quic_conn_id_select_alt() both
-depend on that meaning.
-
-Could the comment describe count as the number of consecutive connection
-IDs starting from the first entry in the list? Otherwise a later caller
-that compares count against max_count (active_connection_id_limit) would
-be comparing a run length against a list-size limit.
-
-> +	bool source;   /* true if this is a source conn_id set, false if dest */
-> +};
-> +
-> +static inline u32 quic_conn_id_first_number(struct quic_conn_id_set *id_set)
-> +{
-
-[ ... ]
-
-> +static inline u32 quic_conn_id_last_number(struct quic_conn_id_set *id_set)
-> +{
-> +	return quic_conn_id_first_number(id_set) + id_set->count - 1;
-> +}
+> +		streams->recv.uni_pending = 0;
+> +	}
 
 [ ... ]
 

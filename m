@@ -1,68 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792445413;
-	b=kMtmkWo5Yu27bhX3Y/b2iPc4AzAwvPyulL4/tyaVGLl/Q0WfcwcOwV5RiymjcOOG5Emu
-	 iwBeWDHR3s1Er1VzLLWMX4uTwybifwOifu3MQerjxKzFIsgsRcJgaz8Hsq1FtMtckQnNM
-	 nurwP4xQfiDE4QZYUgJ8Saix7JT8goyqmnFNgqP+LL5sKTpe/bBbe3tzZKUAf1La2vggJ
-	 r9H12mfh2nwvBRhq6y8OV46aHcVnb9RmnYJepfokZBezzaKcZNlMHG8VQ2AGfcgzeT81n
-	 FKUlYNQkP+jTNf/U7ldnvF9g5X3nmqz4SvGOi5HCTe9vPHItqG273nNALWra+Rxr0AQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792445413;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=UuICSS5DMo4Gcw0hAWTDJJ5h4bUS85wyXSJnINw8FnE=;
-	b=aSe763eP1Pv4KRW4qFZKeIJLJrXVwjU2oeMBmv7PvEpkJ6XVz/uC/7xeZyPVBrpHtVE0
-	 N1MtJy/JMdO7PXgx60Xt6DeOQ3cn2+syM87YwazjijSa2g5f1ZQEi5VCEEXIzv4v4Mqq4
-	 KnA2p4UI0eTh3cm+Tg0BmTb/BD8I/1y2y28utkZq2h5MdIwyG6nRAnZsZrUb3vIfBWdSA
-	 yplkzhp+RLZZAKyi3mGKsNIH7oUXQjRCPPHQFAFjwEUVeX5GnBFKTn9tOGapW3/TzavPh
-	 1Yh+jT0/62o3Bj+UyzAtAt3TpWWMsW95o3BZ2DRvuYgtzLADWBxi2Y7rulzabDm2arg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X6BYdnTv;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.44
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792503641;
+	b=LRpkNg0L1x+m5/laSyf2QDXuz/ONmeHVgGncfPtbex7xo1EP99I/0bFjisjPSUDvEavi
+	 BAiG2wf+k6FChOhwySsS+/cgDTrNKw46ZqLAoXvqY4c0NO+Cw7FPyPAz9V3k5jvNwPKc8
+	 JSeN4Vi3RbRLO7dl7Gwof82RAU7Qr504eIcRhugmkoLnZkcFwpn9qfDQZy0K/LXNNw6yR
+	 W9j7dp68vmrE/XfVtFnwoP7kmeZgpnoK8H9K5K/10Kko50i8dzl2WbbqzH3BJ2VjJR4hx
+	 H+ZCLBWsyWy/1AmRFnKRf2HWJ69z72YkF6lvNElpSZ5pkh4gQSJcWESBAO0r3Q83hjQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792503641;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=voUF/+9lehUDPe5WaqksWKVtr/FASBVPuuXFqS0EBWw=;
+	b=vi6bp28OQoWkKVcBU3RN5FX2wOWe657JlMgHeokc1WRbJwIRfILT3w3T1JzEFyL4sHLH
+	 wn4cICfEUzooKG7J02sMj+lraabVCqlaAvsbLly1/GJku1pWIVWJV/rPKtcvNt5LM2nAc
+	 AL+c2hG8csW8Fsa9Xk5K4i+yxIhImZK3dcxTZ0wJ1MKwVueF/2YlNsb/Q01RoV/6ut/BY
+	 xQ06TYiR+XgRGSWjRKQXfzK7v2OcuibxBGr0RFeEUbMCBd8a4a8loU27Hwmra9SqsJu43
+	 RmVtb0TRXWHM2BVD9bhcZ07DGMVo5SjkHs3iUdh45JVfFaD3xqRELsnELMaSkw4SRXQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=sieberarens.com;
+	spf=pass smtp.mailfrom=meyerpflug.com.br;
+	dkim=pass header.d=sieberarens.com header.i=@sieberarens.com header.a=rsa-sha256 header.s=google header.b=TWYTPgCR;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.44
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63506606A319;
-	Mon, 19 Oct 2026 21:30:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE4D606A31E
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 20 Oct 2026 13:40:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DCE4D606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sieberarens.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meyerpflug.com.br
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X6BYdnTv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B88A01F000C9;
-	Mon, 19 Oct 2026 21:30:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792445412;
-	bh=UuICSS5DMo4Gcw0hAWTDJJ5h4bUS85wyXSJnINw8FnE=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=X6BYdnTvC6C15mHDkX22cBjEl6SoM5OpsD1FPrncIRLgN2Y7ja0uoYw6CPQrHHlEQ
-	 cV2fGLklVZXA7zmRbtdkOhRn29swKPDzzh3I5d/3lMuT005nTO9lXJ3N49RWNpUAoE
-	 mid7bcvLFFQ8YQCcRGxfHueccbAcZqn4jFY85UJfggmQ/tKMSLQ5cgcf4YEIkTKKMF
-	 taTnKv155x3+a+xP3fk2RArbEUHBL+7kIUrH1eWiX5PgzbuIu9l6yxtaK4euEQjZDA
-	 0RIXXvXy9cbipOpnmKDyiPVKmVjgBFVsNA36wEPI5iFxBuZDoOmdJ6IsMIPGA+pgeO
-	 64S7a2B3ujdVA==
-Subject: Re: [PATCH net-next v17 15/15] quic: add packet parser base
-From: netdev-bot+sashiko@kernel.org
-To: lucien.xin@gmail.com
-Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
- kuba@kernel.org, edumazet@google.com, pabeni@redhat.com, horms@kernel.org,
- metze@samba.org, mbuhl@openbsd.org, tfanelli@redhat.com, hepengtao@xiaomi.com,
- dreibh@simula.no, linux-cifs@vger.kernel.org, pc@manguebit.org,
- linkinjeon@kernel.org, tom@talpey.com, kernel-tls-handshake@lists.linux.dev,
- chuck.lever@oracle.com, jlayton@kernel.org, steved@redhat.com, hare@suse.de,
- aahringo@redhat.com, dhowells@redhat.com, matttbe@kernel.org,
- mail@johnericson.me, xiyou.wangcong@gmail.com, alibuda@linux.alibaba.com,
- jbaron@akamai.com, illiliti@protonmail.com, sd@queasysnail.net,
- marcelo.leitner@gmail.com, daniel@haxx.se, andrew.gospodarek@broadcom.com,
- mef@scarletmail.rutgers.edu, paul@jakma.org, kuniyu@google.com
-Date: Mon, 19 Oct 2026 21:30:10 +0000
-Message-ID: <179244541026.3135.1595523596507400028@kernel.org>
-In-Reply-To: =?utf-8?q?=3C47ec29f97f3986e6b9cb5b07f109dcae340916e6=2E1792164?=
- =?utf-8?q?438=2Egit=2Elucien=2Exin=40gmail=2Ecom=3E?=
-References: =?utf-8?q?=3C47ec29f97f3986e6b9cb5b07f109dcae340916e6=2E17921644?=
- =?utf-8?q?38=2Egit=2Elucien=2Exin=40gmail=2Ecom=3E?=
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key, unprotected) header.d=sieberarens.com header.i=@sieberarens.com header.a=rsa-sha256 header.s=google header.b=TWYTPgCR
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-676858d42f8so2662161d50.2
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 20 Oct 2026 06:40:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792503638; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Fld5aW7zfyDwf1+TjnfCQbhKyfpYgjwId/oui+7XikSp/IodUUty5cTs2i1D6DTfPL
+         mfsSdPgAp+HtiZ5ry5NgWTbgQUzkeQgGKh5sLNk+RMHzp21FHpD56lgSkAzwnKz/0rEK
+         QRrEGWtuz4OIXL/aRKobAcqpr10hAi/nBk0PXYZU0fLy/axQYXqIgj3tLINJxTogTHL3
+         OOSUjkOczN/XG8IzLy+D0suZHGngP1RuqSlcdTe1nN+Vp1HcARfVZETgXiDzPsTIIGux
+         VdrDQ6xz6xZa4U4gW3UQD/SlQapUliahdpiACBveZgzfzVB0le/9MSWJvHZDcAep2qAJ
+         I1rg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=voUF/+9lehUDPe5WaqksWKVtr/FASBVPuuXFqS0EBWw=;
+        fh=gNRAYY2GxYsTI38aBDHbv5/wJFoILZIyx/OqzJVqJqA=;
+        b=DFjPWWiViklm2b1X0U6/+P2uL6ea1ETYychqtV64dDfZF4pce8USdhmH6UUv1Sieyp
+         wJVp87o4IR8cbexW0tpgWzgBSYwjmr9Ia+5i8qw4mbWzjtDK/YWtlTc64B/Vw1Dh9qSE
+         uc/MeooAa/UUTp+pSlcmht3eVNZgsoTlkOxhlXV40BI+q0VpfkacJkDnbM4fz2ZtmRjs
+         Y/36SFxKpOu+Moqv9TBdD7neJoWVH1ZvHeX2AS5VFDGdomLzx3+/C7O2NcU8hKsgRAlh
+         A9h/UNUBdiddhL8xyxO/UUm5e9ycjTOEgAD4ZUig8kdRf0Mx4ASNpAbBk797/ORVP04Y
+         9kWA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sieberarens.com; s=google; t=1792503638; x=1793108438; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=voUF/+9lehUDPe5WaqksWKVtr/FASBVPuuXFqS0EBWw=;
+        b=TWYTPgCRG8lTJQt+KxLpt6vvOF6mCcxmlTvMy6guLNH+Q1sKO3Inj70yU7AEUthrDd
+         bsKOFiZVNRhZjzxNr5suv15i+sAny1GuQlu3F+/7CJrC+SOiKq7qHvApXXHB7qko9r9p
+         6nDNCY7kP1+TPIv0JEoaCbgDw4aIFyd2cS+EEMcMFzTBGtqr6K7xdrjOrxcVMnk4Tfw0
+         0ltuWGL59AHUOUeOremdcoOVns4+YpJTk6+BLOEAC6lmjZy187HC4nDIphI5c0XYd2kp
+         3Vr93eU8MAs3lyR12Y9T2xyj75Y98V5ykDfGHPcec5hpMbnE82ZiZCYPBIUw4HljiguA
+         1Hdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792503638; x=1793108438;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=voUF/+9lehUDPe5WaqksWKVtr/FASBVPuuXFqS0EBWw=;
+        b=jfzImJR3vhRL3+QUL5vOmGAEPLp/N49rTm/oNPhb++2oZA4FDc/eUcOYPD6XDtXLBp
+         t8ghQUWCkFW1LiPzkLOn4vGA6hZ3sRUHNTfBXvcEPetU8ATD4QYl4vs7Ax5CUSFQt9P+
+         AM8nDytORSpLAsaiH8p56+Ox0LwKTom57lt231IllYy9Wcf7xeqPXlohUyXtxgBTLh0s
+         QiT0yboDtfXHUlyAuWiAAOefzJOxPe1RsbfQ4Qx9lYdUuyPMzJEs1JtPp4bBjptfWP1y
+         RvM6ytaghFMGCiEzEW5DZOg0daLhV+JBoKzvSXGAmnUzPRAlqHFliBS9TzrzCtJATaIq
+         DbYQ==
+X-Gm-Message-State: AFq9FYLhkpCKdXreLZnT3IsTCyee+0W3ZhHLEg9G10SC/mAPF/KFIZPJ
+	hPaAkQedDycQXoa7ezUfERX9JXFquAoCYeVOjW8p3lOShO7FimacsX6z4SkVoGlPybIHuzgcERu
+	cfDNqrxvzj7Hn/S9kf3qzlohcdct1P59VN0/Zw5RL
+X-Gm-Gg: AYBFou3xnWDzm9NLFYJ9Wwvir0N8EHrfDgZAf0nW+enlRBbmw2fJHstxCUZ7+4w8iB5
+	WJ5W/KykylPuQLIlXGIxhyhjn1JHEVaNXrLdPvhNVect/FvPA3uIZdXukOv0vHcxBTJQvVbASLn
+	YnsFP6HrIMsANde3qNzZPmbz9japPRFUgV6BsaFH/Oq00eH2U5QOgf5+aK4ptwhSk5Xhn3aRDnU
+	n7bj1YRvqD8/KD5znO3VNfP8AlLf2VsYB/nBkLsvCUXCBsNSfEPIzIAgCAOqh+V7IZha4otozz/
+	cGPvQGgipp8pdfWdhdW2eCZqzVyUXRzJ7z5zxgvMCV5BRuRwcIVQ2LlV7cQblzwLYPeeqPGt7tb
+	ny11kHbhFJFCC9j+kcTu134OVtzJ8b+YgxdeCeOSiecna/w==
+X-Received: by 2002:a53:dc83:0:b0:675:34b8:78a2 with SMTP id
+ 956f58d0204a3-679ca8da995mr1599010d50.92.1792503638436; Tue, 20 Oct 2026
+ 06:40:38 -0700 (PDT)
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Post: <mailto:kernel-tls-handshake@lists.linux.dev>
@@ -72,301 +102,164 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:kernel-tls-handshake+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+References: <CAKgHdsU+ksJNObVkhx_vzUFXDtHJWBiiXscBAckV_v-yvHO=5A@mail.gmail.com>
+ <CADvbK_dbQ1ogx73TFhKNtHb-0TRBn3rfQ+C8C_TZ6sgf91zqTg@mail.gmail.com> <b2a3cec9-b0e3-41e0-9f44-908ebb1953b1@app.fastmail.com>
+In-Reply-To: <b2a3cec9-b0e3-41e0-9f44-908ebb1953b1@app.fastmail.com>
+From: Andre Sieber Arens <andre@sieberarens.com>
+Date: Tue, 20 Oct 2026 10:40:27 -0300
+X-Gm-Features: AclHuK_tRvGB8-DAuIBN1cieCeKiziYBA_UUaR2yhAAKWkGKhQBbsMVwkoBcVOo
+Message-ID: <CAKgHdsUSHWHiQK64adk35Q9M=a_ERiVf-Bypw8yE99c-nEw_zg@mail.gmail.com>
+Subject: Re: [PATCH] tlshd: Verify the server certificate on the anonymous
+ QUIC client path
+To: Chuck Lever <cel@kernel.org>
+Cc: kernel-tls-handshake@lists.linux.dev, Xin Long <lucien.xin@gmail.com>
+Content-Type: multipart/mixed; boundary="000000000000a0f891065e45c6df"
 
-Thank you for your contribution! Sashiko AI review found 6 potential
-issue(s) to consider.
+--000000000000a0f891065e45c6df
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Critical: 0 · High: 1 · Medium: 1 · Low: 4
+Hi Chuck, hi Xin,
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+Thank you both for looking at this. This is my first contribution to
+ktls-utils, and my first patch sent to a mailing list, so please bear
+with me while I learn the process.
 
-- [High] When PLPMTUD is disabled, ICMP Packet Too Big messages never
-  lower the MSS.
-- [Medium] quic_accept_sock_exists() (net/quic/socket.c) passes an skb to
-  an accept socket's sk_backlog_rcv() while atomic: local_bh_disable()…
-- [Low] quic_packet_get_connid() rejects any connection ID longer than
-  QUIC_CONN_ID_MAX_LEN (20) regardless of version.
-- [Low] quic_request_sock_backlog_tail() calls __sk_rmem_schedule(sk,
-  len) before skb_set_owner_r().
-- [Low] quic_packet_deferred_work() drains deferred_list while holding
-  lock_sock(sk) and never calls cond_resched(): `while ((skb =…
-- [Low] quic_packet_get_alpn() prints the u32 field alpn->len (struct
-  quic_data in net/quic/common.h) with %d: `pr_debug("%s: alpn_len:…
+On Xin's first point, keeping the GNUTLS_VERIFY_ALLOW_SIGN_RSA_MD2/MD5
+flags: agreed. v2 keeps that line, so the QUIC anonymous path sets the
+same verify flags as tlshd_tls13_client_anon_handshake(). If you would
+like those flags dropped from both anonymous paths, I can send that as
+a separate follow-up patch.
 
---
+On the second point, the patch not applying: sorry about that. My mail
+client turned the tabs into spaces. The patch itself applies cleanly to
+current main (e486e5fc4ba8) with git am. I will send v2 in reply to
+this thread with git send-email, which should avoid the problem.
 
-quic: add packet parser base
+v2 builds with -Wall -Wextra -Werror on Fedora 45 (GnuTLS 3.8.13,
+GCC 16.2.1) with HAVE_GNUTLS_QUIC and HAVE_DANE defined. The same check,
+on a 1.4.0 base, has been running in our builds: the handshake is
+refused when the server certificate comes from another CA or is issued
+for another name, and a valid certificate still works.
 
-This patch adds the QUIC receive path. Sockets are looked up by
-connection ID and address, and packets are dispatched by socket state.
-Listen sockets handle client Initial packets (request sockets, ALPN
-demux, deferred work), and ICMP Packet Too Big errors update the path
-MTU.
+Thanks again,
+Andre
 
-> diff --git a/net/quic/packet.c b/net/quic/packet.c
-> index 56d2b8df292a0..a2f836cc22d70 100644
-> --- a/net/quic/packet.c
-> +++ b/net/quic/packet.c
-> @@ -14,6 +14,801 @@
+Em seg., 19 de out. de 2026 =C3=A0s 11:34, Chuck Lever <cel@kernel.org> esc=
+reveu:
+>
+>
+>
+> On Mon, Oct 12, 2026, at 12:40 PM, Xin Long wrote:
+> > On Sat, Oct 10, 2026 at 4:05=E2=80=AFPM Andre Sieber Arens
+>
+> >> @@ -760,14 +774,14 @@ static void tlshd_quic_client_set_x509_session(s=
+truct tlshd_quic_conn *conn)
+> >>
+> >>   if (conn->cert_req =3D=3D TLSHD_QUIC_NO_CERT_AUTH) {
+> >>   /*
+> >> - * No verify callback runs on this path. Without this mark,
+> >> - * the audit reports an authentication failure.
+> >> + * The client presents no certificate, but the server is
+> >> + * still authenticated, as on the TCP path: its chain must
+> >> + * verify against the trust store and match the peer name.
+> >>   */
+> >> - tlshd_dane_record_unauth(parms);
+> >> - gnutls_certificate_set_verify_flags(cred, GNUTLS_VERIFY_ALLOW_SIGN_R=
+SA_MD2 |
+> >> -  GNUTLS_VERIFY_ALLOW_SIGN_RSA_MD5);
+> > Should we keep this line to align with tlshd_tls13_client_anon_handshak=
+e()?
+> >
+> >>   gnutls_certificate_set_flags(cred, GNUTLS_CERTIFICATE_SKIP_KEY_CERT_=
+MATCH |
+> >>     GNUTLS_CERTIFICATE_SKIP_OCSP_RESPONSE_CHECK);
+> >> + gnutls_certificate_set_verify_function(cred,
+> >> +       tlshd_quic_client_anon_verify_function);
+> >>   } else {
+> >>   gnutls_certificate_set_verify_function(cred,
+> >>         tlshd_quic_client_x509_verify_function);
+> >>
+> > The patch appears to fail to apply. Could you please double-check its f=
+ormat?
+>
+> Sorry for the delay, Xin's email got swept into my Trash folder
+> accidentally.
+>
+> Andre, can you respond to Xin's review comments?
+>
+>
+> --
+> Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
 
-[ ... ]
+--000000000000a0f891065e45c6df
+Content-Type: application/octet-stream; name="v2.patch"
+Content-Disposition: attachment; filename="v2.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mvgqdfg90>
+X-Attachment-Id: f_mvgqdfg90
 
-> +/* Extracts a QUIC Connection ID from a buffer in the long header packet. */
-> +static int quic_packet_get_connid(struct quic_conn_id *connid, u8 **pp,
-> +				  u32 *plen)
-> +{
-> +	u64 len;
-> +
-> +	if (!quic_get_int(pp, plen, &len, 1) ||
-> +	    len > *plen || len > QUIC_CONN_ID_MAX_LEN)
-> +		return -EINVAL;
-
-[Severity: Low]
-Should the 20-byte connection ID limit be applied before we know the
-version is supported?
-
-quic_packet_get_long_header() is called from quic_packet_get_sock() and
-from quic_packet_listen_process(). Both calls happen before the
-!quic_packet_compatible_versions(version) branch that sends Version
-Negotiation.
-
-So a long-header packet with an unknown version and a CID longer than
-20 bytes is dropped as an invalid header, and no Version Negotiation is
-sent.
-
-RFC 9000 section 17.2 limits CIDs to 20 bytes only for version 1.
-Sections 5.2.2 and 6.1 say a server SHOULD be able to read longer CIDs
-from other versions so that it can send Version Negotiation.
-
-[ ... ]
-
-> +/* Process PMTU reduction event on a QUIC socket. */
-> +void quic_packet_rcv_err_pmtu(struct sock *sk)
-> +{
-
-[ ... ]
-
-> +	info = clamp(paths->mtu_info, QUIC_PATH_MIN_PMTU, QUIC_PATH_MAX_PMTU);
-> +	/* If PLPMTUD is not enabled, update MSS using route and ICMP info. */
-> +	if (!paths->plpmtud_interval) {
-> +		if (quic_packet_route(sk))
-> +			return;
-> +
-> +		dst = __sk_dst_get(sk);
-> +		if (dst) {
-> +			dst->ops->update_pmtu(dst, sk, NULL, info, true);
-> +			/* Re-read actual MTU after update_pmtu, which may have
-> +			 * rejected the increase. Only use values accepted by
-> +			 * route layer to prevent spoofed ICMP from raising MSS.
-> +			 */
-> +			info = clamp(dst_mtu(dst), QUIC_PATH_MIN_PMTU,
-> +				     QUIC_PATH_MAX_PMTU);
-> +		}
-> +		quic_packet_mss_update(sk, info - packet->hlen);
-
-[Severity: High]
-Does this ever lower the MSS when PLPMTUD is disabled?
-
-With skb == NULL, ip_rt_update_pmtu() builds its flow key through
-ip_rt_build_flow_key()->build_sk_flow_key(), which takes the
-destination from the socket:
-
-net/ipv4/route.c:build_sk_flow_key() {
-    ...
-	__be32 daddr = inet->inet_daddr;
-    ...
-}
-
-When there is no packet header, __ip6_rt_update_pmtu() does the same
-with sk->sk_v6_daddr.
-
-Nothing in net/quic sets inet_daddr or sk_v6_daddr, and ip6_dst_store()
-is called with daddr_set false. The exception would then be created for
-0.0.0.0 or :: instead of the peer.
-
-Even with the right key there is a second problem. When
-update_or_create_fnhe() creates a new exception, it only marks the
-cached routes obsolete:
-
-	WRITE_ONCE(rt->dst.obsolete, DST_OBSOLETE_KILL);
-
-It does not change their MTU. The IPv6 path inserts a new RTF_CACHE
-route and leaves the old dst unchanged.
-
-So re-reading dst_mtu(dst) on the same cached dst would return the old
-MTU, and quic_packet_mss_update() keeps the old MSS.
-
-If that's right, the v17 change to re-read the MTU after update_pmtu()
-makes the ICMP-driven reduction a no-op. plpmtud_interval is 0 by
-default, so a path whose PMTU is below the local MTU could stall:
-full-size DF packets are dropped and the PTBs are ignored.
-
-For comparison, SCTP temporarily sets the socket daddr around
-update_pmtu() (to_sk_daddr()), and inet_csk_update_pmtu() re-checks the
-dst with __sk_dst_check() afterwards. Is something similar needed here?
-
-[ ... ]
-
-> +	pr_debug("%s: alpn_len: %d\n", __func__, alpn->len);
-
-[Severity: Low]
-This isn't a bug, but alpn->len is a u32 in struct quic_data, so %u
-would match it. The v16 changelog made the same fix in quic_packet_rcv().
-
-[ ... ]
-
-> +/* Work function to process packets in the deferred list. */
-> +static void quic_packet_deferred_work(struct work_struct *work)
-> +{
-> +	struct quic_sock *qs = container_of(work, struct quic_sock, work);
-> +	struct sock *sk = &qs->inet.sk;
-> +	struct sk_buff_head *head;
-> +	struct sk_buff *skb;
-> +
-> +	lock_sock(sk);
-> +	head = &quic_packet(sk)->deferred_list;
-> +	while ((skb = __skb_dequeue(head)) != NULL)
-> +		quic_packet_process(sk, skb, GFP_KERNEL);
-
-[Severity: Low]
-Was the cond_resched() from the v12 changelog lost in the v15 rework?
-The v12 entry reads:
-
-  "Call cond_resched() in the loop inside quic_packet_backlog_work()."
-
-Each iteration here can run synchronous AEAD decryption (cb->sync = 1),
-GFP_KERNEL allocations and token verification, all under lock_sock().
-
-On the quic_listen_sock_switch() path, the listener lock is dropped and
-re-taken in the middle of this loop. Under sustained traffic, packets
-processed from the socket backlog in that window can keep adding to
-deferred_list, so the loop keeps running.
-
-> +	release_sock(sk);
-> +	sock_put(sk);
-> +}
-
-[ ... ]
-
-> diff --git a/net/quic/socket.c b/net/quic/socket.c
-> index 0173416d0368a..c75d2dcaba9d4 100644
-> --- a/net/quic/socket.c
-> +++ b/net/quic/socket.c
-> @@ -24,6 +24,319 @@ static void quic_enter_memory_pressure(struct sock *sk)
-
-[ ... ]
-
-> +int quic_request_sock_backlog_tail(struct sock *sk,
-> +				   struct quic_request_sock *req,
-> +				   struct sk_buff *skb)
-> +{
-> +	u32 limit = sk->sk_rcvbuf / sk->sk_max_ack_backlog;
-> +	int len = skb->truesize;
-> +
-> +	limit =  max_t(u32, limit, QUIC_MIN_UDP_PAYLOAD * 4);
-> +	if (req->blen + len > limit || !__sk_rmem_schedule(sk, len, false)) {
-> +		QUIC_INC_STATS(sock_net(sk), QUIC_MIB_PKT_RCVDROP);
-> +		kfree_skb(skb);
-> +		return -ENOBUFS;
-> +	}
-> +
-> +	QUIC_SKB_CB(skb)->backlog = 1;
-> +	skb_set_owner_r(skb, sk);
-
-[Severity: Low]
-Can this push sk_forward_alloc negative when the skb is already charged
-to this listener?
-
-Consider a second Initial packet for the same connection that was
-deferred through quic_packet_deferred_schedule(). Its destructor is
-already sock_rfree, and in quic_packet_listen_process() it takes this
-path, which skips skb_set_owner_sk_safe():
-
-	req = quic_request_sock_lookup(sk);
-	if (req) /* If request sock already exists, enqueue packet directly. */
-		goto out;
-
-In quic_request_sock_backlog_tail(), __sk_rmem_schedule() reserves the
-memory first. skb_set_owner_r() then orphans the skb
-(sock_rfree()->sk_mem_uncharge()->sk_mem_reclaim()) and charges it
-again.
-
-The reclaim can return the pages that were just reserved, so the
-sk_mem_charge() that follows can leave sk_forward_alloc below zero.
-
-For example, start with forward_alloc 2000 and truesize 2304:
-
-  schedule adds a page:      6096
-  uncharge:                  8400
-  reclaim leaves:            208
-  charge leaves:             -2096
-
-Would orphaning the skb before the __sk_rmem_schedule() check avoid
-this?
-
-> +	__skb_queue_tail(&req->backlog_list, skb);
-> +	req->blen += len;
-
-[ ... ]
-
-> +	/* Look up accepted socket matching packet addresses and DCID. */
-> +	local_bh_disable();
-> +	sk = quic_sock_lookup(skb, &packet->daddr, &packet->saddr,
-> +			      quic_path_usock(quic_paths(sk), 0),
-> +			      &packet->dcid);
-> +	if (!sk)
-> +		goto out;
-> +
-> +	/* Found a matching accept socket. Process packet with this socket. */
-> +	skb_orphan(skb);
-> +	bh_lock_sock_nested(sk);
-> +	if (sock_owned_by_user(sk)) {
-> +		/* Socket is busy (owned by user context): queue to backlog. */
-> +		if (sk_add_backlog(sk, skb, READ_ONCE(sk->sk_rcvbuf))) {
-> +			QUIC_INC_STATS(sock_net(sk), QUIC_MIB_PKT_RCVDROP);
-> +			kfree_skb(skb);
-> +		}
-> +	} else {
-> +		/* Socket not busy: process immediately. */
-> +		sk->sk_backlog_rcv(sk, skb); /* quic_backlog_rcv(). */
-> +	}
-
-[Severity: Medium]
-Should cb->backlog and cb->sync be cleared before the skb is handed to
-the accept socket here?
-
-When this runs from quic_packet_deferred_work(), the skb came off
-deferred_list with cb->backlog = 1. An skb that went through
-quic_listen_sock_switch() also has cb->sync = 1 and cb->resume = 1, set
-by quic_packet_get_alpn().
-
-The call path here is atomic:
-
-quic_packet_deferred_work()
-  quic_packet_process()
-    quic_packet_listen_process()
-      quic_accept_sock_exists()
-        local_bh_disable()
-        bh_lock_sock_nested(accept_sk)
-        accept_sk->sk_backlog_rcv()
-          quic_packet_process(..., GFP_ATOMIC)
-
-Elsewhere the patch treats cb->backlog as meaning the context can sleep,
-for example in quic_packet_deferred_schedule():
-
-	if (cb->backlog)
-		return 0;
-
-quic_crypto_decrypt() also checks !cb->backlog before doing a key
-update, and cb->sync forces a blocking crypto wait.
-
-The handshake and app handlers are still stubs in this patch. Once they
-are filled in, could these leftover flags make them sleep while holding
-the spinlock with BH disabled?
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1792164438.git.lucien.xin%40gmail.com
+RnJvbSBmYzQwNzRlNjlhYWNhNGQzYjBkNTljNzMwYjhmNTEzYzhmYTQ0OGY5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBBbmRyZSBTaWViZXIgQXJlbnMgPGFuZHJlQHNpZWJlcmFyZW5z
+LmNvbT4KRGF0ZTogTW9uLCAxOSBPY3QgMjAyNiAxMjo1NDozNSAtMDMwMApTdWJqZWN0OiBbUEFU
+Q0ggdjJdIHRsc2hkOiBWZXJpZnkgdGhlIHNlcnZlciBjZXJ0aWZpY2F0ZSBvbiB0aGUgYW5vbnlt
+b3VzIFFVSUMKIGNsaWVudCBwYXRoClRvOiBrZXJuZWwtdGxzLWhhbmRzaGFrZUBsaXN0cy5saW51
+eC5kZXYKQ2M6IFhpbiBMb25nIDxsdWNpZW4ueGluQGdtYWlsLmNvbT4sCiAgICBDaHVjayBMZXZl
+ciA8Y2VsQGtlcm5lbC5vcmc+CgpXaGVuIHRoZSBrZXJuZWwgcmVxdWVzdHMgYW4gYW5vbnltb3Vz
+IGNsaWVudCBoYW5kc2hha2UKKEhBTkRTSEFLRV9BVVRIX1VOQVVUSCkgb24gYSBRVUlDIHNvY2tl
+dCwKdGxzaGRfcXVpY19jbGllbnRfc2V0X3g1MDlfc2Vzc2lvbigpIGxvYWRzIHRoZSBjbGllbnQg
+dHJ1c3Qgc3RvcmUKYnV0IGluc3RhbGxzIG5vIHZlcmlmeSBjYWxsYmFjay4gR251VExTIGRvZXMg
+bm90IHZlcmlmeSBhIHBlZXIKY2VydGlmaWNhdGUgb24gaXRzIG93biwgc28gdGhlIGhhbmRzaGFr
+ZSBjb21wbGV0ZXMgd2l0aCBhbnkgc2VydmVyCmNlcnRpZmljYXRlOiBvbmUgZnJvbSBhbiB1bmtu
+b3duIENBLCBhIHNlbGYtc2lnbmVkIG9uZSwgb3Igb25lCmlzc3VlZCBmb3IgYW5vdGhlciBuYW1l
+LiBUaGUgcGVlciBuYW1lIGlzIHVzZWQgb25seSBmb3IgU05JLCBhbmQgdGhlCmtlcm5lbCBjb25z
+dW1lciBpcyB0b2xkIHRoZSBoYW5kc2hha2Ugc3VjY2VlZGVkLgoKVGhlIFRDUCBhbm9ueW1vdXMg
+cGF0aCBhdXRoZW50aWNhdGVzIHRoZSBzZXJ2ZXIgd2l0aAp0bHNoZF9jbGllbnRfdmVyaWZ5X3Bl
+ZXIoKSwgYW5kIERvY3VtZW50YXRpb24vbmV0d29ya2luZy8KdGxzLWhhbmRzaGFrZS5yc3Qgc3Rh
+dGVzIHRoYXQgYW4gYW5vbnltb3VzIGNsaWVudCBoYW5kc2hha2Ugc3RpbGwKcGVyZm9ybXMgc2Vy
+dmVyIGF1dGhlbnRpY2F0aW9uLiBJbnN0YWxsIHRoZSBzYW1lIGNoZWNrIG9uIHRoZSBRVUlDCnBh
+dGguCgpXaXRoIHZlcmlmaWNhdGlvbiBpbiBwbGFjZSwgc3RvcCBtYXJraW5nIHRoZSBoYW5kc2hh
+a2UgYXMKdW5hdXRoZW50aWNhdGVkIGZvciB0aGUgREFORSBhdWRpdDogdGhlIHZlcmlmeSBjYWxs
+YmFjayBub3cgcmVjb3Jkcwp0aGUgUEtJWCBvciBEQU5FIHJlc3VsdC4KCkZpeGVzOiA0M2ExNWZl
+ZDJmMzMgKCJ0bHNoZDogYWRkIHN1cHBvcnQgZm9yIHF1aWMgaGFuZHNoYWtlIikKU2lnbmVkLW9m
+Zi1ieTogQW5kcmUgU2llYmVyIEFyZW5zIDxhbmRyZUBzaWViZXJhcmVucy5jb20+Ci0tLQpDaGFu
+Z2VzIHNpbmNlIHYxOgotIEtlZXAgdGhlIE1EMi9NRDUgdmVyaWZ5IGZsYWdzIG9uIHRoaXMgcGF0
+aCwgYXMgdGhlIFRDUCBhbm9ueW1vdXMKICBoYW5kc2hha2UgZG9lcyAoWGluIExvbmcpLgotIFJl
+YmFzZWQgb24gbWFpbiAoZTQ4NmU1ZmM0YmE4KS4KLSB2MSB3YXMgd2hpdGVzcGFjZS1kYW1hZ2Vk
+IGJ5IG15IG1haWwgY2xpZW50OyB2MiBpcyBzZW50IHdpdGgKICBnaXQgc2VuZC1lbWFpbC4KCiBz
+cmMvdGxzaGQvY2xpZW50LmMgfCAyMiArKysrKysrKysrKysrKysrKysrLS0tCiAxIGZpbGUgY2hh
+bmdlZCwgMTkgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9zcmMv
+dGxzaGQvY2xpZW50LmMgYi9zcmMvdGxzaGQvY2xpZW50LmMKaW5kZXggNmFlYmZjMy4uNjlhNzQ3
+NiAxMDA2NDQKLS0tIGEvc3JjL3Rsc2hkL2NsaWVudC5jCisrKyBiL3NyYy90bHNoZC9jbGllbnQu
+YwpAQCAtNzE5LDYgKzcxOSwyMCBAQCBzdGF0aWMgaW50IHRsc2hkX3F1aWNfY2xpZW50X3g1MDlf
+dmVyaWZ5X2Z1bmN0aW9uKGdudXRsc19zZXNzaW9uX3Qgc2Vzc2lvbikKIAlyZXR1cm4gdGxzaGRf
+Y2xpZW50X3g1MDlfdmVyaWZ5X2Z1bmN0aW9uKHNlc3Npb24sIGNvbm4tPnBhcm1zKTsKIH0KIAor
+LyoqCisgKiBAYnJpZWYgVmVyaWZ5IHRoZSBzZXJ2ZXIncyB4LjUwOSBjZXJ0aWZpY2F0ZSAoUVVJ
+QywgYW5vbnltb3VzIGNsaWVudCkKKyAqIEBwYXJhbVtpbl0gICAgIHNlc3Npb24gIHNlc3Npb24g
+aW4gdGhlIG1pZHN0IG9mIGEgaGFuZHNoYWtlCisgKgorICogQHJldHZhbCBHTlVUTFNfRV9TVUND
+RVNTICAgICAgICAgICAgQ2VydGlmaWNhdGUgaGFzIGJlZW4gc3VjY2Vzc2Z1bGx5IHZlcmlmaWVk
+CisgKiBAcmV0dmFsIEdOVVRMU19FX0NFUlRJRklDQVRFX0VSUk9SICBDZXJ0aWZpY2F0ZSB2ZXJp
+ZmljYXRpb24gZmFpbGVkCisgKi8KK3N0YXRpYyBpbnQgdGxzaGRfcXVpY19jbGllbnRfYW5vbl92
+ZXJpZnlfZnVuY3Rpb24oZ251dGxzX3Nlc3Npb25fdCBzZXNzaW9uKQoreworCXN0cnVjdCB0bHNo
+ZF9xdWljX2Nvbm4gKmNvbm4gPSBnbnV0bHNfc2Vzc2lvbl9nZXRfcHRyKHNlc3Npb24pOworCisJ
+cmV0dXJuIHRsc2hkX2NsaWVudF92ZXJpZnlfcGVlcihzZXNzaW9uLCBjb25uLT5wYXJtcyk7Cit9
+CisKICNkZWZpbmUgVExTSERfUVVJQ19OT19DRVJUX0FVVEgJMwogCiAvKioKQEAgLTc2MCwxNCAr
+Nzc0LDE2IEBAIHN0YXRpYyB2b2lkIHRsc2hkX3F1aWNfY2xpZW50X3NldF94NTA5X3Nlc3Npb24o
+c3RydWN0IHRsc2hkX3F1aWNfY29ubiAqY29ubikKIAogCWlmIChjb25uLT5jZXJ0X3JlcSA9PSBU
+TFNIRF9RVUlDX05PX0NFUlRfQVVUSCkgewogCQkvKgotCQkgKiBObyB2ZXJpZnkgY2FsbGJhY2sg
+cnVucyBvbiB0aGlzIHBhdGguIFdpdGhvdXQgdGhpcyBtYXJrLAotCQkgKiB0aGUgYXVkaXQgcmVw
+b3J0cyBhbiBhdXRoZW50aWNhdGlvbiBmYWlsdXJlLgorCQkgKiBUaGUgY2xpZW50IHByZXNlbnRz
+IG5vIGNlcnRpZmljYXRlLCBidXQgdGhlIHNlcnZlciBpcworCQkgKiBzdGlsbCBhdXRoZW50aWNh
+dGVkLCBhcyBvbiB0aGUgVENQIHBhdGg6IGl0cyBjaGFpbiBtdXN0CisJCSAqIHZlcmlmeSBhZ2Fp
+bnN0IHRoZSB0cnVzdCBzdG9yZSBhbmQgbWF0Y2ggdGhlIHBlZXIgbmFtZS4KIAkJICovCi0JCXRs
+c2hkX2RhbmVfcmVjb3JkX3VuYXV0aChwYXJtcyk7CiAJCWdudXRsc19jZXJ0aWZpY2F0ZV9zZXRf
+dmVyaWZ5X2ZsYWdzKGNyZWQsIEdOVVRMU19WRVJJRllfQUxMT1dfU0lHTl9SU0FfTUQyIHwKIAkJ
+CQkJCQkgIEdOVVRMU19WRVJJRllfQUxMT1dfU0lHTl9SU0FfTUQ1KTsKIAkJZ251dGxzX2NlcnRp
+ZmljYXRlX3NldF9mbGFncyhjcmVkLCBHTlVUTFNfQ0VSVElGSUNBVEVfU0tJUF9LRVlfQ0VSVF9N
+QVRDSCB8CiAJCQkJCQkgICBHTlVUTFNfQ0VSVElGSUNBVEVfU0tJUF9PQ1NQX1JFU1BPTlNFX0NI
+RUNLKTsKKwkJZ251dGxzX2NlcnRpZmljYXRlX3NldF92ZXJpZnlfZnVuY3Rpb24oY3JlZCwKKwkJ
+CQkJCSAgICAgICB0bHNoZF9xdWljX2NsaWVudF9hbm9uX3ZlcmlmeV9mdW5jdGlvbik7CiAJfSBl
+bHNlIHsKIAkJZ251dGxzX2NlcnRpZmljYXRlX3NldF92ZXJpZnlfZnVuY3Rpb24oY3JlZCwKIAkJ
+CQkJCSAgICAgICB0bHNoZF9xdWljX2NsaWVudF94NTA5X3ZlcmlmeV9mdW5jdGlvbik7Ci0tIAoy
+LjU2LjAud2luZG93cy4xCgo=
+--000000000000a0f891065e45c6df--

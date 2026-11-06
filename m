@@ -1,79 +1,132 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793896241;
-	b=WZ7wi+Y7Zbd2C+CkHKb6AnmDZ96/DDhFRHb2kVNM1p58cx94UoBsrORMbR5oLXnwPlXe
-	 Gv5BR+89H5y2BPKsWV7Oo3OWbMGFKRW+XaFtfLENxKjh9fUtMaJOgCycFi303P/+YiJts
-	 V9u4CiU1nozPVc4p6Y0tW7IYTYW7ZmvEk91y/3T4gA+bmUf7qT9Av5yRw+iN2p2UvCCGA
-	 MAW14jXMd07gdaLE3NxyOhEIOWJC5XfwMLpPLBEae5VG7hpY4tCMLl0YU4q4nhMTIJn9E
-	 XSo/E92Wj+WQVg/cODIkx/xJrpYNwSz/5rBIjvyJo8SDgtVT8/WNCC+IqrDd4zCGu2A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793896241;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=uHeW0L5fyg8Btj14m4d28bKJ0EVxCTJiTa5I2SS1ptY=;
-	b=WU1ebxOySI+N1aoQklN+AHe7bDd00sjwr4aNK0U7LCH87kySJGkbMB0dtBMNuNyspER1
-	 ETJYQUGYnSdwTm7TdfSovr39k22G0Qiq+Bz+LUUBuTRqvFQwQsuOB8hVdcUgBjZoc79nZ
-	 MqcgcuhAcIA33JlcBogYYtWiaTNuLttrV3wVjbVvf3ij9+8heNmHb8C7YjBPnRao4hpQF
-	 qyXU5suwQ3H1J9rYoQ0HUGThv8JXx0dCu0Y1ZYsTzuYHCmeUQZZDvzuNSOvMq03Ws4qrQ
-	 ZXJgOTp21Cdw4daqZg1WSE+Ql3oll1QVZ/m27CVFmjMpAq+r2BMGwZWBG8q6awPFOgA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="bXG4R/+J";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93401606A335;
-	Thu,  5 Nov 2026 16:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bXG4R/+J
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793896241;
-	b=KoLUwHmMTCF1R/Douvc9ZEF51HUHREaOuTLskhy3D6/p0pnAamAAp/GX/txyL/B1Z3py
-	 cEx6+ftIDiHZR/4inn5252U8+EquEPdTsQZnavzMeq3Nmt/rNZxtudOIgHkv2y1Jp7RP9
-	 Wlf5Dt5GZwTjJmlTRm8PRL7WPxzIYq0s8xRrWZdvtD7OH4BFZuKXpEFKA3R+NxA17BkjB
-	 Tr8RYWyvisH9t8MVNbKe/RxgNhgbxRKsbMk1J7kpVxNSPABnhmu7a4iKTxHjYmtdTNQqu
-	 MRlvyaguB4/PrjBfJ2WH5GE2t9ZM9TKHZe2SzyG13dO94aaM+cJGlumQInHozNUXW4Q==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793896241;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=uHeW0L5fyg8Btj14m4d28bKJ0EVxCTJiTa5I2SS1ptY=;
-	b=O9HM2O3wuQ5Zed2zWm3mzwQMSDth6Eo9Bhobyca6Nmm83EixU7tu/kZY+5drYRqvegKA
-	 sbaidaQsxdLcoYcqT+7ASvmhxk7gGejq0JHHLKOUZLZTaj2Bs0Sf7RC7aeo++yfXJEe5v
-	 /eIwQD49UmP0p55fXBACL8MCVCgdccZZV6rkDfso1pzNg2FYqkf9U75j8n+m3BW7tbQIo
-	 /Sli7Sm3eOfmZB52gP5GNegjlHn95pxJ/Pm7fyhpONnG5pK+w8YoeIoTMkoLMKbt2/2sA
-	 30mdOdGcZep+ZdTPPvtMApR0RIpiXH/mcVPadRRgYFdRn+ftfHgWupcqd6Y45jrazPw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.138
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794001221;
+	b=URtf46JB2kP4mNpUX1/0DIlCCxWbu7pSMVixntY8uwqUUwxza4wdfNqS6mDchxjaIvE5
+	 OlyMCswTUSQrALEkas26EVNvZhPfM/YhuKA8NHvAZjRatkdrM9qMgb+dzu/TFA5nX0QO1
+	 +I1BoArdOrceQTslKvDbLHTGA5VX7t6jKrEGacZIozL8SiSJnXxRqavvE22hO8lnvWRXw
+	 St7RkzeYdmU7R4kwnE8TjbAIDvDqylhBOEXVHQYb6Jr+B9NGigYqw9QLZke9M4XOH0fI7
+	 Mdng+eaJGIDTpFd4uF+9iS8+4/NYCfajBlUa5wCM9FRkApqIu7iVaIWdg6g8fW2/HkQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794001221;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=NJjSZ6byjU0nT7L6gaConqvJnvZsIcsiEJ1Ekt21ztw=;
+	b=wmUWEOqG9bxZsP40p/pfxaw1zT+RwwVmQWSVAFcHKR1mPvW6soX21dOmMQ0Urk+4LqdM
+	 4jpmYUL1jyyn7sZ3LlqS9AstMh/hl9B30WtD+H2ZnXVnlbRfzHHmOXZ7eK7oYfCp7ZtY8
+	 VWWuES8RsUm1vyRuSLEs4FDlvGMMVRfvkovIvYaOSgA1K0UGyjMPDjnStkcEWHVP1YzdD
+	 gx+J4xsC3lOFpQvrgbpoFdT5hNDWcob4SwLKRj2nS/lndKaOttUhMXjbDPxF46r42LLnT
+	 RNqtAwsY9CVZ6zj5V3jzVcd2lAw/04xvRCyK5yQU29F0blF1QKDuVsUjBTXSJccXDzA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=queasysnail.net;
+	spf=pass smtp.mailfrom=queasysnail.net;
+	dkim=pass header.d=queasysnail.net header.i=@queasysnail.net header.a=rsa-sha256 header.s=fm1 header.b=VbXKoh6X;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=HrZFzyHX;
+	arc=none smtp.remote-ip=202.12.124.138
+Received: from flow-b3-smtp.messagingengine.com (flow-b3-smtp.messagingengine.com [202.12.124.138])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 0532F1F00A02;
-	Thu,  5 Nov 2026 16:30:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793896241;
-	bh=uHeW0L5fyg8Btj14m4d28bKJ0EVxCTJiTa5I2SS1ptY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=bXG4R/+JqmAjTVr6r4iG+IpBmjAj7c/3gdabgTv7223FXmMCuvm/jx2V3q/lqRhcA
-	 wyT80NDFw2A65hGn1kXOwiJ3SxqWQLMABp60S+sHchKw+lKJ+gr+mUy6TdKjgD4Xe6
-	 IDGKFBBMRpcDLZqjQeJDf7AKzsUtX0NZSLH/lektl27MHcwq+F5CaZdvmRDBVysKOg
-	 dDAGwAt+vmg/lDuGCuxpZJVCXbg2uHaCfnIYWdz9H/sbze2BY18hl5003PRlGS8kuX
-	 yYDTUDNPTpzr6ZZ9esOVU6UX4QDd79YhJCyFcWyQ0MGnHZmuAXa98ID5WI2eBjom36
-	 0z+b7u+FQFLVg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 88CFF47328;
-	Thu,  5 Nov 2026 16:30:39 +0000 (UTC)
-From: Martin Belanger via B4 Relay <devnull+martin.nvme.dev.gmail.com@kernel.org>
-Date: Thu, 05 Nov 2026 11:30:39 -0500
-Subject: [PATCH net-next v6 3/6] tls: loop in tls_sw_splice_read() until it
- has a record
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7919C606A32D
+	for <kernel-tls-handshake@lists.linux.dev>; Fri,  6 Nov 2026 21:40:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7919C606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=queasysnail.net header.i=@queasysnail.net header.a=rsa-sha256 header.s=fm1 header.b=VbXKoh6X;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=HrZFzyHX
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailflow.stl.internal (Postfix) with ESMTP id 014641302B02
+	for <kernel-tls-handshake@lists.linux.dev>; Fri,  6 Nov 2026 16:40:20 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-12.internal (MEProxy); Fri, 06 Nov 2026 16:40:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1794001217; x=
+	1794008417; bh=NJjSZ6byjU0nT7L6gaConqvJnvZsIcsiEJ1Ekt21ztw=; b=V
+	bXKoh6XdJyGq+d0PHagyU/VO7NO43A/j4OxLLPiPkWXoAckGZs0jaQPVkCUnALtg
+	jzpmF0Q3YDY9izjVrhSh4rci58x9KXUY5m2mMkdeKuutH240OFML8ePMUyrE3j/d
+	qk/o5CRfe72f2JEq9e3HErJ3D98F49jDyWj+BqDlrGM4V/GJWAQXibMfgKaM8zFH
+	aKVOiP79t7OBSg1Cyem/60G5GvmoUr1xp8zIjGC1OVVlOWRhmR6cWfXkaGXPVsef
+	LYZX2YuM9L5i9btS8BZ4kKjOFRMDBmou/u/MloGcFrNNfEop8oFfUFQY/rJbly3f
+	kghkXB6Df5jJxei9OhojA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1794001217; x=1794008417; bh=NJjSZ6byjU0nT7L6gaConqvJnvZsIcsiEJ1
+	Ekt21ztw=; b=HrZFzyHXLxxGiwjM2/JxHjs7v5CI89BrAoFsjwT/ROQXeSF7QQ3
+	ypzII+RA7DcpW3+EH6N8+K8gy14E2vecH8bf8b69/lCmaMC/9X59GNs8qskIt85l
+	+LFXwtOq+MavnpjqH46vYdZlBuZrJy21FnABeULSbGNv/3v6HEyGV21+pyQcJN4V
+	RfXMLzZ4QR+6KyFq/HDI4/BGWAdnVUwZ2HY1M2shj6dI6Wu5KqdGfi6MitanbSt4
+	U/ayL0mFo7JXGWwNibevlM/JHoRax7ykhSUaBS+ZIZTqDmVo4xBc+S4bv4sbNOJn
+	VZIs45IFZctIYm7TxhTjEMAuCAS3K3kt1Dw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=queasysnail.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794001217; d=queasysnail.net;
+	mf=PHNkQHF1ZWFzeXNuYWlsLm5ldD4=;
+	rt=PGtlcm5lbC10bHMtaGFuZHNoYWtlQGxpc3RzLmxpbnV4LmRldj4=;
+	s=fm1:rsa-sha256:N/c4bHLbNLIYWBZxkd+Xdd+vVf27uUxJ1mNnw/1oGzTUIM9
+	+4ntpX0A4EVR1u/an9DjPlt8DuzTmSPxl7wH5uE755iA/Zh4ivHPpMw//xbtpxmA
+	acNVauurxzqPsoBPKlKgsLn7494PIO6waKCBGrrrkkP9oEQm/qlvk8WSq4nTfX+n
+	+N3o6ZmfUtthubyzNRg8LTXpXBFH6vOcCf7qrJxxUWVr1T4YQDzy5i2n4CG4FDFD
+	VUuJ0mBChxzsxQ8oXXDN1bKpkRoFtbZFRlNxRWzpRvPQ7+BGjCixupktXB0LeMoI
+	gN44KKVqd3SaIErpWFPXYXHBLfCU/XSMUuCYaFw==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-disposition,content-type,date,feedback-id,from,
+	in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:5uTqlFLn19dD44/gE58Slrwi5vVzLuLCOhbMiki6nmM=:xLnDSRjbvnVpHAU9sGg0qmA1gw9coIREWUdi5megVz4=;
+X-ME-Sender: <xms:QUnual3N6gXDSunVHf5kPWqX6zSV_da-OP2ZQzq_EKpVUp6nLurF9w>
+    <xme:QUnuatsFAIcNhZxLzCkJB4dkuaiIvwVBvYRSNj6cxCaAYzHJ7LVArAGTzF5KhkOe3
+    hI1q1cDUlGruJqlL0kNKsMMVd65fwdKVw_GvE6fUmxFJI5mR73xyEc>
+X-ME-Received: <xmr:QUnuap8l6zZZ6ADu7UbQHFD6tdiSPw4hctckQxZFwEwqHh8hmIITjRKZHeI>
+X-ME-Proxy-Cause: dmFkZTFgaUn+qN8zY/WvD249UuGoto6ZaA1UpOS6Y/NjMRSGTpdPvTJQdB1AGpCs1OAohV
+    2FiWGqFD14+gKwJTds2Sqtgp2lyBLEl9dUH0DroKrJNwldmZGFO9OA8AxcIwXn78XvwCl6
+    UTxjcYbkwNdt6C9Xp2Lfwmc+GqJnjkrfpfxXaPL/ejhTIIhm2xYDmhKo0q6/6JBTIJhVZm
+    7ilSkX0MPkqaD/DtEj6cW4Tk2X+3uGEns+NC6qfPegvcWFo89T/ajLEZwgfYQkrJEr0Dtz
+    d9IEH/0NWR19s46M3lJMIByJMb/W+fGe+POAqIaETGM/ZXb60cJKie9pltbrmiZLtmxumI
+    Ok9C3loa+YL1IFfCgD9++ADmdAS7sYFV4dOUjzJYOEPur80bnaOIVIfJd9SW+NTv6+ck5Q
+    V7O64kPt3dQJzDlNDUxChCaQ1qfJgjIVrnqcPgTw7WzNRpuyqAAyUSoqfhV0jbTQ5P2oGn
+    j8mHWs6EHVsInTLRlumkzHDykZfK/EY0DK5IZPxzzCpdkcHZ8+qqSBRT4jJQPsw00nnMhe
+    i2YBjI32K3DdIRZ7QG2U03cXPrVLXiEf6AENnYbCrqELP0zN3SPOnA6cITlk/WGP7z5Tvk
+    jBO7gz2Fz0JIBG6rpICLMEv9V6fNUx4PEYNcA77VNNYxATCGUhMZwTOiDpOA
+X-ME-Proxy: <xmx:QUnuapSFkfzL10W_gr3DOflIRgsXs-pUI2NOADwxVnfi8hdzEYKl5w>
+    <xmx:QUnuanB0Y5J8Md6yyA_kZ44bUjfl69FqF4Q2AsvnLf8u3UuJBfN5Kg>
+    <xmx:QUnuaiYnhigLuiX0jK_iCpPIJxFwryOwsArNS1yz7Acig1mLcYv8WQ>
+    <xmx:QUnuagLgfiuZ5qhm9y3E1UPowuQMQLPjOEIeMwEtAfTe9pgt6bPEQQ>
+    <xmx:QUnuaifxf6jGg0L2AC3BnoMgezqV2djxGuWsC8FF0F-5VKJCmM9KN4sS>
+Feedback-ID: i934648bf:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Nov 2026 16:40:17 -0500 (EST)
+Date: Fri, 6 Nov 2026 22:40:15 +0100
+From: Sabrina Dubroca <sd@queasysnail.net>
+To: Martin Belanger <martin.nvme.dev@gmail.com>
+Cc: John Fastabend <john.fastabend@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Hannes Reinecke <hare@kernel.org>, Chuck Lever <cel@kernel.org>,
+	kernel-tls-handshake@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	Alistair Francis <alistair.francis@wdc.com>,
+	Martin Belanger <martin.belanger@dell.com>,
+	Daniel Pereira <danielmaraboo@gmail.com>
+Subject: Re: [PATCH net-next v6 0/6] tls: perform TLS 1.3 KeyUpdate in the
+ kernel
+Message-ID: <au5JP__7P_PzwDUe@krikkit>
+References: <20261105-keyupdate-rfc-v6-0-99b695f9eb4f@gmail.com>
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Post: <mailto:kernel-tls-handshake@lists.linux.dev>
@@ -83,72 +136,112 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:kernel-tls-handshake+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-keyupdate-rfc-v6-3-99b695f9eb4f@gmail.com>
-References: <20261105-keyupdate-rfc-v6-0-99b695f9eb4f@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 In-Reply-To: <20261105-keyupdate-rfc-v6-0-99b695f9eb4f@gmail.com>
-To: John Fastabend <john.fastabend@gmail.com>, 
- Jakub Kicinski <kuba@kernel.org>, Sabrina Dubroca <sd@queasysnail.net>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Hannes Reinecke <hare@kernel.org>, Chuck Lever <cel@kernel.org>, 
- kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org, 
- Alistair Francis <alistair.francis@wdc.com>, 
- Martin Belanger <martin.nvme.dev@gmail.com>, 
- Martin Belanger <martin.belanger@dell.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793896238; l=1113;
- i=martin.nvme.dev@gmail.com; s=20261014; h=from:subject:message-id;
- bh=4C9Djt7aw5YpZqtOVbGgX+iA/6jCePYUHtfq0NJMnQc=;
- b=PUpT2o6XdjPzvShA6vVJWrZJeFssowmSFYNxIaJU+36VTv3EDdUhyKVVAOwGi2GHxA9geOAOb
- 1Q5+oi1I8AaAMbR7m67cNCDQkXhNk5BAcAOSP9ddLnk7QFgx0XlRKnP
-X-Developer-Key: i=martin.nvme.dev@gmail.com; a=ed25519;
- pk=4K+XXetGK35w2LzRRddd/bbHawZU222BN+YZRuSpN+k=
-X-Endpoint-Received: by B4 Relay for martin.nvme.dev@gmail.com/20261014
- with auth_id=1176
-X-Original-From: Martin Belanger <martin.nvme.dev@gmail.com>
-Reply-To: martin.nvme.dev@gmail.com
 
-From: Martin Belanger <martin.belanger@dell.com>
+Hi Martin,
 
-tls_sw_splice_read() passes one record to the pipe. It takes the
-record from rx_list or decrypts the next record from the socket.
+I'm on a medical break so I won't be able to give this a proper review
+for another week or two, but since it keeps landing in my inbox, I
+want to make a comment.
 
-The next patch lets the kernel consume a KeyUpdate record. splice()
-then has no record to pass on and must decrypt the next one. Make the
-decrypt step a loop that runs until splice() has a record.
+Note: I haven't been following the discussions, and I can't give this
+the attention it deserves for now (the cover letter is already a bit
+much).  So this is kind of a "can we slow down until we agree that we
+really want that?"
 
-No functional change: the loop sets skb on its first pass.
 
-Signed-off-by: Martin Belanger <martin.belanger@dell.com>
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
----
- net/tls/tls_sw.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+2026-11-05, 11:30:36 -0500, Martin Belanger via B4 Relay wrote:
+> kTLS does not currently handle TLS 1.3 KeyUpdate. It never sends a
+> KeyUpdate.
 
-diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-index 771e02bff519..7f7a2f70b02a 100644
---- a/net/tls/tls_sw.c
-+++ b/net/tls/tls_sw.c
-@@ -2023,9 +2023,8 @@ ssize_t tls_sw_splice_read(struct socket *sock,  loff_t *ppos,
- 	if (err)
- 		goto splice_read_end;
- 
--	if (!skb_queue_empty(&ctx->rx_list)) {
--		skb = __skb_dequeue(&ctx->rx_list);
--	} else {
-+	skb = __skb_dequeue(&ctx->rx_list);
-+	while (!skb) {
- 		struct tls_decrypt_arg darg;
- 
- 		err = tls_rx_rec_wait(sk, nonblock, true, false);
+Because it isn't meant to handle any part of the handshake at all,
+just the record layer. The user gives us data, we stuff that into
+records and send the records down the TCP socket. That's it.
+
+So what you're proposing is a very fundamental change to how kTLS
+works, I'm not convinced we want to go this way.
+
+> And when it receives one, it blocks the socket until the
+> application installs the next key. kTLS also does not enforce the key
+> usage limit on transmit.
+> 
+> This applies to TLS libraries in user space as well as kernel users such
+> as NVMe/TCP or sunrpc:
+> 
+> - GnuTLS sends a KeyUpdate after 2^24 records when it runs its own
+>   record layer. With kTLS, the record layer is handled in the kernel and
+>   GnuTLS therefore never runs the check. OpenSSL never sends a KeyUpdate
+>   on its own.
+
+If userspace libraries don't do the right thing, we can fix the
+libraries. They will anyway have to be fixed to behave correctly with
+only the "old" uAPI, since they can't rely on this new stuff being
+present in the running kernel. Or they'd have to completely disable
+ktls if the kernel doesn't support this new uAPI, which would suck.
+
+> - NVMe/TCP and sunrpc don't have a mechanism to install a new key. A
+
+And that can't be handled with the existing handshake subsystem? (I'm
+not that familiar with it, nor with QUIC or NVMe/TCP and sunrpc)
+
+>   conforming peer that sends a KeyUpdate ends or stalls their
+>   connection.
+> 
+> RFC 9846 (July 2026), which obsoletes RFC 8446, makes the limit
+> mandatory (section 5.5): "Implementations MUST either close the
+> connection or do a key update as described in Section 4.7.3 prior to
+> reaching these limits." Long-lived connections with small records reach
+> the limit quickly. One NVMe/TCP queue sends at least one record per
+> command, and more with large I/O. Depending on the load and link speed,
+> the 2^24 limit can be reached in less than 10 minutes in many cases.
+
+My math says that's 28k records/second, it's a lot.
+
+
+> Why the record layer
+> ====================
+> 
+> KeyUpdate must be handled where the records are built.
+> 
+> The 2^24 limit is a record count, and only the record layer can see the
+> count precisely as it changes. A user sitting above kTLS can only read
+> the count with getsockopt(TLS_TX) after each write. A kTLS user writes
+> bytes, and the kernel splits and merges those bytes into records. I
+> counted send calls in an NVMe/TCP prototype trying to guesstimate the
+> 2^24 limit. The count was correct with 4 KB I/O, but was 21 times too
+> low with 1 MB I/O. Each send call translates into a different number of
+> records. It's simply not possible to precisely guess the number of
+> records based on the number of send calls.
+> 
+> The KeyUpdate must also go at a precise place in the record stream
+> (section 4.7.3). It is encrypted with the old key, and every record
+> after it with the new key. When the peer sets update_requested, our
+> KeyUpdate must go out before the next Application Data record. The key
+> can only change between two records. Only net/tls has control over that.
+> Fixing this in one driver or library would leave other drivers or
+> libraries to re-implement their own (imperfect) solution.
+
+I'm not yet convinced this is a strong enough argument to justify
+changing the model under which ktls operates with a change of this
+size and that also requires 500L of new selftests.
+
+
+> What the series does
+> ====================
+> 
+> - Two new socket options, TLS_TX_TRAFFIC_SECRET and
+>   TLS_RX_TRAFFIC_SECRET, are used to register the application traffic
+>   secrets. The secret is passed as raw bytes. The kernel derives the
+>   hash (SHA-256 or SHA-384) from the cipher installed with TLS_TX or
+>   TLS_RX. The TX secret must be set first because the RX secret needs
+>   the TX secret in case a received KeyUpdate asks for a reply.
+> - A third socket option, TLS_TX_KEY_UPDATE, can be used to send a
+>   KeyUpdate now. It can also optionally ask the peer to update too.
+
+Why does this need to be a socket option? It feels wrong to use a
+socket option to trigger sending data, why not hook on sendmsg()?
 
 -- 
-2.53.0
-
-
+Sabrina

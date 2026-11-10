@@ -1,46 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794349785;
-	b=u5iOw8SoeZ5mcRejo+DaoKcP9ZZNa1CEy98/tQNc+BVDhNEEJEB1LB0gKZGNL/d95fhu
-	 nRtsTmhehib8/L5bj8pUQBbwLVd5pI7eZKZKQ72tzcNuRqbdYDVFFXEy5MHXZkFbz+Tbo
-	 3wE5uQQJAZkTVo+GgfuQEEJtpvOEgxayuKHzsx3RTmuMPQMmPq/u0Uf5h97kHtI9HlNdw
-	 PpMImtpi6pKI0lXdSwvbUHKpxkafsqwFj/4BU38dzjW/8DvDv2rNEhih7ug7vDbz9WaCn
-	 mwhQvSmICJ8/R9HgSuAtVLzzBGvglQmeeUut9A8CpsdzPP8UbIIj5VHl0TdQFh01Hpw==
+	t=1794349781;
+	b=Z0mblrbdN0b/zIWEwSOiThpwEjmOTNhEZtVPLVXWBux+vDHed6ITPHLe3RtDvcBd/Gj6
+	 pGlyo8ICe+e+5244FtsklvX8swhuLMyLArLTIWccPyfDAqcFqVkcUSL+whQ0uLp4t90cp
+	 w25SB3zauXOJ30F3UJiffP01BgPG/I2QK+/IR0rCRZdJZ0PwcMauLA+OEKTusXURNVqr9
+	 Uvh5rNsmTR8UtS/XVbKFVXvGV70COCrfpZUJ2OKh+7WUBpIZMbFxRg4fIRDtExEyNWn5X
+	 7xOr7JUbR/zjXzwQSTM9H2+cDAbT9kzI4QAO+SBHJrCH2c5U9EANd13aKGMELs4qoyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794349785;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794349781;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=2RM5L0J9ASXfxGtNkAy/ZUMRHcMdMwZoeqzGABMR650=;
-	b=p/rtwQKwxbGRI5TP6ljuDvcJySR9ghbLmDnxkNEiRWH+VY7GPeZxZHg+C2bRymjsK3u7
-	 GLYsDO1Guv3QIxbhZ4j+j9kHwCVGvnQWBuouWDVeeIkvSDHHR0nBktJi8PS3QSx8hTjOT
-	 iInYEcfFOTUjVagPn+ZzcFhmazhpJOoHuUNW29Q/UL0YDbKKfsEQX1T1eNBlmoYl8MLQc
-	 AYpFmQZgPWLIA4+Nnb9YGK3JHGoNxyQ6/7g54Mnal8fg3PcOog2MF96jcFFnyKgbz5Be6
-	 kZgyfncGCDfZBfZmukKV2lRwqgPO/6LzpYpcS7qOODRHpnVjROMxSy7aBivoOIwei+g==
+	bh=D0LaGsanjVD3rU06xCeYUAHvTsoW/AnFS7pbjF7PdAI=;
+	b=J8eTkANMbQlEXzCYhJOhmxI0H9S9gAXcHHuRz+PYsl4tVgdmmoxcEuK7dQGA5n0Q0N+x
+	 9xhPknQLESyxAMiy4phaJ6T0mGUjK2GO9pibhbMtecS2NX+Ij6Ur/Hz6H7KUhyasc1VN6
+	 ohH6N+J2PxEk2To3ClCKh1I9i/T8GuHY2GVvTXZW99uovopE08TE1o/0qY6rt03Nu25us
+	 MYqcw6H3WD6MbeH86SyqmyfMqOfwXbqZkCX5IbAxsaR7Jl+0bBPQA5ScOHkV6sgnqlmxW
+	 0ULcblsWxE9M8/0oGMw/ZAeelbzt+9KwwqCzMKAQ/ivsMZxMqWYbrSJloREzzxyEjLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DjIblDlg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PZw8zF6C;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959F1606A326;
-	Tue, 10 Nov 2026 22:29:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC0A606A325;
+	Tue, 10 Nov 2026 22:29:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DjIblDlg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67A431F008A4;
-	Tue, 10 Nov 2026 22:29:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PZw8zF6C
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CDF41F008A3;
+	Tue, 10 Nov 2026 22:29:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794349785;
-	bh=2RM5L0J9ASXfxGtNkAy/ZUMRHcMdMwZoeqzGABMR650=;
+	s=k20260515; t=1794349780;
+	bh=D0LaGsanjVD3rU06xCeYUAHvTsoW/AnFS7pbjF7PdAI=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=DjIblDlgguUKBNPv0H7mn9/gbpxwz77YUzwfCwRn1q5DWWQQIOXnczVChGmtX3iga
-	 Q6RtW/gF7AhYHo87ODkBM0vyz+z/WTVTRg/z4e7tuQIaOtsDbtuPGncv4/kLM7eCcp
-	 zBPQoeMWNO73zsqL+8m5OTUKzVuslqEDiT1bfemZ5UzevFIRrflMaZKWdS7AeWJFNQ
-	 38KDasCZsrP7L04Su37SbdkKxIP6W1htvvou7/V2ELzdvC05wRaPxfBhahHNrJK+80
-	 UoGrPTPSpKurQ3kBG4eDNJ+AaGDGHVq7RrPpVAhm/JdJ2s1bxPt8HwxysFBVH62znm
-	 k7toFJ/glbY8g==
-Subject: Re: [PATCH net-next v18 09/15] quic: add congestion control
+	b=PZw8zF6CnFVgMY7f3qG7tAoFui9g9BLTqLWBVGtNNAgeDsiak+yQ+UBP3Pa7sk6/E
+	 +97LoZ/p+wweGza1S2QL13hQLoOZ/X7jDGT5OGvCg/5xvMyWb1/AnJgvm5ZtjT0ebN
+	 oGu4TEPbYZmhHWt4b8WmM02qLXJmjAgiMk5Bn2z2m8UydeP+mFgFrfPRR4lPtk9nBP
+	 WF0q/T0APZVi3i+INcIizKblzdVNJq3D/Bj/89bZINenSBox3kl1/ca+IZXaTBEfju
+	 C19az/bE8rbjNHm7dF2B5N79KIPb4fylVWNuEoRwSW5DEgfCYa8Q5gh69VXZ7D45ZX
+	 vspsWO8k2mmvg==
+Subject: Re: [PATCH net-next v18 07/15] quic: add connection id management
 From: netdev-bot+sashiko@kernel.org
 To: lucien.xin@gmail.com
 Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
@@ -54,10 +54,10 @@ Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
  jbaron@akamai.com, illiliti@protonmail.com, sd@queasysnail.net,
  marcelo.leitner@gmail.com, daniel@haxx.se, andrew.gospodarek@broadcom.com,
  mef@scarletmail.rutgers.edu, paul@jakma.org, kuniyu@google.com
-Date: Tue, 10 Nov 2026 22:29:43 +0000
-Message-ID: <179434978300.994134.8100379458297117131@kernel.org>
-In-Reply-To: <059c6b92785dcc2983956ff2dcd441285362aa03.1794241656.git.lucien.xin@gmail.com>
-References: <059c6b92785dcc2983956ff2dcd441285362aa03.1794241656.git.lucien.xin@gmail.com>
+Date: Tue, 10 Nov 2026 22:29:37 +0000
+Message-ID: <179434977756.994134.8929104101309471837@kernel.org>
+In-Reply-To: <b0f3555fe5a07cddad4b5df3fcf179c9deb1378d.1794241656.git.lucien.xin@gmail.com>
+References: <b0f3555fe5a07cddad4b5df3fcf179c9deb1378d.1794241656.git.lucien.xin@gmail.com>
 X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -71,10 +71,10 @@ List-Owner: <mailto:kernel-tls-handshake+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 3 potential
 issue(s) to consider.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 1
+Critical: 0 · High: 0 · Medium: 1 · Low: 2
 
 If you believe none of the issues are legitimate, please reply to each
 issue of Medium severity or higher and explain why the AI is wrong.
@@ -82,115 +82,128 @@ If any of them are legitimate and you plan to respin, please let patchwork
 know by including "pw-bot: cr" as a separate line at the end of your reply
 (one such reply per series is enough).
 
-- [Medium] quic_reno_on_packet_acked() (net/quic/cong.c) grows
-  cong->window on every acknowledged packet, in slow start and in…
-- [Low] The commit message does not describe the pacing logic this patch
-  adds, and it overstates what happens on transmit.
+- [Medium] quic_conn_id_retire() in net/quic/connid.c starts with `if
+  (WARN_ON_ONCE(id_set->use_count <= 1)) return;`.
+- [Low] The commit message says quic_conn_id_token_exists() checks 'if a
+  stateless reset token exists in any dest Connection ID'.
+- [Low] The connection ID patch also rewrites the comments on
+  bidi_blocked/uni_blocked in struct quic_stream_limits…
 
 --
 
-quic: add congestion control
+quic: add connection id management
 
-This commit adds struct quic_cong for RTT measurement and congestion
-control, with struct quic_cong_ops as the hook interface for
-congestion control algorithms. Only New Reno is implemented. The
-patch also adds pacing rate and pacing time helpers.
+This patch adds struct quic_conn_id_set to manage source and destination
+connection IDs. It also adds helpers to add, retire, find and look up CIDs.
+Source CIDs are inserted into the global hash table, and destination CIDs
+can be checked for stateless reset tokens.
 
-> The implementation updates RTT estimates when packets are acknowledged,
-> reacts to loss and ECN signals, and adjusts the congestion window
-> accordingly during packet transmission or acknowledgment processing.
+> - quic_conn_id_token_exists(): Check if a stateless reset token exists
+>   in any dest Connection ID (used during stateless reset processing).
 
 [Severity: Low]
-Is this accurate for the transmit side? quic_cong_on_packet_sent() never
-changes cong->window. New Reno leaves ops->on_packet_sent as NULL, so the
-transmit path only calls quic_cong_update_pacing_time().
+This isn't a bug, but is "any dest Connection ID" accurate here?
 
-The commit body also leaves out the pacing logic this patch adds:
+quic_conn_id_token_exists() stops at the furthest used CID, which is the
+larger of active and alt by sequence number. It also skips all-zero tokens,
+so unused destination CIDs are never compared.
 
-  - quic_cong_pace_update() sets pacing_rate = 2 * window / smoothed_rtt,
-    capped at max_rate.
-  - quic_cong_update_pacing_time() schedules the next send in nanoseconds
-    using ktime_get_ns(), with a jitter credit of up to len_ns / 2.
-    The other timestamps in struct quic_cong are in microseconds.
+That matches RFC 9000 Section 10.3 and the code comment ("in the used
+connection IDs"). The only explanation of the narrower check is in the v17
+changelog below the "---", and that part will not be kept in git history.
 
-The function list also leaves out quic_cong_pace_update(),
-quic_cong_set_srtt() and quic_cong_set_algo(). Pacing is only mentioned
-in the v5/v16 changelog notes, and those are dropped when the patch is
-applied.
+Could the commit message describe the used-CID-only check instead?
 
-Could the commit message describe the pacing behavior, and drop the
-claim that the window is adjusted on transmit?
-
-> diff --git a/net/quic/cong.c b/net/quic/cong.c
+> diff --git a/net/quic/connid.c b/net/quic/connid.c
 > new file mode 100644
-> index 0000000000000..b829755e8ac9e
+> index 0000000000000..63bf39e71b15f
 > --- /dev/null
-> +++ b/net/quic/cong.c
-> @@ -0,0 +1,292 @@
+> +++ b/net/quic/connid.c
+> @@ -0,0 +1,311 @@
 
 [ ... ]
 
-> +static void quic_reno_on_packet_acked(struct quic_cong *cong, u64 time,
-> +				      u32 bytes, s64 number)
+> +/* Retire a connection ID by marking it dead, then remove consecutive dead
+> + * entries from the head of the list. The caller must ensure the number fall
+> + * within the consecutive range [first_number, last_number].
+> + */
+> +void quic_conn_id_retire(struct quic_conn_id_set *id_set, u32 number)
 > +{
-> +	u64 new_window;
+> +	struct quic_common_conn_id *common, *tmp, *retired = NULL;
+> +	struct list_head *list;
 > +
-> +	if (quic_cong_in_slow_start(cong)) { /* Slow start */
-> +		new_window = (u64)cong->window + bytes;
-> +		cong->window = min_t(u64, new_window, cong->max_window);
+> +	if (WARN_ON_ONCE(id_set->use_count <= 1))
 > +		return;
-> +	}
-> +	/* Congestion avoidance - cong->window is never zero; it is initialized
-> +	 * by quic_packet_route() during connect/accept.
-> +	 */
-> +	new_window = div64_ul((u64)cong->mss * bytes, cong->window) +
-> +		     cong->window;
-> +	cong->window = min_t(u64, new_window, cong->max_window);
-> +}
-
-[ ... ]
-
-> +void quic_cong_on_packet_acked(struct quic_cong *cong, u64 time, u32 bytes,
-> +			       s64 number)
-> +{
-> +	if (quic_cong_in_recovery(cong, time))
-> +		return;
-> +	cong->ops->on_packet_acked(cong, time, bytes, number);
-> +}
+> +
+> +	list = &id_set->head;
+> +	list_for_each_entry(common, list, list) {
+> +		if (common->number > number)
+> +			break;
+> +		if (common->number == number) {
+> +			if (common->dead)
+> +				return;
 
 [Severity: Medium]
-Can cong->window keep growing while the sender is application-limited
-or flow-control-limited?
+Can retiring the same number twice trigger the WARN_ON_ONCE() in
+quic_conn_id_retire()?
 
-RFC 9002 section 7.8 says the window should not grow when it is
-underused. The OnPacketAcked() pseudocode in Appendix B.5 has:
+The dead check here suggests a duplicate retirement is meant to be a
+harmless no-op. The use_count check runs before the lookup gets this far,
+though.
 
-    if (IsAppOrFlowControlLimited())
-      return
+Take a source set with CIDs 0 and 1 (count == 2, use_count == 2):
 
-quic_cong_on_packet_acked() only checks quic_cong_in_recovery() before
-it calls ops->on_packet_acked(). struct quic_cong has no bytes-in-flight
-field, and the hooks never receive one, so neither the wrapper nor
-quic_reno_on_packet_acked() can apply this check.
+quic_conn_id_retire(set, 1)
+    entry 1 is marked dead, use_count becomes 1
+    entry 1 is not at the head, so it stays on the list
 
-In slow start the window grows by bytes on every ACK. A long-lived
-connection that sends small request/response traffic could push
-cong->window up by roughly the total bytes ever acked, toward
-max_window (S32_MAX / 4, about 512MB).
+quic_conn_id_retire(set, 1)    (e.g. a retransmitted RETIRE_CONNECTION_ID)
+    WARN_ON_ONCE(id_set->use_count <= 1) fires
+    the "if (common->dead) return;" path is never reached
 
-quic_cong_pace_update() then computes the pacing rate from that window:
+The comment above the function only asks the caller to keep number within
+[first_number, last_number], and 1 is inside that range here.
 
-    rate = div64_ul((u64)cong->window * USEC_PER_SEC * 2,
-                    cong->smoothed_rtt);
+RETIRE_CONNECTION_ID frames, and NEW_CONNECTION_ID frames with Retire Prior
+To, come from the peer. Once frame processing calls this helper, could this
+become a WARN that the peer can trigger, or a panic with panic_on_warn=1?
+Nothing in the series calls quic_conn_id_retire() yet, so this depends on
+how future callers use it.
 
-When bulk data arrives, would the burst then be limited only by the
-caller's max_rate?
+The function also returns void. How would a caller tell a refused
+retirement from a successful one, for example to raise a
+PROTOCOL_VIOLATION?
 
-Nothing in this series calls quic_cong_on_packet_acked() yet, so a later
-caller could skip the call when app-limited. If that is the plan, could
-the requirement be documented here? For comparison, TCP does this check
-inside the algorithm: tcp_reno_cong_avoid() checks
-tcp_is_cwnd_limited().
+Would it make sense to run the lookup and dead check before the use_count
+check, or to return an error instead of warning?
+
+[ ... ]
+
+> diff --git a/net/quic/stream.h b/net/quic/stream.h
+> index 48b27aa339679..c96d1516ecbec 100644
+> --- a/net/quic/stream.h
+> +++ b/net/quic/stream.h
+> @@ -84,8 +84,8 @@ struct quic_stream_limits {
+>  	s64 max_uni_stream_id;   /* Highest allowed uni stream ID */
+>  	s64 active_stream_id;    /* Most recently opened stream ID */
+>  
+> -	u8 bidi_blocked;  /* STREAMS_BLOCKED_BIDI sent, awaiting ACK */
+> -	u8 uni_blocked;   /* STREAMS_BLOCKED_UNI sent, awaiting ACK */
+> +	u8 bidi_blocked;  /* STREAMS_BLOCKED/MAX_STREAMS_BIDI sent */
+> +	u8 uni_blocked;   /* STREAMS_BLOCKED/MAX_STREAMS_UNI sent */
+
+[Severity: Low]
+This isn't a bug, but this comment change in struct quic_stream_limits looks
+unrelated to connection ID management. The commit message doesn't mention
+it either.
+
+Nothing in net/quic reads or writes bidi_blocked or uni_blocked yet, in
+this commit or at the end of the series. So the new MAX_STREAMS wording
+describes behaviour that is not in the tree yet. The only explanation is
+the v18 changelog note, which is dropped when the patch is applied.
+
+Would this change fit better in a separate patch, or in the patch that adds
+the MAX_STREAMS tracking?
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1794241654.git.lucien.xin%40gmail.com

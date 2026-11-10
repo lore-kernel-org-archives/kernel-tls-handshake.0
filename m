@@ -1,46 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794349781;
-	b=Z0mblrbdN0b/zIWEwSOiThpwEjmOTNhEZtVPLVXWBux+vDHed6ITPHLe3RtDvcBd/Gj6
-	 pGlyo8ICe+e+5244FtsklvX8swhuLMyLArLTIWccPyfDAqcFqVkcUSL+whQ0uLp4t90cp
-	 w25SB3zauXOJ30F3UJiffP01BgPG/I2QK+/IR0rCRZdJZ0PwcMauLA+OEKTusXURNVqr9
-	 Uvh5rNsmTR8UtS/XVbKFVXvGV70COCrfpZUJ2OKh+7WUBpIZMbFxRg4fIRDtExEyNWn5X
-	 7xOr7JUbR/zjXzwQSTM9H2+cDAbT9kzI4QAO+SBHJrCH2c5U9EANd13aKGMELs4qoyA==
+	t=1794349788;
+	b=rrzlo0jiQRf+kNaG0IBNYerj54/gg3s58TIL5HMzYJgSmdIfO0XQYXG66kj05r2St5/6
+	 MF+xwaFcL2oyCbEz4J4dX/hTUDNLTZKyI7ul+JKdka8AeNsUM91rJgeeNjMIpQwUcGb7f
+	 2HTWlo5E4ndsSkPEWleswsRw+N/5+pib7JZSCF+1IwVlxwwY4O8jkNLrz+T93M/LqYaET
+	 RkLjXc8/KkPSx30w+1cM5+AvVAreaFLDkQDxuNlCz5nANAfgSm0i5XP/rpbAmtkkbbePK
+	 w0YZvuSLRlHc99DR24DzLkstuuNlydMSA/3poW+MpxTzah1/a7iAR7G3kSaMMxYqjAA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794349781;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794349788;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=D0LaGsanjVD3rU06xCeYUAHvTsoW/AnFS7pbjF7PdAI=;
-	b=J8eTkANMbQlEXzCYhJOhmxI0H9S9gAXcHHuRz+PYsl4tVgdmmoxcEuK7dQGA5n0Q0N+x
-	 9xhPknQLESyxAMiy4phaJ6T0mGUjK2GO9pibhbMtecS2NX+Ij6Ur/Hz6H7KUhyasc1VN6
-	 ohH6N+J2PxEk2To3ClCKh1I9i/T8GuHY2GVvTXZW99uovopE08TE1o/0qY6rt03Nu25us
-	 MYqcw6H3WD6MbeH86SyqmyfMqOfwXbqZkCX5IbAxsaR7Jl+0bBPQA5ScOHkV6sgnqlmxW
-	 0ULcblsWxE9M8/0oGMw/ZAeelbzt+9KwwqCzMKAQ/ivsMZxMqWYbrSJloREzzxyEjLA==
+	bh=87ofhARvOBFaOFAoJKqtpzEqRWBplzPTfRwfrLXCvmo=;
+	b=f1XNktBmOyleNLxnb82YVNXmtokDnGVha1CVUqR48KU1g+MSSwI/Ab730v7tkwE35PS+
+	 yGTgs0fx1oQlK7kRGTjq9qv5S6suKnpBSXnn9HG0wvGRlm2LkDe0/RwGK5PrygqJ/HoBM
+	 VDYOKF4503EjDn3EpqWg7KRHLXmXwxoPklnpyxHQwmk6SWkcbtpRk4qxef1xR8+0bScbK
+	 kLH19AmFCuVCyanPcZHHsJC33wD+YNFMyFQjNuHsNaI8zb6OoOx7wNGfOfx7Es4Q13/eE
+	 usV8yp+gQNUj2HCNppnQ5Dz0oJQ7X8CAy32dar1quPe9UoKrvxNJXjwIYlg18zNlNeQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PZw8zF6C;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bezUhnvS;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC0A606A325;
-	Tue, 10 Nov 2026 22:29:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD54C606A31C;
+	Tue, 10 Nov 2026 22:29:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PZw8zF6C
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CDF41F008A3;
-	Tue, 10 Nov 2026 22:29:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bezUhnvS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C890B1F008A2;
+	Tue, 10 Nov 2026 22:29:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794349780;
-	bh=D0LaGsanjVD3rU06xCeYUAHvTsoW/AnFS7pbjF7PdAI=;
+	s=k20260515; t=1794349787;
+	bh=87ofhARvOBFaOFAoJKqtpzEqRWBplzPTfRwfrLXCvmo=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=PZw8zF6CnFVgMY7f3qG7tAoFui9g9BLTqLWBVGtNNAgeDsiak+yQ+UBP3Pa7sk6/E
-	 +97LoZ/p+wweGza1S2QL13hQLoOZ/X7jDGT5OGvCg/5xvMyWb1/AnJgvm5ZtjT0ebN
-	 oGu4TEPbYZmhHWt4b8WmM02qLXJmjAgiMk5Bn2z2m8UydeP+mFgFrfPRR4lPtk9nBP
-	 WF0q/T0APZVi3i+INcIizKblzdVNJq3D/Bj/89bZINenSBox3kl1/ca+IZXaTBEfju
-	 C19az/bE8rbjNHm7dF2B5N79KIPb4fylVWNuEoRwSW5DEgfCYa8Q5gh69VXZ7D45ZX
-	 vspsWO8k2mmvg==
-Subject: Re: [PATCH net-next v18 07/15] quic: add connection id management
+	b=bezUhnvSKU3BgXSBVWkC9IcFmM5i4m/sNS5X856GQEyo+VVOXpkOnh7PsbkyYJ/ZR
+	 t0+/s85s/z6YpN74GNHYiQKwye/pbZG1QIvisZH3GDEjYhndFgVqRj1tJTnf0Sp9ra
+	 leXqhqATtPnwF+KGW3AXvUQoeEfGBXm0alzIpIW4CENOuiGSot3GYUlOS8QH8Yb9IQ
+	 ldh7lufrPu9uQo5FdzrbFoVPnTc9ewyUNWwk+jIwcgRJT0jc6pZFUyhfIvlg63BQc2
+	 hCZxpd0H1EPDkrgR1XoGub8j9A8m3DKGc9OVqTEjntT+DMfFJ7Cg2/SEvx0f4owoTR
+	 8lCRZxUqT2PFw==
+Subject: Re: [PATCH net-next v18 10/15] quic: add packet number space
 From: netdev-bot+sashiko@kernel.org
 To: lucien.xin@gmail.com
 Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
@@ -54,10 +54,10 @@ Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
  jbaron@akamai.com, illiliti@protonmail.com, sd@queasysnail.net,
  marcelo.leitner@gmail.com, daniel@haxx.se, andrew.gospodarek@broadcom.com,
  mef@scarletmail.rutgers.edu, paul@jakma.org, kuniyu@google.com
-Date: Tue, 10 Nov 2026 22:29:37 +0000
-Message-ID: <179434977756.994134.8929104101309471837@kernel.org>
-In-Reply-To: <b0f3555fe5a07cddad4b5df3fcf179c9deb1378d.1794241656.git.lucien.xin@gmail.com>
-References: <b0f3555fe5a07cddad4b5df3fcf179c9deb1378d.1794241656.git.lucien.xin@gmail.com>
+Date: Tue, 10 Nov 2026 22:29:45 +0000
+Message-ID: <179434978537.994134.14523513856125397463@kernel.org>
+In-Reply-To: <fda017f7e2ebe19deb54aa43d2de4022b6f9ea4c.1794241656.git.lucien.xin@gmail.com>
+References: <fda017f7e2ebe19deb54aa43d2de4022b6f9ea4c.1794241656.git.lucien.xin@gmail.com>
 X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -82,128 +82,145 @@ If any of them are legitimate and you plan to respin, please let patchwork
 know by including "pw-bot: cr" as a separate line at the end of your reply
 (one such reply per series is enough).
 
-- [Medium] quic_conn_id_retire() in net/quic/connid.c starts with `if
-  (WARN_ON_ONCE(id_set->use_count <= 1)) return;`.
-- [Low] The commit message says quic_conn_id_token_exists() checks 'if a
-  stateless reset token exists in any dest Connection ID'.
-- [Low] The connection ID patch also rewrites the comments on
-  bidi_blocked/uni_blocked in struct quic_stream_limits…
+- [Medium] quic_destroy_sock() (net/quic/socket.c) kfree()s the
+  separately allocated pnspace objects at the start of teardown and…
+- [Low] The commit message names a symbol that does not exist.
+- [Low] After quic_pnspace_init() (net/quic/pnspace.c), base_pn is -1 but
+  max_pn_seen, last_max_pn_seen and min_pn_seen stay at their kzalloc…
 
 --
 
-quic: add connection id management
+quic: add packet number space
 
-This patch adds struct quic_conn_id_set to manage source and destination
-connection IDs. It also adds helpers to add, retire, find and look up CIDs.
-Source CIDs are inserted into the global hash table, and destination CIDs
-can be checked for stateless reset tokens.
+This patch adds struct quic_pnspace, which holds per packet number space
+state: a bitmap of received packet numbers for ACK generation, timestamps
+for loss detection and RTT, and ECN counters. It adds helpers to check and
+mark received packet numbers, build gap ack blocks and validate peer ECN
+counts. quic_init_sock() allocates the pnspace objects per socket and
+quic_destroy_sock() frees them.
 
-> - quic_conn_id_token_exists(): Check if a stateless reset token exists
->   in any dest Connection ID (used during stateless reset processing).
+> To support ACK frame generation, quic_pnspace includes a packet number
+> acknowledgment map (pn_ack_map) that tracks received packet numbers.
 
 [Severity: Low]
-This isn't a bug, but is "any dest Connection ID" accurate here?
+This isn't a bug, but should this say pn_map rather than pn_ack_map?
+Nothing in net/quic/ is called pn_ack_map. The field in struct quic_pnspace
+is:
 
-quic_conn_id_token_exists() stops at the furthest used CID, which is the
-larger of active and alt by sequence number. It also skips all-zero tokens,
-so unused destination CIDs are never compared.
+	unsigned long *pn_map; /* Received PN bitmap for ACK generation */
 
-That matches RFC 9000 Section 10.3 and the code comment ("in the used
-connection IDs"). The only explanation of the narrower check is in the v17
-changelog below the "---", and that part will not be kept in git history.
+> - quic_pnspace_num_gabs(): Returns the gap ACK blocks for constructing
+>   ACK frames.
 
-Could the commit message describe the used-CID-only check instead?
+quic_pnspace_num_gabs() fills the caller's gabs array and returns a u16
+count. When there are more than QUIC_PN_MAP_MAX_GABS gaps, it also merges
+the oldest gaps into one block.
 
-> diff --git a/net/quic/connid.c b/net/quic/connid.c
+Only the code comment and the v15/v16 changelog below the --- line
+describe this, and that changelog won't be kept in git history. Could the
+commit message describe it?
+
+> diff --git a/net/quic/pnspace.c b/net/quic/pnspace.c
 > new file mode 100644
-> index 0000000000000..63bf39e71b15f
+> index 0000000000000..fcf68f0df1848
 > --- /dev/null
-> +++ b/net/quic/connid.c
-> @@ -0,0 +1,311 @@
+> +++ b/net/quic/pnspace.c
+> @@ -0,0 +1,273 @@
 
 [ ... ]
 
-> +/* Retire a connection ID by marking it dead, then remove consecutive dead
-> + * entries from the head of the list. The caller must ensure the number fall
-> + * within the consecutive range [first_number, last_number].
-> + */
-> +void quic_conn_id_retire(struct quic_conn_id_set *id_set, u32 number)
+> +int quic_pnspace_init(struct quic_pnspace *space)
 > +{
-> +	struct quic_common_conn_id *common, *tmp, *retired = NULL;
-> +	struct list_head *list;
+> +	space->pn_map = bitmap_zalloc(QUIC_PN_MAP_INITIAL, GFP_KERNEL_ACCOUNT);
+> +	if (!space->pn_map)
+> +		return -ENOMEM;
+> +	space->pn_map_len = QUIC_PN_MAP_INITIAL;
 > +
-> +	if (WARN_ON_ONCE(id_set->use_count <= 1))
-> +		return;
+> +	space->max_time_limit = QUIC_PNSPACE_TIME_LIMIT;
+> +	space->next_pn = QUIC_PNSPACE_NEXT_PN;
+> +	space->max_pn_acked_seen = -1;
+> +	space->base_pn = -1;
+> +	return 0;
+> +}
+
+[Severity: Low]
+After this runs, base_pn is -1 but max_pn_seen, last_max_pn_seen and
+min_pn_seen are still 0 from kzalloc. So quic_pnspace_has_gap() reports a
+gap (-1 != 0 + 1) for a space that hasn't received anything:
+
+static inline bool quic_pnspace_has_gap(const struct quic_pnspace *space)
+{
+	return space->base_pn != space->max_pn_seen + 1;
+}
+
+quic_pnspace_set_base_pn() otherwise keeps max_pn_seen == base_pn - 1 as
+the no-gap state.
+
+The current callers seem fine. quic_pnspace_mark() handles base_pn == -1
+before it calls has_gap(). In quic_pnspace_num_gabs(), the bounds checks in
+quic_pnspace_next_gap_ack() make it return 0 (start_ = 0, end_ = 64, and
+0 <= -1 + 64 - 1).
+
+Would it be better to keep max_pn_seen and friends at base_pn - 1 here as
+well? Otherwise a later caller that relies only on has_gap() before the
+first packet is marked would get the wrong answer.
+
+[ ... ]
+
+> diff --git a/net/quic/socket.c b/net/quic/socket.c
+> index 41f7de7d163a0..78a08dd998a8e 100644
+> --- a/net/quic/socket.c
+> +++ b/net/quic/socket.c
+
+[ ... ]
+
+> @@ -58,11 +61,34 @@ static int quic_init_sock(struct sock *sk)
+
+[ ... ]
+
+>  static void quic_destroy_sock(struct sock *sk)
+>  {
+> +	struct quic_pnspace *space;
+> +	u8 i;
 > +
-> +	list = &id_set->head;
-> +	list_for_each_entry(common, list, list) {
-> +		if (common->number > number)
-> +			break;
-> +		if (common->number == number) {
-> +			if (common->dead)
-> +				return;
+> +	for (i = 0; i < QUIC_PNSPACE_MAX; i++) {
+> +		space = quic_pnspace(sk, i);
+> +		if (!space)
+> +			continue;
+> +		quic_pnspace_free(space);
+> +		kfree(space);
+> +	}
+> +
+>  	quic_path_unbind(sk, quic_paths(sk), 0);
+>  	quic_path_unbind(sk, quic_paths(sk), 1);
 
 [Severity: Medium]
-Can retiring the same number twice trigger the WARN_ON_ONCE() in
-quic_conn_id_retire()?
+The pnspaces are freed here before quic_path_unbind() and
+quic_conn_id_set_free() take the socket off the UDP tunnel and out of the
+RCU conn-ID hash. quic_sk(sk)->space[i] is also left pointing at freed
+memory. Before v18 the pnspaces were embedded in the SOCK_RCU_FREE sock, so
+they shared its lifetime.
 
-The dead check here suggests a duplicate retirement is meant to be a
-harmless no-op. The use_count check runs before the lookup gets this far,
-though.
+As far as I can tell, nothing in the series reaches the freed memory today.
+quic_close() sets QUIC_SS_CLOSED under lock_sock() before
+sk_common_release() calls ->destroy. Later in the series,
+quic_packet_process() drops packets for a closed socket before it touches
+any pnspace:
 
-Take a source set with CIDs 0 and 1 (count == 2, use_count == 2):
+	if (quic_is_closed(sk)) {
+		kfree_skb(skb);
+		return 0;
+	}
 
-quic_conn_id_retire(set, 1)
-    entry 1 is marked dead, use_count becomes 1
-    entry 1 is not at the head, so it stays on the list
+Later patches also call quic_timer_free() and quic_packet_free() before
+this free.
 
-quic_conn_id_retire(set, 1)    (e.g. a retransmitted RETIRE_CONNECTION_ID)
-    WARN_ON_ONCE(id_set->use_count <= 1) fires
-    the "if (common->dead) return;" path is never reached
+However, quic_pnspace() returns the raw space[] pointer without any
+lifetime check. A future RX path that skips the closed-state check would
+then use freed memory.
 
-The comment above the function only asks the caller to keep number within
-[first_number, last_number], and 1 is inside that range here.
-
-RETIRE_CONNECTION_ID frames, and NEW_CONNECTION_ID frames with Retire Prior
-To, come from the peer. Once frame processing calls this helper, could this
-become a WARN that the peer can trigger, or a panic with panic_on_warn=1?
-Nothing in the series calls quic_conn_id_retire() yet, so this depends on
-how future callers use it.
-
-The function also returns void. How would a caller tell a refused
-retirement from a successful one, for example to raise a
-PROTOCOL_VIOLATION?
-
-Would it make sense to run the lookup and dead check before the use_count
-check, or to return an error instead of warning?
-
-[ ... ]
-
-> diff --git a/net/quic/stream.h b/net/quic/stream.h
-> index 48b27aa339679..c96d1516ecbec 100644
-> --- a/net/quic/stream.h
-> +++ b/net/quic/stream.h
-> @@ -84,8 +84,8 @@ struct quic_stream_limits {
->  	s64 max_uni_stream_id;   /* Highest allowed uni stream ID */
->  	s64 active_stream_id;    /* Most recently opened stream ID */
->  
-> -	u8 bidi_blocked;  /* STREAMS_BLOCKED_BIDI sent, awaiting ACK */
-> -	u8 uni_blocked;   /* STREAMS_BLOCKED_UNI sent, awaiting ACK */
-> +	u8 bidi_blocked;  /* STREAMS_BLOCKED/MAX_STREAMS_BIDI sent */
-> +	u8 uni_blocked;   /* STREAMS_BLOCKED/MAX_STREAMS_UNI sent */
-
-[Severity: Low]
-This isn't a bug, but this comment change in struct quic_stream_limits looks
-unrelated to connection ID management. The commit message doesn't mention
-it either.
-
-Nothing in net/quic reads or writes bidi_blocked or uni_blocked yet, in
-this commit or at the end of the series. So the new MAX_STREAMS wording
-describes behaviour that is not in the tree yet. The only explanation is
-the v18 changelog note, which is dropped when the patch is applied.
-
-Would this change fit better in a separate patch, or in the patch that adds
-the MAX_STREAMS tracking?
+Would it be safer to free the pnspaces after the path unbind and conn-ID
+teardown, and to set quic_sk(sk)->space[i] to NULL after kfree()?
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1794241654.git.lucien.xin%40gmail.com

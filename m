@@ -1,88 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.135
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794329705;
-	b=C9Zr5vPmw90PexGfxNB9VkpaJlKe9G9V3N3e7qLem1KtqkAQiME7rvBbcr67Z2IdSpDX
-	 NLFdFyk7q+jRpQwbGtVJPIS7AD7YMsCBzAY/Iu82LvRwKYRxYsuUIhXfnk7MdgjofPTZW
-	 Chk6fEqZbwoLm6U8E9QYARywUcjzTCrmpRpLQlAOaZvs8C4bqUa7soLEWxMmTlY6b7XOU
-	 /IV3StQiccjmukYhqMfmy+Jve5kp2p4iJut9ZbsTLuXCwu+A+rW3cH5ac6Tt4qRsAVoAl
-	 6QLcwrtzSra7eAZ9hDuy9cnERnDhdDW64hzY7jIWr7T8ptDQmfoxEkSixvJaTbUnpFQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794329705;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.173
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794329881;
+	b=0W5OWm5wDaa7kbFYdtPDGskwnGkSupjhChS9ypVh+N9gTwRufXCRr1eRxQjwhzGLqZmj
+	 qs3UfJT8KXcHgpAJIDyUuJh8yvJek5oc9jUL8RfWmqIUxNOt+HAMAmQmnbKFfXs42Xigq
+	 1jRHEGC2/uicnUUFDphiIEB8Qr3ROghToYzhQtney4gG6bqAjA8cPqGBKwayexWqDft2/
+	 v/Lkjt98Qq9Ctr/e86AzT/d/HIbLXtBjysn+3sJlJCPB9v7ZuYS50VU+kHCIZiMiqIXFh
+	 nr4ppHiQTEC3Zd3OyF3D07mjiywfEVCL0Ymw3Lc7sU68+eF7qUkuJsPLyuPOl201TBA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794329881;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=r/J1XL/M8NofZn4/v/wPEfCpg6OLcPmfYulknqMzvUM=;
-	b=AkEJaDoQTsOoKhagWH4Z2yOqnZHAGjmd5Hx/0Gi9gytYxx7W4aYhF3f9pwsNdz5RdENh
-	 sJZ0KPHLKSbmkh5AuZAG/IYdXgc5/L6fTezqxvKvukXEx+V8eVdos/PzwKpn/7fl944H0
-	 L2cSF3zBoI+dVilhTvklltpRGfBuDkXGvwUpr1RNGz7OrMSksMNvVyZPXICMplLv5fwpc
-	 0+gmwvWQ1hrhb0iVhenYS2yZ9YeLLDtIoC8MI940opxaJ2afhN5zmB+dBIO4lzBEbXyt4
-	 VBC80HefPFja8NADWfFw4ykwAn3VfpOmHHJ06DOlqPTMa25BUiDVOHdaZ8ADmzoJV/w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=1HlRMg2f8VT1EI4K27T8+cqMdE7ojzLtyN9VMRiohws=;
+	b=BQGWZdh2r11y5lQM6ijJtnAzzji6xhHe+jQ+cfheuttmKho+HrhY1CAmchfv7PfOTEe2
+	 Tw04t7axdo4UW+vtGQSE+m/saPQiiFHS7yrCD0sA5W6ABSLpSsYSabNXLyZgdyi4TaMum
+	 etg9pxNR6J55ZvVIhXNo+x+McdipSvO/wdFqW9FjhvRTiIehXltoFVUB8y+jb6dtIyXqn
+	 dFhh5qyKH1/ll33KGYwqWfq/ugmnBIoTUsZ5vH5jHbcUab9TYFqbQhHQEBDsMGTNNyOIf
+	 h+J+rDZ0XIlsguvsRYU97losfYpFhrSl+/XhgIH9X7wtlk3olAi5gjeb2daWdC0ynsQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Gud4IvSP;
-	arc=none smtp.remote-ip=74.125.224.135
-Received: from mail-yx2-f7.google.com (mail-yx2-f7.google.com [74.125.224.135])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nE5dO+oz;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.173
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830B9606D201
-	for <kernel-tls-handshake@lists.linux.dev>; Tue, 10 Nov 2026 16:55:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 830B9606D201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDFE8606A9DA
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 10 Nov 2026 16:58:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDFE8606A9DA
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Gud4IvSP
-Received: by mail-yx2-f7.google.com with SMTP id 956f58d0204a3-67a3d39e403so1526195d50.1
-        for <kernel-tls-handshake@lists.linux.dev>; Tue, 10 Nov 2026 08:55:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nE5dO+oz
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cdb684859cbso1316044a12.1
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 10 Nov 2026 08:58:00 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794329880; cv=none;
+        d=google.com; s=arc-20260327;
+        b=AaKHCimdpQOZeswe6RR0uxmxFtNQEInBZDnGvWQlpzY3uMIHJB/ZAJtzTNOgWnxiCQ
+         rrLZZUlivu8xirzcA8q6SnaPrO8kADSyYvwwdU4jaSeNZoXEV1C6nDxx5DGuHYgUtyA8
+         867VW4/K3gFeDW8wPSpccsOegJwk/UHQJjbQrnKn+N2UZN6LABjdjK/x7FkoA69Q3pZo
+         5yHADrgdNId2GMdzRp19OeDgZ8uTsaliIy42BmlCz7Z6AfUm+YkSHCKgu6nbY3BC93UT
+         cZ3z/MUJS8IEJMSs+iE4BwkbKRKN37E7ak5x6SsSaexzwBR1VGcecNydBHNwY8rgRV3+
+         OLbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1HlRMg2f8VT1EI4K27T8+cqMdE7ojzLtyN9VMRiohws=;
+        fh=yZOSJUpQks7qfQ1nyj9A7bVNQrn+7HuWRlg6j3WISSA=;
+        b=HXeiNefqZOa/uctDxT+QwkMJ4oxJGuEaDFkdWygojSQCCBMVioG2S2s/MpzyzV1kMU
+         hYTiRa0pezvkke5EJ2j+tuA4dNq6HJdtotea2JCci987b4K2oUpSR7oSjWhkGEdGT7Wy
+         uQLkjOGBkRAwxDftM8NQXHhmGwvd11GeUc9fr5dkTh8pvBd5KKY4IflXIv8L0SVRBkls
+         gv2qj1Go5xqAn/IRaZnZv3lMNVLBD8WlJuZnCAeaqaY7rLouwTNfYXV0rmjNLVXAouny
+         1UcRyZWDZwv3ekFerRPECumhFAGHfKB/8La63xT8puwMUAiER+QkP52mG1ve7HuJ4oJx
+         pRhA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794329704; x=1794934504; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=r/J1XL/M8NofZn4/v/wPEfCpg6OLcPmfYulknqMzvUM=;
-        b=Gud4IvSPafX1gEB9OsZex2xjUS42ON+5PHvkwNFNfaDydesWHSIR+IyLOkFLo7UsAF
-         RecGZBC4Zjda7indta1M+FDgFhLnVNu7/JQEBqrB20hDkMmjZCiw96yFx/cj3ASf4O9b
-         H/+gEkNoWXk9cJ1CThb+8YJlksCZSQ55VPdI7yiMBUjBmF+j7LocaKR6r7wT8zWcvEhM
-         ZT7ny7tVUo/tyEA7S5hPIfs2CJyzaGoFW3CCb2wCUp9frYJYf0tHb1dOqBJu0QJkSQ3o
-         sgX46Gsw7m3EdckdHCbNjr0gnejKZ9Uc3sAcba5CIJHY09tjzVrdqGbKS7LMADMAdLbV
-         XIGw==
+        d=gmail.com; s=20260707; t=1794329880; x=1794934680; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=1HlRMg2f8VT1EI4K27T8+cqMdE7ojzLtyN9VMRiohws=;
+        b=nE5dO+oz2SjMOTcGClTOwDiUjsXlx3ZZ7goQY6AUyMWzKOZEfJq9J4TH4YTo9FASUF
+         fxqxQZsS9tkmb8RRM5FyGZt9NdR2u5W8+NtDKfC0MgcBUG7t6lgylOCWfecjddIGkCbe
+         m2J4BuMRvtZ+b1D0lVvSbSg+ZPUVjzCxfP7GkcILO8oAxU6OAvklfhzzWq2G+0coy2d0
+         UeCp/50yODViuBZaxlvUzBZKki40oP7lkB1ynkauoY/ejQB6TCGmE8DS+8wL0nYUU+Ak
+         wvAD9yN7W2r9yq6ECz1nH1Ep8lOokYk+Du57bsBhV6Orcmp1++2Xdi+wlhT0DLd06kKT
+         r+ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794329704; x=1794934504;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=r/J1XL/M8NofZn4/v/wPEfCpg6OLcPmfYulknqMzvUM=;
-        b=jDQeZok0RzVi5XglIgCa4iwmzKTz2XBhO+MwhaiDY0SKX6qbMzquwAsumYAr68Oa7U
-         rl/UWBgL9WV2voXftbBu7Xu5zi9M3v4ooZ7lXT70mkKJjtKlV7TB/6oz2FCZeyAfSQpI
-         WY6UQnppr5kN2MKUzVmF/BO7idCSZCRMxgkYeW5ShSItxOGm4jh4HqZtVibvxob97jDm
-         OMNS6GR1rzzgxgyPVAYmLq7L8Qaowza9R8cWGNgXgwiOLDFXg5gt71bYPn8m1zE7C+SF
-         fuQZwjqe9BSBGj5Q2lDmiIwnc9fxxodLrFKkB1WII4U6aDAbSdQ4JEfcFaB1bHwgzeuu
-         /JFQ==
-X-Forwarded-Encrypted: i=1; AL+hErF2/wGdofv3ejFVI4hBqYRafe6PoY96Fz/0elGmwitxz2jBf39McN2lpMlE/qnDgYGjuJcuBgQL2sAhxX4zsoNBQMZy7Q==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9W64r+/sSpe/Of1RhhuPDld+xYIhZmH6PjWsODxjA/Cj/qL3K8
-	am8WCVCy6BiQ80XC+xJC9vfRYa62m8Y8ZFRqyHMbrFtz7ehxB3NK7knRNBCCdEQtvaQ=
-X-Gm-Gg: AYBFou0bP72VhhMXEFdg29lUE4fLZYZI4SsVc8PwiA6jC6xxfIZxj87nK1LidTxqtOJ
-	s5yqGRPm+/Nz1Q7yKujumOSeFrVvedZiSxwnA27/ztDn1BuN0Th7+I49CZ2LxBgGUeccMKQ7ahL
-	Rqmphv55C7q2FpdHjd3vrvFpd9di/aBULNVULRoj0cxZlI0vJSJQvMixNfKar5VhBEKesU67Yag
-	aLcjoWq95c/7bvGUxUW9tHmPeQo3nOZsiwF8e0D2blSOJUVE30sFK2kNeXdRAEk4FmZ/IabG77M
-	CEwgKaMjUi3PHAtkZV4kGbHd3xBbLK0uUYpr2ZSwRd7W3QDdbPru7c8g4sqph4a3tKz+Jx5RPNq
-	xHtdHAPecSTd92W7Er1R/b/E7UVV8TFBp8FepFI96miqNulbN2H63Qh1bJELAndcfdj3iQvLn5Z
-	13GK5YqpOdQozOU7L4k37xkXLQ+grZYtR4zaoObBrNB3+YQRR33JFDerzrSDDeubEnbmZxOXcqh
-	QFO0ceYGRwbo140QNtw6xjmCTFQfAvDUNjGEr8550890xd5kgVG2n3PaSWP/bkut3jfsB9CPJSx
-	2kk16++zs/nb/hBckqy04I0FAFF5apwGlyw=
-X-Received: by 2002:a53:ed04:0:b0:679:b810:6df3 with SMTP id 956f58d0204a3-67c568c72d0mr1465408d50.84.1794329704143;
-        Tue, 10 Nov 2026 08:55:04 -0800 (PST)
-Received: from [10.0.0.48] ([71.69.222.122])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67c589a2354sm2255948d50.6.2026.11.10.08.55.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2026 08:55:03 -0800 (PST)
-Message-ID: <a24bc088-3316-40f6-a9c2-acb77fc9befd@gmail.com>
-Date: Tue, 10 Nov 2026 11:55:03 -0500
+        d=1e100.net; s=20260707; t=1794329880; x=1794934680;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1HlRMg2f8VT1EI4K27T8+cqMdE7ojzLtyN9VMRiohws=;
+        b=LeyquLaXAwoDUSZ88Qm/AeW7RMBPs0Q7E/G7zuXTiivGI4vuMmpIW1+52fIU6R3gUd
+         a6ggpwLTKP/XQeK2AzEcUFJVxhIhCYGXdeFpH0ua0mDVSq0gZLA2iNd/IzLzLiZ9hoUp
+         /6vJ4OA46Y9NMwx5zeCMPa6pGJ8oiS259L5gsWEej9Sd4QvnXscpg6FbtLWAFdtBCNAe
+         uaAwrPkLpdVDElU9v/W7w6UCOe+RzXg9qKgEQbXC7W9DnugsgrElRGWcHN9LK7H1bNby
+         2ubJ54NZVj8wBGerbRCnU5odDIwSm0WfEsVQgh8TDsVOYSm7RzSfteG08hISO49OEC9k
+         fRGA==
+X-Forwarded-Encrypted: i=1; AL+hErFiBS6GWljeakFQxnxhMBhKQrRkU68IMyAOVbtaWrxod2Fh49gHlAW7F2AGaGOt7YJZRp28XjRuHyo4tSKB1dLFJC13Zw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8qq8D0QXk6RcFx/qbNQlSS8ie2KtGXucahWJ0y/djqzmWdUBm0
+	He4hFGHR6aFig3v25N8wBphnA4kjZN0ZQiM8h29gvaDYtwZhjeRBTJAeWi5HOd+SMDrt118yWut
+	/H7rFUHAihRfsejREA1Q/kcB0ln39usU=
+X-Gm-Gg: AYBFou0PQVcaMx8Xe+8jzCgaCRW5Fvngpbwei9bi5mBEJnkgm86WJEBbp7wRTyRcLcI
+	NAHOz/nxgWUTfIpWjxADxiatwRQbWs9dphGJF+1F0PMbKCoiF/KFisM8lLmSuf7qbPnX8yxnVD1
+	BkCXQYjbXmVCnViEABVdXc6I/DyoTX9tvj2QGdK731X/I3//YBpA2PRYxXXtoOFfrjI1Rg1OZ5p
+	+RurPgCH9D1+PO7pQcN8LaxTjLY9RxoJEU42NX/kJj2apqnUOtKtx8LOFsoMa6BanAzP8F4pMBI
+	n7wI4c5dGAz80gKo0nwe4LlWGM3/trQwbbPT9NnbkZIVmAe2RfjKyIAUCJbjbUQEDps41iFZdah
+	qjvt1JGg7X8Ri5LnjddeDFOKBiYR6Zgj60cVBREmSB+GM/3Ud89Art4NnFhFV7lG8XPMAdf6C7R
+	ZEfVA+qfYOUtQSD+ohZtAbushlx2MryNhOz2QlxA==
+X-Received: by 2002:a05:6a21:4d92:b0:3eb:292d:6667 with SMTP id
+ adf61e73a8af0-3f18fc7916bmr3102272637.45.1794329880120; Tue, 10 Nov 2026
+ 08:58:00 -0800 (PST)
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Post: <mailto:kernel-tls-handshake@lists.linux.dev>
@@ -92,55 +105,56 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:kernel-tls-handshake+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v6 5/6] tls: send a KeyUpdate at the record limit
- and on request
-To: netdev-bot+sashiko@kernel.org
-Cc: john.fastabend@gmail.com, kuba@kernel.org, sd@queasysnail.net,
- davem@davemloft.net, edumazet@kernel.org, pabeni@redhat.com,
- horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, shuah@kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, hare@kernel.org, cel@kernel.org,
- kernel-tls-handshake@lists.linux.dev, alistair.francis@wdc.com,
- martin.belanger@dell.com
-References: <20261105-keyupdate-rfc-v6-5-99b695f9eb4f@gmail.com>
- <179424471332.994134.12793914111732564453@kernel.org>
-Content-Language: en-US
-From: Martin Belanger <martin.nvme.dev@gmail.com>
-In-Reply-To: <179424471332.994134.12793914111732564453@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1794241654.git.lucien.xin@gmail.com> <20261110074153.4b895bb6@kernel.org>
+In-Reply-To: <20261110074153.4b895bb6@kernel.org>
+From: Xin Long <lucien.xin@gmail.com>
+Date: Tue, 10 Nov 2026 11:57:48 -0500
+X-Gm-Features: AclHuK_HpW_I6LMxVTgDVIWnA6pZgPm7vgrtWceSe67s1c1ZnBXYAOFgqXCnPVE
+Message-ID: <CADvbK_e3aoDOyk3hbPtS8pk3U0QSiLtYafpH2oaoNbbR9mV9aw@mail.gmail.com>
+Subject: Re: [PATCH net-next v18 00/15] net: introduce QUIC infrastructure and
+ core subcomponents
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev, davem@davemloft.net, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Stefan Metzmacher <metze@samba.org>, Moritz Buhl <mbuhl@openbsd.org>, Tyler Fanelli <tfanelli@redhat.com>, 
+	Pengtao He <hepengtao@xiaomi.com>, Thomas Dreibholz <dreibh@simula.no>, linux-cifs@vger.kernel.org, 
+	Paulo Alcantara <pc@manguebit.org>, Namjae Jeon <linkinjeon@kernel.org>, Tom Talpey <tom@talpey.com>, 
+	kernel-tls-handshake@lists.linux.dev, Chuck Lever <cel@kernel.org>, 
+	Jeff Layton <jlayton@kernel.org>, Steve Dickson <steved@redhat.com>, Hannes Reinecke <hare@suse.de>, 
+	Alexander Aring <aahringo@redhat.com>, David Howells <dhowells@redhat.com>, 
+	Matthieu Baerts <matttbe@kernel.org>, John Ericson <mail@johnericson.me>, 
+	Cong Wang <xiyou.wangcong@gmail.com>, "D . Wythe" <alibuda@linux.alibaba.com>, 
+	Jason Baron <jbaron@akamai.com>, illiliti <illiliti@protonmail.com>, 
+	Sabrina Dubroca <sd@queasysnail.net>, Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, 
+	Daniel Stenberg <daniel@haxx.se>, Andy Gospodarek <andrew.gospodarek@broadcom.com>, 
+	mef@scarletmail.rutgers.edu, paul@jakma.org, 
+	Kuniyuki Iwashima <kuniyu@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Nov 10, 2026 at 10:42=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> w=
+rote:
+>
+> On Mon,  9 Nov 2026 11:27:21 -0500 Xin Long wrote:
+> > The QUIC protocol, defined in RFC 9000, is a secure, multiplexed transp=
+ort
+> > built on top of UDP. It enables low-latency connection establishment,
+> > stream-based communication with flow control, and supports connection
+> > migration across network paths, while ensuring confidentiality, integri=
+ty,
+> > and availability.
+>
+> coccicheck says:
+>
+> v:250:19-25: ERROR: invalid reference to the index variable of the iterat=
+or on line 241
+> net/quic/connid.c:252:16-22: ERROR: invalid reference to the index variab=
+le of the iterator on line 241
+> --
+> pw-bot: cr
 
+This is a code pattern concern, not a real bug though, as the use_count <=
+=3D 1
+check guarantees the loop always hits break.
 
-On 11/9/26 12:18, netdev-bot+sashiko@kernel.org wrote:
-> Is 2^24 the right limit for AES-128-CCM?
-
-No. RFC 9147 section 4.5.3 and Appendix B.1 give 2^23 records for
-AES-128-CCM, for the same 2^-60 target as TLS 1.3. v7 will use a limit
-below 2^23 for CCM.
-
-> Should TLS_TX and TLS_TX_TRAFFIC_SECRET take tx_lock, as
-> TLS_TX_KEY_UPDATE and TLS_TX_MAX_PAYLOAD_LEN do?
-
-This is the lock drop listed under "Not changed" since v4. A TLS_TX
-setsockopt() during a sendmsg() in another thread is an application
-error. Mainline has the same window: the existing rekey takes only the
-socket lock, and the records of that sendmsg() can go out under two
-keys. Taking tx_lock in TLS_TX would make the setsockopt() wait behind
-a blocked sendmsg(), which changes mainline behavior. The design of
-this path is under discussion in the thread on 0/6, so I keep it
-unchanged until that is settled.
-
-> Can setsockopt(SOL_TLS, TLS_TX_KEY_UPDATE) block indefinitely on a
-> non-blocking socket?
-
-Yes. v7 will remove TLS_TX_KEY_UPDATE (see my reply on 0/6). The
-kernel will then send a KeyUpdate only from sendmsg(), with the
-caller's flags.
-
-> This isn't a bug, but two parts of this text don't seem to match the code.
-
-In v7, the text will say "before the next Application Data record".
-The TLS_TX_KEY_UPDATE text will go away with the option.
+Thanks.

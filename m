@@ -1,71 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.135
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794325321;
-	b=THuNr88kiQkCO4fjAawE4XlbDZtI842gAMYqMI5kF08JTY7SBcSt2jcTFRyyYl6o0MtG
-	 dvAXEsfJUmWtstzOha9v2jbM4nO7Ma9OsnGewGu5gK+LscrErJiA5f9TyIsTn1dcvJZ0d
-	 IHCEBTMhub9eWRwa0pmfuhdFhLO00spbggB94Se14aRxMeoXpmpzf20bRvhaKArzFHL+D
-	 rRtgeMdo04UBLcW2aZsqMn13YwQWtIScvdBQ4qXc/pSqIdp0XWLz+JQw2HuZj2U5TmTJy
-	 cNRKYDzZVs9CeagOBfcoo53MMzuyBvdd6YvgcVVp+CEGyyehq6qldW3d1rg9fChvx3g==
+	t=1794329380;
+	b=w6SuR6TXyNq9yGDt6kS7gY2z5XfgQUvsKZvVzyIag3PLpS8TfRZilERXzQeH44IpyWeP
+	 2MiRn2rXcQ/RPl82FGirgkX3a5xNfWqQoJlUl0EHgW56gBWyB/5vmxqm6DD7qkSHe2Ur3
+	 j5R+0YwEorx7/01OJpnvdR6f22lXaK5PCcBBXofkfzlOckhB4hu71oQ94gtjgfJWFUnXe
+	 LConTeKKynJe1NztXi1I6IBrZewGLnhYh7dWJA+JqSipIQG86v28Dx7SWYuEQ+SkkqK7i
+	 CdANtOfXmWEluorj8JCP8x52wOLmyLYEkz/8v+tPObSh1qj8i+5piQ1mtDhTUkxK2qA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794325321;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794329380;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=9jyzrNW+uLpCLSN6mVN1YOOuKEzhBfBDxAyFVPj3suI=;
-	b=ghqiUaWgHKnX1hwQl6yt2NreCfdGU2q0raZIubGTCqwjeUk7RjiSfeQapgbIir63GP7k
-	 NASShhPmxdBgfzE52Nj4PiCruZlxEavCpKG5oLkSsWmHUN9ajF/tMMwXwUwRIB071cAkp
-	 /UqK0TczsRc+sT1Dwi0RVzxqaLIplY+omsnambNeDnPvaEi9gjelpj8gv9LPwAPBnx50h
-	 EX3LrNYkwv2CFAvYPlOeFVlW67Gg/NTYKJPR5I3crm0JeZSqiF0ec/cP+0Sy3R5WZ3lQO
-	 esJLgaK4Zf5XdQ6bPSXaDz/raaeCHG0VPpuWA4s6r5sMHAXJycmV6Traob5JhFR2UWA==
+	bh=tP18IBGb4RAX2VQoul/BsJwOYmY36Sb1G+z0aM3/z1I=;
+	b=TzNCNyxYLN736/jbq4kUvSnaVQQCv0vG9uyFM2OeIwQYrmml1mLGFyKnNBgcRM1+2R5m
+	 aiEwoK7vTQ+nf/04tG5jgwEbnBzZq9XxmKwY+o0zxWlj93npUVkKLVb+O4DL1cft/qtw1
+	 r+An5lw6bOdkpNqXE+2zLPc2qtJzTWRdhi+yFdSObc9vp2pr1JdxEMZfXe4YBoMacR+u8
+	 5kjPY6nZrlz+qIBWeYQUv5oSj2YgiVG+NXVAedVB6Stv3FuOkFMf1qa4hF+ZMIqD4b/ee
+	 RM1f68TRigZZv3m8Wtk9Ot8DyQxvvxpnRoh7WW8HhNkwCmp2sL0x0ktZeIsFHxvpG1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BdNYeTuG;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pKgVmBTq;
+	arc=none smtp.remote-ip=74.125.224.135
+Received: from mail-yx2-f7.google.com (mail-yx2-f7.google.com [74.125.224.135])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDAA606AB40;
-	Tue, 10 Nov 2026 15:42:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B752606A323
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 10 Nov 2026 16:49:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B752606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BdNYeTuG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 649251F008A1;
-	Tue, 10 Nov 2026 15:41:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794325320;
-	bh=9jyzrNW+uLpCLSN6mVN1YOOuKEzhBfBDxAyFVPj3suI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=BdNYeTuGVKQ0iAGpsaiUPkDDdkEeUD0PEzZWf8kx0jwb9/lS5CpRVGv9YM8qIobWd
-	 6UBaLEpyZxgt4EWXI4OF3ltUHJjSWCDjUkG1nn9X+sH6Y83z4iRn8/UVkrXc/1/kJk
-	 nkcoLy+6/OAuD2BIZkyLQXvH41plIpL5b/IcMHnQwR2hcGinSGBcNqaQVXrZOFU/6o
-	 zTMJHCkEKhvchBEIoYthGW3rd7nqEkFGUUnFvZYyoHej6yHmj5jhIBY+zhfTwSL/n6
-	 p7VJ+MOsYa9dODc4LP1g3OIMfS4ZMbf2zmi1+7NiYJHII1iOSQT05+97Ld8XyJaa1r
-	 9lpUJbgzWNOXw==
-Date: Tue, 10 Nov 2026 07:41:53 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Xin Long <lucien.xin@gmail.com>
-Cc: network dev <netdev@vger.kernel.org>, quic@lists.linux.dev,
- davem@davemloft.net, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Stefan Metzmacher
- <metze@samba.org>, Moritz Buhl <mbuhl@openbsd.org>, Tyler Fanelli
- <tfanelli@redhat.com>, Pengtao He <hepengtao@xiaomi.com>, Thomas Dreibholz
- <dreibh@simula.no>, linux-cifs@vger.kernel.org, Paulo Alcantara
- <pc@manguebit.org>, Namjae Jeon <linkinjeon@kernel.org>, Tom Talpey
- <tom@talpey.com>, kernel-tls-handshake@lists.linux.dev, Chuck Lever
- <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, Steve Dickson
- <steved@redhat.com>, Hannes Reinecke <hare@suse.de>, Alexander Aring
- <aahringo@redhat.com>, David Howells <dhowells@redhat.com>, Matthieu Baerts
- <matttbe@kernel.org>, John Ericson <mail@johnericson.me>, Cong Wang
- <xiyou.wangcong@gmail.com>, "D . Wythe" <alibuda@linux.alibaba.com>, Jason
- Baron <jbaron@akamai.com>, illiliti <illiliti@protonmail.com>, Sabrina
- Dubroca <sd@queasysnail.net>, Marcelo Ricardo Leitner
- <marcelo.leitner@gmail.com>, Daniel Stenberg <daniel@haxx.se>, Andy
- Gospodarek <andrew.gospodarek@broadcom.com>, mef@scarletmail.rutgers.edu,
- paul@jakma.org, Kuniyuki Iwashima <kuniyu@google.com>
-Subject: Re: [PATCH net-next v18 00/15] net: introduce QUIC infrastructure
- and core subcomponents
-Message-ID: <20261110074153.4b895bb6@kernel.org>
-In-Reply-To: <cover.1794241654.git.lucien.xin@gmail.com>
-References: <cover.1794241654.git.lucien.xin@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pKgVmBTq
+Received: by mail-yx2-f7.google.com with SMTP id 956f58d0204a3-67a19a2621dso1548811d50.0
+        for <kernel-tls-handshake@lists.linux.dev>; Tue, 10 Nov 2026 08:49:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794329379; x=1794934179; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tP18IBGb4RAX2VQoul/BsJwOYmY36Sb1G+z0aM3/z1I=;
+        b=pKgVmBTqgbJCZcdQnTctN4VwFDBGSl+LXyKF1Fnf5Rgs3cMTUhWLN8DSxuxKuOrVYS
+         Nk9Lcb75iuEQ/0qgv+g1iby+slzq18nrlycX7Oo8+S4ZdXttLTVR/aXVsrE8711Rd973
+         sZ6m7k794JP7j8WJjZQMpnUaaXDEIFkc3rGb6H2gcs69sMyivb41lgp3/t7//P2j4vjT
+         W0K8fgiztRW2T1Z7ftvsra+gYSDP+IymIAQ1yQ8WqLobZgMjRS9SciRyJ9JnaS2AMnjy
+         XneIHrm/4LkOF0cRueWTSTbhAozkq0DJJ8HKZi8KEZIPelAYN2rofA3UPcHP/fSjZYOA
+         f9zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794329379; x=1794934179;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tP18IBGb4RAX2VQoul/BsJwOYmY36Sb1G+z0aM3/z1I=;
+        b=hzF8ny3yUVKeqIf0kQIojGtpZzFgrJS3wq5xw7j5yVWfJsvHMWv3iYzkUUzJosXcWa
+         3kDyIpl+HL4DNTsG8YmnxspE8QZtJ8H847jxOdD93nYbVFdoQ61qi7hvrprtmcTEroBq
+         ZduRBKilY3m7iC41HuLcmU+sO/QQQ/d35eA29Id3knGKRTUEOyEwPOhLLgmCQuGsQlsy
+         xV/SWsqyGO7FAtDUso/PR/h9iYWbmx3xaPdBrGgQ3Uxd2LvzgCr4ht8FudiQ/qXrgbTZ
+         LeqxzpHt6xdNql9H/jIsq/mqpcaYN5wTvpGasb7iWWYqSOM/U03PEia4Q/JbculXK1TX
+         u++A==
+X-Forwarded-Encrypted: i=1; AL+hErHViwlEXUjqw7L2+ehTP2ag5U/WgQ4mxyR1UjAwWAqc9VXx1GFbuJkEzSolP6MfTPTgoAs2MtdJd2AjEtae03/ewQvocQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/EekTXwkqoYNgfICjfNVfgKQpG8bwqIClB5GwIP21JFanXqvd3
+	tkw7c8PdBQeG2PtSHSFoAdg4DOO3yUm187Epo6sHhoNWpdgWWKXx0+yS
+X-Gm-Gg: AYBFou0nxZc1sfkpj/dDX/r9Mo84LRuKMBqLXmk9vnslg19xc//4kVdC4340JdNfeqO
+	oKShRwDX2JpgnUu9chjZFcgGHPeepgZJFPn07UJVtUhlREvGCIkeC5w1GVC5NaVr0Gy611fEq+i
+	f3khVATRYEpFP7eL1t7UEGsEl4m7N9ncKuZsysm366PpAy9mN+zliMXaOj3J6V1DSiMGELYuhoG
+	3U+zEBGu6fixRaTW+bbi8zbeywBg2V48vn7+0gVGQ9Si5A0rSqLLvnoF0+jbIGDD7HSbsI4Cr0+
+	q6ym1b7EYd7UvBUMWEg+jje5ZsNVNvMOVUCxvcqEh812porCovGENyqCa4CRdFGspfvP9afIBga
+	LVmH6bRC2MXd1ngDE1VbImyxwAdpHsSm9W9fk2dAxJVc9ZYSW90SiLypBRQeT/ejPAxSZJ2dxV8
+	IUH/5hTQ8SnJTUh8M1qlKy6fjBK9+DWswfMq3GqXxNHLZOHk0CIeNbBM/tvPRMi8zlQJwIiabU0
+	Q44hzl5GCKYARTBhW/EpXpV/zarsnxDY+BtBlK6gS4qrAqmdWXVQrLhBsC0OQrE1hyyeP56+4dV
+	cpBRXYf3L35ycgF21NAaW729I+NsMMpduD3zeZW7w47mgLUKghSyjMLWpA==
+X-Received: by 2002:a05:690e:12c3:b0:67c:fa4:2b9f with SMTP id 956f58d0204a3-67c566077bbmr2140240d50.15.1794329379380;
+        Tue, 10 Nov 2026 08:49:39 -0800 (PST)
+Received: from [10.0.0.48] ([71.69.222.122])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67c589a2354sm2244105d50.6.2026.11.10.08.49.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Nov 2026 08:49:38 -0800 (PST)
+Message-ID: <83246c2b-6663-4c52-95f0-50dac116570b@gmail.com>
+Date: Tue, 10 Nov 2026 11:49:33 -0500
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Post: <mailto:kernel-tls-handshake@lists.linux.dev>
@@ -75,19 +92,61 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:kernel-tls-handshake+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v6 4/6] tls: update the RX key when a KeyUpdate
+ is received
+To: netdev-bot+sashiko@kernel.org
+Cc: john.fastabend@gmail.com, kuba@kernel.org, sd@queasysnail.net,
+ davem@davemloft.net, edumazet@kernel.org, pabeni@redhat.com,
+ horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, shuah@kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, hare@kernel.org, cel@kernel.org,
+ kernel-tls-handshake@lists.linux.dev, alistair.francis@wdc.com,
+ martin.belanger@dell.com
+References: <20261105-keyupdate-rfc-v6-4-99b695f9eb4f@gmail.com>
+ <179424471155.994134.17986033334400694237@kernel.org>
+Content-Language: en-US
+From: Martin Belanger <martin.nvme.dev@gmail.com>
+In-Reply-To: <179424471155.994134.17986033334400694237@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Mon,  9 Nov 2026 11:27:21 -0500 Xin Long wrote:
-> The QUIC protocol, defined in RFC 9000, is a secure, multiplexed transport
-> built on top of UDP. It enables low-latency connection establishment,
-> stream-based communication with flow control, and supports connection
-> migration across network paths, while ensuring confidentiality, integrity,
-> and availability.
 
-coccicheck says:
 
-net/quic/connid.c:250:19-25: ERROR: invalid reference to the index variable of the iterator on line 241
-net/quic/connid.c:252:16-22: ERROR: invalid reference to the index variable of the iterator on line 241
--- 
+On 11/9/26 12:18, netdev-bot+sashiko@kernel.org wrote:
+> [Severity: Medium]
+> What happens when the KeyUpdate is not the first handshake message in the
+> record?
+
+Valid. A record with [NewSessionTicket][KeyUpdate] is legal (RFC 9846
+section 5.1), and the check reads only the type of the first message.
+Mainline has the same gap: tls_check_pending_rekey() does not set
+key_update_pending for such a record either. With a registered RX
+secret the result is worse, because the kernel owns the rekey and the
+connection ends on the next record.
+
+v7 will check every handshake message in the record. A KeyUpdate that
+is the last message will be handled. A KeyUpdate followed by another
+message will end the connection.
+
+> The RFC does not forbid a KeyUpdate that ends a record with several
+> messages, and the rule the code enforces is in section 5.1, not 4.7.3.
+
+Agreed. The commit message in v7 will cite section 5.1 and describe
+what the code does.
+
+> Could the comment be reworded so that a future caller doesn't assume the
+> old key still works after a failed rekey?
+
+Yes. In v7, the kernel-doc will say that the key may be unusable after
+an error, and that the caller must end the connection.
+
+> Should Documentation/networking/tls.rst be updated to match this
+> behaviour?
+
+Yes. v7 will update the "TLS 1.3 Key Updates" section and the
+statistics. TlsRxRekeyError will count every received KeyUpdate that
+ends the connection, not only the rate limit.
+
 pw-bot: cr

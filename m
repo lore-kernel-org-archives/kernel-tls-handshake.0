@@ -1,84 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795393824;
-	b=MvmP8/mfGQo/lcvRMXT9UGgRmIOMoLnx0ZRt1Zvtg8Dy8liuFwAYk85Q2JLcA4VRQsIx
-	 tXVRGPTpfk8GRD5iFObXOmMcJtQfOgaoHnDmfgCIlaX3KrsMIjhsIHIXE6DbVQ/A5sV0m
-	 SO3pn08YX89z1Sj5iIziceO6mBO97iZyytOfq/8KgWi9Z7c2m7Pu4Jxo/JwcNsdczjlGw
-	 Imt3H5jj7Mw7wIVy/C1sUCQluBQK0Vu+8VFJCiHNwXELiGOXdH617UMBjPBSQVFeh9Ebm
-	 YVNPdxWvCOMGBIc9hO2LMev6WUZxZ1j2HPTJfCPLixIUDVt0YLUvC0scCVqA53HbzWw==
+	t=1795393826;
+	b=wdzwzvxlQ3I01GnGqUlt4RtKcUM+qBRA46tytP7tUDyE1U7ifgO+ptWeJ4/zpJ4mC1bD
+	 fUgsWqEYbapkmf5CX11ooOhXBay9df1u2lh04qBh/KyNOe26Hyqq3fqCaqHdxfHGxUCaI
+	 3s7WP9GL1/n3KvvBftkEqa3Cvs5GA2EZv/IkgH923HgbMrMUP/mPDZlkmoPIzbi7Fn2GT
+	 +wRqK/oqWMelnAAXN97wMKhC9Lpfyd+W4WlqLTlaFKkyKZPIUSzb6qOZ1zLFLHo/MSbB7
+	 p2mOIbBekBtf8aaqQynxQmAwrOdgyAWEfAuHyb03XI4T/63CZAi7GTVYAl/yrYRI/Nw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795393824;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795393826;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=55q5GkDYDsYYn0BsfqZdC71Q2gtZTEqYy5zwDyjd0Gc=;
-	b=VR2Adc6pYEyfSpS0FV3bAnh671PbmSw697ByZsQc/JpDJt60gIjR4i/OSl8IbdGxsv5R
-	 PpsmX5daek/IHjHqaPCbnb2QhhAts9K+ksBVTPzWTFAIGJphQBe6KC1dAqZ+2//x4Uey5
-	 7HQSazb/Bflhl+EbqjTbS8L/u4BFs7VX3M4oX8+6+VgXWRDWmICogl7RElWTp3ApdjWhp
-	 SXSktlInyO3YoKKCwIummmeF0KIM9Qkc3fYmYproofCxWLccKXQ8W725G9PgmfkLCT47v
-	 BMroLDppWV2ZiyzPMxdVBrBCaHdPURqLQZIlTLQ3X0n4yzWMSZIRt41sFOCcR/WHxFw==
+	bh=XAXdyuMqkaYpybPyKc2rQvk/Uf0Im+D2cVCR2akibTQ=;
+	b=ilZqkSTpZgGU13Jq7RWrrdNwpAHHP2MEnHMtZS3+lzKzc3ZfW6y2tn4PpXC9yvGa0l9s
+	 v/+UzWyX7O1tiQGLnjLJF2EhC2mqilDItHogektPWScPLkTlQzhT6s4eLoh32DV+VKDjF
+	 aZYCpwzCHwfadY802nIiSpBM4pdI8E8l9RT9E4lyx3crECIMDq/+4FoRJXWwTXz9eY4kf
+	 Y0bL34+3fYH/qG2oMwLMVwNZFPy0VjSeeCHsdaJvALsqXF91SXjS+x8KjdsYXaI5uzi5S
+	 wGyFMsY0/ScXzQ8MHewZv36HCuQKoeZsRkWd5JajnswBh8z726BSs/IWtUni9SDTd7g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UZ6LHFw0;
-	arc=none smtp.remote-ip=209.85.219.49
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0jt7akJB;
+	arc=none smtp.remote-ip=209.85.219.45
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDF4606A33B
-	for <kernel-tls-handshake@lists.linux.dev>; Mon, 23 Nov 2026 00:30:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1FDF4606A33B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3BC5606A33B
+	for <kernel-tls-handshake@lists.linux.dev>; Mon, 23 Nov 2026 00:30:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3BC5606A33B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UZ6LHFw0
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-92157f2e8c1so4346766d6.1
-        for <kernel-tls-handshake@lists.linux.dev>; Sun, 22 Nov 2026 16:30:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0jt7akJB
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-92123971d1bso23662716d6.1
+        for <kernel-tls-handshake@lists.linux.dev>; Sun, 22 Nov 2026 16:30:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795393819; x=1795998619; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795393823; x=1795998623; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=55q5GkDYDsYYn0BsfqZdC71Q2gtZTEqYy5zwDyjd0Gc=;
-        b=UZ6LHFw0DbtIduFwzSiPU9kTz1RUy5SBcxWTmsBrKn2PUUrtdkkcduSMuTw4QpirtN
-         cffhBKuA1HB6mbQRvq24y+LdHD/ySPoPpHzEuo6KercqxeCBihVODUey3OeiwIfx67Xg
-         UyDAk2ljG2ZoFlMjZW6+pi7Sl2YX5MiZV9YfW86obapuI5HqMMQgt43R0SsHM0CTPgHv
-         be744WuLRXZFENaVhA3GRPbGJ3SyL+sMUtodarc5waTxEASNfcAXJI2BurQkGRlPmFM+
-         KJ/pnEiuldYKDS/yhKbHheDSNI+02fHj87jO+m1O2gPfX0IpnKFuQ9Ir/3caVWbO5nC8
-         Ynvg==
+        bh=XAXdyuMqkaYpybPyKc2rQvk/Uf0Im+D2cVCR2akibTQ=;
+        b=0jt7akJBbQlGFIcLxoXk3gBxyGuyR9RPyGNychvKU+kNtocXxl9198dsaqFaomdjOg
+         xpEcbZ0zpyLnaQQ8AvT3P0K1kjjO+vuYXZYhzMla2qvb1iGakNC+f3TI0wjQS1ATQUJZ
+         5oeblI4vkueK7fsghVg/g5HIO1o/gu3h4ppUGIOSbDeKheAZh9nWD1JAUCxIP2Sj9JPX
+         XwPlmQB6ThgcFoMNQZAdaIByLg8XTUgl78TAscMidIydZqei9bWf53PUVtAkpaJAxUfZ
+         GpmUuMR3KK6nyy0/GBWccGS6Czy5C0aRLXwDV8PuWQh7tB/9dU0aj/MdO2bS6hY4G6iD
+         XiWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795393819; x=1795998619;
+        d=1e100.net; s=20260707; t=1795393823; x=1795998623;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=55q5GkDYDsYYn0BsfqZdC71Q2gtZTEqYy5zwDyjd0Gc=;
-        b=riCw5jQSnawhXwWAXVWhJtrCR+mYj9B2usXtqoEwYYltpZVNQYyCDPJtVZL5iTEn8f
-         5tKFG4CI241alfXCgsJDk4uAEFWUxnVRJn9Ufgxa8KjGZQfAX+45JYxJ1D2DSo3cXwyW
-         YRnqADJz23fQCtXUbSTx3buhOh/kb7aMCOeWNLSp1XDSb/XLeMH1rdpJgtSoNd9rU8sd
-         hGllXFXOVM35+Bkepw8q5gms79eEvWDohyzVuqNRn1SgMX4Yw4isHc5yX5kAw6ob65T8
-         kecmRqtp+IT9IvnISe7/1DQPlHqWDfsjDzDHpdojJHQ11XICYijdmD+60SzISxBIb1Ve
-         eX1A==
-X-Forwarded-Encrypted: i=1; AL+hErFJiAdBchA84kfjAwdi8k+9VJJlvimZz4N7ffSaVR9HOU5Ujru+GEFtKKUCEG05uPHubzLHV7z3QHFkU9d/DGAgaAjduw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/d4NEEOwx/kMAPCoOdpa2F6ygfu4PfNeBsIYKKK29+Aj6yQh5X
-	Sg9HbgktJgPibgUxnx7/JOVBO0/Aeh+CCi9p5Qgc7mvOYn+OdTkIwTSn
-X-Gm-Gg: AZFdTZe5J8oExzpxIXLAS1kVt7jzi/V9HYD765wMcBzFXBwwmtMUqwwV4ZWOqa3RED3
-	OoKWrMkPQ7afeZBt4J4GF2RTQxVVb6RmqCi+MvFkFTRV/l7cK02qS4RRQ+56JmrgP9Erwhqkpne
-	7Sf3X1Dq+wB6NOR9Jxrho6yVK3coPdWQJD01JO7x9U1suGS1snITHHMBmXUxM1fHhrtFTeiyLdz
-	bjfPi5AT2P0OqLLwowjm+84KglMuDksr+wz8IgpGvQ5JLbDigufILBjaq9IhC6OUaAcjueoC1tX
-	wYwIUS/rSVJSY6HiitRl/SYBUHMCGICPAN6aa43sq7no7xLLTaFzc44FyqCy6w0mEZvCZdOvjl2
-	wq7h2cco5IeBJTbMc+KESWZms+Jxp2N5Y7HldZThIbevsFxdfYzRjz7rwHatm85SD3lC8FxTONm
-	buAMyygonYnNjwyKHh/emZlE2wmV1lXhIlF5tWP4bDfJEVyqRKE7v06wQS81+yItEoRPa4q60Qg
-	TxfMhtwuAPXj3uyu5vXTdqRMkHxzF68A7RIxzqtZzuGlX5mkmBaH8x07byfhOMLTSYyLng6LpUD
-	8V3My842LUwCBxdOA+1umMEGSJWPC65dwGuBFLh146MP3QeaRqBXG9PpfeDWSuUarA1ZxH07baF
-	u0lkQzWTIDbs6aFwL1C84EuzDHCxKUC43qruO+ieih9Vxwkqjmrx2joJgmg==
-X-Received: by 2002:a05:6214:5d01:b0:91e:ad04:87f2 with SMTP id 6a1803df08f44-92134b8475amr183368246d6.50.1795393818460;
-        Sun, 22 Nov 2026 16:30:18 -0800 (PST)
+        bh=XAXdyuMqkaYpybPyKc2rQvk/Uf0Im+D2cVCR2akibTQ=;
+        b=tr9qqzxrstdwdpCJYJxqQs7Fcw2avKNMhvPXwLb0T9U77PV7Uo4fhaApeIvGky97FQ
+         GZddwvCL80XpWyXyBnyhG0vnNFZJqnWrvK0fn9xiLojXva+y7Vsg5xC6J/K+aPCuzwkg
+         OFwXcRyKkr9rDvlcDE5KpMcl0PQSgl9VYSEFDohLtwjnA3TAyfwDglRwe0SDbumidPpq
+         9hMOAQ/rE8Hct+wEoSYah4mSUv7Ro7NYyQEq2JSKTq6zYcfhntiOTC3+WMvWyRljoRZY
+         N93Ww8qLynh2MtjerPmJ+N3G3BeeDebK/78T81FX8BDfVdukQL/yMXfUxVcD/RiaSQ56
+         /+gA==
+X-Forwarded-Encrypted: i=1; AL+hErG409vg8fIQAmU0XbcGxGa+mpeX+wy/1ajQqNFvOYvNtyMkdNXgKcnwLgsCkxB1QzrYaJJv9xthsIDB39LJi6Y4ALxv3w==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+f1a6335G0aHWuCAQmMPZiOiDNs5WsGe4kNmYTQaBCGRpkLOqz
+	IuVs9xILyYkLDS1+3+nMjyBBAw9cjx5AkrNJYnJ+L8GuwBOyZHo8+tp1
+X-Gm-Gg: AZFdTZcbPWLWldiJAKAeGtCwVrRIsxv8931J98gqk7GmaNLAUqrfa1y+UQNNsjKHwVp
+	SsalHShpsHKGWqcqwt6NHHFnTaNg6MFrbDQ8iAAV3kyIzrnHlYwRaiqOySTOSwk0GeMxRjHrQLx
+	Abo0GSD32YHbKxKDkZjApkxon+3QyQXqTKo32GiZ1kembwej4HYdBw4IwSYQbmMf7VPwXVSXLQH
+	qXafYRBxx6iV2eXUWvlbg2uxCOOX0CwYXp1lQj7dsVtG5JTjRlf1RPSc2/EMP6CJYwnWDROTOgM
+	5pVlfjddndsgk52toh4PihIab6ggd2sNGVIhKZFU0u/WeOEeBOuyABtbd2hAiXMRMo9vT0OqYI8
+	KrVxqse++6GkXy8Rn2dKrz+3ckH0VMyJsbYPcdH89XAFxHxn+hpUhz+Q2HD4ftGOYCTw7YlWeNl
+	HyG8opeII5KdtrLS4MtDt92TQ363G+mh9aZNdE6lgJTPVfQ+FfXZdxHpmCLJ2SPqGUgF5wQbzWL
+	KmmtciS4vCvgtUJ9l09RmS9KHKfTgzRs+S6mwQ4qrNGRLanmfm1PKn97eZMenE2Yucyo/jz3l55
+	2YKSjTK8Z/JKzUtZVgwEyyuRNxtDf1Bp2oDBhdzOcZHpkfnuRjuZplHWXl5scN9BhC9nbwRxQHj
+	7hWK4Lc6u4uH8hOsUKhm0HlqUXD5ibGDkO4dtG+jqn332NjK5AzSMHEbrmsCwq+xJGtI6UWmhOo
+	9ICL8j3dBbwWQS7Kkv
+X-Received: by 2002:a05:6214:5d91:b0:91e:ef31:77c3 with SMTP id 6a1803df08f44-92134a9e246mr163228946d6.31.1795393822916;
+        Sun, 22 Nov 2026 16:30:22 -0800 (PST)
 Received: from wsfd-netdev58.anl.eng.rdu2.dc.redhat.com ([66.187.232.140])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921349d0f6bsm91433716d6.21.2026.11.22.16.30.16
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921349d0f6bsm91433716d6.21.2026.11.22.16.30.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 16:30:17 -0800 (PST)
+        Sun, 22 Nov 2026 16:30:22 -0800 (PST)
 From: Xin Long <lucien.xin@gmail.com>
 To: network dev <netdev@vger.kernel.org>,
 	quic@lists.linux.dev
@@ -117,9 +118,9 @@ Cc: davem@davemloft.net,
 	mef@scarletmail.rutgers.edu,
 	paul@jakma.org,
 	Kuniyuki Iwashima <kuniyu@google.com>
-Subject: [PATCH net-next v19 12/15] quic: add crypto packet encryption and decryption
-Date: Sun, 22 Nov 2026 19:28:08 -0500
-Message-ID: <21e45bc3fabb264d05600bfc7c32f1e680c8140a.1795393691.git.lucien.xin@gmail.com>
+Subject: [PATCH net-next v19 15/15] quic: add packet parser base
+Date: Sun, 22 Nov 2026 19:28:11 -0500
+Message-ID: <5c305e22057f748d5c4d4cbc94a1e14271dbc485.1795393691.git.lucien.xin@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <cover.1795393690.git.lucien.xin@gmail.com>
 References: <cover.1795393690.git.lucien.xin@gmail.com>
@@ -134,1211 +135,1866 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch adds core support for packet-level encryption and decryption
-using AEAD, including both payload protection and QUIC header protection.
-It introduces helpers to encrypt packets before transmission and to
-remove header protection and decrypt payloads upon reception, in line
-with QUIC's cryptographic requirements.
+This patch uses 'quic_packet' to handle parsing of QUIC packets on the
+receive (RX) path.
 
-- quic_crypto_encrypt(): Perform header protection and payload
-  encryption (TX).
+The receive path looks up sockets using connection IDs and network
+addresses. For Client Initial packets, it decrypts the Initial packet
+and extracts ALPN protocols from the TLS ClientHello to select the
+appropriate listening socket. Packet processing is dispatched according
+to the socket state, with full application and handshake processing
+implemented in subsequent patches.
 
-- quic_crypto_decrypt(): Perform header protection removal and
-  payload decryption (RX).
+Add support for handling ICMP Packet Too Big errors and updating the
+connection's path MTU. When PLPMTUD is disabled, update the MSS using
+the MTU accepted by the routing layer; otherwise, notify the path layer
+to handle the reduced MTU.
 
-The patch also includes support for Retry token handling. It provides
-helpers to compute the Retry integrity tag, generate tokens for address
-validation, and verify tokens received from clients during the
-handshake phase.
+Also introduce deferred packet processing for operations that require a
+sleepable context, along with request socket and backlog infrastructure
+for incoming connections.
 
-- quic_crypto_get_retry_tag(): Compute tag for Retry packets.
+Key functions:
 
-- quic_crypto_generate_token(): Generate retry token.
+- quic_packet_rcv(): Locate appropriate socket via quic_conn_id_lookup(),
+  quic_listen_sock_lookup() and quic_sock_lookup() in
+  quic_packet_get_sock(), and process the packet via quic_packet_process().
 
-- quic_crypto_verify_token(): Verify retry token.
+- quic_packet_process(): Dispatch packet processing based on the socket
+  state. Currently, only quic_packet_listen_process() is implemented to
+  handle client Initial packets.
 
-These additions establish the cryptographic primitives necessary for
-secure QUIC packet exchange and address validation.
+- quic_packet_listen_process(): Create request sockets, handle version
+  negotiation, verify client addresses, and send Retry or stateless reset
+  packets as needed. Some operations are currently stubbed. When ALPN
+  demultiplexing is enabled, parse ALPNs via quic_packet_get_alpn() and
+  re-lookup the listening socket using the parsed ALPNs in
+  quic_listen_sock_switch().
+
+- quic_packet_rcv_err(): Find the socket and update the PMTU via
+  quic_packet_mss_update().
 
 Signed-off-by: Xin Long <lucien.xin@gmail.com>
 ---
 Sashiko, do not report any of the following concerns:
-  - Ignore the potential non-linear skb access in quic_crypto_get_number().
-    Received packets are linearized before QUIC processing in a later
-    patch, and header offsets are validated during parsing before this
-    function is called.  Therefore, direct access through quic_hdr() is
-    safe.
+  - Ignore the potential UaF of ALPN data in quic_listen_sock_lookup().
+    The lookup is protected by RCU, and the socket lifetime is managed
+    such that quic_sock_destruct() is not executed until after all RCU
+    readers have completed. The ALPN data is therefore not freed while an
+    RCU reader can still access it. Note that SOCK_RCU_FREE is always set
+    in quic_init_sock() when creating the quic socket.
 
-  - Ignore the potential scatterlist sizing issue on the RX path. Packets
-    are guaranteed to be linearized before entering the QUIC stack in a
-    subsequent patch, so received skbs cannot contain a frag_list when
-    reaching quic_crypto_payload_protect(). Therefore, nsg = 1 is
-    sufficient for the RX path. Also, skb_cow_data() is called from
-    quic_crypto_header_protect() on the RX path, not from
-    quic_crypto_payload_protect().
+  - Ignore the potential use-after-free of qn from quic_udp_rcv(). Netns
+    teardown stops packet reception before invoking per-netns cleanup
+    callbacks. Since quic_net_exit() is only called after devices and their
+    ingress paths have been released, no new UDP tunnel packets can reach
+    quic_udp_rcv() during or after this callback.
 
-  - Ignore the potential non-linear skb access issue in
-    quic_crypto_header_protect().  A subsequent patch guarantees that
-    packets are linearized before entering the QUIC stack, so the QUIC
-    header and crypto sample are always available in the linear data area.
-    The direct skb data access is therefore safe.
+  - Ignore the concern about the fallback lookup order in
+    quic_packet_get_sock(). conn_id is added only after both sides have
+    successfully confirmed it, so if its lookup fails, the connection is
+    considered gone; the server then falls back to the listen socket to
+    generate a stateless reset, while the client normally has no listen
+    socket and proceeds to quic_sock_lookup() to process the packet as a
+    stateless reset.
 
-  - Ignore the potential out-of-bounds access from skb->data in
-    quic_crypto_get_retry_tag(). All packets are guaranteed to be
-    linearized before entering the QUIC stack in a subsequent patch, so
-    skb->len bytes are available through skb->data. The direct copy from
-    skb->data is therefore safe.
+  - Ignore the concern about the missing RCU read lock for
+    quic_conn_id_lookup(). quic_packet_rcv() is called on the RX path under
+    rcu_read_lock(), so quic_packet_get_sock() and quic_conn_id_lookup()
+    already execute within the required RCU read-side critical section.
+    rcu_read_lock() is explicitly called by ip_local_deliver_finish() on
+    the RX path.
 
-  - Ignore the concern about accepting unknown token flags. The flag is
-    part of the authenticated token data, so any modification to it will
-    cause token authentication to fail before this verification path
-    succeeds. Only valid token types generated by the implementation can
-    reach this code.
+  - Ignore the concern about the return value of quic_udp_err(). As the
+    .lookup callback, it must return 1 when QUIC handles the ICMP error to
+    prevent UDP from processing it again. Although
+    __udp4_lib_err_encap_no_sk() may subsequently be called, it will not
+    match this UDP tunnel socket because it is already being used by QUIC.
+    The resulting ICMP_MIB_INERRORS accounting and -ENOENT return do not
+    cause a problem. Returning 0 would allow UDP to process the ICMP
+    message itself in udp_err().
 
-  - Ignore the missing minimum ODCID length check here in
-    quic_crypto_verify_token(). The ODCID length validation is performed by
-    the caller in the following patchset before the value is used, so this
-    helper only needs to validate the encoding and maximum length.
+  - Ignore the concern about the missing len < length check after
+    quic_get_int() for alpns in quic_listen_sock_lookup(). alpns is built
+    by quic_packet_get_alpn(), which validates each ALPN entry and
+    guarantees that the remaining length is at least the decoded entry
+    length before quic_listen_sock_lookup() processes it.
 
-  - Ignore the potential AES-GCM nonce reuse issue in
-    quic_crypto_token_protect(). Token generation is serialized by the
-    socket lock, so two invocations using the same token secret cannot
-    occur within the same microsecond. The timestamp-based nonce therefore
-    provides a unique nonce for each token generated under the same key in
-    practice.
+  - Ignore the concern about returning 0 for non-PTB ICMP errors. A return
+    value of 0 intentionally lets the UDP layer continue its normal ICMP
+    error processing when QUIC does not handle the error. Only ICMP Packet
+    Too Big errors accepted by QUIC's PMTU handling are consumed by the
+    QUIC path and should return 1.
 
-  - Ignore the potential race on the AEAD tfm state. The Retry Integrity
-    Tag generation path is serialized by the socket lock, so concurrent
-    calls cannot interleave crypto_aead_setkey() and encryption operations
-    on the same tfm. The temporary use of the tfm with the Retry key is
-    also confined to this locked path and does not race with normal QUIC
-    crypto processing.
+  - Ignore the concern about conflating the return values in
+    quic_packet_deferred_schedule(). It intentionally uses any non-zero
+    return value to indicate that the SKB has been consumed, either by
+    successfully queuing it (1) or by dropping and freeing it (-ENOBUFS).
+    The caller therefore must treat any non-zero return as consumed and
+    return -EINPROGRESS to prevent further processing or freeing of the
+    SKB.
 
-  - Ignore the potential lost update of the packed bit-fields. Although
-    these fields share the same storage byte and updates are performed as
-    read-modify-write operations, all readers and writers hold the socket
-    lock. The async crypto completion path also re-enters the processing
-    path under the same lock before modifying these fields, so concurrent
-    updates cannot occur.
+  - Ignore the concern about quic_alpn_demux_key never being enabled. The
+    static key is intentionally enabled when ALPN is configured on a
+    listening socket in the next patchset. Until then, ALPN demux
+    correctly remains disabled, so the ALPN parsing and backlog paths are
+    intentionally unreachable in this patch.
 
-  - Ignore the concern about the lifetime of quic_crypto during
-    asynchronous AEAD operations. In the next patchset, the skb will hold a
-    reference to the socket, so quic_sock_destruct() cannot run while the
-    async operation is still in flight. quic_crypto_done() will therefore
-    not access a freed quic_crypto struct. Also, without next patchset,
-    this path can never be triggered.
+  - Ignore the concern about quic_packet_rcv_err_pmtu() sleeping in atomic
+    context. The routing lookup functions used by quic_packet_route(),
+    including ip_route_output_flow(), do not sleep and are safe to call
+    from atomic context. Therefore, calling quic_packet_rcv_err_pmtu() from
+    quic_release_cb() or under bh_lock_sock() does not introduce a
+    sleeping-in-atomic-context issue.
 
-  - Ignore the concern about a crypto driver returning 0 and later invoking
-    quic_crypto_done(). The Linux crypto API guarantees that a synchronous
-    return of 0 means the operation has completed and the completion
-    callback will not be invoked later. Therefore, ctx is freed only by the
-    synchronous path in this case.
+  - Ignore the concern about SO_REUSEPORT load balancing in
+    quic_listen_sock_lookup(). da represents the peer's destination address
+    and port in this lookup context, not the server's local address and
+    port. Therefore, quic_addr_hash(net, da) varies with the peer address/
+    port and does not produce a constant hash for all incoming connections.
 
-  - Ignore the softirq context concern for quic_crypto_get_retry_tag(),
-    quic_crypto_token_protect(), quic_crypto_generate_token(), and
-    quic_crypto_verify_token(). These operations are executed in sleepable
-    context in the next patchset, so GFP_KERNEL allocations and
-    crypto_wait_req() are allowed.
+  - Ignore the concern about the socket reference count in
+    quic_packet_get_sock(). quic_conn_id_lookup() takes a reference
+    to the associated socket before returning the conn_id, so
+    quic_conn_id_sk(conn_id) returns a socket with a valid reference held.
+    The sock_put(sk) in quic_packet_rcv() therefore correctly releases that
+    reference.
 
-  - Ignore the potential under-allocation due to ctx_size alignment. This
-    follows the same allocation pattern as esp_alloc_tmp(). The AEAD
-    request size of the supported algorithms is already aligned, so req +
-    req_size is already aligned for the scatterlist. Therefore, the later
-    PTR_ALIGN() for sg does not add extra padding beyond the allocation
-    calculated by ALIGN().
+  - Ignore the concern about packet->level being left in an incorrect
+    encryption state in quic_packet_rcv_err_pmtu(). packet->level is
+    updated to the appropriate encryption level from the frames whenever
+    packets are sent, so the PMTU update does not permanently affect the
+    outgoing packet encryption level.
 
-  - Ignore the concern about quic_crypto_get_retry_tag() corrupting the
-    session key in crypto->rx_tfm[1]. In the next patchset, this function
-    can only be called with the initial crypto in a socket, and sockets do
-    not perform QUIC key updates for initial crypto. Therefore, rx_tfm[1]
-    is never used for a session key in this case and can safely be reused
-    for Retry Integrity protection. The caller contract guarantees this
-    usage, so a runtime check or separate AEAD transform is unnecessary.
+  - Ignore the concern about the -ENOENT return value suppressing UDP
+    ICMP processing in quic_packet_rcv_err_pmtu(). If quic_sock_lookup()
+    cannot find a QUIC socket associated with this UDP tunnel socket, the
+    ICMP error should not be processed by the UDP layer either. Returning
+    -ENOENT correctly indicates that there is no QUIC socket to handle the
+    error, and no normal UDP ICMP processing is expected in this case.
 
-  - Ignore the concern about cb->crypto_done being NULL. All callers that
-    use the asynchronous crypto path will set cb->crypto_done before
-    calling quic_crypto_encrypt() / quic_crypto_decrypt() in the later
-    patchset. A NULL check or WARN_ON_ONCE() here is unnecessary because
-    a missing callback indicates a caller bug, not a recoverable runtime
-    condition.
+  - Ignore the concern about truncated TLS ClientHello messages bypassing
+    ALPN demultiplexing in quic_packet_get_alpn(). Truncated or incomplete
+    TLS ClientHello messages are currently unsupported and are not expected
+    to reach the ALPN demultiplexing path. Returning 0 for such packets is
+    therefore intentional.
 
-  - Ignore the concern about crypto_skcipher_encrypt() using an
-    asynchronous cipher. In quic_crypto_set_cipher() the transform is
-    allocated with crypto_alloc_sync_skcipher(), which guarantees a
-    synchronous skcipher implementation, so crypto_skcipher_encrypt()
-    cannot return -EINPROGRESS or -EBUSY due to asynchronous processing.
+  - Ignore the concern about a divide-by-zero in
+    quic_request_sock_backlog_tail(). sk->sk_max_ack_backlog can never be 0
+    when this function is called. A listen(fd, 0) causes the listening
+    socket to leave the listening state and be removed from the listen hash
+    table, so quic_request_sock_backlog_tail() cannot be reached with
+    sk->sk_max_ack_backlog == 0.
 
-  - Ignore the concern about the sample read exceeding the skb bounds in
-    quic_crypto_header_protect(). All callers of quic_crypto_encrypt() and
-    quic_crypto_decrypt() will ensure cb->number_offset + cb->length <=
-    skb->len in the next patchset. Since the RX path already ensures
-    cb->length >= QUIC_PN_MAX_LEN + QUIC_SAMPLE_LEN, the sample access
-    is therefore within the skb bounds.
+  - Ignore the concern about leaking quic_request_sock structures and their
+    backlog packets during socket destruction. quic_reqs(sk) is cleared in
+    quic_unhash() before quic_destroy_sock() is called in the next
+    patchset, so any pending request sockets and their associated backlog
+    packets are freed before reaching this cleanup path.
 
-  - Ignore the concern about len - hlen underflow in
-    quic_crypto_payload_protect(). The RX path already ensures cb->length
-    >= QUIC_PN_MAX_LEN + QUIC_SAMPLE_LEN in quic_crypto_header_protect(),
-    which is called before quic_crypto_payload_protect(). Therefore,
-    cb->length is sufficient to ensure len (cb->length + cb->number_offset)
-    >= hlen (cb->number_offset + cb->number_len) on the RX path.
+  - Ignore the concern about a double-free when
+    quic_packet_app_process() or quic_packet_listen_process() returns an
+    error after freeing the skb. In __release_sock(), a non-zero return
+    value does not cause the networking core to free the skb again.
+    Therefore, freeing the skb here before returning -EOPNOTSUPP does not
+    result in a double-free.
 
-  - Ignore the concern about addrlen causing integer overflow. addrlen is
-    always derived from a valid socket address and is bounded to the size
-    of the corresponding address struct before quic_crypto_generate_token()
-    and quic_crypto_verify_token() are called, so it cannot approach
-    UINT32_MAX.
+  - Ignore the concern about skb_set_owner_sk_safe() triggering a
+    spurious warning for deferred packets. skb_set_owner_sk_safe() does
+    not fail when skb->sk or skb->destructor is already set. Therefore,
+    when a deferred packet is processed again, this call succeeds and does
+    not trigger a spurious WARN_ON_ONCE().
 
-  - Ignore the concern about crypto->key_update_time being zero.
-    crypto->key_update_time will be initialized/updated with the PTO value
-    in the next patchset, so the retention-window check will use the
-    intended key-retention period.
+  - Ignore the concern about uninitialized padding in quic_addr affecting
+    token validation in quic_packet_listen_process(). quic_get_msg_addrs()
+    zeroes packet->daddr and packet->saddr before populating the addresses
+    for every packet. Therefore, any padding in the address union is
+    initialized to zero and cannot contain stale data from a previous IPv6
+    packet.
 
-  - Ignore the concern about the key state machine becoming inconsistent
-    after a payload decryption error in quic_crypto_decrypt(). Key update
-    derivation does not depend on the incoming packet succeeding. The newly
-    derived keys remain valid and can continue to be used as long as
-    key_phase remains consistent, so retaining key_derived in this error
-    path is intentional.
+  - Ignore the concern about using GFP_KERNEL in quic_packet_get_alpn().
+    This function is called from quic_packet_listen_process() only after
+    quic_packet_deferred_schedule() has been checked, so the ALPN
+    decryption path runs from the deferred workqueue in sleepable process
+    context. Therefore, GFP_KERNEL is safe here.
 
-  - Ignore the concern about reconstructing the packet number twice on the
-    async resume path. When quic_crypto_decrypt() re-enters with cb->resume
-    set, cb->number will be restored/set to the largest previously seen
-    packet number by its callers in the next patchset before
-    quic_crypto_get_number() is called, so packet-number reconstruction
-    uses the correct reference value.
+  - Ignore the concern about the listen path being incomplete or its
+    request sockets having no consumer. quic_listen(), quic_bind(), and
+    quic_connect() are not implemented yet, so these packet-processing
+    paths cannot actually be reached at this stage. It is therefore
+    intentional to add the listen-side infrastructure incrementally and
+    leave some processing and accept handling incomplete until the
+    corresponding socket APIs are added.
 
-  - Ignore the concern about quic_crypto_done() decrementing async_pending
-    twice. The callback intentionally ignores the intermediate -EINPROGRESS
-    completion and only performs atomic_dec() when the final result is
-    delivered. Therefore, a request that returns -EBUSY after an
-    intermediate callback does not cause a double decrement.
+  - Ignore the concern about treating allocation failures from
+    quic_crypto_verify_token() as token verification failures. Memory
+    allocation is part of the token verification path, and allocation
+    failures are extremely rare in practice. Therefore, treating such
+    failures the same as verification failures is acceptable here.
 
-  - Ignore the concern about asynchronous crypto bypassing the key_pending
-    clearing logic. In quic_crypto_decrypt(), key_pending is only set after
-    quic_crypto_payload_protect() completes successfully. If payload
-    decryption fails, whether synchronously or asynchronously, key_pending
-    has not been set, so there is no state to clear.
+  - Ignore the concern about sending a Stateless Reset in response to a
+    long-header packet in quic_packet_listen_process(). RFC9000 Section
+    10.3 explicitly allows an endpoint to send a Stateless Reset in
+    response to a packet with a long header. Therefore, sending a Stateless
+    Reset for unexpected long-header packet types here is permitted by the
+    RFC.
 
-  - Ignore the concern about checking the wrong async_pending slot. The
-    current code intentionally uses crypto->async_pending[cb->key_phase];
-    the async pending counter is tracked by the packet's key_phase, so this
-    is the correct slot to check when processing an incoming packet with a
-    different key phase.
+  - Ignore the concern about non-padding frames appearing before the CRYPTO
+    frame. The Initial packet carrying the ClientHello TLS message is not
+    expected to contain PING or ACK frames, so it is sufficient to skip
+    padding here. If another frame appears before CRYPTO, the packet is
+    simply ignored for ALPN extraction.
 
-  - Ignore the concern about the unchecked return value from quic_get_int()
-    in quic_crypto_token_protect(). There are no other callers of
-    quic_crypto_token_protect(), and its current caller guarantees that the
-    token buffer is large enough for this read, so quic_get_int() cannot
-    fail here.
+  - Ignore the concern about packet->hlen being uninitialized in
+    quic_packet_rcv_err_pmtu(). quic_packet_route() will be called before
+    the socket is hashed, either from quic_connect() or quic_accept() in
+    the next patchset. Since the socket in quic_packet_rcv_err_pmtu() is
+    found through the hash table, packet->hlen is guaranteed to have been
+    initialized.
 
-  - Ignore the concern about cb->sync and cb->key_update remaining set on a
-    synchronous error. When quic_crypto_key_update() is triggered, the
-    crypto operation is synchronous, and the skb will never be retried or
-    requeued by the caller, so the stale flags cannot cause a subsequent
-    key-phase update.
+  - Ignore the concern about a preempt count underflow in
+    quic_accept_sock_exists(). bh_unlock_sock() expands to spin_unlock(),
+    not spin_unlock_bh(), so it does not re-enable bottom halves.
+    Therefore, the local_bh_enable() at the out label correctly balances
+    the earlier local_bh_disable().
 
-  - Ignore the concern about tokens surviving a server restart. QUIC tokens
-    are intentionally tied to the server's current boot/session lifetime,
-    so tokens generated before a server restart are not required to remain
-    valid. Using ktime_get() for the token timestamp is therefore
-    intentional.
+  - Ignore the concern about sock_put(sk) causing quic_packet_free() to
+    flush the work item itself. quic_packet_free() is called by
+    quic_destroy_sock()/quic_prot.destroy(), which is reached from
+    sk_common_release() via quic_close(), not from sock_put(). Therefore,
+    dropping the final reference here does not trigger quic_packet_free()
+    recursively, and flush_work() does not wait on the current work item.
 
-  - Ignore the concern about skb->len remaining extended after
-    skb_to_sgvec() fails. The skb is destroyed by the caller on this error
-    path, so the modified length is not observable or reused and does not
-    need to be rolled back.
+  - Ignore the concern about quic_listen_sock_switch() returning false and
+    bypassing ALPN demultiplexing. If no matching listener is found, the
+    current listening socket is the correct listener for this server, so
+    processing intentionally continues on it. Userspace can then reject the
+    connection during TLS message processing if the ALPN is not acceptable.
 
-  - Ignore the concern about concurrent crypto_aead_setkey() calls on the
-    shared rx_tfm[1] and tx_tfm[1]. In the next patchset, both
-    quic_crypto_get_retry_tag() and quic_crypto_token_protect() will be
-    called under the socket lock, which serializes access to these shared
-    crypto transforms.
+  - Ignore the concern about the Initial crypto keys not being initialized
+    on the switched listener. If the switched listener needs to send a
+    refusal, quic_packet_refuse_close_create_and_xmit() calls
+    quic_packet_version_change(), which installs the Initial crypto keys.
+    For quic_packet_retry_create_and_xmit(), the token generation uses the
+    TX AEAD (phase 1) for the Initial crypto level, which is already
+    initialized when listen() is implemented in the next patchset.
 
-  - Ignore the concern about unauthenticated packets clearing key_pending
-    in quic_crypto_decrypt(). This can at most cause some old-key packets
-    to be dropped; it does not compromise key confidentiality or packet
-    integrity. Clearing key_pending is necessary to handle consecutive
-    peer key updates, allowing the next packet to trigger the required
-    key update.
+  - Ignore the concern about flush_work() allowing the deferred work to be
+    re-queued during teardown. quic_packet_free() is called only after the
+    socket has entered CLOSED, while quic_packet_deferred_schedule() can
+    only be called when socket is not CLOSED. Therefore, no new work can be
+    queued after flush_work() returns, and purging the lists is safe.
 
-  - Ignore the concern about using quic_get_int() to parse the packet
-    number. quic_get_int() supports fixed-length integer parsing when the
-    len argument is explicitly provided, so it does not interpret the
-    packet number as a QUIC variable-length integer. The packet number
-    length is already known from cb->number_len, including the valid 3-byte
-    encoding, so there is no out-of-bounds access or incorrect masking.
+  - Ignore the concern about quic_packet_config() returning early without
+    switching to path 0. packet->frame_list is always flushed whenever
+    quic_outq_transmit() is called, so it cannot remain non-empty when
+    quic_packet_rcv_err_pmtu() runs. Therefore, the early-return case
+    described in the review cannot occur here, and quic_packet_config()
+    can safely configure the main path before retrieving its cached dst.
 
-  - Ignore the concern about incrementing tx_count before payload
-    protection. Crypto failures are intentionally counted toward the
-    AEAD usage limit, so tx_count must be incremented before
-    quic_crypto_payload_protect() and must not be rolled back on failure.
+  - Ignore the concern about update_pmtu() using an incorrect dest address
+    in quic_packet_rcv_err_pmtu(). QUIC synchronizes the socket's address
+    fields through quic_set_sk_addr(), which sets inet_daddr for IPv4 and
+    sk_v6_daddr for IPv6. These fields are updated at connection setup and
+    after path migration, so update_pmtu() uses the actual peer address to
+    create the route exception. The subsequent route lookup therefore picks
+    up the reduced MTU correctly.
 
-  - Ignore the concern about a cross-protocol address validation bypass in
-    quic_crypto_verify_token().  All current callers pass sizeof(union
-    quic_addr) as addrlen, so both IPv4 and IPv6 addresses use the same
-    fixed-size representation in the token. The verifier therefore compares
-    the same number of address bytes regardless of the address family,
-    preventing the described partial-address match.
+  - Ignore the concern about missing ICMP DCID validation in
+    quic_packet_rcv_err(). The attack requires guessing the full IP/UDP
+    4-tuple and can only cause a temporary MTU reduction, which PLPMTUD
+    will recover from through probing. This is comparable to the ICMP PTB
+    trust model accepted by TCP, so the additional DCID validation
+    complexity is not justified.
 
-  - Ignore the concern about rx_fails being maintained separately for each
-    encryption level. Although the counter is per level rather than
-    strictly connection-wide, it closely approximates the RFC's
-    connection-wide limit in practice. The independent counters do not
-    materially weaken the protection, so sharing one counter across all
-    levels is unnecessary.
-
-  - Ignore the concern about missing memory ordering around async_pending.
-    The increment and read are both protected by the socket lock; only the
-    decrement in the completion callback is outside that lock. If the
-    decrement is not yet visible, the reader may see a stale nonzero count
-    and defer the key update, which is harmless. Once the count reaches
-    zero, the async operation has completed and the driver is no longer
-    using the transform, so rekeying is safe. No additional memory barriers
-    are needed.
-
-v3:
-  - quic_crypto_decrypt(): return -EKEYREVOKED to defer key updates to
-    the workqueue when the packet is not marked backlog, since
-    quic_crypto_key_update()/crypto_aead_setkey() must run in process
-    context.
-  - Only perform header decryption if !cb->number_len to avoid double
-    decryption when a key-update packet (with flipped key_phase)
-    re-enters quic_crypto_decrypt() from the workqueue.
-v4:
-  - skb_dst_force() is already called in in quic_udp_rcv() on recv path,
-    so remove its call from quic_crypto_payload_decrypt(), which may be
-    called without RCU protection.
-  - Remove the incorrect (void *) cast to quic_crypto_done.
 v5:
-  - Use skb_cb->crypto_ctx for async crypto context freeing, which is
-    safer than using skb_shinfo(skb)->destructor_arg.
-  - skb_cb->number_max is removed and number is reused as the largest
-    previously seen and update quic_crypto_get_header() accordingly.
-  - Change timestamp variables from u32 to u64 and use quic_ktime_get_us()
-    for current timestamps, as jiffies_to_usecs() is not accurate enough.
+  - In quic_packet_rcv_err(), remove the unnecessary quic_is_listen()
+    check and move quic_get_mtu_info() out of sock lock (suggested
+    by Paolo).
 v6:
-  - Rename quic_crypto_get_header() to quic_crypto_get_number(), move
-    key_phase parsing out of it, check cb->length when parsing packet
-    number, and update all callers.
-  - Use hdr->pnl + 1 instead of (*p & QUIC_PN_LEN_BITS_MASK) + 1 to get
-    packet number length, and remove the unnecessary the len variable
-    and QUIC_PN_LEN_BITS_MASK macro from quic_crypto_header_decrypt().
+  - Fix the loop using skb_dequeue() in quic_packet_backlog_work(), and
+    kfree_skb() when sk is not found (reported by AI Reviews).
+  - Remove skb_pull() from quic_packet_rcv(), since it is now handled
+    in quic_path_rcv().
+  - Note for AI reviews: add if (dst) check in quic_packet_rcv_err_pmtu(),
+    although quic_packet_route() >= 0 already guarantees it is not NULL.
+  - Note for AI reviews: it is safe to do *plen -= QUIC_HLEN in
+    quic_packet_get_version_and_connid(), since quic_packet_get_sock()
+    already checks if (skb->len < QUIC_HLEN).
+  - Note for AI reviews: cb->length - cb->number_len - QUIC_TAG_LEN
+    cannot underflow, because quic_crypto_header_decrypt() already checks
+    if (cb->length < QUIC_PN_MAX_LEN + QUIC_SAMPLE_LEN).
+  - Note for AI reviews: the cast length in quic_packet_parse_alpn()
+    is safe, as there is a prior check if (length > (u16)len); len is
+    skb->len, which cannot exceed U16_MAX for UDP packet with QUIC.
+  - Note for AI reviews: it's correct to do if (flags &
+    QUIC_F_MTU_REDUCED_DEFERRED) in quic_release_cb(), since
+    QUIC_MTU_REDUCED_DEFERRED is the bit used with test_and_set_bit().
+  - Note for AI reviews: move skb_cb->backlog = 1 before adding skb to
+    backlog, although it's safe to write skb_cb after adding to backlog
+    with sk_lock.slock, as skb dequeue from backlog requires sk_lock.slock.
+v7:
+  - Pass udp sk to quic_packet_rcv(), quic_packet_rcv_err() and
+    quic_sock_lookup().
+  - Move the call to skb_linearize() and skb_set_owner_sk_safe() to
+    .quic_path_rcv()/quic_packet_rcv().
 v8:
-  - Move skb_cow_data() from quic_crypto_payload_decrypt() to
-    quic_crypto_header_decrypt(), as header decryption also writes to
-    the skb and is invoked earlier than payload decryption on RX path.
+  - Replace the global ALPN demultiplexing sysctl with the static key in
+    quic_packet_parse_alpn() (noted by Stefan).
+  - Refetch skb->data after decrypt in ALPN parsing, as skb_cow_data()
+    may reallocate the skb data buffer (reported by Syzkaller).
+  - The indirect quic_path_rcv has been removed and call quic_packet_rcv()
+    directly via extern.
+  - Do not restore skb data when QUIC Initial decryption fails, as the
+    caller will free the skb for this failure anyway.
+  - With patch 14 removed, define a temporary QUIC_FRAME_CRYPTO ID when
+    parsing the ALPN.
+v9:
+  - Remove local_bh_disable() in quic_packet_get_listen_sock() as it's now
+    using rcu_read_lock instead of spin_sock in quic_listen_sock_lookup()
+    (noted by Paolo).
 v10:
-  - Fix double period at end of the comment for quic_crypto_encrypt().
+  - Return QUIC_PACKET_INVALID (instead of -1) for invalid packet types in
+    quic_packet_version_get_type().
+  - Update the comment to clarify in quic_packet_rcv_err() that ICMP errors
+    embed the original QUIC packet, reversing src/dst addrs when parsed.
+  - Use qn->backlog_list.lock in quic_packet_backlog_schedule() to
+    prevent a TOCTOU race between the head->qlen check and its update in
+    __skb_queue_tail().
+  - Add check 'len < TLS_CH_RANDOM_LEN + TLS_CH_VERSION_LEN' before parsing
+    ClientHello in quic_packet_get_alpn().
+  - Add more limits in quic_packet_get_alpn() to improve robustness against
+    malformed TLS ClientHello messages.
+  - Move skb_queue_purge() to after disable_work_sync() in quic_net_exit()
+    for clarity and to satisfy AI review.
+  - quic_sock.config.plpmtud_probe_interval has been moved to
+    quic_path_group.plpmtud_interval, so update its usage in
+    quic_packet_rcv_err_pmtu() accordingly.
+  - Remove quic_packet_select_version() and quic_packet_version_change();
+    they will be reintroduced later when needed in the next patch series.
 v11:
-  - Note for AI review: call quic_crypto_aead_mem_alloc() after
-    skb_cow_data() as it uses the return value for nsg. If the allocation
-    fails, skb is dropped, so no rollback of prior skb modifications is
-    needed.
+  - Note for AI review: refcount increments in quic_listen_sock_lookup()
+    and quic_sock_lookup() are left unchanged due to code complexity.
   - Set maximum line length to 80 characters.
-  - Add a check for skb->len in quic_crypto_get_retry_tag().
-  - Also reset key_update_send_time when key_pending is cleared in
-    quic_crypto_decrypt().
-  - Handle -EBUSY returned from crypto_aead_en/decrypt() and return when
-    err == -EINPROGRESS in quic_crypto_done().
-  - Extract quic_crypto_token_init() from quic_crypto_generate_token() and
-    quic_crypto_verify_token().
-  - Merge quic_crypto_header_en/decrypt() to quic_crypto_header_protect()
-    with an extra parameter to reduce code duplication.
-  - Merge quic_crypto_payload_en/decrypt() to quic_crypto_payload_protect()
-    with an extra parameter to reduce code duplication (noted by AI
-    review).
+  - Do not mark backlog packets as sleepable (cb->backlog = 1) in
+    sk_add_backlog path; Replace spin_(un)lock() with spin_(un)lock_bh()
+    in quic_packet_backlog_schedule().
+  - Return -ENOBUFS instead of -1 in quic_packet_backlog_schedule().
+  - Change err parameter type from u8 to bool (icmp) in quic_packet_rcv().
+  - Propagate errors from quic_packet_get_sock() and sk_add_backlog() in
+    quic_packet_rcv().
+  - Propagate errors from quic_packet_get_dcid() and
+    quic_packet_parse_alpn() in quic_packet_get_sock() via ERR_PTR().
+  - Propagate errors from quic_packet_parse_alpn() in
+    quic_packet_get_listen_sock() via ERR_PTR().
+  - Propagate errors from quic_packet_get_version_and_connid() and
+    quic_packet_get_token() in quic_packet_parse_alpn().
+  - Do not hold skb when calling quic_packet_backlog_schedule() in
+    quic_packet_parse_alpn(); do not free skb when returning
+    -EINPROGRESS from quic_packet_get_sock() in quic_packet_rcv().
+  - Move the quic_packet_rcv() declaration from packet.h to path.h,
+    as it's only called in path.c (noted by AI review).
+  - Merge quic_packet_get_dcid() and quic_packet_get_version_and_connid()
+    into quic_packet_get_long_header() and extract quic_packet_get_connid()
+    (noted by AI review).
 v12:
-  - Move ciphers definitions to above the encryption/decryption functions.
-  - Fix some indentations in quic_crypto_skcipher_mem_alloc() and
-    quic_crypto_header_protect().
-  - Pass crypto and fetch the key phase only for short header packets in
-    quic_crypto_header_protect() and quic_crypto_payload_protect().
-  - Increment async_pending[phase] for asynchronous encryption/decryption
-    operations, and pass crypto to quic_crypto_done() to decrement it.
-  - Update key_phase and key_pending only after successful payload
-    decryption in quic_crypto_decrypt() to comply with RFC9001.
-  - Take the token flag into account when calling aead_request_set_ad() in
-    quic_crypto_generate_token() and quic_crypto_verify_token().
-  - Replace quic_crypto_token_init() with quic_crypto_token_protect() to
-    perform AEAD encryption/decryption for the provided token, and update
-    quic_crypto_generate/verify_token() accordingly.
-  - Reuse TX AEAD (phase 1) from socket initial crypto in
-    quic_crypto_token_protect(), and use crypto_wait for sync mode.
-  - Reuse RX AEAD (phase 1) from socket initial crypto in
-    quic_crypto_get_retry_tag(), using crypto_wait for sync mode.
-  - Check cb->sync in quic_crypto_payload_protect() to enforce sync mode;
-    set cb->sync in quic_crypto_decrypt() after key update in process
-    context.
-  - Change the label name 'err:' to 'out:' in quic_crypto_payload_protect()
-    and quic_crypto_header_protect().
-  - Reset crypto->key_derived if crypo->key_phase is flipped by key_update
-    in quic_crypto_decrypt().
+  - Check quic_is_closed() in quic_packet_rcv_err_pmtu().
+  - Remove the ip_sk_accept_pmtu() check from quic_packet_rcv_err_pmtu(),
+    and check quic_sk_accept_pmtu() in quic_packet_rcv_err().
+  - Update the comment for the get_nulls_value(node) check in
+    quic_sock_lookup(), and remove the unnecessary get_nulls_value(node)
+    check and add comment for it in quic_listen_sock_lookup().
+  - Improve matching order: specific address > ANY address (same family) >
+    ANY address (different family) in quic_listen_sock_lookup().
+  - Defer quic_alpn destruction from quic_destroy_sock() to
+    quic_sock_destruct(), as it may still be accessed in
+    quic_listen_sock_lookup() under rcu_read_lock().
+  - Initialize dcid/scid variables at declaration in quic_packet_get_sock()
+    and quic_packet_parse_alpn().
+  - Set packet->level before calling quic_packet_taglen() in
+    quic_packet_rcv_err_pmtu().
+  - Set cb->sync to 1 to ensure decryption runs in sync mode.
 v13:
-  - Fix the opportunity for kmemdup warning from cocci-check by replacing
-    kzalloc() + memcpy() with kmemdup() in quic_crypto_verify_token().
+  - Add comment explaining why ALPN free is deferred in
+    quic_sock_destruct().
+  - Improve loop boundary check while parsing ALPN extensions in
+    quic_packet_get_alpn().
 v14:
-  - Pass gfp flags to quic_crypto_encrypt(), quic_crypto_decrypt(),
-    quic_crypto_header_protect(), quic_crypto_payload_protect(),
-    quic_crypto_aead_mem_alloc(), and quic_crypto_skcipher_mem_alloc().
-  - Change the skb->len < QUIC_TAG_LEN check to skb->len <= QUIC_TAG_LEN
-    to match the comment.
-  - Remove key derivation from quic_crypto_token_protect(), as it is
-    already performed by quic_crypto_set_token_secret().
-  - Move the timestamp from the encrypted part to AAD in
-    quic_crypto_generate_token() and quic_crypto_verify_token(), so it can
-    be used to generate the nonce by XORing it with the IV in
-    quic_crypto_token_protect().
-  - Replace memcmp() with crypto_memneq() in quic_crypto_verify_token()
-    (noted by Sashiko AI review).
-  - Reject tokens in quic_crypto_verify_token() if the timestamp is in the
-    future or older than the allowed timeout.
+  - Pass gfp flags to quic_packet_process(), quic_packet_app_process(),
+    quic_packet_handshake_process(), and quic_packet_listen_process()
+    for allocations in subsequent patches.
+  - Define quic_backlog_rcv() as .backlog_rcv() and pass GFP_ATOMIC to
+    quic_packet_process().
+  - Pass GFP_KERNEL to quic_packet_process() in
+    quic_packet_backlog_work().
+  - Move the exts++ check to the beginning of the while loop in
+    quic_packet_get_alpn() (noted by Sashiko AI review).
 v15:
-  - Use kfree_sensitive() to free token_buf in quic_crypto_generate_token()
-    and quic_crypto_verify_token().
-  - Change len from int to u32 to avoid a false warning from AI reviews
-    in quic_crypto_generate_token().
-  - Move cb->key_phase = crypto->key_phase after the cb->resume check to
-    preserve the key phase across asynchronous encryption resumption.
-  - Increment async_pending before calling crypto_aead_encrypt() or
-    crypto_aead_decrypt() to account for asynchronous operations before
-    they can complete in quic_crypto_payload_protect().
-  - Clear cb->crypto_ctx for synchronous crypto operations to avoid a false
-    warning from AI reviews in quic_crypto_payload_protect().
+  - Drop the redundant .backlog_rcv definition, which already exists.
+  - Read path[0] under read_seqcount_begin() and read_seqcount_retry()
+    protection in quic_sock_lookup().
+  - Merge the two lookup paths into a single socket iteration and check
+    all client ALPNs for each socket in quic_listen_sock_lookup().
+  - Add quic_packet_listen_process() to process the first Initial packet
+    from a peer, including token validation, request socket creation, and
+    enqueuing. Add the stateless reset, version negotiation, and Retry
+    packet trigger logic without implementing their packet creation yet.
+  - Add quic_accept_sock_exists() to use an existing accept socket when
+    processing an skb in quic_packet_listen_process(), in case accept()
+    was called while the skb was in the backlog.
+  - Pass usk to quic_listen_sock_lookup() and quic_packet_get_sock()
+    instead of retrieving it from skb->sk, and remove the
+    skb_set_owner_sk_safe() call from quic_packet_rcv().
+  - Add a temporary validate_peer_address member to struct quic_packet
+    for Retry triggering in quic_packet_listen_process(). Replace it with
+    the outq validate_peer_address member when struct quic_outqueue is
+    added in the next patchset.
+  - Make the work per socket instead of per netns:
+    - Move backlog_list from struct quic_net to struct quic_packet and
+      rename it to deferred_list. Add backlog_list to struct quic_packet
+      to hold packets waiting for crypto keys or Initial packets from
+      clients to be processed in quic_accept().
+    - Rename quic_packet_backlog_schedule() to _deferred_schedule(),
+      checking sk_rcvbuf before adding packets to deferred_list, and
+      rename quic_packet_backlog_work() to _deferred_work() to process
+      packets from deferred_list.
+    - Remove quic_packet_parse_alpn() from quic_packet_get_sock() and
+      the err == -EINPROGRESS check from quic_packet_rcv(). Merge
+      quic_packet_parse_alpn() into _get_alpn() and call it from
+      quic_packet_listen_process(), then add quic_listen_sock_switch()
+      to switch the listen socket if a new socket is found by ALPN
+      through the workqueue.
 v16:
-  - Improve the annotations for quic_crypto_token_protect() and
-    quic_crypto_generate/verify_token() to clarify token AEAD protection,
-    format, and authentication (noted by Sashiko AI review).
-  - Store async crypto errors in crypto_err in quic_crypto_done() instead
-    of passing them to cb->crypto_done().
-  - Check cb->crypto_err on resume in quic_crypto_encrypt() and
-    quic_crypto_decrypt() to drop packets that failed async crypto.
-  - Update the key update timestamp after packet protection succeeds in
-    quic_crypto_encrypt(), so failed protection does not start the old-key
-    retention window (noted by Sashiko AI review).
-  - Enforce AEAD usage limits by checking tx_count against txlimit in
-    quic_crypto_encrypt() and rx_fails against rxlimit in
-    quic_crypto_decrypt() (noted by Sashiko AI review).
-  - Reset the pending key update state when asynchronous decryption fails
-    with a different key phase, matching the synchronous error path and
-    avoiding a stuck key update state in quic_crypto_decrypt().
-  - Improve the return documentation to mention -EINPROGRESS as a distinct
-    non-error return value for quic_crypto_encrypt() and
-    quic_crypto_decrypt().
+  - Avoid counting errors from quic_packet_get_alpn() as invhdr drops in
+    quic_packet_listen_process(), as they are not QUIC header parsing
+    failures (noted by Sashiko AI review).
+  - Use %u instead of %d in debug messages in quic_packet_rcv(), as
+    skb->len is an unsigned integer.
+  - Call quic_packet_process() with GFP_KERNEL instead of .sk_backlog_rcv()
+    in quic_listen_sock_switch(), as it always runs in process context
+    (noted by Sashiko AI review).
+  - Fix the annotation for .sk_backlog_rcv() in quic_accept_sock_exists()
+    from 'quic_packet_process()' to 'quic_backlog_rcv()' (noted by Sashiko
+    AI review).
+  - Drop 0-RTT packets routed to the wrong listener when ALPN
+    demultiplexing is enabled, instead of sending a misleading Stateless
+    Reset in quic_packet_listen_process().
+  - Move reuseport_select_sock() to the next patchset, when quic_hash()
+    is added to call reuseport_add_sock() (noted by Kuniyuki Iwashima).
+  - Add comment for the return value of quic_packet_deferred_schedule().
+  - Improve quic_packet_listen_process() comment to document that 0-RTT
+    packets may be silently dropped in multi-ALPN setups.
+  - Return -ENOMEM instead of -EINVAL when skb_linearize() fails in
+    quic_packet_rcv().
 v17:
-  - Use crypto->rx_fails instead of crypto->rx_fails[cb->key_phase], as
-    rx_fails is now a per crypto level counter rather than a per-key
-    counter.
-  - Use crypto->ts_off in quic_crypto_generate_token() and
-    quic_crypto_verify_token() to prevent timestamps from directly
-    revealing system uptime (noted by Sashiko AI review).
-  - Move the address field after the timestamp and include it in the
-    encrypted token to avoid exposing the ingress interface index stored
-    in the address scope ID (noted by Sashiko AI review).
-  - Update the comment for quic_crypto_verify_token() to accurately
-    describe its return values.
-v18:
-  - Start the old-key timer only when sending with the new key by checking
-    cb->key_phase == crypto->key_phase in quic_crypto_encrypt() (noted by
+  - Drop packets with a UDP payload smaller than QUIC_MIN_UDP_PAYLOAD
+    before generating a Version Negotiation response in
+    quic_packet_listen_process() (noted by Sashiko AI review).
+  - Re-read the MTU from the route after update_pmtu() and use the updated
+    value to calculate the MSS in quic_packet_rcv_err_pmtu() (noted by
     Sashiko AI review).
-  - Move the token timestamp into the encrypted payload to prevent exposing
-    server uptime and linking NEW_TOKEN tokens to their issuing
-    connections (noted by Sashiko AI review).
-  - XOR tx_count[1] 64-bit value with token IV to derive the AEAD nonce,
-    and authenticate it as AAD (noted by Sashiko AI review).
-  - Only increment rx_fails when decryption fails with -EBADMSG, indicating
-    an authentication failure in quic_crypto_decrypt() (noted by Sashiko AI
+  - Remove the comment about the reuseport group in
+    quic_listen_sock_lookup(), as the implementation has been moved to the
+    next patchset.
+  - Fix the comment for quic_packet_deferred_work() to refer to the
+    deferred list instead of the backlog queue.
+  - Use daddr and saddr in quic_packet more consistently and correctly to
+    match the comments for these fields.
+  - Add some comments in quic_packet_get_alpn() to explain why ALPN demux
+    is skipped when the Initial packet has no CRYPTO frame, a non-zero
+    CRYPTO offset, or incomplete TLS extensions.
+  - Check the minimum Initial packet size before creating a request socket
+    in quic_packet_listen_process().
+  - Call quic_get_msg_addrs() only once, at the beginning of
+    quic_packet_listen_process().
+v18:
+  - Update the route PMTU from ICMP information and invalidate the cached
+    destination entry in quic_packet_rcv_err_pmtu() when PLPMTUD is
+    disabled (noted by Sashiko AI review).
+  - Use %u instead of %d to match the unsigned type of alpn->len in the
+    debug message in quic_packet_get_alpn() (noted by Sashiko AI review).
+  - Clear cb->backlog before handing the packet to the accepted socket to
+    avoid sleeping with bottom halves disabled (noted by Sashiko AI
     review).
+  - Orphan skb to avoid double accounting for skbs already charged by
+    deferred scheduling in quic_request_sock_backlog_tail() (noted by
+    Sashiko AI review).
+  - Replace quic_packet_route() with quic_packet_config() to ensure ICMP
+    PMTU handling in quic_packet_rcv_err_pmtu() uses the main path.
+  - Move sk->sk_data_ready(sk) from quic_request_sock_backlog_tail() to
+    quic_request_sock_create() so that it wakes accept() when request is
+    created not when packet is queued in the next patchset.
+v19:
+  - Defer request sock publication until initial packet is queued in
+    quic_packet_listen_process() (noted by Sashiko AI review).
+  - Drop the misleading ALPN preference claim from the comment in
+    quic_listen_sock_lookup().
 ---
- net/quic/crypto.c | 731 ++++++++++++++++++++++++++++++++++++++++++++++
- net/quic/crypto.h |  14 +
- 2 files changed, 745 insertions(+)
+ net/quic/packet.c | 816 ++++++++++++++++++++++++++++++++++++++++++++++
+ net/quic/packet.h |  11 +
+ net/quic/path.c   |   4 +-
+ net/quic/path.h   |   1 +
+ net/quic/socket.c | 330 ++++++++++++++++++-
+ net/quic/socket.h |  41 +++
+ 6 files changed, 1198 insertions(+), 5 deletions(-)
 
-diff --git a/net/quic/crypto.c b/net/quic/crypto.c
-index c28c6fa565c1..ccb1050921c3 100644
---- a/net/quic/crypto.c
-+++ b/net/quic/crypto.c
-@@ -12,6 +12,7 @@
+diff --git a/net/quic/packet.c b/net/quic/packet.c
+index b6f76681b690..919745d95440 100644
+--- a/net/quic/packet.c
++++ b/net/quic/packet.c
+@@ -14,6 +14,809 @@
  
- #include <crypto/skcipher.h>
- #include <linux/skbuff.h>
-+#include <crypto/utils.h>
- #include <crypto/aead.h>
- #include <crypto/hash.h>
- #include <linux/quic.h>
-@@ -269,6 +270,485 @@ ciphers[QUIC_CIPHER_MAX + 1 - QUIC_CIPHER_MIN] = {
- 		    QUIC_AEAD_TX_CHACHA, QUIC_AEAD_RX_CHACHA),
- };
+ #define QUIC_HLEN		1
  
-+static bool quic_crypto_is_cipher_ccm(struct quic_crypto *crypto)
++#define QUIC_LONG_HLEN(dcid, scid) \
++	(QUIC_HLEN + QUIC_VERSION_LEN + 1 + (dcid)->len + 1 + (scid)->len)
++
++#define QUIC_VERSION_NUM	2
++
++/* Supported QUIC versions and their compatible versions. Used for Compatible
++ * Version Negotiation in rfc9368#section-2.3.
++ */
++static u32 quic_versions[QUIC_VERSION_NUM][4] = {
++	/* Version,	Compatible Versions */
++	{ QUIC_VERSION_V1, QUIC_VERSION_V2, QUIC_VERSION_V1, 0 },
++	{ QUIC_VERSION_V2, QUIC_VERSION_V2, QUIC_VERSION_V1, 0 },
++};
++
++/* Get the compatible version list for a given QUIC version. */
++u32 *quic_packet_compatible_versions(u32 version)
 +{
-+	return crypto->cipher_type == TLS_CIPHER_AES_CCM_128;
++	u8 i;
++
++	for (i = 0; i < QUIC_VERSION_NUM; i++)
++		if (version == quic_versions[i][0])
++			return quic_versions[i];
++	return NULL;
 +}
 +
-+static bool quic_crypto_is_cipher_chacha(struct quic_crypto *crypto)
++/* Convert version-specific type to internal standard packet type. */
++static u8 quic_packet_version_get_type(u32 version, u8 type)
 +{
-+	return crypto->cipher_type == TLS_CIPHER_CHACHA20_POLY1305;
++	if (version == QUIC_VERSION_V1)
++		return type;
++
++	switch (type) {
++	case QUIC_PACKET_INITIAL_V2:
++		return QUIC_PACKET_INITIAL;
++	case QUIC_PACKET_0RTT_V2:
++		return QUIC_PACKET_0RTT;
++	case QUIC_PACKET_HANDSHAKE_V2:
++		return QUIC_PACKET_HANDSHAKE;
++	case QUIC_PACKET_RETRY_V2:
++		return QUIC_PACKET_RETRY;
++	default:
++		return QUIC_PACKET_INVALID;
++	}
 +}
 +
-+static void *quic_crypto_skcipher_mem_alloc(struct crypto_skcipher *tfm,
-+					    u32 mask_size, u8 **iv,
-+					    struct skcipher_request **req,
-+					    gfp_t gfp)
++/* Extracts a QUIC Connection ID from a buffer in the long header packet. */
++static int quic_packet_get_connid(struct quic_conn_id *connid, u8 **pp,
++				  u32 *plen)
 +{
-+	unsigned int iv_size, req_size;
-+	unsigned int len;
-+	u8 *mem;
++	u64 len;
 +
-+	iv_size = crypto_skcipher_ivsize(tfm);
-+	req_size = sizeof(**req) + crypto_skcipher_reqsize(tfm);
-+
-+	len = mask_size;
-+	len += iv_size;
-+	len += crypto_skcipher_alignmask(tfm) &
-+	       ~(crypto_tfm_ctx_alignment() - 1);
-+	len = ALIGN(len, crypto_tfm_ctx_alignment());
-+	len += req_size;
-+
-+	mem = kzalloc(len, gfp);
-+	if (!mem)
-+		return NULL;
-+
-+	*iv = (u8 *)PTR_ALIGN(mem + mask_size,
-+			      crypto_skcipher_alignmask(tfm) + 1);
-+	*req = (struct skcipher_request *)PTR_ALIGN(*iv + iv_size,
-+						    crypto_tfm_ctx_alignment());
-+
-+	return (void *)mem;
-+}
-+
-+/* Extracts and reconstructs the packet number from an incoming QUIC packet. */
-+static int quic_crypto_get_number(struct sk_buff *skb)
-+{
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	s64 number_max = cb->number;
-+	u32 len = cb->length;
-+	u8 *p;
-+
-+	/* rfc9000#section-17.1:
-+	 *
-+	 * Once header protection is removed, the packet number is decoded by
-+	 * finding the packet number value that is closest to the next expected
-+	 * packet. The next expected packet is the highest received packet
-+	 * number plus one.
-+	 */
-+	p = (u8 *)quic_hdr(skb) + cb->number_offset;
-+	if (!quic_get_int(&p, &len, &cb->number, cb->number_len))
++	if (!quic_get_int(pp, plen, &len, 1) ||
++	    len > *plen || len > QUIC_CONN_ID_MAX_LEN)
 +		return -EINVAL;
-+	cb->number = quic_get_num(number_max, cb->number, cb->number_len);
++
++	quic_conn_id_update(connid, *pp, len);
++	*plen -= len;
++	*pp += len;
 +	return 0;
 +}
 +
-+#define QUIC_SAMPLE_LEN		16
-+
-+#define QUIC_HEADER_FORM_BIT	0x80
-+#define QUIC_LONG_HEADER_MASK	0x0f
-+#define QUIC_SHORT_HEADER_MASK	0x1f
-+
-+/* Header Protection. */
-+static int quic_crypto_header_protect(struct quic_crypto *crypto,
-+				      struct sk_buff *skb, bool enc, gfp_t gfp)
++/* Parse QUIC version and connection IDs (DCID and SCID) from a Long header
++ * packet buffer.
++ */
++static int quic_packet_get_long_header(struct quic_conn_id *dcid,
++				       struct quic_conn_id *scid, u32 *version,
++				       u8 **pp, u32 *plen)
 +{
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	u8 *mask, *iv, *p, h_mask, chacha;
-+	struct skcipher_request *req;
-+	struct crypto_skcipher *tfm;
-+	struct sk_buff *trailer;
-+	struct scatterlist sg;
-+	int err, i;
++	int err;
++	u64 v;
 +
-+	chacha = quic_crypto_is_cipher_chacha(crypto);
-+	if (!enc) {
-+		tfm = crypto->rx_hp_tfm;
-+		if (cb->length < QUIC_PN_MAX_LEN + QUIC_SAMPLE_LEN)
-+			return -EINVAL;
++	*pp += QUIC_HLEN;
++	*plen -= QUIC_HLEN;
 +
-+		err = skb_cow_data(skb, 0, &trailer);
-+		if (err < 0)
-+			return err;
-+	} else {
-+		tfm = crypto->tx_hp_tfm;
-+	}
++	if (!quic_get_int(pp, plen, &v, QUIC_VERSION_LEN))
++		return -EINVAL;
++	if (version)
++		*version = v;
 +
-+	mask = quic_crypto_skcipher_mem_alloc(tfm, QUIC_SAMPLE_LEN, &iv, &req,
-+					      gfp);
-+	if (!mask)
-+		return -ENOMEM;
-+
-+	/* rfc9001#section-5.4.2: Header Protection Sample:
-+	 *
-+	 *   # pn_offset is the start of the Packet Number field.
-+	 *   sample_offset = pn_offset + 4
-+	 *
-+	 *   sample = packet[sample_offset..sample_offset+sample_length]
-+	 *
-+	 * rfc9001#section-5.4.3: AES-Based Header Protection:
-+	 *
-+	 *   header_protection(hp_key, sample):
-+	 *     mask = AES-ECB(hp_key, sample)
-+	 *
-+	 * rfc9001#section-5.4.4: ChaCha20-Based Header Protection:
-+	 *
-+	 *   header_protection(hp_key, sample):
-+	 *     counter = sample[0..3]
-+	 *     nonce = sample[4..15]
-+	 *     mask = ChaCha20(hp_key, counter, nonce, {0,0,0,0,0})
-+	 */
-+	p = skb->data + cb->number_offset + QUIC_PN_MAX_LEN;
-+	memcpy((chacha ? iv : mask), p, QUIC_SAMPLE_LEN);
-+	sg_init_one(&sg, mask, QUIC_SAMPLE_LEN);
-+	skcipher_request_set_tfm(req, tfm);
-+	skcipher_request_set_crypt(req, &sg, &sg, QUIC_SAMPLE_LEN, iv);
-+	err = crypto_skcipher_encrypt(req);
++	err = quic_packet_get_connid(dcid, pp, plen);
 +	if (err)
-+		goto out;
-+
-+	/* rfc9001#section-5.4.1:
-+	 *
-+	 * mask = header_protection(hp_key, sample)
-+	 *
-+	 * pn_length = (packet[0] & 0x03) + 1
-+	 * if (packet[0] & 0x80) == 0x80:
-+	 *    # Long header: 4 bits masked
-+	 *    packet[0] ^= mask[0] & 0x0f
-+	 * else:
-+	 *    # Short header: 5 bits masked
-+	 *    packet[0] ^= mask[0] & 0x1f
-+	 *
-+	 * # pn_offset is the start of the Packet Number field.
-+	 * packet[pn_offset:pn_offset+pn_length] ^= mask[1:1+pn_length]
-+	 */
-+	p = skb->data;
-+	h_mask = ((*p & QUIC_HEADER_FORM_BIT) == QUIC_HEADER_FORM_BIT) ?
-+		 QUIC_LONG_HEADER_MASK : QUIC_SHORT_HEADER_MASK;
-+	*p = (u8)(*p ^ (mask[0] & h_mask));
-+	if (!enc) {
-+		if (!quic_hdr(skb)->form)
-+			cb->key_phase = quic_hdr(skb)->key;
-+		cb->number_len = quic_hdr(skb)->pnl + 1;
-+	}
-+	p += cb->number_offset;
-+	for (i = 1; i <= cb->number_len; i++)
-+		*p++ ^= mask[i];
-+
-+	if (!enc)
-+		err = quic_crypto_get_number(skb);
-+out:
-+	kfree_sensitive(mask);
-+	return err;
++		return err;
++	if (!scid)
++		return 0;
++	return quic_packet_get_connid(scid, pp, plen);
 +}
 +
-+static void *quic_crypto_aead_mem_alloc(struct crypto_aead *tfm, u32 ctx_size,
-+					u8 **iv, struct aead_request **req,
-+					struct scatterlist **sg, u32 nsg,
-+					gfp_t gfp)
++/* Extracts a QUIC token from a buffer in the Client Initial packet. */
++static int quic_packet_get_token(struct quic_data *token, u8 **pp, u32 *plen)
 +{
-+	unsigned int iv_size, req_size;
-+	unsigned int len;
-+	u8 *mem;
++	u64 len;
 +
-+	iv_size = crypto_aead_ivsize(tfm);
-+	req_size = sizeof(**req) + crypto_aead_reqsize(tfm);
-+
-+	len = ctx_size;
-+	len += iv_size;
-+	len += crypto_aead_alignmask(tfm) & ~(crypto_tfm_ctx_alignment() - 1);
-+	len = ALIGN(len, crypto_tfm_ctx_alignment());
-+	len += req_size;
-+	len = ALIGN(len, __alignof__(struct scatterlist));
-+	len += nsg * sizeof(**sg);
-+
-+	mem = kzalloc(len, gfp);
-+	if (!mem)
-+		return NULL;
-+
-+	*iv = (u8 *)PTR_ALIGN(mem + ctx_size, crypto_aead_alignmask(tfm) + 1);
-+	*req = (struct aead_request *)PTR_ALIGN(*iv + iv_size,
-+						crypto_tfm_ctx_alignment());
-+	*sg = (struct scatterlist *)PTR_ALIGN((u8 *)*req + req_size,
-+					      __alignof__(struct scatterlist));
-+
-+	return (void *)mem;
++	if (!quic_get_var(pp, plen, &len) || len > *plen)
++		return -EINVAL;
++	quic_data(token, *pp, len);
++	*plen -= len;
++	*pp += len;
++	return 0;
 +}
 +
-+static void quic_crypto_done(void *data, int err)
++/* Process PMTU reduction event on a QUIC socket. */
++void quic_packet_rcv_err_pmtu(struct sock *sk)
 +{
-+	struct sk_buff *skb = data;
-+	struct quic_crypto *crypto;
-+	struct quic_skb_cb *cb;
++	struct quic_path_group *paths = quic_paths(sk);
++	struct quic_packet *packet = quic_packet(sk);
++	u32 pathmtu, info, taglen;
++	struct dst_entry *dst;
++	bool reset_timer;
 +
-+	if (err == -EINPROGRESS)
++	if (quic_is_closed(sk))
 +		return;
 +
-+	cb = QUIC_SKB_CB(skb);
-+	crypto = *(struct quic_crypto **)cb->crypto_ctx;
-+	atomic_dec(&crypto->async_pending[cb->key_phase]);
++	info = clamp(paths->mtu_info, QUIC_PATH_MIN_PMTU, QUIC_PATH_MAX_PMTU);
++	/* If PLPMTUD is not enabled, update MSS using route and ICMP info. */
++	if (!paths->plpmtud_interval) {
++		/* Ensure we have a dst cached for update_pmtu().
++		 * ICMP errors apply to the main path (path 0). Use
++		 * quic_packet_config() to reset dst cache if path changed.
++		 */
++		if (quic_packet_config(sk, QUIC_CRYPTO_APP, 0))
++			return;
 +
-+	kfree_sensitive(cb->crypto_ctx);
-+	cb->crypto_err = err;
-+	cb->crypto_done(skb);
-+}
-+
-+/* AEAD Usage. */
-+static int quic_crypto_payload_protect(struct quic_crypto *crypto,
-+				       struct sk_buff *skb, bool enc, gfp_t gfp)
-+{
-+	u8 *base_iv, *iv, i, nonce[QUIC_IV_LEN], ccm, phase;
-+	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	u32 len, hlen, sglen, nsg;
-+	struct aead_request *req;
-+	struct crypto_aead *tfm;
-+	struct sk_buff *trailer;
-+	struct scatterlist *sg;
-+	void *ctx;
-+	__be64 n;
-+	int err;
-+
-+	ccm = quic_crypto_is_cipher_ccm(crypto);
-+	phase = cb->key_phase;
-+	hlen = cb->number_offset + cb->number_len;
-+	if (enc) {
-+		tfm = crypto->tx_tfm[phase];
-+		base_iv = crypto->tx_iv[phase];
-+		len = skb->len;
-+		err = skb_cow_data(skb, QUIC_TAG_LEN, &trailer);
-+		if (err < 0)
-+			return err;
-+		pskb_put(skb, trailer, QUIC_TAG_LEN);
-+		if (!quic_hdr(skb)->form)
-+			quic_hdr(skb)->key = phase;
-+		sglen = skb->len;
-+		nsg = (u32)err;
-+	} else {
-+		tfm = crypto->rx_tfm[phase];
-+		base_iv = crypto->rx_iv[phase];
-+		len = cb->length + cb->number_offset;
-+		if (len - hlen < QUIC_TAG_LEN)
-+			return -EINVAL;
-+		sglen = len;
-+		nsg = 1;
++		dst = __sk_dst_get(sk);
++		if (dst) {
++			dst->ops->update_pmtu(dst, sk, NULL, info, true);
++			/* Invalidate cached dst. Next quic_packet_route()
++			 * during transmission will pick up the updated MTU
++			 * from the newly created route exception and call
++			 * quic_packet_mss_update().
++			 */
++			__sk_dst_reset(sk);
++		}
++		return;
 +	}
-+
-+	ctx = quic_crypto_aead_mem_alloc(tfm, sizeof(void *), &iv, &req, &sg,
-+					 nsg, gfp);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	sg_init_table(sg, nsg);
-+	err = skb_to_sgvec(skb, sg, 0, sglen);
-+	if (err < 0)
-+		goto out;
-+
-+	/* rfc9001#section-5.3:
-+	 *
-+	 * The associated data, A, for the AEAD is the contents of the QUIC
-+	 * header, starting from the first byte of either the short or long
-+	 * header, up to and including the unprotected packet number.
-+	 *
-+	 * The nonce, N, is formed by combining the packet protection IV with
-+	 * the packet number.  The 62 bits of the reconstructed QUIC packet
-+	 * number in network byte order are left-padded with zeros to the size
-+	 * of the IV. The exclusive OR of the padded packet number and the IV
-+	 * forms the AEAD nonce.
++	/* PLPMTUD is enabled: adjust to smaller PMTU, subtract headers and
++	 * AEAD tag.  Also notify the QUIC path layer for possible state
++	 * changes and probing.
 +	 */
-+	memcpy(nonce, base_iv, QUIC_IV_LEN);
-+	n = cpu_to_be64(cb->number);
-+	for (i = 0; i < sizeof(n); i++)
-+		nonce[QUIC_IV_LEN - sizeof(n) + i] ^= ((u8 *)&n)[i];
-+
-+	/* For CCM based ciphers, first byte of IV is a constant. */
-+	iv[0] = TLS_AES_CCM_IV_B0_BYTE;
-+	memcpy(&iv[ccm], nonce, QUIC_IV_LEN);
-+	aead_request_set_tfm(req, tfm);
-+	aead_request_set_ad(req, hlen);
-+	aead_request_set_crypt(req, sg, sg, len - hlen, iv);
-+	if (cb->sync) {
-+		DECLARE_CRYPTO_WAIT(wait);
-+
-+		aead_request_set_callback(req, CRYPTO_TFM_REQ_MAY_BACKLOG,
-+					  crypto_req_done, &wait);
-+		err = enc ? crypto_aead_encrypt(req) : crypto_aead_decrypt(req);
-+		if (err == -EINPROGRESS || err == -EBUSY)
-+			err = crypto_wait_req(err, &wait);
-+		goto out;
-+	}
-+
-+	aead_request_set_callback(req, CRYPTO_TFM_REQ_MAY_BACKLOG,
-+				  quic_crypto_done, skb);
-+	*(struct quic_crypto **)ctx = crypto;
-+	atomic_inc(&crypto->async_pending[phase]);
-+	cb->crypto_ctx = ctx; /* Async free context for quic_crypto_done() */
-+	err = enc ? crypto_aead_encrypt(req) : crypto_aead_decrypt(req);
-+	if (err == -EINPROGRESS || err == -EBUSY) {
-+		memzero_explicit(nonce, sizeof(nonce));
-+		return -EINPROGRESS;
-+	}
-+	atomic_dec(&crypto->async_pending[phase]);
-+	cb->crypto_ctx = NULL;
-+
-+out:
-+	kfree_sensitive(ctx);
-+	memzero_explicit(nonce, sizeof(nonce));
-+	return err;
++	packet->level = QUIC_CRYPTO_APP;
++	taglen = quic_packet_taglen(packet);
++	info = info - packet->hlen - taglen;
++	pathmtu = quic_path_pl_toobig(paths, info, &reset_timer);
++	if (reset_timer)
++		quic_timer_reset(sk, QUIC_TIMER_PMTU, paths->plpmtud_interval);
++	if (pathmtu)
++		quic_packet_mss_update(sk, pathmtu + taglen);
 +}
 +
-+/* Encrypts a QUIC packet before transmission.  This function performs AEAD
-+ * encryption of the packet payload and applies header protection. It handles
-+ * key phase tracking and key update timing.
-+ *
-+ * Return: 0 on success, -EINPROGRESS for async operation, or negative error.
++/* Handle ICMP Toobig packet and update QUIC socket path MTU. */
++static int quic_packet_rcv_err(struct sock *sk, struct sk_buff *skb)
++{
++	union quic_addr daddr, saddr;
++	u32 info;
++
++	/* ICMP embeds the original outgoing QUIC packet, so saddr/daddr are
++	 * reversed compared to incoming packets. Only address-based socket
++	 * lookup is possible in this case.
++	 */
++	quic_get_msg_addrs(skb, &daddr, &saddr);
++	sk = quic_sock_lookup(skb, &saddr, &daddr, sk, NULL);
++	if (!sk)
++		return -ENOENT;
++
++	if (quic_get_mtu_info(skb, &info) || !quic_sk_accept_pmtu(sk, skb)) {
++		sock_put(sk);
++		return 0;
++	}
++
++	/* Success: update socket path MTU info. */
++	bh_lock_sock(sk);
++	quic_paths(sk)->mtu_info = info;
++	if (sock_owned_by_user(sk)) {
++		/* Socket locked by userspace. Defer MTU processing via
++		 * release_cb. Hold socket reference to prevent it being
++		 * freed before deferral.
++		 */
++		if (!test_and_set_bit(QUIC_MTU_REDUCED_DEFERRED,
++				      &sk->sk_tsq_flags))
++			sock_hold(sk);
++		goto out;
++	}
++	/* Otherwise, process the MTU reduction now. */
++	quic_packet_rcv_err_pmtu(sk);
++out:
++	bh_unlock_sock(sk);
++	sock_put(sk);
++	return 1;
++}
++
++/* Queue a packet for later processing when sleeping is allowed.
++ * Return: non-zero if skb was consumed (queued or dropped), 0 otherwise.
 + */
-+int quic_crypto_encrypt(struct quic_crypto *crypto, struct sk_buff *skb,
-+			gfp_t gfp)
++static int quic_packet_deferred_schedule(struct sk_buff *skb)
 +{
 +	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	int err;
++	struct sock *sk = skb->sk;
++	int len = skb->truesize;
 +
-+	/* Packet payload is already encrypted (e.g., resumed from async),
-+	 * proceed to header protection only.
-+	 */
-+	if (cb->resume) {
-+		err = cb->crypto_err;
-+		if (err)
++	if (cb->backlog)
++		return 0;
++
++	if (sk_rmem_alloc_get(sk) + len > sk->sk_rcvbuf ||
++	    !__sk_rmem_schedule(sk, len, false)) {
++		QUIC_INC_STATS(sock_net(sk), QUIC_MIB_PKT_RCVDROP);
++		kfree_skb(skb);
++		return -ENOBUFS;
++	}
++	cb->backlog = 1;
++	skb_set_owner_r(skb, sk);
++	__skb_queue_tail(&quic_packet(sk)->deferred_list, skb);
++
++	sock_hold(sk);
++	if (!queue_work(quic_wq, quic_work(sk)))
++		sock_put(sk);
++	return 1;
++}
++
++#define TLS_MT_CLIENT_HELLO	1
++#define TLS_EXT_alpn		16
++
++/*  TLS Client Hello Msg:
++ *
++ *    uint16 ProtocolVersion;
++ *    opaque Random[32];
++ *    uint8 CipherSuite[2];
++ *
++ *    struct {
++ *        ExtensionType extension_type;
++ *        opaque extension_data<0..2^16-1>;
++ *    } Extension;
++ *
++ *    struct {
++ *        ProtocolVersion legacy_version = 0x0303;
++ *        Random rand;
++ *        opaque legacy_session_id<0..32>;
++ *        CipherSuite cipher_suites<2..2^16-2>;
++ *        opaque legacy_compression_methods<1..2^8-1>;
++ *        Extension extensions<8..2^16-1>;
++ *    } ClientHello;
++ */
++
++#define TLS_CH_RANDOM_LEN	32
++#define TLS_CH_VERSION_LEN	2
++#define TLS_MAX_EXTENSIONS	128
++
++#define QUIC_FRAME_CRYPTO	0x06
++
++/* Decrypt Initial packet and extract ALPN from TLS ClientHello for ALPN-based
++ * socket demultiplexing. Marks packet as decrypted (cb->resume = 1) to avoid
++ * redundant decryption later.
++ */
++static int quic_packet_get_alpn(struct sk_buff *skb, struct quic_data *alpn)
++{
++	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
++	int err, found = 0, exts = 0;
++	struct quic_crypto *crypto;
++	struct quic_packet *packet;
++	struct sock *sk = skb->sk;
++	u64 length, offset, type;
++	struct net *net;
++	u32 len;
++	u8 *p;
++
++	/* Install initial keys for decryption. */
++	crypto = quic_crypto(sk, QUIC_CRYPTO_INITIAL);
++	packet = quic_packet(sk);
++	err = quic_crypto_initial_keys_install(crypto, &packet->dcid,
++					       packet->version, true);
++	if (err)
++		return err;
++	cb->sync = 1;
++	net = sock_net(sk);
++	err = quic_crypto_decrypt(crypto, skb, GFP_KERNEL);
++	if (err) {
++		QUIC_INC_STATS(net, QUIC_MIB_PKT_DECDROP);
++		return err;
++	}
++	QUIC_INC_STATS(net, QUIC_MIB_PKT_DECFASTPATHS);
++	cb->resume = 1; /* Mark this packet as already decrypted. */
++
++	err = -EINVAL;
++	/* Find the QUIC CRYPTO frame. */
++	p = skb->data + cb->number_offset + cb->number_len;
++	len = cb->length - cb->number_len - QUIC_TAG_LEN;
++	for (; len && !(*p); p++, len--) /* Skip the padding frame. */
++		;
++	if (!len-- || *p++ != QUIC_FRAME_CRYPTO)
++		return 0; /* No CRYPTO frame: skip ALPN demux. */
++	if (!quic_get_var(&p, &len, &offset) || offset)
++		return 0; /* Fragmented CRYPTO: skip ALPN demux. */
++	if (!quic_get_var(&p, &len, &length) || length > (u64)len)
++		return err;
++	if (len > (u32)length) /* Cap len to crypto frame length. */
++		len = length;
++
++	/* Verify handshake message type (ClientHello) and its length. */
++	if (!quic_get_int(&p, &len, &type, 1) || type != TLS_MT_CLIENT_HELLO)
++		return err;
++	if (!quic_get_int(&p, &len, &length, 3) ||
++	    len < TLS_CH_RANDOM_LEN + TLS_CH_VERSION_LEN ||
++	    length < TLS_CH_RANDOM_LEN + TLS_CH_VERSION_LEN)
++		return err;
++	if (len > (u32)length) /* Cap len to handshake msg length. */
++		len = length;
++	/* Skip legacy_version (2 bytes) + random (32 bytes). */
++	p += TLS_CH_RANDOM_LEN + TLS_CH_VERSION_LEN;
++	len -= TLS_CH_RANDOM_LEN + TLS_CH_VERSION_LEN;
++	/* legacy_session_id_len must be zero (QUIC requirement). */
++	if (!quic_get_int(&p, &len, &length, 1) || length)
++		return err;
++
++	/* Skip cipher_suites (2 bytes length + variable data). */
++	if (!quic_get_int(&p, &len, &length, 2) || length > (u64)len)
++		return err;
++	len -= length;
++	p += length;
++
++	/* Skip legacy_compression_methods (1 byte length + variable data). */
++	if (!quic_get_int(&p, &len, &length, 1) || length > (u64)len)
++		return err;
++	len -= length;
++	p += length;
++
++	/* Read TLS extensions length (2 bytes). */
++	if (!quic_get_int(&p, &len, &length, 2))
++		return err;
++	if (len > (u32)length) /* Limit len to extensions length if larger. */
++		len = length;
++	while (len >= 4) { /* Scan extensions for ALPN (TLS_EXT_alpn). */
++		if (exts++ >= TLS_MAX_EXTENSIONS)
 +			return err;
-+		goto out;
++		if (!quic_get_int(&p, &len, &type, 2))
++			break;
++		if (!quic_get_int(&p, &len, &length, 2))
++			break;
++		/* Incomplete TLS extensions: skip ALPN demux. */
++		if (len < (u32)length)
++			return 0;
++		if (type == TLS_EXT_alpn) { /* Found ALPN extension. */
++			if (length > QUIC_ALPN_MAX_LEN)
++				return err;
++			len = length;
++			found = 1;
++			break;
++		}
++		/* Skip non-ALPN extensions. */
++		p += length;
++		len -= length;
++	}
++	if (!found) { /* No ALPN ext: set alpn->len = 0 and alpn->data = p. */
++		quic_data(alpn, p, 0);
++		return 0;
 +	}
 +
-+	cb->key_phase = crypto->key_phase;
-+	if (crypto->tx_count[cb->key_phase] >= crypto->cipher->txlimit)
-+		return -EKEYEXPIRED;
-+	crypto->tx_count[cb->key_phase]++;
-+	err = quic_crypto_payload_protect(crypto, skb, true, gfp);
-+	if (err)
++	/* Parse ALPN protocols list length (2 bytes). */
++	if (!quic_get_int(&p, &len, &length, 2) || length > (u64)len)
 +		return err;
-+out:
-+	err = quic_crypto_header_protect(crypto, skb, true, gfp);
-+	if (err)
-+		return err;
-+	/* If a key update is pending and this is the first packet using the
-+	 * new key, save the current time. Later used to clear old keys after
-+	 * some time has passed (see quic_crypto_decrypt()).
-+	 */
-+	if (crypto->key_pending && !crypto->key_update_send_time &&
-+	    cb->key_phase == crypto->key_phase)
-+		crypto->key_update_send_time = quic_ktime_get_us();
++	quic_data(alpn, p, length); /* Store ALPN list in alpn->data. */
++	len = length;
++	while (len) { /* Validate ALPN protocols list format. */
++		if (!quic_get_int(&p, &len, &length, 1) || length > (u64)len) {
++			/* Bad ALPN: set alpn->len = 0, alpn->data = NULL. */
++			quic_data(alpn, NULL, 0);
++			return err;
++		}
++		len -= length;
++		p += length;
++	}
++	pr_debug("%s: alpn_len: %u\n", __func__, alpn->len);
 +	return 0;
 +}
 +
-+/* Decrypts a QUIC packet after reception.  This function removes header
-+ * protection, decrypts the payload, and processes any key updates if the key
-+ * phase bit changes.
-+ *
-+ * Return: 0 on success, -EINPROGRESS for async operation, or negative error.
-+ */
-+int quic_crypto_decrypt(struct quic_crypto *crypto, struct sk_buff *skb,
-+			gfp_t gfp)
++/* Determine the QUIC socket associated with an incoming packet. */
++static struct sock *quic_packet_get_sock(struct sk_buff *skb, struct sock *usk)
 +{
 +	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
-+	int err = 0;
-+	u64 time;
-+	u8 phase;
++	struct quic_conn_id dcid = {}, *conn_id;
++	struct net *net = sock_net(usk);
++	union quic_addr daddr, saddr;
++	struct quic_data alpns = {};
++	struct sock *sk = NULL;
++	u32 len = skb->len;
++	u8 *p = skb->data;
++	int err;
 +
-+	/* Payload was decrypted asynchronously.  Proceed with parsing packet
-+	 * number and key phase.
-+	 */
-+	if (cb->resume) {
-+		err = cb->crypto_err;
-+		if (err) {
-+			/* Apply same key_pending cleanup as synchronous path to
-+			 * avoid deadlock in key update state machine.
-+			 */
-+			if (crypto->key_pending &&
-+			    cb->key_phase != crypto->key_phase) {
-+				crypto->key_pending = 0;
-+				crypto->key_update_time = 0;
-+				crypto->key_update_send_time = 0;
-+			}
-+			goto err;
-+		}
-+		err = quic_crypto_get_number(skb);
-+		if (err)
-+			return err;
-+		goto out;
-+	}
-+	if (!cb->number_len) { /* Packet header not yet decrypted. */
-+		err = quic_crypto_header_protect(crypto, skb, false, gfp);
-+		if (err) {
-+			pr_debug("%s: hd decrypt err %d\n", __func__, err);
-+			return err;
-+		}
-+	}
++	if (skb->len < QUIC_HLEN)
++		return ERR_PTR(-EINVAL);
 +
-+	/* rfc9001#section-6:
-+	 *
-+	 * The Key Phase bit allows a recipient to detect a change in keying
-+	 * material without needing to receive the first packet that triggered
-+	 * the change. An endpoint that notices a changed Key Phase bit updates
-+	 * keys and decrypts the packet that contains the changed value.
-+	 */
-+	phase = cb->key_phase;
-+	if (phase != crypto->key_phase && !crypto->key_pending) {
-+		if (!crypto->send_ready) /* Not ready for key update. */
-+			return -EINVAL;
-+		if (!cb->backlog) /* Key update requires process context. */
-+			return -EKEYREVOKED;
-+		/* Cannot do key update while async crypto is in progress. */
-+		if (unlikely(atomic_read(&crypto->async_pending[phase])))
-+			return -EBUSY;
-+		err = quic_crypto_key_update(crypto); /* Perform key update. */
-+		if (err) {
-+			cb->errcode = QUIC_TRANSPORT_ERROR_KEY_UPDATE;
-+			return err;
-+		}
-+		cb->sync = 1;
-+		cb->key_update = 1; /* Mark packet as triggering key update. */
-+	}
-+
-+	err = quic_crypto_payload_protect(crypto, skb, false, gfp);
-+	if (err) {
-+		if (err == -EINPROGRESS)
-+			return err;
-+		/* When using the old keys can not decrypt the packets, the
-+		 * peer might start another key_update. Thus, clear the last
-+		 * key_pending so that next packets will trigger the new
-+		 * key-update.
++	if (quic_hdr(skb)->form == QUIC_PACKET_FORM_SHORT) {
++		/* Short header path. */
++		if (skb->len < QUIC_HLEN + QUIC_CONN_ID_DEF_LEN)
++			return ERR_PTR(-EINVAL);
++		/* Fast path: look up QUIC connection by fixed-length DCID
++		 * (Currently, only QUIC_CONN_ID_DEF_LEN-length SCIDs are used).
 +		 */
-+		if (crypto->key_pending && phase != crypto->key_phase) {
-+			crypto->key_pending = 0;
-+			crypto->key_update_time = 0;
-+			crypto->key_update_send_time = 0;
++		conn_id = quic_conn_id_lookup(net, skb->data + QUIC_HLEN,
++					      QUIC_CONN_ID_DEF_LEN);
++		if (conn_id) {
++			cb->seqno = quic_conn_id_number(conn_id);
++			return quic_conn_id_sk(conn_id);
 +		}
++
++		/* Fallback: listener socket lookup
++		 * (May be used to send a stateless reset from a listen socket).
++		 */
++		quic_get_msg_addrs(skb, &daddr, &saddr);
++		sk = quic_listen_sock_lookup(skb, &daddr, &saddr, usk, &alpns);
++		if (sk)
++			return sk;
++		/* Final fallback: address-based connection lookup
++		 * (May be used to receive a stateless reset).
++		 */
++		sk = quic_sock_lookup(skb, &daddr, &saddr, usk, NULL);
++		if (!sk)
++			return ERR_PTR(-ENOENT);
++		return sk;
++	}
++
++	/* Long header path. */
++	err = quic_packet_get_long_header(&dcid, NULL, NULL, &p, &len);
++	if (err)
++		return ERR_PTR(err);
++	/* Fast path: look up QUIC connection by parsed DCID. */
++	conn_id = quic_conn_id_lookup(net, dcid.data, dcid.len);
++	if (conn_id) {
++		cb->seqno = quic_conn_id_number(conn_id);
++		return quic_conn_id_sk(conn_id);
++	}
++
++	/* Fallback: address + DCID lookup
++	 * (May be used for 0-RTT or a follow-up Client Initial packet).
++	 */
++	quic_get_msg_addrs(skb, &daddr, &saddr);
++	sk = quic_sock_lookup(skb, &daddr, &saddr, usk, &dcid);
++	if (sk)
++		return sk;
++	/* Final fallback: listener socket lookup
++	 * (Used for receiving the first Client Initial packet).
++	 */
++	sk = quic_listen_sock_lookup(skb, &daddr, &saddr, usk, &alpns);
++	if (!sk)
++		return ERR_PTR(-ENOENT);
++	return sk;
++}
++
++/* Entry point for processing received QUIC packets. */
++int quic_packet_rcv(struct sock *sk, struct sk_buff *skb, bool icmp)
++{
++	struct net *net = sock_net(sk);
++	int err;
++
++	if (unlikely(icmp))
++		return quic_packet_rcv_err(sk, skb);
++
++	if (skb_linearize(skb)) {
++		err = -ENOMEM;
 +		goto err;
 +	}
 +
-+out:
-+	/* rfc9001#section-6.2:
-+	 *
-+	 * If a packet is successfully processed using the next key and IV,
-+	 * then the peer has initiated a key update.
-+	 */
-+	if (cb->key_update) {
-+		crypto->key_pending = 1;
-+		crypto->key_derived = 0;
-+		crypto->key_phase = !crypto->key_phase;
++	/* Look up socket from socket or connection IDs hash tables. */
++	sk = quic_packet_get_sock(skb, sk);
++	if (IS_ERR(sk)) {
++		err = PTR_ERR(sk);
++		goto err;
 +	}
-+	/* rfc9001#section-6.1:
-+	 *
-+	 * An endpoint MUST retain old keys until it has successfully
-+	 * unprotected a packet sent using the new keys. An endpoint SHOULD
-+	 * retain old keys for some time after unprotecting a packet sent using
-+	 * the new keys.
-+	 */
-+	if (crypto->key_pending && cb->key_phase == crypto->key_phase) {
-+		time = crypto->key_update_send_time;
-+		if (time &&
-+		    quic_ktime_get_us() - time >= crypto->key_update_time) {
-+			crypto->key_pending = 0;
-+			crypto->key_update_time = 0;
-+			crypto->key_update_send_time = 0;
++
++	bh_lock_sock(sk);
++	if (sock_owned_by_user(sk)) {
++		/* Socket is busy (owned by user context): queue to backlog. */
++		err = sk_add_backlog(sk, skb, READ_ONCE(sk->sk_rcvbuf));
++		if (err) {
++			bh_unlock_sock(sk);
++			sock_put(sk);
++			goto err;
 +		}
++		QUIC_INC_STATS(net, QUIC_MIB_PKT_RCVBACKLOGS);
++	} else {
++		/* Socket not busy: process immediately. */
++		QUIC_INC_STATS(net, QUIC_MIB_PKT_RCVFASTPATHS);
++		sk->sk_backlog_rcv(sk, skb); /* quic_backlog_rcv(). */
 +	}
++	bh_unlock_sock(sk);
++	sock_put(sk);
 +	return 0;
 +err:
-+	if (err == -EBADMSG && ++crypto->rx_fails >= crypto->cipher->rxlimit)
-+		err = -EKEYEXPIRED;
++	pr_debug("%s: failed, len: %u, err: %d\n", __func__, skb->len, err);
++	QUIC_INC_STATS(net, QUIC_MIB_PKT_RCVDROP);
++	kfree_skb(skb);
 +	return err;
 +}
 +
- int quic_crypto_set_cipher(struct quic_crypto *crypto, u32 type)
- {
- 	const struct quic_cipher *cipher;
-@@ -566,6 +1046,257 @@ int quic_crypto_initial_keys_install(struct quic_crypto *crypto,
- 	return err;
++static int quic_packet_retry_create_and_xmit(struct sock *sk)
++{
++	return -EOPNOTSUPP;
++}
++
++static int quic_packet_version_create_and_xmit(struct sock *sk, gfp_t gfp)
++{
++	return -EOPNOTSUPP;
++}
++
++static int quic_packet_stateless_reset_create_and_xmit(struct sock *sk, u32 len,
++						       gfp_t gfp)
++{
++	return -EOPNOTSUPP;
++}
++
++static int quic_packet_refuse_close_create_and_xmit(struct sock *sk,
++						    u32 errcode)
++{
++	return -EOPNOTSUPP;
++}
++
++/* Process an incoming packet on a listening QUIC socket.
++ *
++ * Depending on the packet type and state, this may involve creating a request
++ * socket for a new connection, responding with a Stateless Reset for
++ * unexpected non-Initial packets (Handshake, 0-RTT, 1-RTT, Retry, or invalid
++ * packets), issuing a Retry packet for address validation when needed, or
++ * sending a Version Negotiation packet if the client's QUIC version is
++ * unsupported. 0-RTT packets may be silently dropped in multi-ALPN setups.
++ */
++static int quic_packet_listen_process(struct sock *sk, struct sk_buff *skb,
++				      gfp_t gfp)
++{
++	struct quic_packet *packet = quic_packet(sk);
++	u32 version, errcode, toff, len = skb->len;
++	struct quic_skb_cb *cb = QUIC_SKB_CB(skb);
++	u8 *p = skb->data, type, retry = 0;
++	struct net *net = sock_net(sk);
++	struct quic_conn_id odcid = {};
++	struct quic_request_sock *req;
++	struct quic_data alpns = {};
++	struct quic_crypto *crypto;
++	struct quic_data token;
++	u64 length;
++	int err;
++
++	/* Read Destination address and Source address from the packet. */
++	quic_get_msg_addrs(skb, &packet->daddr, &packet->saddr);
++
++	if (quic_hshdr(skb)->form == QUIC_PACKET_FORM_SHORT) {
++		/* rfc9000#section-10.3:
++		 *
++		 * An endpoint MAY send a Stateless Reset in response to
++		 * receiving a packet that it cannot associate with an active
++		 * connection.
++		 */
++		if (len < QUIC_HLEN + QUIC_CONN_ID_DEF_LEN) {
++			QUIC_INC_STATS(net, QUIC_MIB_PKT_INVHDRDROP);
++			kfree_skb(skb);
++			return -EINVAL;
++		}
++		/* We currently only issue Connection ID with size
++		 * QUIC_CONN_ID_DEF_LEN.
++		 */
++		quic_conn_id_update(&packet->dcid,
++				    (u8 *)quic_hdr(skb) + QUIC_HLEN,
++				    QUIC_CONN_ID_DEF_LEN);
++		/* Send a Stateless Reset for this 1-RTT packet. */
++		err = quic_packet_stateless_reset_create_and_xmit(sk, len, gfp);
++		consume_skb(skb);
++		return err;
++	}
++
++	/* Read VERSION, Destination Connection ID and Source Connection ID. */
++	err = quic_packet_get_long_header(&packet->dcid, &packet->scid,
++					  &version, &p, &len);
++	if (err) {
++		QUIC_INC_STATS(net, QUIC_MIB_PKT_INVHDRDROP);
++		kfree_skb(skb);
++		return err;
++	}
++
++	req = quic_request_sock_lookup(sk);
++	if (req) /* If request sock already exists, enqueue packet directly. */
++		return quic_request_sock_backlog_tail(sk, req, skb);
++
++	if (quic_accept_sock_exists(sk, skb))
++		return 0; /* Already handled by matched accept socket. */
++
++	/* rfc9000#section-6.1:
++	 *
++	 * An endpoint MUST NOT send a Version Negotiation packet in response
++	 * to receiving a Version Negotiation packet.
++	 */
++	if (!version) {
++		QUIC_INC_STATS(net, QUIC_MIB_PKT_INVHDRDROP);
++		kfree_skb(skb);
++		return -EINVAL;
++	}
++	if (!quic_packet_compatible_versions(version)) {
++		/* rfc9000#section-5.2.2:
++		 *
++		 * If a server receives a packet that indicates an unsupported
++		 * version and if the packet is large enough to initiate a new
++		 * connection for any supported version, the server SHOULD send
++		 * a Version Negotiation packet as described in Section 6.1.
++		 */
++		if (ntohs(udp_hdr(skb)->len) <
++		    sizeof(struct udphdr) + QUIC_MIN_UDP_PAYLOAD) {
++			kfree_skb(skb);
++			return -EINVAL;
++		}
++		/* rfc9000#section-6.1:
++		 *
++		 * If the version selected by the client is not acceptable to
++		 * the server, the server responds with a Version Negotiation
++		 * packet. This includes a list of versions that the server
++		 * will accept.
++		 */
++		err = quic_packet_version_create_and_xmit(sk, gfp);
++		consume_skb(skb);
++		return err;
++	}
++
++	/* Read Packet Type. */
++	type = quic_packet_version_get_type(version, quic_hshdr(skb)->type);
++	if (type != QUIC_PACKET_INITIAL) { /* Send a Stateless Reset. */
++		/* Silently drop 0-RTT packets when routed to wrong listener.
++		 * In multi-ALPN setups, 0-RTT packets arriving before accept()
++		 * may fall back to listener lookup with empty ALPN, matching
++		 * any listener instead of the correct one. Sending Stateless
++		 * Reset would incorrectly terminate the connection.
++		 */
++		if (type == QUIC_PACKET_0RTT &&
++		    static_branch_unlikely(&quic_alpn_demux_key)) {
++			kfree_skb(skb);
++			return -EINVAL;
++		}
++		err = quic_packet_stateless_reset_create_and_xmit(sk, skb->len,
++								  gfp);
++		consume_skb(skb);
++		return err;
++	}
++
++	/* This Destination Connection ID MUST be at least 8 bytes in length. */
++	if (packet->dcid.len < QUIC_CONN_ID_DEF_LEN) {
++		QUIC_INC_STATS(net, QUIC_MIB_PKT_INVHDRDROP);
++		kfree_skb(skb);
++		return -EINVAL;
++	}
++
++	if (ntohs(udp_hdr(skb)->len) <
++	    sizeof(struct udphdr) + QUIC_MIN_UDP_PAYLOAD) {
++		kfree_skb(skb);
++		return -EINVAL;
++	}
++
++	err = quic_packet_get_token(&token, &p, &len); /* Read Token. */
++	if (err) {
++		QUIC_INC_STATS(net, QUIC_MIB_PKT_INVHDRDROP);
++		kfree_skb(skb);
++		return err;
++	}
++	if (token.len)
++		toff = token.data - skb->data;
++
++	/* Associate skb with sk to ensure sk is valid if skb is delayed to
++	 * process in workqueue.
++	 */
++	WARN_ON_ONCE(!skb_set_owner_sk_safe(skb, sk));
++	packet->version = version;
++	if (!cb->resume && static_branch_unlikely(&quic_alpn_demux_key)) {
++		if (quic_packet_deferred_schedule(skb))
++			return -EINPROGRESS;
++		if (!quic_get_var(&p, &len, &length) || length > (u64)len) {
++			QUIC_INC_STATS(net, QUIC_MIB_PKT_INVHDRDROP);
++			kfree_skb(skb);
++			return -EINVAL;
++		}
++		cb->length = (u16)length;
++		cb->number_offset = (u16)(p - skb->data);
++		err = quic_packet_get_alpn(skb, &alpns);
++		if (err) {
++			kfree_skb(skb);
++			return err;
++		}
++		if (quic_listen_sock_switch(skb, &alpns))
++			return 0; /* Switched to different listen socket. */
++		if (token.len) /* Update after skb->data may change. */
++			token.data = skb->data + toff;
++	}
++
++	/* Save original DCID for future token validation or Retry logic. */
++	quic_conn_id_update(&odcid, packet->dcid.data, packet->dcid.len);
++	/* If configured to validate client addresses, handle token logic. */
++	if (packet->validate_peer_address) {
++		if (quic_packet_deferred_schedule(skb))
++			return 0;
++		if (!token.len) {
++			/* rfc9000#section-8.1.2:
++			 *
++			 * Upon receiving the client's Initial packet, the
++			 * server can request address validation by sending a
++			 * Retry packet containing a token.
++			 */
++			err = quic_packet_retry_create_and_xmit(sk);
++			consume_skb(skb);
++			return err;
++		}
++
++		/* Distinguish token source: Retry packet or NEW_TOKEN frame. */
++		retry = *(u8 *)token.data == QUIC_TOKEN_FLAG_RETRY;
++
++		/* Verify Token. */
++		crypto = quic_crypto(sk, QUIC_CRYPTO_INITIAL);
++		err = quic_crypto_verify_token(crypto, &packet->saddr,
++					       sizeof(packet->saddr),
++					       &odcid, token.data, token.len);
++		if (err) {
++			if (!retry) {
++				err = quic_packet_retry_create_and_xmit(sk);
++				consume_skb(skb);
++				return err;
++			}
++			/* rfc9000#section-8.1.3:
++			 *
++			 * If a server receives a client Initial that contains
++			 * an invalid Retry token but is otherwise valid, it
++			 * knows the client will not accept another Retry
++			 * token.  The server SHOULD immediately close the
++			 * connection with an INVALID_TOKEN error.
++			 */
++			errcode = QUIC_TRANSPORT_ERROR_INVALID_TOKEN;
++			quic_packet_refuse_close_create_and_xmit(sk, errcode);
++			consume_skb(skb);
++			return err;
++		}
++	}
++
++	/* Add request sock for this new QUIC connection. */
++	req = quic_request_sock_create(sk, &odcid, retry, gfp);
++	if (IS_ERR(req)) {
++		if (quic_packet_deferred_schedule(skb))
++			return 0;
++		/* rfc9000#section-5.2.2:
++		 *
++		 * If a server refuses to accept a new connection, it SHOULD
++		 * send an Initial packet containing a CONNECTION_CLOSE frame
++		 * with error code CONNECTION_REFUSED.
++		 */
++		errcode = QUIC_TRANSPORT_ERROR_CONNECTION_REFUSED;
++		quic_packet_refuse_close_create_and_xmit(sk, errcode);
++		consume_skb(skb);
++		return PTR_ERR(req);
++	}
++	/* Queue the Initial packet, then publish to accept queue. */
++	err = quic_request_sock_backlog_tail(sk, req, skb);
++	if (err) {
++		kfree(req);
++		return err;
++	}
++	quic_request_sock_enqueue(sk, req);
++	return 0;
++}
++
++static int quic_packet_handshake_process(struct sock *sk, struct sk_buff *skb,
++					 gfp_t gfp)
++{
++	kfree_skb(skb);
++	return -EOPNOTSUPP;
++}
++
++static int quic_packet_app_process(struct sock *sk, struct sk_buff *skb,
++				   gfp_t gfp)
++{
++	kfree_skb(skb);
++	return -EOPNOTSUPP;
++}
++
++int quic_packet_process(struct sock *sk, struct sk_buff *skb, gfp_t gfp)
++{
++	if (quic_is_closed(sk)) {
++		kfree_skb(skb);
++		return 0;
++	}
++
++	if (quic_is_listen(sk))
++		return quic_packet_listen_process(sk, skb, gfp);
++
++	if (quic_hdr(skb)->form == QUIC_PACKET_FORM_LONG)
++		return quic_packet_handshake_process(sk, skb, gfp);
++
++	return quic_packet_app_process(sk, skb, gfp);
++}
++
++/* Work function to process packets in the deferred list. */
++static void quic_packet_deferred_work(struct work_struct *work)
++{
++	struct quic_sock *qs = container_of(work, struct quic_sock, work);
++	struct sock *sk = &qs->inet.sk;
++	struct sk_buff_head *head;
++	struct sk_buff *skb;
++
++	lock_sock(sk);
++	head = &quic_packet(sk)->deferred_list;
++	while ((skb = __skb_dequeue(head)) != NULL)
++		quic_packet_process(sk, skb, GFP_KERNEL);
++	release_sock(sk);
++	sock_put(sk);
++}
++
+ /* Make these fixed for easy coding. */
+ #define QUIC_PACKET_NUMBER_LEN	QUIC_PN_MAX_LEN
+ #define QUIC_PACKET_LENGTH_LEN	4
+@@ -271,7 +1074,20 @@ void quic_packet_init(struct sock *sk)
+ 	struct quic_packet *packet = quic_packet(sk);
+ 
+ 	INIT_LIST_HEAD(&packet->frame_list);
++	skb_queue_head_init(&packet->deferred_list);
++	skb_queue_head_init(&packet->backlog_list);
++	INIT_WORK(quic_work(sk), quic_packet_deferred_work);
++
+ 	packet->mss = QUIC_MIN_UDP_PAYLOAD;
+ 	packet->taglen = QUIC_TAG_LEN;
+ 	packet->version = QUIC_VERSION_V1;
+ }
++
++void quic_packet_free(struct sock *sk)
++{
++	struct quic_packet *packet = quic_packet(sk);
++
++	flush_work(quic_work(sk));
++	__skb_queue_purge(&packet->deferred_list);
++	__skb_queue_purge(&packet->backlog_list);
++}
+diff --git a/net/quic/packet.h b/net/quic/packet.h
+index a1977fcd0db0..ab323c019ee2 100644
+--- a/net/quic/packet.h
++++ b/net/quic/packet.h
+@@ -14,6 +14,8 @@ struct quic_packet {
+ 	union quic_addr daddr;    /* Dest address from received packet */
+ 	union quic_addr saddr;    /* Source address from received packet */
+ 
++	struct sk_buff_head deferred_list; /* Packets deferred to work queue */
++	struct sk_buff_head backlog_list;  /* Packets waiting for crypto keys */
+ 	struct list_head frame_list; /* Frames to pack into packet for send */
+ 	struct sk_buff *head;        /* Head skb for packet bundling on send */
+ 	u32 version;   /* QUIC version used/selected during handshake */
+@@ -24,6 +26,7 @@ struct quic_packet {
+ 	u16 len;       /* QUIC packet length including taglen for sending */
+ 	u16 mss;       /* MSS including taglen */
+ 
++	u8 validate_peer_address:1; /* Temporary; will move to quic_outqueue */
+ 	u8 path_validating:1; /* Packet contains path_validating frames */
+ 	u8 ack_eliciting:1;   /* Packet contains ack-eliciting frames */
+ 	u8 ack_immediate:1;   /* Send ACK immediately (skip ack_delay timer) */
+@@ -55,6 +58,8 @@ struct quic_packet {
+ 
+ #define QUIC_VERSION_LEN		4
+ 
++#define QUIC_ALPN_MAX_LEN		128
++
+ #define QUIC_PACKET_FORM_SHORT		0
+ #define QUIC_PACKET_FORM_LONG		1
+ 
+@@ -87,6 +92,7 @@ static inline void quic_packet_reset(struct quic_packet *packet)
+ 	packet->ack_immediate = 0;
  }
  
-+#define QUIC_RETRY_KEY_V1 \
-+	"\xbe\x0c\x69\x0b\x9f\x66\x57\x5a\x1d\x76\x6b\x54\xe3\x68\xc8\x4e"
-+#define QUIC_RETRY_KEY_V2 \
-+	"\x8f\xb4\xb0\x1b\x56\xac\x48\xe2\x60\xfb\xcb\xce\xad\x7c\xcc\x92"
++int quic_packet_process(struct sock *sk, struct sk_buff *skb, gfp_t gfp);
+ u16 quic_packet_overhead(struct sock *sk, u8 level, u8 path);
+ int quic_packet_config(struct sock *sk, u8 level, u8 path);
+ 
+@@ -96,3 +102,8 @@ int quic_packet_route(struct sock *sk);
+ void quic_packet_mss_update(struct sock *sk, u32 mss);
+ void quic_packet_flush(struct sock *sk);
+ void quic_packet_init(struct sock *sk);
++void quic_packet_free(struct sock *sk);
 +
-+#define QUIC_RETRY_NONCE_V1 "\x46\x15\x99\xd3\x5d\x63\x2b\xf2\x23\x98\x25\xbb"
-+#define QUIC_RETRY_NONCE_V2 "\xd8\x69\x69\xbc\x2d\x7c\x6d\x99\x90\xef\xb0\x4a"
++u32 *quic_packet_compatible_versions(u32 version);
 +
-+/* Retry Packet Integrity. */
-+int quic_crypto_get_retry_tag(struct quic_crypto *crypto, struct sk_buff *skb,
-+			      struct quic_conn_id *odcid, u32 version, u8 *tag)
++void quic_packet_rcv_err_pmtu(struct sock *sk);
+diff --git a/net/quic/path.c b/net/quic/path.c
+index 946f5e44b635..7f56afc6d5cb 100644
+--- a/net/quic/path.c
++++ b/net/quic/path.c
+@@ -27,14 +27,14 @@ static int quic_udp_rcv(struct sock *sk, struct sk_buff *skb)
+ 
+ 	skb_pull(skb, sizeof(struct udphdr));
+ 	skb_dst_force(skb);
+-	kfree_skb(skb);
++	quic_packet_rcv(sk, skb, false);
+ 	/* .encap_rcv must return 0 if skb was either consumed or dropped. */
+ 	return 0;
+ }
+ 
+ static int quic_udp_err(struct sock *sk, struct sk_buff *skb)
+ {
+-	return 0;
++	return quic_packet_rcv(sk, skb, true);
+ }
+ 
+ static void quic_udp_sock_put_work(struct work_struct *work)
+diff --git a/net/quic/path.h b/net/quic/path.h
+index c2537cf65a7d..1b20419a3975 100644
+--- a/net/quic/path.h
++++ b/net/quic/path.h
+@@ -168,6 +168,7 @@ quic_path_orig_dcid(struct quic_path_group *paths)
+ 	return paths->retry ? &paths->retry_dcid : &paths->orig_dcid;
+ }
+ 
++int quic_packet_rcv(struct sock *sk, struct sk_buff *skb, bool icmp);
+ void quic_path_init(struct quic_path_group *paths);
+ 
+ bool quic_path_detect_alt(struct quic_path_group *paths, union quic_addr *sa,
+diff --git a/net/quic/socket.c b/net/quic/socket.c
+index f7792236752b..cb3d00a8ee9a 100644
+--- a/net/quic/socket.c
++++ b/net/quic/socket.c
+@@ -24,6 +24,324 @@ static void quic_enter_memory_pressure(struct sock *sk)
+ 	WRITE_ONCE(quic_memory_pressure, 1);
+ }
+ 
++/* Check if a matching request sock already exists. Match is based on
++ * source/destination addresses and DCID.
++ */
++struct quic_request_sock *quic_request_sock_lookup(struct sock *sk)
 +{
-+	/* Reuse RX AEAD (phase 1) in Initial crypto. */
-+	struct crypto_aead *tfm = crypto->rx_tfm[1];
-+	u8 *pseudo_retry, *p, *iv, *key;
-+	DECLARE_CRYPTO_WAIT(wait);
-+	struct aead_request *req;
-+	struct scatterlist *sg;
-+	u32 plen;
-+	int err;
++	struct quic_packet *packet = quic_packet(sk);
++	struct quic_request_sock *req;
 +
-+	/* The caller must ensure skb->len > QUIC_TAG_LEN. */
-+	if (skb->len <= QUIC_TAG_LEN)
-+		return -EINVAL;
-+
-+	/* rfc9001#section-5.8:
-+	 *
-+	 * The Retry Integrity Tag is a 128-bit field that is computed as the
-+	 * output of AEAD_AES_128_GCM used with the following inputs:
-+	 *
-+	 * - The secret key, K, is 128 bits equal to
-+	 *   0xbe0c690b9f66575a1d766b54e368c84e.
-+	 * - The nonce, N, is 96 bits equal to 0x461599d35d632bf2239825bb.
-+	 * - The plaintext, P, is empty.
-+	 * - The associated data, A, is the contents of the Retry
-+	 *   Pseudo-Packet,
-+	 *
-+	 * The Retry Pseudo-Packet is not sent over the wire. It is computed by
-+	 * taking the transmitted Retry packet, removing the Retry Integrity
-+	 * Tag, and prepending the two following fields: ODCID Length +
-+	 * Original Destination Connection ID (ODCID).
-+	 */
-+	err = crypto_aead_setauthsize(tfm, QUIC_TAG_LEN);
-+	if (err)
-+		return err;
-+	key = QUIC_RETRY_KEY_V1;
-+	if (version == QUIC_VERSION_V2)
-+		key = QUIC_RETRY_KEY_V2;
-+	err = crypto_aead_setkey(tfm, key, TLS_CIPHER_AES_GCM_128_KEY_SIZE);
-+	if (err)
-+		return err;
-+
-+	plen = 1 + odcid->len + skb->len - QUIC_TAG_LEN;
-+	pseudo_retry = quic_crypto_aead_mem_alloc(tfm, plen + QUIC_TAG_LEN, &iv,
-+						  &req, &sg, 1, GFP_KERNEL);
-+	if (!pseudo_retry)
-+		return -ENOMEM;
-+
-+	p = pseudo_retry;
-+	p = quic_put_int(p, odcid->len, 1);
-+	p = quic_put_data(p, odcid->data, odcid->len);
-+	p = quic_put_data(p, skb->data, skb->len - QUIC_TAG_LEN);
-+	sg_init_one(sg, pseudo_retry, plen + QUIC_TAG_LEN);
-+
-+	memcpy(iv, QUIC_RETRY_NONCE_V1, QUIC_IV_LEN);
-+	if (version == QUIC_VERSION_V2)
-+		memcpy(iv, QUIC_RETRY_NONCE_V2, QUIC_IV_LEN);
-+	aead_request_set_tfm(req, tfm);
-+	aead_request_set_ad(req, plen);
-+	aead_request_set_crypt(req, sg, sg, 0, iv);
-+	aead_request_set_callback(req, CRYPTO_TFM_REQ_MAY_BACKLOG,
-+				  crypto_req_done, &wait);
-+	err = crypto_aead_encrypt(req);
-+	if (err == -EINPROGRESS || err == -EBUSY)
-+		err = crypto_wait_req(err, &wait);
-+	if (!err)
-+		memcpy(tag, p, QUIC_TAG_LEN);
-+
-+	kfree_sensitive(pseudo_retry);
-+	return err;
++	list_for_each_entry(req, quic_reqs(sk), list) {
++		if (!memcmp(&req->saddr, &packet->saddr, sizeof(req->saddr)) &&
++		    !memcmp(&req->daddr, &packet->daddr, sizeof(req->daddr)) &&
++		    !quic_conn_id_cmp(&req->dcid, &packet->dcid))
++			return req;
++	}
++	return NULL;
 +}
 +
-+/* Protect or unprotect a token using the token AEAD transform and IV.
-+ *
-+ * The token AEAD key and authentication size must be initialized by
-+ * quic_crypto_set_token_secret() before calling this function.
-+ */
-+static int quic_crypto_token_protect(struct quic_crypto *crypto, u8 *token,
-+				     u32 len, u32 adlen, bool enc)
++/* Allocate a QUIC request sock for a new incoming connection. */
++struct quic_request_sock *quic_request_sock_create(struct sock *sk,
++						   struct quic_conn_id *odcid,
++						   u8 retry, gfp_t gfp)
 +{
-+	/* Reuse TX AEAD (phase 1) in Initial crypto. */
-+	struct crypto_aead *tfm = crypto->tx_tfm[1];
-+	u32 extra = enc ? QUIC_TAG_LEN : 0, clen;
-+	DECLARE_CRYPTO_WAIT(wait);
-+	struct aead_request *req;
-+	struct scatterlist *sg;
-+	void *ctx = NULL;
-+	u8 *nonce, *p, i;
-+	__be64 n;
-+	int err;
-+	u64 c;
++	struct quic_packet *packet = quic_packet(sk);
++	struct quic_request_sock *req;
 +
-+	ctx = quic_crypto_aead_mem_alloc(tfm, 0, &nonce, &req, &sg, 1,
-+					 GFP_KERNEL);
-+	if (!ctx) {
-+		err = -ENOMEM;
++	if (sk_acceptq_is_full(sk)) /* Refuse if accept queue full. */
++		return ERR_PTR(-ENOBUFS);
++
++	req = kmalloc_obj(*req, gfp);
++	if (!req)
++		return ERR_PTR(-ENOMEM);
++
++	req->version = packet->version;
++	req->daddr = packet->daddr;
++	req->saddr = packet->saddr;
++	req->scid = packet->scid;
++	req->dcid = packet->dcid;
++	req->orig_dcid = *odcid;
++	req->retry = retry;
++
++	skb_queue_head_init(&req->backlog_list);
++	req->blen = 0;
++
++	return req;
++}
++
++void quic_request_sock_enqueue(struct sock *sk, struct quic_request_sock *req)
++{
++	list_add_tail(&req->list, quic_reqs(sk));
++	sk_acceptq_added(sk);
++	sk->sk_data_ready(sk);
++}
++
++int quic_request_sock_backlog_tail(struct sock *sk,
++				   struct quic_request_sock *req,
++				   struct sk_buff *skb)
++{
++	u32 limit = sk->sk_rcvbuf / sk->sk_max_ack_backlog;
++	int len = skb->truesize;
++
++	/* Orphan skb to avoid double accounting for skbs already charged by
++	 * deferred scheduling.
++	 */
++	skb_orphan(skb);
++	limit =  max_t(u32, limit, QUIC_MIN_UDP_PAYLOAD * 4);
++	if (req->blen + len > limit || !__sk_rmem_schedule(sk, len, false)) {
++		QUIC_INC_STATS(sock_net(sk), QUIC_MIB_PKT_RCVDROP);
++		kfree_skb(skb);
++		return -ENOBUFS;
++	}
++
++	QUIC_SKB_CB(skb)->backlog = 1;
++	skb_set_owner_r(skb, sk);
++	__skb_queue_tail(&req->backlog_list, skb);
++	req->blen += len;
++	return 0;
++}
++
++/* Check if a matching accept socket exists. This is needed because an accept
++ * socket might have been created after this packet was enqueued in the listen
++ * socket's backlog.
++ */
++bool quic_accept_sock_exists(struct sock *sk, struct sk_buff *skb)
++{
++	struct quic_packet *packet = quic_packet(sk);
++	bool exist = false;
++
++	/* Skip if packet is newer than the last accept socket creation time.
++	 * No matching socket could exist in this case.
++	 */
++	if (QUIC_SKB_CB(skb)->time >
++	    quic_pnspace(sk, QUIC_CRYPTO_INITIAL)->time)
++		return exist;
++
++	/* Look up accepted socket matching packet addresses and DCID. */
++	local_bh_disable();
++	sk = quic_sock_lookup(skb, &packet->daddr, &packet->saddr,
++			      quic_path_usock(quic_paths(sk), 0),
++			      &packet->dcid);
++	if (!sk)
++		goto out;
++
++	/* Found a matching accept socket. Process packet with this socket. */
++	skb_orphan(skb);
++	QUIC_SKB_CB(skb)->backlog = 0;
++	bh_lock_sock_nested(sk);
++	if (sock_owned_by_user(sk)) {
++		/* Socket is busy (owned by user context): queue to backlog. */
++		if (sk_add_backlog(sk, skb, READ_ONCE(sk->sk_rcvbuf))) {
++			QUIC_INC_STATS(sock_net(sk), QUIC_MIB_PKT_RCVDROP);
++			kfree_skb(skb);
++		}
++	} else {
++		/* Socket not busy: process immediately. */
++		sk->sk_backlog_rcv(sk, skb); /* quic_backlog_rcv(). */
++	}
++	bh_unlock_sock(sk);
++	sock_put(sk);
++	exist = true;
++out:
++	local_bh_enable();
++	return exist;
++}
++
++/* Lookup a connected QUIC socket based on address and dest connection ID.
++ *
++ * This function searches the established (non-listening) QUIC socket table for
++ * a socket that matches the source and dest addresses and, optionally, the
++ * dest connection ID (DCID). The value returned by quic_path_orig_dcid() might
++ * be the original dest connection ID from the ClientHello or the Source
++ * Connection ID from a Retry packet before.
++ *
++ * The DCID is provided from a handshake packet when searching by source
++ * connection ID fails, such as when the peer has not yet received server's
++ * response and updated the DCID.
++ *
++ * Return: A pointer to the matching connected socket, or NULL if no match is
++ * found.
++ */
++struct sock *quic_sock_lookup(struct sk_buff *skb, union quic_addr *sa,
++			      union quic_addr *da, struct sock *usk,
++			      struct quic_conn_id *dcid)
++{
++	union quic_addr *path_sa, *path_da;
++	struct net *net = sock_net(usk);
++	struct quic_path_group *paths;
++	struct hlist_nulls_node *node;
++	struct quic_shash_head *head;
++	struct sock *sk = NULL, *tmp;
++	struct quic_conn_id *odcid;
++	unsigned int hash, seq;
++	bool match;
++
++	hash = quic_sock_hash(net, sa, da);
++	head = quic_sock_head(hash);
++
++	rcu_read_lock();
++begin:
++	sk_nulls_for_each_rcu(tmp, node, &head->head) {
++		if (net != sock_net(tmp))
++			continue;
++		paths = quic_paths(tmp);
++		odcid = quic_path_orig_dcid(paths);
++
++		/* Protect path[0] reads with seqcount retry to detect torn
++		 * reads during concurrent quic_path_swap(). The seqcount
++		 * ensures we either see a consistent old or new path, never
++		 * a mix of both.
++		 */
++		do {
++			seq = read_seqcount_begin(&paths->path_seq);
++			path_sa = quic_path_saddr(paths, 0);
++			path_da = quic_path_daddr(paths, 0);
++			match = (quic_cmp_sk_addr(tmp, path_sa, sa) &&
++				 quic_cmp_sk_addr(tmp, path_da, da) &&
++				 quic_path_usock(paths, 0) == usk &&
++				 (!dcid || !quic_conn_id_cmp(odcid, dcid)));
++		} while (read_seqcount_retry(&paths->path_seq, seq));
++
++		if (match) {
++			sk = tmp;
++			break;
++		}
++	}
++	/* If the final nulls value differs from the expected one, restart the
++	 * lookup as the node may have been rehashed (e.g., due to connection
++	 * migration).
++	 */
++	if (!sk && get_nulls_value(node) != hash)
++		goto begin;
++
++	if (sk && unlikely(!refcount_inc_not_zero(&sk->sk_refcnt)))
++		sk = NULL;
++	rcu_read_unlock();
++	return sk;
++}
++
++/* Find the listening QUIC socket for an incoming packet.
++ *
++ * This function searches the QUIC socket table for a listening socket that
++ * matches the dest address and port, and the ALPN(s) if presented in the
++ * ClientHello.
++ *
++ * Return: A pointer to the matching listening socket, or NULL if no match is
++ * found.
++ */
++struct sock *quic_listen_sock_lookup(struct sk_buff *skb, union quic_addr *sa,
++				     union quic_addr *da, struct sock *usk,
++				     struct quic_data *alpns)
++{
++	struct net *net = sock_net(usk);
++	struct hlist_nulls_node *node;
++	struct sock *sk = NULL, *tmp;
++	struct quic_shash_head *head;
++	struct quic_data alpn;
++	union quic_addr *a;
++	u32 hash, len;
++	u64 length;
++	u8 *p;
++
++	hash = quic_listen_sock_hash(net, ntohs(sa->v4.sin_port));
++	head = quic_listen_sock_head(hash);
++
++	rcu_read_lock();
++	/* Iterate sockets, checking ALPN requirements. */
++	sk_nulls_for_each_rcu(tmp, node, &head->head) {
++		bool alpn_match = false;
++
++		a = quic_path_saddr(quic_paths(tmp), 0);
++		if (net != sock_net(tmp) || !quic_cmp_sk_addr(tmp, a, sa) ||
++		    quic_path_usock(quic_paths(tmp), 0) != usk)
++			continue;
++
++		if (!alpns->len) {
++			/* No ALPN extension or empty ALPN list.
++			 * If alpns->data is NULL, match any socket.
++			 * If alpns->data is set (empty ALPN), only match
++			 * sockets with no ALPN configured.
++			 */
++			alpn_match = (!alpns->data || !quic_alpn(tmp)->len);
++		} else {
++			/* Check if any client ALPN matches this socket. */
++			for (p = alpns->data, len = alpns->len; len;
++			     len -= length, p += length) {
++				quic_get_int(&p, &len, &length, 1);
++				quic_data(&alpn, p, length);
++				if (quic_data_has(quic_alpn(tmp), &alpn)) {
++					alpn_match = true;
++					break;
++				}
++			}
++		}
++
++		if (alpn_match) {
++			if (!quic_is_any_addr(a)) {
++				/* Specific address - best match. */
++				sk = tmp;
++				goto out;
++			}
++			/* ANY address - keep as candidate. */
++			if (!sk || a->sa.sa_family == sa->sa.sa_family)
++				sk = tmp;
++		}
++	}
++	/* No need to check get_nulls_value(node) != hash for !sk, as
++	 * hashtable size is fixed and a listen sk can not rehashed.
++	 */
++out:
++	if (sk && unlikely(!refcount_inc_not_zero(&sk->sk_refcnt)))
++		sk = NULL;
++	rcu_read_unlock();
++	return sk;
++}
++
++/* Switch packet to a different listening socket based on ALPN matching.
++ *
++ * When ALPN demultiplexing is enabled, this function attempts to find a
++ * listening socket that matches the parsed ALPN. If a different socket is
++ * found, the packet is switched to that socket for processing.
++ *
++ * Return: true if switched to a different socket, false otherwise.
++ */
++bool quic_listen_sock_switch(struct sk_buff *skb, struct quic_data *alpns)
++{
++	struct sock *nsk, *sk = skb->sk;
++	struct quic_packet *packet;
++
++	if (!alpns->data)
++		return false;
++
++	local_bh_disable();
++	packet = quic_packet(sk);
++	nsk = quic_listen_sock_lookup(skb, &packet->daddr, &packet->saddr,
++				      quic_path_usock(quic_paths(sk), 0),
++				      alpns);
++	if (!nsk)
++		goto out;
++	if (nsk == sk) {
++		sock_put(nsk);
 +		goto out;
 +	}
-+	memcpy(nonce, crypto->tx_iv[1], QUIC_IV_LEN);
++	local_bh_enable();
++	release_sock(sk);
 +
-+	/* Read counter value from token AAD (bytes 1-8) and XOR with IV. */
-+	clen = sizeof(c);
-+	p = token + adlen - clen;
-+	quic_get_int(&p, &clen, &c, clen);
++	skb_orphan(skb);
 +
-+	n = cpu_to_be64(c);
-+	for (i = 0; i < sizeof(n); i++)
-+		nonce[QUIC_IV_LEN - sizeof(n) + i] ^= ((u8 *)&n)[i];
++	lock_sock(nsk);
++	quic_packet_process(nsk, skb, GFP_KERNEL);
++	release_sock(nsk);
++	sock_put(nsk);
 +
-+	sg_init_one(sg, token, len);
-+	aead_request_set_tfm(req, tfm);
-+	aead_request_set_ad(req, adlen);
-+	aead_request_set_crypt(req, sg, sg, len - adlen - extra, nonce);
-+	aead_request_set_callback(req, CRYPTO_TFM_REQ_MAY_BACKLOG,
-+				  crypto_req_done, &wait);
-+	err = enc ? crypto_aead_encrypt(req) : crypto_aead_decrypt(req);
-+	if (err == -EINPROGRESS || err == -EBUSY)
-+		err = crypto_wait_req(err, &wait);
-+
++	lock_sock(sk);
++	return true;
 +out:
-+	kfree_sensitive(ctx);
-+	return err;
++	local_bh_enable();
++	return false;
 +}
 +
-+/* Generate a Retry or address validation token.
-+ *
-+ * Builds a token containing the flag, counter value, timestamp, client address,
-+ * and original DCID. The flag and counter value are authenticated as AAD;
-+ * the timestamp, client address, and original DCID are encrypted with AES-GCM.
-+ *
-+ * Token: [flag(1) | counter(8) | encrypted(ts | addr | conn_id) | tag(16)]
-+ *
-+ * The AEAD nonce is derived by XORing the token IV with the counter value.
-+ *
-+ * Return: 0 on success or a negative error code on failure.
-+ */
-+int quic_crypto_generate_token(struct quic_crypto *crypto, void *addr,
-+			       u32 addrlen, struct quic_conn_id *conn_id,
-+			       u8 *token, u32 *tlen)
-+{
-+	u8 *token_buf, *p, flag = *token;
-+	u64 ts = quic_ktime_get_us();
-+	u32 len, tslen = sizeof(ts);
-+	u64 counter;
-+	int err;
-+
-+	len = sizeof(flag) + sizeof(counter) + tslen + addrlen + conn_id->len +
-+	      QUIC_TAG_LEN;
-+	token_buf = kmalloc(len, GFP_KERNEL);
-+	if (!token_buf)
-+		return -ENOMEM;
-+
-+	/* Use counter for nonce derivation to prevent collisions. */
-+	counter = crypto->tx_count[1]++;
-+	p = token_buf;
-+	p = quic_put_int(p, flag, sizeof(flag));
-+	p = quic_put_int(p, counter, sizeof(counter));
-+	p = quic_put_int(p, ts, tslen);
-+	p = quic_put_data(p, addr, addrlen);
-+	quic_put_data(p, conn_id->data, conn_id->len);
-+
-+	err = quic_crypto_token_protect(crypto, token_buf, len,
-+					sizeof(flag) + sizeof(counter), true);
-+	if (err)
-+		goto out;
-+
-+	memcpy(token, token_buf, len);
-+	*tlen = len;
-+out:
-+	kfree_sensitive(token_buf);
-+	return err;
-+}
-+
-+/* Validate a Retry or address validation token.
-+ *
-+ * Decrypts and authenticates the token, checks the client address and validates
-+ * the timestamp against the timeout selected by the token flag. For a Retry
-+ * token, extracts the original destination connection ID.
-+ *
-+ * Token: [flag(1) | counter(8) | encrypted(ts | addr | conn_id) | tag(16)]
-+ *
-+ * Return: 0 on success or a negative error code on failure.
-+ */
-+int quic_crypto_verify_token(struct quic_crypto *crypto, void *addr,
-+			     u32 addrlen, struct quic_conn_id *conn_id,
-+			     u8 *token, u32 len)
-+{
-+	s64 timeout = QUIC_TOKEN_TIMEOUT_RETRY;
-+	u64 t, ts = quic_ktime_get_us();
-+	u8 *token_buf, *p, flag;
-+	u32 tslen = sizeof(ts);
-+	int err;
-+
-+	if (len < sizeof(flag) + sizeof(u64) + tslen + addrlen + QUIC_TAG_LEN)
-+		return -EINVAL;
-+	token_buf = kmemdup(token, len, GFP_KERNEL);
-+	if (!token_buf)
-+		return -ENOMEM;
-+
-+	err = quic_crypto_token_protect(crypto, token_buf, len,
-+					sizeof(flag) + sizeof(u64), false);
-+	if (err)
-+		goto out;
-+
-+	err = -EINVAL;
-+	p = token_buf;
-+	flag = *p++;
-+	len -= sizeof(flag);
-+
-+	/* Skip counter value (already used for nonce derivation). */
-+	p += sizeof(u64);
-+	len -= sizeof(u64);
-+
-+	if (flag == QUIC_TOKEN_FLAG_REGULAR)
-+		timeout = QUIC_TOKEN_TIMEOUT_REGULAR;
-+
-+	/* Read timestamp from encrypted part and check if token timestamp is in
-+	 * the future or has expired.
-+	 */
-+	if (!quic_get_int(&p, &len, &t, tslen) || ts < t || ts - t > timeout)
-+		goto out;
-+
-+	/* Verify client address matches. */
-+	if (crypto_memneq(p, addr, addrlen))
-+		goto out;
-+
-+	p += addrlen;
-+	len -= addrlen;
-+
-+	len -= QUIC_TAG_LEN;
-+	if (len > QUIC_CONN_ID_MAX_LEN)
-+		goto out;
-+
-+	if (flag == QUIC_TOKEN_FLAG_RETRY)
-+		quic_conn_id_update(conn_id, p, len);
-+	err = 0;
-+out:
-+	kfree_sensitive(token_buf);
-+	return err;
-+}
-+
- /* Derive a secret using HKDF-Extract and HKDF-Expand with the given label.
-  * Used to generate a stateless reset token or session resumption master key.
-  */
-diff --git a/net/quic/crypto.h b/net/quic/crypto.h
-index 29eaf0cbd2e1..5bd82b826217 100644
---- a/net/quic/crypto.h
-+++ b/net/quic/crypto.h
-@@ -80,6 +80,11 @@ int quic_crypto_set_secret(struct quic_crypto *crypto,
- int quic_crypto_set_cipher(struct quic_crypto *crypto, u32 type);
- int quic_crypto_key_update(struct quic_crypto *crypto);
+ static void quic_write_space(struct sock *sk)
+ {
+ 	__poll_t mask = EPOLLOUT | EPOLLWRNORM | EPOLLWRBAND;
+@@ -62,6 +380,9 @@ static void quic_sock_destruct(struct sock *sk)
+ 		queue_work(quic_wq, &crypto->work);
+ 	}
  
-+int quic_crypto_encrypt(struct quic_crypto *crypto, struct sk_buff *skb,
-+			gfp_t gfp);
-+int quic_crypto_decrypt(struct quic_crypto *crypto, struct sk_buff *skb,
-+			gfp_t gfp);
++	/* Deferred ALPN free for RCU readers in quic_listen_sock_lookup(). */
++	quic_data_free(quic_alpn(sk));
 +
- int quic_crypto_derive_secret(struct quic_crypto *crypto, void *data, u32 len,
- 			      char *label, u8 *srt, u32 srt_len);
- int quic_crypto_initial_keys_install(struct quic_crypto *crypto,
-@@ -87,4 +92,13 @@ int quic_crypto_initial_keys_install(struct quic_crypto *crypto,
- 				     u32 version, bool is_serv);
- int quic_crypto_set_token_secret(struct quic_crypto *crypto);
+ 	quic_sk_destruct(sk);
+ }
  
-+int quic_crypto_generate_token(struct quic_crypto *crypto, void *addr,
-+			       u32 addrlen, struct quic_conn_id *conn_id,
-+			       u8 *token, u32 *tlen);
-+int quic_crypto_get_retry_tag(struct quic_crypto *crypto, struct sk_buff *skb,
-+			      struct quic_conn_id *odcid, u32 version, u8 *tag);
-+int quic_crypto_verify_token(struct quic_crypto *crypto, void *addr,
-+			     u32 addrlen, struct quic_conn_id *conn_id,
-+			     u8 *token, u32 len);
+@@ -121,6 +442,7 @@ static void quic_destroy_sock(struct sock *sk)
+ 	u8 i;
+ 
+ 	quic_timer_free(sk);
++	quic_packet_free(sk);
+ 
+ 	for (i = 0; i < QUIC_PNSPACE_MAX; i++) {
+ 		space = quic_pnspace(sk, i);
+@@ -140,7 +462,6 @@ static void quic_destroy_sock(struct sock *sk)
+ 
+ 	quic_data_free(quic_ticket(sk));
+ 	quic_data_free(quic_token(sk));
+-	quic_data_free(quic_alpn(sk));
+ 
+ 	sk_sockets_allocated_dec(sk);
+ 	sock_prot_inuse_add(sock_net(sk), sk->sk_prot, -1);
+@@ -267,6 +588,10 @@ static void quic_release_cb(struct sock *sk)
+ 		nflags = flags & ~QUIC_DEFERRED_ALL;
+ 	} while (!try_cmpxchg(&sk->sk_tsq_flags, &flags, nflags));
+ 
++	if (flags & QUIC_F_MTU_REDUCED_DEFERRED) {
++		quic_packet_rcv_err_pmtu(sk);
++		__sock_put(sk);
++	}
+ 	if (flags & QUIC_F_LOSS_DEFERRED) {
+ 		quic_timer_loss_handler(sk);
+ 		__sock_put(sk);
+@@ -301,8 +626,7 @@ static void quic_shutdown(struct sock *sk, int how)
+ 
+ static int quic_backlog_rcv(struct sock *sk, struct sk_buff *skb)
+ {
+-	kfree_skb(skb);
+-	return 0;
++	return quic_packet_process(sk, skb, GFP_ATOMIC);
+ }
+ 
+ struct proto quic_prot = {
+diff --git a/net/quic/socket.h b/net/quic/socket.h
+index 173062736020..1b95eb62b074 100644
+--- a/net/quic/socket.h
++++ b/net/quic/socket.h
+@@ -60,9 +60,26 @@ enum quic_tsq_flags {
+ 			   QUIC_F_PMTU_DEFERRED |		\
+ 			   QUIC_F_PACE_DEFERRED)
+ 
++struct quic_request_sock {
++	struct list_head	list;
 +
- void quic_crypto_free(struct quic_crypto *crypto);
++	struct quic_conn_id	dcid;
++	struct quic_conn_id	scid;
++	union quic_addr		daddr;
++	union quic_addr		saddr;
++
++	struct quic_conn_id	orig_dcid;
++	u32			version;
++	u8			retry;
++
++	struct sk_buff_head	backlog_list;
++	u32			blen;
++};
++
+ struct quic_sock {
+ 	struct inet_sock		inet;
+ 	struct list_head		reqs;
++	struct work_struct		work;
+ 
+ 	struct quic_data		ticket;
+ 	struct quic_data		token;
+@@ -95,6 +112,11 @@ static inline struct list_head *quic_reqs(const struct sock *sk)
+ 	return &quic_sk(sk)->reqs;
+ }
+ 
++static inline struct work_struct *quic_work(const struct sock *sk)
++{
++	return &quic_sk(sk)->work;
++}
++
+ static inline struct quic_data *quic_token(const struct sock *sk)
+ {
+ 	return &quic_sk(sk)->token;
+@@ -200,3 +222,22 @@ static inline void quic_set_state(struct sock *sk, int state)
+ 	inet_sk_set_state(sk, state);
+ 	sk->sk_state_change(sk);
+ }
++
++struct sock *quic_listen_sock_lookup(struct sk_buff *skb, union quic_addr *sa,
++				     union quic_addr *da, struct sock *usk,
++				     struct quic_data *alpns);
++struct sock *quic_sock_lookup(struct sk_buff *skb, union quic_addr *sa,
++			      union quic_addr *da, struct sock *usk,
++			      struct quic_conn_id *dcid);
++
++bool quic_listen_sock_switch(struct sk_buff *skb, struct quic_data *alpns);
++bool quic_accept_sock_exists(struct sock *sk, struct sk_buff *skb);
++
++struct quic_request_sock *quic_request_sock_create(struct sock *sk,
++						   struct quic_conn_id *odcid,
++						   u8 retry, gfp_t gfp);
++int quic_request_sock_backlog_tail(struct sock *sk,
++				   struct quic_request_sock *req,
++				   struct sk_buff *skb);
++void quic_request_sock_enqueue(struct sock *sk, struct quic_request_sock *req);
++struct quic_request_sock *quic_request_sock_lookup(struct sock *sk);
 -- 
 2.47.1
 

@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795483264;
-	b=OsiwFj6wd/boJTWrN99FX7e563fIZqtVaWipBy5yP9TU9x1xWqr+0jaoGvcAimbzrGFg
-	 pRgMMr8Tn7coDlTWuU/jB2b+E92XetsWfl/04RZ1bdTYAUBp/NoOpMRw+egGQcdT3dFjd
-	 RIlUB2j8nAyMn7GDkQB50QYQT4bFH4IShW1QbJJiJ/aScvxQhdm7KiUxlYT1uvyba+hoy
-	 aF5xlIufEQ+n0iSr5/mTdfeQXLUNpBrU27gLYse273hsR9dk5dHL71UNCeJqzn38T+cAt
-	 otXQogfZ/4xs0PQsZkk7GW+s/urhehcsQJ6/I+/8vmD1CeVUAYdgML+u1AOSJlArhNA==
+	t=1795483266;
+	b=KUWYBx39O8PZcFwu+NmwijGVXwlhjhIY3P39HS+Z/UB08xaOgUNeQCdCqO2RQMK6pv/5
+	 b0niJQenrN4ZU1W/6MUtjCjsHYVpCg2rsqBT4OH2dqXSSkijLdAx7FbbTUS+e20GOx3gH
+	 200w/N1nkO69H9GPrWGmDMubfg5HrooY6Q/sxVMkmY7bYB/PtKLP2HE8Wg7EwQX63Vs3z
+	 FgAKLKoI5mt+sp92k/DFwN0DF6cjOv/SoazZPFTFB2smNfIGY1CMYsEjRCCfncDX2Zh3P
+	 RgSTs0FDVZgNhC5KZpQnBOpN4HD7fMmz36iEyjTMLLEpr8M4mr8hS49vKFUFmO5liUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795483264;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795483266;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=9BDulXHaTFH9WUerzen4hwlWxTAC3ppvvJGAoF+motE=;
-	b=op6KFcKEav1+BuRFaMvYval/e1sZK/zU8ZigS5qPeW3Fne0cYEHLilzytNjTM+hwJ4It
-	 ltHc/JO+q3dRQNfgGSCf0TRQP7IIoi5rqNuty7itJ9oKNI/aA5pJxqIESgjvfELM/dVXB
-	 rne2hbmZfL4VMSndLhNvUJkkaeJZI8sBpdn6dSNEh4NTBswqGl4hWzmvSNjXj0ysHFk6s
-	 ZpGVC/yB1R5WkqFmXXjv0co/pMR6YM3OH1Fz426Px23ZBXZ1O5FCRzq6fi/1g9lJkNPQt
-	 u1qsQ5/aIf73xh1YVlvaf8OHqYIlqoyIkVSLwUtNnxuiGsiuGgs4tqr9YNUz49lmQdA==
+	bh=JCXlR7hTHRaWQL6LHxsE3KF3SHeDzRxPw03OBuJYzAU=;
+	b=pfxWR/Kgpx7/KAMm4YRmJx/VTvaEGjXT9b1E0cHn14xxW4DnPiLRRgOIQgL9YSZNk6Wp
+	 UjHnB0FpNDWTwdUpt2Iok1XHCqECFZqGsr8GbKD9scEXJ10x24Y+RScCqTK8Jfc3fjmHf
+	 4CQh1YMjtckoIpc2+B9u7ujOZ03o1q5bBmenWI4qUSEdB7nRlxt0plA4OGnu7x3/IiDjX
+	 djGaXHejSWS+XFLkdKjheo3s/iw26NHN9hoEsqxApRK3Xcda3hT3MV0zTo4OnT2d/2fqx
+	 YXWii3848pVEbg6rO1+RjzmRyr/my9VbKKRnCs7XeN3Tu9OVGZZ1QU6iHePshqlN8sQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bkne1S9o;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QGIhWQ4P;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31BB606A31E;
-	Tue, 24 Nov 2026 01:21:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8841A606A31E;
+	Tue, 24 Nov 2026 01:21:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bkne1S9o
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 740841F000C0;
-	Tue, 24 Nov 2026 01:21:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QGIhWQ4P
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D9871F000C0;
+	Tue, 24 Nov 2026 01:21:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795483263;
-	bh=9BDulXHaTFH9WUerzen4hwlWxTAC3ppvvJGAoF+motE=;
+	s=k20260515; t=1795483266;
+	bh=JCXlR7hTHRaWQL6LHxsE3KF3SHeDzRxPw03OBuJYzAU=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=bkne1S9okR19YKrKDubvz0IUMj2gGJv58KhVJgv/j0c8GqH2EiN3J3sfzmUkWtnKn
-	 C/9tbQI2SoZGxOVEFBNj0W/imvtwJQu2oSlqdakV+Em7sinwEP7WLIPKl7GjJITkpT
-	 2l5AUIv0iWo58eYIZcl5H+zOZmGBOYBOxry2wLevzl89WY3q8+4kZ+3ygPzycETtDe
-	 EiNY1YHalsxE6Srkp7f26GaeMNuKEz4q0xSTcjsmh4clf8az3eN1UDNKWSX2dWumyM
-	 j/IX6V+v4kkMg60RA37GA+3L+2VVDEYexKOtU/mXa3my2zJL5td5ce5PtPsToCj8Tv
-	 ouxs2U1C47MVA==
-Subject: Re: [PATCH net-next v19 01/15] net: define IPPROTO_QUIC and SOL_QUIC
- constants
+	b=QGIhWQ4PP2o4vIAGlSpTdpVY92BGxP+S2RqCksrb3xjpw8hX9YPDI7QYSctDvotgX
+	 pfTby7f31rWU2Uoy2Pguq0i7pa0TN2dEwSGQu4d7jc3yLdGGApAJfrARURv3rI7UmV
+	 yPkDk3jFF7E7b5rXOYQasQuYN9Zt4RZ4kTQYOiYGesB/52TsblAW0ZYea7VxIP/AM4
+	 UMsFp5Bmuuwov2A4XqSskaELpOyyaGsGI+dSwqUKZyxyugKlVCMDpI5tDZbnKcQd0k
+	 /WG7/jb8NbVPdfMnqSKEsB+ZAGKu1YNdLn1G2FaNFPn1aJKnxHz7eMvuqLG//D+EvO
+	 LCwFFz3sZgNOQ==
+Subject: Re: [PATCH net-next v19 03/15] quic: provide common utilities and
+ data structures
 From: netdev-bot+sashiko@kernel.org
 To: lucien.xin@gmail.com
 Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
@@ -56,10 +56,10 @@ Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
  sd@queasysnail.net, marcelo.leitner@gmail.com, daniel@haxx.se,
  andrew.gospodarek@broadcom.com, mef@scarletmail.rutgers.edu, paul@jakma.org,
  kuniyu@google.com
-Date: Tue, 24 Nov 2026 01:21:00 +0000
-Message-ID: <179548326096.3135.1557496253047696896@kernel.org>
-In-Reply-To: <ba1d4f03926411d4e61a7587e41a12b0b423d841.1795393691.git.lucien.xin@gmail.com>
-References: <ba1d4f03926411d4e61a7587e41a12b0b423d841.1795393691.git.lucien.xin@gmail.com>
+Date: Tue, 24 Nov 2026 01:21:03 +0000
+Message-ID: <179548326380.3135.10486164570925258517@kernel.org>
+In-Reply-To: <8b73dfa59d4aad8195f3ab2e3d673d3576e379cf.1795393691.git.lucien.xin@gmail.com>
+References: <8b73dfa59d4aad8195f3ab2e3d673d3576e379cf.1795393691.git.lucien.xin@gmail.com>
 X-sashiko-severity: Low
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -79,100 +79,112 @@ you want to address the nit picks below when you respin.
 
 Low priority / nit picks for your consideration:
 
-- [Low] This patch edits the tools/ copies of the kernel headers
-  directly: tools/include/uapi/linux/in.h (adds IPPROTO_QUIC = 261) and…
-- [Low] The commit message does not mention the change to
-  include/trace/events/sock.h.
+- [Low] quic_data_from_string() (net/quic/common.c:527-567) handles empty
+  tokens and whitespace inconsistently.
+- [Low] The comment on quic_data_from_string()
+  (net/quic/common.c:521-526) says only that "Elements are stored in…
 
 --
 
-net: define IPPROTO_QUIC and SOL_QUIC constants
+quic: provide common utilities and data structures
 
-This commit adds the IPPROTO_QUIC (261) and SOL_QUIC (288) constants for
-the in-kernel QUIC socket implementation. It also adds IPPROTO_QUIC to
-the inet_protocol_names trace enum mapping. The tools/ copies of in.h
-and socket.h get the same definitions.
+This patch adds the common data structures and helpers for the QUIC
+stack. These include packet header types, connection IDs, address
+handling, and the hash tables used for socket and connection ID lookup.
+It also adds the quic_data binary type with helpers for parsing, matching
+and memory management, plus encode/decode helpers for transport
+parameters and frames.
 
-> diff --git a/include/trace/events/sock.h b/include/trace/events/sock.h
-> index b5310439536e0..ed43fe6d2705b 100644
-> --- a/include/trace/events/sock.h
-> +++ b/include/trace/events/sock.h
-> @@ -20,7 +20,8 @@
->  #define inet_protocol_names		\
->  		EM(IPPROTO_TCP)			\
->  		EM(IPPROTO_SCTP)		\
-> -		EMe(IPPROTO_MPTCP)
-> +		EM(IPPROTO_MPTCP)		\
-> +		EMe(IPPROTO_QUIC)
-
-[Severity: Low]
-This isn't a bug, but could the commit message mention this change?
-
-inet_protocol_names feeds the TRACE_DEFINE_ENUM exports and
-show_inet_protocol_name(). That helper is used in the TP_printk output
-of inet_sock_set_state, inet_sk_error_report and the sock_msg_length
-class. With this change those events print "IPPROTO_QUIC" instead of a
-raw 261, and a new enum is exported to trace parsers.
-
-The commit body only describes the new UAPI constants. The tracepoint
-change is noted only in the v15 changelog below the "---" line, and
-that text is dropped when the patch is applied. A one-line note in the
-body would cover it.
-
->  
->  #define tcp_state_names			\
->  		EM(TCP_ESTABLISHED)		\
+> diff --git a/net/quic/common.c b/net/quic/common.c
+> new file mode 100644
+> index 0000000000000..e13848f5a72d9
+> --- /dev/null
+> +++ b/net/quic/common.c
+> @@ -0,0 +1,567 @@
 
 [ ... ]
 
-> diff --git a/tools/include/uapi/linux/in.h b/tools/include/uapi/linux/in.h
-> index ced0fc3c3aa53..e4072152f2e62 100644
-> --- a/tools/include/uapi/linux/in.h
-> +++ b/tools/include/uapi/linux/in.h
-> @@ -85,6 +85,8 @@ enum {
->  #define IPPROTO_RAW		IPPROTO_RAW
->    IPPROTO_SMC = 256,		/* Shared Memory Communications		*/
->  #define IPPROTO_SMC		IPPROTO_SMC
-> +  IPPROTO_QUIC = 261,		/* A UDP-Based Multiplexed Secure Transport */
-> +#define IPPROTO_QUIC		IPPROTO_QUIC
->    IPPROTO_MPTCP = 262,		/* Multipath TCP connection		*/
->  #define IPPROTO_MPTCP		IPPROTO_MPTCP
->    IPPROTO_MAX
-> diff --git a/tools/perf/trace/beauty/include/linux/socket.h b/tools/perf/trace/beauty/include/linux/socket.h
-> index b17fdb7d38a77..7677133953ecf 100644
-> --- a/tools/perf/trace/beauty/include/linux/socket.h
-> +++ b/tools/perf/trace/beauty/include/linux/socket.h
-> @@ -401,6 +401,7 @@ struct ucred {
->  #define SOL_MCTP	285
->  #define SOL_SMC		286
->  #define SOL_VSOCK	287
-> +#define SOL_QUIC	288
+> +/* Parse a comma-separated string into a 'quic_data' list format.
+> + *
+> + * Each comma-separated token is turned into a length-prefixed element. The
+> + * first byte of each element stores the length. Elements are stored in
+> + * 'to->data', and 'to->len' is updated.
+> + */
+> +int quic_data_from_string(struct quic_data *to, u8 *from, u32 len)
+> +{
+> +	u32 remlen = to->len;
 
 [Severity: Low]
-Should these two tools/ hunks be part of this patch?
+This isn't a bug, but the comment only says that to->len "is updated".
+The code also reads to->len as an input. It is the capacity of the
+caller-supplied to->data buffer, and every write is checked against it.
 
-tools/include/uapi/README says:
+> +	struct quic_data d;
+> +	u8 *p = to->data;
+> +
+> +	to->len = 0;
 
-  So its important not to touch the copies in tools/ when doing changes in
-  the original kernel headers, that will be done later, when
-  check-headers.sh inform about the change to the perf tools hackers.
+On an -EOVERFLOW or -EINVAL return, to->len holds the partial count of
+completed tokens. That is neither the original capacity nor a valid
+result. to->data may also hold a partly written element.
 
-tools/perf/check-headers.sh tracks both include/uapi/linux/in.h and
-include/linux/socket.h. The perf maintainers normally sync these copies
-in their own tree and check that the beauty scripts still parse the new
-definitions. Editing the copies from the networking tree skips that
-check and can lead to duplicate or conflicting syncs.
+Could the comment say that to->len must be set to the buffer size on
+input? Could it also say what to->data and to->len contain on failure?
 
-The commit body also doesn't mention the tools/ changes. They appear
-only in the v15 changelog below the "---" line.
+> +	while (len) {
+> +		while (len && *from == ' ') {
+> +			from++;
+> +			len--;
+> +		}
+> +		if (!len)
+> +			break;
+> +		if (!remlen)
+> +			return -EOVERFLOW;
+> +		d.data = p++;
+> +		d.len  = 0;
+> +		remlen--;
+> +		while (len) {
+> +			if (*from == ',') {
+> +				from++;
+> +				len--;
+> +				break;
+> +			}
+> +			if (!remlen)
+> +				return -EOVERFLOW;
+> +			if (d.len == U8_MAX)
+> +				return -EINVAL;
+> +			*p++ = *from++;
+> +			len--;
+> +			d.len++;
+> +			remlen--;
+> +		}
+> +		if (!d.len)
+> +			return -EINVAL;
 
-Would it make sense to drop the tools/include/uapi/linux/in.h and
-tools/perf/trace/beauty/include/linux/socket.h hunks, or send them as a
-separate patch to the perf-tools maintainers?
+[Severity: Low]
+Does this check catch an empty token at the end of the string? The v19
+changelog says "Reject empty tokens in quic_data_from_string()". Inputs
+",a" and "a,,b" do return -EINVAL here.
 
->  
->  /* IPX options */
->  #define IPX_TYPE	1
+For "a,", the inner loop consumes the final ',' and len drops to 0. The
+outer while (len) loop then exits and the function returns 0. The empty
+element after the comma is never checked.
+
+For "a, ", the leading-space loop consumes the rest of the input. The
+if (!len) break then returns 0 as well.
+
+Spaces are also only stripped on one side. Leading spaces are skipped,
+but every byte up to the next ',' is copied by:
+
+	*p++ = *from++;
+
+So "h3 ,h3-29" stores the element "h3 " (length 3), while " h3" becomes
+"h3". quic_data_has() and quic_data_match() compare these lists byte for
+byte, for example the quic_alpn() list. Could an element with a trailing
+space ever match the peer's value?
+
+Should trailing empty tokens also be rejected, and trailing spaces
+trimmed the same way as leading ones?
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1795393690.git.lucien.xin%40gmail.com

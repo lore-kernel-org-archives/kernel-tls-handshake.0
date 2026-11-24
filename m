@@ -1,47 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795483269;
-	b=fOPEpAJhO2xTXo2Dj1pMNrEeeFXouErKNkiDvSToNhO0asoUYEB0CxJ5Mj4JwlD4vQv7
-	 dRmmdj1MqrZJOKxXomHIP8azHo/HuNv9fzb/IRiJaVtRKmU5+EkmKIIJ9QH0mHZODoUnR
-	 zOQAKMNY9OEM8YAeFR8z8B5t59Fwymf5/0c4nPlhM1+cYbsUPdmLtCC0ZEaNKdfEHHiU0
-	 NlN/nm10HeHyuABDId4hC34ToagyZRSyK671XaRoqRrGAIv9VH3qou2wKsbMvu/0qZjNa
-	 tJ37ObCpqQBdwW95IM79UAg+YZbwhG1qYWpj7+1XNhZ7LDZvJItYQoy7S5g5cCB177Q==
+	t=1795483272;
+	b=5CRkq1hriDoN8Zy4+bBFDPHL5ca5HK3oYryV/aiHXAgPXYccDhXYfVrucEaeF3tLmgrO
+	 yWmXeiCusXKONgSv1e3JkCB2K0FRqHxS9AJ8YNpu8v6YOnzllw6F6eug4TTVhZ/lwMPhX
+	 FO8EhUam/GVykYe4U6ASWq2SHbHJC/xmOtnnOd1nDVRo0tN4Rr6SsoLGeyYK0UPW8+5wN
+	 ZIlD33dkM9pqkKSlbnkcw6y8F0QRF29dudKVhzKmssX35Vio8CO/ku6+G0pc/HcUIaHu2
+	 fzBt+czuWA76plAWlfXEJuaEbSrUdVQcEs6IqNpalhk+Fyxe2I0FaND2HrPFw7di42A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795483269;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795483272;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=lsgJbmq9xKAEYd+A+T8Qq8tXEzdvo3g7s2dCZbJ+4cg=;
-	b=M0boh1ZOhnumx2T6keKBM9x4HagrUd3PV20PA6Bi93vU4Ph1q2w9xMX5XQtFOTsRtca2
-	 Sxk/LB1Mvg/uOYY3uZrvL2Qg7Xw3Apro/yiAG42v44xWRDPAFBdVMzdczidUkLLNM43zE
-	 lbW6xzYeg22CZYD7oqd8WmTtE0bA1wXnund4b+og4V2JqnUIG3w1Mo1vPKHPClJk111XR
-	 oRJijBDfBSSsTWnd9bjaG7tXxShtDypCXMUWsBULGg0ojF9ZBl+BKRR4sycmBoLsu35np
-	 ka86KeV97uWgIl91rdj2l40GA303Y5T++G2TheMwWOO97JeMbW739odCvphT+90/hNQ==
+	bh=39GyTO/gzqytPAtnbDSte+JuTTz0fNzUhnOaxl3OEnk=;
+	b=KAw5J7tv9UidbTAkMcpZkTxk1wC0T/m24OVqjaNYsYQDQFCDP7yrZouO8EJ3sI0M1OsF
+	 jCg/pwoSbIss+JGAqlUparqiDqeGNGkFVSS8uFFLVdfXNX+7Fl+yPD/hLZkuhrQIjRFPf
+	 yTFVu7HrohxCTMsyQCdKOB/Tz9LzzE5IebBax4PkzkQr1WPkuCpuRwWwOqcOBFgKvHbqD
+	 RHAELMZyiEelbF803siR/LVx7Vdcjvlu+o8XnYMd9X3AxUFv1VuFbkkGzbumUBElSyKDw
+	 V93hA15ALtEyNWsksIFEjkH2PNoYHRZWVXvgTOAEB1cSenldbN3TLeqeE3Y8DFqPBXQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JceiwOb6;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PAgPguxB;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D014F606A321;
-	Tue, 24 Nov 2026 01:21:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0E6606A31E;
+	Tue, 24 Nov 2026 01:21:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JceiwOb6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DC1B1F000D1;
-	Tue, 24 Nov 2026 01:21:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PAgPguxB
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48CB51F000D1;
+	Tue, 24 Nov 2026 01:21:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795483269;
-	bh=lsgJbmq9xKAEYd+A+T8Qq8tXEzdvo3g7s2dCZbJ+4cg=;
+	s=k20260515; t=1795483272;
+	bh=39GyTO/gzqytPAtnbDSte+JuTTz0fNzUhnOaxl3OEnk=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=JceiwOb6FS71vK1l84Mwo8qnobrgFQPAPGgPk21Mk+dCRVUdDN03P/X66qyO1HFxc
-	 /zOQEqLCDYcq1gTmQAIpJxHqj7dJV8cCEGwcWjdR52hDJeKgOaXLsuGHeBHLUMS9l2
-	 lTS/8KVb5Im9s1tVWkbpCzPOiSP48hi/jk//pl7SJGQOwkTzZKJ1sOSsk1OTxz9cmi
-	 qyDRH5m0DwkHzPb/qaBDhQLLrheDB6EC4f4deD1/GXxc1ln4qC/rh7auasqVKqcH7C
-	 t9qDJx3aaQT3lkvpAwhuiP5LHbG/RLHNvPOPCpHme8O1ysHQBLVHSB+OYgvQTJX5LF
-	 FmxR5tIMPU9lg==
-Subject: Re: [PATCH net-next v19 04/15] quic: provide family ops for address
- and protocol
+	b=PAgPguxBUrHpV+vZfh5OZHAwF6atdXKH2vS0Y2OycYWvh9kAvXyNO5botS1d5Hecw
+	 C2sWpRkk+dw+otuDSZa8m8wDhFBZiwGs9qzUgvnh3tTzXq8iqqWN/7HCUBlce4QmT7
+	 2gQCZJJ1e8ZiR41HFr8hujYbHfsCe8O+VayEy7mxy8M8UOB1IWGN1Ex1xlFPCkFL2t
+	 fVlsfmxOdNRM9of/dx0n2eKLVjYkazfwJ2oPt/RHFPvRlyEL6ulmvbJJ2mvVotvEu9
+	 edHPOZ8zwwfipYkipgxpbPBTJAU6mIar5DCDwuclD+WnPWgraJhcraEsJ6qM8r4W97
+	 UMscRyKzPTVAA==
+Subject: Re: [PATCH net-next v19 06/15] quic: add stream management
 From: netdev-bot+sashiko@kernel.org
 To: lucien.xin@gmail.com
 Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
@@ -56,10 +55,10 @@ Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
  sd@queasysnail.net, marcelo.leitner@gmail.com, daniel@haxx.se,
  andrew.gospodarek@broadcom.com, mef@scarletmail.rutgers.edu, paul@jakma.org,
  kuniyu@google.com
-Date: Tue, 24 Nov 2026 01:21:06 +0000
-Message-ID: <179548326686.3135.1885327270671072036@kernel.org>
-In-Reply-To: <e33f69fbe24e60c4f624c08279553be2888558ff.1795393691.git.lucien.xin@gmail.com>
-References: <e33f69fbe24e60c4f624c08279553be2888558ff.1795393691.git.lucien.xin@gmail.com>
+Date: Tue, 24 Nov 2026 01:21:09 +0000
+Message-ID: <179548326987.3135.7163509585500687471@kernel.org>
+In-Reply-To: <052a21a5f6e57bb7f6db0f6e274dce9d8523805c.1795393691.git.lucien.xin@gmail.com>
+References: <052a21a5f6e57bb7f6db0f6e274dce9d8523805c.1795393691.git.lucien.xin@gmail.com>
 X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -73,10 +72,10 @@ List-Owner: <mailto:kernel-tls-handshake+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 4 potential
+Thank you for your contribution! Sashiko AI review found 1 potential
 issue(s) to consider.
 
-Critical: 0 · High: 0 · Medium: 3 · Low: 1
+Critical: 0 · High: 0 · Medium: 1 · Low: 0
 
 If you believe none of the issues are legitimate, please reply to each
 issue of Medium severity or higher and explain why the AI is wrong.
@@ -84,197 +83,472 @@ If any of them are legitimate and you plan to respin, please let patchwork
 know by including "pw-bot: cr" as a separate line at the end of your reply
 (one such reply per series is enough).
 
-- [Medium] quic_flow_route() in net/quic/family.c returns -EINVAL
-  whenever `sa->sa.sa_family` is non-zero and differs from…
-- [Medium] quic_v4_flow_route() in net/quic/family.c accepts any route
-  returned by ip_route_output_flow() and passes it straight to…
-- [Medium] When the selected IPv6 source is link-local,
-  quic_v6_flow_route() in net/quic/family.c runs `sa->v6.sin6_scope_id =…
-- [Low] The commit message does not mention three user-visible behaviour
-  changes.
+- [Medium] quic: broken next stream ID type update in
+  quic_stream_set_param()
 
 --
 
-quic: provide family ops for address and protocol
-
-This patch adds net/quic/family.{c,h} with IPv4/IPv6 helpers for routing,
-transmit, address parsing and comparison, and UDP tunnel socket
-configuration. It also wires quic_inet_getname(), quic_setsockopt() and
-quic_getsockopt() to these helpers.
-
-> quic: provide family ops for address and protocol
->
-> Introduce QUIC address and protocol family operations to handle IPv4/IPv6
-> specifics consistently. The new family.{c,h} provide helpers for routing,
-> skb transmit handling, address parsing and comparison and UDP socket config
-> initializing etc.
-
-[Severity: Low]
-This isn't a bug, but the commit message describes only internal helpers.
-The patch also changes user-visible behaviour on QUIC sockets.
-
-quic_inet_getname() used to return -EOPNOTSUPP. It now calls
-quic_get_sk_addr(), so getsockname() and getpeername() return real
-addresses through inet_getname() or inet6_getname().
-
-quic_setsockopt() and quic_getsockopt() used to return -EOPNOTSUPP for any
-level other than SOL_QUIC. They now pass the call to ip_setsockopt() or
-ipv6_setsockopt(), and to ip_getsockopt() or ipv6_getsockopt(). With
-CONFIG_NETFILTER the call can also reach nf_setsockopt() or
-nf_getsockopt(). For unknown levels the error changes from -EOPNOTSUPP to
--ENOPROTOOPT.
-
-SOL_IP and SOL_IPV6 options set this way change state that the new helpers
-read: inet_sk(sk)->tos, uc_ttl, np->tclass, SNDFLOW and ipv6_only_sock().
-
-Could the commit message mention these changes? The subject also still
-says "family ops", but v3 replaced the ops abstraction with if/else
-helpers.
-
-> diff --git a/net/quic/family.c b/net/quic/family.c
-> new file mode 100644
-> index 0000000000000..73f3b955e13c4
+> diff --git a/net/quic/stream.c b/net/quic/stream.c
 > --- /dev/null
-> +++ b/net/quic/family.c
-
-[ ... ]
-
-> +static int quic_v4_flow_route(struct sock *sk, union quic_addr *da,
-> +			      union quic_addr *sa, struct flowi *fl)
-> +{
-
-[ ... ]
-
-> +	security_sk_classify_flow(sk, flowi4_to_flowi_common(fl4));
-> +	rt = ip_route_output_flow(sock_net(sk), fl4, sk);
-> +	if (IS_ERR(rt))
-> +		return PTR_ERR(rt);
+> +++ b/net/quic/stream.c
+> @@ -0,0 +1,426 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/* QUIC kernel implementation
+> + * (C) Copyright Red Hat Corp. 2023
+> + *
+> + * This file is part of the QUIC kernel implementation
+> + *
+> + * Stream management.
+> + *
+> + * Written or modified by:
+> + *    Xin Long <lucien.xin@gmail.com>
+> + */
 > +
-> +	if (quic_v4_is_any_addr(sa)) {
-> +		sa->v4.sin_family = AF_INET;
-> +		sa->v4.sin_addr.s_addr = fl4->saddr;
+> +#include <net/netns/hash.h>
+> +#include <linux/jhash.h>
+> +#include <linux/quic.h>
+> +
+> +#include "common.h"
+> +#include "stream.h"
+> +
+> +/* Check if a stream ID is valid for sending or receiving. */
+> +static bool quic_stream_id_valid(s64 stream_id, bool is_serv, bool send)
+> +{
+> +	u8 type = (stream_id & QUIC_STREAM_TYPE_MASK);
+> +
+> +	if (stream_id < 0)
+> +		return false;
+> +
+> +	if (send) {
+> +		if (is_serv)
+> +			return type != QUIC_STREAM_TYPE_CLIENT_UNI;
+> +		return type != QUIC_STREAM_TYPE_SERVER_UNI;
 > +	}
-> +	sk_setup_caps(sk, &rt->dst);
-
-[Severity: Medium]
-Should quic_v4_flow_route() reject RTCF_BROADCAST and RTCF_MULTICAST
-routes before caching the dst?
-
-Other IPv4 socket types check rt->rt_flags at this point. For example,
-__ip4_datagram_connect() does:
-
-	if ((rt->rt_flags & RTCF_BROADCAST) && !sock_flag(sk, SOCK_BROADCAST)) {
-		ip_rt_put(rt);
-		err = -EACCES;
-		goto out;
-	}
-
-raw_sendmsg() has the same check. tcp_v4_connect() returns -ENETUNREACH
-for both RTCF_MULTICAST and RTCF_BROADCAST.
-
-Without such a check, a QUIC socket can cache and send on a broadcast
-route (255.255.255.255 or a subnet-directed broadcast) without
-SO_BROADCAST.
-
-On the server side, the reply destination comes from the source address
-of a received packet. With rp_filter=0, the kernel default, a spoofed
-source equal to the local subnet broadcast (e.g. 192.168.1.255) gets past
-ip_route_input_slow() and fib_validate_source().
-
-Would the server's replies then go out as link-layer broadcasts to every
-host on the LAN? That multiplies the 3x anti-amplification budget by the
-number of hosts. A userspace QUIC server on a UDP socket would get -EACCES
-from sendto() in this case.
-
+> +	if (is_serv)
+> +		return type != QUIC_STREAM_TYPE_SERVER_UNI;
+> +	return type != QUIC_STREAM_TYPE_CLIENT_UNI;
+> +}
+> +
+> +/* Check if a stream ID belongs to the local endpoint. */
+> +static bool quic_stream_id_local(s64 stream_id, bool is_serv)
+> +{
+> +	return is_serv ^ !(stream_id & QUIC_STREAM_TYPE_SERVER_MASK);
+> +}
+> +
+> +/* Check if a stream ID represents a unidirectional stream. */
+> +static bool quic_stream_id_uni(s64 stream_id)
+> +{
+> +	return stream_id & QUIC_STREAM_TYPE_UNI_MASK;
+> +}
+> +
+> +#define QUIC_STREAM_HT_SIZE	64
+> +
+> +static struct hlist_head *quic_stream_head(struct quic_stream_table *streams,
+> +					   s64 stream_id, struct net *net)
+> +{
+> +	u32 hash = jhash_1word((u32)(stream_id >> 1), net_hash_mix(net));
+> +
+> +	return &streams->head[hash & (QUIC_STREAM_HT_SIZE - 1)];
+> +}
+> +
+> +struct quic_stream *quic_stream_find(struct quic_stream_table *streams,
+> +				     s64 stream_id, struct net *net)
+> +{
+> +	struct hlist_head *head = quic_stream_head(streams, stream_id, net);
+> +	struct quic_stream *stream;
+> +
+> +	hlist_for_each_entry(stream, head, node) {
+> +		if (stream->id == stream_id)
+> +			break;
+> +	}
+> +	return stream;
+> +}
+> +
+> +static void quic_stream_add(struct quic_stream_table *streams,
+> +			    struct quic_stream *stream, struct net *net)
+> +{
+> +	struct hlist_head *head;
+> +
+> +	head = quic_stream_head(streams, stream->id, net);
+> +	hlist_add_head(&stream->node, head);
+> +}
+> +
+> +static void quic_stream_delete(struct quic_stream *stream)
+> +{
+> +	hlist_del_init(&stream->node);
+> +	kfree(stream);
+> +}
+> +
+> +/* Create and register new streams for sending or receiving. */
+> +static struct quic_stream *quic_stream_create(struct quic_stream_table *streams,
+> +					      s64 max_stream_id, bool send,
+> +					      bool is_serv, struct net *net,
+> +					      gfp_t gfp)
+> +{
+> +	struct quic_stream *pos, *stream = NULL;
+> +	struct quic_stream_limits *limits;
+> +	struct hlist_node *tmp;
+> +	HLIST_HEAD(head);
+> +	s64 stream_id;
+> +	u32 count = 0;
+> +
+> +	gfp |= __GFP_ACCOUNT;
+> +	limits = send ? &streams->send : &streams->recv;
+> +	stream_id = limits->next_bidi_stream_id;
+> +	if (quic_stream_id_uni(max_stream_id))
+> +		stream_id = limits->next_uni_stream_id;
+> +
+> +	/* rfc9000#section-2.1: A stream ID that is used out of order results in
+> +	 * all streams of that type with lower-numbered stream IDs also being
+> +	 * opened.
+> +	 */
+> +	while (stream_id <= max_stream_id) {
+> +		stream = kzalloc_obj(*stream, gfp);
+> +		if (!stream)
+> +			goto free;
+> +
+> +		stream->id = stream_id;
+> +		if (quic_stream_id_uni(stream_id)) {
+> +			if (send) {
+> +				stream->send.max_bytes =
+> +					limits->max_stream_data_uni;
+> +			} else {
+> +				stream->recv.max_bytes =
+> +					limits->max_stream_data_uni;
+> +				stream->recv.state =
+> +					QUIC_STREAM_RECV_STATE_RECV;
+> +				stream->recv.window = stream->recv.max_bytes;
+> +			}
+> +			hlist_add_head(&stream->node, &head);
+> +			stream_id += QUIC_STREAM_ID_STEP;
+> +			continue;
+> +		}
+> +
+> +		if (quic_stream_id_local(stream_id, is_serv)) {
+> +			stream->send.max_bytes =
+> +				streams->send.max_stream_data_bidi_remote;
+> +			stream->recv.max_bytes =
+> +				streams->recv.max_stream_data_bidi_local;
+> +		} else {
+> +			stream->send.max_bytes =
+> +				streams->send.max_stream_data_bidi_local;
+> +			stream->recv.max_bytes =
+> +				streams->recv.max_stream_data_bidi_remote;
+> +		}
+> +		stream->recv.state = QUIC_STREAM_RECV_STATE_RECV;
+> +		stream->recv.window = stream->recv.max_bytes;
+> +		hlist_add_head(&stream->node, &head);
+> +		stream_id += QUIC_STREAM_ID_STEP;
+> +	}
+> +
+> +	hlist_for_each_entry_safe(pos, tmp, &head, node) {
+> +		hlist_del_init(&pos->node);
+> +		quic_stream_add(streams, pos, net);
+> +		count++;
+> +	}
+> +
+> +	/* Streams must be opened sequentially. Update the next stream ID so the
+> +	 * correct starting point is known if an out-of-order open is requested.
+> +	 * Note overflow of next_uni/bidi_stream_id is impossible with s64.
+> +	 */
+> +	if (quic_stream_id_uni(stream_id)) {
+> +		limits->next_uni_stream_id = stream_id;
+> +		limits->streams_uni += count;
+> +		return stream;
+> +	}
+> +
+> +	limits->next_bidi_stream_id = stream_id;
+> +	limits->streams_bidi += count;
+> +	return stream;
+> +
+> +free:
+> +	hlist_for_each_entry_safe(pos, tmp, &head, node) {
+> +		hlist_del_init(&pos->node);
+> +		kfree(pos);
+> +	}
+> +	return NULL;
+> +}
+> +
+> +/* Check if a stream ID was already used. */
+> +static bool quic_stream_id_closed(struct quic_stream_table *streams,
+> +				  s64 stream_id, bool is_serv)
+> +{
+> +	bool local = quic_stream_id_local(stream_id, is_serv);
+> +	struct quic_stream_limits *limits;
+> +
+> +	limits = local ? &streams->send : &streams->recv;
+> +	if (quic_stream_id_uni(stream_id))
+> +		return stream_id < limits->next_uni_stream_id;
+> +	return stream_id < limits->next_bidi_stream_id;
+> +}
+> +
+> +/* Check if a stream ID would exceed local (recv) or peer (send) limits. */
+> +bool quic_stream_id_exceeds(struct quic_stream_table *streams, s64 stream_id,
+> +			    bool send)
+> +{
+> +	u64 nstreams;
+> +
+> +	if (!send) {
+> +		/* recv.max_uni/bidi_stream_id is updated in
+> +		 * quic_stream_max_streams_update() already based on
+> +		 * next_uni/bidi_stream_id, max_streams_uni/bidi, and
+> +		 * streams_uni/bidi, so only recv.max_uni/bidi_stream_id needs
+> +		 * to be checked.
+> +		 */
+> +		if (quic_stream_id_uni(stream_id))
+> +			return stream_id > streams->recv.max_uni_stream_id;
+> +
+> +		return stream_id > streams->recv.max_bidi_stream_id;
+> +	}
+> +
+> +	if (quic_stream_id_uni(stream_id)) {
+> +		if (stream_id > streams->send.max_uni_stream_id)
+> +			return true;
+> +		stream_id -= streams->send.next_uni_stream_id;
+> +		nstreams = quic_stream_id_to_streams(stream_id);
+> +
+> +		return nstreams + streams->send.streams_uni >
+> +		       streams->send.max_streams_uni;
+> +	}
+> +
+> +	if (stream_id > streams->send.max_bidi_stream_id)
+> +		return true;
+> +	stream_id -= streams->send.next_bidi_stream_id;
+> +	nstreams = quic_stream_id_to_streams(stream_id);
+> +
+> +	return nstreams + streams->send.streams_bidi >
+> +	       streams->send.max_streams_bidi;
+> +}
+> +
+> +/* Get or create a send or recv stream by ID. Requires sock lock held. */
+> +struct quic_stream *quic_stream_get(struct quic_stream_table *streams,
+> +				    s64 stream_id, u32 flags, bool is_serv,
+> +				    bool send, struct net *net, gfp_t gfp)
+> +{
+> +	struct quic_stream *stream;
+> +
+> +	if (!quic_stream_id_valid(stream_id, is_serv, send))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	stream = quic_stream_find(streams, stream_id, net);
+> +	if (stream)
+> +		return stream;
+> +
+> +	if (quic_stream_id_closed(streams, stream_id, is_serv))
+> +		return ERR_PTR(-ENOSTR);
+> +
+> +	/* Cannot create if the other side must initiate this stream. */
+> +	if (send != quic_stream_id_local(stream_id, is_serv))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	if (!(flags & MSG_QUIC_STREAM_NEW))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	if (quic_stream_id_exceeds(streams, stream_id, send))
+> +		return ERR_PTR(-EAGAIN);
+> +
+> +	stream = quic_stream_create(streams, stream_id, send, is_serv, net,
+> +				    gfp);
+> +	if (!stream)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	if (send || quic_stream_id_valid(stream_id, is_serv, !send))
+> +		streams->active_stream_id = stream_id;
+> +
+> +	return stream;
+> +}
+> +
+> +/* Release or clean up a send or recv stream. This function updates stream
+> + * counters and state when a send stream has either successfully sent all data
+> + * or has been reset, or when a recv stream has either received all data or has
+> + * been reset. Requires sock lock held.
+> + */
+> +void quic_stream_put(struct quic_stream_table *streams,
+> +		     struct quic_stream *stream, bool is_serv, bool send)
+> +{
+> +	if (quic_stream_id_uni(stream->id)) {
+> +		/* For uni streams, decrement uni count and delete stream. */
+> +		if (send) {
+> +			streams->send.streams_uni--;
+> +			quic_stream_delete(stream);
+> +			return;
+> +		}
+> +		streams->recv.streams_uni--;
+> +		streams->recv.uni_pending = 1;
+> +		quic_stream_delete(stream);
+> +		return;
+> +	}
+> +
+> +	/* For bidi streams, proceed only if both send and receive in a final
+> +	 * state.
+> +	 */
+> +	if (send) {
+> +		if (stream->recv.state < QUIC_STREAM_RECV_STATE_RECVD)
+> +			return;
+> +	} else {
+> +		if (stream->send.state != QUIC_STREAM_SEND_STATE_RECVD &&
+> +		    stream->send.state != QUIC_STREAM_SEND_STATE_RESET_RECVD)
+> +			return;
+> +	}
+> +	if (quic_stream_id_local(stream->id, is_serv)) {
+> +		/* Local-initiated stream: decrement send.bidi count. */
+> +		streams->send.streams_bidi--;
+> +	} else {
+> +		/* Remote-initiated stream: decrement recv.bidi count. */
+> +		streams->recv.streams_bidi--;
+> +		streams->recv.bidi_pending = 1;
+> +	}
+> +	quic_stream_delete(stream);
+> +}
+> +
+> +/* Updates the maximum allowed incoming stream IDs if any streams were recently
+> + * closed. Recalculates the max_uni and max_bidi stream count limits based on
+> + * the number of open streams and whether any were marked for deletion.
+> + *
+> + * Returns true if either max_uni or max_bidi was updated, indicating that a
+> + * MAX_STREAMS_UNI or MAX_STREAMS_BIDI frame should be sent to the peer.
+> + */
+> +bool quic_stream_max_streams_update(struct quic_stream_table *streams,
+> +				    s64 *max_uni, s64 *max_bidi)
+> +{
+> +	s64 max, rem;
+> +
+> +	*max_uni = 0;
+> +	*max_bidi = 0;
+> +	if (streams->recv.uni_pending) {
+> +		rem = streams->recv.max_streams_uni - streams->recv.streams_uni;
+> +		max = streams->recv.next_uni_stream_id - QUIC_STREAM_ID_STEP +
+> +		      (rem << QUIC_STREAM_TYPE_BITS);
+> +
+> +		streams->recv.max_uni_stream_id = max;
+> +		*max_uni = quic_stream_id_to_streams(max);
+> +		streams->recv.uni_pending = 0;
+> +	}
+> +	if (streams->recv.bidi_pending) {
+> +		rem = streams->recv.max_streams_bidi -
+> +		      streams->recv.streams_bidi;
+> +		max = streams->recv.next_bidi_stream_id - QUIC_STREAM_ID_STEP +
+> +			(rem << QUIC_STREAM_TYPE_BITS);
+> +
+> +		streams->recv.max_bidi_stream_id = max;
+> +		*max_bidi = quic_stream_id_to_streams(max);
+> +		streams->recv.bidi_pending = 0;
+> +	}
+> +
+> +	return *max_uni || *max_bidi;
+> +}
+> +
+> +int quic_stream_init(struct quic_stream_table *streams)
+> +{
+> +	struct hlist_head *head;
+> +	int i;
+> +
+> +	head = kmalloc_objs(*head, QUIC_STREAM_HT_SIZE, GFP_KERNEL_ACCOUNT);
+> +	if (!head)
+> +		return -ENOMEM;
+> +	for (i = 0; i < QUIC_STREAM_HT_SIZE; i++)
+> +		INIT_HLIST_HEAD(&head[i]);
+> +	streams->head = head;
+> +	streams->active_stream_id = -1;
 > +	return 0;
 > +}
 > +
-> +static int quic_v6_flow_route(struct sock *sk, union quic_addr *da,
-> +			      union quic_addr *sa, struct flowi *fl)
+> +void quic_stream_free(struct quic_stream_table *streams)
 > +{
-
-[ ... ]
-
-> +	dst = ip6_dst_lookup_flow(sock_net(sk), sk, fl6, NULL);
-> +	if (IS_ERR(dst))
-> +		return PTR_ERR(dst);
+> +	struct quic_stream *stream;
+> +	struct hlist_head *head;
+> +	struct hlist_node *tmp;
+> +	int i;
 > +
-> +	if (quic_v6_is_any_addr(sa)) {
-> +		sa->v6.sin6_family = AF_INET6;
-> +		sa->v6.sin6_addr = fl6->saddr;
-> +		if ((ipv6_addr_type(&fl6->saddr) & IPV6_ADDR_LINKLOCAL))
-> +			sa->v6.sin6_scope_id = dst->dev->ifindex;
-
-[Severity: Medium]
-Is it safe to dereference dst->dev here without rcu_read_lock()?
-
-This code runs in preemptible process context, under lock_sock() through
-quic_packet_route(). A dst reference does not pin the original
-net_device. On unregister, dst_dev_put() does:
-
-	rcu_assign_pointer(dst->dev_rcu, blackhole_netdev);
-	netdev_ref_replace(dev, blackhole_netdev, &dst->dev_tracker,
-			   GFP_ATOMIC);
-
-That drops the reference on the old device. This reader is not inside an
-RCU read-side section, so the synchronize_net() calls during unregister
-do not wait for it.
-
-If the task is preempted after loading dst->dev but before reading
-->ifindex, can it read freed net_device memory? Even in the harmless
-case, it could store blackhole_netdev's ifindex as the scope ID.
-
-include/net/dst.h provides dst_dev() and dst_dev_rcu() for this.
-sk_setup_caps() on the IPv4 path reads the device through dst_dev_rcu()
-under rcu_read_lock().
-
+> +	if (!streams->head)
+> +		return;
+> +
+> +	for (i = 0; i < QUIC_STREAM_HT_SIZE; i++) {
+> +		head = &streams->head[i];
+> +		hlist_for_each_entry_safe(stream, tmp, head, node)
+> +			quic_stream_delete(stream);
 > +	}
-> +	ip6_dst_store(sk, dst, false, false);
-> +	return 0;
+> +	kfree(streams->head);
+> +	streams->head = NULL;
 > +}
-
-[ ... ]
-
-> +int quic_flow_route(struct sock *sk, union quic_addr *da, union quic_addr *sa,
-> +		    struct flowi *fl)
+> +
+> +/* Populate transport parameters from stream hash table. */
+> +void quic_stream_get_param(struct quic_stream_table *streams,
+> +			   struct quic_transport_param *p)
 > +{
-> +	if (sa->sa.sa_family && da->sa.sa_family != sa->sa.sa_family)
-> +		return -EINVAL;
+> +	struct quic_stream_limits *limits = p->remote ? &streams->send :
+> +							&streams->recv;
+> +
+> +	p->max_stream_data_bidi_remote = limits->max_stream_data_bidi_remote;
+> +	p->max_stream_data_bidi_local = limits->max_stream_data_bidi_local;
+> +	p->max_stream_data_uni = limits->max_stream_data_uni;
+> +	p->max_streams_bidi = limits->max_streams_bidi;
+> +	p->max_streams_uni = limits->max_streams_uni;
+> +}
+> +
+> +/* Configure stream hashtable from transport parameters. */
+> +void quic_stream_set_param(struct quic_stream_table *streams,
+> +			   struct quic_transport_param *p, bool is_serv)
+> +{
+> +	struct quic_stream_limits *limits = p->remote ? &streams->send :
+> +							&streams->recv;
+> +	u8 bidi_type, uni_type;
+> +
+> +	limits->max_stream_data_bidi_local = p->max_stream_data_bidi_local;
+> +	limits->max_stream_data_bidi_remote = p->max_stream_data_bidi_remote;
+> +	limits->max_stream_data_uni = p->max_stream_data_uni;
+> +	limits->max_streams_bidi = p->max_streams_bidi;
+> +	limits->max_streams_uni = p->max_streams_uni;
+> +
+> +	if (p->remote ^ is_serv) {
+> +		bidi_type = QUIC_STREAM_TYPE_CLIENT_BIDI;
+> +		uni_type = QUIC_STREAM_TYPE_CLIENT_UNI;
+> +	} else {
+> +		bidi_type = QUIC_STREAM_TYPE_SERVER_BIDI;
+> +		uni_type = QUIC_STREAM_TYPE_SERVER_UNI;
+> +	}
+> +
+> +	limits->max_bidi_stream_id =
+> +		quic_stream_streams_to_id(p->max_streams_bidi, bidi_type);
+> +	if (limits->next_bidi_stream_id < bidi_type)
+> +		limits->next_bidi_stream_id = bidi_type;
+> +
+> +	limits->max_uni_stream_id =
+> +		quic_stream_streams_to_id(p->max_streams_uni, uni_type);
+> +	if (limits->next_uni_stream_id < uni_type)
+> +		limits->next_uni_stream_id = uni_type;
+> +}
 
 [Severity: Medium]
-Does this check reject a valid dual-stack setup?
+This guard only works when the low two bits of next_bidi_stream_id
+and next_uni_stream_id already match the type being applied. It does
+not correct them if the role changes before any stream is opened.
 
-An AF_INET6 '::' source (a socket bound to the IPv6 wildcard) with an
-AF_INET destination fails here. quic_v6_cmp_sk_addr() accepts that same
-pairing on receive:
+Suppose quic_stream_set_param() is first called for the local
+parameters (p->remote == 0) while quic_is_serv() is still false, for
+example before listen() sets sk_max_ack_backlog. Then
+recv.next_bidi_stream_id becomes 1 and recv.next_uni_stream_id
+becomes 3. When the same parameters are applied again after the
+socket has become a server, bidi_type is 0 and uni_type is 2.
+Neither comparison is true (next < 0 can never be true for the
+client bidi type), so the stale server parity stays.
 
-	if (a->sa.sa_family != addr->sa.sa_family) {
-		if (ipv6_only_sock(sk) || a->sa.sa_family == AF_INET)
-			return false;
-		return quic_is_any_addr(a);
-	}
+After that, quic_stream_id_closed() treats client streams 0 and 2 as
+already closed, and quic_stream_get() fails them with -ENOSTR.
 
-So a stored AF_INET6 '::' address matches AF_INET traffic on receive, but
-routing refuses the same combination on transmit.
+It gets worse if the peer opens stream 4 first. quic_stream_create()
+starts from 1 and steps by QUIC_STREAM_ID_STEP, so it inserts stream
+1 into the hash table, counts it in recv.streams_bidi, and returns it
+in place of stream 4. When quic_stream_put() later releases it,
+quic_stream_id_local(1, true) is true. So send.streams_bidi is
+decremented instead, and that u16 wraps to 65535.
 
-Suppose the later bind() and connect() code stores a bound [::] source
-as-is. Would a client bound to [::]:port that connects to an IPv4 peer
-then fail in quic_packet_route()->quic_flow_route() with -EINVAL? The v14
-changelog says IPv4-mapped addresses are converted to AF_INET, so the
-peer address would arrive here as AF_INET. Plain UDP allows this on a
-dual-stack socket.
-
-Dropping the check alone would not fix it. quic_v4_flow_route() reads
-sa->v4.sin_addr, which overlays sin6_flowinfo, so an IPv6-wildcard sa
-would need to be treated as IPv4 ANY.
-
-The v15 changelog shows the family mismatch check is intentional. Was the
-dual-stack wildcard case considered?
-
-> +
-> +	return quic_af_ipv4(da) ? quic_v4_flow_route(sk, da, sa, fl) :
-> +				  quic_v6_flow_route(sk, da, sa, fl);
-> +}
+Opening any stream moves next_*_stream_id to at least
+QUIC_STREAM_ID_STEP. Would it be enough to compare against
+QUIC_STREAM_ID_STEP here instead of the type value? Another option
+is to keep the upper bits and replace only the type bits. If
+set_param() can never be re-applied across a client/server
+transition, could that be documented here?
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1795393690.git.lucien.xin%40gmail.com

@@ -1,67 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795483290;
-	b=J7CDZg0Nao//7xWCPL2744sBaSrArGdOBvsXPBNfgwy8RwH2IcqUuikq2s81zwdDMiYQ
-	 /3gTC5gtu3VppOQxms0Axd3UGsgC6bbhAVnxjZsR74+rEB31mYR3nEGs2EUdUGBauv+4J
-	 1qH/glrNeqY5g46+TVVM1xS7XAr8K7YFtd22tDIowqwO00AuCgjWE/E044XGl/IL/XOvq
-	 hRQ41NIAmWjcFbDYXsPfFREJyUo0D9WrLtvDtM+z2mxtbYJSmHv5BXOaYd1x6Z2VlsqoU
-	 3Boz5fly6CmIgsrlF7mZ/i6KvsDn1jQjS7uV0LzVUfdI6rlTDbUSBbWWX+eRteNWflQ==
+	t=1795534088;
+	b=zI0Jmya8VXqkgxilsSNcemKuozHOiNnTTXGj7IiQflfcmFfj5Gz50sXHUdS9/b/PaPmX
+	 T+Q+OPajQICLBrbCf6y0E0ZkV6btHiV/uR1tTt8y/REznfFGQAVxTuTysT3Cts37fTzD6
+	 APiJGQCAIbZq/mmFRa1taDiQDuVSXldlw7trss/BJ/5LNm/be7jS7SFuRj6yLz8B38+jg
+	 8R1nhm3vdlx9TSw/zm4bIsbbQzbn4TCNPk+EdpDV92rBGre2JouANmLpBfKPO2xmQjm/I
+	 oduqNW5NR2m0rOCbYxTMYCoLXPLaZ7VbGFrKry5w9kNKzzMceC7rFK46Xt5sffqTJdg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795483290;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=W/aJuz7K+VVNBF83RN+QXZkBxEvensHYjepDsWDhvvY=;
-	b=e4M6A0vt3gBqWB5Vv6Qm8uqlS6cj0SXJUvYKGjqvk9lR08rPr9FGJNJAjmOYgudnL40d
-	 ojXFTiWV0s9q5VaM9ko1Zap8UgXtFWailUQi3PZtwLAkZa4kMM8IsbPT8Ak0T3Bb1KzOO
-	 jo+UasV0OVxvH6hAISPzVsorYp0vJYSokFF1xWILITtZRyC3Dr/7jvauWAIqlITUwomwD
-	 X+ITzEcdi/zdweKmQnebEKzYu77imtMMFT1fywPo72WMFcp9tciZczT4rOwpx4ws1OB+s
-	 w3rTzd1JPbXHwhCn9znyocXRqHrgPOXxo5Hr1HEtSyEXG0Nk0UII+o3MrAT4uJNfZXg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795534088;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=946ec9uZoayF6niegcR4Rr8CIDVjkdBCZGxp/mlLHkc=;
+	b=M4I2lr44VppgnR7ZLxi+9BPVwDdjBAXxwocm3h28Q1xxKUD9TMqZCMbmGdOX9KZL4+jg
+	 ZVygSMo7sZkyxoVDmzzEh4HsA5FH4Fg+prqkrmy40HP4BXnEhAzUhTKCyRTFk4SIV5z57
+	 jnFEp7PpTImQXi9f0YizbApCnOFnBfZjlpUfrQjOokQxQyWvdcBftRaISftJt2oMqnc4h
+	 DBFJ3WupXwDJIigQ0J5wdKdKZv32fPcldpXCDwPb6+E9Ri9jTprXlo/KXQlrFDYP4xW82
+	 BomecitfCCuyPsKx7C70auR2y9gxCyPbihx/BB9g/Rg0CbPh6bICzicDjCB2xx90O8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O6dX9b7p;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IWT4N0tu;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B75606A321;
-	Tue, 24 Nov 2026 01:21:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77F4606A31E
+	for <kernel-tls-handshake@lists.linux.dev>; Tue, 24 Nov 2026 15:28:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O6dX9b7p
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC6671F000C0;
-	Tue, 24 Nov 2026 01:21:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IWT4N0tu
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FF8E1F000D4;
+	Tue, 24 Nov 2026 15:28:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795483289;
-	bh=W/aJuz7K+VVNBF83RN+QXZkBxEvensHYjepDsWDhvvY=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=O6dX9b7pqSkKLFElzCIh7pJ/BhgMH58hvd38nQpgB/UvjnMErR0kJ9Li6vdKxpSzb
-	 aiSfZhdNrLR5lDrBb4Q0gicGkpT4ofZvW3UgKhbKzWsYEZUbAbeoFaJAsL28KUdx0A
-	 Q6AAmBrXVhGub461gBzQGwTJhUUB++7Th3gsFJCi4oDf+aWLjF7WF6GdggaVHmkbRS
-	 kFgeYk0OIm4rZmEsWIPuFQsnVehRlAlzcYYK36cp4DgZHiHntNS3WeD8QeBXz34QXc
-	 IfasqzSuT1aEDDKYSNJS7CkQpejGBSTvyTBBJL2wbtZP5RwoZna73gJ2v8f3xyY+PW
-	 Q0VCYKbCLCFpQ==
-Subject: Re: [PATCH net-next v19 15/15] quic: add packet parser base
-From: netdev-bot+sashiko@kernel.org
-To: lucien.xin@gmail.com
-Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
- kuba@kernel.org, edumazet@kernel.org, pabeni@redhat.com, horms@kernel.org,
- metze@samba.org, mbuhl@openbsd.org, tfanelli@redhat.com, hepengtao@xiaomi.com,
- dreibh@simula.no, jamie.bainbridge@gmail.com, linux-cifs@vger.kernel.org,
- pc@manguebit.org, linkinjeon@kernel.org, tom@talpey.com,
- kernel-tls-handshake@lists.linux.dev, cel@kernel.org, jlayton@kernel.org,
- steved@redhat.com, hare@suse.de, aahringo@redhat.com, dhowells@redhat.com,
- matttbe@kernel.org, mail@johnericson.me, xiyou.wangcong@gmail.com,
- alibuda@linux.alibaba.com, jbaron@akamai.com, illiliti@protonmail.com,
- sd@queasysnail.net, marcelo.leitner@gmail.com, daniel@haxx.se,
- andrew.gospodarek@broadcom.com, mef@scarletmail.rutgers.edu, paul@jakma.org,
- kuniyu@google.com
-Date: Tue, 24 Nov 2026 01:21:27 +0000
-Message-ID: <179548328755.3135.13551034983466058259@kernel.org>
-In-Reply-To: <5c305e22057f748d5c4d4cbc94a1e14271dbc485.1795393691.git.lucien.xin@gmail.com>
-References: <5c305e22057f748d5c4d4cbc94a1e14271dbc485.1795393691.git.lucien.xin@gmail.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1795534087;
+	bh=946ec9uZoayF6niegcR4Rr8CIDVjkdBCZGxp/mlLHkc=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=IWT4N0tu9LxKsrrXsZ1tSnZeK42PPUoUCk8n/FMTFiAMrIz8MSaY043+096F7X+sb
+	 ZaS/qCn4t62wfgaYzRRfsVEo+1bEE9rolLbuZFWKUPp8HAnhsnj8py+Y1bedYP15B7
+	 Kw9K3S1ZFq4T7i8r6+ZxGZF3vhI6ekgZsd98xJWGAa09UAE7X+IkWmoV5sd71qHrc8
+	 n1I9j1Ti6nPn+gSDKxMbz1y+Orua7nRXtu5VkBxhePCVEiQw2VNavwgVJkDTR3V6+n
+	 grnLobhMEde9zaA2o97FMCRID85iTqvRBR1CiWJOja69oOQvlgL4MPqX+WjZ0K8qDs
+	 aAfnFHe4ykFrg==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id CEEC9F40066;
+	Tue, 24 Nov 2026 10:28:05 -0500 (EST)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Tue, 24 Nov 2026 10:28:05 -0500
+X-ME-Sender: <xms:Ba0Fa1G4Llv2NB1_WVZXdcUQIg2hcdZZdQLFQnKB2u6dyxAcZrBIIg>
+    <xme:Ba0Fa1IUuNBUHhtk7GoeugYCHZdMf28B-F4gWoJXbUMFMgp3dq35UCki2kN6aBe3_
+    R2VjghtMikYERTOQqWI2KZeMDoS-9-NtvLDgREz6VO6nb4KlB4AAAOf>
+X-ME-Proxy-Cause: dmFkZTGFJZDUBuTX/zDjzwu8yflFHzRnhD42ZVk+TPJsCJt4ylKPgTsw1FN45Yj2JOSuFn
+    JOP/Qtyx+HMEGRKKCgksavD1tnPkvpPnv7pLbINWjuuQYhTon6UwHHs+ikbtTzbMFBcT+p
+    I6Fsnago8uWw03dJkVIxoPYosAhm4Q8mlXMvJT5X8rEntFkEru7HnQqooDS7isvwz90b6K
+    aXnVLMDYGRrz6pWAbX1OSmKrZLaAql2KuXF75sGdpbrB8tV21WVFvvwyOl7nDXy+y2sGDo
+    8jy39bzJTQB0u5OEAmnKbzZBm6TP8BCtns9GFsFRDvz/u89xNOpm2hX7S9xhKfyKGSK+CA
+    +G5YhpO+m6Wj5tsigD6MGL6DIqsCzfWstEnzpw4IXv8242ST43uwBLL9CKaoNdhfqgYUh7
+    kZYJ1zFVQmyavcAor5QUxnvInVuqUIshanAeJwiHLf20awXfy9tAVr+4w/8fa1bXanSp1A
+    fB4Y9pi1Q371xMRUqAmpzSD8K0Zl9bcddbMZ0IePsmqA6kCZNnFJna2UU2hvzyMJvyIeQD
+    Eyj94yuwRczu7VVC4iKH7HBVFl3BAxhyhvHIxNzcVW8sAwjWbe5Sp3NB+nPTd3N5diPfU0
+    Nd1w8rci+0zD5r/u/RXGimCCyso8Tp75HYy8EsT8iesWyjeTEBNXzgMLi6Jw
+X-ME-Proxy: <xmx:Ba0Fa4EaJ6wHylGugGzwD1JbVAOzrHEXQIPGeVcfTTwGHgR6r6qLSw>
+    <xmx:Ba0Fa2Mis713kAt-MdWVW2jzJiujCBl1eWjChiXiOfw2GrYoTrXnMA>
+    <xmx:Ba0Fa_ummptp4zGB3W792LrdD1Ir78KIXo-wZzgYolanxN8IVV5FxA>
+    <xmx:Ba0Fa8Jq5dge73COF_bJq6T5yHnalSAsW1FBHKcRRM-S6ryyGE108w>
+    <xmx:Ba0Fa9cZubrLuTmM1Z4rogUjROmlNZKqr2JZ08TtYXyp5qZddJ4ruFoH>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 8716D780070; Tue, 24 Nov 2026 10:28:05 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Post: <mailto:kernel-tls-handshake@lists.linux.dev>
@@ -71,94 +77,110 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:kernel-tls-handshake+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+X-ThreadId: A8Z6fJDuAPLk
+Date: Tue, 24 Nov 2026 10:27:45 -0500
+From: "Chuck Lever" <cel@kernel.org>
+To: "Jakub Kicinski" <kuba@kernel.org>
+Cc: "Donald Hunter" <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, "Paolo Abeni" <pabeni@redhat.com>,
+ "Simon Horman" <horms@kernel.org>,
+ "John Fastabend" <john.fastabend@gmail.com>,
+ "Sabrina Dubroca" <sd@queasysnail.net>, "Keith Busch" <kbusch@kernel.org>,
+ "Jens Axboe" <axboe@kernel.dk>, "Christoph Hellwig" <hch@lst.de>,
+ "Sagi Grimberg" <sagi@grimberg.me>, "Chaitanya Kulkarni" <kch@nvidia.com>,
+ "Jeff Layton" <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+ "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>, "Eric Dumazet" <edumazet@kernel.org>,
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org,
+ "Hannes Reinecke" <hare@kernel.org>
+Message-Id: <fbcfb7b2-4cd9-47c9-9cd9-1186a5b15059@app.fastmail.com>
+In-Reply-To: <20261123155242.49d87894@kernel.org>
+References: <20261113-tls-session-tags-v3-0-91271964cdb0@kernel.org>
+ <20261121161302.69f202c8@kernel.org>
+ <7a0695c2-bf7a-4394-8cfe-a92deeba51e3@app.fastmail.com>
+ <20261123155242.49d87894@kernel.org>
+Subject: Re: [PATCH net-next v3 00/10] Deliver TLS session tags to upper-layer
+ consumers (NFSD)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 0
+On Mon, Nov 23, 2026, at 7:34 PM, Jakub Kicinski wrote:
+> On Sun, 22 Nov 2026 16:27:08 -0800 Chuck Lever wrote:
+>> On Sat, Nov 21, 2026, at 4:13 PM, Jakub Kicinski wrote:
+>> > Naively I'd think it creates unnecessarily wide API on both ends
+>> > (handshake and server). My knee jerk design would be to populate
+>> > the full policy in the server, and only carry some "policy ID"
+>> > thru the handshake. Number of policy IDs would equal to the number
+>> > of tag combinations (which result in different behavior). =20
+>>=20
+>> How is a tag much different than a policy ID?
+>>=20
+>> It wouldn=E2=80=99t be impossible to impose another layer here that m=
+akes
+>> a specific set of tags into a single policy, but I=E2=80=99m not seei=
+ng
+>> that doing such adds a lot of value.
+>
+> My thinking was that we have two user space components (TLS handshake
+> handler and the storage server stack) which are required to render
+> their decision in the language of tags, and upload the result
+> to the kernel via independent APIs. The policy ID limits the kernel
+> to mechanical enforcement.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+That is basically the structure I have planned.
 
-- [Medium] When ALPN demux is enabled, a valid ClientHello with an ALPN
-  extension longer than 128 bytes is silently dropped, so that client…
+- tlshd parses the x.509 certificate and assigns matching tags to
+  TLS sessions
 
---
+- The exportfs command assigns tags to NFS exports and passes the
+  tags to the kernel as part of its usual downcall
 
-quic: add packet parser base
+- Kernel NFSD grants access to an NFS export only when there is a
+  non-empty intersection between the tags on the TLS session and
+  the tags on the export being accessed.
 
-This patch adds RX packet parsing for QUIC. Sockets are looked up by
-connection ID and address, and Initial packets are decrypted to pull ALPN
-out of the TLS ClientHello so the right listener can be selected. It also
-adds ICMP PMTU handling, deferred packet processing, and the request sock
-and backlog infrastructure for incoming connections.
+This might be more helpful than the scant series cover letter:
 
-> diff --git a/net/quic/packet.c b/net/quic/packet.c
-> index b6f76681b6902..919745d954403 100644
-> --- a/net/quic/packet.c
-> +++ b/net/quic/packet.c
+  https://github.com/linux-nfs/ktls-utils/blob/main/man/man7/tls-session=
+-tags.7
 
-[ ... ]
+It describes the configuration of tlshd's tagging policies. The man
+page actually describes how these things are stored in YAML; to
+make it easier for humans, we could build a bespoke editing tool.=20
 
-> +	/* Read TLS extensions length (2 bytes). */
-> +	if (!quic_get_int(&p, &len, &length, 2))
-> +		return err;
-> +	if (len > (u32)length) /* Limit len to extensions length if larger. */
-> +		len = length;
-> +	while (len >= 4) { /* Scan extensions for ALPN (TLS_EXT_alpn). */
-> +		if (exts++ >= TLS_MAX_EXTENSIONS)
-> +			return err;
-> +		if (!quic_get_int(&p, &len, &type, 2))
-> +			break;
-> +		if (!quic_get_int(&p, &len, &length, 2))
-> +			break;
-> +		/* Incomplete TLS extensions: skip ALPN demux. */
-> +		if (len < (u32)length)
-> +			return 0;
-> +		if (type == TLS_EXT_alpn) { /* Found ALPN extension. */
-> +			if (length > QUIC_ALPN_MAX_LEN)
-> +				return err;
+The exportfs command will get an "allow-tags=3D" option that specifies
+the set of tags that are granted access. I have some prototype
+patches in a private tree, so nothing publishable here yet.
 
-[Severity: Medium]
 
-Is returning err the right choice in quic_packet_get_alpn() when the ALPN
-extension is longer than QUIC_ALPN_MAX_LEN (128)?
+> The components resolve all decisions in user
+> space, and give the kernel full list of policy ID -> allowed resources.
 
-RFC 7301 defines ProtocolNameList<2..2^16-1>, so a ClientHello that offers
-more than 128 bytes of protocol names is still well formed.
+Yes, exactly so.
 
-Other cases this parser cannot demux return 0 and keep the current
-listener. Those cases are a missing CRYPTO frame, a non-zero CRYPTO offset
-and incomplete extensions.
 
-The caller, quic_packet_listen_process(), frees the skb on any error:
+> Could be purely a subjective preference, I won't insist.
 
-	err = quic_packet_get_alpn(skb, &alpns);
-	if (err) {
-		kfree_skb(skb);
-		return err;
-	}
+I will do another survey of policy mechanisms, as you suggested, at
+least for reviewer reference.
 
-With quic_alpn_demux_key enabled, would this drop the client's first
-Initial packet with no response? No request sock is created and nothing is
-sent back. Each retransmit of the same ClientHello would be dropped the
-same way, so the handshake would time out.
 
-This path also does not increment any MIB drop counter. The decrypt
-failure path above it counts QUIC_MIB_PKT_DECDROP.
+> Tho an ack
+> from someone experienced with building kernel (security?) policies
+> would be awesome.
 
-Would it be more consistent to return 0 here and skip demux, as the
-function already does for the other cases it cannot demux?
+Agreed, review welcome. I'm open to suggestion on modifying the Cc:
+list.
 
-> +			len = length;
-> +			found = 1;
-> +			break;
-> +		}
 
-[ ... ]
+> BTW someone marked the patches as changes requested, so repost will be
+> needed.
 
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1795393690.git.lucien.xin%40gmail.com
+Yes, I plan a re-roll to address the sashiko review findings you
+referred me to.
+
+
+--=20
+Chuck Lever

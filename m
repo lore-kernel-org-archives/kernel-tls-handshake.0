@@ -1,67 +1,68 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795480499;
-	b=HpTq6aUj7O+3aKwStYJ3VZIVktK3bx6mDuM87oTCKpe5gKMG+rmy8dnYwyrDq14MGwaK
-	 dn590PrFvT3pArMcUo27/obrLORYTTlnnQXNcMQB1+R56Ont24etqypU+4DT0PlK6qKYH
-	 yUyOimz90D4moIU6dvOy4XXG6+ZY3WLlLgZR5dDNNZVqYzfecb1uAl1nFaJ7wiDvqEHpS
-	 ZKt1Dub6uYn9GfFqLxzi3Xdq6sgxsvwtvLLxlyCSOItG8mERBoPo7ORewhzcFy7UKYKhD
-	 WXqRjIqFr1xS91fPffEudpUQNGwTONEo8xZKcW8r60kb84JuqMkpDlUFZC8vWEJQlaQ==
+	t=1795483264;
+	b=OsiwFj6wd/boJTWrN99FX7e563fIZqtVaWipBy5yP9TU9x1xWqr+0jaoGvcAimbzrGFg
+	 pRgMMr8Tn7coDlTWuU/jB2b+E92XetsWfl/04RZ1bdTYAUBp/NoOpMRw+egGQcdT3dFjd
+	 RIlUB2j8nAyMn7GDkQB50QYQT4bFH4IShW1QbJJiJ/aScvxQhdm7KiUxlYT1uvyba+hoy
+	 aF5xlIufEQ+n0iSr5/mTdfeQXLUNpBrU27gLYse273hsR9dk5dHL71UNCeJqzn38T+cAt
+	 otXQogfZ/4xs0PQsZkk7GW+s/urhehcsQJ6/I+/8vmD1CeVUAYdgML+u1AOSJlArhNA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795480499;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=kiBFVYpJZV/z1Y7/aNci/WiL++vzCEQVBpC2tTo5b5c=;
-	b=ZMcbU9mIi57PRz5+yWsxTAzUBHzUyb95ZXXeANnTnhN1UBzpRszaY7U2DIdRutPi812M
-	 OLOjGqDrXCwMN6flclHhzIw8HTeZ3vRROt0A2tsJ0wUOGO/z/sHNxixZ5z7hGbRce9df4
-	 r2ytTmVVyU7lc3/hlTVDAB8hCLj2Q1BAUB3o1QMOM3pepsD392PNj9d+Q1g2oqEMMySJI
-	 esWBDP5eThI/m1sB0GWbzlCneYKQMzSLBPI/bIerdgVXQarwEGPzGTDoJ4rWhW+/kVQZC
-	 AoqWagOHRnzlvn8xObZnDkX6rWZOXv7g57UxVsNqIB/3HTyT+OsBErhDD2VryDutAyA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795483264;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=9BDulXHaTFH9WUerzen4hwlWxTAC3ppvvJGAoF+motE=;
+	b=op6KFcKEav1+BuRFaMvYval/e1sZK/zU8ZigS5qPeW3Fne0cYEHLilzytNjTM+hwJ4It
+	 ltHc/JO+q3dRQNfgGSCf0TRQP7IIoi5rqNuty7itJ9oKNI/aA5pJxqIESgjvfELM/dVXB
+	 rne2hbmZfL4VMSndLhNvUJkkaeJZI8sBpdn6dSNEh4NTBswqGl4hWzmvSNjXj0ysHFk6s
+	 ZpGVC/yB1R5WkqFmXXjv0co/pMR6YM3OH1Fz426Px23ZBXZ1O5FCRzq6fi/1g9lJkNPQt
+	 u1qsQ5/aIf73xh1YVlvaf8OHqYIlqoyIkVSLwUtNnxuiGsiuGgs4tqr9YNUz49lmQdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gdjFd6yl;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bkne1S9o;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FDD606A31E;
-	Tue, 24 Nov 2026 00:34:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31BB606A31E;
+	Tue, 24 Nov 2026 01:21:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gdjFd6yl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91D1E1F000C6;
-	Tue, 24 Nov 2026 00:34:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bkne1S9o
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 740841F000C0;
+	Tue, 24 Nov 2026 01:21:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795480499;
-	bh=kiBFVYpJZV/z1Y7/aNci/WiL++vzCEQVBpC2tTo5b5c=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=gdjFd6ylCYe3WifuWcTq7DnflOd7Jwq7O+OcWvLD36AlMDYuySmHI8EySL92MHbCr
-	 OsJiA15ujNPK73U0NqMS57S9LcOg5nNHXOHRCe07btshprhyAFRyEuL30JIpau9n1Z
-	 Bybni3PAips7Yfb3rWbATw3O+TQZaYapMJEqCrelsj+9wlder87puNluvBRuUYCN/k
-	 WwOZUzN/4ZNwmaF7b59AIOXrTMWE5zPmC2pjxMpCPYCux7tHxXiA6eOghcZHVhUVRo
-	 EIJmx+vsfGVELo1uYUxB8VBqnPIdyD3r9fVKagby+B/eVwgVjQS3q4sG1gM1pcNKXY
-	 KET9Kc+RrEKhw==
-Date: Mon, 23 Nov 2026 16:34:57 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: "Chuck Lever" <cel@kernel.org>
-Cc: "Donald Hunter" <donald.hunter@gmail.com>, "David S. Miller"
- <davem@davemloft.net>, "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman"
- <horms@kernel.org>, "John Fastabend" <john.fastabend@gmail.com>, "Sabrina
- Dubroca" <sd@queasysnail.net>, "Keith Busch" <kbusch@kernel.org>, "Jens
- Axboe" <axboe@kernel.dk>, "Christoph Hellwig" <hch@lst.de>, "Sagi Grimberg"
- <sagi@grimberg.me>, "Chaitanya Kulkarni" <kch@nvidia.com>, "Jeff Layton"
- <jlayton@kernel.org>, NeilBrown <neil@brown.name>, "Olga Kornievskaia"
- <okorniev@redhat.com>, "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey"
- <tom@talpey.com>, "Eric Dumazet" <edumazet@kernel.org>,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, "Hannes
- Reinecke" <hare@kernel.org>
-Subject: Re: [PATCH net-next v3 00/10] Deliver TLS session tags to
- upper-layer consumers (NFSD)
-Message-ID: <20261123155242.49d87894@kernel.org>
-In-Reply-To: <7a0695c2-bf7a-4394-8cfe-a92deeba51e3@app.fastmail.com>
-References: <20261113-tls-session-tags-v3-0-91271964cdb0@kernel.org>
-	<20261121161302.69f202c8@kernel.org>
-	<7a0695c2-bf7a-4394-8cfe-a92deeba51e3@app.fastmail.com>
+	s=k20260515; t=1795483263;
+	bh=9BDulXHaTFH9WUerzen4hwlWxTAC3ppvvJGAoF+motE=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=bkne1S9okR19YKrKDubvz0IUMj2gGJv58KhVJgv/j0c8GqH2EiN3J3sfzmUkWtnKn
+	 C/9tbQI2SoZGxOVEFBNj0W/imvtwJQu2oSlqdakV+Em7sinwEP7WLIPKl7GjJITkpT
+	 2l5AUIv0iWo58eYIZcl5H+zOZmGBOYBOxry2wLevzl89WY3q8+4kZ+3ygPzycETtDe
+	 EiNY1YHalsxE6Srkp7f26GaeMNuKEz4q0xSTcjsmh4clf8az3eN1UDNKWSX2dWumyM
+	 j/IX6V+v4kkMg60RA37GA+3L+2VVDEYexKOtU/mXa3my2zJL5td5ce5PtPsToCj8Tv
+	 ouxs2U1C47MVA==
+Subject: Re: [PATCH net-next v19 01/15] net: define IPPROTO_QUIC and SOL_QUIC
+ constants
+From: netdev-bot+sashiko@kernel.org
+To: lucien.xin@gmail.com
+Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net,
+ kuba@kernel.org, edumazet@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ metze@samba.org, mbuhl@openbsd.org, tfanelli@redhat.com, hepengtao@xiaomi.com,
+ dreibh@simula.no, jamie.bainbridge@gmail.com, linux-cifs@vger.kernel.org,
+ pc@manguebit.org, linkinjeon@kernel.org, tom@talpey.com,
+ kernel-tls-handshake@lists.linux.dev, cel@kernel.org, jlayton@kernel.org,
+ steved@redhat.com, hare@suse.de, aahringo@redhat.com, dhowells@redhat.com,
+ matttbe@kernel.org, mail@johnericson.me, xiyou.wangcong@gmail.com,
+ alibuda@linux.alibaba.com, jbaron@akamai.com, illiliti@protonmail.com,
+ sd@queasysnail.net, marcelo.leitner@gmail.com, daniel@haxx.se,
+ andrew.gospodarek@broadcom.com, mef@scarletmail.rutgers.edu, paul@jakma.org,
+ kuniyu@google.com
+Date: Tue, 24 Nov 2026 01:21:00 +0000
+Message-ID: <179548326096.3135.1557496253047696896@kernel.org>
+In-Reply-To: <ba1d4f03926411d4e61a7587e41a12b0b423d841.1795393691.git.lucien.xin@gmail.com>
+References: <ba1d4f03926411d4e61a7587e41a12b0b423d841.1795393691.git.lucien.xin@gmail.com>
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Post: <mailto:kernel-tls-handshake@lists.linux.dev>
@@ -71,33 +72,107 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:kernel-tls-handshake+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, 22 Nov 2026 16:27:08 -0800 Chuck Lever wrote:
-> On Sat, Nov 21, 2026, at 4:13 PM, Jakub Kicinski wrote:
-> > Naively I'd think it creates unnecessarily wide API on both ends
-> > (handshake and server). My knee jerk design would be to populate
-> > the full policy in the server, and only carry some "policy ID"
-> > thru the handshake. Number of policy IDs would equal to the number
-> > of tag combinations (which result in different behavior). =20
->=20
-> How is a tag much different than a policy ID?
->=20
-> It wouldn=E2=80=99t be impossible to impose another layer here that makes
-> a specific set of tags into a single policy, but I=E2=80=99m not seeing
-> that doing such adds a lot of value.
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-My thinking was that we have two user space components (TLS handshake
-handler and the storage server stack) which are required to render
-their decision in the language of tags, and upload the result
-to the kernel via independent APIs. The policy ID limits the kernel
-to mechanical enforcement. The components resolve all decisions in user
-space, and give the kernel full list of policy ID -> allowed resources.
+Low priority / nit picks for your consideration:
 
-Could be purely a subjective preference, I won't insist. Tho an ack
-from someone experienced with building kernel (security?) policies
-would be awesome.
+- [Low] This patch edits the tools/ copies of the kernel headers
+  directly: tools/include/uapi/linux/in.h (adds IPPROTO_QUIC = 261) and…
+- [Low] The commit message does not mention the change to
+  include/trace/events/sock.h.
 
-BTW someone marked the patches as changes requested, so repost will be
-needed.
+--
+
+net: define IPPROTO_QUIC and SOL_QUIC constants
+
+This commit adds the IPPROTO_QUIC (261) and SOL_QUIC (288) constants for
+the in-kernel QUIC socket implementation. It also adds IPPROTO_QUIC to
+the inet_protocol_names trace enum mapping. The tools/ copies of in.h
+and socket.h get the same definitions.
+
+> diff --git a/include/trace/events/sock.h b/include/trace/events/sock.h
+> index b5310439536e0..ed43fe6d2705b 100644
+> --- a/include/trace/events/sock.h
+> +++ b/include/trace/events/sock.h
+> @@ -20,7 +20,8 @@
+>  #define inet_protocol_names		\
+>  		EM(IPPROTO_TCP)			\
+>  		EM(IPPROTO_SCTP)		\
+> -		EMe(IPPROTO_MPTCP)
+> +		EM(IPPROTO_MPTCP)		\
+> +		EMe(IPPROTO_QUIC)
+
+[Severity: Low]
+This isn't a bug, but could the commit message mention this change?
+
+inet_protocol_names feeds the TRACE_DEFINE_ENUM exports and
+show_inet_protocol_name(). That helper is used in the TP_printk output
+of inet_sock_set_state, inet_sk_error_report and the sock_msg_length
+class. With this change those events print "IPPROTO_QUIC" instead of a
+raw 261, and a new enum is exported to trace parsers.
+
+The commit body only describes the new UAPI constants. The tracepoint
+change is noted only in the v15 changelog below the "---" line, and
+that text is dropped when the patch is applied. A one-line note in the
+body would cover it.
+
+>  
+>  #define tcp_state_names			\
+>  		EM(TCP_ESTABLISHED)		\
+
+[ ... ]
+
+> diff --git a/tools/include/uapi/linux/in.h b/tools/include/uapi/linux/in.h
+> index ced0fc3c3aa53..e4072152f2e62 100644
+> --- a/tools/include/uapi/linux/in.h
+> +++ b/tools/include/uapi/linux/in.h
+> @@ -85,6 +85,8 @@ enum {
+>  #define IPPROTO_RAW		IPPROTO_RAW
+>    IPPROTO_SMC = 256,		/* Shared Memory Communications		*/
+>  #define IPPROTO_SMC		IPPROTO_SMC
+> +  IPPROTO_QUIC = 261,		/* A UDP-Based Multiplexed Secure Transport */
+> +#define IPPROTO_QUIC		IPPROTO_QUIC
+>    IPPROTO_MPTCP = 262,		/* Multipath TCP connection		*/
+>  #define IPPROTO_MPTCP		IPPROTO_MPTCP
+>    IPPROTO_MAX
+> diff --git a/tools/perf/trace/beauty/include/linux/socket.h b/tools/perf/trace/beauty/include/linux/socket.h
+> index b17fdb7d38a77..7677133953ecf 100644
+> --- a/tools/perf/trace/beauty/include/linux/socket.h
+> +++ b/tools/perf/trace/beauty/include/linux/socket.h
+> @@ -401,6 +401,7 @@ struct ucred {
+>  #define SOL_MCTP	285
+>  #define SOL_SMC		286
+>  #define SOL_VSOCK	287
+> +#define SOL_QUIC	288
+
+[Severity: Low]
+Should these two tools/ hunks be part of this patch?
+
+tools/include/uapi/README says:
+
+  So its important not to touch the copies in tools/ when doing changes in
+  the original kernel headers, that will be done later, when
+  check-headers.sh inform about the change to the perf tools hackers.
+
+tools/perf/check-headers.sh tracks both include/uapi/linux/in.h and
+include/linux/socket.h. The perf maintainers normally sync these copies
+in their own tree and check that the beauty scripts still parse the new
+definitions. Editing the copies from the networking tree skips that
+check and can lead to duplicate or conflicting syncs.
+
+The commit body also doesn't mention the tools/ changes. They appear
+only in the v15 changelog below the "---" line.
+
+Would it make sense to drop the tools/include/uapi/linux/in.h and
+tools/perf/trace/beauty/include/linux/socket.h hunks, or send them as a
+separate patch to the perf-tools maintainers?
+
+>  
+>  /* IPX options */
+>  #define IPX_TYPE	1
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1795393690.git.lucien.xin%40gmail.com

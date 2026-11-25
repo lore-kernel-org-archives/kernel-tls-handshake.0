@@ -1,101 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.176
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795623686;
-	b=rNyLc1+d9E5EE9JYHndLFicuZ00CGCoRnKK9Pne5G3JWwKYPIkA55Yp/leiaSZ191nGu
-	 cAWIFQkRGasvXkV/r6Hv5F0Sp2yDV3/w1XcpiekYbsi01VrF95R5x6XxYCz5XN0nMEccu
-	 t4p33pja7+Cpf0jiOt8eX9T4Gfj6gtuM2GZK/Ikwr1kqsY60u4rJRRnNq7ic7K7HVkH0S
-	 VFSMZAGuOf0xcjFOWyRgbyD33GKDLAnA0qdk1tLFHQqQ1NmPckw9OEoxIHLUJdleLU2UK
-	 tLKbhOZGalCbIlPh0BfRxRoWH9cDFXcgd0ozHsiHD1fyrx8FfVFKuKRdbvP9L30KYaQ==
+	t=1795625083;
+	b=nbHe4pnJvJ5tRt/ziyCMCkVVookr8ekwdnCBcG1mD73AWk0J8fvwrM33LgH/w27zjN6y
+	 +bNNlCCL51DCqMpyPqcNXR2dCJgq/kVDiJZ8OTHgDMa/UCsa7b8l9lmdG7xkgpZhluF2m
+	 fpoPQhQw+giPvJhbC0PlgcDdunisOsAyDMQUTgssO8FXjOcE0GIqzvi31sf0YKE4OBuSa
+	 lVHOlaITz7c6ZYqZQdvoeB0Sa3iLg5KSpXH6J1z0hniHD5ViGNqij59G3gTTNe6v15SRH
+	 WU3bP4SAY388Nz81Rt61fMNlxyoaz0iBMz40mjZxebQqL7ShnWS/+MaWKU7tHSg12gg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795623686;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795625083;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=jL/0Bwl1ePYdGwOEmrzwhpq81wxXh5l9YreMntjOUuk=;
-	b=uSQ2Y3WQL8Z/jX24sFOxUF/KfPbiJc0WTAsYIoojA4msupHn+ha+uu5qNfA+XhED5SME
-	 GRrkfhhk8rfKuzRPp+V9ke55ArbX2kRASqdtIaoc2YJTxHraVLI2/B/z7CggYv/Z1CKGB
-	 fQhYYgOkPKS/oWudXJVGTO9pS/BS3YOzT/2Z5/3nsEy9DybrYmnVgif2R9maiO8jfpa0Y
-	 kwak6AIsg83gcynuoY7z7h3q09gNrZT8L63c4Hjv0r5yGPE/eFnCoakRM4KhK6PLOw/x0
-	 lomivHTgIQ2exqSV4LZIZA05tp6wjFmxSJUg2x4SyATVI8jRcTFazL7iI5Eh6WRuQag==
+	bh=VqQCnrL/aKCm/C9vlxA9BxjPZ3u2dEkyObqv4aLYECU=;
+	b=QkinqfAd5fjMj5c3kDE01F8Zj1N7zOq7y3VFogR57jXa3rO7IWdzPX8D9og0ZVNH/Ed+
+	 nyOXArHPndmjpHPeWeJtER+ziw3aWpmJU4JwMU3J1mySLgXlEXJBsVG7o4Y4l5zTif5C+
+	 o7xl5Y6plLM5n74deJvuC4g73AMYx4PkKPbmXNAaUwAWaOzU/PXOgkhTVcK3nFMLf2pLp
+	 3EoQuV0VNZWTSrPpeRpWH3i9U9ayaLOme9QODSV7iDF/FweTyNE1AoIuLpw+BWMYiMAZN
+	 rTnzsTQRC5IXOSgGMLO3qBzOy7kOPgYCDxVVGainMQLpUIe34+1fhczzIdv1tcjnjAg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="eAN/TWFQ";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.173
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=C+CY4Ijk;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.176
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2DF606A334
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 25 Nov 2026 16:21:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3E2DF606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F784606A327
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 25 Nov 2026 16:44:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F784606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eAN/TWFQ
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8c4cc85a315so4067784b3a.0
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 25 Nov 2026 08:21:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795623685; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=C+CY4Ijk
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8b612fd74e1so2077866b3a.0
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 25 Nov 2026 08:44:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795625082; cv=none;
         d=google.com; s=arc-20260327;
-        b=oPPxqahIVifuxGKE5zYhO+DrgDsDaKYhh537ugXZa0MR3IOzK7KFdhY0VYu/C5WmMU
-         tEZILOiLjHgIyrY+1iLN7lUDpOthJ49jMMx3Mw20FQ2q1izbDVCUBY8hharWxs8nWuYw
-         9dF7ToGls5ZBqBaSOfIhCVZG8RvMs8Me4rlebO3xXOYHaFlIu60yCw4ZrD8TowaK8pT/
-         IS2TR9vcusCpzy4JrGhL1Ldq/Yml4RWWAos6teAp5Upw4F8H/AoBfVUFtUp+P+KyE37/
-         WcESAk2JG+2cpdzqrySa73wFHDoxEPJeRAobrxRYgbG2nB5rLtwUp+NUR1JmACIfStU3
-         tzkg==
+        b=DyD6EihKS308mHTU+oqIPSdcvNYrDpJjPdXKaWEAFLGMelj80YzJ7/ZSxgH5I2l9ig
+         Fj3EHpqPWkSvVRAp6vq7FwbAdQYr84ovhPFGLMbQ8iLJ2r/s6Pk8nJJIE0edtE79Mjc5
+         /FwcJW1V1AbHuUXcNXxwag8jBRhCYoRUrls39zUWl4Lm/dhk/R7G/D2GGi8eSwa91dPe
+         EEoC60UHT3lDjpRFekfYdPJiesMPVW9P+NaxmU8JkZlc3qXvKcETBUn3tRAUsyGC851a
+         AJAyNvTR3XVB5ILNmUNAJThMsOZoPa2TPLa5fOpSf0JgeAVQvnBk9yMk5I/URlTVvjVY
+         SyFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=jL/0Bwl1ePYdGwOEmrzwhpq81wxXh5l9YreMntjOUuk=;
-        fh=EeTv5WAZROp9NX6cyIvr0UhuHIJtMFMEVtCBeyHdr90=;
-        b=C0esBIyD5bPGNx/27wPYbvLQq3TGpHz5lWuvvvZv8aBU043gs4Zyt1RdKjOZes3HFe
-         SABIe7RbNFfMFgivXrohDpYreuBo1a+Xa4qZ3xuEnV/Ad0vifiHOVsArxjlM2Wl0jzer
-         2vpuIOASMlnk3z1Ap1gOCvwl7aOdZgVoN7Sj6TeB8XQl6SzkVWaFd4xbvCv3/HCRvGe2
-         BFFLYIFAaE/jexIcWfl1PDwuIY6srq+TZ85o96eG0vxLvM/90NuDq8dPGtNzEk2bJCcp
-         sX1KxAanU3KqVK/Fm5wVpUvTmIa/AcsUkQmLDwE9qP7MOCVC1hnPq3QscqC/YiE8pgU3
-         Nivw==;
+        bh=VqQCnrL/aKCm/C9vlxA9BxjPZ3u2dEkyObqv4aLYECU=;
+        fh=EOAoi40fIkrtubnp40DyDW2MmH5h+zj0ymNC+GeLKz0=;
+        b=qsXnnYhBAKAQqprXTrenfPOcwaao3abWEjZ3eykLV475XW1rlJj1srsd8pJcpzrNsl
+         0shzEWqr6HlqchF/dxOwe7pRTX9TNWdiVvndALqXfupEtys/HKZriXck4gJa5RiUnqCB
+         PDND4PRkLMdilSbTAMifcXcVg4P14i3BIIyld0MGmqVwuggR//wG0Vh7HPj306i0tad0
+         c5fDLbZu8manpgt4vw4ipLg8lFrf3wBhSXeYq6scJQjYqk5r3vAR95vE9LOwfW3yL8xy
+         tPlx0ELSWMrFHaAGrVST4HpGThkphqcuUKHuBuQI3qsgrNvTYzbfEmmgdOrsHPve584k
+         z9mw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795623685; x=1796228485; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795625082; x=1796229882; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=jL/0Bwl1ePYdGwOEmrzwhpq81wxXh5l9YreMntjOUuk=;
-        b=eAN/TWFQDzV5diC+qfOIXX55kB9kTQPipxBNjiHaoEF2PBcuB0wrhXBLgK0+Dzjr94
-         uwAmHJXBzejHqso10qj2Dvb75TXyiWCLUvR8wgcaoOGnfS6uRfyraIhVJhS5roz2LUcC
-         vOHR/kpqoBB6pO2BObkQwRg6qgHKd32KPzhKHccfkUNBZPliBJAsHE2WRYpY5mP24jBA
-         s7wtfmOVX5Du4dKM8NZcCgiAwC+m2RVr/Zux8qDaS2UkSIcQT84G2mcY7ZHjixtkVzCf
-         I5RCVYpzy3wTab/tGISyBLqvO2eDjSMyzVuYII+8Rkmz3Iug6u12OBk00qXZVn8w3GYM
-         PYYw==
+        bh=VqQCnrL/aKCm/C9vlxA9BxjPZ3u2dEkyObqv4aLYECU=;
+        b=C+CY4IjkmZtHjsUiRZhPq36pnI0Wv7dYsVDzV1XmSSeCl5Ta4WBcPPHV+kJV+2DNlH
+         KtqN7pnSarNZWlFNFvEZlniRxnx+EMe6ksbrWYPlP9x2b+0J2vuK2Bm+Z3rIwC33cNU2
+         zc56NkZpSEB4ApiAPwNMwUOmr8t/K8SyTYoDLG6NEtkSlGAxiJ15LQmf3yV75SKuwtMs
+         gVa6fWR342iYS5kbyWiRBQokGA3XEMonFGeA7036tbEBzzdL8Gf0UIS4cJUK4YwGETFq
+         axFcS2wG4ZyPCeTS+KmX8aAbGix2RRYg65f+yDPL9egQJiZrb6T+YKC0RMQyTMZ6F8zt
+         iT5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795623685; x=1796228485;
+        d=1e100.net; s=20260707; t=1795625082; x=1796229882;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=jL/0Bwl1ePYdGwOEmrzwhpq81wxXh5l9YreMntjOUuk=;
-        b=PGY/9muJffLAmo8kp9oUAM8H91piZIuTvukvJjtWiwc/igTDL4c7HRsBQWy9oEtt6i
-         TJHHJoEG4THmrrSkcvnrDSjZ957I/PAAkiLTuifGtrWXVQDdYqqcA3lUWXrg2LSZ/uDJ
-         DKS85bWOgCKalIllxN6HWMJfAD5k7CqWlCOBuBlcrAtAxdU7jb1nYBdLCubzH0+l5S8m
-         ROsUV0001lpcolWKhrF9pqquWeZXokSIEnsa5/wuWbchTUrd9Zq8OgwN1BIs9nooI2or
-         n5I2sjDLJEf37g8Vep+zZVMNu9yf2iQo8eLOENurK7PNij2AWBGnniIvqo+il2aSQmhP
-         5boQ==
-X-Forwarded-Encrypted: i=1; AL+hErE34yl3PurcrGaFhnJnW79U0dMd25CTNEBoiWgOJTfhLGkgf+sQiroh4i61csUgt8CJkTqGmgq2jy9Bwo8wmAlBFdqB1A==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9w9+ifzdyHjLboMuhfVPvKMi/9tJ5FRnH6JPY5Wj0kAsb61Pru
-	v1FGb3mRtf/tB9gEkZuTTE4iuDjgFCs9WI9wyufW3d1tJbc/4FL+cNfaDEZab8Hpzqo7CdigSRz
-	s+7ByCpNnHYf4E+HETgDpYJZx6wH31ek=
-X-Gm-Gg: AZFdTZeiASVv5WkBggAbJJlf7BABuS5PfFbOdBtrJPMEKBfrrRqFbKeVc6PdBFlfLBg
-	+Cicm89aBi6+G6z+/zJjHb+wmcoBHsRwAJXKtnqRDchG4CVat7hCOb3M01e5w/KKiBN/tViiVN0
-	svkHtBvgc/jUF0KKu+TmPTmSd5gjPecTId5qnar3dQFI1L7ww6hs0rM8qrLGurMEjBu4X91p0mx
-	Wi8xIe76oq8PTdzUAv673nTu+NVw6/YIrFWjv0CFbe/Lc5m+1Qi+l3K1BZ3bdh8VpvsmmwmO9+H
-	y6B+WKZw+MuGAg6OhDDGfnV+w3itPtIo/vSdX/BZSBYq27mnrYBh0gxmGHAESnCd8jEbEdEDcPB
-	/hGsZKreaMFCi5GZpjJFvdZGfXfKV6FWZ2TSy9peomO5YaSuuU6SQSBoFeLlGqsSL0ehb+DbjIa
-	fNCuCZafelThJXAZTCY3W1jz5vs26RcIH4hocbXrF+1ioHx0eFHdg43nqfAmGbtcPeKg4v
-X-Received: by 2002:a05:6a00:2185:b0:8b5:8fcd:a5d6 with SMTP id
- d2e1a72fcca58-8c87ca51d89mr16484911b3a.41.1795623685392; Wed, 25 Nov 2026
- 08:21:25 -0800 (PST)
+        bh=VqQCnrL/aKCm/C9vlxA9BxjPZ3u2dEkyObqv4aLYECU=;
+        b=TYLVTNVi+eCpq4HxX/4bBzSOR8+WHK4XhbqUmTWIssctwuoq4GKjQ8mNIXdykd9naq
+         4zUcuqHAc3hVLmzUiQSuglI8nQ+kcHPx0ORjmgt8BARYDphcGGpu8xaEsmAn1eCqojl5
+         QXMjtMfzz7IXqFvwc4jh8eLkCdYvnSA1OLyGi0Td8xMeVgzyyatPlhxL2ZkP1hydV3rC
+         KDm8iq7EYD61toDn4njOvNPKpDeyM83Ipft4IG1kWYONuprDa/YHGri1qLtYjrVJ7CG/
+         QBZuF+ITrzD4I84P3pazO+H2Uv4NPwYMTRn9tbSyKhCkQ0qACR4sNDg0SoC5VM3wVx1h
+         Oy4Q==
+X-Forwarded-Encrypted: i=1; AL+hErG0nIOQIBFVHFPyw9/Hgt4oi9kud1g/+ojnZhF3vCBKm2Ef0/GnGR7cZSxkEsEmVImrfTMNuD+/Wu5qkqyTOXm2pXi33g==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+/4daLbUk9aWcdsh27KWg2R2+F2Fr/+w8ul4FiMGMpJVjN/jGy
+	n2uNqDvo6k9cNWExUKaNGz7gUU2u9VgXA5T1ZuZb+ITfxoxxOk7jYakSEvft3Y5PD7Ube0e5zlS
+	WsdSt7thpQUqsSLMY+Gv4wdQbyPNk4D4=
+X-Gm-Gg: AZFdTZdjDRZ4F1QGd7/abE4E9f/CmLDwrKWpCmd6YaaZf0CsgRNQdmnHr6PmUlNYRnG
+	k4+3pNRDrtdm5zVx2yEvH31deTha8hyvvKwwFMYbPeWf2iJxE1CXj+jiTsD0wx7IVXj9+whfLIs
+	W5jEwDi+KE6/I6AU4eCkgN4gl84afWjQTndqfOLigw1ByI19mUnSvKFH/KRxVF8mZiZ+OMAnzcO
+	liUZr2jttKZYuuAbkiVP1BQPjyYSmo9k1WmiRgmIQKlHWpARPHGxorlczwmkknfz9L9SnyujDQj
+	Dha+4XLJlh9M1+rsAS2JeOo5PQUAhi2RVf6kmurXMYd/RVyJnuCIwcWDJ1/BNgBHSNmJlOC9z/I
+	b5y3IPxY+pEN1BA3PmuRmoIunsHi0DQSNpTmxBdIS1y1kxPrX2TyUSUJLza7Wh9OsC46Hu9ScXr
+	oh1QzGk2rkQuy0+BqFrpgoLWM+4DmF5MiFeXSQhHte2Mx9J9UhUG9vJbO4kVOlpKvMG9Z7
+X-Received: by 2002:a05:6a00:17a3:b0:881:cbb0:6a90 with SMTP id
+ d2e1a72fcca58-8c87d80b24bmr16495257b3a.58.1795625082380; Wed, 25 Nov 2026
+ 08:44:42 -0800 (PST)
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Post: <mailto:kernel-tls-handshake@lists.linux.dev>
@@ -105,14 +105,15 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:kernel-tls-handshake+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <b69a2cad6c2faeab9ee1e90ad11c4b64168c8235.1795393691.git.lucien.xin@gmail.com>
- <179548327865.3135.16261562840994895440@kernel.org>
-In-Reply-To: <179548327865.3135.16261562840994895440@kernel.org>
+References: <e33f69fbe24e60c4f624c08279553be2888558ff.1795393691.git.lucien.xin@gmail.com>
+ <179548326686.3135.1885327270671072036@kernel.org>
+In-Reply-To: <179548326686.3135.1885327270671072036@kernel.org>
 From: Xin Long <lucien.xin@gmail.com>
-Date: Wed, 25 Nov 2026 11:21:13 -0500
-X-Gm-Features: Aa3M54rsWzghsJWI76cZEUFf_JplE3C1oHkXrqs2BiFz_WXGdtzu3O8u2H29aYA
-Message-ID: <CADvbK_fRG1sXR97cXfMMMG30RyM+-vyHMamOje5oxUO6=UEnpw@mail.gmail.com>
-Subject: Re: [PATCH net-next v19 09/15] quic: add congestion control
+Date: Wed, 25 Nov 2026 11:44:30 -0500
+X-Gm-Features: Aa3M54rwA_4B_Qvf2uz_eVnjuVavXWhSvilNzKm8mtiFvEJGwuVKtS7cR4uh2Fw
+Message-ID: <CADvbK_dW3LHZq1b0Y7pbWBbi1BikLyajruJ=iJz25sp_nkXdAA@mail.gmail.com>
+Subject: Re: [PATCH net-next v19 04/15] quic: provide family ops for address
+ and protocol
 To: netdev-bot+sashiko@kernel.org
 Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net, 
 	kuba@kernel.org, edumazet@kernel.org, pabeni@redhat.com, horms@kernel.org, 
@@ -132,10 +133,10 @@ Content-Transfer-Encoding: quoted-printable
 On Mon, Nov 23, 2026 at 8:21=E2=80=AFPM <netdev-bot+sashiko@kernel.org> wro=
 te:
 >
-> Thank you for your contribution! Sashiko AI review found 1 potential
+> Thank you for your contribution! Sashiko AI review found 4 potential
 > issue(s) to consider.
 >
-> Critical: 0 =C2=B7 High: 0 =C2=B7 Medium: 1 =C2=B7 Low: 0
+> Critical: 0 =C2=B7 High: 0 =C2=B7 Medium: 3 =C2=B7 Low: 1
 >
 > If you believe none of the issues are legitimate, please reply to each
 > issue of Medium severity or higher and explain why the AI is wrong.
@@ -145,102 +146,237 @@ k
 y
 > (one such reply per series is enough).
 >
-> - [Medium] quic_cong_rtt_update() in net/quic/cong.c begins with `if
->   (ack_delay > cong->max_ack_delay * 2) return;`.
+> - [Medium] quic_flow_route() in net/quic/family.c returns -EINVAL
+>   whenever `sa->sa.sa_family` is non-zero and differs from=E2=80=A6
+> - [Medium] quic_v4_flow_route() in net/quic/family.c accepts any route
+>   returned by ip_route_output_flow() and passes it straight to=E2=80=A6
+> - [Medium] When the selected IPv6 source is link-local,
+>   quic_v6_flow_route() in net/quic/family.c runs `sa->v6.sin6_scope_id =
+=3D=E2=80=A6
+> - [Low] The commit message does not mention three user-visible behaviour
+>   changes.
 >
 > --
 >
-> quic: add congestion control
+> quic: provide family ops for address and protocol
 >
-> This patch adds struct quic_cong for RTT measurement and congestion
-> control, along with struct quic_cong_ops for congestion control
-> algorithms. It implements a slow start, congestion avoidance and
-> recovery state machine, and currently provides New Reno only.
+> This patch adds net/quic/family.{c,h} with IPv4/IPv6 helpers for routing,
+> transmit, address parsing and comparison, and UDP tunnel socket
+> configuration. It also wires quic_inet_getname(), quic_setsockopt() and
+> quic_getsockopt() to these helpers.
 >
-> > diff --git a/net/quic/cong.c b/net/quic/cong.c
+> > quic: provide family ops for address and protocol
+> >
+> > Introduce QUIC address and protocol family operations to handle IPv4/IP=
+v6
+> > specifics consistently. The new family.{c,h} provide helpers for routin=
+g,
+> > skb transmit handling, address parsing and comparison and UDP socket co=
+nfig
+> > initializing etc.
+>
+> [Severity: Low]
+> This isn't a bug, but the commit message describes only internal helpers.
+> The patch also changes user-visible behaviour on QUIC sockets.
+>
+> quic_inet_getname() used to return -EOPNOTSUPP. It now calls
+> quic_get_sk_addr(), so getsockname() and getpeername() return real
+> addresses through inet_getname() or inet6_getname().
+>
+> quic_setsockopt() and quic_getsockopt() used to return -EOPNOTSUPP for an=
+y
+> level other than SOL_QUIC. They now pass the call to ip_setsockopt() or
+> ipv6_setsockopt(), and to ip_getsockopt() or ipv6_getsockopt(). With
+> CONFIG_NETFILTER the call can also reach nf_setsockopt() or
+> nf_getsockopt(). For unknown levels the error changes from -EOPNOTSUPP to
+> -ENOPROTOOPT.
+>
+> SOL_IP and SOL_IPV6 options set this way change state that the new helper=
+s
+> read: inet_sk(sk)->tos, uc_ttl, np->tclass, SNDFLOW and ipv6_only_sock().
+>
+> Could the commit message mention these changes? The subject also still
+> says "family ops", but v3 replaced the ops abstraction with if/else
+> helpers.
+>
+> > diff --git a/net/quic/family.c b/net/quic/family.c
 > > new file mode 100644
-> > index 0000000000000..99fe8045d0170
+> > index 0000000000000..73f3b955e13c4
 > > --- /dev/null
-> > +++ b/net/quic/cong.c
+> > +++ b/net/quic/family.c
 >
 > [ ... ]
 >
-> > +/* rfc9002#section-5: Estimating the Round-Trip Time */
-> > +void quic_cong_rtt_update(struct quic_cong *cong, u64 time, u32 ack_de=
-lay)
+> > +static int quic_v4_flow_route(struct sock *sk, union quic_addr *da,
+> > +                           union quic_addr *sa, struct flowi *fl)
 > > +{
-> > +     u32 adjusted_rtt, rttvar_sample;
-> > +     u64 raw_rtt;
+>
+> [ ... ]
+>
+> > +     security_sk_classify_flow(sk, flowi4_to_flowi_common(fl4));
+> > +     rt =3D ip_route_output_flow(sock_net(sk), fl4, sk);
+> > +     if (IS_ERR(rt))
+> > +             return PTR_ERR(rt);
 > > +
-> > +     /* Ignore RTT sample if ACK delay is suspiciously large. */
-> > +     if (ack_delay > cong->max_ack_delay * 2)
-> > +             return;
+> > +     if (quic_v4_is_any_addr(sa)) {
+> > +             sa->v4.sin_family =3D AF_INET;
+> > +             sa->v4.sin_addr.s_addr =3D fl4->saddr;
+> > +     }
+> > +     sk_setup_caps(sk, &rt->dst);
 >
 > [Severity: Medium]
-> Should this early return be here? When it fires, quic_cong_rtt_update()
-> skips every update. latest_rtt, min_rtt/min_rtt_valid, smoothed_rtt,
-> rttvar and first_rtt_time stay as they are, and quic_cong_pto_update()
-> is never called.
+> Should quic_v4_flow_route() reject RTCF_BROADCAST and RTCF_MULTICAST
+> routes before caching the dst?
 >
-> RFC 9002 section 5.1 generates an RTT sample whenever the largest
-> acknowledged packet is newly acked and at least one newly acked packet
-> was ack-eliciting. It has no rule for rejecting a sample because of its
-> ack_delay.
+> Other IPv4 socket types check rt->rt_flags at this point. For example,
+> __ip4_datagram_connect() does:
 >
-> RFC 9002 section 5.3 also says the endpoint SHOULD ignore the peer's
-> max_ack_delay until the handshake is confirmed. During the handshake,
-> peers can legitimately report delays larger than max_ack_delay (RFC 9000
-> sections 13.2.1 and 13.2.5). One example is a peer that buffers
-> undecryptable packets until keys arrive.
+>         if ((rt->rt_flags & RTCF_BROADCAST) && !sock_flag(sk, SOCK_BROADC=
+AST)) {
+>                 ip_rt_put(rt);
+>                 err =3D -EACCES;
+>                 goto out;
+>         }
 >
-> The changelog says callers will cap ack_delay to max_ack_delay after
-> handshake confirmation. If so, this check can only fire before
-> confirmation, which is the phase where the RFC says to ignore
-> max_ack_delay.
+> raw_sendmsg() has the same check. tcp_v4_connect() returns -ENETUNREACH
+> for both RTCF_MULTICAST and RTCF_BROADCAST.
 >
-> With the default from quic_cong_init():
+> Without such a check, a QUIC socket can cache and send on a broadcast
+> route (255.255.255.255 or a subnet-directed broadcast) without
+> SO_BROADCAST.
 >
->         cong->max_ack_delay =3D QUIC_DEF_ACK_DELAY;
+> On the server side, the reply destination comes from the source address
+> of a received packet. With rp_filter=3D0, the kernel default, a spoofed
+> source equal to the local subnet broadcast (e.g. 192.168.1.255) gets past
+> ip_route_input_slow() and fib_validate_source().
 >
-> any handshake-phase sample with ack_delay above 50ms would be dropped. A
-> peer that advertises max_ack_delay of 0, which is a legal value, would
-> cause every pre-confirmation sample with a non-zero ack_delay to be
-> dropped.
->
-> In that case smoothed_rtt and rttvar would stay at the QUIC_RTT_INIT
-> values set by quic_cong_set_srtt(), so pto and loss_delay would not match
-> the real path. first_rtt_time would also stay 0. That keeps
-> quic_cong_on_packet_lost() from ever setting pc_start_time.
->
-> The RFC already handles a large ack_delay safely further down in this
-> function:
->
-> > +     adjusted_rtt =3D cong->latest_rtt;
-> > +     if (cong->latest_rtt >=3D cong->min_rtt + ack_delay)
-> > +             adjusted_rtt =3D cong->latest_rtt - ack_delay;
->
-> Is the drop-the-sample heuristic needed on top of this?
->
-> The commit message describes quic_cong_rtt_update() as "Performs RTT
-> measurement" and does not mention this deviation from RFC 9002.
->
-> This patch has no caller of quic_cong_rtt_update(), so whether this
-> triggers depends on the ACK processing code in the later patchset.
+> Would the server's replies then go out as link-layer broadcasts to every
+> host on the LAN? That multiplies the 3x anti-amplification budget by the
+> number of hosts. A userspace QUIC server on a UDP socket would get -EACCE=
+S
+> from sendto() in this case.
 >
 False.
 
-This is a defense-in-depth sanity check for pre-handshake RTT samples.
-Post-handshake it's unreachable because the caller already clamps
-ack_delay. During the handshake, samples with large ack_delay reflect
-peer-side key-derivation buffering, not network RTT =E2=80=94 using them wo=
-uld
-inflate SRTT and delay loss detection. The max_ack_delay =3D 0 concern
-doesn't apply in practice: the default QUIC_DEF_ACK_DELAY is active during
-the handshake, before the peer's transport parameter is applied. The 2x
-threshold is intentionally generous to pass normal samples while catching
-outliers.
+The spoofed broadcast source) is already blocked by the IP layer for
+multicast and 255.255.255.255, and by fib_validate_source() for subnet
+broadcast on any system with rp_filter >=3D 1. The remaining gap: subnet
+broadcast with rp_filter=3D0 is narrow, and the 3x anti-amplification limit
+further constrains it. It's a defense-in-depth improvement, not a security
+hole.
 
+> > +     return 0;
+> > +}
+> > +
+> > +static int quic_v6_flow_route(struct sock *sk, union quic_addr *da,
+> > +                           union quic_addr *sa, struct flowi *fl)
+> > +{
+>
 > [ ... ]
+>
+> > +     dst =3D ip6_dst_lookup_flow(sock_net(sk), sk, fl6, NULL);
+> > +     if (IS_ERR(dst))
+> > +             return PTR_ERR(dst);
+> > +
+> > +     if (quic_v6_is_any_addr(sa)) {
+> > +             sa->v6.sin6_family =3D AF_INET6;
+> > +             sa->v6.sin6_addr =3D fl6->saddr;
+> > +             if ((ipv6_addr_type(&fl6->saddr) & IPV6_ADDR_LINKLOCAL))
+> > +                     sa->v6.sin6_scope_id =3D dst->dev->ifindex;
+>
+> [Severity: Medium]
+> Is it safe to dereference dst->dev here without rcu_read_lock()?
+>
+> This code runs in preemptible process context, under lock_sock() through
+> quic_packet_route(). A dst reference does not pin the original
+> net_device. On unregister, dst_dev_put() does:
+>
+>         rcu_assign_pointer(dst->dev_rcu, blackhole_netdev);
+>         netdev_ref_replace(dev, blackhole_netdev, &dst->dev_tracker,
+>                            GFP_ATOMIC);
+>
+> That drops the reference on the old device. This reader is not inside an
+> RCU read-side section, so the synchronize_net() calls during unregister
+> do not wait for it.
+>
+> If the task is preempted after loading dst->dev but before reading
+> ->ifindex, can it read freed net_device memory? Even in the harmless
+> case, it could store blackhole_netdev's ifindex as the scope ID.
+>
+> include/net/dst.h provides dst_dev() and dst_dev_rcu() for this.
+> sk_setup_caps() on the IPv4 path reads the device through dst_dev_rcu()
+> under rcu_read_lock().
+>
+True.
+
+But the practical risk is low: this code only runs for link-local source
+addresses, which is uncommon, and the window between loading dst->dev and
+reading ->ifindex is tiny. Even if the race occurs, the most likely outcome
+is reading blackhole_netdev->ifindex as the scope ID, incorrect but not a
+crash.
+
+There's a similar case in quic_v6_get_pref_addr() in the subsequent
+patchset. I can fix both there when adding the function.
+
+Thanks.
+
+> > +     }
+> > +     ip6_dst_store(sk, dst, false, false);
+> > +     return 0;
+> > +}
+>
+> [ ... ]
+>
+> > +int quic_flow_route(struct sock *sk, union quic_addr *da, union quic_a=
+ddr *sa,
+> > +                 struct flowi *fl)
+> > +{
+> > +     if (sa->sa.sa_family && da->sa.sa_family !=3D sa->sa.sa_family)
+> > +             return -EINVAL;
+>
+> [Severity: Medium]
+> Does this check reject a valid dual-stack setup?
+>
+> An AF_INET6 '::' source (a socket bound to the IPv6 wildcard) with an
+> AF_INET destination fails here. quic_v6_cmp_sk_addr() accepts that same
+> pairing on receive:
+>
+>         if (a->sa.sa_family !=3D addr->sa.sa_family) {
+>                 if (ipv6_only_sock(sk) || a->sa.sa_family =3D=3D AF_INET)
+>                         return false;
+>                 return quic_is_any_addr(a);
+>         }
+>
+> So a stored AF_INET6 '::' address matches AF_INET traffic on receive, but
+> routing refuses the same combination on transmit.
+>
+> Suppose the later bind() and connect() code stores a bound [::] source
+> as-is. Would a client bound to [::]:port that connects to an IPv4 peer
+> then fail in quic_packet_route()->quic_flow_route() with -EINVAL? The v14
+> changelog says IPv4-mapped addresses are converted to AF_INET, so the
+> peer address would arrive here as AF_INET. Plain UDP allows this on a
+> dual-stack socket.
+>
+> Dropping the check alone would not fix it. quic_v4_flow_route() reads
+> sa->v4.sin_addr, which overlays sin6_flowinfo, so an IPv6-wildcard sa
+> would need to be treated as IPv4 ANY.
+>
+> The v15 changelog shows the family mismatch check is intentional. Was the
+> dual-stack wildcard case considered?
+>
+False.
+
+The dual-stack server case works correctly. accept sockets and stateless
+reply paths use addresses from the received packet, which are already
+family-matched. The only affected case is a client explicitly binding to
+[::] then connecting to a bare IPv4 address, which is uncommon. clients
+typically either auto-bind or use IPv4-mapped addresses. We can address
+this in a follow-up if needed.
+
+> > +
+> > +     return quic_af_ipv4(da) ? quic_v4_flow_route(sk, da, sa, fl) :
+> > +                               quic_v6_flow_route(sk, da, sa, fl);
+> > +}
 >
 > --
 > Sashiko AI review =C2=B7 https://netdev-ai.bots.linux.dev/sashiko/#/patch=

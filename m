@@ -1,101 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.179
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795622404;
-	b=1CBdv8lk8MD3nS5W2XnBqTYkoqnCuD9U694hT2id/MP+XGcFc8VGQUUzxXVC3880zcmI
-	 f1Dc/0jKEn3D10nJmBtwGRiZW5HP6iZoWirGZrN8IjYYc1XxDTkszIJ86Ng46B9tfxYbi
-	 BdfTVETtThnB/qGuNsGaA1RGqjKXcqNfJK2nYVWq8TVj0dul9cAzThWLgbjIcxMWEmMU/
-	 gcxvCDvZre9esHvYRO0T4rX0UEmhgn0nJTmSGyyKpiGKGI2wyKXe5XrZghAV7Z7DJgP7D
-	 4saO3uMARQgykNIpxEnvvxpvhoW0G69QS8fB7v8/H0OK7Mf94L/MTNRDmLv8vmhpCmQ==
+	t=1795622906;
+	b=ALdybVgtjiy0sV2eSZ5Aq+1bc1NVyxwGn7Vgf3TWWqMLW/B9yMtVXB3mN77OFzRWKfxE
+	 gcLJJfbe/hUdkhBxQnGmLTlfbqzWR2cKm4su9b2PIpBR3FFFTfGHS9Fn33QnzozBLkUho
+	 vTItX+Ura1Iz9xbAH+1FwCVNFOIyKc4XRZLaQzgmWDNHqXDl0IViTxO6OCeWBt4f/btji
+	 CI4N5ePI1lDKw1ktNB9guQ9hZN1WUQFz1awMWnqXMstB85GppPMXXdkDEigk4dmM7oGIq
+	 jiG+DZ8qrp9jwv/H3eWVFWfYZMangQbfvsVlpqk0DS0ntNqIOMMxTlmD8hqW0scyKhg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795622404;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795622906;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=SzwTl3wJ5EGvPDR1ifZFuAECe6VYxaw0oJcYKT7Gpec=;
-	b=ewf/UoymgHkle191zGJwmTMnAxTGiHQZdhympdI9u7X6KJUiPmbWAAxszONoqP7m0poD
-	 XK8QgWSZFpvo34i0sexDSt2klbbrBOjldrEzGfW7HXNK/LnBhLQEKplMpmAwtoCbz3ybA
-	 2DdiZeZDlLbxA0/DvHrbj5u61N+aKurQtboHa9C9GGg3G6SkXrwp/q4BHQfDvRV7lp4pa
-	 Vzg19qwOhTeTdDLJiCIyTbcOpGyr9/YeL23GyE3xri7aHSRyFUnQkmBZPXF+jCfqMm2XZ
-	 cDiiCmFWIDiV8qrAS9QxG6dLikXSlwKF7SHgVnTS24QmzqkXZ+j96upL5nEBLoaH7bg==
+	bh=KKuY8t/dbdWbbzJkpzDyiBMYI2cCzIotmQHdtsfJbL0=;
+	b=W+gI3ivC/zF91sX5J2bKbDk+kr69ivui+kDKiT3Oh9boCj8UdGx+m34EaJGlXKZilIk1
+	 C4ZgJlEQ3WqcRqDDyRnHONmebuiMOvt+9fZji494IyMy+wgEB2kVsL7z/6xn3lN3nsuT+
+	 +p6f6+Vv7FFKYWmRt3J89fvXySP8rgBRyQrqNk/+k4lUpeX1GgpAtyhgsw8i/4OxfS8mB
+	 /ELqXT8Dns2TGLI2Guu/NXPlqqmvHboG4Nxi4SPpBuz8ZAmf//7IiS1XohjqBGG7INA//
+	 ZcXbI4ncpWFqpsTuBHktRJfvvA5FXEMmiXAlpzs68NaIeYHcWm6oVPBgoaotsCMqJCg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hU0ClPC9;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.178
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZvW1HLml;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.179
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6030D606A32D
-	for <kernel-tls-handshake@lists.linux.dev>; Wed, 25 Nov 2026 16:00:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6030D606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C790B606A330
+	for <kernel-tls-handshake@lists.linux.dev>; Wed, 25 Nov 2026 16:08:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C790B606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hU0ClPC9
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-8c4cc85a315so4053584b3a.0
-        for <kernel-tls-handshake@lists.linux.dev>; Wed, 25 Nov 2026 08:00:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795622404; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZvW1HLml
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8a0880a46e7so3621768b3a.1
+        for <kernel-tls-handshake@lists.linux.dev>; Wed, 25 Nov 2026 08:08:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795622905; cv=none;
         d=google.com; s=arc-20260327;
-        b=UH7uD8iKXq07aS4FZiuNGl8+5M67YxdloMZcZssjtn+9re6TKdV6Bs4aaWME5O+II/
-         gh163At31nUhFbY/V5xBaGx7+YvNCeGPHtvNb4Y/6Ex7INrMn8SGuhHiou3acMfucK7O
-         lqM08tAhjuB+E068vHawYVCfbkInaz78qJF0a8at571MI+XVu5f3qdUmdYZigoI5/LKB
-         hhW9t3VHpPr2xpeCGCQGzcQVIiw2Z7OT11I7nomBIRS/6ARXL9JpL/p3NLQQwvOzrcg3
-         NnAlzud7EYa+A5Pp4FVxFokl72nJa1XQeCLtDvMo4LrNxl/nENuaZw8fZmItC7EBInLN
-         cs4w==
+        b=OqS3XB0BYwH7O+363L5ra5541gEGuy/XUtUzStJOQZsEb8AFPSknmTAtyHFLG27xPp
+         888oEwsHfxmuVZ7N6nHo+P1CVsHOLE/R0UQRZ7kI6JhYKnn6tWZq4n1YKywVAN8ceSTf
+         Osq3pZL2G5cy5hk9ZwDxd0UHmBqTIalC71tVa3WZplg5Uv5liXG0tSR/a3s9hkrEZP7F
+         yXdau1vJ4z8gK6u4NgBwv2ZqAKXnCSLNaUF7hMN02tfhLAPgBJSsD2P9efp0P253sdIm
+         QYWkv9YP6cZqXPICsyyYA0ihja5EYNZHsBaGM8OHqwL9yMo0eZo5GAvmef8uw2n8z/Qi
+         bs1g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=SzwTl3wJ5EGvPDR1ifZFuAECe6VYxaw0oJcYKT7Gpec=;
-        fh=SGVafrNBLTrAeBCgT/XRzEHq6mdWG7iZgTn4CQqN/60=;
-        b=L5rMJtX5VatSxrrBtaaRx8uZV88Hp1XeyBF7BNj5NQDs/n2ofwSOZnOUy+qOC6l4cv
-         ll0vlbXaFOcPycj39LkZp2d65UcbJvtMwBUw8o+NHfVBnhDmQ9ciK01zZ0DSU0+wXkRL
-         usPJ4a9qtNG6wWCYjCQgua4h+vzjhypPQjHfUOCy26ydbdMRtF9ZnsqQDEaZwHGQFoX7
-         3BsqH5oanxC0/Aie8SLJOtW2fJ5ax4I5xZndxhuREdY8IY92/EJXp88zIEZElIE6QXbH
-         2z+6H/pJTYLnDAUWRFyryI58FbGEHh2FVd4VWWkOY0ZYVIQ64EiM4ZD1Psv+KTYanX2e
-         rnCA==;
+        bh=KKuY8t/dbdWbbzJkpzDyiBMYI2cCzIotmQHdtsfJbL0=;
+        fh=q+ag/Djha6JqcPWfl7QvTLrqZGcoqYkmrrV0T1G3yfg=;
+        b=FII60LWi+WHkhNEkttLm9z7wDK1MFNMlylFZDYA4/B/wfUnvCGCqa44jBnDFwl3DJN
+         aPHW4IbFPTg+TJynzt9ybjnN8SbOhArTxbnyj2xPVEtafv4mQGqn1hHRDBZRZ041jI+y
+         8gml8ymlX6h0z6HVUoJdnA+FIF5kbCl6UmZfdqq1ovxBaNWiHDkI5XSXzN+jsjMr8ssu
+         KBBKwj9Uaz1S7ZXvuo3geydNmRnxyZX+W+Cy0Tsf1zn5Y9NHud9Hz+T6BJWX2giwKTdm
+         RE/Bgqzjuw6s8jrkmNdWzDHKmGRD5UXr+NLOZuy5XjnwH3h3dzFiWGWpU7F8/Y32JGyK
+         c9UQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795622404; x=1796227204; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795622905; x=1796227705; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=SzwTl3wJ5EGvPDR1ifZFuAECe6VYxaw0oJcYKT7Gpec=;
-        b=hU0ClPC9WpPi3hLBYA5vhD4ZHZg/rsvyyGM50M/XEo8V9BVR4cA6A3rYnIRGKqm6Sf
-         8p/Wobq+sPaKJV2GhEWnUKPcJqJz4Jt4O01hRdqTztLFRrqRGCNrOy40tN4AXU8vjAp2
-         ly91CVWI4mifXetLJvZyxAGJ7iU64f/Hd6hAjQwLgc5c0S/t3fs4anHmVQyoCtS2Ds/d
-         wDfI4PnV51S8vaQU6VC0JLKR1H4BKCdztrleGLTPthfPgEbeSN3nEthB0reuCNQ+VXeJ
-         U68atUx4jJXaShKqvy6Lk1Dmfa37p9XQuWnt98QufQjFZXU1LrXoYL5DDlNxVT7j4wz8
-         jEBA==
+        bh=KKuY8t/dbdWbbzJkpzDyiBMYI2cCzIotmQHdtsfJbL0=;
+        b=ZvW1HLmlAfWNrZIjxj6hPIZr4LjBrY+KkvThTgf//6Z7SijFGewatvxsq+h885Da0l
+         YQ1oSPcMoppEab7Yc7RU8lZM8qAH40NkT9CVTwANoFMx/ifGVrZmZPrFlPLm979ifoRK
+         eYbOb5gQm6QWga5rSgRMgOayozl5GsQn7S6qbpN+qRUhYpAFyfGWZV4l0jaGQJxfbnRq
+         E4YQAkaxRHPuBi8JQNHXq+TIrGCcXw/v+QvL2t18ck9fSjWmelXIUaiHnKngHY7K7gTg
+         aLUv92y1cSp5pyf6Hk17NV8MYjCqJQYhsm/qm2nUOdYFau1EY28Ww85j/uXZO6fK2QDx
+         r0Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795622404; x=1796227204;
+        d=1e100.net; s=20260707; t=1795622905; x=1796227705;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=SzwTl3wJ5EGvPDR1ifZFuAECe6VYxaw0oJcYKT7Gpec=;
-        b=a8n93dv/CNpPt8xVgU7WEFLoUQ9ao1lhcS/ZH4U2S54bcoc6aTuYDWwZYxzBmG6m8e
-         L/dJLyNdJ5oVE7j0XXSlMmo1UWn2pwkYdrz3JHCPKs6Hl6jlRTmuI7yK0xf3pLzps4IU
-         8KI69nYAl/Ro2ycYuOHYVMyJ70x5+k9iemgQzAospa8X6FtuCS7vxlaxt/HH+/+VzybW
-         fMVFF2ihqLIDFTx96LS9L6i8PN9vszzzQG3G6GBmbomxu87Gv22PtukRj3qS0km5HVzy
-         S4dJRAiDcq7+jqlpaT+WsimiG4rb+rBrAHCjq/Ado6dOS1NhztXyXd0yXh4tI15Vwr+z
-         5sSA==
-X-Forwarded-Encrypted: i=1; AL+hErHe3ks50elWh9sEdTl/tNDhm69F9rURljv2qEHLuoYoZTezJQIyUY8Qc8TlzlJ5kARt5oaIWyTJIlM5qJN63UJ1d+GEBQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/wm6XVuROefcjNya4+r5pdLO6SJsHxmpUIxPmOXDXN+9+kL55A
-	bVkjKxlysrHEQWapRhmE8TYGlHfGkArym/T3VmshSvzeTr1/lqBpUBVeOs7R0lzgEJCBiKRpjsK
-	Sg3FuuLQLi+OkSfCPHRDxguSfrwmAL1Y=
-X-Gm-Gg: AZFdTZd4wCUgzaEv00Be5Ourap+2SQHiVtVwjam2GjhHrqRlZu6Y4i9NthGu2Bxw26P
-	ZxeRMG25Z5uy3GZv58nG2jnNGgnQof2GxgeRCYG/R/MolWroEDYv0inUWMT6owQiQO6WPxmUJR+
-	bfNsdamLDYS9f+mALkI/atTxwZFrhnhhidXD9kBWbFBZRnDFhXYgN3kxaP2NgDuPcPBBeJxh35N
-	1Do5+/l6oVpM7CYzsJEUeHkjcUqnbpE9hF7OpB6pmCYYYBWRSHSsb62aohf4CJ5lzJM/N2Mud0Z
-	xPVf1Oltd0O3jS+kp+fCOzbZr3OM39i+q4T/Uw0Q4ojLF5d0aF9sSjoTLh1eMkbbJ9ukIu3aOOl
-	GLJ1VPyn8+yQhT+PfeKMjdd+SH6Nsa4zlAxA2iA6/CQ+BPdpXZ3oayPetmK1sx5wRYzLLig4mgT
-	P1+vFF4F98gj+KJYsLjy0vkaBMgChKexQqxp9zMdaDWHL51oMw/5cNIT9PcTceapofEVPy
-X-Received: by 2002:aa7:88cf:0:b0:8b6:594d:7030 with SMTP id
- d2e1a72fcca58-8c87ca51fe7mr16624530b3a.42.1795622403510; Wed, 25 Nov 2026
- 08:00:03 -0800 (PST)
+        bh=KKuY8t/dbdWbbzJkpzDyiBMYI2cCzIotmQHdtsfJbL0=;
+        b=IQ97WD8tKGKBYOXpTwjvwg8iBPbJyQ5XrG1feDWh542GoPC+/rXMCKB03APdRd+NCL
+         XPjpTbSSseq259Qg+BvvRSmMmgK4WJpauIjQAlTASZne2wGyqLbWYAifkN2i0c6LebQo
+         /yq1166luMlqTUVkhPbKB7DoDixzddWO/0lLeGF52lYgqmK3BHD+3Xta0rNCRiUdoVBj
+         9uUEk28eJsoVUtpjQhwa4yCfDwBpIdc5Rmp3Qgo6W4vQPk8HCZqodTmZXMdnV47jdQQE
+         AGrmhmBwv+b3znsGw4PcQqFABi1Q+ELsVhch/AJXPmKEze4QC7uCivjJwEl0nCBTd7FR
+         /jWw==
+X-Forwarded-Encrypted: i=1; AL+hErGP/GQrpdrz972XziCJoLv9LEow4KoMAzE8jchtyemRNuQ+ImFUTr44gELJI7jruVdku0uzdoSkiK+XU+RFUFx0MT/sxQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z92/GLPaEMOV6FxTZYLJJDGukkbSG9BbU/1oTOL+4gJ04EEYu2Y
+	FZIty7/TOBI38e9xLXsct4KQXByhaZksOLc88svFsEbARSL+9e9IvNRoZVnLlJc3R14gegfd3jJ
+	55zfgf4KQAZuxwiGBSFSc2/5MoYNia1E=
+X-Gm-Gg: AZFdTZdyRNX7T5h9KwzFSf7ObghRUwZJyEvVKV2jIqvW8ObcfXpgMSNV41tGUPOrzOh
+	/saXKbiSricjcPFLB9kXUTD+YpLuzvLMYlVYDQxLFt1KPuYKOo6ZdlAIDMIOaeVlq2zuAyEAQ/c
+	FxQ4UePT7uE165VhwLd47WaERUDCekd6dELqnnikcJFHfoBh4Aa3qSVy6S1Wa78CdaBAXEt7Ooc
+	M2uYIhZPnBWH1wzCP3ma0fcUxgEfC/fa7uAhAu08lYPQJgD+aGvATEzLYgs64t7nZNlwiEhZTAg
+	twBbHuOQrE3NG5I+fqPA9DQmrzcbgS3G1xk7c1lE0ibhWndqS4p1kLFm4/rw7vVDTdUfniwUN+y
+	xLWZMDb6aSNzvhcCiCNKUYt7T1Do9MQV6Mpz8UcIor+KflYsl5VbtLT1QeDAKzZyXipAwbSinFl
+	EjXL1LSSh770HgmwEetCfRQPfjmKBZQNJCEdg/l+telLNbN94PdsKkiIfR+8jhZdMxKBCf
+X-Received: by 2002:a05:6a00:3003:b0:8a0:550f:bb43 with SMTP id
+ d2e1a72fcca58-8c7ddfb0281mr12625739b3a.34.1795622904926; Wed, 25 Nov 2026
+ 08:08:24 -0800 (PST)
 X-Mailing-List: kernel-tls-handshake@lists.linux.dev
 List-Id: <kernel-tls-handshake.lists.linux.dev>
 List-Post: <mailto:kernel-tls-handshake@lists.linux.dev>
@@ -105,14 +105,14 @@ List-Unsubscribe: <mailto:kernel-tls-handshake+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:kernel-tls-handshake+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <035db09843f506bea729e16d523b453c56647be8.1795393691.git.lucien.xin@gmail.com>
- <179548328150.3135.7027633658882912871@kernel.org>
-In-Reply-To: <179548328150.3135.7027633658882912871@kernel.org>
+References: <052a21a5f6e57bb7f6db0f6e274dce9d8523805c.1795393691.git.lucien.xin@gmail.com>
+ <179548326987.3135.7163509585500687471@kernel.org>
+In-Reply-To: <179548326987.3135.7163509585500687471@kernel.org>
 From: Xin Long <lucien.xin@gmail.com>
-Date: Wed, 25 Nov 2026 10:59:51 -0500
-X-Gm-Features: Aa3M54q3YNjzrJVhLtcHaagwpwzPqENqz5Odfa9zG0cW6ddLoL6_XWMexKurxXc
-Message-ID: <CADvbK_cdNQi6YuDMpCQypyt7ij+=5gSuiPFMXOSxPm7aD+6RCg@mail.gmail.com>
-Subject: Re: [PATCH net-next v19 11/15] quic: add crypto key derivation and installation
+Date: Wed, 25 Nov 2026 11:08:12 -0500
+X-Gm-Features: Aa3M54qL5y7t-zsr7Zjl1jU3nL68ghyjsBOlROKwWzkNuGB0w_9pDg7lono20_w
+Message-ID: <CADvbK_cCgi6udMNENyEOth6QpNftOijLJFLT05u6bgGC=79d0A@mail.gmail.com>
+Subject: Re: [PATCH net-next v19 06/15] quic: add stream management
 To: netdev-bot+sashiko@kernel.org
 Cc: netdev@vger.kernel.org, quic@lists.linux.dev, davem@davemloft.net, 
 	kuba@kernel.org, edumazet@kernel.org, pabeni@redhat.com, horms@kernel.org, 
@@ -132,10 +132,10 @@ Content-Transfer-Encoding: quoted-printable
 On Mon, Nov 23, 2026 at 8:21=E2=80=AFPM <netdev-bot+sashiko@kernel.org> wro=
 te:
 >
-> Thank you for your contribution! Sashiko AI review found 5 potential
+> Thank you for your contribution! Sashiko AI review found 1 potential
 > issue(s) to consider.
 >
-> Critical: 0 =C2=B7 High: 0 =C2=B7 Medium: 2 =C2=B7 Low: 3
+> Critical: 0 =C2=B7 High: 0 =C2=B7 Medium: 1 =C2=B7 Low: 0
 >
 > If you believe none of the issues are legitimate, please reply to each
 > issue of Medium severity or higher and explain why the AI is wrong.
@@ -145,303 +145,528 @@ k
 y
 > (one such reply per series is enough).
 >
-> - [Medium] Shared token key: AES-GCM nonce uniqueness across sockets
->   depends only on a random 64-bit counter start.
-> - [Medium] The AEAD integrity limit is enforced per encryption level, but
->   RFC 9001 Section 6.6 requires it per connection.
-> - [Low] The commit message body does not mention the socket lifecycle
->   changes in net/quic/socket.c.
-> - [Low] struct quic_crypto::tx_count[2] is documented as 'Packets
->   encrypted (key phase 0 and 1)' and is compared with=E2=80=A6
-> - [Low] Type mismatch between the HP transform fields and the API used to
->   allocate and free them.
+> - [Medium] quic: broken next stream ID type update in
+>   quic_stream_set_param()
 >
 > --
 >
-> quic: add crypto key derivation and installation
->
-> This patch adds net/quic/crypto.c with HKDF-based derivation and
-> installation of QUIC packet protection keys for the Initial, Handshake,
-> 0-RTT and 1-RTT levels. It also adds key updates and token / stateless
-> reset secret derivation. quic_init_sock() now allocates one struct
-> quic_crypto per level, and a new quic_sock_destruct() defers freeing
-> them to a workqueue.
->
-> > diff --git a/net/quic/crypto.c b/net/quic/crypto.c
-> > new file mode 100644
-> > index 0000000000000..c28c6fa565c1a
+> > diff --git a/net/quic/stream.c b/net/quic/stream.c
 > > --- /dev/null
-> > +++ b/net/quic/crypto.c
-> > @@ -0,0 +1,593 @@
->
-> [ ... ]
->
-> > +int quic_crypto_set_cipher(struct quic_crypto *crypto, u32 type)
+> > +++ b/net/quic/stream.c
+> > @@ -0,0 +1,426 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +/* QUIC kernel implementation
+> > + * (C) Copyright Red Hat Corp. 2023
+> > + *
+> > + * This file is part of the QUIC kernel implementation
+> > + *
+> > + * Stream management.
+> > + *
+> > + * Written or modified by:
+> > + *    Xin Long <lucien.xin@gmail.com>
+> > + */
+> > +
+> > +#include <net/netns/hash.h>
+> > +#include <linux/jhash.h>
+> > +#include <linux/quic.h>
+> > +
+> > +#include "common.h"
+> > +#include "stream.h"
+> > +
+> > +/* Check if a stream ID is valid for sending or receiving. */
+> > +static bool quic_stream_id_valid(s64 stream_id, bool is_serv, bool sen=
+d)
 > > +{
->
-> [ ... ]
->
-> > +     crypto->rx_tfm[1] =3D tfm;
-> > +     tfm =3D crypto_alloc_sync_skcipher(cipher->skc, 0, 0);
-> > +     if (IS_ERR(tfm)) {
-> > +             err =3D PTR_ERR(tfm);
-> > +             goto err;
+> > +     u8 type =3D (stream_id & QUIC_STREAM_TYPE_MASK);
+> > +
+> > +     if (stream_id < 0)
+> > +             return false;
+> > +
+> > +     if (send) {
+> > +             if (is_serv)
+> > +                     return type !=3D QUIC_STREAM_TYPE_CLIENT_UNI;
+> > +             return type !=3D QUIC_STREAM_TYPE_SERVER_UNI;
 > > +     }
-> > +     crypto->rx_hp_tfm =3D tfm;
->
-> [Severity: Low]
->
-> This isn't a bug, but crypto_alloc_sync_skcipher() returns a struct
-> crypto_sync_skcipher pointer. In struct quic_crypto, rx_hp_tfm and
-> tx_hp_tfm are declared as struct crypto_skcipher pointers. Because the
-> value goes through void *tfm, the compiler does not see the mismatch.
->
-> quic_crypto_free() then releases them with crypto_free_skcipher() instead
-> of the matching crypto_free_sync_skcipher():
->
->         if (crypto->rx_hp_tfm)
->                 crypto_free_skcipher(crypto->rx_hp_tfm);
->
-> This only works because base is the first member of struct
-> crypto_sync_skcipher.
->
-> Could these fields be declared as struct crypto_sync_skcipher pointers
-> and freed with crypto_free_sync_skcipher()? That would also let
-> SYNC_SKCIPHER_REQUEST_ON_STACK() and skcipher_request_set_sync_tfm() be
-> used without casts.
->
-> [ ... ]
->
-> > +/* Save token secret in Initial TX secret (phase 1) for token generati=
-on. */
-> > +int quic_crypto_set_token_secret(struct quic_crypto *crypto)
-> > +{
-> > +     /* Reuse TX AEAD (phase 1) in Initial crypto. */
-> > +     u8 key[TLS_CIPHER_AES_GCM_128_KEY_SIZE], *srt =3D crypto->tx_secr=
-et[1];
-> > +     struct crypto_aead *tfm =3D crypto->tx_tfm[1];
-> > +     struct quic_data s =3D {}, k, i;
-> > +     int err;
-> > +
-> > +     if (!memchr_inv(srt, 0, TLS_CIPHER_AES_GCM_128_SECRET_SIZE))
-> > +             get_random_bytes(srt, TLS_CIPHER_AES_GCM_128_SECRET_SIZE)=
-;
-> > +
-> > +     quic_data(&s, srt, TLS_CIPHER_AES_GCM_128_SECRET_SIZE);
-> > +     quic_data(&k, key, TLS_CIPHER_AES_GCM_128_KEY_SIZE);
-> > +     quic_data(&i, crypto->tx_iv[1], QUIC_IV_LEN);
-> > +     err =3D quic_crypto_keys_derive(crypto->secret_tfm, &s, &k, &i, N=
-ULL,
-> > +                                   QUIC_VERSION_V1);
-> > +     if (err)
-> > +             goto out;
-> > +     err =3D crypto_aead_setauthsize(tfm, QUIC_TAG_LEN);
-> > +     if (err)
-> > +             goto out;
-> > +     err =3D crypto_aead_setkey(tfm, key, TLS_CIPHER_AES_GCM_128_KEY_S=
-IZE);
-> > +     if (err)
-> > +             goto out;
-> > +     get_random_bytes(&crypto->tx_count[1], sizeof(crypto->tx_count[1]=
-));
->
-> [Severity: Medium]
->
-> If tx_secret[1] is already set, for example inherited from the listening
-> socket, this keeps that secret. It then re-derives the token AEAD key and
-> tx_iv[1] with the fixed QUIC_VERSION_V1 labels. So every socket that
-> shares the listener's token secret gets the same AES-GCM key and the same
-> base IV.
->
-> The only per-socket difference is the random starting value of
-> tx_count[1]. In the later patch "quic: add crypto packet encryption and
-> decryption", quic_crypto_generate_token() does:
->
->         counter =3D crypto->tx_count[1]++;
->
-> and quic_crypto_token_protect() builds the nonce as tx_iv[1] XOR counter.
->
-> Won't two sockets reuse a (key, nonce) pair whenever their counter
-> windows overlap? With S sockets each issuing n tokens, the chance is
-> roughly S^2 * n / 2^64.
->
-> The listener's own Retry token counter also starts at a random point in
-> the same space. Nothing rotates the key. The counter is also sent in
-> clear in the token AAD, so an observer can see collisions directly.
->
-> A single GCM nonce reuse reveals the XOR of the two plaintexts and lets
-> an attacker recover the GHASH key. With that key, Retry and NEW_TOKEN
-> tokens can be forged, which defeats address validation on the listener.
->
-> The code that copies tx_secret[1] into accepted sockets is not in this
-> series. This concern is based on the memchr_inv() reuse branch above and
-> on the v19 changelog, which says the randomization was added "to prevent
-> AES-GCM nonce reuse across sockets accepted from the same listening
-> socket".
->
-> Does the randomization prevent reuse, or does it only make reuse
-> unlikely within a 64-bit space? Keeping collisions under the usual 2^-32
-> bound for GCM allows only about 2^16 sockets.
->
-> Would a deterministic scheme fit better? Options include a per-socket key
-> derived from a unique salt, one shared counter on the listener, or key
-> rotation.
->
-False.
-
-The 64-bit random start gives ample collision resistance for realistic
-token volumes. A per-socket key or shared counter adds complexity for a
-narrow threat.
-
-> [ ... ]
->
-> > diff --git a/net/quic/crypto.h b/net/quic/crypto.h
-> > new file mode 100644
-> > index 0000000000000..29eaf0cbd2e17
-> > --- /dev/null
-> > +++ b/net/quic/crypto.h
-> > @@ -0,0 +1,90 @@
->
-> [ ... ]
->
-> > +     u64 txlimit; /* Max packets encrypted per key */
-> > +     u64 rxlimit; /* Max decryption failures per crypto level */
-> > +};
-> > +
-> > +struct quic_crypto {
->
-> [ ... ]
->
-> > +     atomic_t async_pending[2]; /* Async pending count (key phase 0 an=
-d 1) */
-> > +     u64 tx_count[2];           /* Packets encrypted (key phase 0 and =
-1) */
->
-> [Severity: Low]
->
-> tx_count[] is documented as a per-phase count of encrypted packets,
-> compared against txlimit. quic_crypto_keys_derive_and_install() treats it
-> that way and resets it on rekey:
->
->         crypto->tx_count[phase] =3D 0;
->
-> quic_crypto_set_token_secret() uses tx_count[1] of the Initial crypto in
-> a different way, as a random AES-GCM token nonce counter. The comments on
-> tx_secret[1], tx_iv[1] and tx_tfm[1] say "key phase 0 and 1". They do not
-> say that phase 1 of the Initial crypto holds the token secret and the
-> token AEAD.
->
-> Nothing fails at the end of the series, because Initial packets always
-> use key phase 0. A later change that rekeys or limit-checks phase 1 of
-> the Initial crypto could silently break token nonce generation, or hit a
-> spurious -EKEYEXPIRED.
->
-> Could the comments document this dual use, or could the token state move
-> to dedicated fields?
->
-> > +
-> > +     /* Timestamp 1st packet sent after key update */
-> > +     u64 key_update_send_time;
-> > +     u64 key_update_time; /* Duration to retain old keys after key upd=
-ate */
-> > +     u64 rx_fails;        /* Failures decrypted */
->
-> [Severity: Medium]
->
-> Is this counter meant to be connection-wide? quic_init_sock() allocates
-> a separate struct quic_crypto for each of the QUIC_CRYPTO_MAX levels, so
-> each level has its own rx_fails. struct quic_cipher above also documents
-> rxlimit as "Max decryption failures per crypto level".
->
-> In the later patch, quic_crypto_decrypt() checks the per-level counter:
->
->         if (err =3D=3D -EBADMSG && ++crypto->rx_fails >=3D crypto->cipher=
-->rxlimit)
->
-> RFC 9001 Section 6.6 says:
->
->   If the total number of received packets that fail authentication
->   within the connection, across all keys, exceeds the integrity limit
->   for the selected AEAD, the endpoint MUST immediately close the
->   connection
->
-> Handshake, 0-RTT and 1-RTT all use the negotiated AEAD. An attacker
-> sending forged packets could therefore get up to about rxlimit failures
-> at each level before any counter trips. This matters most for AES-CCM,
-> where the limit is 2^21.5.
->
-> The v17 changelog says rx_fails was made "a connection-wide counter ...
-> as required by RFC9001 Section 6". Was that undone by the v18 per-level
-> allocation and the v19 "per crypto level" comment?
->
-False.
-
-rx_fails is per level for implementation simplicity since the entire
-quic_crypto struct is per level. The non-app levels are short-lived, so the
-effective connection-wide budget is dominated by the 1-RTT counter. The
-practical difference from a shared counter is negligible.
-
-> [ ... ]
->
-> > diff --git a/net/quic/socket.c b/net/quic/socket.c
-> > index 78a08dd998a8e..d717efca9b9e6 100644
-> > --- a/net/quic/socket.c
-> > +++ b/net/quic/socket.c
-> > @@ -40,11 +40,38 @@ static void quic_write_space(struct sock *sk)
->
-> [ ... ]
->
-> > +static void quic_sock_destruct(struct sock *sk)
-> > +{
-> > +     struct quic_crypto *crypto;
-> > +     u8 i;
-> > +
-> > +     /* Deferred crypto free for async encryption/decryption. */
-> > +     for (i =3D 0; i < QUIC_CRYPTO_MAX; i++) {
-> > +             crypto =3D quic_crypto(sk, i);
-> > +             if (!crypto)
-> > +                     continue;
-> > +             queue_work(quic_wq, &crypto->work);
-> > +     }
-> > +
-> > +     quic_sk_destruct(sk);
+> > +     if (is_serv)
+> > +             return type !=3D QUIC_STREAM_TYPE_SERVER_UNI;
+> > +     return type !=3D QUIC_STREAM_TYPE_CLIENT_UNI;
 > > +}
 > > +
-> >  static int quic_init_sock(struct sock *sk)
-> >  {
-> >       struct quic_pnspace *space;
-> > +     struct quic_crypto *crypto;
-> >       u8 i;
-> >
-> > +     sk->sk_destruct =3D quic_sock_destruct;
+> > +/* Check if a stream ID belongs to the local endpoint. */
+> > +static bool quic_stream_id_local(s64 stream_id, bool is_serv)
+> > +{
+> > +     return is_serv ^ !(stream_id & QUIC_STREAM_TYPE_SERVER_MASK);
+> > +}
+> > +
+> > +/* Check if a stream ID represents a unidirectional stream. */
+> > +static bool quic_stream_id_uni(s64 stream_id)
+> > +{
+> > +     return stream_id & QUIC_STREAM_TYPE_UNI_MASK;
+> > +}
+> > +
+> > +#define QUIC_STREAM_HT_SIZE  64
+> > +
+> > +static struct hlist_head *quic_stream_head(struct quic_stream_table *s=
+treams,
+> > +                                        s64 stream_id, struct net *net=
+)
+> > +{
+> > +     u32 hash =3D jhash_1word((u32)(stream_id >> 1), net_hash_mix(net)=
+);
+> > +
+> > +     return &streams->head[hash & (QUIC_STREAM_HT_SIZE - 1)];
+> > +}
+> > +
+> > +struct quic_stream *quic_stream_find(struct quic_stream_table *streams=
+,
+> > +                                  s64 stream_id, struct net *net)
+> > +{
+> > +     struct hlist_head *head =3D quic_stream_head(streams, stream_id, =
+net);
+> > +     struct quic_stream *stream;
+> > +
+> > +     hlist_for_each_entry(stream, head, node) {
+> > +             if (stream->id =3D=3D stream_id)
+> > +                     break;
+> > +     }
+> > +     return stream;
+> > +}
+> > +
+> > +static void quic_stream_add(struct quic_stream_table *streams,
+> > +                         struct quic_stream *stream, struct net *net)
+> > +{
+> > +     struct hlist_head *head;
+> > +
+> > +     head =3D quic_stream_head(streams, stream->id, net);
+> > +     hlist_add_head(&stream->node, head);
+> > +}
+> > +
+> > +static void quic_stream_delete(struct quic_stream *stream)
+> > +{
+> > +     hlist_del_init(&stream->node);
+> > +     kfree(stream);
+> > +}
+> > +
+> > +/* Create and register new streams for sending or receiving. */
+> > +static struct quic_stream *quic_stream_create(struct quic_stream_table=
+ *streams,
+> > +                                           s64 max_stream_id, bool sen=
+d,
+> > +                                           bool is_serv, struct net *n=
+et,
+> > +                                           gfp_t gfp)
+> > +{
+> > +     struct quic_stream *pos, *stream =3D NULL;
+> > +     struct quic_stream_limits *limits;
+> > +     struct hlist_node *tmp;
+> > +     HLIST_HEAD(head);
+> > +     s64 stream_id;
+> > +     u32 count =3D 0;
+> > +
+> > +     gfp |=3D __GFP_ACCOUNT;
+> > +     limits =3D send ? &streams->send : &streams->recv;
+> > +     stream_id =3D limits->next_bidi_stream_id;
+> > +     if (quic_stream_id_uni(max_stream_id))
+> > +             stream_id =3D limits->next_uni_stream_id;
+> > +
+> > +     /* rfc9000#section-2.1: A stream ID that is used out of order res=
+ults in
+> > +      * all streams of that type with lower-numbered stream IDs also b=
+eing
+> > +      * opened.
+> > +      */
+> > +     while (stream_id <=3D max_stream_id) {
+> > +             stream =3D kzalloc_obj(*stream, gfp);
+> > +             if (!stream)
+> > +                     goto free;
+> > +
+> > +             stream->id =3D stream_id;
+> > +             if (quic_stream_id_uni(stream_id)) {
+> > +                     if (send) {
+> > +                             stream->send.max_bytes =3D
+> > +                                     limits->max_stream_data_uni;
+> > +                     } else {
+> > +                             stream->recv.max_bytes =3D
+> > +                                     limits->max_stream_data_uni;
+> > +                             stream->recv.state =3D
+> > +                                     QUIC_STREAM_RECV_STATE_RECV;
+> > +                             stream->recv.window =3D stream->recv.max_=
+bytes;
+> > +                     }
+> > +                     hlist_add_head(&stream->node, &head);
+> > +                     stream_id +=3D QUIC_STREAM_ID_STEP;
+> > +                     continue;
+> > +             }
+> > +
+> > +             if (quic_stream_id_local(stream_id, is_serv)) {
+> > +                     stream->send.max_bytes =3D
+> > +                             streams->send.max_stream_data_bidi_remote=
+;
+> > +                     stream->recv.max_bytes =3D
+> > +                             streams->recv.max_stream_data_bidi_local;
+> > +             } else {
+> > +                     stream->send.max_bytes =3D
+> > +                             streams->send.max_stream_data_bidi_local;
+> > +                     stream->recv.max_bytes =3D
+> > +                             streams->recv.max_stream_data_bidi_remote=
+;
+> > +             }
+> > +             stream->recv.state =3D QUIC_STREAM_RECV_STATE_RECV;
+> > +             stream->recv.window =3D stream->recv.max_bytes;
+> > +             hlist_add_head(&stream->node, &head);
+> > +             stream_id +=3D QUIC_STREAM_ID_STEP;
+> > +     }
+> > +
+> > +     hlist_for_each_entry_safe(pos, tmp, &head, node) {
+> > +             hlist_del_init(&pos->node);
+> > +             quic_stream_add(streams, pos, net);
+> > +             count++;
+> > +     }
+> > +
+> > +     /* Streams must be opened sequentially. Update the next stream ID=
+ so the
+> > +      * correct starting point is known if an out-of-order open is req=
+uested.
+> > +      * Note overflow of next_uni/bidi_stream_id is impossible with s6=
+4.
+> > +      */
+> > +     if (quic_stream_id_uni(stream_id)) {
+> > +             limits->next_uni_stream_id =3D stream_id;
+> > +             limits->streams_uni +=3D count;
+> > +             return stream;
+> > +     }
+> > +
+> > +     limits->next_bidi_stream_id =3D stream_id;
+> > +     limits->streams_bidi +=3D count;
+> > +     return stream;
+> > +
+> > +free:
+> > +     hlist_for_each_entry_safe(pos, tmp, &head, node) {
+> > +             hlist_del_init(&pos->node);
+> > +             kfree(pos);
+> > +     }
+> > +     return NULL;
+> > +}
+> > +
+> > +/* Check if a stream ID was already used. */
+> > +static bool quic_stream_id_closed(struct quic_stream_table *streams,
+> > +                               s64 stream_id, bool is_serv)
+> > +{
+> > +     bool local =3D quic_stream_id_local(stream_id, is_serv);
+> > +     struct quic_stream_limits *limits;
+> > +
+> > +     limits =3D local ? &streams->send : &streams->recv;
+> > +     if (quic_stream_id_uni(stream_id))
+> > +             return stream_id < limits->next_uni_stream_id;
+> > +     return stream_id < limits->next_bidi_stream_id;
+> > +}
+> > +
+> > +/* Check if a stream ID would exceed local (recv) or peer (send) limit=
+s. */
+> > +bool quic_stream_id_exceeds(struct quic_stream_table *streams, s64 str=
+eam_id,
+> > +                         bool send)
+> > +{
+> > +     u64 nstreams;
+> > +
+> > +     if (!send) {
+> > +             /* recv.max_uni/bidi_stream_id is updated in
+> > +              * quic_stream_max_streams_update() already based on
+> > +              * next_uni/bidi_stream_id, max_streams_uni/bidi, and
+> > +              * streams_uni/bidi, so only recv.max_uni/bidi_stream_id =
+needs
+> > +              * to be checked.
+> > +              */
+> > +             if (quic_stream_id_uni(stream_id))
+> > +                     return stream_id > streams->recv.max_uni_stream_i=
+d;
+> > +
+> > +             return stream_id > streams->recv.max_bidi_stream_id;
+> > +     }
+> > +
+> > +     if (quic_stream_id_uni(stream_id)) {
+> > +             if (stream_id > streams->send.max_uni_stream_id)
+> > +                     return true;
+> > +             stream_id -=3D streams->send.next_uni_stream_id;
+> > +             nstreams =3D quic_stream_id_to_streams(stream_id);
+> > +
+> > +             return nstreams + streams->send.streams_uni >
+> > +                    streams->send.max_streams_uni;
+> > +     }
+> > +
+> > +     if (stream_id > streams->send.max_bidi_stream_id)
+> > +             return true;
+> > +     stream_id -=3D streams->send.next_bidi_stream_id;
+> > +     nstreams =3D quic_stream_id_to_streams(stream_id);
+> > +
+> > +     return nstreams + streams->send.streams_bidi >
+> > +            streams->send.max_streams_bidi;
+> > +}
+> > +
+> > +/* Get or create a send or recv stream by ID. Requires sock lock held.=
+ */
+> > +struct quic_stream *quic_stream_get(struct quic_stream_table *streams,
+> > +                                 s64 stream_id, u32 flags, bool is_ser=
+v,
+> > +                                 bool send, struct net *net, gfp_t gfp=
+)
+> > +{
+> > +     struct quic_stream *stream;
+> > +
+> > +     if (!quic_stream_id_valid(stream_id, is_serv, send))
+> > +             return ERR_PTR(-EINVAL);
+> > +
+> > +     stream =3D quic_stream_find(streams, stream_id, net);
+> > +     if (stream)
+> > +             return stream;
+> > +
+> > +     if (quic_stream_id_closed(streams, stream_id, is_serv))
+> > +             return ERR_PTR(-ENOSTR);
+> > +
+> > +     /* Cannot create if the other side must initiate this stream. */
+> > +     if (send !=3D quic_stream_id_local(stream_id, is_serv))
+> > +             return ERR_PTR(-EINVAL);
+> > +
+> > +     if (!(flags & MSG_QUIC_STREAM_NEW))
+> > +             return ERR_PTR(-EINVAL);
+> > +
+> > +     if (quic_stream_id_exceeds(streams, stream_id, send))
+> > +             return ERR_PTR(-EAGAIN);
+> > +
+> > +     stream =3D quic_stream_create(streams, stream_id, send, is_serv, =
+net,
+> > +                                 gfp);
+> > +     if (!stream)
+> > +             return ERR_PTR(-ENOMEM);
+> > +
+> > +     if (send || quic_stream_id_valid(stream_id, is_serv, !send))
+> > +             streams->active_stream_id =3D stream_id;
+> > +
+> > +     return stream;
+> > +}
+> > +
+> > +/* Release or clean up a send or recv stream. This function updates st=
+ream
+> > + * counters and state when a send stream has either successfully sent =
+all data
+> > + * or has been reset, or when a recv stream has either received all da=
+ta or has
+> > + * been reset. Requires sock lock held.
+> > + */
+> > +void quic_stream_put(struct quic_stream_table *streams,
+> > +                  struct quic_stream *stream, bool is_serv, bool send)
+> > +{
+> > +     if (quic_stream_id_uni(stream->id)) {
+> > +             /* For uni streams, decrement uni count and delete stream=
+. */
+> > +             if (send) {
+> > +                     streams->send.streams_uni--;
+> > +                     quic_stream_delete(stream);
+> > +                     return;
+> > +             }
+> > +             streams->recv.streams_uni--;
+> > +             streams->recv.uni_pending =3D 1;
+> > +             quic_stream_delete(stream);
+> > +             return;
+> > +     }
+> > +
+> > +     /* For bidi streams, proceed only if both send and receive in a f=
+inal
+> > +      * state.
+> > +      */
+> > +     if (send) {
+> > +             if (stream->recv.state < QUIC_STREAM_RECV_STATE_RECVD)
+> > +                     return;
+> > +     } else {
+> > +             if (stream->send.state !=3D QUIC_STREAM_SEND_STATE_RECVD =
+&&
+> > +                 stream->send.state !=3D QUIC_STREAM_SEND_STATE_RESET_=
+RECVD)
+> > +                     return;
+> > +     }
+> > +     if (quic_stream_id_local(stream->id, is_serv)) {
+> > +             /* Local-initiated stream: decrement send.bidi count. */
+> > +             streams->send.streams_bidi--;
+> > +     } else {
+> > +             /* Remote-initiated stream: decrement recv.bidi count. */
+> > +             streams->recv.streams_bidi--;
+> > +             streams->recv.bidi_pending =3D 1;
+> > +     }
+> > +     quic_stream_delete(stream);
+> > +}
+> > +
+> > +/* Updates the maximum allowed incoming stream IDs if any streams were=
+ recently
+> > + * closed. Recalculates the max_uni and max_bidi stream count limits b=
+ased on
+> > + * the number of open streams and whether any were marked for deletion=
+.
+> > + *
+> > + * Returns true if either max_uni or max_bidi was updated, indicating =
+that a
+> > + * MAX_STREAMS_UNI or MAX_STREAMS_BIDI frame should be sent to the pee=
+r.
+> > + */
+> > +bool quic_stream_max_streams_update(struct quic_stream_table *streams,
+> > +                                 s64 *max_uni, s64 *max_bidi)
+> > +{
+> > +     s64 max, rem;
+> > +
+> > +     *max_uni =3D 0;
+> > +     *max_bidi =3D 0;
+> > +     if (streams->recv.uni_pending) {
+> > +             rem =3D streams->recv.max_streams_uni - streams->recv.str=
+eams_uni;
+> > +             max =3D streams->recv.next_uni_stream_id - QUIC_STREAM_ID=
+_STEP +
+> > +                   (rem << QUIC_STREAM_TYPE_BITS);
+> > +
+> > +             streams->recv.max_uni_stream_id =3D max;
+> > +             *max_uni =3D quic_stream_id_to_streams(max);
+> > +             streams->recv.uni_pending =3D 0;
+> > +     }
+> > +     if (streams->recv.bidi_pending) {
+> > +             rem =3D streams->recv.max_streams_bidi -
+> > +                   streams->recv.streams_bidi;
+> > +             max =3D streams->recv.next_bidi_stream_id - QUIC_STREAM_I=
+D_STEP +
+> > +                     (rem << QUIC_STREAM_TYPE_BITS);
+> > +
+> > +             streams->recv.max_bidi_stream_id =3D max;
+> > +             *max_bidi =3D quic_stream_id_to_streams(max);
+> > +             streams->recv.bidi_pending =3D 0;
+> > +     }
+> > +
+> > +     return *max_uni || *max_bidi;
+> > +}
+> > +
+> > +int quic_stream_init(struct quic_stream_table *streams)
+> > +{
+> > +     struct hlist_head *head;
+> > +     int i;
+> > +
+> > +     head =3D kmalloc_objs(*head, QUIC_STREAM_HT_SIZE, GFP_KERNEL_ACCO=
+UNT);
+> > +     if (!head)
+> > +             return -ENOMEM;
+> > +     for (i =3D 0; i < QUIC_STREAM_HT_SIZE; i++)
+> > +             INIT_HLIST_HEAD(&head[i]);
+> > +     streams->head =3D head;
+> > +     streams->active_stream_id =3D -1;
+> > +     return 0;
+> > +}
+> > +
+> > +void quic_stream_free(struct quic_stream_table *streams)
+> > +{
+> > +     struct quic_stream *stream;
+> > +     struct hlist_head *head;
+> > +     struct hlist_node *tmp;
+> > +     int i;
+> > +
+> > +     if (!streams->head)
+> > +             return;
+> > +
+> > +     for (i =3D 0; i < QUIC_STREAM_HT_SIZE; i++) {
+> > +             head =3D &streams->head[i];
+> > +             hlist_for_each_entry_safe(stream, tmp, head, node)
+> > +                     quic_stream_delete(stream);
+> > +     }
+> > +     kfree(streams->head);
+> > +     streams->head =3D NULL;
+> > +}
+> > +
+> > +/* Populate transport parameters from stream hash table. */
+> > +void quic_stream_get_param(struct quic_stream_table *streams,
+> > +                        struct quic_transport_param *p)
+> > +{
+> > +     struct quic_stream_limits *limits =3D p->remote ? &streams->send =
+:
+> > +                                                     &streams->recv;
+> > +
+> > +     p->max_stream_data_bidi_remote =3D limits->max_stream_data_bidi_r=
+emote;
+> > +     p->max_stream_data_bidi_local =3D limits->max_stream_data_bidi_lo=
+cal;
+> > +     p->max_stream_data_uni =3D limits->max_stream_data_uni;
+> > +     p->max_streams_bidi =3D limits->max_streams_bidi;
+> > +     p->max_streams_uni =3D limits->max_streams_uni;
+> > +}
+> > +
+> > +/* Configure stream hashtable from transport parameters. */
+> > +void quic_stream_set_param(struct quic_stream_table *streams,
+> > +                        struct quic_transport_param *p, bool is_serv)
+> > +{
+> > +     struct quic_stream_limits *limits =3D p->remote ? &streams->send =
+:
+> > +                                                     &streams->recv;
+> > +     u8 bidi_type, uni_type;
+> > +
+> > +     limits->max_stream_data_bidi_local =3D p->max_stream_data_bidi_lo=
+cal;
+> > +     limits->max_stream_data_bidi_remote =3D p->max_stream_data_bidi_r=
+emote;
+> > +     limits->max_stream_data_uni =3D p->max_stream_data_uni;
+> > +     limits->max_streams_bidi =3D p->max_streams_bidi;
+> > +     limits->max_streams_uni =3D p->max_streams_uni;
+> > +
+> > +     if (p->remote ^ is_serv) {
+> > +             bidi_type =3D QUIC_STREAM_TYPE_CLIENT_BIDI;
+> > +             uni_type =3D QUIC_STREAM_TYPE_CLIENT_UNI;
+> > +     } else {
+> > +             bidi_type =3D QUIC_STREAM_TYPE_SERVER_BIDI;
+> > +             uni_type =3D QUIC_STREAM_TYPE_SERVER_UNI;
+> > +     }
+> > +
+> > +     limits->max_bidi_stream_id =3D
+> > +             quic_stream_streams_to_id(p->max_streams_bidi, bidi_type)=
+;
+> > +     if (limits->next_bidi_stream_id < bidi_type)
+> > +             limits->next_bidi_stream_id =3D bidi_type;
+> > +
+> > +     limits->max_uni_stream_id =3D
+> > +             quic_stream_streams_to_id(p->max_streams_uni, uni_type);
+> > +     if (limits->next_uni_stream_id < uni_type)
+> > +             limits->next_uni_stream_id =3D uni_type;
+> > +}
 >
-> [Severity: Low]
+> [Severity: Medium]
+> This guard only works when the low two bits of next_bidi_stream_id
+> and next_uni_stream_id already match the type being applied. It does
+> not correct them if the role changes before any stream is opened.
 >
-> This isn't a bug, but the commit message body only describes the
-> crypto.c helpers. It doesn't mention three changes in socket.c:
+> Suppose quic_stream_set_param() is first called for the local
+> parameters (p->remote =3D=3D 0) while quic_is_serv() is still false, for
+> example before listen() sets sk_max_ack_backlog. Then
+> recv.next_bidi_stream_id becomes 1 and recv.next_uni_stream_id
+> becomes 3. When the same parameters are applied again after the
+> socket has become a server, bidi_type is 0 and uni_type is 2.
+> Neither comparison is true (next < 0 can never be true for the
+> client bidi type), so the stale server parity stays.
 >
-> - quic_init_sock() now sets sk->sk_destruct to quic_sock_destruct().
+> After that, quic_stream_id_closed() treats client streams 0 and 2 as
+> already closed, and quic_stream_get() fails them with -ENOSTR.
 >
-> - quic_init_sock() allocates one struct quic_crypto per encryption
->   level, which adds new -ENOMEM failure points to socket creation.
+> It gets worse if the peer opens stream 4 first. quic_stream_create()
+> starts from 1 and steps by QUIC_STREAM_ID_STEP, so it inserts stream
+> 1 into the hash table, counts it in recv.streams_bidi, and returns it
+> in place of stream 4. When quic_stream_put() later releases it,
+> quic_stream_id_local(1, true) is true. So send.streams_bidi is
+> decremented instead, and that u16 wraps to 65535.
 >
-> - Crypto teardown is deferred to quic_wq through quic_crypto_free_work(),
->   and runs after the socket is gone.
+> Opening any stream moves next_*_stream_id to at least
+> QUIC_STREAM_ID_STEP. Would it be enough to compare against
+> QUIC_STREAM_ID_STEP here instead of the type value? Another option
+> is to keep the upper bits and replace only the type bits. If
+> set_param() can never be re-applied across a client/server
+> transition, could that be documented here?
 >
-> The async crypto lifetime argument depends on these points. Right now
-> they only appear in the v12 and v18 notes below the "---" line, which
-> won't end up in git history.
->
-> The body also doesn't say that several new fields and helpers are not
-> read or called anywhere in this patch, and are placeholders for later
-> patches. These include rx_fails, async_pending, key_update_send_time,
-> key_update_time, ticket_ready, send_offset, recv_offset, txlimit,
-> rxlimit, the QUIC_TOKEN_* defines and quic_crypto_discard().
->
-> Could the commit message cover these?
->
-> [ ... ]
->
+False.
+
+The listen socket doesn't use next_*_stream_id. streams are only opened on
+accepted sockets. The accept path fetches transport parameters from the
+listener and applies them fresh on the new socket, which already has the
+correct server role. The stale values on the listener are never read.
+
 > --
 > Sashiko AI review =C2=B7 https://netdev-ai.bots.linux.dev/sashiko/#/patch=
 set/cover.1795393690.git.lucien.xin%40gmail.com
